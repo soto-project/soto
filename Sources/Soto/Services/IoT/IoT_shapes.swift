@@ -256,6 +256,12 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case healthy = "HEALTHY"
+        case unhealthy = "UNHEALTHY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CustomMetricType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ipAddressList = "ip-address-list"
         case number = "number"
@@ -354,6 +360,12 @@ extension IoT {
     public enum DynamoKeyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case number = "NUMBER"
         case string = "STRING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsOwnedKmsKey = "AWS_OWNED_KMS_KEY"
+        case customerManagedKmsKey = "CUSTOMER_MANAGED_KMS_KEY"
         public var description: String { return self.rawValue }
     }
 
@@ -3122,6 +3134,28 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case enabled = "Enabled"
+        }
+    }
+
+    public struct ConfigurationDetails: AWSDecodableShape {
+        /// The health status of KMS key and KMS access role. If either KMS key or KMS access role is UNHEALTHY, the return value will be UNHEALTHY. To use a customer-managed KMS key, the value of configurationStatus must be HEALTHY.
+        public let configurationStatus: ConfigurationStatus?
+        /// The error code that indicates either the KMS key or the KMS access role is UNHEALTHY.  Valid values: KMS_KEY_VALIDATION_ERROR and ROLE_VALIDATION_ERROR.
+        public let errorCode: String?
+        /// The detailed error message that corresponds to the errorCode.
+        public let errorMessage: String?
+
+        @inlinable
+        public init(configurationStatus: ConfigurationStatus? = nil, errorCode: String? = nil, errorMessage: String? = nil) {
+            self.configurationStatus = configurationStatus
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationStatus = "configurationStatus"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
         }
     }
 
@@ -7526,6 +7560,40 @@ extension IoT {
             case serverCertificates = "serverCertificates"
             case serviceType = "serviceType"
             case tlsConfig = "tlsConfig"
+        }
+    }
+
+    public struct DescribeEncryptionConfigurationRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct DescribeEncryptionConfigurationResponse: AWSDecodableShape {
+        /// The encryption configuration details that include the status information of the KMS key and the KMS access role.
+        public let configurationDetails: ConfigurationDetails?
+        /// The type of the Amazon Web Services Key Management Service (KMS) key.
+        public let encryptionType: EncryptionType?
+        /// The ARN of the customer-managed KMS key.
+        public let kmsAccessRoleArn: String?
+        /// The Amazon Resource Name (ARN) of the IAM role assumed by Amazon Web Services IoT Core to call KMS on behalf of the customer.
+        public let kmsKeyArn: String?
+        /// The date when encryption configuration is last updated.
+        public let lastModifiedDate: Date?
+
+        @inlinable
+        public init(configurationDetails: ConfigurationDetails? = nil, encryptionType: EncryptionType? = nil, kmsAccessRoleArn: String? = nil, kmsKeyArn: String? = nil, lastModifiedDate: Date? = nil) {
+            self.configurationDetails = configurationDetails
+            self.encryptionType = encryptionType
+            self.kmsAccessRoleArn = kmsAccessRoleArn
+            self.kmsKeyArn = kmsKeyArn
+            self.lastModifiedDate = lastModifiedDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationDetails = "configurationDetails"
+            case encryptionType = "encryptionType"
+            case kmsAccessRoleArn = "kmsAccessRoleArn"
+            case kmsKeyArn = "kmsKeyArn"
+            case lastModifiedDate = "lastModifiedDate"
         }
     }
 
@@ -19735,6 +19803,37 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case version = "version"
         }
+    }
+
+    public struct UpdateEncryptionConfigurationRequest: AWSEncodableShape {
+        /// The type of the Amazon Web Services Key Management Service (KMS) key.
+        public let encryptionType: EncryptionType
+        /// The Amazon Resource Name (ARN) of the IAM role assumed by Amazon Web Services IoT Core to call KMS on behalf of the customer.
+        public let kmsAccessRoleArn: String?
+        /// The ARN of the customer-managed KMS key.
+        public let kmsKeyArn: String?
+
+        @inlinable
+        public init(encryptionType: EncryptionType, kmsAccessRoleArn: String? = nil, kmsKeyArn: String? = nil) {
+            self.encryptionType = encryptionType
+            self.kmsAccessRoleArn = kmsAccessRoleArn
+            self.kmsKeyArn = kmsKeyArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsAccessRoleArn, name: "kmsAccessRoleArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionType = "encryptionType"
+            case kmsAccessRoleArn = "kmsAccessRoleArn"
+            case kmsKeyArn = "kmsKeyArn"
+        }
+    }
+
+    public struct UpdateEncryptionConfigurationResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateEventConfigurationsRequest: AWSEncodableShape {

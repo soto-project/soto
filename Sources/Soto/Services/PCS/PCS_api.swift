@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS PCS service.
 ///
-/// Amazon Web Services Parallel Computing Service (Amazon Web Services PCS) is a managed service that makes it easier for you to run and scale your high performance computing (HPC) workloads, and build scientific and engineering models on Amazon Web Services using Slurm. For more information, see the Amazon Web Services Parallel Computing Service User Guide. This reference describes the actions and data types of the service management API. You can use the Amazon Web Services SDKs to call the API actions in software, or use the Command Line Interface (CLI) to call the API actions manually. These API actions manage the service through an Amazon Web Services account. The API actions operate on Amazon Web Services PCS resources. A resource is an entity in Amazon Web Services that you can work with. Amazon Web Services services create resources when you use the features of the service. Examples of Amazon Web Services PCS resources include clusters, compute node groups, and queues. For more information about resources in Amazon Web Services, see Resource in the Resource Explorer User Guide.  An Amazon Web Services PCS compute node is an Amazon EC2 instance. You don't launch compute nodes directly. Amazon Web Services PCS uses configuration information that you provide to launch compute nodes in your Amazon Web Services account. You receive billing charges for your running compute nodes. Amazon Web Services PCS automatically terminates your compute nodes when you delete the Amazon Web Services PCS resources related to those compute nodes.
+/// Parallel Computing Service (PCS) is a managed service that makes it easier for you to run and scale your high performance computing (HPC) workloads, and build scientific and engineering models on Amazon Web Services using Slurm. For more information, see the Parallel Computing Service User Guide. This reference describes the actions and data types of the service management API. You can use the Amazon Web Services SDKs to call the API actions in software, or use the Command Line Interface (CLI) to call the API actions manually. These API actions manage the service through an Amazon Web Services account. The API actions operate on PCS resources. A resource is an entity in Amazon Web Services that you can work with. Amazon Web Services services create resources when you use the features of the service. Examples of PCS resources include clusters, compute node groups, and queues. For more information about resources in Amazon Web Services, see Resource in the Resource Explorer User Guide.  An PCS compute node is an Amazon EC2 instance. You don't launch compute nodes directly. PCS uses configuration information that you provide to launch compute nodes in your Amazon Web Services account. You receive billing charges for your running compute nodes. PCS automatically terminates your compute nodes when you delete the PCS resources related to those compute nodes.
 public struct PCS: AWSService {
     // MARK: Member variables
 
@@ -79,7 +79,7 @@ public struct PCS: AWSService {
 
     // MARK: API Calls
 
-    /// Creates a cluster in your account. Amazon Web Services PCS creates the cluster controller in a service-owned account. The cluster controller communicates with the cluster resources in your account. The subnets and security groups for the cluster must already exist before you use this API action.  It takes time for Amazon Web Services PCS to create the cluster. The cluster is in a Creating state until it is ready to use. There can only be 1 cluster in a Creating state per Amazon Web Services Region per Amazon Web Services account. CreateCluster fails with a ServiceQuotaExceededException if there is already a cluster in a Creating state.
+    /// Creates a cluster in your account. PCS creates the cluster controller in a service-owned account. The cluster controller communicates with the cluster resources in your account. The subnets and security groups for the cluster must already exist before you use this API action.  It takes time for PCS to create the cluster. The cluster is in a Creating state until it is ready to use. There can only be 1 cluster in a Creating state per Amazon Web Services Region per Amazon Web Services account. CreateCluster fails with a ServiceQuotaExceededException if there is already a cluster in a Creating state.
     @Sendable
     @inlinable
     public func createCluster(_ input: CreateClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateClusterResponse {
@@ -92,7 +92,7 @@ public struct PCS: AWSService {
             logger: logger
         )
     }
-    /// Creates a cluster in your account. Amazon Web Services PCS creates the cluster controller in a service-owned account. The cluster controller communicates with the cluster resources in your account. The subnets and security groups for the cluster must already exist before you use this API action.  It takes time for Amazon Web Services PCS to create the cluster. The cluster is in a Creating state until it is ready to use. There can only be 1 cluster in a Creating state per Amazon Web Services Region per Amazon Web Services account. CreateCluster fails with a ServiceQuotaExceededException if there is already a cluster in a Creating state.
+    /// Creates a cluster in your account. PCS creates the cluster controller in a service-owned account. The cluster controller communicates with the cluster resources in your account. The subnets and security groups for the cluster must already exist before you use this API action.  It takes time for PCS to create the cluster. The cluster is in a Creating state until it is ready to use. There can only be 1 cluster in a Creating state per Amazon Web Services Region per Amazon Web Services account. CreateCluster fails with a ServiceQuotaExceededException if there is already a cluster in a Creating state.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
@@ -126,7 +126,7 @@ public struct PCS: AWSService {
         return try await self.createCluster(input, logger: logger)
     }
 
-    /// Creates a managed set of compute nodes. You associate a compute node group with a cluster through 1 or more Amazon Web Services PCS queues or as part of the login fleet. A compute node group includes the definition of the compute properties and lifecycle management. Amazon Web Services PCS uses the information you provide to this API action to launch compute nodes in your account. You can only specify subnets in the same Amazon VPC as your cluster. You receive billing charges for the compute nodes that Amazon Web Services PCS launches in your account. You must already have a launch template before you call this API. For more information, see Launch an instance from a launch template in the Amazon Elastic Compute Cloud User Guide for Linux Instances.
+    /// Creates a managed set of compute nodes. You associate a compute node group with a cluster through 1 or more PCS queues or as part of the login fleet. A compute node group includes the definition of the compute properties and lifecycle management. PCS uses the information you provide to this API action to launch compute nodes in your account. You can only specify subnets in the same Amazon VPC as your cluster. You receive billing charges for the compute nodes that PCS launches in your account. You must already have a launch template before you call this API. For more information, see Launch an instance from a launch template in the Amazon Elastic Compute Cloud User Guide for Linux Instances.
     @Sendable
     @inlinable
     public func createComputeNodeGroup(_ input: CreateComputeNodeGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateComputeNodeGroupResponse {
@@ -139,17 +139,17 @@ public struct PCS: AWSService {
             logger: logger
         )
     }
-    /// Creates a managed set of compute nodes. You associate a compute node group with a cluster through 1 or more Amazon Web Services PCS queues or as part of the login fleet. A compute node group includes the definition of the compute properties and lifecycle management. Amazon Web Services PCS uses the information you provide to this API action to launch compute nodes in your account. You can only specify subnets in the same Amazon VPC as your cluster. You receive billing charges for the compute nodes that Amazon Web Services PCS launches in your account. You must already have a launch template before you call this API. For more information, see Launch an instance from a launch template in the Amazon Elastic Compute Cloud User Guide for Linux Instances.
+    /// Creates a managed set of compute nodes. You associate a compute node group with a cluster through 1 or more PCS queues or as part of the login fleet. A compute node group includes the definition of the compute properties and lifecycle management. PCS uses the information you provide to this API action to launch compute nodes in your account. You can only specify subnets in the same Amazon VPC as your cluster. You receive billing charges for the compute nodes that PCS launches in your account. You must already have a launch template before you call this API. For more information, see Launch an instance from a launch template in the Amazon Elastic Compute Cloud User Guide for Linux Instances.
     ///
     /// Parameters:
-    ///   - amiId:  The ID of the Amazon Machine Image (AMI) that Amazon Web Services PCS uses to launch compute nodes (Amazon EC2 instances). If you don't provide this value, Amazon Web Services PCS uses the AMI ID specified in the custom launch template.
+    ///   - amiId:  The ID of the Amazon Machine Image (AMI) that PCS uses to launch compute nodes (Amazon EC2 instances). If you don't provide this value, PCS uses the AMI ID specified in the custom launch template.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
     ///   - clusterIdentifier: The name or ID of the cluster to create a compute node group in.
     ///   - computeNodeGroupName: A name to identify the cluster. Example: MyCluster
     ///   - customLaunchTemplate: 
-    ///   - iamInstanceProfileArn: The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission. The resource identifier of the ARN must start with AWSPCS or it must have /aws-pcs/ in its path.  Examples     arn:aws:iam::111122223333:instance-profile/AWSPCS-example-role-1     arn:aws:iam::111122223333:instance-profile/aws-pcs/example-role-2
-    ///   - instanceConfigs: A list of EC2 instance configurations that Amazon Web Services PCS can provision in the compute node group.
-    ///   - purchaseOption: Specifies how EC2 instances are purchased on your behalf. Amazon Web Services PCS supports On-Demand and Spot instances. For more information, see Instance purchasing options in the Amazon Elastic Compute Cloud User Guide. If you don't provide this option, it defaults to On-Demand.
+    ///   - iamInstanceProfileArn: The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission and the role name must start with AWSPCS or must have the path /aws-pcs/. For more information, see IAM instance profiles for PCS in the PCS User Guide.
+    ///   - instanceConfigs: A list of EC2 instance configurations that PCS can provision in the compute node group.
+    ///   - purchaseOption: Specifies how EC2 instances are purchased on your behalf. PCS supports On-Demand Instances, Spot Instances, and Amazon EC2 Capacity Blocks for ML. For more information, see Amazon EC2 billing and purchasing options in the Amazon Elastic Compute Cloud User Guide. For more information about PCS support for Capacity Blocks, see Using Amazon EC2 Capacity Blocks for ML with PCS in the PCS User Guide. If you don't provide this option, it defaults to On-Demand.
     ///   - scalingConfiguration: Specifies the boundaries of the compute node group auto scaling.
     ///   - slurmConfiguration: Additional options related to the Slurm scheduler.
     ///   - spotOptions: 
@@ -211,6 +211,7 @@ public struct PCS: AWSService {
     ///   - clusterIdentifier: The name or ID of the cluster for which to create a queue.
     ///   - computeNodeGroupConfigurations: The list of compute node group configurations to associate with the queue. Queues assign jobs to associated compute node groups.
     ///   - queueName: A name to identify the queue.
+    ///   - slurmConfiguration: Additional options related to the Slurm scheduler.
     ///   - tags: 1 or more tags added to the resource. Each tag consists of a tag key and tag value. The tag value is optional and can be an empty string.
     ///   - logger: Logger use during operation
     @inlinable
@@ -219,6 +220,7 @@ public struct PCS: AWSService {
         clusterIdentifier: String,
         computeNodeGroupConfigurations: [ComputeNodeGroupConfiguration]? = nil,
         queueName: String,
+        slurmConfiguration: QueueSlurmConfigurationRequest? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateQueueResponse {
@@ -227,6 +229,7 @@ public struct PCS: AWSService {
             clusterIdentifier: clusterIdentifier, 
             computeNodeGroupConfigurations: computeNodeGroupConfigurations, 
             queueName: queueName, 
+            slurmConfiguration: slurmConfiguration, 
             tags: tags
         )
         return try await self.createQueue(input, logger: logger)
@@ -299,7 +302,7 @@ public struct PCS: AWSService {
         return try await self.deleteComputeNodeGroup(input, logger: logger)
     }
 
-    /// Deletes a job queue. If the compute node group associated with this queue isn't associated with any other queues, Amazon Web Services PCS terminates all the compute nodes for this queue.
+    /// Deletes a job queue. If the compute node group associated with this queue isn't associated with any other queues, PCS terminates all the compute nodes for this queue.
     @Sendable
     @inlinable
     public func deleteQueue(_ input: DeleteQueueRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteQueueResponse {
@@ -312,7 +315,7 @@ public struct PCS: AWSService {
             logger: logger
         )
     }
-    /// Deletes a job queue. If the compute node group associated with this queue isn't associated with any other queues, Amazon Web Services PCS terminates all the compute nodes for this queue.
+    /// Deletes a job queue. If the compute node group associated with this queue isn't associated with any other queues, PCS terminates all the compute nodes for this queue.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
@@ -350,7 +353,7 @@ public struct PCS: AWSService {
     /// Returns detailed information about a running cluster in your account. This API action provides networking information, endpoint information for communication with the scheduler, and provisioning status.
     ///
     /// Parameters:
-    ///   - clusterIdentifier: The name or ID of the cluster of the queue.
+    ///   - clusterIdentifier: The name or ID of the cluster.
     ///   - logger: Logger use during operation
     @inlinable
     public func getCluster(
@@ -529,7 +532,7 @@ public struct PCS: AWSService {
         return try await self.listQueues(input, logger: logger)
     }
 
-    /// Returns a list of all tags on an Amazon Web Services PCS resource.
+    /// Returns a list of all tags on an PCS resource.
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -542,7 +545,7 @@ public struct PCS: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of all tags on an Amazon Web Services PCS resource.
+    /// Returns a list of all tags on an PCS resource.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource for which to list tags.
@@ -558,7 +561,7 @@ public struct PCS: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    ///  This API action isn't intended for you to use.  Amazon Web Services PCS uses this API action to register the compute nodes it launches in your account.
+    ///  This API action isn't intended for you to use.  PCS uses this API action to register the compute nodes it launches in your account.
     @Sendable
     @inlinable
     public func registerComputeNodeGroupInstance(_ input: RegisterComputeNodeGroupInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterComputeNodeGroupInstanceResponse {
@@ -571,7 +574,7 @@ public struct PCS: AWSService {
             logger: logger
         )
     }
-    ///  This API action isn't intended for you to use.  Amazon Web Services PCS uses this API action to register the compute nodes it launches in your account.
+    ///  This API action isn't intended for you to use.  PCS uses this API action to register the compute nodes it launches in your account.
     ///
     /// Parameters:
     ///   - bootstrapId: The client-generated token to allow for retries.
@@ -590,7 +593,7 @@ public struct PCS: AWSService {
         return try await self.registerComputeNodeGroupInstance(input, logger: logger)
     }
 
-    /// Adds or edits tags on an Amazon Web Services PCS resource. Each tag consists of a tag key and a tag value. The tag key and tag value are case-sensitive strings. The tag value can be an empty (null) string. To add a tag, specify a new tag key and a tag value. To edit a tag, specify an existing tag key and a new tag value.
+    /// Adds or edits tags on an PCS resource. Each tag consists of a tag key and a tag value. The tag key and tag value are case-sensitive strings. The tag value can be an empty (null) string. To add a tag, specify a new tag key and a tag value. To edit a tag, specify an existing tag key and a new tag value.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -603,7 +606,7 @@ public struct PCS: AWSService {
             logger: logger
         )
     }
-    /// Adds or edits tags on an Amazon Web Services PCS resource. Each tag consists of a tag key and a tag value. The tag key and tag value are case-sensitive strings. The tag value can be an empty (null) string. To add a tag, specify a new tag key and a tag value. To edit a tag, specify an existing tag key and a new tag value.
+    /// Adds or edits tags on an PCS resource. Each tag consists of a tag key and a tag value. The tag key and tag value are case-sensitive strings. The tag value can be an empty (null) string. To add a tag, specify a new tag key and a tag value. To edit a tag, specify an existing tag key and a new tag value.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource.
@@ -622,7 +625,7 @@ public struct PCS: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    /// Deletes tags from an Amazon Web Services PCS resource. To delete a tag, specify the tag key and the Amazon Resource Name (ARN) of the Amazon Web Services PCS resource.
+    /// Deletes tags from an PCS resource. To delete a tag, specify the tag key and the Amazon Resource Name (ARN) of the PCS resource.
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -635,7 +638,7 @@ public struct PCS: AWSService {
             logger: logger
         )
     }
-    /// Deletes tags from an Amazon Web Services PCS resource. To delete a tag, specify the tag key and the Amazon Resource Name (ARN) of the Amazon Web Services PCS resource.
+    /// Deletes tags from an PCS resource. To delete a tag, specify the tag key and the Amazon Resource Name (ARN) of the PCS resource.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource.
@@ -654,6 +657,41 @@ public struct PCS: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
+    /// Updates a cluster configuration. You can modify Slurm scheduler settings, accounting configuration, and security groups for an existing cluster.   You can only update clusters that are in ACTIVE, UPDATE_FAILED, or SUSPENDED state. All associated resources (queues and compute node groups) must be in ACTIVE state before you can update the cluster.
+    @Sendable
+    @inlinable
+    public func updateCluster(_ input: UpdateClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateClusterResponse {
+        try await self.client.execute(
+            operation: "UpdateCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a cluster configuration. You can modify Slurm scheduler settings, accounting configuration, and security groups for an existing cluster.   You can only update clusters that are in ACTIVE, UPDATE_FAILED, or SUSPENDED state. All associated resources (queues and compute node groups) must be in ACTIVE state before you can update the cluster.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
+    ///   - clusterIdentifier: The name or ID of the cluster to update.
+    ///   - slurmConfiguration: Additional options related to the Slurm scheduler.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateCluster(
+        clientToken: String? = UpdateClusterRequest.idempotencyToken(),
+        clusterIdentifier: String,
+        slurmConfiguration: UpdateClusterSlurmConfigurationRequest? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateClusterResponse {
+        let input = UpdateClusterRequest(
+            clientToken: clientToken, 
+            clusterIdentifier: clusterIdentifier, 
+            slurmConfiguration: slurmConfiguration
+        )
+        return try await self.updateCluster(input, logger: logger)
+    }
+
     /// Updates a compute node group. You can update many of the fields related to your compute node group including the configurations for networking, compute nodes, and settings specific to your scheduler (such as Slurm).
     @Sendable
     @inlinable
@@ -670,13 +708,13 @@ public struct PCS: AWSService {
     /// Updates a compute node group. You can update many of the fields related to your compute node group including the configurations for networking, compute nodes, and settings specific to your scheduler (such as Slurm).
     ///
     /// Parameters:
-    ///   - amiId: The ID of the Amazon Machine Image (AMI) that Amazon Web Services PCS uses to launch instances. If not provided, Amazon Web Services PCS uses the AMI ID specified in the custom launch template.
+    ///   - amiId: The ID of the Amazon Machine Image (AMI) that PCS uses to launch instances. If not provided, PCS uses the AMI ID specified in the custom launch template.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
     ///   - clusterIdentifier: The name or ID of the cluster of the compute node group.
     ///   - computeNodeGroupIdentifier: The name or ID of the compute node group.
     ///   - customLaunchTemplate: 
-    ///   - iamInstanceProfileArn: The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission. The resource identifier of the ARN must start with AWSPCS or it must have /aws-pcs/ in its path.  Examples     arn:aws:iam::111122223333:instance-profile/AWSPCS-example-role-1     arn:aws:iam::111122223333:instance-profile/aws-pcs/example-role-2
-    ///   - purchaseOption: Specifies how EC2 instances are purchased on your behalf. Amazon Web Services PCS supports On-Demand and Spot instances. For more information, see Instance purchasing options in the Amazon Elastic Compute Cloud User Guide. If you don't provide this option, it defaults to On-Demand.
+    ///   - iamInstanceProfileArn: The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission and the role name must start with AWSPCS or must have the path /aws-pcs/. For more information, see IAM instance profiles for PCS in the PCS User Guide.
+    ///   - purchaseOption: Specifies how EC2 instances are purchased on your behalf. PCS supports On-Demand Instances, Spot Instances, and Amazon EC2 Capacity Blocks for ML. For more information, see Amazon EC2 billing and purchasing options in the Amazon Elastic Compute Cloud User Guide. For more information about PCS support for Capacity Blocks, see Using Amazon EC2 Capacity Blocks for ML with PCS in the PCS User Guide. If you don't provide this option, it defaults to On-Demand.
     ///   - scalingConfiguration: Specifies the boundaries of the compute node group auto scaling.
     ///   - slurmConfiguration: Additional options related to the Slurm scheduler.
     ///   - spotOptions: 
@@ -733,6 +771,7 @@ public struct PCS: AWSService {
     ///   - clusterIdentifier: The name or ID of the cluster of the queue.
     ///   - computeNodeGroupConfigurations: The list of compute node group configurations to associate with the queue. Queues assign jobs to associated compute node groups.
     ///   - queueIdentifier: The name or ID of the queue.
+    ///   - slurmConfiguration: Additional options related to the Slurm scheduler.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateQueue(
@@ -740,13 +779,15 @@ public struct PCS: AWSService {
         clusterIdentifier: String,
         computeNodeGroupConfigurations: [ComputeNodeGroupConfiguration]? = nil,
         queueIdentifier: String,
+        slurmConfiguration: UpdateQueueSlurmConfigurationRequest? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateQueueResponse {
         let input = UpdateQueueRequest(
             clientToken: clientToken, 
             clusterIdentifier: clusterIdentifier, 
             computeNodeGroupConfigurations: computeNodeGroupConfigurations, 
-            queueIdentifier: queueIdentifier
+            queueIdentifier: queueIdentifier, 
+            slurmConfiguration: slurmConfiguration
         )
         return try await self.updateQueue(input, logger: logger)
     }

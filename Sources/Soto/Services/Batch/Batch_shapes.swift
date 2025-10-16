@@ -129,8 +129,17 @@ extension Batch {
         public var description: String { return self.rawValue }
     }
 
+    public enum JobQueueType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ecs = "ECS"
+        case ecsFargate = "ECS_FARGATE"
+        case eks = "EKS"
+        case sagemakerTraining = "SAGEMAKER_TRAINING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum JobStateTimeLimitActionsAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancel = "CANCEL"
+        case terminate = "TERMINATE"
         public var description: String { return self.rawValue }
     }
 
@@ -184,6 +193,55 @@ extension Batch {
     public enum RetryAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exit = "EXIT"
         case retry = "RETRY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceEnvironmentState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceEnvironmentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case creating = "CREATING"
+        case deleted = "DELETED"
+        case deleting = "DELETING"
+        case invalid = "INVALID"
+        case updating = "UPDATING"
+        case valid = "VALID"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceEnvironmentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case sagemakerTraining = "SAGEMAKER_TRAINING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceJobRetryAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case exit = "EXIT"
+        case retry = "RETRY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case pending = "PENDING"
+        case runnable = "RUNNABLE"
+        case running = "RUNNING"
+        case scheduled = "SCHEDULED"
+        case starting = "STARTING"
+        case submitted = "SUBMITTED"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceJobType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case sagemakerTraining = "SAGEMAKER_TRAINING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceResourceIdName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case sagemakerTrainingJobArn = "TrainingJobArn"
         public var description: String { return self.rawValue }
     }
 
@@ -387,6 +445,24 @@ extension Batch {
         public init() {}
     }
 
+    public struct CapacityLimit: AWSEncodableShape & AWSDecodableShape {
+        /// The unit of measure for the capacity limit. This defines how the maxCapacity value should be interpreted. For SAGEMAKER_TRAINING jobs, use NUM_INSTANCES.
+        public let capacityUnit: String?
+        /// The maximum capacity available for the service environment. This value represents the maximum amount of resources that can be allocated to service jobs. For example, maxCapacity=50, capacityUnit=NUM_INSTANCES. This indicates that the maximum number of instances that can be run on this service environment is 50. You could then run 5 SageMaker Training jobs that each use 10 instances. However, if you submit another job that requires 10 instances, it will wait in the queue.
+        public let maxCapacity: Int?
+
+        @inlinable
+        public init(capacityUnit: String? = nil, maxCapacity: Int? = nil) {
+            self.capacityUnit = capacityUnit
+            self.maxCapacity = maxCapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityUnit = "capacityUnit"
+            case maxCapacity = "maxCapacity"
+        }
+    }
+
     public struct ComputeEnvironmentDetail: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the compute environment.
         public let computeEnvironmentArn: String?
@@ -494,7 +570,7 @@ extension Batch {
         public let imageId: String?
         /// The Amazon ECS instance profile applied to Amazon EC2 instances in a compute environment. This parameter is required for Amazon EC2 instances types. You can specify the short name or full Amazon Resource Name (ARN) of an instance profile. For example,  ecsInstanceRole or arn:aws:iam:::instance-profile/ecsInstanceRole . For more information, see Amazon ECS instance role in the Batch User Guide.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let instanceRole: String?
-        /// The instances types that can be launched. You can specify instance families to launch any instance type within those families (for example, c5 or p3), or you can specify specific sizes within a family (such as c5.8xlarge). You can also choose optimal to select instance types (from the C4, M4, and R4 instance families) that match the demand of your job queues.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.   When you create a compute environment, the instance types that you select for the compute environment must share the same architecture. For example, you can't mix x86 and ARM instances in the same compute environment.   Currently, optimal uses instance types from the C4, M4, and R4 instance families. In Regions that don't have instance types from those instance families, instance types from the C5, M5, and R5 instance families are used.
+        /// The instances types that can be launched. You can specify instance families to launch any instance type within those families (for example, c5 or p3), or you can specify specific sizes within a family (such as c5.8xlarge).  Batch can select the instance type for you if you choose one of the following:    optimal to select instance types (from the c4, m4, r4, c5, m5, and r5 instance families) that match the demand of your job queues.     default_x86_64 to choose x86 based instance types (from the m6i, c6i, r6i, and c7i instance families) that matches the resource demands of the job queue.    default_arm64 to choose x86 based instance types (from the m6g, c6g, r6g, and c7g instance families) that matches the resource demands of the job queue.    Starting on 11/01/2025 the behavior of optimal is going to be changed to match default_x86_64.  During the change your instance families could be updated to a newer generation. You do not need to perform any actions for the upgrade to happen. For more information about change, see Optimal instance type configuration to receive automatic instance family updates.   Instance family availability varies by Amazon Web Services Region. For example, some Amazon Web Services Regions may not have any fourth generation instance families but have fifth and sixth generation instance families. When using default_x86_64 or default_arm64 instance bundles, Batch selects instance families based on a balance of cost-effectiveness and performance. While newer generation instances often provide better price-performance, Batch may choose an earlier generation instance family if it provides the optimal combination of availability, cost, and performance for your workload. For example, in an Amazon Web Services Region where both c6i and c7i instances are available, Batch might select c6i instances if they offer better cost-effectiveness for your specific job requirements. For more information on Batch instance types and Amazon Web Services Region availability, see Instance type compute table in the Batch User Guide. Batch periodically updates your instances in default bundles to newer, more cost-effective options. Updates happen automatically without requiring any action from you. Your workloads continue running during updates with no interruption    This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.   When you create a compute environment, the instance types that you select for the compute environment must share the same architecture. For example, you can't mix x86 and ARM instances in the same compute environment.
         public let instanceTypes: [String]?
         /// The launch template to use for your compute resources. Any other compute resource parameters that you specify in a CreateComputeEnvironment API operation override the same parameters in the launch template. You must specify either the launch template ID or launch template name in the request, but not both. For more information, see Launch template support in the Batch User Guide.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let launchTemplate: LaunchTemplateSpecification?
@@ -512,7 +588,7 @@ extension Batch {
         public let subnets: [String]?
         /// Key-value pair tags to be applied to Amazon EC2 resources that are launched in the compute environment. For Batch, these take the form of "String1": "String2", where String1 is the tag key and String2 is the tag value (for example, { "Name": "Batch Instance - C4OnDemand" }). This is helpful for recognizing your Batch instances in the Amazon EC2 console. Updating these tags requires an infrastructure update to the compute environment. For more information, see Updating compute environments in the Batch User Guide. These tags aren't seen when using the Batch ListTagsForResource API operation.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let tags: [String: String]?
-        /// The type of compute environment: EC2, SPOT, FARGATE, or FARGATE_SPOT. For more information, see Compute environments in the Batch User Guide. If you choose SPOT, you must also specify an Amazon EC2 Spot Fleet role with the spotIamFleetRole parameter. For more information, see Amazon EC2 spot fleet role in the Batch User Guide.
+        /// The type of compute environment: EC2, SPOT, FARGATE, or FARGATE_SPOT. For more information, see Compute environments in the Batch User Guide. If you choose SPOT, you must also specify an Amazon EC2 Spot Fleet role with the spotIamFleetRole parameter. For more information, see Amazon EC2 spot fleet role in the Batch User Guide.  Multi-node parallel jobs aren't supported on Spot Instances.
         public let type: CRType?
 
         @inlinable
@@ -600,7 +676,7 @@ extension Batch {
         public let imageId: String?
         /// The Amazon ECS instance profile applied to Amazon EC2 instances in a compute environment. Required for Amazon EC2 instances. You can specify the short name or full Amazon Resource Name (ARN) of an instance profile. For example,  ecsInstanceRole or arn:aws:iam:::instance-profile/ecsInstanceRole . For more information, see Amazon ECS instance role in the Batch User Guide. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let instanceRole: String?
-        /// The instances types that can be launched. You can specify instance families to launch any instance type within those families (for example, c5 or p3), or you can specify specific sizes within a family (such as c5.8xlarge). You can also choose optimal to select instance types (from the C4, M4, and R4 instance families) that match the demand of your job queues. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.   When you create a compute environment, the instance types that you select for the compute environment must share the same architecture. For example, you can't mix x86 and ARM instances in the same compute environment.   Currently, optimal uses instance types from the C4, M4, and R4 instance families. In Regions that don't have instance types from those instance families, instance types from the C5, M5, and R5 instance families are used.
+        /// The instances types that can be launched. You can specify instance families to launch any instance type within those families (for example, c5 or p3), or you can specify specific sizes within a family (such as c5.8xlarge).  Batch can select the instance type for you if you choose one of the following:    optimal to select instance types (from the c4, m4, r4, c5, m5, and r5 instance families) that match the demand of your job queues.     default_x86_64 to choose x86 based instance types (from the m6i, c6i, r6i, and c7i instance families) that matches the resource demands of the job queue.    default_arm64 to choose x86 based instance types (from the m6g, c6g, r6g, and c7g instance families) that matches the resource demands of the job queue.    Starting on 11/01/2025 the behavior of optimal is going to be changed to match default_x86_64.  During the change your instance families could be updated to a newer generation. You do not need to perform any actions for the upgrade to happen. For more information about change, see Optimal instance type configuration to receive automatic instance family updates.   Instance family availability varies by Amazon Web Services Region. For example, some Amazon Web Services Regions may not have any fourth generation instance families but have fifth and sixth generation instance families. When using default_x86_64 or default_arm64 instance bundles, Batch selects instance families based on a balance of cost-effectiveness and performance. While newer generation instances often provide better price-performance, Batch may choose an earlier generation instance family if it provides the optimal combination of availability, cost, and performance for your workload. For example, in an Amazon Web Services Region where both c6i and c7i instances are available, Batch might select c6i instances if they offer better cost-effectiveness for your specific job requirements. For more information on Batch instance types and Amazon Web Services Region availability, see Instance type compute table in the Batch User Guide. Batch periodically updates your instances in default bundles to newer, more cost-effective options. Updates happen automatically without requiring any action from you. Your workloads continue running during updates with no interruption    This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.   When you create a compute environment, the instance types that you select for the compute environment must share the same architecture. For example, you can't mix x86 and ARM instances in the same compute environment.
         public let instanceTypes: [String]?
         /// The updated launch template to use for your compute resources. You must specify either the launch template ID or launch template name in the request, but not both. For more information, see Launch template support in the Batch User Guide. To remove the custom launch template and use the default launch template, set launchTemplateId or launchTemplateName member of the launch template specification to an empty string. Removing the launch template from a compute environment will not remove the AMI specified in the launch template. In order to update the AMI specified in a launch template, the updateToLatestImageVersion parameter must be set to true. When updating a compute environment, changing the launch template requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let launchTemplate: LaunchTemplateSpecification?
@@ -1066,7 +1142,7 @@ extension Batch {
         public let computeResources: ComputeResource?
         /// Reserved.
         public let context: String?
-        /// The details for the Amazon EKS cluster that supports the compute environment.
+        /// The details for the Amazon EKS cluster that supports the compute environment.  To create a compute environment that uses EKS resources, the caller must have permissions to call eks:DescribeCluster.
         public let eksConfiguration: EksConfiguration?
         /// The full Amazon Resource Name (ARN) of the IAM role that allows Batch to make calls to other Amazon Web Services services on your behalf. For more information, see Batch service IAM role in the Batch User Guide.  If your account already created the Batch service-linked role, that role is used by default for your compute environment unless you specify a different role here. If the Batch service-linked role doesn't exist in your account, and no role is specified here, the service attempts to create the Batch service-linked role in your account.  If your specified role has a path other than /, then you must specify either the full role ARN (recommended) or prefix the role name with the path. For example, if a role with the name bar has a path of /foo/, specify /foo/bar as the role name. For more information, see Friendly names and paths in the IAM User Guide.  Depending on how you created your Batch service role, its ARN might contain the service-role path prefix. When you only specify the name of the service role, Batch assumes that your ARN doesn't use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments.
         public let serviceRole: String?
@@ -1193,24 +1269,30 @@ extension Batch {
         public let computeEnvironmentOrder: [ComputeEnvironmentOrder]?
         /// The name of the job queue. It can be up to 128 letters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
         public let jobQueueName: String?
+        /// The type of job queue. For service jobs that run on SageMaker Training, this value is SAGEMAKER_TRAINING. For regular container jobs, this value is EKS, ECS, or ECS_FARGATE depending on the compute environment.
+        public let jobQueueType: JobQueueType?
         /// The set of actions that Batch performs on jobs that remain at the head of the job queue in the specified state longer than specified times. Batch will perform each action after maxTimeSeconds has passed. (Note: The minimum value for maxTimeSeconds is 600 (10 minutes) and its maximum value is 86,400 (24 hours).)
         public let jobStateTimeLimitActions: [JobStateTimeLimitAction]?
         /// The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with the same compute environment. Priority is determined in descending order. For example, a job queue with a priority value of 10 is given scheduling preference over a job queue with a priority value of 1. All of the compute environments must be either EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT); EC2 and Fargate compute environments can't be mixed.
         public let priority: Int?
         /// The Amazon Resource Name (ARN) of the fair-share scheduling policy. Job queues that don't have a fair-share scheduling policy are scheduled in a first-in, first-out (FIFO) model.  After a job queue has a fair-share scheduling policy, it can be replaced but can't be removed. The format is aws:Partition:batch:Region:Account:scheduling-policy/Name . An example is aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy. A job queue without a fair-share scheduling policy is scheduled as a FIFO job queue and can't have a fair-share scheduling policy added. Jobs queues with a fair-share scheduling policy can have a maximum of 500 active share identifiers. When the limit has been reached, submissions of any jobs that add a new share identifier fail.
         public let schedulingPolicyArn: String?
+        /// A list of service environments that this job queue can use to allocate jobs. All serviceEnvironments must have the same type. A job queue can't have both a serviceEnvironmentOrder and a computeEnvironmentOrder field.
+        public let serviceEnvironmentOrder: [ServiceEnvironmentOrder]?
         /// The state of the job queue. If the job queue state is ENABLED, it is able to accept jobs. If the job queue state is DISABLED, new jobs can't be added to the queue, but jobs already in the queue can finish.
         public let state: JQState?
         /// The tags that you apply to the job queue to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging your Batch resources in Batch User Guide.
         public let tags: [String: String]?
 
         @inlinable
-        public init(computeEnvironmentOrder: [ComputeEnvironmentOrder]? = nil, jobQueueName: String? = nil, jobStateTimeLimitActions: [JobStateTimeLimitAction]? = nil, priority: Int? = nil, schedulingPolicyArn: String? = nil, state: JQState? = nil, tags: [String: String]? = nil) {
+        public init(computeEnvironmentOrder: [ComputeEnvironmentOrder]? = nil, jobQueueName: String? = nil, jobQueueType: JobQueueType? = nil, jobStateTimeLimitActions: [JobStateTimeLimitAction]? = nil, priority: Int? = nil, schedulingPolicyArn: String? = nil, serviceEnvironmentOrder: [ServiceEnvironmentOrder]? = nil, state: JQState? = nil, tags: [String: String]? = nil) {
             self.computeEnvironmentOrder = computeEnvironmentOrder
             self.jobQueueName = jobQueueName
+            self.jobQueueType = jobQueueType
             self.jobStateTimeLimitActions = jobStateTimeLimitActions
             self.priority = priority
             self.schedulingPolicyArn = schedulingPolicyArn
+            self.serviceEnvironmentOrder = serviceEnvironmentOrder
             self.state = state
             self.tags = tags
         }
@@ -1228,9 +1310,11 @@ extension Batch {
         private enum CodingKeys: String, CodingKey {
             case computeEnvironmentOrder = "computeEnvironmentOrder"
             case jobQueueName = "jobQueueName"
+            case jobQueueType = "jobQueueType"
             case jobStateTimeLimitActions = "jobStateTimeLimitActions"
             case priority = "priority"
             case schedulingPolicyArn = "schedulingPolicyArn"
+            case serviceEnvironmentOrder = "serviceEnvironmentOrder"
             case state = "state"
             case tags = "tags"
         }
@@ -1304,6 +1388,64 @@ extension Batch {
         }
     }
 
+    public struct CreateServiceEnvironmentRequest: AWSEncodableShape {
+        /// The capacity limits for the service environment. The number of instances a job consumes is the total number of instances requested in the submit training job request resource configuration.
+        public let capacityLimits: [CapacityLimit]?
+        /// The name for the service environment. It can be up to 128 characters long and can contain letters, numbers, hyphens (-), and underscores (_).
+        public let serviceEnvironmentName: String?
+        /// The type of service environment. For SageMaker Training jobs, specify SAGEMAKER_TRAINING.
+        public let serviceEnvironmentType: ServiceEnvironmentType?
+        /// The state of the service environment. Valid values are ENABLED and DISABLED. The default value is ENABLED.
+        public let state: ServiceEnvironmentState?
+        /// The tags that you apply to the service environment to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging your Batch resources.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(capacityLimits: [CapacityLimit]? = nil, serviceEnvironmentName: String? = nil, serviceEnvironmentType: ServiceEnvironmentType? = nil, state: ServiceEnvironmentState? = nil, tags: [String: String]? = nil) {
+            self.capacityLimits = capacityLimits
+            self.serviceEnvironmentName = serviceEnvironmentName
+            self.serviceEnvironmentType = serviceEnvironmentType
+            self.state = state
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityLimits = "capacityLimits"
+            case serviceEnvironmentName = "serviceEnvironmentName"
+            case serviceEnvironmentType = "serviceEnvironmentType"
+            case state = "state"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateServiceEnvironmentResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the service environment.
+        public let serviceEnvironmentArn: String?
+        /// The name of the service environment.
+        public let serviceEnvironmentName: String?
+
+        @inlinable
+        public init(serviceEnvironmentArn: String? = nil, serviceEnvironmentName: String? = nil) {
+            self.serviceEnvironmentArn = serviceEnvironmentArn
+            self.serviceEnvironmentName = serviceEnvironmentName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceEnvironmentArn = "serviceEnvironmentArn"
+            case serviceEnvironmentName = "serviceEnvironmentName"
+        }
+    }
+
     public struct DeleteComputeEnvironmentRequest: AWSEncodableShape {
         /// The name or Amazon Resource Name (ARN) of the compute environment to delete.
         public let computeEnvironment: String?
@@ -1373,6 +1515,24 @@ extension Batch {
     }
 
     public struct DeleteSchedulingPolicyResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteServiceEnvironmentRequest: AWSEncodableShape {
+        /// The name or ARN of the service environment to delete.
+        public let serviceEnvironment: String?
+
+        @inlinable
+        public init(serviceEnvironment: String? = nil) {
+            self.serviceEnvironment = serviceEnvironment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceEnvironment = "serviceEnvironment"
+        }
+    }
+
+    public struct DeleteServiceEnvironmentResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -1634,6 +1794,146 @@ extension Batch {
         }
     }
 
+    public struct DescribeServiceEnvironmentsRequest: AWSEncodableShape {
+        /// The maximum number of results returned by DescribeServiceEnvironments in paginated output. When this parameter is used, DescribeServiceEnvironments only returns maxResults results in a single page and a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeServiceEnvironments request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then DescribeServiceEnvironments returns up to 100 results and a nextToken value if applicable.
+        public let maxResults: Int?
+        /// The nextToken value returned from a previous paginated DescribeServiceEnvironments request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  Treat this token as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes.
+        public let nextToken: String?
+        /// An array of service environment names or ARN entries.
+        public let serviceEnvironments: [String]?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, serviceEnvironments: [String]? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.serviceEnvironments = serviceEnvironments
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case serviceEnvironments = "serviceEnvironments"
+        }
+    }
+
+    public struct DescribeServiceEnvironmentsResponse: AWSDecodableShape {
+        /// The nextToken value to include in a future DescribeServiceEnvironments request. When the results of a DescribeServiceEnvironments request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// The list of service environments that match the request.
+        public let serviceEnvironments: [ServiceEnvironmentDetail]?
+
+        @inlinable
+        public init(nextToken: String? = nil, serviceEnvironments: [ServiceEnvironmentDetail]? = nil) {
+            self.nextToken = nextToken
+            self.serviceEnvironments = serviceEnvironments
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case serviceEnvironments = "serviceEnvironments"
+        }
+    }
+
+    public struct DescribeServiceJobRequest: AWSEncodableShape {
+        /// The job ID for the service job to describe.
+        public let jobId: String?
+
+        @inlinable
+        public init(jobId: String? = nil) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "jobId"
+        }
+    }
+
+    public struct DescribeServiceJobResponse: AWSDecodableShape {
+        /// A list of job attempts associated with the service job.
+        public let attempts: [ServiceJobAttemptDetail]?
+        /// The Unix timestamp (in milliseconds) for when the service job was created.
+        public let createdAt: Int64?
+        /// Indicates whether the service job has been terminated.
+        public let isTerminated: Bool?
+        /// The Amazon Resource Name (ARN) of the service job.
+        public let jobArn: String?
+        /// The job ID for the service job.
+        public let jobId: String?
+        /// The name of the service job.
+        public let jobName: String?
+        /// The ARN of the job queue that the service job is associated with.
+        public let jobQueue: String?
+        /// The latest attempt associated with the service job.
+        public let latestAttempt: LatestServiceJobAttempt?
+        /// The retry strategy to use for failed service jobs that are submitted with this service job.
+        public let retryStrategy: ServiceJobRetryStrategy?
+        /// The scheduling priority of the service job.
+        public let schedulingPriority: Int?
+        /// The type of service job. For SageMaker Training jobs, this value is SAGEMAKER_TRAINING.
+        public let serviceJobType: ServiceJobType?
+        /// The request, in JSON, for the service that the SubmitServiceJob operation is queueing.
+        public let serviceRequestPayload: String?
+        /// The share identifier for the service job. This is used for fair-share scheduling.
+        public let shareIdentifier: String?
+        /// The Unix timestamp (in milliseconds) for when the service job was started.
+        public let startedAt: Int64?
+        /// The current status of the service job.
+        public let status: ServiceJobStatus?
+        /// A short, human-readable string to provide more details for the current status of the service job.
+        public let statusReason: String?
+        /// The Unix timestamp (in milliseconds) for when the service job stopped running.
+        public let stoppedAt: Int64?
+        /// The tags that are associated with the service job. Each tag consists of a key and an optional value. For more information, see Tagging your Batch resources.
+        public let tags: [String: String]?
+        /// The timeout configuration for the service job.
+        public let timeoutConfig: ServiceJobTimeout?
+
+        @inlinable
+        public init(attempts: [ServiceJobAttemptDetail]? = nil, createdAt: Int64? = nil, isTerminated: Bool? = nil, jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil, jobQueue: String? = nil, latestAttempt: LatestServiceJobAttempt? = nil, retryStrategy: ServiceJobRetryStrategy? = nil, schedulingPriority: Int? = nil, serviceJobType: ServiceJobType? = nil, serviceRequestPayload: String? = nil, shareIdentifier: String? = nil, startedAt: Int64? = nil, status: ServiceJobStatus? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil, tags: [String: String]? = nil, timeoutConfig: ServiceJobTimeout? = nil) {
+            self.attempts = attempts
+            self.createdAt = createdAt
+            self.isTerminated = isTerminated
+            self.jobArn = jobArn
+            self.jobId = jobId
+            self.jobName = jobName
+            self.jobQueue = jobQueue
+            self.latestAttempt = latestAttempt
+            self.retryStrategy = retryStrategy
+            self.schedulingPriority = schedulingPriority
+            self.serviceJobType = serviceJobType
+            self.serviceRequestPayload = serviceRequestPayload
+            self.shareIdentifier = shareIdentifier
+            self.startedAt = startedAt
+            self.status = status
+            self.statusReason = statusReason
+            self.stoppedAt = stoppedAt
+            self.tags = tags
+            self.timeoutConfig = timeoutConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attempts = "attempts"
+            case createdAt = "createdAt"
+            case isTerminated = "isTerminated"
+            case jobArn = "jobArn"
+            case jobId = "jobId"
+            case jobName = "jobName"
+            case jobQueue = "jobQueue"
+            case latestAttempt = "latestAttempt"
+            case retryStrategy = "retryStrategy"
+            case schedulingPriority = "schedulingPriority"
+            case serviceJobType = "serviceJobType"
+            case serviceRequestPayload = "serviceRequestPayload"
+            case shareIdentifier = "shareIdentifier"
+            case startedAt = "startedAt"
+            case status = "status"
+            case statusReason = "statusReason"
+            case stoppedAt = "stoppedAt"
+            case tags = "tags"
+            case timeoutConfig = "timeoutConfig"
+        }
+    }
+
     public struct Device: AWSEncodableShape & AWSDecodableShape {
         /// The path inside the container that's used to expose the host device. By default, the hostPath value is used.
         public let containerPath: String?
@@ -1709,7 +2009,7 @@ extension Batch {
         public let imageIdOverride: String?
         /// The Kubernetes version for the compute environment. If you don't specify a value, the latest version that Batch supports is used.
         public let imageKubernetesVersion: String?
-        /// The image type to match with the instance type to select an AMI. The supported values are different for ECS and EKS resources.  ECS  If the imageIdOverride parameter isn't specified, then a recent Amazon ECS-optimized Amazon Linux 2 AMI (ECS_AL2) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon ECS optimized AMI for that image type that's supported by Batch is used.  ECS_AL2   Amazon Linux 2: Default for all non-GPU instance families.  ECS_AL2_NVIDIA   Amazon Linux 2 (GPU): Default for all GPU instance families (for example P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types.  ECS_AL2023   Amazon Linux 2023: Batch supports Amazon Linux 2023.  Amazon Linux 2023 does not support A1 instances.   ECS_AL1   Amazon Linux. Amazon Linux has reached the end-of-life of standard support. For more information, see Amazon Linux AMI.    EKS  If the imageIdOverride parameter isn't specified, then a recent Amazon EKS-optimized Amazon Linux AMI (EKS_AL2) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon EKS optimized AMI for that image type that Batch supports is used.  EKS_AL2   Amazon Linux 2: Default for all non-GPU instance families.  EKS_AL2_NVIDIA   Amazon Linux 2 (accelerated): Default for all GPU instance families (for example, P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types.  EKS_AL2023   Amazon Linux 2023: Batch supports Amazon Linux 2023.  Amazon Linux 2023 does not support A1 instances.   EKS_AL2023_NVIDIA   Amazon Linux 2023 (accelerated): GPU instance families and can be used for all non Amazon Web Services Graviton-based instance types.
+        /// The image type to match with the instance type to select an AMI. The supported values are different for ECS and EKS resources.  ECS  If the imageIdOverride parameter isn't specified, then a recent Amazon ECS-optimized Amazon Linux 2 AMI (ECS_AL2) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon ECS optimized AMI for that image type that's supported by Batch is used.  Amazon Web Services will end support for Amazon ECS optimized AL2-optimized and AL2-accelerated AMIs. Starting in January 2026, Batch will change the default AMI for new Amazon ECS compute environments from Amazon Linux 2 to Amazon Linux 2023. We recommend migrating Batch Amazon ECS compute environments to Amazon Linux 2023 to maintain optimal performance and security. For more information on upgrading from AL2 to AL2023, see How to migrate from ECS AL2 to ECS AL2023 in the Batch User Guide.   ECS_AL2   Amazon Linux 2: Default for all non-GPU instance families.  ECS_AL2_NVIDIA   Amazon Linux 2 (GPU): Default for all GPU instance families (for example P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types.  ECS_AL2023   Amazon Linux 2023: Batch supports Amazon Linux 2023.  Amazon Linux 2023 does not support A1 instances.   ECS_AL2023_NVIDIA   Amazon Linux 2023 (GPU): For all GPU instance families and can be used for all non Amazon Web Services Graviton-based instance types.  ECS_AL2023_NVIDIA doesn't support p3 and g3 instance types.     EKS  If the imageIdOverride parameter isn't specified, then a recent Amazon EKS-optimized Amazon Linux AMI (EKS_AL2) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon EKS optimized AMI for that image type that Batch supports is used.  Starting end of October 2025 Amazon EKS optimized Amazon Linux 2023 AMIs will be the default on Batch for EKS versions prior to 1.33. Starting from Kubernetes version 1.33, EKS optimized Amazon Linux 2023 AMIs will be the default when it becomes supported on Batch. Amazon Web Services will end support for Amazon EKS AL2-optimized and AL2-accelerated AMIs, starting 11/26/25. You can continue using Batch-provided Amazon EKS optimized Amazon Linux 2 AMIs on your Amazon EKS compute environments beyond the 11/26/25 end-of-support date, these compute environments will no longer receive any new software updates, security patches, or bug fixes from Amazon Web Services. For more information on upgrading from AL2 to AL2023, see How to upgrade from EKS AL2 to EKS AL2023 in the Batch User Guide.   EKS_AL2   Amazon Linux 2: Default for all non-GPU instance families.  EKS_AL2_NVIDIA   Amazon Linux 2 (accelerated): Default for all GPU instance families (for example, P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types.  EKS_AL2023   Amazon Linux 2023: Batch supports Amazon Linux 2023.  Amazon Linux 2023 does not support A1 instances.   EKS_AL2023_NVIDIA   Amazon Linux 2023 (accelerated): GPU instance families and can be used for all non Amazon Web Services Graviton-based instance types.
         public let imageType: String?
 
         @inlinable
@@ -1788,11 +2088,11 @@ extension Batch {
         public let ephemeralStorage: EphemeralStorage?
         /// The Amazon Resource Name (ARN) of the execution role that Batch can assume. For more information, see Batch execution IAM role in the Batch User Guide.
         public let executionRoleArn: String?
-        /// The IPC resource namespace to use for the containers in the task.
+        /// The IPC resource namespace to use for the containers in the task. The valid values are host, task, or none. For more information see ipcMode in EcsTaskProperties.
         public let ipcMode: String?
         /// The network configuration for jobs that are running on Fargate resources. Jobs that are running on Amazon EC2 resources must not specify this parameter.
         public let networkConfiguration: NetworkConfiguration?
-        /// The process namespace to use for the containers in the task.
+        /// The process namespace to use for the containers in the task. The valid values are host, or task. For more information see pidMode in EcsTaskProperties.
         public let pidMode: String?
         /// The Fargate platform version where the jobs are running.
         public let platformVersion: String?
@@ -2977,12 +3277,16 @@ extension Batch {
         public let jobQueueArn: String?
         /// The job queue name.
         public let jobQueueName: String?
+        /// The type of job queue. For service jobs that run on SageMaker Training, this value is SAGEMAKER_TRAINING. For regular container jobs, this value is EKS, ECS, or ECS_FARGATE depending on the compute environment.
+        public let jobQueueType: JobQueueType?
         /// The set of actions that Batch perform on jobs that remain at the head of the job queue in the specified state longer than specified times. Batch will perform each action after maxTimeSeconds has passed.
         public let jobStateTimeLimitActions: [JobStateTimeLimitAction]?
         /// The priority of the job queue. Job queue priority determines the order  that job queues are evaluated when multiple queues dispatch jobs within a  shared compute environment. A higher value for priority indicates a higher priority. Queues are evaluated in cycles, in descending order by priority. For example, a job queue with a priority value of 10 is  evaluated before a queue with a priority value of 1. All of the  compute environments must be either Amazon EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT). Amazon EC2 and  Fargate compute environments can't be mixed.  Job queue priority doesn't guarantee that a particular job executes before  a job in a lower priority queue. Jobs added to higher priority queues during the  queue evaluation cycle might not be evaluated until the next cycle. A job is  dispatched from a queue only if resources are available when the queue is evaluated.  If there are insufficient resources available at that time, the cycle proceeds to the  next queue. This means that jobs added to higher priority queues might have to wait  for jobs in multiple lower priority queues to complete before they are dispatched.  You can use job dependencies to control the order for jobs from queues with different  priorities. For more information, see Job Dependencies in the Batch User Guide.
         public let priority: Int?
         /// The Amazon Resource Name (ARN) of the scheduling policy. The format is aws:Partition:batch:Region:Account:scheduling-policy/Name . For example, aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy.
         public let schedulingPolicyArn: String?
+        /// The order of the service environment associated with the job queue. Job queues with a higher priority are evaluated first when associated with the same service environment.
+        public let serviceEnvironmentOrder: [ServiceEnvironmentOrder]?
         /// Describes the ability of the queue to accept new jobs. If the job queue state is ENABLED, it can accept jobs. If the job queue state is DISABLED, new jobs can't be added to the queue, but jobs already in the queue can finish.
         public let state: JQState?
         /// The status of the job queue (for example, CREATING or VALID).
@@ -2993,13 +3297,15 @@ extension Batch {
         public let tags: [String: String]?
 
         @inlinable
-        public init(computeEnvironmentOrder: [ComputeEnvironmentOrder]? = nil, jobQueueArn: String? = nil, jobQueueName: String? = nil, jobStateTimeLimitActions: [JobStateTimeLimitAction]? = nil, priority: Int? = nil, schedulingPolicyArn: String? = nil, state: JQState? = nil, status: JQStatus? = nil, statusReason: String? = nil, tags: [String: String]? = nil) {
+        public init(computeEnvironmentOrder: [ComputeEnvironmentOrder]? = nil, jobQueueArn: String? = nil, jobQueueName: String? = nil, jobQueueType: JobQueueType? = nil, jobStateTimeLimitActions: [JobStateTimeLimitAction]? = nil, priority: Int? = nil, schedulingPolicyArn: String? = nil, serviceEnvironmentOrder: [ServiceEnvironmentOrder]? = nil, state: JQState? = nil, status: JQStatus? = nil, statusReason: String? = nil, tags: [String: String]? = nil) {
             self.computeEnvironmentOrder = computeEnvironmentOrder
             self.jobQueueArn = jobQueueArn
             self.jobQueueName = jobQueueName
+            self.jobQueueType = jobQueueType
             self.jobStateTimeLimitActions = jobStateTimeLimitActions
             self.priority = priority
             self.schedulingPolicyArn = schedulingPolicyArn
+            self.serviceEnvironmentOrder = serviceEnvironmentOrder
             self.state = state
             self.status = status
             self.statusReason = statusReason
@@ -3010,9 +3316,11 @@ extension Batch {
             case computeEnvironmentOrder = "computeEnvironmentOrder"
             case jobQueueArn = "jobQueueArn"
             case jobQueueName = "jobQueueName"
+            case jobQueueType = "jobQueueType"
             case jobStateTimeLimitActions = "jobStateTimeLimitActions"
             case priority = "priority"
             case schedulingPolicyArn = "schedulingPolicyArn"
+            case serviceEnvironmentOrder = "serviceEnvironmentOrder"
             case state = "state"
             case status = "status"
             case statusReason = "statusReason"
@@ -3154,6 +3462,20 @@ extension Batch {
         }
     }
 
+    public struct LatestServiceJobAttempt: AWSDecodableShape {
+        /// The service resource identifier associated with the service job attempt.
+        public let serviceResourceId: ServiceResourceId?
+
+        @inlinable
+        public init(serviceResourceId: ServiceResourceId? = nil) {
+            self.serviceResourceId = serviceResourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceResourceId = "serviceResourceId"
+        }
+    }
+
     public struct LaunchTemplateSpecification: AWSEncodableShape & AWSDecodableShape {
         /// The ID of the launch template.
         public let launchTemplateId: String?
@@ -3189,7 +3511,7 @@ extension Batch {
         public let launchTemplateId: String?
         /// The name of the launch template.  Note: If you specify the launchTemplateName you can't specify the launchTemplateId as well.
         public let launchTemplateName: String?
-        /// The instance type or family that this override launch template should be applied to. This parameter is required when defining a launch template override. Information included in this parameter must meet the following requirements:   Must be a valid Amazon EC2 instance type or family.    optimal isn't allowed.    targetInstanceTypes can target only instance types and families that are included within the  ComputeResource.instanceTypes set. targetInstanceTypes doesn't need to include all of the instances from the instanceType set, but at least a subset. For example, if ComputeResource.instanceTypes includes [m5, g5], targetInstanceTypes can include [m5.2xlarge] and [m5.large] but not [c5.large].    targetInstanceTypes included within the same launch template override or across launch template overrides can't overlap for the same compute environment. For example, you can't define one launch template override to target an instance family and another define an instance type within this same family.
+        /// The instance type or family that this override launch template should be applied to. This parameter is required when defining a launch template override. Information included in this parameter must meet the following requirements:   Must be a valid Amazon EC2 instance type or family.   The following Batch InstanceTypes are not allowed: optimal, default_x86_64, and default_arm64.    targetInstanceTypes can target only instance types and families that are included within the  ComputeResource.instanceTypes set. targetInstanceTypes doesn't need to include all of the instances from the instanceType set, but at least a subset. For example, if ComputeResource.instanceTypes includes [m5, g5], targetInstanceTypes can include [m5.2xlarge] and [m5.large] but not [c5.large].    targetInstanceTypes included within the same launch template override or across launch template overrides can't overlap for the same compute environment. For example, you can't define one launch template override to target an instance family and another define an instance type within this same family.
         public let targetInstanceTypes: [String]?
         /// The EKS node initialization process to use. You only need to specify this value if you are using a custom AMI. The default value is EKS_BOOTSTRAP_SH. If imageType is a custom AMI based on EKS_AL2023 or EKS_AL2023_NVIDIA then you must choose EKS_NODEADM.
         public let userdataType: UserdataType?
@@ -3478,6 +3800,54 @@ extension Batch {
         }
     }
 
+    public struct ListServiceJobsRequest: AWSEncodableShape {
+        /// The filter to apply to the query. Only one filter can be used at a time. When the filter is used, jobStatus is ignored. The results are sorted by the createdAt field, with the most recent jobs being first.  JOB_NAME  The value of the filter is a case-insensitive match for the job name. If the value ends with an asterisk (*), the filter matches any job name that begins with the string before the '*'. This corresponds to the jobName value. For example, test1 matches both Test1 and test1, and test1* matches both test1 and Test10. When the JOB_NAME filter is used, the results are grouped by the job name and version.  BEFORE_CREATED_AT  The value for the filter is the time that's before the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970.  AFTER_CREATED_AT  The value for the filter is the time that's after the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970.
+        public let filters: [KeyValuesPair]?
+        /// The name or ARN of the job queue with which to list service jobs.
+        public let jobQueue: String?
+        /// The job status with which to filter service jobs.
+        public let jobStatus: ServiceJobStatus?
+        /// The maximum number of results returned by ListServiceJobs in paginated output. When this parameter is used, ListServiceJobs only returns maxResults results in a single page and a nextToken response element. The remaining results of the initial request can be seen by sending another ListServiceJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListServiceJobs returns up to 100 results and a nextToken value if applicable.
+        public let maxResults: Int?
+        /// The nextToken value returned from a previous paginated ListServiceJobs request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  Treat this token as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filters: [KeyValuesPair]? = nil, jobQueue: String? = nil, jobStatus: ServiceJobStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.jobQueue = jobQueue
+            self.jobStatus = jobStatus
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case jobQueue = "jobQueue"
+            case jobStatus = "jobStatus"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListServiceJobsResponse: AWSDecodableShape {
+        /// A list of service job summaries.
+        public let jobSummaryList: [ServiceJobSummary]?
+        /// The nextToken value to include in a future ListServiceJobs request. When the results of a ListServiceJobs request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(jobSummaryList: [ServiceJobSummary]? = nil, nextToken: String? = nil) {
+            self.jobSummaryList = jobSummaryList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobSummaryList = "jobSummaryList"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) that identifies the resource that tags are listed for. Batch resources that support tags are compute environments, jobs, job definitions, job queues, and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP) jobs aren't supported.
         public let resourceArn: String
@@ -3511,7 +3881,7 @@ extension Batch {
     }
 
     public struct LogConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The log driver to use for the container. The valid values that are listed for this parameter are log drivers that the Amazon ECS container agent can communicate with by default. The supported log drivers are awslogs, fluentd, gelf, json-file, journald, logentries, syslog, and splunk.  Jobs that are running on Fargate resources are restricted to the awslogs and splunk log drivers.   awsfirelens  Specifies the firelens logging driver. For more information on configuring Firelens, see Send Amazon ECS logs to an Amazon Web Services service or Amazon Web Services Partner in the Amazon Elastic Container Service Developer Guide.  awslogs  Specifies the Amazon CloudWatch Logs logging driver. For more information, see Using the awslogs log driver in the Batch User Guide and Amazon CloudWatch Logs logging driver in the Docker documentation.  fluentd  Specifies the Fluentd logging driver. For more information including usage and options, see Fluentd logging driver in the Docker documentation.  gelf  Specifies the Graylog Extended Format (GELF) logging driver. For more information including usage and options, see Graylog Extended Format logging driver in the Docker documentation.  journald  Specifies the journald logging driver. For more information including usage and options, see Journald logging driver in the Docker documentation.  json-file  Specifies the JSON file logging driver. For more information including usage and options, see JSON File logging driver in the Docker documentation.  splunk  Specifies the Splunk logging driver. For more information including usage and options, see Splunk logging driver in the Docker documentation.  syslog  Specifies the syslog logging driver. For more information including usage and options, see Syslog logging driver in the Docker documentation.    If you have a custom driver that's not listed earlier that you want to work with the Amazon ECS container agent, you can fork the Amazon ECS container agent project that's available on GitHub and customize it to work with that driver. We encourage you to submit pull requests for changes that you want to have included. However, Amazon Web Services doesn't currently support running modified copies of this software.  This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version | grep "Server API version"
+        /// The log driver to use for the container. The valid values that are listed for this parameter are log drivers that the Amazon ECS container agent can communicate with by default. The supported log drivers are awsfirelens, awslogs, fluentd, gelf, json-file, journald, logentries, syslog, and splunk.  Jobs that are running on Fargate resources are restricted to the awslogs and splunk log drivers.   awsfirelens  Specifies the firelens logging driver. For more information on configuring Firelens, see Send Amazon ECS logs to an Amazon Web Services service or Amazon Web Services Partner in the Amazon Elastic Container Service Developer Guide.  awslogs  Specifies the Amazon CloudWatch Logs logging driver. For more information, see Using the awslogs log driver in the Batch User Guide and Amazon CloudWatch Logs logging driver in the Docker documentation.  fluentd  Specifies the Fluentd logging driver. For more information including usage and options, see Fluentd logging driver in the Docker documentation.  gelf  Specifies the Graylog Extended Format (GELF) logging driver. For more information including usage and options, see Graylog Extended Format logging driver in the Docker documentation.  journald  Specifies the journald logging driver. For more information including usage and options, see Journald logging driver in the Docker documentation.  json-file  Specifies the JSON file logging driver. For more information including usage and options, see JSON File logging driver in the Docker documentation.  splunk  Specifies the Splunk logging driver. For more information including usage and options, see Splunk logging driver in the Docker documentation.  syslog  Specifies the syslog logging driver. For more information including usage and options, see Syslog logging driver in the Docker documentation.    If you have a custom driver that's not listed earlier that you want to work with the Amazon ECS container agent, you can fork the Amazon ECS container agent project that's available on GitHub and customize it to work with that driver. We encourage you to submit pull requests for changes that you want to have included. However, Amazon Web Services doesn't currently support running modified copies of this software.  This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version | grep "Server API version"
         public let logDriver: LogDriver?
         /// The configuration options to send to the log driver. This parameter requires version 1.19 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version | grep "Server API version"
         public let options: [String: String]?
@@ -3911,9 +4281,9 @@ extension Batch {
     }
 
     public struct RuntimePlatform: AWSEncodableShape & AWSDecodableShape {
-        ///  The vCPU architecture. The default value is X86_64. Valid values are X86_64 and ARM64.  This parameter must be set to X86_64 for Windows containers.   Fargate Spot is not supported for ARM64 and Windows-based containers on Fargate. A job queue will be blocked if a Fargate ARM64 or Windows job is submitted to a job queue with only Fargate Spot compute environments. However, you can attach both FARGATE and FARGATE_SPOT compute environments to the same job queue.
+        /// The vCPU architecture. The default value is X86_64. Valid values are X86_64 and ARM64.  This parameter must be set to X86_64 for Windows containers.   Fargate Spot is not supported on Windows-based containers on Fargate. A job queue will be blocked if a Windows job is submitted to a job queue with only Fargate Spot compute environments. However, you can attach both FARGATE and FARGATE_SPOT compute environments to the same job queue.
         public let cpuArchitecture: String?
-        /// The operating system for the compute environment. Valid values are: LINUX (default), WINDOWS_SERVER_2019_CORE, WINDOWS_SERVER_2019_FULL, WINDOWS_SERVER_2022_CORE, and WINDOWS_SERVER_2022_FULL.  The following parameters can’t be set for Windows containers: linuxParameters, privileged, user, ulimits, readonlyRootFilesystem, and efsVolumeConfiguration.   The Batch Scheduler checks the compute environments that are attached to the job queue before  registering a task definition with Fargate. In this scenario, the job queue is where the job is  submitted. If the job requires a Windows container and the first compute environment is LINUX,  the compute environment is skipped and the next compute environment is checked until a Windows-based  compute environment is found.   Fargate Spot is not supported for ARM64 and Windows-based containers on Fargate.  A job queue will be blocked if a Fargate ARM64 or Windows job is submitted to a job  queue with only Fargate Spot compute environments. However, you can attach both FARGATE and FARGATE_SPOT compute environments to the same job queue.
+        /// The operating system for the compute environment. Valid values are: LINUX (default), WINDOWS_SERVER_2019_CORE, WINDOWS_SERVER_2019_FULL, WINDOWS_SERVER_2022_CORE, and WINDOWS_SERVER_2022_FULL.  The following parameters can’t be set for Windows containers: linuxParameters, privileged, user, ulimits, readonlyRootFilesystem, and efsVolumeConfiguration.   The Batch Scheduler checks the compute environments that are attached to the job queue before  registering a task definition with Fargate. In this scenario, the job queue is where the job is  submitted. If the job requires a Windows container and the first compute environment is LINUX,  the compute environment is skipped and the next compute environment is checked until a Windows-based  compute environment is found.   Fargate Spot is not supported on Windows-based containers on Fargate.  A job queue will be blocked if a Windows job is submitted to a job  queue with only Fargate Spot compute environments. However, you can attach both FARGATE and FARGATE_SPOT compute environments to the same job queue.
         public let operatingSystemFamily: String?
 
         @inlinable
@@ -3986,8 +4356,212 @@ extension Batch {
         }
     }
 
+    public struct ServiceEnvironmentDetail: AWSDecodableShape {
+        /// The capacity limits for the service environment. This defines the maximum resources that can be used by service jobs in this environment.
+        public let capacityLimits: [CapacityLimit]?
+        /// The Amazon Resource Name (ARN) of the service environment.
+        public let serviceEnvironmentArn: String?
+        /// The name of the service environment.
+        public let serviceEnvironmentName: String?
+        /// The type of service environment. For SageMaker Training jobs, this value is SAGEMAKER_TRAINING.
+        public let serviceEnvironmentType: ServiceEnvironmentType?
+        /// The state of the service environment. Valid values are ENABLED and DISABLED.
+        public let state: ServiceEnvironmentState?
+        /// The current status of the service environment.
+        public let status: ServiceEnvironmentStatus?
+        /// The tags associated with the service environment. Each tag consists of a key and an optional value. For more information, see Tagging your Batch resources.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(capacityLimits: [CapacityLimit]? = nil, serviceEnvironmentArn: String? = nil, serviceEnvironmentName: String? = nil, serviceEnvironmentType: ServiceEnvironmentType? = nil, state: ServiceEnvironmentState? = nil, status: ServiceEnvironmentStatus? = nil, tags: [String: String]? = nil) {
+            self.capacityLimits = capacityLimits
+            self.serviceEnvironmentArn = serviceEnvironmentArn
+            self.serviceEnvironmentName = serviceEnvironmentName
+            self.serviceEnvironmentType = serviceEnvironmentType
+            self.state = state
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityLimits = "capacityLimits"
+            case serviceEnvironmentArn = "serviceEnvironmentArn"
+            case serviceEnvironmentName = "serviceEnvironmentName"
+            case serviceEnvironmentType = "serviceEnvironmentType"
+            case state = "state"
+            case status = "status"
+            case tags = "tags"
+        }
+    }
+
+    public struct ServiceEnvironmentOrder: AWSEncodableShape & AWSDecodableShape {
+        /// The order of the service environment. Job queues with a higher priority are evaluated first when associated with the same service environment.
+        public let order: Int?
+        /// The name or ARN of the service environment.
+        public let serviceEnvironment: String?
+
+        @inlinable
+        public init(order: Int? = nil, serviceEnvironment: String? = nil) {
+            self.order = order
+            self.serviceEnvironment = serviceEnvironment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case order = "order"
+            case serviceEnvironment = "serviceEnvironment"
+        }
+    }
+
+    public struct ServiceJobAttemptDetail: AWSDecodableShape {
+        /// The service resource identifier associated with the service job attempt.
+        public let serviceResourceId: ServiceResourceId?
+        /// The Unix timestamp (in milliseconds) for when the service job attempt was started.
+        public let startedAt: Int64?
+        /// A string that provides additional details for the current status of the service job attempt.
+        public let statusReason: String?
+        /// The Unix timestamp (in milliseconds) for when the service job attempt stopped running.
+        public let stoppedAt: Int64?
+
+        @inlinable
+        public init(serviceResourceId: ServiceResourceId? = nil, startedAt: Int64? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil) {
+            self.serviceResourceId = serviceResourceId
+            self.startedAt = startedAt
+            self.statusReason = statusReason
+            self.stoppedAt = stoppedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceResourceId = "serviceResourceId"
+            case startedAt = "startedAt"
+            case statusReason = "statusReason"
+            case stoppedAt = "stoppedAt"
+        }
+    }
+
+    public struct ServiceJobEvaluateOnExit: AWSEncodableShape & AWSDecodableShape {
+        /// The action to take if the service job exits with the specified condition. Valid values are RETRY and EXIT.
+        public let action: ServiceJobRetryAction?
+        /// Contains a glob pattern to match against the StatusReason returned for a job. The pattern can contain up to 512 characters and can contain all printable characters. It can optionally end with an asterisk (*) so that only the start of the string needs to be an exact match.
+        public let onStatusReason: String?
+
+        @inlinable
+        public init(action: ServiceJobRetryAction? = nil, onStatusReason: String? = nil) {
+            self.action = action
+            self.onStatusReason = onStatusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case onStatusReason = "onStatusReason"
+        }
+    }
+
+    public struct ServiceJobRetryStrategy: AWSEncodableShape & AWSDecodableShape {
+        /// The number of times to move a service job to RUNNABLE status. You can specify between 1 and 10 attempts.
+        public let attempts: Int?
+        /// Array of ServiceJobEvaluateOnExit objects that specify conditions under which the service job should be retried or failed.
+        public let evaluateOnExit: [ServiceJobEvaluateOnExit]?
+
+        @inlinable
+        public init(attempts: Int? = nil, evaluateOnExit: [ServiceJobEvaluateOnExit]? = nil) {
+            self.attempts = attempts
+            self.evaluateOnExit = evaluateOnExit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attempts = "attempts"
+            case evaluateOnExit = "evaluateOnExit"
+        }
+    }
+
+    public struct ServiceJobSummary: AWSDecodableShape {
+        /// The Unix timestamp (in milliseconds) for when the service job was created.
+        public let createdAt: Int64?
+        /// The Amazon Resource Name (ARN) of the service job.
+        public let jobArn: String?
+        /// The job ID for the service job.
+        public let jobId: String?
+        /// The name of the service job.
+        public let jobName: String?
+        /// Information about the latest attempt for the service job.
+        public let latestAttempt: LatestServiceJobAttempt?
+        /// The type of service job. For SageMaker Training jobs, this value is SAGEMAKER_TRAINING.
+        public let serviceJobType: ServiceJobType?
+        /// The share identifier for the job.
+        public let shareIdentifier: String?
+        /// The Unix timestamp (in milliseconds) for when the service job was started.
+        public let startedAt: Int64?
+        /// The current status of the service job.
+        public let status: ServiceJobStatus?
+        /// A short string to provide more details on the current status of the service job.
+        public let statusReason: String?
+        /// The Unix timestamp (in milliseconds) for when the service job stopped running.
+        public let stoppedAt: Int64?
+
+        @inlinable
+        public init(createdAt: Int64? = nil, jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil, latestAttempt: LatestServiceJobAttempt? = nil, serviceJobType: ServiceJobType? = nil, shareIdentifier: String? = nil, startedAt: Int64? = nil, status: ServiceJobStatus? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil) {
+            self.createdAt = createdAt
+            self.jobArn = jobArn
+            self.jobId = jobId
+            self.jobName = jobName
+            self.latestAttempt = latestAttempt
+            self.serviceJobType = serviceJobType
+            self.shareIdentifier = shareIdentifier
+            self.startedAt = startedAt
+            self.status = status
+            self.statusReason = statusReason
+            self.stoppedAt = stoppedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case jobArn = "jobArn"
+            case jobId = "jobId"
+            case jobName = "jobName"
+            case latestAttempt = "latestAttempt"
+            case serviceJobType = "serviceJobType"
+            case shareIdentifier = "shareIdentifier"
+            case startedAt = "startedAt"
+            case status = "status"
+            case statusReason = "statusReason"
+            case stoppedAt = "stoppedAt"
+        }
+    }
+
+    public struct ServiceJobTimeout: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum duration in seconds that a service job attempt can run. After this time is reached, Batch terminates the service job attempt.
+        public let attemptDurationSeconds: Int?
+
+        @inlinable
+        public init(attemptDurationSeconds: Int? = nil) {
+            self.attemptDurationSeconds = attemptDurationSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attemptDurationSeconds = "attemptDurationSeconds"
+        }
+    }
+
+    public struct ServiceResourceId: AWSDecodableShape {
+        /// The name of the resource identifier.
+        public let name: ServiceResourceIdName?
+        /// The value of the resource identifier.
+        public let value: String?
+
+        @inlinable
+        public init(name: ServiceResourceIdName? = nil, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case value = "value"
+        }
+    }
+
     public struct ShareAttributes: AWSEncodableShape & AWSDecodableShape {
-        /// A share identifier or share identifier prefix. If the string ends with an asterisk (*), this entry specifies the weight factor to use for share identifiers that start with that prefix. The list of share identifiers in a fair-share policy can't overlap. For example, you can't have one that specifies a shareIdentifier of UserA* and another that specifies a shareIdentifier of UserA-1. There can be no more than 500 share identifiers active in a job queue. The string is limited to 255 alphanumeric characters, and can be followed by an asterisk (*).
+        /// A share identifier or share identifier prefix. If the string ends with an asterisk (*), this entry specifies the weight factor to use for share identifiers that start with that prefix. The list of share identifiers in a fair-share policy can't overlap. For example, you can't have one that specifies a shareIdentifier of UserA* and another that specifies a shareIdentifier of UserA1. There can be no more than 500 share identifiers active in a job queue. The string is limited to 255 alphanumeric characters, and can be followed by an asterisk (*).
         public let shareIdentifier: String?
         /// The weight factor for the share identifier. The default value is 1.0. A lower value has a higher priority for compute resources. For example, jobs that use a share identifier with a weight factor of 0.125 (1/8) get 8 times the compute resources of jobs that use a share identifier with a weight factor of 1. The smallest supported value is 0.0001, and the largest supported value is 999.9999.
         public let weightFactor: Float?
@@ -4100,6 +4674,90 @@ extension Batch {
         /// The unique identifier for the job.
         public let jobId: String?
         /// The name of the job.
+        public let jobName: String?
+
+        @inlinable
+        public init(jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil) {
+            self.jobArn = jobArn
+            self.jobId = jobId
+            self.jobName = jobName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobArn = "jobArn"
+            case jobId = "jobId"
+            case jobName = "jobName"
+        }
+    }
+
+    public struct SubmitServiceJobRequest: AWSEncodableShape {
+        /// A unique identifier for the request. This token is used to ensure idempotency of requests. If this parameter is specified and two submit requests with identical payloads and clientTokens are received, these requests are considered the same request and the second request is rejected.
+        public let clientToken: String?
+        /// The name of the service job. It can be up to 128 characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
+        public let jobName: String?
+        /// The job queue into which the service job is submitted. You can specify either the name or the ARN of the queue. The job queue must have the type SAGEMAKER_TRAINING.
+        public let jobQueue: String?
+        /// The retry strategy to use for failed service jobs that are submitted with this service job request.
+        public let retryStrategy: ServiceJobRetryStrategy?
+        /// The scheduling priority of the service job.  Valid values are integers between 0 and 9999.
+        public let schedulingPriority: Int?
+        /// The type of service job. For SageMaker Training jobs, specify SAGEMAKER_TRAINING.
+        public let serviceJobType: ServiceJobType?
+        /// The request, in JSON, for the service that the SubmitServiceJob operation is queueing.
+        public let serviceRequestPayload: String?
+        /// The share identifier for the service job. Don't specify this parameter if the job queue doesn't have a fair-share scheduling policy. If the job queue has a fair-share scheduling policy, then this parameter must be specified.
+        public let shareIdentifier: String?
+        /// The tags that you apply to the service job request. Each tag consists of a key and an optional value. For more information, see Tagging your Batch resources.
+        public let tags: [String: String]?
+        /// The timeout configuration for the service job. If none is specified, Batch defers to the default timeout of the underlying service handling the job.
+        public let timeoutConfig: ServiceJobTimeout?
+
+        @inlinable
+        public init(clientToken: String? = SubmitServiceJobRequest.idempotencyToken(), jobName: String? = nil, jobQueue: String? = nil, retryStrategy: ServiceJobRetryStrategy? = nil, schedulingPriority: Int? = nil, serviceJobType: ServiceJobType? = nil, serviceRequestPayload: String? = nil, shareIdentifier: String? = nil, tags: [String: String]? = nil, timeoutConfig: ServiceJobTimeout? = nil) {
+            self.clientToken = clientToken
+            self.jobName = jobName
+            self.jobQueue = jobQueue
+            self.retryStrategy = retryStrategy
+            self.schedulingPriority = schedulingPriority
+            self.serviceJobType = serviceJobType
+            self.serviceRequestPayload = serviceRequestPayload
+            self.shareIdentifier = shareIdentifier
+            self.tags = tags
+            self.timeoutConfig = timeoutConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case jobName = "jobName"
+            case jobQueue = "jobQueue"
+            case retryStrategy = "retryStrategy"
+            case schedulingPriority = "schedulingPriority"
+            case serviceJobType = "serviceJobType"
+            case serviceRequestPayload = "serviceRequestPayload"
+            case shareIdentifier = "shareIdentifier"
+            case tags = "tags"
+            case timeoutConfig = "timeoutConfig"
+        }
+    }
+
+    public struct SubmitServiceJobResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the service job.
+        public let jobArn: String?
+        /// The unique identifier for the service job.
+        public let jobId: String?
+        /// The name of the service job.
         public let jobName: String?
 
         @inlinable
@@ -4406,6 +5064,28 @@ extension Batch {
         public init() {}
     }
 
+    public struct TerminateServiceJobRequest: AWSEncodableShape {
+        /// The service job ID of the service job to terminate.
+        public let jobId: String?
+        /// A message to attach to the service job that explains the reason for canceling it. This message is returned by DescribeServiceJob operations on the service job.
+        public let reason: String?
+
+        @inlinable
+        public init(jobId: String? = nil, reason: String? = nil) {
+            self.jobId = jobId
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "jobId"
+            case reason = "reason"
+        }
+    }
+
+    public struct TerminateServiceJobResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct Tmpfs: AWSEncodableShape & AWSDecodableShape {
         /// The absolute file path in the container where the tmpfs volume is mounted.
         public let containerPath: String?
@@ -4547,7 +5227,7 @@ extension Batch {
     }
 
     public struct UpdateConsumableResourceRequest: AWSEncodableShape {
-        /// If this parameter is specified and two update requests with identical payloads and  clientTokens are received, these requests are considered the same request and  the second request is rejected. A clientToken is valid for 8 hours or until one hour after the consumable resource is deleted, whichever is less.
+        /// If this parameter is specified and two update requests with identical payloads and  clientTokens are received, these requests are considered the same request. Both requests will succeed, but the update will only happen once. A clientToken is valid for 8 hours.
         public let clientToken: String?
         /// The name or ARN of the consumable resource to be updated.
         public let consumableResource: String?
@@ -4610,16 +5290,19 @@ extension Batch {
         public let priority: Int?
         /// Amazon Resource Name (ARN) of the fair-share scheduling policy. Once a job queue is created, the fair-share scheduling policy can be replaced but not removed. The format is aws:Partition:batch:Region:Account:scheduling-policy/Name . For example, aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy.
         public let schedulingPolicyArn: String?
+        /// The order of the service environment associated with the job queue. Job queues with a higher priority are evaluated first when associated with the same service environment.
+        public let serviceEnvironmentOrder: [ServiceEnvironmentOrder]?
         /// Describes the queue's ability to accept new jobs. If the job queue state is ENABLED, it can accept jobs. If the job queue state is DISABLED, new jobs can't be added to the queue, but jobs already in the queue can finish.
         public let state: JQState?
 
         @inlinable
-        public init(computeEnvironmentOrder: [ComputeEnvironmentOrder]? = nil, jobQueue: String? = nil, jobStateTimeLimitActions: [JobStateTimeLimitAction]? = nil, priority: Int? = nil, schedulingPolicyArn: String? = nil, state: JQState? = nil) {
+        public init(computeEnvironmentOrder: [ComputeEnvironmentOrder]? = nil, jobQueue: String? = nil, jobStateTimeLimitActions: [JobStateTimeLimitAction]? = nil, priority: Int? = nil, schedulingPolicyArn: String? = nil, serviceEnvironmentOrder: [ServiceEnvironmentOrder]? = nil, state: JQState? = nil) {
             self.computeEnvironmentOrder = computeEnvironmentOrder
             self.jobQueue = jobQueue
             self.jobStateTimeLimitActions = jobStateTimeLimitActions
             self.priority = priority
             self.schedulingPolicyArn = schedulingPolicyArn
+            self.serviceEnvironmentOrder = serviceEnvironmentOrder
             self.state = state
         }
 
@@ -4629,6 +5312,7 @@ extension Batch {
             case jobStateTimeLimitActions = "jobStateTimeLimitActions"
             case priority = "priority"
             case schedulingPolicyArn = "schedulingPolicyArn"
+            case serviceEnvironmentOrder = "serviceEnvironmentOrder"
             case state = "state"
         }
     }
@@ -4694,6 +5378,46 @@ extension Batch {
 
     public struct UpdateSchedulingPolicyResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateServiceEnvironmentRequest: AWSEncodableShape {
+        /// The capacity limits for the service environment. This defines the maximum resources that can be used by service jobs in this environment.
+        public let capacityLimits: [CapacityLimit]?
+        /// The name or ARN of the service environment to update.
+        public let serviceEnvironment: String?
+        /// The state of the service environment.
+        public let state: ServiceEnvironmentState?
+
+        @inlinable
+        public init(capacityLimits: [CapacityLimit]? = nil, serviceEnvironment: String? = nil, state: ServiceEnvironmentState? = nil) {
+            self.capacityLimits = capacityLimits
+            self.serviceEnvironment = serviceEnvironment
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityLimits = "capacityLimits"
+            case serviceEnvironment = "serviceEnvironment"
+            case state = "state"
+        }
+    }
+
+    public struct UpdateServiceEnvironmentResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the service environment that was updated.
+        public let serviceEnvironmentArn: String?
+        /// The name of the service environment that was updated.
+        public let serviceEnvironmentName: String?
+
+        @inlinable
+        public init(serviceEnvironmentArn: String? = nil, serviceEnvironmentName: String? = nil) {
+            self.serviceEnvironmentArn = serviceEnvironmentArn
+            self.serviceEnvironmentName = serviceEnvironmentName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceEnvironmentArn = "serviceEnvironmentArn"
+            case serviceEnvironmentName = "serviceEnvironmentName"
+        }
     }
 
     public struct Volume: AWSEncodableShape & AWSDecodableShape {

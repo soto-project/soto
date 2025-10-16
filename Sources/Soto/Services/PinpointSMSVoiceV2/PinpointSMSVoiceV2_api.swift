@@ -2456,6 +2456,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     /// Parameters:
     ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     ///   - deletionProtectionEnabled: By default this is set to false. When set to true the phone number can't be deleted.
+    ///   - internationalSendingEnabled: By default this is set to false. When set to true the international sending of phone number is Enabled.
     ///   - isoCountryCode: The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
     ///   - messageType: The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
     ///   - numberCapabilities: Indicates if the phone number will be used for text messages, voice messages, or both.
@@ -2469,6 +2470,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     public func requestPhoneNumber(
         clientToken: String? = RequestPhoneNumberRequest.idempotencyToken(),
         deletionProtectionEnabled: Bool? = nil,
+        internationalSendingEnabled: Bool? = nil,
         isoCountryCode: String,
         messageType: MessageType,
         numberCapabilities: [NumberCapability],
@@ -2482,6 +2484,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         let input = RequestPhoneNumberRequest(
             clientToken: clientToken, 
             deletionProtectionEnabled: deletionProtectionEnabled, 
+            internationalSendingEnabled: internationalSendingEnabled, 
             isoCountryCode: isoCountryCode, 
             messageType: messageType, 
             numberCapabilities: numberCapabilities, 
@@ -3140,6 +3143,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     ///
     /// Parameters:
     ///   - deletionProtectionEnabled: By default this is set to false. When set to true the phone number can't be deleted.
+    ///   - internationalSendingEnabled: By default this is set to false. When set to true the international sending of phone number is Enabled.
     ///   - optOutListName: The OptOutList to add the phone number to. Valid values for this field can be either the OutOutListName or OutOutListArn.
     ///   - phoneNumberId: The unique identifier of the phone number. Valid values for this field can be either the PhoneNumberId or PhoneNumberArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
     ///   - selfManagedOptOutsEnabled: By default this is set to false. When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, AWS End User Messaging SMS and Voice automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
@@ -3150,6 +3154,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     @inlinable
     public func updatePhoneNumber(
         deletionProtectionEnabled: Bool? = nil,
+        internationalSendingEnabled: Bool? = nil,
         optOutListName: String? = nil,
         phoneNumberId: String,
         selfManagedOptOutsEnabled: Bool? = nil,
@@ -3160,6 +3165,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     ) async throws -> UpdatePhoneNumberResult {
         let input = UpdatePhoneNumberRequest(
             deletionProtectionEnabled: deletionProtectionEnabled, 
+            internationalSendingEnabled: internationalSendingEnabled, 
             optOutListName: optOutListName, 
             phoneNumberId: phoneNumberId, 
             selfManagedOptOutsEnabled: selfManagedOptOutsEnabled, 

@@ -243,7 +243,7 @@ public struct FSx: AWSService {
         return try await self.copySnapshotAndUpdateVolume(input, logger: logger)
     }
 
-    /// Creates an S3 access point and attaches it to an Amazon FSx volume. For FSx for OpenZFS file systems, the  volume must be hosted on a high-availability file system, either Single-AZ or Multi-AZ. For more information,  see Accessing your data using  access points  in the Amazon FSx for OpenZFS User Guide.  The requester requires the following permissions to perform these actions:    fsx:CreateAndAttachS3AccessPoint     s3:CreateAccessPoint     s3:GetAccessPoint     s3:PutAccessPointPolicy     s3:DeleteAccessPoint    The following actions are related to CreateAndAttachS3AccessPoint:    DescribeS3AccessPointAttachments     DetachAndDeleteS3AccessPoint
+    /// Creates an S3 access point and attaches it to an Amazon FSx volume. For FSx for OpenZFS file systems, the  volume must be hosted on a high-availability file system, either Single-AZ or Multi-AZ. For more information, see Accessing your data using Amazon S3 access points. in the Amazon FSx for OpenZFS User Guide.  The requester requires the following permissions to perform these actions:    fsx:CreateAndAttachS3AccessPoint     s3:CreateAccessPoint     s3:GetAccessPoint     s3:PutAccessPointPolicy     s3:DeleteAccessPoint    The following actions are related to CreateAndAttachS3AccessPoint:    DescribeS3AccessPointAttachments     DetachAndDeleteS3AccessPoint
     @Sendable
     @inlinable
     public func createAndAttachS3AccessPoint(_ input: CreateAndAttachS3AccessPointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAndAttachS3AccessPointResponse {
@@ -256,7 +256,7 @@ public struct FSx: AWSService {
             logger: logger
         )
     }
-    /// Creates an S3 access point and attaches it to an Amazon FSx volume. For FSx for OpenZFS file systems, the  volume must be hosted on a high-availability file system, either Single-AZ or Multi-AZ. For more information,  see Accessing your data using  access points  in the Amazon FSx for OpenZFS User Guide.  The requester requires the following permissions to perform these actions:    fsx:CreateAndAttachS3AccessPoint     s3:CreateAccessPoint     s3:GetAccessPoint     s3:PutAccessPointPolicy     s3:DeleteAccessPoint    The following actions are related to CreateAndAttachS3AccessPoint:    DescribeS3AccessPointAttachments     DetachAndDeleteS3AccessPoint
+    /// Creates an S3 access point and attaches it to an Amazon FSx volume. For FSx for OpenZFS file systems, the  volume must be hosted on a high-availability file system, either Single-AZ or Multi-AZ. For more information, see Accessing your data using Amazon S3 access points. in the Amazon FSx for OpenZFS User Guide.  The requester requires the following permissions to perform these actions:    fsx:CreateAndAttachS3AccessPoint     s3:CreateAccessPoint     s3:GetAccessPoint     s3:PutAccessPointPolicy     s3:DeleteAccessPoint    The following actions are related to CreateAndAttachS3AccessPoint:    DescribeS3AccessPointAttachments     DetachAndDeleteS3AccessPoint
     ///
     /// Parameters:
     ///   - clientRequestToken: 
@@ -502,6 +502,7 @@ public struct FSx: AWSService {
     ///   - fileSystemTypeVersion: For FSx for Lustre file systems, sets the Lustre version for the file system that you're creating. Valid values are 2.10, 2.12, and 2.15:    2.10 is supported by the Scratch and Persistent_1 Lustre  deployment types.    2.12 is supported by all Lustre deployment types, except for PERSISTENT_2 with a metadata configuration mode.    2.15 is supported by all Lustre deployment types and is recommended for all new file systems.   Default value is 2.10, except for the following deployments:   Default value is 2.12 when DeploymentType is set to  PERSISTENT_2 without a metadata configuration mode.   Default value is 2.15 when DeploymentType is set to  PERSISTENT_2 with a metadata configuration mode.
     ///   - kmsKeyId: 
     ///   - lustreConfiguration: 
+    ///   - networkType: The network type of the Amazon FSx file system that you are creating. Valid values are IPV4 (which supports IPv4 only) and DUAL (for dual-stack mode, which supports both IPv4 and IPv6). The default is IPV4. Supported for FSx for OpenZFS, FSx for ONTAP, and FSx for Windows File Server file systems.
     ///   - ontapConfiguration: 
     ///   - openZFSConfiguration: The OpenZFS configuration for the file system that's being created.
     ///   - securityGroupIds: A list of IDs specifying the security groups to apply to all network interfaces created for file system access. This list isn't returned in later requests to describe the file system.  You must specify a security group if you are creating a Multi-AZ  FSx for ONTAP file system in a VPC subnet that has been shared with you.
@@ -518,6 +519,7 @@ public struct FSx: AWSService {
         fileSystemTypeVersion: String? = nil,
         kmsKeyId: String? = nil,
         lustreConfiguration: CreateFileSystemLustreConfiguration? = nil,
+        networkType: NetworkType? = nil,
         ontapConfiguration: CreateFileSystemOntapConfiguration? = nil,
         openZFSConfiguration: CreateFileSystemOpenZFSConfiguration? = nil,
         securityGroupIds: [String]? = nil,
@@ -534,6 +536,7 @@ public struct FSx: AWSService {
             fileSystemTypeVersion: fileSystemTypeVersion, 
             kmsKeyId: kmsKeyId, 
             lustreConfiguration: lustreConfiguration, 
+            networkType: networkType, 
             ontapConfiguration: ontapConfiguration, 
             openZFSConfiguration: openZFSConfiguration, 
             securityGroupIds: securityGroupIds, 
@@ -567,6 +570,7 @@ public struct FSx: AWSService {
     ///   - fileSystemTypeVersion: Sets the version for the Amazon FSx for Lustre file system that you're creating from a backup. Valid values are 2.10, 2.12, and 2.15. You can enter a Lustre version that is newer than the backup's FileSystemTypeVersion setting. If you don't enter a newer Lustre version, it defaults to the backup's setting.
     ///   - kmsKeyId: 
     ///   - lustreConfiguration: 
+    ///   - networkType: Sets the network type for the Amazon FSx for OpenZFS file system that you're creating from a backup.
     ///   - openZFSConfiguration: The OpenZFS configuration for the file system that's being created.
     ///   - securityGroupIds: A list of IDs for the security groups that apply to the specified network interfaces created for file system access. These security groups apply to all network interfaces. This value isn't returned in later DescribeFileSystem requests.
     ///   - storageCapacity: Sets the storage capacity of the OpenZFS file system that you're creating from a backup, in gibibytes (GiB). Valid values are from 64 GiB up to 524,288 GiB (512 TiB). However, the value that you specify must be equal to or greater than the backup's storage capacity value. If you don't use the StorageCapacity parameter, the default is the backup's StorageCapacity value. If used to create a file system other than OpenZFS, you must provide a value that matches the backup's StorageCapacity value. If you provide any other value, Amazon FSx responds with an HTTP status code 400 Bad Request.
@@ -582,6 +586,7 @@ public struct FSx: AWSService {
         fileSystemTypeVersion: String? = nil,
         kmsKeyId: String? = nil,
         lustreConfiguration: CreateFileSystemLustreConfiguration? = nil,
+        networkType: NetworkType? = nil,
         openZFSConfiguration: CreateFileSystemOpenZFSConfiguration? = nil,
         securityGroupIds: [String]? = nil,
         storageCapacity: Int? = nil,
@@ -597,6 +602,7 @@ public struct FSx: AWSService {
             fileSystemTypeVersion: fileSystemTypeVersion, 
             kmsKeyId: kmsKeyId, 
             lustreConfiguration: lustreConfiguration, 
+            networkType: networkType, 
             openZFSConfiguration: openZFSConfiguration, 
             securityGroupIds: securityGroupIds, 
             storageCapacity: storageCapacity, 
@@ -1764,7 +1770,7 @@ public struct FSx: AWSService {
         return try await self.updateFileCache(input, logger: logger)
     }
 
-    /// Use this operation to update the configuration of an existing Amazon FSx file system. You can update multiple properties in a single request. For FSx for Windows File Server file systems, you can update the following properties:    AuditLogConfiguration     AutomaticBackupRetentionDays     DailyAutomaticBackupStartTime     DiskIopsConfiguration     SelfManagedActiveDirectoryConfiguration     StorageCapacity     StorageType     ThroughputCapacity     WeeklyMaintenanceStartTime    For FSx for Lustre file systems, you can update the following properties:    AutoImportPolicy     AutomaticBackupRetentionDays     DailyAutomaticBackupStartTime     DataCompressionType     FileSystemTypeVersion     LogConfiguration     LustreReadCacheConfiguration     LustreRootSquashConfiguration     MetadataConfiguration     PerUnitStorageThroughput     StorageCapacity     ThroughputCapacity     WeeklyMaintenanceStartTime    For FSx for ONTAP file systems, you can update the following properties:    AddRouteTableIds     AutomaticBackupRetentionDays     DailyAutomaticBackupStartTime     DiskIopsConfiguration     FsxAdminPassword     HAPairs     RemoveRouteTableIds     StorageCapacity     ThroughputCapacity     ThroughputCapacityPerHAPair     WeeklyMaintenanceStartTime    For FSx for OpenZFS file systems, you can update the following properties:    AddRouteTableIds     AutomaticBackupRetentionDays     CopyTagsToBackups     CopyTagsToVolumes     DailyAutomaticBackupStartTime     DiskIopsConfiguration     ReadCacheConfiguration     RemoveRouteTableIds     StorageCapacity     ThroughputCapacity     WeeklyMaintenanceStartTime
+    /// Use this operation to update the configuration of an existing Amazon FSx file system. You can update multiple properties in a single request. For FSx for Windows File Server file systems, you can update the following properties:    AuditLogConfiguration     AutomaticBackupRetentionDays     DailyAutomaticBackupStartTime     DiskIopsConfiguration     SelfManagedActiveDirectoryConfiguration     StorageCapacity     StorageType     ThroughputCapacity     WeeklyMaintenanceStartTime    For FSx for Lustre file systems, you can update the following properties:    AutoImportPolicy     AutomaticBackupRetentionDays     DailyAutomaticBackupStartTime     DataCompressionType     FileSystemTypeVersion     LogConfiguration     LustreReadCacheConfiguration     LustreRootSquashConfiguration     MetadataConfiguration     PerUnitStorageThroughput     StorageCapacity     ThroughputCapacity     WeeklyMaintenanceStartTime    For FSx for ONTAP file systems, you can update the following properties:    AddRouteTableIds     AutomaticBackupRetentionDays     DailyAutomaticBackupStartTime     DiskIopsConfiguration     EndpointIpv6AddressRange     FsxAdminPassword     HAPairs     RemoveRouteTableIds     StorageCapacity     ThroughputCapacity     ThroughputCapacityPerHAPair     WeeklyMaintenanceStartTime    For FSx for OpenZFS file systems, you can update the following properties:    AddRouteTableIds     AutomaticBackupRetentionDays     CopyTagsToBackups     CopyTagsToVolumes     DailyAutomaticBackupStartTime     DiskIopsConfiguration     EndpointIpv6AddressRange     ReadCacheConfiguration     RemoveRouteTableIds     StorageCapacity     ThroughputCapacity     WeeklyMaintenanceStartTime
     @Sendable
     @inlinable
     public func updateFileSystem(_ input: UpdateFileSystemRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFileSystemResponse {
@@ -1777,16 +1783,17 @@ public struct FSx: AWSService {
             logger: logger
         )
     }
-    /// Use this operation to update the configuration of an existing Amazon FSx file system. You can update multiple properties in a single request. For FSx for Windows File Server file systems, you can update the following properties:    AuditLogConfiguration     AutomaticBackupRetentionDays     DailyAutomaticBackupStartTime     DiskIopsConfiguration     SelfManagedActiveDirectoryConfiguration     StorageCapacity     StorageType     ThroughputCapacity     WeeklyMaintenanceStartTime    For FSx for Lustre file systems, you can update the following properties:    AutoImportPolicy     AutomaticBackupRetentionDays     DailyAutomaticBackupStartTime     DataCompressionType     FileSystemTypeVersion     LogConfiguration     LustreReadCacheConfiguration     LustreRootSquashConfiguration     MetadataConfiguration     PerUnitStorageThroughput     StorageCapacity     ThroughputCapacity     WeeklyMaintenanceStartTime    For FSx for ONTAP file systems, you can update the following properties:    AddRouteTableIds     AutomaticBackupRetentionDays     DailyAutomaticBackupStartTime     DiskIopsConfiguration     FsxAdminPassword     HAPairs     RemoveRouteTableIds     StorageCapacity     ThroughputCapacity     ThroughputCapacityPerHAPair     WeeklyMaintenanceStartTime    For FSx for OpenZFS file systems, you can update the following properties:    AddRouteTableIds     AutomaticBackupRetentionDays     CopyTagsToBackups     CopyTagsToVolumes     DailyAutomaticBackupStartTime     DiskIopsConfiguration     ReadCacheConfiguration     RemoveRouteTableIds     StorageCapacity     ThroughputCapacity     WeeklyMaintenanceStartTime
+    /// Use this operation to update the configuration of an existing Amazon FSx file system. You can update multiple properties in a single request. For FSx for Windows File Server file systems, you can update the following properties:    AuditLogConfiguration     AutomaticBackupRetentionDays     DailyAutomaticBackupStartTime     DiskIopsConfiguration     SelfManagedActiveDirectoryConfiguration     StorageCapacity     StorageType     ThroughputCapacity     WeeklyMaintenanceStartTime    For FSx for Lustre file systems, you can update the following properties:    AutoImportPolicy     AutomaticBackupRetentionDays     DailyAutomaticBackupStartTime     DataCompressionType     FileSystemTypeVersion     LogConfiguration     LustreReadCacheConfiguration     LustreRootSquashConfiguration     MetadataConfiguration     PerUnitStorageThroughput     StorageCapacity     ThroughputCapacity     WeeklyMaintenanceStartTime    For FSx for ONTAP file systems, you can update the following properties:    AddRouteTableIds     AutomaticBackupRetentionDays     DailyAutomaticBackupStartTime     DiskIopsConfiguration     EndpointIpv6AddressRange     FsxAdminPassword     HAPairs     RemoveRouteTableIds     StorageCapacity     ThroughputCapacity     ThroughputCapacityPerHAPair     WeeklyMaintenanceStartTime    For FSx for OpenZFS file systems, you can update the following properties:    AddRouteTableIds     AutomaticBackupRetentionDays     CopyTagsToBackups     CopyTagsToVolumes     DailyAutomaticBackupStartTime     DiskIopsConfiguration     EndpointIpv6AddressRange     ReadCacheConfiguration     RemoveRouteTableIds     StorageCapacity     ThroughputCapacity     WeeklyMaintenanceStartTime
     ///
     /// Parameters:
     ///   - clientRequestToken: A string of up to 63 ASCII characters that Amazon FSx uses to ensure idempotent updates. This string is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     ///   - fileSystemId: The ID of the file system that you are updating.
     ///   - fileSystemTypeVersion: The Lustre version you are updating an FSx for Lustre file system to. Valid values are 2.12 and 2.15. The value you choose must be newer than the file system's current Lustre version.
     ///   - lustreConfiguration: 
+    ///   - networkType: Changes the network type of an FSx for OpenZFS file system.
     ///   - ontapConfiguration: 
     ///   - openZFSConfiguration: The configuration updates for an FSx for OpenZFS file system.
-    ///   - storageCapacity: Use this parameter to increase the storage capacity of an FSx for Windows File Server, FSx for Lustre, FSx for OpenZFS, or FSx for ONTAP file system. Specifies the storage capacity target value, in GiB, to increase the storage capacity for the file system that you're updating.   You can't make a storage capacity increase request if there is an existing storage capacity increase request in progress.  For Lustre file systems, the storage capacity target value can be the following:   For SCRATCH_2, PERSISTENT_1, and PERSISTENT_2 SSD deployment types, valid values are in multiples of 2400 GiB. The value must be greater than the current storage capacity.   For PERSISTENT HDD file systems, valid values are multiples of 6000 GiB for 12-MBps throughput per TiB file systems and multiples of 1800 GiB for 40-MBps throughput per TiB file systems. The values must be greater than the current storage capacity.   For SCRATCH_1 file systems, you can't increase the storage capacity.   For more information, see Managing storage and throughput capacity in the FSx for Lustre User Guide. For FSx for OpenZFS file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. For more information, see Managing storage capacity in the FSx for OpenZFS User Guide. For Windows file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. To increase storage capacity, the file system must have at least 16 MBps of throughput capacity. For more information, see Managing storage capacity in the Amazon FSxfor Windows File Server User Guide. For ONTAP file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value.  For more information, see Managing storage capacity and provisioned IOPS in the Amazon FSx for NetApp ONTAP User Guide.
+    ///   - storageCapacity: Use this parameter to increase the storage capacity of an FSx for Windows File Server, FSx for Lustre, FSx for OpenZFS, or FSx for ONTAP file system. For second-generation FSx for ONTAP file systems, you can also decrease the storage capacity. Specifies the storage capacity target value, in GiB, for the file system that you're updating.   You can't make a storage capacity increase request if there is an existing storage capacity increase request in progress.  For Lustre file systems, the storage capacity target value can be the following:   For SCRATCH_2, PERSISTENT_1, and PERSISTENT_2 SSD deployment types, valid values are in multiples of 2400 GiB. The value must be greater than the current storage capacity.   For PERSISTENT HDD file systems, valid values are multiples of 6000 GiB for 12-MBps throughput per TiB file systems and multiples of 1800 GiB for 40-MBps throughput per TiB file systems. The values must be greater than the current storage capacity.   For SCRATCH_1 file systems, you can't increase the storage capacity.   For more information, see Managing storage and throughput capacity in the FSx for Lustre User Guide. For FSx for OpenZFS file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. For more information, see Managing storage capacity in the FSx for OpenZFS User Guide. For Windows file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. To increase storage capacity, the file system must have at least 16 MBps of throughput capacity. For more information, see Managing storage capacity in the Amazon FSxfor Windows File Server User Guide. For ONTAP file systems, when increasing storage capacity, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. When decreasing storage capacity on second-generation file systems, the target value must be at least 9 percent smaller than the current SSD storage capacity. For more information, see File system storage capacity and IOPS in the Amazon FSx for NetApp ONTAP User Guide.
     ///   - storageType: 
     ///   - windowsConfiguration: The configuration updates for an Amazon FSx for Windows File Server file system.
     ///   - logger: Logger use during operation
@@ -1796,6 +1803,7 @@ public struct FSx: AWSService {
         fileSystemId: String? = nil,
         fileSystemTypeVersion: String? = nil,
         lustreConfiguration: UpdateFileSystemLustreConfiguration? = nil,
+        networkType: NetworkType? = nil,
         ontapConfiguration: UpdateFileSystemOntapConfiguration? = nil,
         openZFSConfiguration: UpdateFileSystemOpenZFSConfiguration? = nil,
         storageCapacity: Int? = nil,
@@ -1808,6 +1816,7 @@ public struct FSx: AWSService {
             fileSystemId: fileSystemId, 
             fileSystemTypeVersion: fileSystemTypeVersion, 
             lustreConfiguration: lustreConfiguration, 
+            networkType: networkType, 
             ontapConfiguration: ontapConfiguration, 
             openZFSConfiguration: openZFSConfiguration, 
             storageCapacity: storageCapacity, 

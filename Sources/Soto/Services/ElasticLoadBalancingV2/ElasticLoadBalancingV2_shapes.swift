@@ -204,6 +204,12 @@ extension ElasticLoadBalancingV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum TransformTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case hostHeaderRewrite = "host-header-rewrite"
+        case urlRewrite = "url-rewrite"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TrustStoreAssociationStatusEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "active"
         case removed = "removed"
@@ -606,7 +612,7 @@ extension ElasticLoadBalancingV2 {
         public var defaultActions: [Action]?
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String?
-        /// The mutual authentication configuration information.
+        /// [HTTPS listeners] The mutual authentication configuration information.
         public let mutualAuthentication: MutualAuthenticationAttributes?
         /// The port on which the load balancer is listening. You can't specify a port for a Gateway Load Balancer.
         public let port: Int?
@@ -768,14 +774,18 @@ extension ElasticLoadBalancingV2 {
         /// The tags to assign to the rule.
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
+        /// The transforms to apply to requests that match this rule. You can add one host header rewrite transform  and one URL rewrite transform.
+        @OptionalCustomCoding<StandardArrayCoder<RuleTransform>>
+        public var transforms: [RuleTransform]?
 
         @inlinable
-        public init(actions: [Action]? = nil, conditions: [RuleCondition]? = nil, listenerArn: String? = nil, priority: Int? = nil, tags: [Tag]? = nil) {
+        public init(actions: [Action]? = nil, conditions: [RuleCondition]? = nil, listenerArn: String? = nil, priority: Int? = nil, tags: [Tag]? = nil, transforms: [RuleTransform]? = nil) {
             self.actions = actions
             self.conditions = conditions
             self.listenerArn = listenerArn
             self.priority = priority
             self.tags = tags
+            self.transforms = transforms
         }
 
         public func validate(name: String) throws {
@@ -799,6 +809,7 @@ extension ElasticLoadBalancingV2 {
             case listenerArn = "ListenerArn"
             case priority = "Priority"
             case tags = "Tags"
+            case transforms = "Transforms"
         }
     }
 
@@ -1995,41 +2006,66 @@ extension ElasticLoadBalancingV2 {
     }
 
     public struct HostHeaderConditionConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The host names. The maximum size of each name is 128 characters. The comparison is case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). You must include at least one "."  character. You can include only alphabetical characters after the final "." character. If you specify multiple strings, the condition is satisfied if one of the strings matches the host name.
+        /// The regular expressions to compare against the host header. The maximum length of each string is 128 characters.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var regexValues: [String]?
+        /// The host names. The maximum length of each string is 128 characters. The comparison is case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). You must include at least one "."  character. You can include only alphabetical characters after the final "." character. If you specify multiple strings, the condition is satisfied if one of the strings matches the host name.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var values: [String]?
 
         @inlinable
-        public init(values: [String]? = nil) {
+        public init(regexValues: [String]? = nil, values: [String]? = nil) {
+            self.regexValues = regexValues
             self.values = values
         }
 
         private enum CodingKeys: String, CodingKey {
+            case regexValues = "RegexValues"
             case values = "Values"
         }
     }
 
+    public struct HostHeaderRewriteConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The host header rewrite transform. Each transform consists of a regular expression to match and a replacement string.
+        @OptionalCustomCoding<StandardArrayCoder<RewriteConfig>>
+        public var rewrites: [RewriteConfig]?
+
+        @inlinable
+        public init(rewrites: [RewriteConfig]? = nil) {
+            self.rewrites = rewrites
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rewrites = "Rewrites"
+        }
+    }
+
     public struct HttpHeaderConditionConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the HTTP header field. The maximum size is 40 characters. The header name is case insensitive. The allowed characters are specified by RFC 7230. Wildcards are not supported. You can't use an HTTP header condition to specify the host header. Instead, use a host condition.
+        /// The name of the HTTP header field. The maximum length is 40 characters. The header name is case insensitive. The allowed characters are specified by RFC 7230. Wildcards are not supported. You can't use an HTTP header condition to specify the host header. Instead, use a host condition.
         public let httpHeaderName: String?
-        /// The strings to compare against the value of the HTTP header. The maximum size of each string is 128 characters. The comparison strings are case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request, we search them in order until a match is found. If you specify multiple strings, the condition is satisfied if one of the strings matches the value of the HTTP header. To require that all of the strings are a match, create one condition per string.
+        /// The regular expression to compare against the HTTP header. The maximum length of each string is 128 characters.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var regexValues: [String]?
+        /// The strings to compare against the value of the HTTP header. The maximum length of each string is 128 characters. The comparison strings are case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request, we search them in order until a match is found. If you specify multiple strings, the condition is satisfied if one of the strings matches the value of the HTTP header. To require that all of the strings are a match, create one condition per string.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var values: [String]?
 
         @inlinable
-        public init(httpHeaderName: String? = nil, values: [String]? = nil) {
+        public init(httpHeaderName: String? = nil, regexValues: [String]? = nil, values: [String]? = nil) {
             self.httpHeaderName = httpHeaderName
+            self.regexValues = regexValues
             self.values = values
         }
 
         private enum CodingKeys: String, CodingKey {
             case httpHeaderName = "HttpHeaderName"
+            case regexValues = "RegexValues"
             case values = "Values"
         }
     }
 
     public struct HttpRequestMethodConditionConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the request method. The maximum size is 40 characters. The allowed characters are A-Z, hyphen (-), and underscore (_). The comparison is case sensitive. Wildcards are not supported; therefore, the method name must be an exact match. If you specify multiple strings, the condition is satisfied if one of the strings matches the HTTP request method. We recommend that you route GET and HEAD requests in the same way, because the response to a HEAD request may be cached.
+        /// The name of the request method. The maximum length is 40 characters. The allowed characters are A-Z, hyphen (-), and underscore (_). The comparison is case sensitive. Wildcards are not supported; therefore, the method name must be an exact match. If you specify multiple strings, the condition is satisfied if one of the strings matches the HTTP request method. We recommend that you route GET and HEAD requests in the same way, because the response to a HEAD request may be cached.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var values: [String]?
 
@@ -2065,7 +2101,7 @@ extension ElasticLoadBalancingV2 {
     public struct Limit: AWSDecodableShape {
         /// The maximum value of the limit.
         public let max: String?
-        /// The name of the limit. The possible values are:   application-load-balancers   condition-values-per-alb-rule   condition-wildcards-per-alb-rule   gateway-load-balancers   gateway-load-balancers-per-vpc   geneve-target-groups   listeners-per-application-load-balancer   listeners-per-network-load-balancer   network-load-balancers   rules-per-application-load-balancer   target-groups   target-groups-per-action-on-application-load-balancer   target-groups-per-action-on-network-load-balancer   target-groups-per-application-load-balancer   targets-per-application-load-balancer   targets-per-availability-zone-per-gateway-load-balancer   targets-per-availability-zone-per-network-load-balancer   targets-per-network-load-balancer
+        /// The name of the limit.
         public let name: String?
 
         @inlinable
@@ -2255,7 +2291,7 @@ extension ElasticLoadBalancingV2 {
     }
 
     public struct LoadBalancerAttribute: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the attribute. The following attributes are supported by all load balancers:    deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false. The default is false.    load_balancing.cross_zone.enabled - Indicates whether cross-zone load balancing is enabled. The possible values are true and false. The default for Network Load Balancers and Gateway Load Balancers is false.  The default for Application Load Balancers is true, and can't be changed.   The following attributes are supported by both Application Load Balancers and Network Load Balancers:    access_logs.s3.enabled - Indicates whether access logs are enabled. The value is true or false. The default is false.    access_logs.s3.bucket - The name of the S3 bucket for the access logs. This attribute is required if access logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.    access_logs.s3.prefix - The prefix for the location in the S3 bucket for the access logs.    ipv6.deny_all_igw_traffic - Blocks internet gateway (IGW) access to the load balancer. It is set to false for internet-facing load balancers and true for internal load balancers, preventing unintended access to your internal load balancer through an internet gateway.    zonal_shift.config.enabled - Indicates whether zonal shift is  enabled. The possible values are true and false. The  default is false.   The following attributes are supported by only Application Load Balancers:    idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-4000 seconds. The default is 60 seconds.    client_keep_alive.seconds - The client keep alive value, in seconds. The  valid range is 60-604800 seconds. The default is 3600 seconds.    connection_logs.s3.enabled - Indicates whether connection logs are enabled. The value is true or false. The default is false.    connection_logs.s3.bucket - The name of the S3 bucket for the connection logs. This attribute is required if connection logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.    connection_logs.s3.prefix - The prefix for the location in the S3 bucket for the connection logs.    routing.http.desync_mitigation_mode - Determines how the load balancer handles requests that might pose a security risk to your application. The possible values are monitor, defensive, and strictest. The default is defensive.    routing.http.drop_invalid_header_fields.enabled - Indicates whether HTTP headers with invalid header fields are removed by the load balancer (true) or routed to targets (false). The default is false.    routing.http.preserve_host_header.enabled - Indicates whether the Application Load Balancer should preserve the Host header in the HTTP request and send it to the target without any change. The possible values are true and false. The default is false.    routing.http.x_amzn_tls_version_and_cipher_suite.enabled - Indicates whether the two headers (x-amzn-tls-version and x-amzn-tls-cipher-suite), which contain information about the negotiated TLS version and cipher suite, are added to the client request before sending it to the target. The x-amzn-tls-version header has information about the TLS protocol version negotiated with the client, and the x-amzn-tls-cipher-suite header has information about the cipher suite negotiated with the client. Both headers are in OpenSSL format. The possible values for the attribute are true and false. The default is false.    routing.http.xff_client_port.enabled - Indicates whether the X-Forwarded-For header should preserve the source port that the client used to connect to the load balancer. The possible values are true and false. The default is false.    routing.http.xff_header_processing.mode - Enables you to modify, preserve, or remove the X-Forwarded-For header in the HTTP request before the Application Load Balancer sends the request to the target. The possible values are append, preserve, and remove. The default is append.   If the value is append, the Application Load Balancer adds the client IP address (of the last hop) to the X-Forwarded-For header in the HTTP request before it sends it to targets.   If the value is preserve the Application Load Balancer preserves the X-Forwarded-For header in the HTTP request, and sends it to targets without any change.   If the value is remove, the Application Load Balancer removes the X-Forwarded-For header in the HTTP request before it sends it to targets.      routing.http2.enabled - Indicates whether HTTP/2 is enabled. The possible values are true and false. The default is true. Elastic Load Balancing requires that message header names contain only alphanumeric characters and hyphens.    waf.fail_open.enabled - Indicates whether to allow a WAF-enabled load balancer to route requests to targets if it is unable to forward the request to Amazon Web Services WAF. The possible values are true and false. The default is false.   The following attributes are supported by only Network Load Balancers:    dns_record.client_routing_policy - Indicates how traffic is  distributed among the load balancer Availability Zones. The possible values are  availability_zone_affinity with 100 percent zonal affinity,  partial_availability_zone_affinity with 85 percent zonal affinity,  and any_availability_zone with 0 percent zonal affinity.
+        /// The name of the attribute. The following attributes are supported by all load balancers:    deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false. The default is false.    load_balancing.cross_zone.enabled - Indicates whether cross-zone load balancing is enabled. The possible values are true and false. The default for Network Load Balancers and Gateway Load Balancers is false.  The default for Application Load Balancers is true, and can't be changed.   The following attributes are supported by both Application Load Balancers and Network Load Balancers:    access_logs.s3.enabled - Indicates whether access logs are enabled. The value is true or false. The default is false.    access_logs.s3.bucket - The name of the S3 bucket for the access logs. This attribute is required if access logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.    access_logs.s3.prefix - The prefix for the location in the S3 bucket for the access logs.    ipv6.deny_all_igw_traffic - Blocks internet gateway (IGW) access to the load balancer. It is set to false for internet-facing load balancers and true for internal load balancers, preventing unintended access to your internal load balancer through an internet gateway.    zonal_shift.config.enabled - Indicates whether zonal shift is  enabled. The possible values are true and false. The  default is false.   The following attributes are supported by only Application Load Balancers:    idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-4000 seconds. The default is 60 seconds.    client_keep_alive.seconds - The client keep alive value, in seconds. The  valid range is 60-604800 seconds. The default is 3600 seconds.    connection_logs.s3.enabled - Indicates whether connection logs are enabled. The value is true or false. The default is false.    connection_logs.s3.bucket - The name of the S3 bucket for the connection logs. This attribute is required if connection logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.    connection_logs.s3.prefix - The prefix for the location in the S3 bucket for the connection logs.    routing.http.desync_mitigation_mode - Determines how the load balancer handles requests that might pose a security risk to your application. The possible values are monitor, defensive, and strictest. The default is defensive.    routing.http.drop_invalid_header_fields.enabled - Indicates whether HTTP headers with invalid header fields are removed by the load balancer (true) or routed to targets (false). The default is false.    routing.http.preserve_host_header.enabled - Indicates whether the Application Load Balancer should preserve the Host header in the HTTP request and send it to the target without any change. The possible values are true and false. The default is false.    routing.http.x_amzn_tls_version_and_cipher_suite.enabled - Indicates whether the two headers (x-amzn-tls-version and x-amzn-tls-cipher-suite), which contain information about the negotiated TLS version and cipher suite, are added to the client request before sending it to the target. The x-amzn-tls-version header has information about the TLS protocol version negotiated with the client, and the x-amzn-tls-cipher-suite header has information about the cipher suite negotiated with the client. Both headers are in OpenSSL format. The possible values for the attribute are true and false. The default is false.    routing.http.xff_client_port.enabled - Indicates whether the X-Forwarded-For header should preserve the source port that the client used to connect to the load balancer. The possible values are true and false. The default is false.    routing.http.xff_header_processing.mode - Enables you to modify, preserve, or remove the X-Forwarded-For header in the HTTP request before the Application Load Balancer sends the request to the target. The possible values are append, preserve, and remove. The default is append.   If the value is append, the Application Load Balancer adds the client IP address (of the last hop) to the X-Forwarded-For header in the HTTP request before it sends it to targets.   If the value is preserve the Application Load Balancer preserves the X-Forwarded-For header in the HTTP request, and sends it to targets without any change.   If the value is remove, the Application Load Balancer removes the X-Forwarded-For header in the HTTP request before it sends it to targets.      routing.http2.enabled - Indicates whether clients can connect to the load balancer using HTTP/2. If true, clients can connect using HTTP/2 or HTTP/1.1. However, all client requests are subject to the stricter HTTP/2 header validation rules. For example, message header names must contain only alphanumeric characters and hyphens. If false, clients must connect using HTTP/1.1. The default is true.    waf.fail_open.enabled - Indicates whether to allow a WAF-enabled load balancer to route requests to targets if it is unable to forward the request to Amazon Web Services WAF. The possible values are true and false. The default is false.   The following attributes are supported by only Network Load Balancers:    dns_record.client_routing_policy - Indicates how traffic is  distributed among the load balancer Availability Zones. The possible values are  availability_zone_affinity with 100 percent zonal affinity,  partial_availability_zone_affinity with 85 percent zonal affinity,  and any_availability_zone with 0 percent zonal affinity.    secondary_ips.auto_assigned.per_subnet - The number of secondary IP addresses to configure for your load balancer nodes. Use to address port  allocation errors if you can't add targets. The valid range is 0 to 7. The  default is 0. After you set this value, you can't decrease it.
         public let key: String?
         /// The value of the attribute.
         public let value: String?
@@ -2470,7 +2506,7 @@ extension ElasticLoadBalancingV2 {
         public var defaultActions: [Action]?
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String?
-        /// The mutual authentication configuration information.
+        /// [HTTPS listeners] The mutual authentication configuration information.
         public let mutualAuthentication: MutualAuthenticationAttributes?
         /// The port for connections from clients to the load balancer. You can't specify a port for a Gateway Load Balancer.
         public let port: Int?
@@ -2574,14 +2610,21 @@ extension ElasticLoadBalancingV2 {
         /// The conditions.
         @OptionalCustomCoding<StandardArrayCoder<RuleCondition>>
         public var conditions: [RuleCondition]?
+        /// Indicates whether to remove all transforms from the rule. If you specify ResetTransforms,  you can't specify Transforms.
+        public let resetTransforms: Bool?
         /// The Amazon Resource Name (ARN) of the rule.
         public let ruleArn: String?
+        /// The transforms to apply to requests that match this rule. You can add one host header rewrite transform  and one URL rewrite transform. If you specify Transforms, you can't specify ResetTransforms.
+        @OptionalCustomCoding<StandardArrayCoder<RuleTransform>>
+        public var transforms: [RuleTransform]?
 
         @inlinable
-        public init(actions: [Action]? = nil, conditions: [RuleCondition]? = nil, ruleArn: String? = nil) {
+        public init(actions: [Action]? = nil, conditions: [RuleCondition]? = nil, resetTransforms: Bool? = nil, ruleArn: String? = nil, transforms: [RuleTransform]? = nil) {
             self.actions = actions
             self.conditions = conditions
+            self.resetTransforms = resetTransforms
             self.ruleArn = ruleArn
+            self.transforms = transforms
         }
 
         public func validate(name: String) throws {
@@ -2596,7 +2639,9 @@ extension ElasticLoadBalancingV2 {
         private enum CodingKeys: String, CodingKey {
             case actions = "Actions"
             case conditions = "Conditions"
+            case resetTransforms = "ResetTransforms"
             case ruleArn = "RuleArn"
+            case transforms = "Transforms"
         }
     }
 
@@ -2656,7 +2701,7 @@ extension ElasticLoadBalancingV2 {
     }
 
     public struct ModifyTargetGroupInput: AWSEncodableShape {
-        /// Indicates whether health checks are enabled.
+        /// Indicates whether health checks are enabled. If the target type is lambda, health checks are disabled by default but can be enabled. If the target type is instance, ip, or alb, health checks are always enabled and can't be disabled.
         public let healthCheckEnabled: Bool?
         /// The approximate amount of time, in seconds, between health checks of an individual target.
         public let healthCheckIntervalSeconds: Int?
@@ -2805,22 +2850,27 @@ extension ElasticLoadBalancingV2 {
     }
 
     public struct PathPatternConditionConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The path patterns to compare against the request URL. The maximum size of each string is 128 characters. The comparison is case sensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If you specify multiple strings, the condition is satisfied if one of them matches the request URL. The path pattern is compared only to the path of the URL, not to its query string. To compare against the query string, use a query string condition.
+        /// The regular expressions to compare against the request URL. The maximum length of each string is 128 characters.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var regexValues: [String]?
+        /// The path patterns to compare against the request URL. The maximum length of each string is 128 characters. The comparison is case sensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If you specify multiple strings, the condition is satisfied if one of them matches the request URL. The path pattern is compared only to the path of the URL, not to its query string. To compare against the query string, use a query string condition.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var values: [String]?
 
         @inlinable
-        public init(values: [String]? = nil) {
+        public init(regexValues: [String]? = nil, values: [String]? = nil) {
+            self.regexValues = regexValues
             self.values = values
         }
 
         private enum CodingKeys: String, CodingKey {
+            case regexValues = "RegexValues"
             case values = "Values"
         }
     }
 
     public struct QueryStringConditionConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The key/value pairs or values to find in the query string. The maximum size of each string is 128 characters. The comparison is case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). To search for a literal '*' or '?' character in a query string, you must escape these characters in Values using a '\' character. If you specify multiple key/value pairs or values, the condition is satisfied if one of them is found in the query string.
+        /// The key/value pairs or values to find in the query string. The maximum length of each string is 128 characters. The comparison is case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). To search for a literal '*' or '?' character in a query string, you must escape these characters in Values using a '\' character. If you specify multiple key/value pairs or values, the condition is satisfied if one of them is found in the query string.
         @OptionalCustomCoding<StandardArrayCoder<QueryStringKeyValuePair>>
         public var values: [QueryStringKeyValuePair]?
 
@@ -3028,6 +3078,24 @@ extension ElasticLoadBalancingV2 {
         }
     }
 
+    public struct RewriteConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The regular expression to match in the input string. The maximum length of the string is 1,024 characters.
+        public let regex: String?
+        /// The replacement string to use when rewriting the matched input. The maximum length of the string is 1,024 characters.  You can specify capture groups in the regular expression (for example, $1 and $2).
+        public let replace: String?
+
+        @inlinable
+        public init(regex: String? = nil, replace: String? = nil) {
+            self.regex = regex
+            self.replace = replace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case regex = "Regex"
+            case replace = "Replace"
+        }
+    }
+
     public struct Rule: AWSDecodableShape {
         /// The actions. Each rule must include exactly one of the following types of actions: forward, redirect, or fixed-response, and it must be the last action to be performed.
         @OptionalCustomCoding<StandardArrayCoder<Action>>
@@ -3041,14 +3109,18 @@ extension ElasticLoadBalancingV2 {
         public let priority: String?
         /// The Amazon Resource Name (ARN) of the rule.
         public let ruleArn: String?
+        /// The transforms for the rule.
+        @OptionalCustomCoding<StandardArrayCoder<RuleTransform>>
+        public var transforms: [RuleTransform]?
 
         @inlinable
-        public init(actions: [Action]? = nil, conditions: [RuleCondition]? = nil, isDefault: Bool? = nil, priority: String? = nil, ruleArn: String? = nil) {
+        public init(actions: [Action]? = nil, conditions: [RuleCondition]? = nil, isDefault: Bool? = nil, priority: String? = nil, ruleArn: String? = nil, transforms: [RuleTransform]? = nil) {
             self.actions = actions
             self.conditions = conditions
             self.isDefault = isDefault
             self.priority = priority
             self.ruleArn = ruleArn
+            self.transforms = transforms
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3057,6 +3129,7 @@ extension ElasticLoadBalancingV2 {
             case isDefault = "IsDefault"
             case priority = "Priority"
             case ruleArn = "RuleArn"
+            case transforms = "Transforms"
         }
     }
 
@@ -3073,6 +3146,9 @@ extension ElasticLoadBalancingV2 {
         public let pathPatternConfig: PathPatternConditionConfig?
         /// Information for a query string condition. Specify only when Field is query-string.
         public let queryStringConfig: QueryStringConditionConfig?
+        /// The regular expressions to match against the condition field. The maximum length of each string is 128 characters. Specify only when Field is http-header, host-header, or path-pattern.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var regexValues: [String]?
         /// Information for a source IP condition. Specify only when Field is source-ip.
         public let sourceIpConfig: SourceIpConditionConfig?
         /// The condition value. Specify only when Field is host-header or path-pattern. Alternatively, to specify multiple host names or multiple path patterns, use HostHeaderConfig or PathPatternConfig. If Field is host-header and you are not using HostHeaderConfig, you can specify a single host name (for example, my.example.com) in Values. A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters.   A-Z, a-z, 0-9   - .   * (matches 0 or more characters)   ? (matches exactly 1 character)   If Field is path-pattern and you are not using PathPatternConfig, you can specify a single path pattern (for example, /img/*) in Values. A path pattern is case-sensitive, can be up to 128 characters in length, and can contain any of the following characters.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   & (using &amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)
@@ -3080,13 +3156,14 @@ extension ElasticLoadBalancingV2 {
         public var values: [String]?
 
         @inlinable
-        public init(field: String? = nil, hostHeaderConfig: HostHeaderConditionConfig? = nil, httpHeaderConfig: HttpHeaderConditionConfig? = nil, httpRequestMethodConfig: HttpRequestMethodConditionConfig? = nil, pathPatternConfig: PathPatternConditionConfig? = nil, queryStringConfig: QueryStringConditionConfig? = nil, sourceIpConfig: SourceIpConditionConfig? = nil, values: [String]? = nil) {
+        public init(field: String? = nil, hostHeaderConfig: HostHeaderConditionConfig? = nil, httpHeaderConfig: HttpHeaderConditionConfig? = nil, httpRequestMethodConfig: HttpRequestMethodConditionConfig? = nil, pathPatternConfig: PathPatternConditionConfig? = nil, queryStringConfig: QueryStringConditionConfig? = nil, regexValues: [String]? = nil, sourceIpConfig: SourceIpConditionConfig? = nil, values: [String]? = nil) {
             self.field = field
             self.hostHeaderConfig = hostHeaderConfig
             self.httpHeaderConfig = httpHeaderConfig
             self.httpRequestMethodConfig = httpRequestMethodConfig
             self.pathPatternConfig = pathPatternConfig
             self.queryStringConfig = queryStringConfig
+            self.regexValues = regexValues
             self.sourceIpConfig = sourceIpConfig
             self.values = values
         }
@@ -3102,6 +3179,7 @@ extension ElasticLoadBalancingV2 {
             case httpRequestMethodConfig = "HttpRequestMethodConfig"
             case pathPatternConfig = "PathPatternConfig"
             case queryStringConfig = "QueryStringConfig"
+            case regexValues = "RegexValues"
             case sourceIpConfig = "SourceIpConfig"
             case values = "Values"
         }
@@ -3127,6 +3205,28 @@ extension ElasticLoadBalancingV2 {
         private enum CodingKeys: String, CodingKey {
             case priority = "Priority"
             case ruleArn = "RuleArn"
+        }
+    }
+
+    public struct RuleTransform: AWSEncodableShape & AWSDecodableShape {
+        /// Information about a host header rewrite transform. This transform modifies the host header in an HTTP request. Specify only when Type is host-header-rewrite.
+        public let hostHeaderRewriteConfig: HostHeaderRewriteConfig?
+        /// The type of transform.     host-header-rewrite - Rewrite the host header.    url-rewrite - Rewrite the request URL.
+        public let type: TransformTypeEnum?
+        /// Information about a URL rewrite transform. This transform modifies the request URL. Specify only when Type is url-rewrite.
+        public let urlRewriteConfig: UrlRewriteConfig?
+
+        @inlinable
+        public init(hostHeaderRewriteConfig: HostHeaderRewriteConfig? = nil, type: TransformTypeEnum? = nil, urlRewriteConfig: UrlRewriteConfig? = nil) {
+            self.hostHeaderRewriteConfig = hostHeaderRewriteConfig
+            self.type = type
+            self.urlRewriteConfig = urlRewriteConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostHeaderRewriteConfig = "HostHeaderRewriteConfig"
+            case type = "Type"
+            case urlRewriteConfig = "UrlRewriteConfig"
         }
     }
 
@@ -3250,7 +3350,7 @@ extension ElasticLoadBalancingV2 {
         /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You can't specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet. For internet-facing load balancer, you can specify one IPv6 address per subnet. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones.
         @OptionalCustomCoding<StandardArrayCoder<SubnetMapping>>
         public var subnetMappings: [SubnetMapping]?
-        /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers and Gateway Load Balancers] You can specify subnets from one or more  Availability Zones.
+        /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones. You must include all subnets that were enabled previously, with their existing configurations,  plus any additional subnets.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var subnets: [String]?
 
@@ -3702,6 +3802,21 @@ extension ElasticLoadBalancingV2 {
             case revocationId = "RevocationId"
             case revocationType = "RevocationType"
             case trustStoreArn = "TrustStoreArn"
+        }
+    }
+
+    public struct UrlRewriteConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The URL rewrite transform to apply to the request. The transform consists of a regular expression to match and a replacement string.
+        @OptionalCustomCoding<StandardArrayCoder<RewriteConfig>>
+        public var rewrites: [RewriteConfig]?
+
+        @inlinable
+        public init(rewrites: [RewriteConfig]? = nil) {
+            self.rewrites = rewrites
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rewrites = "Rewrites"
         }
     }
 

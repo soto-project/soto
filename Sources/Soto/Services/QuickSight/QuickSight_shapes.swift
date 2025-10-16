@@ -25,6 +25,53 @@ import Foundation
 extension QuickSight {
     // MARK: Enums
 
+    public enum ActionConnectorErrorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case internalFailure = "INTERNAL_FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ActionConnectorSearchFilterNameEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case actionConnectorName = "ACTION_CONNECTOR_NAME"
+        case actionConnectorType = "ACTION_CONNECTOR_TYPE"
+        case directQuicksightOwner = "DIRECT_QUICKSIGHT_OWNER"
+        case directQuicksightSoleOwner = "DIRECT_QUICKSIGHT_SOLE_OWNER"
+        case directQuicksightViewerOrOwner = "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"
+        case quicksightOwner = "QUICKSIGHT_OWNER"
+        case quicksightViewerOrOwner = "QUICKSIGHT_VIEWER_OR_OWNER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ActionConnectorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case amazonBedrockAgentRuntime = "AMAZON_BEDROCK_AGENT_RUNTIME"
+        case amazonBedrockDataAutomationRuntime = "AMAZON_BEDROCK_DATA_AUTOMATION_RUNTIME"
+        case amazonBedrockRuntime = "AMAZON_BEDROCK_RUNTIME"
+        case amazonComprehend = "AMAZON_COMPREHEND"
+        case amazonComprehendMedical = "AMAZON_COMPREHEND_MEDICAL"
+        case amazonS3 = "AMAZON_S3"
+        case amazonTextract = "AMAZON_TEXTRACT"
+        case asana = "ASANA"
+        case atlassianConfluence = "ATLASSIAN_CONFLUENCE"
+        case bambooHr = "BAMBOO_HR"
+        case genericHttp = "GENERIC_HTTP"
+        case jiraCloud = "JIRA_CLOUD"
+        case microsoftOnedrive = "MICROSOFT_ONEDRIVE"
+        case microsoftOutlook = "MICROSOFT_OUTLOOK"
+        case microsoftSharepoint = "MICROSOFT_SHAREPOINT"
+        case microsoftTeams = "MICROSOFT_TEAMS"
+        case pagerdutyAdvance = "PAGERDUTY_ADVANCE"
+        case salesforceCrm = "SALESFORCE_CRM"
+        case sapBillofmaterials = "SAP_BILLOFMATERIALS"
+        case sapBusinesspartner = "SAP_BUSINESSPARTNER"
+        case sapMaterialstock = "SAP_MATERIALSTOCK"
+        case sapPhysicalinventory = "SAP_PHYSICALINVENTORY"
+        case sapProductmasterdata = "SAP_PRODUCTMASTERDATA"
+        case servicenowNowPlatform = "SERVICENOW_NOW_PLATFORM"
+        case slack = "SLACK"
+        case smartsheet = "SMARTSHEET"
+        case zendeskSuite = "ZENDESK_SUITE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AggType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `var` = "VAR"
         case average = "AVERAGE"
@@ -239,6 +286,11 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum AuthorizationCodeGrantCredentialsSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case plainCredentials = "PLAIN_CREDENTIALS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AxisBinding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case primaryYaxis = "PRIMARY_YAXIS"
         case secondaryYaxis = "SECONDARY_YAXIS"
@@ -324,6 +376,11 @@ extension QuickSight {
         case customFilter = "CUSTOM_FILTER"
         case customFilterList = "CUSTOM_FILTER_LIST"
         case filterList = "FILTER_LIST"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClientCredentialsSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case plainCredentials = "PLAIN_CREDENTIALS"
         public var description: String { return self.rawValue }
     }
 
@@ -416,6 +473,16 @@ extension QuickSight {
         case threeColorArrow = "THREE_COLOR_ARROW"
         case threeGrayArrow = "THREE_GRAY_ARROW"
         case threeShape = "THREE_SHAPE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionAuthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case apiKey = "API_KEY"
+        case basic = "BASIC"
+        case iam = "IAM"
+        case none = "NONE"
+        case oauth2AuthorizationCode = "OAUTH2_AUTHORIZATION_CODE"
+        case oauth2ClientCredentials = "OAUTH2_CLIENT_CREDENTIALS"
         public var description: String { return self.rawValue }
     }
 
@@ -577,19 +644,26 @@ extension QuickSight {
         case auroraPostgresql = "AURORA_POSTGRESQL"
         case awsIotAnalytics = "AWS_IOT_ANALYTICS"
         case bigquery = "BIGQUERY"
+        case confluence = "CONFLUENCE"
         case databricks = "DATABRICKS"
         case exasol = "EXASOL"
         case github = "GITHUB"
+        case googleDrive = "GOOGLE_DRIVE"
+        case googlesheets = "GOOGLESHEETS"
         case jira = "JIRA"
         case mariadb = "MARIADB"
         case mysql = "MYSQL"
+        case oneDrive = "ONE_DRIVE"
         case oracle = "ORACLE"
         case postgresql = "POSTGRESQL"
         case presto = "PRESTO"
+        case qbusiness = "QBUSINESS"
         case redshift = "REDSHIFT"
         case s3 = "S3"
+        case s3KnowledgeBase = "S3_KNOWLEDGE_BASE"
         case salesforce = "SALESFORCE"
         case servicenow = "SERVICENOW"
+        case sharepoint = "SHAREPOINT"
         case snowflake = "SNOWFLAKE"
         case spark = "SPARK"
         case sqlserver = "SQLSERVER"
@@ -598,6 +672,7 @@ extension QuickSight {
         case timestream = "TIMESTREAM"
         case trino = "TRINO"
         case twitter = "TWITTER"
+        case webCrawler = "WEB_CRAWLER"
         public var description: String { return self.rawValue }
     }
 
@@ -695,6 +770,15 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum FieldName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case directQuicksightOwner = "DIRECT_QUICKSIGHT_OWNER"
+        case directQuicksightSoleOwner = "DIRECT_QUICKSIGHT_SOLE_OWNER"
+        case directQuicksightViewerOrOwner = "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"
+        case flowDescription = "assetDescription"
+        case flowName = "assetName"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FileFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case clf = "CLF"
         case csv = "CSV"
@@ -728,6 +812,13 @@ extension QuickSight {
     public enum FilterVisualScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allVisuals = "ALL_VISUALS"
         case selectedVisuals = "SELECTED_VISUALS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FlowPublishState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case draft = "DRAFT"
+        case pendingApproval = "PENDING_APPROVAL"
+        case published = "PUBLISHED"
         public var description: String { return self.rawValue }
     }
 
@@ -1155,6 +1246,7 @@ extension QuickSight {
     public enum NamedFilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case categoryFilter = "CATEGORY_FILTER"
         case dateRangeFilter = "DATE_RANGE_FILTER"
+        case nullFilter = "NULL_FILTER"
         case numericEqualityFilter = "NUMERIC_EQUALITY_FILTER"
         case numericRangeFilter = "NUMERIC_RANGE_FILTER"
         case relativeDateFilter = "RELATIVE_DATE_FILTER"
@@ -1197,6 +1289,13 @@ extension QuickSight {
     }
 
     public enum NullFilterOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allValues = "ALL_VALUES"
+        case nonNullsOnly = "NON_NULLS_ONLY"
+        case nullsOnly = "NULLS_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NullFilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allValues = "ALL_VALUES"
         case nonNullsOnly = "NON_NULLS_ONLY"
         case nullsOnly = "NULLS_ONLY"
@@ -1364,6 +1463,12 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum QDataKeyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsOwned = "AWS_OWNED"
+        case cmk = "CMK"
+        public var description: String { return self.rawValue }
+    }
+
     public enum QSearchStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -1502,6 +1607,12 @@ extension QuickSight {
     public enum RowLevelPermissionPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case denyAccess = "DENY_ACCESS"
         case grantAccess = "GRANT_ACCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SearchFilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case stringEquals = "StringEquals"
+        case stringLike = "StringLike"
         public var description: String { return self.rawValue }
     }
 
@@ -1983,6 +2094,14 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum WebCrawlerAuthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case basicAuth = "BASIC_AUTH"
+        case form = "FORM"
+        case noAuth = "NO_AUTH"
+        case saml = "SAML"
+        public var description: String { return self.rawValue }
+    }
+
     public enum WidgetStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -2021,6 +2140,65 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum AuthenticationMetadata: AWSEncodableShape, Sendable {
+        /// API key authentication metadata.
+        case apiKeyConnectionMetadata(APIKeyConnectionMetadata)
+        /// OAuth 2.0 authorization code grant authentication metadata.
+        case authorizationCodeGrantMetadata(AuthorizationCodeGrantMetadata)
+        /// Basic authentication metadata using username and password.
+        case basicAuthConnectionMetadata(BasicAuthConnectionMetadata)
+        /// OAuth 2.0 client credentials grant authentication metadata.
+        case clientCredentialsGrantMetadata(ClientCredentialsGrantMetadata)
+        /// IAM role-based authentication metadata for Amazon Web Services services.
+        case iamConnectionMetadata(IAMConnectionMetadata)
+        /// No authentication metadata for services that don't require authentication.
+        case noneConnectionMetadata(NoneConnectionMetadata)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .apiKeyConnectionMetadata(let value):
+                try container.encode(value, forKey: .apiKeyConnectionMetadata)
+            case .authorizationCodeGrantMetadata(let value):
+                try container.encode(value, forKey: .authorizationCodeGrantMetadata)
+            case .basicAuthConnectionMetadata(let value):
+                try container.encode(value, forKey: .basicAuthConnectionMetadata)
+            case .clientCredentialsGrantMetadata(let value):
+                try container.encode(value, forKey: .clientCredentialsGrantMetadata)
+            case .iamConnectionMetadata(let value):
+                try container.encode(value, forKey: .iamConnectionMetadata)
+            case .noneConnectionMetadata(let value):
+                try container.encode(value, forKey: .noneConnectionMetadata)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .apiKeyConnectionMetadata(let value):
+                try value.validate(name: "\(name).apiKeyConnectionMetadata")
+            case .authorizationCodeGrantMetadata(let value):
+                try value.validate(name: "\(name).authorizationCodeGrantMetadata")
+            case .basicAuthConnectionMetadata(let value):
+                try value.validate(name: "\(name).basicAuthConnectionMetadata")
+            case .clientCredentialsGrantMetadata(let value):
+                try value.validate(name: "\(name).clientCredentialsGrantMetadata")
+            case .iamConnectionMetadata(let value):
+                try value.validate(name: "\(name).iamConnectionMetadata")
+            case .noneConnectionMetadata(let value):
+                try value.validate(name: "\(name).noneConnectionMetadata")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiKeyConnectionMetadata = "ApiKeyConnectionMetadata"
+            case authorizationCodeGrantMetadata = "AuthorizationCodeGrantMetadata"
+            case basicAuthConnectionMetadata = "BasicAuthConnectionMetadata"
+            case clientCredentialsGrantMetadata = "ClientCredentialsGrantMetadata"
+            case iamConnectionMetadata = "IamConnectionMetadata"
+            case noneConnectionMetadata = "NoneConnectionMetadata"
+        }
+    }
+
     public enum DataSourceParameters: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The parameters for OpenSearch.
         case amazonElasticsearchParameters(AmazonElasticsearchParameters)
@@ -2036,10 +2214,16 @@ extension QuickSight {
         case awsIotAnalyticsParameters(AwsIotAnalyticsParameters)
         /// The parameters that are required to connect to a Google BigQuery data source.
         case bigQueryParameters(BigQueryParameters)
+        /// The parameters for Confluence.
+        case confluenceParameters(ConfluenceParameters)
+        /// The parameters for custom connectors.
+        case customConnectionParameters(CustomConnectionParameters)
         /// The parameters that are required to connect to a Databricks data source.
         case databricksParameters(DatabricksParameters)
         /// The parameters for Exasol.
         case exasolParameters(ExasolParameters)
+        /// The parameters for Impala.
+        case impalaParameters(ImpalaParameters)
         /// The parameters for Jira.
         case jiraParameters(JiraParameters)
         /// The parameters for MariaDB.
@@ -2052,10 +2236,14 @@ extension QuickSight {
         case postgreSqlParameters(PostgreSqlParameters)
         /// The parameters for Presto.
         case prestoParameters(PrestoParameters)
+        /// The parameters for Amazon Q Business.
+        case qBusinessParameters(QBusinessParameters)
         /// The parameters for Amazon RDS.
         case rdsParameters(RdsParameters)
         /// The parameters for Amazon Redshift.
         case redshiftParameters(RedshiftParameters)
+        /// The parameters for S3 Knowledge Base.
+        case s3KnowledgeBaseParameters(S3KnowledgeBaseParameters)
         /// The parameters for S3.
         case s3Parameters(S3Parameters)
         /// The parameters for ServiceNow.
@@ -2074,6 +2262,8 @@ extension QuickSight {
         case trinoParameters(TrinoParameters)
         /// The parameters for Twitter.
         case twitterParameters(TwitterParameters)
+        /// The parameters for Web Crawler.
+        case webCrawlerParameters(WebCrawlerParameters)
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -2106,12 +2296,21 @@ extension QuickSight {
             case .bigQueryParameters:
                 let value = try container.decode(BigQueryParameters.self, forKey: .bigQueryParameters)
                 self = .bigQueryParameters(value)
+            case .confluenceParameters:
+                let value = try container.decode(ConfluenceParameters.self, forKey: .confluenceParameters)
+                self = .confluenceParameters(value)
+            case .customConnectionParameters:
+                let value = try container.decode(CustomConnectionParameters.self, forKey: .customConnectionParameters)
+                self = .customConnectionParameters(value)
             case .databricksParameters:
                 let value = try container.decode(DatabricksParameters.self, forKey: .databricksParameters)
                 self = .databricksParameters(value)
             case .exasolParameters:
                 let value = try container.decode(ExasolParameters.self, forKey: .exasolParameters)
                 self = .exasolParameters(value)
+            case .impalaParameters:
+                let value = try container.decode(ImpalaParameters.self, forKey: .impalaParameters)
+                self = .impalaParameters(value)
             case .jiraParameters:
                 let value = try container.decode(JiraParameters.self, forKey: .jiraParameters)
                 self = .jiraParameters(value)
@@ -2130,12 +2329,18 @@ extension QuickSight {
             case .prestoParameters:
                 let value = try container.decode(PrestoParameters.self, forKey: .prestoParameters)
                 self = .prestoParameters(value)
+            case .qBusinessParameters:
+                let value = try container.decode(QBusinessParameters.self, forKey: .qBusinessParameters)
+                self = .qBusinessParameters(value)
             case .rdsParameters:
                 let value = try container.decode(RdsParameters.self, forKey: .rdsParameters)
                 self = .rdsParameters(value)
             case .redshiftParameters:
                 let value = try container.decode(RedshiftParameters.self, forKey: .redshiftParameters)
                 self = .redshiftParameters(value)
+            case .s3KnowledgeBaseParameters:
+                let value = try container.decode(S3KnowledgeBaseParameters.self, forKey: .s3KnowledgeBaseParameters)
+                self = .s3KnowledgeBaseParameters(value)
             case .s3Parameters:
                 let value = try container.decode(S3Parameters.self, forKey: .s3Parameters)
                 self = .s3Parameters(value)
@@ -2163,6 +2368,9 @@ extension QuickSight {
             case .twitterParameters:
                 let value = try container.decode(TwitterParameters.self, forKey: .twitterParameters)
                 self = .twitterParameters(value)
+            case .webCrawlerParameters:
+                let value = try container.decode(WebCrawlerParameters.self, forKey: .webCrawlerParameters)
+                self = .webCrawlerParameters(value)
             }
         }
 
@@ -2183,10 +2391,16 @@ extension QuickSight {
                 try container.encode(value, forKey: .awsIotAnalyticsParameters)
             case .bigQueryParameters(let value):
                 try container.encode(value, forKey: .bigQueryParameters)
+            case .confluenceParameters(let value):
+                try container.encode(value, forKey: .confluenceParameters)
+            case .customConnectionParameters(let value):
+                try container.encode(value, forKey: .customConnectionParameters)
             case .databricksParameters(let value):
                 try container.encode(value, forKey: .databricksParameters)
             case .exasolParameters(let value):
                 try container.encode(value, forKey: .exasolParameters)
+            case .impalaParameters(let value):
+                try container.encode(value, forKey: .impalaParameters)
             case .jiraParameters(let value):
                 try container.encode(value, forKey: .jiraParameters)
             case .mariaDbParameters(let value):
@@ -2199,10 +2413,14 @@ extension QuickSight {
                 try container.encode(value, forKey: .postgreSqlParameters)
             case .prestoParameters(let value):
                 try container.encode(value, forKey: .prestoParameters)
+            case .qBusinessParameters(let value):
+                try container.encode(value, forKey: .qBusinessParameters)
             case .rdsParameters(let value):
                 try container.encode(value, forKey: .rdsParameters)
             case .redshiftParameters(let value):
                 try container.encode(value, forKey: .redshiftParameters)
+            case .s3KnowledgeBaseParameters(let value):
+                try container.encode(value, forKey: .s3KnowledgeBaseParameters)
             case .s3Parameters(let value):
                 try container.encode(value, forKey: .s3Parameters)
             case .serviceNowParameters(let value):
@@ -2221,6 +2439,8 @@ extension QuickSight {
                 try container.encode(value, forKey: .trinoParameters)
             case .twitterParameters(let value):
                 try container.encode(value, forKey: .twitterParameters)
+            case .webCrawlerParameters(let value):
+                try container.encode(value, forKey: .webCrawlerParameters)
             }
         }
 
@@ -2240,10 +2460,14 @@ extension QuickSight {
                 try value.validate(name: "\(name).awsIotAnalyticsParameters")
             case .bigQueryParameters(let value):
                 try value.validate(name: "\(name).bigQueryParameters")
+            case .confluenceParameters(let value):
+                try value.validate(name: "\(name).confluenceParameters")
             case .databricksParameters(let value):
                 try value.validate(name: "\(name).databricksParameters")
             case .exasolParameters(let value):
                 try value.validate(name: "\(name).exasolParameters")
+            case .impalaParameters(let value):
+                try value.validate(name: "\(name).impalaParameters")
             case .jiraParameters(let value):
                 try value.validate(name: "\(name).jiraParameters")
             case .mariaDbParameters(let value):
@@ -2256,10 +2480,14 @@ extension QuickSight {
                 try value.validate(name: "\(name).postgreSqlParameters")
             case .prestoParameters(let value):
                 try value.validate(name: "\(name).prestoParameters")
+            case .qBusinessParameters(let value):
+                try value.validate(name: "\(name).qBusinessParameters")
             case .rdsParameters(let value):
                 try value.validate(name: "\(name).rdsParameters")
             case .redshiftParameters(let value):
                 try value.validate(name: "\(name).redshiftParameters")
+            case .s3KnowledgeBaseParameters(let value):
+                try value.validate(name: "\(name).s3KnowledgeBaseParameters")
             case .s3Parameters(let value):
                 try value.validate(name: "\(name).s3Parameters")
             case .serviceNowParameters(let value):
@@ -2278,6 +2506,10 @@ extension QuickSight {
                 try value.validate(name: "\(name).trinoParameters")
             case .twitterParameters(let value):
                 try value.validate(name: "\(name).twitterParameters")
+            case .webCrawlerParameters(let value):
+                try value.validate(name: "\(name).webCrawlerParameters")
+            default:
+                break
             }
         }
 
@@ -2289,16 +2521,21 @@ extension QuickSight {
             case auroraPostgreSqlParameters = "AuroraPostgreSqlParameters"
             case awsIotAnalyticsParameters = "AwsIotAnalyticsParameters"
             case bigQueryParameters = "BigQueryParameters"
+            case confluenceParameters = "ConfluenceParameters"
+            case customConnectionParameters = "CustomConnectionParameters"
             case databricksParameters = "DatabricksParameters"
             case exasolParameters = "ExasolParameters"
+            case impalaParameters = "ImpalaParameters"
             case jiraParameters = "JiraParameters"
             case mariaDbParameters = "MariaDbParameters"
             case mySqlParameters = "MySqlParameters"
             case oracleParameters = "OracleParameters"
             case postgreSqlParameters = "PostgreSqlParameters"
             case prestoParameters = "PrestoParameters"
+            case qBusinessParameters = "QBusinessParameters"
             case rdsParameters = "RdsParameters"
             case redshiftParameters = "RedshiftParameters"
+            case s3KnowledgeBaseParameters = "S3KnowledgeBaseParameters"
             case s3Parameters = "S3Parameters"
             case serviceNowParameters = "ServiceNowParameters"
             case snowflakeParameters = "SnowflakeParameters"
@@ -2308,6 +2545,7 @@ extension QuickSight {
             case teradataParameters = "TeradataParameters"
             case trinoParameters = "TrinoParameters"
             case twitterParameters = "TwitterParameters"
+            case webCrawlerParameters = "WebCrawlerParameters"
         }
     }
 
@@ -2409,6 +2647,61 @@ extension QuickSight {
             case customSql = "CustomSql"
             case relationalTable = "RelationalTable"
             case s3Source = "S3Source"
+        }
+    }
+
+    public enum ReadAuthenticationMetadata: AWSDecodableShape, Sendable {
+        /// Read-only metadata for API key authentication configuration.
+        case apiKeyConnectionMetadata(ReadAPIKeyConnectionMetadata)
+        /// Read-only metadata for OAuth2 authorization code grant flow configuration.
+        case authorizationCodeGrantMetadata(ReadAuthorizationCodeGrantMetadata)
+        /// Read-only metadata for basic authentication configuration.
+        case basicAuthConnectionMetadata(ReadBasicAuthConnectionMetadata)
+        /// Read-only metadata for OAuth2 client credentials grant flow configuration.
+        case clientCredentialsGrantMetadata(ReadClientCredentialsGrantMetadata)
+        /// Read-only metadata for IAM-based authentication configuration.
+        case iamConnectionMetadata(ReadIamConnectionMetadata)
+        /// Read-only metadata for connections that do not require authentication.
+        case noneConnectionMetadata(ReadNoneConnectionMetadata)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .apiKeyConnectionMetadata:
+                let value = try container.decode(ReadAPIKeyConnectionMetadata.self, forKey: .apiKeyConnectionMetadata)
+                self = .apiKeyConnectionMetadata(value)
+            case .authorizationCodeGrantMetadata:
+                let value = try container.decode(ReadAuthorizationCodeGrantMetadata.self, forKey: .authorizationCodeGrantMetadata)
+                self = .authorizationCodeGrantMetadata(value)
+            case .basicAuthConnectionMetadata:
+                let value = try container.decode(ReadBasicAuthConnectionMetadata.self, forKey: .basicAuthConnectionMetadata)
+                self = .basicAuthConnectionMetadata(value)
+            case .clientCredentialsGrantMetadata:
+                let value = try container.decode(ReadClientCredentialsGrantMetadata.self, forKey: .clientCredentialsGrantMetadata)
+                self = .clientCredentialsGrantMetadata(value)
+            case .iamConnectionMetadata:
+                let value = try container.decode(ReadIamConnectionMetadata.self, forKey: .iamConnectionMetadata)
+                self = .iamConnectionMetadata(value)
+            case .noneConnectionMetadata:
+                let value = try container.decode(ReadNoneConnectionMetadata.self, forKey: .noneConnectionMetadata)
+                self = .noneConnectionMetadata(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiKeyConnectionMetadata = "ApiKeyConnectionMetadata"
+            case authorizationCodeGrantMetadata = "AuthorizationCodeGrantMetadata"
+            case basicAuthConnectionMetadata = "BasicAuthConnectionMetadata"
+            case clientCredentialsGrantMetadata = "ClientCredentialsGrantMetadata"
+            case iamConnectionMetadata = "IamConnectionMetadata"
+            case noneConnectionMetadata = "NoneConnectionMetadata"
         }
     }
 
@@ -2522,6 +2815,35 @@ extension QuickSight {
 
     // MARK: Shapes
 
+    public struct APIKeyConnectionMetadata: AWSEncodableShape {
+        /// The API key used for authentication.
+        public let apiKey: String
+        /// The base URL endpoint for the external service.
+        public let baseEndpoint: String
+        /// The email address associated with the API key, if required.
+        public let email: String?
+
+        @inlinable
+        public init(apiKey: String, baseEndpoint: String, email: String? = nil) {
+            self.apiKey = apiKey
+            self.baseEndpoint = baseEndpoint
+            self.email = email
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.baseEndpoint, name: "baseEndpoint", parent: name, max: 8192)
+            try self.validate(self.baseEndpoint, name: "baseEndpoint", parent: name, min: 1)
+            try self.validate(self.baseEndpoint, name: "baseEndpoint", parent: name, pattern: "^https://")
+            try self.validate(self.email, name: "email", parent: name, pattern: "^[\\w.%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiKey = "ApiKey"
+            case baseEndpoint = "BaseEndpoint"
+            case email = "Email"
+        }
+    }
+
     public struct AccessDeniedException: AWSErrorShape {
         public let message: String?
         /// The Amazon Web Services request ID for this request.
@@ -2542,7 +2864,7 @@ extension QuickSight {
     public struct AccountCustomization: AWSEncodableShape & AWSDecodableShape {
         /// The default email customization template.
         public let defaultEmailCustomizationTemplate: String?
-        /// The default theme for this Amazon QuickSight subscription.
+        /// The default theme for this Quick Sight subscription.
         public let defaultTheme: String?
 
         @inlinable
@@ -2558,17 +2880,17 @@ extension QuickSight {
     }
 
     public struct AccountInfo: AWSDecodableShape {
-        /// The account name that you provided for the Amazon QuickSight subscription in your Amazon Web Services account. You create this name when you sign up for Amazon QuickSight. It's unique over all of Amazon Web Services, and it appears only when users sign in.
+        /// The account name that you provided for the Amazon Quick Sight subscription in your Amazon Web Services account. You create this name when you sign up for QuickSight. It's unique over all of Amazon Web Services, and it appears only when users sign in.
         public let accountName: String?
         /// The status of your account subscription.
         public let accountSubscriptionStatus: String?
-        /// The way that your Amazon QuickSight account is authenticated.
+        /// The way that your Amazon Quick Sight account is authenticated.
         public let authenticationType: String?
-        /// The edition of your Amazon QuickSight account.
+        /// The edition of your Quick Sight account.
         public let edition: Edition?
         /// The Amazon Resource Name (ARN) for the IAM Identity Center instance.
         public let iamIdentityCenterInstanceArn: String?
-        /// The email address that will be used for Amazon QuickSight to send notifications regarding your Amazon Web Services account or Amazon QuickSight subscription.
+        /// The email address that will be used for Quick Sight to send notifications regarding your Amazon Web Services account or Quick Sight subscription.
         public let notificationEmail: String?
 
         @inlinable
@@ -2592,17 +2914,17 @@ extension QuickSight {
     }
 
     public struct AccountSettings: AWSDecodableShape {
-        /// The "account name" you provided for the Amazon QuickSight subscription in your Amazon Web Services account. You create this name when you sign up for Amazon QuickSight. It is unique in all of Amazon Web Services and it appears only when users sign in.
+        /// The "account name" you provided for the Quick Sight subscription in your Amazon Web Services account. You create this name when you sign up for Quick Sight. It is unique in all of Amazon Web Services and it appears only when users sign in.
         public let accountName: String?
-        /// The default Amazon QuickSight namespace for your Amazon Web Services account.
+        /// The default Quick Sight namespace for your Amazon Web Services account.
         public let defaultNamespace: String?
-        /// The edition of Amazon QuickSight that you're currently subscribed to: Enterprise edition or Standard edition.
+        /// The edition of Quick Sight that you're currently subscribed to: Enterprise edition or Standard edition.
         public let edition: Edition?
-        /// The main notification email for your Amazon QuickSight subscription.
+        /// The main notification email for your Quick Sight subscription.
         public let notificationEmail: String?
-        /// A Boolean value that indicates whether public sharing is turned on for an Amazon QuickSight account. For more information about turning on public sharing, see UpdatePublicSharingSettings.
+        /// A Boolean value that indicates whether public sharing is turned on for an QuickSight account. For more information about turning on public sharing, see UpdatePublicSharingSettings.
         public let publicSharingEnabled: Bool?
-        /// A boolean value that determines whether or not an Amazon QuickSight account can be deleted. A True value doesn't allow the account to be deleted and results in an error message if a user tries to make a DeleteAccountSubsctiption request. A False value will allow the ccount to be deleted.
+        /// A boolean value that determines whether or not an Quick Sight account can be deleted. A True value doesn't allow the account to be deleted and results in an error message if a user tries to make a DeleteAccountSubsctiption request. A False value will allow the ccount to be deleted.
         public let terminationProtectionEnabled: Bool?
 
         @inlinable
@@ -2622,6 +2944,146 @@ extension QuickSight {
             case notificationEmail = "NotificationEmail"
             case publicSharingEnabled = "PublicSharingEnabled"
             case terminationProtectionEnabled = "TerminationProtectionEnabled"
+        }
+    }
+
+    public struct ActionConnector: AWSDecodableShape {
+        /// The unique identifier of the action connector.
+        public let actionConnectorId: String
+        /// The Amazon Resource Name (ARN) of the action connector.
+        public let arn: String
+        /// The authentication configuration used to connect to the external service.
+        public let authenticationConfig: ReadAuthConfig?
+        /// The timestamp when the action connector was created.
+        public let createdTime: Date?
+        /// The description of the action connector.
+        public let description: String?
+        /// The list of actions that are enabled for this connector.
+        public let enabledActions: [String]?
+        /// Error information if the action connector is in an error state.
+        public let error: ActionConnectorError?
+        /// The date and time when the action connector was last updated.
+        public let lastUpdatedTime: Date
+        /// The name of the action connector.
+        public let name: String
+        /// The current status of the action connector.
+        public let status: ResourceStatus?
+        /// The type of action connector.
+        public let type: ActionConnectorType
+        /// The ARN of the VPC connection used for secure connectivity to the external service.
+        public let vpcConnectionArn: String?
+
+        @inlinable
+        public init(actionConnectorId: String, arn: String, authenticationConfig: ReadAuthConfig? = nil, createdTime: Date? = nil, description: String? = nil, enabledActions: [String]? = nil, error: ActionConnectorError? = nil, lastUpdatedTime: Date, name: String, status: ResourceStatus? = nil, type: ActionConnectorType, vpcConnectionArn: String? = nil) {
+            self.actionConnectorId = actionConnectorId
+            self.arn = arn
+            self.authenticationConfig = authenticationConfig
+            self.createdTime = createdTime
+            self.description = description
+            self.enabledActions = enabledActions
+            self.error = error
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.status = status
+            self.type = type
+            self.vpcConnectionArn = vpcConnectionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionConnectorId = "ActionConnectorId"
+            case arn = "Arn"
+            case authenticationConfig = "AuthenticationConfig"
+            case createdTime = "CreatedTime"
+            case description = "Description"
+            case enabledActions = "EnabledActions"
+            case error = "Error"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case name = "Name"
+            case status = "Status"
+            case type = "Type"
+            case vpcConnectionArn = "VpcConnectionArn"
+        }
+    }
+
+    public struct ActionConnectorError: AWSDecodableShape {
+        /// The error message describing what went wrong with the action connector.
+        public let message: String?
+        /// The type or category of the error.
+        public let type: ActionConnectorErrorType?
+
+        @inlinable
+        public init(message: String? = nil, type: ActionConnectorErrorType? = nil) {
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case type = "Type"
+        }
+    }
+
+    public struct ActionConnectorSearchFilter: AWSEncodableShape {
+        /// The name of the filter attribute (e.g., ACTION_CONNECTOR_NAME, ACTION_CONNECTOR_TYPE, QUICKSIGHT_VIEWER_OR_OWNER).
+        public let name: ActionConnectorSearchFilterNameEnum
+        /// The comparison operator to use for the filter (e.g., StringEquals, StringLike).
+        public let `operator`: FilterOperator
+        /// The value to compare against using the specified operator.
+        public let value: String
+
+        @inlinable
+        public init(name: ActionConnectorSearchFilterNameEnum, operator: FilterOperator, value: String) {
+            self.name = name
+            self.`operator` = `operator`
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case `operator` = "Operator"
+            case value = "Value"
+        }
+    }
+
+    public struct ActionConnectorSummary: AWSDecodableShape {
+        /// The unique identifier of the action connector.
+        public let actionConnectorId: String
+        /// The Amazon Resource Name (ARN) of the action connector.
+        public let arn: String
+        /// The date and time when the action connector was created.
+        public let createdTime: Date?
+        /// Error information if the action connector is in an error state.
+        public let error: ActionConnectorError?
+        /// The date and time when the action connector was last updated.
+        public let lastUpdatedTime: Date
+        /// The name of the action connector.
+        public let name: String
+        /// The current status of the action connector.
+        public let status: ResourceStatus?
+        /// The type of action connector (e.g., SALESFORCE, JIRA, CUSTOM, BEDROCK).
+        public let type: ActionConnectorType
+
+        @inlinable
+        public init(actionConnectorId: String, arn: String, createdTime: Date? = nil, error: ActionConnectorError? = nil, lastUpdatedTime: Date, name: String, status: ResourceStatus? = nil, type: ActionConnectorType) {
+            self.actionConnectorId = actionConnectorId
+            self.arn = arn
+            self.createdTime = createdTime
+            self.error = error
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.status = status
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionConnectorId = "ActionConnectorId"
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case error = "Error"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case name = "Name"
+            case status = "Status"
+            case type = "Type"
         }
     }
 
@@ -2814,13 +3276,13 @@ extension QuickSight {
     }
 
     public struct AmazonQInQuickSightConsoleConfigurations: AWSEncodableShape {
-        /// Adds generative Q&A capabilitiees to an embedded Amazon QuickSight console.
+        /// Adds generative Q&A capabilitiees to an embedded Quick Sight console.
         public let dataQnA: DataQnAConfigurations?
-        /// Adds the data stories feature to an embedded Amazon QuickSight console.
+        /// Adds the data stories feature to an embedded Quick Sight console.
         public let dataStories: DataStoriesConfigurations?
-        /// Adds the executive summaries feature to an embedded Amazon QuickSight console.
+        /// Adds the executive summaries feature to an embedded Quick Sight console.
         public let executiveSummary: ExecutiveSummaryConfigurations?
-        /// Adds the generative BI authoring experience to an embedded Amazon QuickSight console.
+        /// Adds the generative BI authoring experience to an embedded Quick Sight console.
         public let generativeAuthoring: GenerativeAuthoringConfigurations?
 
         @inlinable
@@ -2840,7 +3302,7 @@ extension QuickSight {
     }
 
     public struct AmazonQInQuickSightDashboardConfigurations: AWSEncodableShape {
-        /// A generated executive summary of an embedded Amazon QuickSight dashboard.
+        /// A generated executive summary of an embedded Quick Sight dashboard.
         public let executiveSummary: ExecutiveSummaryConfigurations?
 
         @inlinable
@@ -2925,11 +3387,11 @@ extension QuickSight {
         public let columnConfigurations: [ColumnConfiguration]?
         /// An array of dataset identifier declarations. This mapping allows the usage of dataset identifiers instead of dataset ARNs throughout analysis sub-structures.
         public let dataSetIdentifierDeclarations: [DataSetIdentifierDeclaration]
-        /// Filter definitions for an analysis. For more information, see Filtering Data in Amazon QuickSight in the Amazon QuickSight User Guide.
+        /// Filter definitions for an analysis. For more information, see Filtering Data in Amazon Quick Sight in the Amazon Quick Suite User Guide.
         public let filterGroups: [FilterGroup]?
         /// An array of option definitions for an analysis.
         public let options: AssetOptions?
-        /// An array of parameter declarations for an analysis. Parameters are named variables that can transfer a value for use by an action or an object. For more information, see Parameters in Amazon QuickSight in the Amazon QuickSight User Guide.
+        /// An array of parameter declarations for an analysis. Parameters are named variables that can transfer a value for use by an action or an object. For more information, see Parameters in Amazon Quick Sight in the Amazon Quick Suite User Guide.
         public let parameterDeclarations: [ParameterDeclaration]?
         public let queryExecutionOptions: QueryExecutionOptions?
         /// An array of sheet definitions for an analysis. Each SheetDefinition provides detailed information about a sheet within this analysis.
@@ -2955,7 +3417,7 @@ extension QuickSight {
             try self.calculatedFields?.forEach {
                 try $0.validate(name: "\(name).calculatedFields[]")
             }
-            try self.validate(self.calculatedFields, name: "calculatedFields", parent: name, max: 500)
+            try self.validate(self.calculatedFields, name: "calculatedFields", parent: name, max: 2000)
             try self.columnConfigurations?.forEach {
                 try $0.validate(name: "\(name).columnConfigurations[]")
             }
@@ -3094,7 +3556,7 @@ extension QuickSight {
         public let createdTime: Date?
         /// The time that the analysis was last updated.
         public let lastUpdatedTime: Date?
-        /// The name of the analysis. This name is displayed in the Amazon QuickSight console.
+        /// The name of the analysis. This name is displayed in the Quick Sight console.
         public let name: String?
         /// The last known status for the analysis.
         public let status: ResourceStatus?
@@ -3172,7 +3634,7 @@ extension QuickSight {
         public let enabledFeatures: [AnonymousUserDashboardEmbeddingConfigurationEnabledFeature]?
         /// The feature configuration for an embedded dashboard.
         public let featureConfigurations: AnonymousUserDashboardFeatureConfigurations?
-        /// The dashboard ID for the dashboard that you want the user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders this dashboard. The Amazon Resource Name (ARN) of this dashboard must be included in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException.
+        /// The dashboard ID for the dashboard that you want the user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon Quick Sight renders this dashboard. The Amazon Resource Name (ARN) of this dashboard must be included in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException.
         public let initialDashboardId: String
 
         @inlinable
@@ -3212,7 +3674,7 @@ extension QuickSight {
     }
 
     public struct AnonymousUserDashboardVisualEmbeddingConfiguration: AWSEncodableShape {
-        /// The visual ID for the visual that you want the user to see. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders this visual. The Amazon Resource Name (ARN) of the dashboard that the visual belongs to must be included in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException.
+        /// The visual ID for the visual that you want the user to see. This ID is included in the output URL. When the URL in response is accessed, Amazon Quick Sight renders this visual. The Amazon Resource Name (ARN) of the dashboard that the visual belongs to must be included in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException.
         public let initialDashboardVisualId: DashboardVisualId
 
         @inlinable
@@ -3230,9 +3692,9 @@ extension QuickSight {
     }
 
     public struct AnonymousUserEmbeddingExperienceConfiguration: AWSEncodableShape {
-        /// The type of embedding experience. In this case, Amazon QuickSight dashboards.
+        /// The type of embedding experience. In this case, Amazon Quick Sight dashboards.
         public let dashboard: AnonymousUserDashboardEmbeddingConfiguration?
-        /// The type of embedding experience. In this case, Amazon QuickSight visuals.
+        /// The type of embedding experience. In this case, Amazon Quick Sight visuals.
         public let dashboardVisual: AnonymousUserDashboardVisualEmbeddingConfiguration?
         /// The Generative Q&A experience that you want to use for anonymous user embedding.
         public let generativeQnA: AnonymousUserGenerativeQnAEmbeddingConfiguration?
@@ -3263,7 +3725,7 @@ extension QuickSight {
     }
 
     public struct AnonymousUserGenerativeQnAEmbeddingConfiguration: AWSEncodableShape {
-        /// The Amazon QuickSight Q topic ID of the new reader experience topic that you want the anonymous user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders the Generative Q&A experience with this new reader experience topic pre selected. The Amazon Resource Name (ARN) of this Q new reader experience topic must be included in the AuthorizedResourceArns parameter. Otherwise, the request fails with an InvalidParameterValueException error.
+        /// The Quick Sight Q topic ID of the new reader experience topic that you want the anonymous user to see first. This ID is included in the output URL. When the URL in response is accessed, Quick Sight renders the Generative Q&A experience with this new reader experience topic pre selected. The Amazon Resource Name (ARN) of this Q new reader experience topic must be included in the AuthorizedResourceArns parameter. Otherwise, the request fails with an InvalidParameterValueException error.
         public let initialTopicId: String
 
         @inlinable
@@ -3283,7 +3745,7 @@ extension QuickSight {
     }
 
     public struct AnonymousUserQSearchBarEmbeddingConfiguration: AWSEncodableShape {
-        /// The Amazon QuickSight Q topic ID of the legacy topic that you want the anonymous user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders the Q search bar with this legacy topic pre-selected. The Amazon Resource Name (ARN) of this Q legacy topic must be included in the AuthorizedResourceArns parameter. Otherwise, the request fails with an InvalidParameterValueException error.
+        /// The Quick Sight Q topic ID of the legacy topic that you want the anonymous user to see first. This ID is included in the output URL. When the URL in response is accessed, Quick Sight renders the Q search bar with this legacy topic pre-selected. The Amazon Resource Name (ARN) of this Q legacy topic must be included in the AuthorizedResourceArns parameter. Otherwise, the request fails with an InvalidParameterValueException error.
         public let initialTopicId: String
 
         @inlinable
@@ -3321,21 +3783,26 @@ extension QuickSight {
         public let brandColorPalette: BrandColorPalette?
         /// The element style.
         public let brandElementStyle: BrandElementStyle?
+        /// The contextual accent palette.
+        public let contextualAccentPalette: ContextualAccentPalette?
 
         @inlinable
-        public init(brandColorPalette: BrandColorPalette? = nil, brandElementStyle: BrandElementStyle? = nil) {
+        public init(brandColorPalette: BrandColorPalette? = nil, brandElementStyle: BrandElementStyle? = nil, contextualAccentPalette: ContextualAccentPalette? = nil) {
             self.brandColorPalette = brandColorPalette
             self.brandElementStyle = brandElementStyle
+            self.contextualAccentPalette = contextualAccentPalette
         }
 
         public func validate(name: String) throws {
             try self.brandColorPalette?.validate(name: "\(name).brandColorPalette")
             try self.brandElementStyle?.validate(name: "\(name).brandElementStyle")
+            try self.contextualAccentPalette?.validate(name: "\(name).contextualAccentPalette")
         }
 
         private enum CodingKeys: String, CodingKey {
             case brandColorPalette = "BrandColorPalette"
             case brandElementStyle = "BrandElementStyle"
+            case contextualAccentPalette = "ContextualAccentPalette"
         }
     }
 
@@ -4918,7 +5385,7 @@ extension QuickSight {
     }
 
     public struct AthenaParameters: AWSEncodableShape & AWSDecodableShape {
-        /// An optional parameter that configures IAM Identity Center authentication to grant Amazon QuickSight access to your workgroup. This parameter can only be specified if your Amazon QuickSight account is configured with IAM Identity Center.
+        /// An optional parameter that configures IAM Identity Center authentication to grant Quick Sight access to your workgroup. This parameter can only be specified if your Quick Sight account is configured with IAM Identity Center.
         public let identityCenterConfiguration: IdentityCenterConfiguration?
         /// Use the RoleArn structure to override an account-wide role for a specific Athena data source. For example, say an account administrator has turned off all Athena access with an account-wide role. The administrator can then use RoleArn to bypass the account-wide role and allow Athena access for the single Athena data source that is specified in the structure, even if the account-wide role forbidding Athena access is still active.
         public let roleArn: String?
@@ -5023,6 +5490,101 @@ extension QuickSight {
             case database = "Database"
             case host = "Host"
             case port = "Port"
+        }
+    }
+
+    public struct AuthConfig: AWSEncodableShape {
+        /// The authentication metadata containing the specific configuration for the chosen authentication type.
+        public let authenticationMetadata: AuthenticationMetadata
+        /// The type of authentication method.
+        public let authenticationType: ConnectionAuthType
+
+        @inlinable
+        public init(authenticationMetadata: AuthenticationMetadata, authenticationType: ConnectionAuthType) {
+            self.authenticationMetadata = authenticationMetadata
+            self.authenticationType = authenticationType
+        }
+
+        public func validate(name: String) throws {
+            try self.authenticationMetadata.validate(name: "\(name).authenticationMetadata")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationMetadata = "AuthenticationMetadata"
+            case authenticationType = "AuthenticationType"
+        }
+    }
+
+    public struct AuthorizationCodeGrantDetails: AWSEncodableShape {
+        /// The authorization endpoint URL for the OAuth flow.
+        public let authorizationEndpoint: String
+        /// The client ID for the OAuth application.
+        public let clientId: String
+        /// The client secret for the OAuth application.
+        public let clientSecret: String
+        /// The token endpoint URL for obtaining access tokens.
+        public let tokenEndpoint: String
+
+        @inlinable
+        public init(authorizationEndpoint: String, clientId: String, clientSecret: String, tokenEndpoint: String) {
+            self.authorizationEndpoint = authorizationEndpoint
+            self.clientId = clientId
+            self.clientSecret = clientSecret
+            self.tokenEndpoint = tokenEndpoint
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.authorizationEndpoint, name: "authorizationEndpoint", parent: name, max: 8192)
+            try self.validate(self.authorizationEndpoint, name: "authorizationEndpoint", parent: name, min: 1)
+            try self.validate(self.authorizationEndpoint, name: "authorizationEndpoint", parent: name, pattern: "^https://")
+            try self.validate(self.clientId, name: "clientId", parent: name, max: 1024)
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, max: 2048)
+            try self.validate(self.tokenEndpoint, name: "tokenEndpoint", parent: name, max: 8192)
+            try self.validate(self.tokenEndpoint, name: "tokenEndpoint", parent: name, min: 1)
+            try self.validate(self.tokenEndpoint, name: "tokenEndpoint", parent: name, pattern: "^https://")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationEndpoint = "AuthorizationEndpoint"
+            case clientId = "ClientId"
+            case clientSecret = "ClientSecret"
+            case tokenEndpoint = "TokenEndpoint"
+        }
+    }
+
+    public struct AuthorizationCodeGrantMetadata: AWSEncodableShape {
+        /// The detailed credentials configuration for authorization code grant.
+        public let authorizationCodeGrantCredentialsDetails: AuthorizationCodeGrantCredentialsDetails?
+        /// The source of the authorization code grant credentials.
+        public let authorizationCodeGrantCredentialsSource: AuthorizationCodeGrantCredentialsSource?
+        /// The base URL endpoint for the external service.
+        public let baseEndpoint: String
+        /// The redirect URL for the OAuth authorization flow.
+        public let redirectUrl: String
+
+        @inlinable
+        public init(authorizationCodeGrantCredentialsDetails: AuthorizationCodeGrantCredentialsDetails? = nil, authorizationCodeGrantCredentialsSource: AuthorizationCodeGrantCredentialsSource? = nil, baseEndpoint: String, redirectUrl: String) {
+            self.authorizationCodeGrantCredentialsDetails = authorizationCodeGrantCredentialsDetails
+            self.authorizationCodeGrantCredentialsSource = authorizationCodeGrantCredentialsSource
+            self.baseEndpoint = baseEndpoint
+            self.redirectUrl = redirectUrl
+        }
+
+        public func validate(name: String) throws {
+            try self.authorizationCodeGrantCredentialsDetails?.validate(name: "\(name).authorizationCodeGrantCredentialsDetails")
+            try self.validate(self.baseEndpoint, name: "baseEndpoint", parent: name, max: 8192)
+            try self.validate(self.baseEndpoint, name: "baseEndpoint", parent: name, min: 1)
+            try self.validate(self.baseEndpoint, name: "baseEndpoint", parent: name, pattern: "^https://")
+            try self.validate(self.redirectUrl, name: "redirectUrl", parent: name, max: 8192)
+            try self.validate(self.redirectUrl, name: "redirectUrl", parent: name, min: 1)
+            try self.validate(self.redirectUrl, name: "redirectUrl", parent: name, pattern: "^https://")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationCodeGrantCredentialsDetails = "AuthorizationCodeGrantCredentialsDetails"
+            case authorizationCodeGrantCredentialsSource = "AuthorizationCodeGrantCredentialsSource"
+            case baseEndpoint = "BaseEndpoint"
+            case redirectUrl = "RedirectUrl"
         }
     }
 
@@ -5551,6 +6113,34 @@ extension QuickSight {
             case title = "Title"
             case visualContentAltText = "VisualContentAltText"
             case visualId = "VisualId"
+        }
+    }
+
+    public struct BasicAuthConnectionMetadata: AWSEncodableShape {
+        /// The base URL endpoint for the external service.
+        public let baseEndpoint: String
+        /// The password for basic authentication.
+        public let password: String
+        /// The username for basic authentication.
+        public let username: String
+
+        @inlinable
+        public init(baseEndpoint: String, password: String, username: String) {
+            self.baseEndpoint = baseEndpoint
+            self.password = password
+            self.username = username
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.baseEndpoint, name: "baseEndpoint", parent: name, max: 8192)
+            try self.validate(self.baseEndpoint, name: "baseEndpoint", parent: name, min: 1)
+            try self.validate(self.baseEndpoint, name: "baseEndpoint", parent: name, pattern: "^https://")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseEndpoint = "BaseEndpoint"
+            case password = "Password"
+            case username = "Username"
         }
     }
 
@@ -6342,7 +6932,7 @@ extension QuickSight {
     public struct BrandDetail: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the brand.
         public let arn: String?
-        /// The ID of the Amazon QuickSight brand.
+        /// The ID of the QuickSight brand.
         public let brandId: String
         /// The status of the brand.
         public let brandStatus: BrandStatus?
@@ -6406,7 +6996,7 @@ extension QuickSight {
     public struct BrandSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the brand.
         public let arn: String?
-        /// The ID of the Amazon QuickSight brand.
+        /// The ID of the QuickSight brand.
         public let brandId: String?
         /// The name of the brand.
         public let brandName: String?
@@ -6442,7 +7032,7 @@ extension QuickSight {
     }
 
     public struct CalculatedColumn: AWSEncodableShape & AWSDecodableShape {
-        /// A unique ID to identify a calculated column. During a dataset update, if the column ID of a calculated column matches that of an existing calculated column, Amazon QuickSight preserves the existing calculated column.
+        /// A unique ID to identify a calculated column. During a dataset update, if the column ID of a calculated column matches that of an existing calculated column, Quick Sight preserves the existing calculated column.
         public let columnId: String
         /// Column name.
         public let columnName: String
@@ -6598,8 +7188,16 @@ extension QuickSight {
     }
 
     public struct Capabilities: AWSEncodableShape & AWSDecodableShape {
+        /// The ability to perform actions in external services through Action connectors. Actions allow users to interact with third-party systems.
+        public let action: CapabilityState?
         /// The ability to add or run anomaly detection.
         public let addOrRunAnomalyDetectionForAnalyses: CapabilityState?
+        /// The ability to perform analysis-related actions.
+        public let analysis: CapabilityState?
+        /// The ability to perform automate-related actions.
+        public let automate: CapabilityState?
+        /// The ability to perform chat-related actions.
+        public let chatAgent: CapabilityState?
         /// The ability to create and update email reports.
         public let createAndUpdateDashboardEmailReports: CapabilityState?
         /// The ability to create and update datasets.
@@ -6610,10 +7208,14 @@ extension QuickSight {
         public let createAndUpdateThemes: CapabilityState?
         /// The ability to create and update threshold alerts.
         public let createAndUpdateThresholdAlerts: CapabilityState?
+        /// The ability to create chat agents.
+        public let createChatAgents: CapabilityState?
         /// The ability to create shared folders.
         public let createSharedFolders: CapabilityState?
         /// The ability to create a SPICE dataset.
         public let createSPICEDataset: CapabilityState?
+        /// The ability to perform dashboard-related actions.
+        public let dashboard: CapabilityState?
         /// The ability to export to CSV files from the UI.
         public let exportToCsv: CapabilityState?
         /// The ability to export to CSV files in scheduled email reports.
@@ -6626,12 +7228,22 @@ extension QuickSight {
         public let exportToPdf: CapabilityState?
         /// The ability to export to PDF files in scheduled email reports.
         public let exportToPdfInScheduledReports: CapabilityState?
+        /// The ability to perform flow-related actions.
+        public let flow: CapabilityState?
         /// The ability to include content in scheduled email reports.
         public let includeContentInScheduledReportsEmail: CapabilityState?
+        /// The ability to use knowledge bases to specify content from external applications.
+        public let knowledgeBase: CapabilityState?
+        /// The ability to use UI Agent step to perform tasks on public websites.
+        public let performFlowUiTask: CapabilityState?
         /// The ability to print reports.
         public let printReports: CapabilityState?
+        /// The ability to enable approvals for flow share.
+        public let publishWithoutApproval: CapabilityState?
         /// The ability to rename shared folders.
         public let renameSharedFolders: CapabilityState?
+        /// The ability to perform research-related actions.
+        public let research: CapabilityState?
         /// The ability to share analyses.
         public let shareAnalyses: CapabilityState?
         /// The ability to share dashboards.
@@ -6640,61 +7252,96 @@ extension QuickSight {
         public let shareDatasets: CapabilityState?
         /// The ability to share data sources.
         public let shareDataSources: CapabilityState?
+        /// The ability to perform space-related actions.
+        public let space: CapabilityState?
         /// The ability to subscribe to email reports.
         public let subscribeDashboardEmailReports: CapabilityState?
+        /// The ability to use internet to enhance results in Chat Agents, Flows, and Quick Research.
+        /// 	          Web search queries will be processed securely in an Amazon Web Services region us-east-1.
+        public let useAgentWebSearch: CapabilityState?
+        /// The ability to use Bedrock models for general knowledge step in flows.
+        public let useBedrockModels: CapabilityState?
         /// The ability to view account SPICE capacity.
         public let viewAccountSPICECapacity: CapabilityState?
 
         @inlinable
-        public init(addOrRunAnomalyDetectionForAnalyses: CapabilityState? = nil, createAndUpdateDashboardEmailReports: CapabilityState? = nil, createAndUpdateDatasets: CapabilityState? = nil, createAndUpdateDataSources: CapabilityState? = nil, createAndUpdateThemes: CapabilityState? = nil, createAndUpdateThresholdAlerts: CapabilityState? = nil, createSharedFolders: CapabilityState? = nil, createSPICEDataset: CapabilityState? = nil, exportToCsv: CapabilityState? = nil, exportToCsvInScheduledReports: CapabilityState? = nil, exportToExcel: CapabilityState? = nil, exportToExcelInScheduledReports: CapabilityState? = nil, exportToPdf: CapabilityState? = nil, exportToPdfInScheduledReports: CapabilityState? = nil, includeContentInScheduledReportsEmail: CapabilityState? = nil, printReports: CapabilityState? = nil, renameSharedFolders: CapabilityState? = nil, shareAnalyses: CapabilityState? = nil, shareDashboards: CapabilityState? = nil, shareDatasets: CapabilityState? = nil, shareDataSources: CapabilityState? = nil, subscribeDashboardEmailReports: CapabilityState? = nil, viewAccountSPICECapacity: CapabilityState? = nil) {
+        public init(action: CapabilityState? = nil, addOrRunAnomalyDetectionForAnalyses: CapabilityState? = nil, analysis: CapabilityState? = nil, automate: CapabilityState? = nil, chatAgent: CapabilityState? = nil, createAndUpdateDashboardEmailReports: CapabilityState? = nil, createAndUpdateDatasets: CapabilityState? = nil, createAndUpdateDataSources: CapabilityState? = nil, createAndUpdateThemes: CapabilityState? = nil, createAndUpdateThresholdAlerts: CapabilityState? = nil, createChatAgents: CapabilityState? = nil, createSharedFolders: CapabilityState? = nil, createSPICEDataset: CapabilityState? = nil, dashboard: CapabilityState? = nil, exportToCsv: CapabilityState? = nil, exportToCsvInScheduledReports: CapabilityState? = nil, exportToExcel: CapabilityState? = nil, exportToExcelInScheduledReports: CapabilityState? = nil, exportToPdf: CapabilityState? = nil, exportToPdfInScheduledReports: CapabilityState? = nil, flow: CapabilityState? = nil, includeContentInScheduledReportsEmail: CapabilityState? = nil, knowledgeBase: CapabilityState? = nil, performFlowUiTask: CapabilityState? = nil, printReports: CapabilityState? = nil, publishWithoutApproval: CapabilityState? = nil, renameSharedFolders: CapabilityState? = nil, research: CapabilityState? = nil, shareAnalyses: CapabilityState? = nil, shareDashboards: CapabilityState? = nil, shareDatasets: CapabilityState? = nil, shareDataSources: CapabilityState? = nil, space: CapabilityState? = nil, subscribeDashboardEmailReports: CapabilityState? = nil, useAgentWebSearch: CapabilityState? = nil, useBedrockModels: CapabilityState? = nil, viewAccountSPICECapacity: CapabilityState? = nil) {
+            self.action = action
             self.addOrRunAnomalyDetectionForAnalyses = addOrRunAnomalyDetectionForAnalyses
+            self.analysis = analysis
+            self.automate = automate
+            self.chatAgent = chatAgent
             self.createAndUpdateDashboardEmailReports = createAndUpdateDashboardEmailReports
             self.createAndUpdateDatasets = createAndUpdateDatasets
             self.createAndUpdateDataSources = createAndUpdateDataSources
             self.createAndUpdateThemes = createAndUpdateThemes
             self.createAndUpdateThresholdAlerts = createAndUpdateThresholdAlerts
+            self.createChatAgents = createChatAgents
             self.createSharedFolders = createSharedFolders
             self.createSPICEDataset = createSPICEDataset
+            self.dashboard = dashboard
             self.exportToCsv = exportToCsv
             self.exportToCsvInScheduledReports = exportToCsvInScheduledReports
             self.exportToExcel = exportToExcel
             self.exportToExcelInScheduledReports = exportToExcelInScheduledReports
             self.exportToPdf = exportToPdf
             self.exportToPdfInScheduledReports = exportToPdfInScheduledReports
+            self.flow = flow
             self.includeContentInScheduledReportsEmail = includeContentInScheduledReportsEmail
+            self.knowledgeBase = knowledgeBase
+            self.performFlowUiTask = performFlowUiTask
             self.printReports = printReports
+            self.publishWithoutApproval = publishWithoutApproval
             self.renameSharedFolders = renameSharedFolders
+            self.research = research
             self.shareAnalyses = shareAnalyses
             self.shareDashboards = shareDashboards
             self.shareDatasets = shareDatasets
             self.shareDataSources = shareDataSources
+            self.space = space
             self.subscribeDashboardEmailReports = subscribeDashboardEmailReports
+            self.useAgentWebSearch = useAgentWebSearch
+            self.useBedrockModels = useBedrockModels
             self.viewAccountSPICECapacity = viewAccountSPICECapacity
         }
 
         private enum CodingKeys: String, CodingKey {
+            case action = "Action"
             case addOrRunAnomalyDetectionForAnalyses = "AddOrRunAnomalyDetectionForAnalyses"
+            case analysis = "Analysis"
+            case automate = "Automate"
+            case chatAgent = "ChatAgent"
             case createAndUpdateDashboardEmailReports = "CreateAndUpdateDashboardEmailReports"
             case createAndUpdateDatasets = "CreateAndUpdateDatasets"
             case createAndUpdateDataSources = "CreateAndUpdateDataSources"
             case createAndUpdateThemes = "CreateAndUpdateThemes"
             case createAndUpdateThresholdAlerts = "CreateAndUpdateThresholdAlerts"
+            case createChatAgents = "CreateChatAgents"
             case createSharedFolders = "CreateSharedFolders"
             case createSPICEDataset = "CreateSPICEDataset"
+            case dashboard = "Dashboard"
             case exportToCsv = "ExportToCsv"
             case exportToCsvInScheduledReports = "ExportToCsvInScheduledReports"
             case exportToExcel = "ExportToExcel"
             case exportToExcelInScheduledReports = "ExportToExcelInScheduledReports"
             case exportToPdf = "ExportToPdf"
             case exportToPdfInScheduledReports = "ExportToPdfInScheduledReports"
+            case flow = "Flow"
             case includeContentInScheduledReportsEmail = "IncludeContentInScheduledReportsEmail"
+            case knowledgeBase = "KnowledgeBase"
+            case performFlowUiTask = "PerformFlowUiTask"
             case printReports = "PrintReports"
+            case publishWithoutApproval = "PublishWithoutApproval"
             case renameSharedFolders = "RenameSharedFolders"
+            case research = "Research"
             case shareAnalyses = "ShareAnalyses"
             case shareDashboards = "ShareDashboards"
             case shareDatasets = "ShareDatasets"
             case shareDataSources = "ShareDataSources"
+            case space = "Space"
             case subscribeDashboardEmailReports = "SubscribeDashboardEmailReports"
+            case useAgentWebSearch = "UseAgentWebSearch"
+            case useBedrockModels = "UseBedrockModels"
             case viewAccountSPICECapacity = "ViewAccountSPICECapacity"
         }
     }
@@ -6745,7 +7392,7 @@ extension QuickSight {
     public struct CastColumnTypeOperation: AWSEncodableShape & AWSDecodableShape {
         /// Column name.
         public let columnName: String
-        /// When casting a column from string to datetime type, you can supply a string in a format supported by Amazon QuickSight to denote the source data format.
+        /// When casting a column from string to datetime type, you can supply a string in a format supported by Quick Sight to denote the source data format.
         public let format: String?
         /// New column data type.
         public let newColumnType: ColumnDataType
@@ -6906,9 +7553,9 @@ extension QuickSight {
     public struct CategoryFilterConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// A custom filter that filters based on a single value. This filter can be partially matched.
         public let customFilterConfiguration: CustomFilterConfiguration?
-        /// A list of custom filter values. In the Amazon QuickSight console, this filter type is called a custom filter list.
+        /// A list of custom filter values. In the Quick Sight console, this filter type is called a custom filter list.
         public let customFilterListConfiguration: CustomFilterListConfiguration?
-        /// A list of filter configurations. In the Amazon QuickSight console, this filter type is called a filter list.
+        /// A list of filter configurations. In the Quick Sight console, this filter type is called a filter list.
         public let filterListConfiguration: FilterListConfiguration?
 
         @inlinable
@@ -7004,6 +7651,65 @@ extension QuickSight {
             case axisLabelOptions = "AxisLabelOptions"
             case sortIconVisibility = "SortIconVisibility"
             case visibility = "Visibility"
+        }
+    }
+
+    public struct ClientCredentialsGrantDetails: AWSEncodableShape {
+        /// The client identifier issued to the client during the registration process with the authorization server.
+        public let clientId: String
+        /// The client secret issued to the client during the registration process with the authorization server.
+        public let clientSecret: String
+        /// The authorization server endpoint used to obtain access tokens via the client credentials grant flow.
+        public let tokenEndpoint: String
+
+        @inlinable
+        public init(clientId: String, clientSecret: String, tokenEndpoint: String) {
+            self.clientId = clientId
+            self.clientSecret = clientSecret
+            self.tokenEndpoint = tokenEndpoint
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientId, name: "clientId", parent: name, max: 1024)
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, max: 2048)
+            try self.validate(self.tokenEndpoint, name: "tokenEndpoint", parent: name, max: 8192)
+            try self.validate(self.tokenEndpoint, name: "tokenEndpoint", parent: name, min: 1)
+            try self.validate(self.tokenEndpoint, name: "tokenEndpoint", parent: name, pattern: "^https://")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientId = "ClientId"
+            case clientSecret = "ClientSecret"
+            case tokenEndpoint = "TokenEndpoint"
+        }
+    }
+
+    public struct ClientCredentialsGrantMetadata: AWSEncodableShape {
+        /// The base endpoint URL for the external service.
+        public let baseEndpoint: String
+        /// The detailed client credentials configuration including client ID, client secret, and token endpoint.
+        public let clientCredentialsDetails: ClientCredentialsDetails?
+        /// The source of the client credentials configuration.
+        public let clientCredentialsSource: ClientCredentialsSource?
+
+        @inlinable
+        public init(baseEndpoint: String, clientCredentialsDetails: ClientCredentialsDetails? = nil, clientCredentialsSource: ClientCredentialsSource? = nil) {
+            self.baseEndpoint = baseEndpoint
+            self.clientCredentialsDetails = clientCredentialsDetails
+            self.clientCredentialsSource = clientCredentialsSource
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.baseEndpoint, name: "baseEndpoint", parent: name, max: 8192)
+            try self.validate(self.baseEndpoint, name: "baseEndpoint", parent: name, min: 1)
+            try self.validate(self.baseEndpoint, name: "baseEndpoint", parent: name, pattern: "^https://")
+            try self.clientCredentialsDetails?.validate(name: "\(name).clientCredentialsDetails")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseEndpoint = "BaseEndpoint"
+            case clientCredentialsDetails = "ClientCredentialsDetails"
+            case clientCredentialsSource = "ClientCredentialsSource"
         }
     }
 
@@ -7291,7 +7997,7 @@ extension QuickSight {
     public struct ColumnLevelPermissionRule: AWSEncodableShape & AWSDecodableShape {
         /// An array of column names.
         public let columnNames: [String]?
-        /// An array of Amazon Resource Names (ARNs) for Amazon QuickSight users or groups.
+        /// An array of Amazon Resource Names (ARNs) for Quick Sight users or groups.
         public let principals: [String]?
 
         @inlinable
@@ -8025,6 +8731,25 @@ extension QuickSight {
         }
     }
 
+    public struct ConfluenceParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The URL of the Confluence site to connect to.
+        public let confluenceUrl: String
+
+        @inlinable
+        public init(confluenceUrl: String) {
+            self.confluenceUrl = confluenceUrl
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.confluenceUrl, name: "confluenceUrl", parent: name, max: 1024)
+            try self.validate(self.confluenceUrl, name: "confluenceUrl", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confluenceUrl = "ConfluenceUrl"
+        }
+    }
+
     public struct ContextMenuOption: AWSEncodableShape & AWSDecodableShape {
         /// The availability status of the context menu options. If the value of this property is set to ENABLED, dashboard readers can interact with the context menu.
         public let availabilityStatus: DashboardBehavior?
@@ -8036,6 +8761,35 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityStatus = "AvailabilityStatus"
+        }
+    }
+
+    public struct ContextualAccentPalette: AWSEncodableShape & AWSDecodableShape {
+        public let automation: Palette?
+        public let connection: Palette?
+        public let insight: Palette?
+        public let visualization: Palette?
+
+        @inlinable
+        public init(automation: Palette? = nil, connection: Palette? = nil, insight: Palette? = nil, visualization: Palette? = nil) {
+            self.automation = automation
+            self.connection = connection
+            self.insight = insight
+            self.visualization = visualization
+        }
+
+        public func validate(name: String) throws {
+            try self.automation?.validate(name: "\(name).automation")
+            try self.connection?.validate(name: "\(name).connection")
+            try self.insight?.validate(name: "\(name).insight")
+            try self.visualization?.validate(name: "\(name).visualization")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case automation = "Automation"
+            case connection = "Connection"
+            case insight = "Insight"
+            case visualization = "Visualization"
         }
     }
 
@@ -8109,11 +8863,11 @@ extension QuickSight {
     }
 
     public struct CreateAccountCustomizationRequest: AWSEncodableShape {
-        /// The Amazon QuickSight customizations you're adding in the current Amazon Web Services Region. You can add these to an Amazon Web Services account and a QuickSight namespace.  For example, you can add a default theme by setting AccountCustomization to the midnight theme: "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight::aws:theme/MIDNIGHT" }. Or, you can add a custom theme by specifying "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight:us-west-2:111122223333:theme/bdb844d0-0fe9-4d9d-b520-0fe602d93639" }.
+        /// The Quick Sight customizations you're adding. You can add these to an Amazon Web Services account and a QuickSight namespace.  For example, you can add a default theme by setting AccountCustomization to the midnight theme: "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight::aws:theme/MIDNIGHT" }. Or, you can add a custom theme by specifying "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight:us-west-2:111122223333:theme/bdb844d0-0fe9-4d9d-b520-0fe602d93639" }.
         public let accountCustomization: AccountCustomization
-        /// The ID for the Amazon Web Services account that you want to customize Amazon QuickSight for.
+        /// The ID for the Amazon Web Services account that you want to customize Quick Sight for.
         public let awsAccountId: String
-        /// The Amazon QuickSight namespace that you want to add customizations to.
+        /// The Quick Sight namespace that you want to add customizations to.
         public let namespace: String?
         /// A list of the tags that you want to attach to this resource.
         public let tags: [Tag]?
@@ -8155,11 +8909,11 @@ extension QuickSight {
     }
 
     public struct CreateAccountCustomizationResponse: AWSDecodableShape {
-        /// The Amazon QuickSight customizations you're adding in the current Amazon Web Services Region.
+        /// The Quick Sight customizations you're adding.
         public let accountCustomization: AccountCustomization?
         /// The Amazon Resource Name (ARN) for the customization that you created for this Amazon Web Services account.
         public let arn: String?
-        /// The ID for the Amazon Web Services account that you want to customize Amazon QuickSight for.
+        /// The ID for the Amazon Web Services account that you want to customize Quick Sight for.
         public let awsAccountId: String?
         /// The namespace associated with the customization you're creating.
         public let namespace: String?
@@ -8199,43 +8953,43 @@ extension QuickSight {
     }
 
     public struct CreateAccountSubscriptionRequest: AWSEncodableShape {
-        /// The name of your Amazon QuickSight account. This name is unique over all of Amazon Web Services, and it appears only when users sign in. You can't change AccountName value after the Amazon QuickSight account is created.
+        /// The name of your Amazon Quick Sight account. This name is unique over all of Amazon Web Services, and it appears only when users sign in. You can't change AccountName value after the Amazon Quick Sight account is created.
         public let accountName: String
-        /// The name of your Active Directory. This field is required if ACTIVE_DIRECTORY is the selected authentication method of the new Amazon QuickSight account.
+        /// The name of your Active Directory. This field is required if ACTIVE_DIRECTORY is the selected authentication method of the new Quick Sight account.
         public let activeDirectoryName: String?
-        /// The admin group associated with your Active Directory or IAM Identity Center account. Either this field or the AdminProGroup field is required if ACTIVE_DIRECTORY or IAM_IDENTITY_CENTER is the selected authentication method of the new Amazon QuickSight account. For more information about using IAM Identity Center in Amazon QuickSight, see Using IAM Identity Center with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see Using Active Directory with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide.
+        /// The admin group associated with your Active Directory or IAM Identity Center account. Either this field or the AdminProGroup field is required if ACTIVE_DIRECTORY or IAM_IDENTITY_CENTER is the selected authentication method of the new Quick Sight account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. For more information about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide.
         public let adminGroup: [String]?
-        /// The admin pro group associated with your Active Directory or IAM Identity Center account. Either this field or the AdminGroup field is required if ACTIVE_DIRECTORY or IAM_IDENTITY_CENTER is the selected authentication method of the new Amazon QuickSight account. For more information about using IAM Identity Center in Amazon QuickSight, see Using IAM Identity Center with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see Using Active Directory with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide.
+        /// The admin pro group associated with your Active Directory or IAM Identity Center account. Either this field or the AdminGroup field is required if ACTIVE_DIRECTORY or IAM_IDENTITY_CENTER is the selected authentication method of the new Quick Sight account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. For more information about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide.
         public let adminProGroup: [String]?
-        /// The method that you want to use to authenticate your Amazon QuickSight account. If you choose ACTIVE_DIRECTORY, provide an ActiveDirectoryName and an AdminGroup associated with your Active Directory. If you choose IAM_IDENTITY_CENTER, provide an AdminGroup associated with your IAM Identity Center account.
+        /// The method that you want to use to authenticate your Quick Sight account. If you choose ACTIVE_DIRECTORY, provide an ActiveDirectoryName and an AdminGroup associated with your Active Directory. If you choose IAM_IDENTITY_CENTER, provide an AdminGroup associated with your IAM Identity Center account.
         public let authenticationMethod: AuthenticationMethodOption
-        /// The author group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon QuickSight, see Using IAM Identity Center with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see Using Active Directory with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide.
+        /// The author group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. For more information about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide.
         public let authorGroup: [String]?
-        /// The author pro group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon QuickSight, see Using IAM Identity Center with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see Using Active Directory with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide.
+        /// The author pro group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. For more information about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide.
         public let authorProGroup: [String]?
-        /// The Amazon Web Services account ID of the account that you're using to create your Amazon QuickSight account.
+        /// The Amazon Web Services account ID of the account that you're using to create your Quick Sight account.
         public let awsAccountId: String
-        /// A 10-digit phone number for the author of the Amazon QuickSight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon QuickSight account.
+        /// A 10-digit phone number for the author of the Amazon Quick Sight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon Quick Sight account.
         public let contactNumber: String?
-        /// The ID of the Active Directory that is associated with your Amazon QuickSight account.
+        /// The ID of the Active Directory that is associated with your Quick Sight account.
         public let directoryId: String?
-        /// The edition of Amazon QuickSight that you want your account to have. Currently, you can choose from ENTERPRISE or ENTERPRISE_AND_Q. If you choose ENTERPRISE_AND_Q, the following parameters are required:    FirstName     LastName     EmailAddress     ContactNumber
+        /// The edition of Amazon Quick Sight that you want your account to have. Currently, you can choose from ENTERPRISE or ENTERPRISE_AND_Q. If you choose ENTERPRISE_AND_Q, the following parameters are required:    FirstName     LastName     EmailAddress     ContactNumber
         public let edition: Edition?
-        /// The email address of the author of the Amazon QuickSight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon QuickSight account.
+        /// The email address of the author of the Amazon Quick Sight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon Quick Sight account.
         public let emailAddress: String?
-        /// The first name of the author of the Amazon QuickSight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon QuickSight account.
+        /// The first name of the author of the Amazon Quick Sight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon Quick Sight account.
         public let firstName: String?
         /// The Amazon Resource Name (ARN) for the IAM Identity Center instance.
         public let iamIdentityCenterInstanceArn: String?
-        /// The last name of the author of the Amazon QuickSight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon QuickSight account.
+        /// The last name of the author of the Amazon Quick Sight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon Quick Sight account.
         public let lastName: String?
-        /// The email address that you want Amazon QuickSight to send notifications to regarding your Amazon QuickSight account or Amazon QuickSight subscription.
+        /// The email address that you want Quick Sight to send notifications to regarding your Quick Sight account or Quick Sight subscription.
         public let notificationEmail: String
-        /// The reader group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon QuickSight, see Using IAM Identity Center with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see Using Active Directory with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide.
+        /// The reader group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. For more information about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide.
         public let readerGroup: [String]?
-        /// The reader pro group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon QuickSight, see Using IAM Identity Center with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see Using Active Directory with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide.
+        /// The reader pro group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. For more information about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide.
         public let readerProGroup: [String]?
-        /// The realm of the Active Directory that is associated with your Amazon QuickSight account. This field is required if ACTIVE_DIRECTORY is the selected authentication method of the new Amazon QuickSight account.
+        /// The realm of the Active Directory that is associated with your Quick Sight account. This field is required if ACTIVE_DIRECTORY is the selected authentication method of the new Quick Sight account.
         public let realm: String?
 
         @inlinable
@@ -8319,7 +9073,7 @@ extension QuickSight {
     public struct CreateAccountSubscriptionResponse: AWSDecodableShape {
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
-        /// A SignupResponse object that returns information about a newly created Amazon QuickSight account.
+        /// A SignupResponse object that returns information about a newly created Quick Sight account.
         public let signupResponse: SignupResponse?
         /// The HTTP status of the request.
         public let status: Int?
@@ -8345,6 +9099,131 @@ extension QuickSight {
         }
     }
 
+    public struct CreateActionConnectorRequest: AWSEncodableShape {
+        /// A unique identifier for the action connector. This ID must be unique within the Amazon Web Services account. The ActionConnectorId must not
+        /// 	          start with the prefix quicksuite-
+        public let actionConnectorId: String
+        /// The authentication configuration for connecting to the external service. This includes the authentication type, base URL, and authentication metadata such as client credentials or API keys.
+        public let authenticationConfig: AuthConfig
+        /// The Amazon Web Services account ID associated with the action connector.
+        public let awsAccountId: String
+        /// An optional description of the action connector.
+        public let description: String?
+        /// A descriptive name for the action connector.
+        public let name: String
+        /// The permissions configuration that defines which users, groups, or namespaces can access this action connector and what operations they can perform.
+        public let permissions: [ResourcePermission]?
+        /// A list of tags to apply to the action connector for resource management and organization.
+        public let tags: [Tag]?
+        /// The type of action connector.
+        public let type: ActionConnectorType
+        /// The ARN of the VPC connection to use for secure connectivity to the external service.
+        public let vpcConnectionArn: String?
+
+        @inlinable
+        public init(actionConnectorId: String, authenticationConfig: AuthConfig, awsAccountId: String, description: String? = nil, name: String, permissions: [ResourcePermission]? = nil, tags: [Tag]? = nil, type: ActionConnectorType, vpcConnectionArn: String? = nil) {
+            self.actionConnectorId = actionConnectorId
+            self.authenticationConfig = authenticationConfig
+            self.awsAccountId = awsAccountId
+            self.description = description
+            self.name = name
+            self.permissions = permissions
+            self.tags = tags
+            self.type = type
+            self.vpcConnectionArn = vpcConnectionArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.actionConnectorId, forKey: .actionConnectorId)
+            try container.encode(self.authenticationConfig, forKey: .authenticationConfig)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.permissions, forKey: .permissions)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.type, forKey: .type)
+            try container.encodeIfPresent(self.vpcConnectionArn, forKey: .vpcConnectionArn)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.actionConnectorId, name: "actionConnectorId", parent: name, max: 512)
+            try self.validate(self.actionConnectorId, name: "actionConnectorId", parent: name, min: 1)
+            try self.validate(self.actionConnectorId, name: "actionConnectorId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.authenticationConfig.validate(name: "\(name).authenticationConfig")
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[A-Za-z0-9 _.,!?-]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9](?:[\\w- ]*[A-Za-z0-9])?$")
+            try self.permissions?.forEach {
+                try $0.validate(name: "\(name).permissions[]")
+            }
+            try self.validate(self.permissions, name: "permissions", parent: name, max: 64)
+            try self.validate(self.permissions, name: "permissions", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionConnectorId = "ActionConnectorId"
+            case authenticationConfig = "AuthenticationConfig"
+            case description = "Description"
+            case name = "Name"
+            case permissions = "Permissions"
+            case tags = "Tags"
+            case type = "Type"
+            case vpcConnectionArn = "VpcConnectionArn"
+        }
+    }
+
+    public struct CreateActionConnectorResponse: AWSDecodableShape {
+        /// The unique identifier of the created action connector.
+        public let actionConnectorId: String?
+        /// The Amazon Resource Name (ARN) of the created action connector.
+        public let arn: String?
+        /// The creation status of the action connector.
+        public let creationStatus: ResourceStatus?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status code of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(actionConnectorId: String? = nil, arn: String? = nil, creationStatus: ResourceStatus? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.actionConnectorId = actionConnectorId
+            self.arn = arn
+            self.creationStatus = creationStatus
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.actionConnectorId = try container.decodeIfPresent(String.self, forKey: .actionConnectorId)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.creationStatus = try container.decodeIfPresent(ResourceStatus.self, forKey: .creationStatus)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionConnectorId = "ActionConnectorId"
+            case arn = "Arn"
+            case creationStatus = "CreationStatus"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct CreateAnalysisRequest: AWSEncodableShape {
         /// The ID for the analysis that you're creating. This ID displays in the URL of the analysis.
         public let analysisId: String
@@ -8352,9 +9231,9 @@ extension QuickSight {
         public let awsAccountId: String
         /// The definition of an analysis. A definition is the data model of all features in a Dashboard, Template, or Analysis. Either a SourceEntity or a Definition must be provided in  order for the request to be valid.
         public let definition: AnalysisDefinition?
-        /// When you create the analysis, Amazon QuickSight adds the analysis to these folders.
+        /// When you create the analysis, Amazon Quick Sight adds the analysis to these folders.
         public let folderArns: [String]?
-        /// A descriptive name for the analysis that you're creating. This name displays for the analysis in the Amazon QuickSight console.
+        /// A descriptive name for the analysis that you're creating. This name displays for the analysis in the Amazon Quick Sight console.
         public let name: String
         /// The parameter names and override values that you want to use. An analysis can have  any parameter type, and some parameters might accept multiple values.
         public let parameters: Parameters?
@@ -8364,7 +9243,7 @@ extension QuickSight {
         public let sourceEntity: AnalysisSourceEntity?
         /// Contains a map of the key-value pairs for the resource tag or tags assigned to the analysis.
         public let tags: [Tag]?
-        /// The ARN for the theme to apply to the analysis that you're creating. To see the theme in the Amazon QuickSight console, make sure that you have access to it.
+        /// The ARN for the theme to apply to the analysis that you're creating. To see the theme in the Amazon Quick Sight console, make sure that you have access to it.
         public let themeArn: String?
         /// The option to relax the validation needed to create an analysis with definition objects. This skips the validation step for specific errors.
         public let validationStrategy: ValidationStrategy?
@@ -8482,7 +9361,7 @@ extension QuickSight {
         public let awsAccountId: String
         /// The definition of the brand.
         public let brandDefinition: BrandDefinition?
-        /// The ID of the Amazon QuickSight brand.
+        /// The ID of the QuickSight brand.
         public let brandId: String
         /// A map of the key-value pairs that are assigned to the brand.
         public let tags: [Tag]?
@@ -8644,11 +9523,11 @@ extension QuickSight {
         public let awsAccountId: String
         /// The ID for the dashboard, also added to the IAM policy.
         public let dashboardId: String
-        /// Options for publishing the dashboard when you create it:    AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, Amazon QuickSight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.     AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .CSV format isn't enabled when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.
+        /// Options for publishing the dashboard when you create it:    AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, Amazon Quick Sight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.     AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .CSV format isn't enabled when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.     AvailabilityStatus for QuickSuiteActionsOption - This status can be either ENABLED or DISABLED. Features related to Actions in Amazon Quick Suite on dashboards are disabled when this is set to DISABLED. This option is DISABLED by default.    AvailabilityStatus for ExecutiveSummaryOption - This status can be either ENABLED or DISABLED. The option to build an executive summary is disabled when this is set to DISABLED. This option is ENABLED by default.    AvailabilityStatus for DataStoriesSharingOption - This status can be either ENABLED or DISABLED. The option to share a data story is disabled when this is set to DISABLED. This option is ENABLED by default.
         public let dashboardPublishOptions: DashboardPublishOptions?
-        /// The definition of a dashboard. A definition is the data model of all features in a Dashboard, Template, or Analysis. Either a SourceEntity or a Definition must be provided in  order for the request to be valid.
+        /// The definition of a dashboard. A definition is the data model of all features in a Dashboard, Template, or Analysis. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
         public let definition: DashboardVersionDefinition?
-        /// When you create the dashboard, Amazon QuickSight adds the dashboard to these folders.
+        /// When you create the dashboard, Amazon Quick Sight adds the dashboard to these folders.
         public let folderArns: [String]?
         /// A list of analysis Amazon Resource Names (ARNs) to be linked to the dashboard.
         public let linkEntities: [String]?
@@ -8660,7 +9539,7 @@ extension QuickSight {
         public let parameters: Parameters?
         /// A structure that contains the permissions of the dashboard. You can use this structure for granting permissions by providing a list of IAM action information for each principal ARN.  To specify no permissions, omit the permissions list.
         public let permissions: [ResourcePermission]?
-        /// The entity that you are using as a source when you create the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only create a dashboard from a template, so you use a SourceTemplate entity. If you need to create a dashboard from an analysis, first convert the analysis to a template by using the  CreateTemplate  API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplateARN can contain any Amazon Web Services account and any Amazon QuickSight-supported Amazon Web Services Region.  Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.  Either a SourceEntity or a Definition must be provided in  order for the request to be valid.
+        /// The entity that you are using as a source when you create the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only create a dashboard from a template, so you use a SourceTemplate entity. If you need to create a dashboard from an analysis, first convert the analysis to a template by using the  CreateTemplate API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplateARN can contain any Amazon Web Services account and any Amazon Quick Sight-supported Amazon Web Services Region.  Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.  Either a SourceEntity or a Definition must be provided in order for the request to be valid.
         public let sourceEntity: DashboardSourceEntity?
         /// Contains a map of the key-value pairs for the resource tag or tags assigned to the dashboard.
         public let tags: [Tag]?
@@ -8808,7 +9687,8 @@ extension QuickSight {
     public struct CreateDataSetRequest: AWSEncodableShape {
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
-        /// Groupings of columns that work together in certain Amazon QuickSight features. Currently, only geospatial hierarchy is supported.
+        /// Groupings of columns that work together in certain Amazon Quick Sight features.
+        /// 			Currently, only geospatial hierarchy is supported.
         public let columnGroups: [ColumnGroup]?
         /// A set of one or more definitions of a  ColumnLevelPermissionRule .
         public let columnLevelPermissionRules: [ColumnLevelPermissionRule]?
@@ -8819,15 +9699,18 @@ extension QuickSight {
         public let dataSetUsageConfiguration: DataSetUsageConfiguration?
         /// The folder that contains fields and nested subfolders for your dataset.
         public let fieldFolders: [String: FieldFolder]?
-        /// When you create the dataset, Amazon QuickSight adds the dataset to these folders.
+        /// When you create the dataset, Amazon Quick Sight adds the dataset to these
+        /// 			folders.
         public let folderArns: [String]?
         /// Indicates whether you want to import the data into SPICE.
         public let importMode: DataSetImportMode
-        /// Configures the combination and transformation of the data from the physical tables.
+        /// Configures the combination and transformation of the data from the physical
+        /// 			tables.
         public let logicalTableMap: [String: LogicalTable]?
         /// The display name for the dataset.
         public let name: String
-        /// The configuration for the performance optimization of the dataset that contains a UniqueKey configuration.
+        /// The configuration for the performance optimization of the dataset that contains a
+        /// 				UniqueKey configuration.
         public let performanceConfiguration: PerformanceConfiguration?
         /// A list of resource permissions on the dataset.
         public let permissions: [ResourcePermission]?
@@ -8835,11 +9718,14 @@ extension QuickSight {
         public let physicalTableMap: [String: PhysicalTable]
         /// The row-level security configuration for the data that you want to create.
         public let rowLevelPermissionDataSet: RowLevelPermissionDataSet?
-        /// The configuration of tags on a dataset to set row-level security. Row-level security tags are currently supported for anonymous embedding only.
+        /// The configuration of tags on a dataset to set row-level security. Row-level security
+        /// 			tags are currently supported for anonymous embedding only.
         public let rowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration?
-        /// Contains a map of the key-value pairs for the resource tag or tags assigned to the dataset.
+        /// Contains a map of the key-value pairs for the resource tag or tags assigned to the
+        /// 			dataset.
         public let tags: [Tag]?
-        /// The usage of the dataset. RLS_RULES must be specified for RLS permission datasets.
+        /// The usage of the dataset. RLS_RULES must be specified for RLS permission
+        /// 			datasets.
         public let useAs: DataSetUseAs?
 
         @inlinable
@@ -8969,11 +9855,11 @@ extension QuickSight {
         public let arn: String?
         /// The ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let dataSetId: String?
-        /// The ARN for the ingestion, which is triggered as a result of dataset creation if the import
-        /// 			mode is SPICE.
+        /// The ARN for the ingestion, which is triggered as a result of dataset creation if the
+        /// 			import mode is SPICE.
         public let ingestionArn: String?
-        /// The ID of the ingestion, which is triggered as a result of dataset creation if the import
-        /// 			mode is SPICE.
+        /// The ID of the ingestion, which is triggered as a result of dataset creation if the
+        /// 			import mode is SPICE.
         public let ingestionId: String?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
@@ -9013,28 +9899,33 @@ extension QuickSight {
     public struct CreateDataSourceRequest: AWSEncodableShape {
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
-        /// The credentials Amazon QuickSight that uses to connect to your underlying source. Currently, only
-        /// 			credentials based on user name and password are supported.
+        /// The credentials Amazon Quick Sight that uses to connect to your underlying source.
+        /// 			Currently, only credentials based on user name and password are supported.
         public let credentials: DataSourceCredentials?
-        /// An ID for the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+        /// An ID for the data source. This ID is unique per Amazon Web Services Region for each
+        /// 				Amazon Web Services account.
         public let dataSourceId: String
-        /// The parameters that Amazon QuickSight uses to connect to your underlying source.
+        /// The parameters that Amazon Quick Sight uses to connect to your underlying
+        /// 			source.
         public let dataSourceParameters: DataSourceParameters?
-        /// When you create the data source, Amazon QuickSight adds the data source to these folders.
+        /// When you create the data source, Amazon Quick Sight adds the data source to these
+        /// 			folders.
         public let folderArns: [String]?
         /// A display name for the data source.
         public let name: String
         /// A list of resource permissions on the data source.
         public let permissions: [ResourcePermission]?
-        /// Secure Socket Layer (SSL) properties that apply when Amazon QuickSight connects to your underlying source.
-        public let sslProperties: SslProperties?
-        /// Contains a map of the key-value pairs for the resource tag or tags assigned to the data source.
-        public let tags: [Tag]?
-        /// The type of the data source. To return a
-        /// 			list of all data sources, use ListDataSources. Use AMAZON_ELASTICSEARCH for Amazon OpenSearch Service.
-        public let type: DataSourceType
-        /// Use this parameter only when you want Amazon QuickSight to use a VPC connection when connecting to
+        /// Secure Socket Layer (SSL) properties that apply when Amazon Quick Sight connects to
         /// 			your underlying source.
+        public let sslProperties: SslProperties?
+        /// Contains a map of the key-value pairs for the resource tag or tags assigned to the
+        /// 			data source.
+        public let tags: [Tag]?
+        /// The type of the data source. To return a list of all data sources, use
+        /// 				ListDataSources. Use AMAZON_ELASTICSEARCH for Amazon OpenSearch Service.
+        public let type: DataSourceType
+        /// Use this parameter only when you want Amazon Quick Sight to use a VPC connection when
+        /// 			connecting to your underlying source.
         public let vpcConnectionProperties: VpcConnectionProperties?
 
         @inlinable
@@ -9108,7 +9999,8 @@ extension QuickSight {
         public let arn: String?
         /// The status of creating the data source.
         public let creationStatus: ResourceStatus?
-        /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+        /// The ID of the data source. This ID is unique per Amazon Web Services Region for each
+        /// 				Amazon Web Services account.
         public let dataSourceId: String?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
@@ -9316,7 +10208,7 @@ extension QuickSight {
 
     public struct CreateGroupMembershipRequest: AWSEncodableShape {
         /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the
-        /// 			Amazon Web Services account that contains your Amazon QuickSight account.
+        /// 			Amazon Web Services account that contains your Amazon Quick Sight account.
         public let awsAccountId: String
         /// The name of the group that you want to add the user to.
         public let groupName: String
@@ -9389,7 +10281,7 @@ extension QuickSight {
 
     public struct CreateGroupRequest: AWSEncodableShape {
         /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the
-        /// 			Amazon Web Services account that contains your Amazon QuickSight account.
+        /// 			Amazon Web Services account that contains your Amazon Quick Sight account.
         public let awsAccountId: String
         /// A description for the group that you want to create.
         public let description: String?
@@ -9474,14 +10366,14 @@ extension QuickSight {
         /// 					source.    DRAFT - This assignment is an unfinished draft and isn't used
         /// 					when creating the data source.
         public let assignmentStatus: AssignmentStatus
-        /// The ID of the Amazon Web Services account where you want to assign an IAM policy to Amazon QuickSight users or groups.
+        /// The ID of the Amazon Web Services account where you want to assign an IAM policy to Amazon Quick Sight users or groups.
         public let awsAccountId: String
-        /// The Amazon QuickSight users, groups, or both that you want to assign the policy
+        /// The Amazon Quick Sight users, groups, or both that you want to assign the policy
         /// 			to.
         public let identities: [String: [String]]?
         /// The namespace that contains the assignment.
         public let namespace: String
-        /// The ARN for the IAM policy to apply to the Amazon QuickSight users and
+        /// The ARN for the IAM policy to apply to the Amazon Quick Sight users and
         /// 			groups specified in this assignment.
         public let policyArn: String?
 
@@ -9536,10 +10428,10 @@ extension QuickSight {
         /// 					source.    DRAFT - This assignment is an unfinished draft and isn't used
         /// 					when creating the data source.
         public let assignmentStatus: AssignmentStatus?
-        /// The Amazon QuickSight users, groups, or both that the IAM policy is
+        /// The Amazon Quick Sight users, groups, or both that the IAM policy is
         /// 			assigned to.
         public let identities: [String: [String]]?
-        /// The ARN for the IAM policy that is applied to the Amazon QuickSight
+        /// The ARN for the IAM policy that is applied to the Amazon Quick Sight
         /// 			users and groups specified in this assignment.
         public let policyArn: String?
         /// The Amazon Web Services request ID for this operation.
@@ -9661,7 +10553,7 @@ extension QuickSight {
     }
 
     public struct CreateNamespaceRequest: AWSEncodableShape {
-        /// The ID for the Amazon Web Services account that you want to create the Amazon QuickSight namespace in.
+        /// The ID for the Amazon Web Services account that you want to create the Quick Sight namespace in.
         public let awsAccountId: String
         /// Specifies the type of your user identity directory. Currently, this supports users with an identity type of QUICKSIGHT.
         public let identityStore: IdentityStore
@@ -9708,7 +10600,7 @@ extension QuickSight {
     }
 
     public struct CreateNamespaceResponse: AWSDecodableShape {
-        /// The ARN of the Amazon QuickSight namespace you created.
+        /// The ARN of the Quick Sight namespace you created.
         public let arn: String?
         /// The Amazon Web Services Region; that you want to use for the free SPICE capacity for the new namespace. This is set to the region that you run CreateNamespace in.
         public let capacityRegion: String?
@@ -9826,7 +10718,7 @@ extension QuickSight {
     }
 
     public struct CreateRoleMembershipRequest: AWSEncodableShape {
-        /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon QuickSight account.
+        /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon Quick Sight account.
         public let awsAccountId: String
         /// The name of the group that you want to add to the role.
         public let memberName: String
@@ -9892,7 +10784,7 @@ extension QuickSight {
     public struct CreateTemplateAliasRequest: AWSEncodableShape {
         /// The name that you want to give to the template alias that you're creating. Don't start the
         /// 			alias name with the $ character. Alias names that start with $
-        /// 			are reserved by Amazon QuickSight.
+        /// 			are reserved by Quick Sight.
         public let aliasName: String
         /// The ID of the Amazon Web Services account that contains the template that you creating an alias for.
         public let awsAccountId: String
@@ -9966,7 +10858,7 @@ extension QuickSight {
     }
 
     public struct CreateTemplateRequest: AWSEncodableShape {
-        /// The ID for the Amazon Web Services account that the group is in. You use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+        /// The ID for the Amazon Web Services account that the group is in. You use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
         public let awsAccountId: String
         /// The definition of a template. A definition is the data model of all features in a Dashboard, Template, or Analysis. Either a SourceEntity or a Definition must be provided in
         /// 			order for the request to be valid.
@@ -9981,7 +10873,7 @@ extension QuickSight {
         /// 			analysis. Both of these require an Amazon Resource Name (ARN). For
         /// 			SourceTemplate, specify the ARN of the source template. For
         /// 			SourceAnalysis, specify the ARN of the source analysis. The SourceTemplate
-        /// 			ARN can contain any Amazon Web Services account and any Amazon QuickSight-supported Amazon Web Services Region.  Use the DataSetReferences entity within SourceTemplate or
+        /// 			ARN can contain any Amazon Web Services account and any Quick Sight-supported Amazon Web Services Region.  Use the DataSetReferences entity within SourceTemplate or
         /// 			SourceAnalysis to list the replacement datasets for the placeholders listed
         /// 			in the original. The schema in each dataset must match its placeholder.  Either a SourceEntity or a Definition must be provided in
         /// 			order for the request to be valid.
@@ -10110,7 +11002,7 @@ extension QuickSight {
     public struct CreateThemeAliasRequest: AWSEncodableShape {
         /// The name that you want to give to the theme alias that you are creating. The
         /// 			alias name can't begin with a $. Alias names that start with $
-        /// 			are reserved by Amazon QuickSight.
+        /// 			are reserved by Amazon Quick Sight.
         public let aliasName: String
         /// The ID of the Amazon Web Services account that contains the theme for the new theme alias.
         public let awsAccountId: String
@@ -10187,7 +11079,7 @@ extension QuickSight {
         /// The ID of the Amazon Web Services account where you want to store the new theme.
         public let awsAccountId: String
         /// The ID of the theme that a custom theme will inherit from. All themes inherit from one of
-        /// 			the starting themes defined by Amazon QuickSight. For a list of the starting themes, use
+        /// 			the starting themes defined by Amazon Quick Sight. For a list of the starting themes, use
         /// 				ListThemes or choose Themes from
         /// 			within an analysis.
         public let baseThemeId: String
@@ -10884,6 +11776,20 @@ extension QuickSight {
         }
     }
 
+    public struct CustomConnectionParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The type of custom connector.
+        public let connectionType: String?
+
+        @inlinable
+        public init(connectionType: String? = nil) {
+            self.connectionType = connectionType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionType = "ConnectionType"
+        }
+    }
+
     public struct CustomContentConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The content type of the custom content visual. You can use this to have the visual render as an image.
         public let contentType: CustomContentType?
@@ -11280,12 +12186,18 @@ extension QuickSight {
         public let dataPointMenuLabelOption: DataPointMenuLabelOption?
         /// The data point tool tip options of a dashboard.
         public let dataPointTooltipOption: DataPointTooltipOption?
-        /// Adds Q&A capabilities to an Amazon QuickSight dashboard. If no topic is linked, Dashboard Q&A uses the data values that are rendered on the dashboard. End users can use Dashboard Q&A to ask for different slices of the data that they see on the dashboard. If a topic is linked, Topic Q&A is used.
+        /// Adds Q&A capabilities to an Quick Sight dashboard. If no topic is linked, Dashboard Q&A uses the data values that are rendered on the dashboard. End users can use Dashboard Q&A to ask for different slices of the data that they see on the dashboard. If a topic is linked, Topic Q&A is used.
         public let dataQAEnabledOption: DataQAEnabledOption?
+        /// Data stories sharing option.
+        public let dataStoriesSharingOption: DataStoriesSharingOption?
+        /// Executive summary option.
+        public let executiveSummaryOption: ExecutiveSummaryOption?
         /// Export to .csv option.
         public let exportToCSVOption: ExportToCSVOption?
         /// Determines if hidden fields are exported with a dashboard.
         public let exportWithHiddenFieldsOption: ExportWithHiddenFieldsOption?
+        /// Determines if Actions in Amazon Quick Suite are enabled in a dashboard.
+        public let quickSuiteActionsOption: QuickSuiteActionsOption?
         /// Sheet controls option.
         public let sheetControlsOption: SheetControlsOption?
         /// The sheet layout maximization options of a dashbaord.
@@ -11298,14 +12210,17 @@ extension QuickSight {
         public let visualPublishOptions: DashboardVisualPublishOptions?
 
         @inlinable
-        public init(adHocFilteringOption: AdHocFilteringOption? = nil, dataPointDrillUpDownOption: DataPointDrillUpDownOption? = nil, dataPointMenuLabelOption: DataPointMenuLabelOption? = nil, dataPointTooltipOption: DataPointTooltipOption? = nil, dataQAEnabledOption: DataQAEnabledOption? = nil, exportToCSVOption: ExportToCSVOption? = nil, exportWithHiddenFieldsOption: ExportWithHiddenFieldsOption? = nil, sheetControlsOption: SheetControlsOption? = nil, sheetLayoutElementMaximizationOption: SheetLayoutElementMaximizationOption? = nil, visualAxisSortOption: VisualAxisSortOption? = nil, visualMenuOption: VisualMenuOption? = nil) {
+        public init(adHocFilteringOption: AdHocFilteringOption? = nil, dataPointDrillUpDownOption: DataPointDrillUpDownOption? = nil, dataPointMenuLabelOption: DataPointMenuLabelOption? = nil, dataPointTooltipOption: DataPointTooltipOption? = nil, dataQAEnabledOption: DataQAEnabledOption? = nil, dataStoriesSharingOption: DataStoriesSharingOption? = nil, executiveSummaryOption: ExecutiveSummaryOption? = nil, exportToCSVOption: ExportToCSVOption? = nil, exportWithHiddenFieldsOption: ExportWithHiddenFieldsOption? = nil, quickSuiteActionsOption: QuickSuiteActionsOption? = nil, sheetControlsOption: SheetControlsOption? = nil, sheetLayoutElementMaximizationOption: SheetLayoutElementMaximizationOption? = nil, visualAxisSortOption: VisualAxisSortOption? = nil, visualMenuOption: VisualMenuOption? = nil) {
             self.adHocFilteringOption = adHocFilteringOption
             self.dataPointDrillUpDownOption = dataPointDrillUpDownOption
             self.dataPointMenuLabelOption = dataPointMenuLabelOption
             self.dataPointTooltipOption = dataPointTooltipOption
             self.dataQAEnabledOption = dataQAEnabledOption
+            self.dataStoriesSharingOption = dataStoriesSharingOption
+            self.executiveSummaryOption = executiveSummaryOption
             self.exportToCSVOption = exportToCSVOption
             self.exportWithHiddenFieldsOption = exportWithHiddenFieldsOption
+            self.quickSuiteActionsOption = quickSuiteActionsOption
             self.sheetControlsOption = sheetControlsOption
             self.sheetLayoutElementMaximizationOption = sheetLayoutElementMaximizationOption
             self.visualAxisSortOption = visualAxisSortOption
@@ -11315,14 +12230,17 @@ extension QuickSight {
 
         @available(*, deprecated, message: "Members visualPublishOptions have been deprecated")
         @inlinable
-        public init(adHocFilteringOption: AdHocFilteringOption? = nil, dataPointDrillUpDownOption: DataPointDrillUpDownOption? = nil, dataPointMenuLabelOption: DataPointMenuLabelOption? = nil, dataPointTooltipOption: DataPointTooltipOption? = nil, dataQAEnabledOption: DataQAEnabledOption? = nil, exportToCSVOption: ExportToCSVOption? = nil, exportWithHiddenFieldsOption: ExportWithHiddenFieldsOption? = nil, sheetControlsOption: SheetControlsOption? = nil, sheetLayoutElementMaximizationOption: SheetLayoutElementMaximizationOption? = nil, visualAxisSortOption: VisualAxisSortOption? = nil, visualMenuOption: VisualMenuOption? = nil, visualPublishOptions: DashboardVisualPublishOptions? = nil) {
+        public init(adHocFilteringOption: AdHocFilteringOption? = nil, dataPointDrillUpDownOption: DataPointDrillUpDownOption? = nil, dataPointMenuLabelOption: DataPointMenuLabelOption? = nil, dataPointTooltipOption: DataPointTooltipOption? = nil, dataQAEnabledOption: DataQAEnabledOption? = nil, dataStoriesSharingOption: DataStoriesSharingOption? = nil, executiveSummaryOption: ExecutiveSummaryOption? = nil, exportToCSVOption: ExportToCSVOption? = nil, exportWithHiddenFieldsOption: ExportWithHiddenFieldsOption? = nil, quickSuiteActionsOption: QuickSuiteActionsOption? = nil, sheetControlsOption: SheetControlsOption? = nil, sheetLayoutElementMaximizationOption: SheetLayoutElementMaximizationOption? = nil, visualAxisSortOption: VisualAxisSortOption? = nil, visualMenuOption: VisualMenuOption? = nil, visualPublishOptions: DashboardVisualPublishOptions? = nil) {
             self.adHocFilteringOption = adHocFilteringOption
             self.dataPointDrillUpDownOption = dataPointDrillUpDownOption
             self.dataPointMenuLabelOption = dataPointMenuLabelOption
             self.dataPointTooltipOption = dataPointTooltipOption
             self.dataQAEnabledOption = dataQAEnabledOption
+            self.dataStoriesSharingOption = dataStoriesSharingOption
+            self.executiveSummaryOption = executiveSummaryOption
             self.exportToCSVOption = exportToCSVOption
             self.exportWithHiddenFieldsOption = exportWithHiddenFieldsOption
+            self.quickSuiteActionsOption = quickSuiteActionsOption
             self.sheetControlsOption = sheetControlsOption
             self.sheetLayoutElementMaximizationOption = sheetLayoutElementMaximizationOption
             self.visualAxisSortOption = visualAxisSortOption
@@ -11336,8 +12254,11 @@ extension QuickSight {
             case dataPointMenuLabelOption = "DataPointMenuLabelOption"
             case dataPointTooltipOption = "DataPointTooltipOption"
             case dataQAEnabledOption = "DataQAEnabledOption"
+            case dataStoriesSharingOption = "DataStoriesSharingOption"
+            case executiveSummaryOption = "ExecutiveSummaryOption"
             case exportToCSVOption = "ExportToCSVOption"
             case exportWithHiddenFieldsOption = "ExportWithHiddenFieldsOption"
+            case quickSuiteActionsOption = "QuickSuiteActionsOption"
             case sheetControlsOption = "SheetControlsOption"
             case sheetLayoutElementMaximizationOption = "SheetLayoutElementMaximizationOption"
             case visualAxisSortOption = "VisualAxisSortOption"
@@ -11507,11 +12428,11 @@ extension QuickSight {
         public let columnConfigurations: [ColumnConfiguration]?
         /// An array of dataset identifier declarations. With this mapping,you can use dataset identifiers instead of dataset Amazon Resource Names (ARNs) throughout the dashboard's sub-structures.
         public let dataSetIdentifierDeclarations: [DataSetIdentifierDeclaration]
-        /// The filter definitions for a dashboard. For more information, see Filtering Data in Amazon QuickSight in the Amazon QuickSight User Guide.
+        /// The filter definitions for a dashboard. For more information, see Filtering Data in Amazon Quick Sight in the Amazon Quick Suite User Guide.
         public let filterGroups: [FilterGroup]?
         /// An array of option definitions for a dashboard.
         public let options: AssetOptions?
-        /// The parameter declarations for a dashboard. Parameters are named variables that can transfer a value for use by an action or an object. For more information, see Parameters in Amazon QuickSight in the Amazon QuickSight User Guide.
+        /// The parameter declarations for a dashboard. Parameters are named variables that can transfer a value for use by an action or an object. For more information, see Parameters in Amazon Quick Sight in the Amazon Quick Suite User Guide.
         public let parameterDeclarations: [ParameterDeclaration]?
         /// An array of sheet definitions for a dashboard.
         public let sheets: [SheetDefinition]?
@@ -11535,7 +12456,7 @@ extension QuickSight {
             try self.calculatedFields?.forEach {
                 try $0.validate(name: "\(name).calculatedFields[]")
             }
-            try self.validate(self.calculatedFields, name: "calculatedFields", parent: name, max: 500)
+            try self.validate(self.calculatedFields, name: "calculatedFields", parent: name, max: 2000)
             try self.columnConfigurations?.forEach {
                 try $0.validate(name: "\(name).columnConfigurations[]")
             }
@@ -11612,11 +12533,11 @@ extension QuickSight {
     }
 
     public struct DashboardVisualId: AWSEncodableShape {
-        /// The ID of the dashboard that has the visual that you want to embed. The DashboardId can be found in the IDs for developers section of the Embed visual pane of the visual's on-visual menu of the Amazon QuickSight console. You can also get the DashboardId with a ListDashboards API operation.
+        /// The ID of the dashboard that has the visual that you want to embed. The DashboardId can be found in the IDs for developers section of the Embed visual pane of the visual's on-visual menu of the QuickSight console. You can also get the DashboardId with a ListDashboards API operation.
         public let dashboardId: String
-        /// The ID of the sheet that the has visual that you want to embed. The SheetId can be found in the IDs for developers section of the Embed visual pane of the visual's on-visual menu of the Amazon QuickSight console.
+        /// The ID of the sheet that the has visual that you want to embed. The SheetId can be found in the IDs for developers section of the Embed visual pane of the visual's on-visual menu of the QuickSight console.
         public let sheetId: String
-        /// The ID of the visual that you want to embed. The VisualID can be found in the IDs for developers section of the Embed visual pane of the visual's on-visual menu of the Amazon QuickSight console.
+        /// The ID of the visual that you want to embed. The VisualID can be found in the IDs for developers section of the Embed visual pane of the visual's on-visual menu of the Amazon Quick Sight console.
         public let visualId: String
 
         @inlinable
@@ -12113,7 +13034,7 @@ extension QuickSight {
     }
 
     public struct DataQnAConfigurations: AWSEncodableShape {
-        /// The generative Q&A settings of an embedded Amazon QuickSight console.
+        /// The generative Q&A settings of an embedded Quick Sight console.
         public let enabled: Bool
 
         @inlinable
@@ -12129,7 +13050,7 @@ extension QuickSight {
     public struct DataSet: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String?
-        /// Groupings of columns that work together in certain Amazon QuickSight features. Currently, only geospatial hierarchy is supported.
+        /// Groupings of columns that work together in certain Quick Sight features. Currently, only geospatial hierarchy is supported.
         public let columnGroups: [ColumnGroup]?
         /// A set of one or more definitions of a  ColumnLevelPermissionRule .
         public let columnLevelPermissionRules: [ColumnLevelPermissionRule]?
@@ -12402,7 +13323,7 @@ extension QuickSight {
     public struct DataSetUsageConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// An option that controls whether a child dataset of a direct query can use this dataset as a source.
         public let disableUseAsDirectQuerySource: Bool?
-        /// An option that controls whether a child dataset that's stored in QuickSight can use this dataset as a source.
+        /// An option that controls whether a child dataset that's stored in Quick Sight can use this dataset as a source.
         public let disableUseAsImportedSource: Bool?
 
         @inlinable
@@ -12426,7 +13347,7 @@ extension QuickSight {
         public let createdTime: Date?
         /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let dataSourceId: String?
-        /// The parameters that Amazon QuickSight uses to connect to your underlying source. This is a variant type structure. For this structure to be valid, only one of the attributes can be non-null.
+        /// The parameters that Quick Sight uses to connect to your underlying source. This is a variant type structure. For this structure to be valid, only one of the attributes can be non-null.
         public let dataSourceParameters: DataSourceParameters?
         /// Error information from the last update or the creation of the data source.
         public let errorInfo: DataSourceErrorInfo?
@@ -12436,13 +13357,13 @@ extension QuickSight {
         public let name: String?
         /// The Amazon Resource Name (ARN) of the secret associated with the data source in Amazon Secrets Manager.
         public let secretArn: String?
-        /// Secure Socket Layer (SSL) properties that apply when Amazon QuickSight connects to your underlying source.
+        /// Secure Socket Layer (SSL) properties that apply when Quick Sight connects to your underlying source.
         public let sslProperties: SslProperties?
         /// The HTTP status of the request.
         public let status: ResourceStatus?
         /// The type of the data source. This type indicates which database engine the data source connects to.
         public let type: DataSourceType?
-        /// The VPC connection information. You need to use this parameter only when you want Amazon QuickSight to use a VPC connection when connecting to your underlying source.
+        /// The VPC connection information. You need to use this parameter only when you want Quick Sight to use a VPC connection when connecting to your underlying source.
         public let vpcConnectionProperties: VpcConnectionProperties?
 
         @inlinable
@@ -12486,12 +13407,15 @@ extension QuickSight {
         public let credentialPair: CredentialPair?
         /// The Amazon Resource Name (ARN) of the secret associated with the data source in Amazon Secrets Manager.
         public let secretArn: String?
+        /// The credentials for connecting through a web proxy server.
+        public let webProxyCredentials: WebProxyCredentials?
 
         @inlinable
-        public init(copySourceArn: String? = nil, credentialPair: CredentialPair? = nil, secretArn: String? = nil) {
+        public init(copySourceArn: String? = nil, credentialPair: CredentialPair? = nil, secretArn: String? = nil, webProxyCredentials: WebProxyCredentials? = nil) {
             self.copySourceArn = copySourceArn
             self.credentialPair = credentialPair
             self.secretArn = secretArn
+            self.webProxyCredentials = webProxyCredentials
         }
 
         public func validate(name: String) throws {
@@ -12500,12 +13424,14 @@ extension QuickSight {
             try self.validate(self.secretArn, name: "secretArn", parent: name, max: 2048)
             try self.validate(self.secretArn, name: "secretArn", parent: name, min: 1)
             try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "^arn:[-a-z0-9]*:secretsmanager:[-a-z0-9]*:[0-9]{12}:secret:.+$")
+            try self.webProxyCredentials?.validate(name: "\(name).webProxyCredentials")
         }
 
         private enum CodingKeys: String, CodingKey {
             case copySourceArn = "CopySourceArn"
             case credentialPair = "CredentialPair"
             case secretArn = "SecretArn"
+            case webProxyCredentials = "WebProxyCredentials"
         }
     }
 
@@ -12584,7 +13510,7 @@ extension QuickSight {
     }
 
     public struct DataStoriesConfigurations: AWSEncodableShape {
-        /// The data story settings of an embedded Amazon QuickSight console.
+        /// The data story settings of an embedded Quick Sight console.
         public let enabled: Bool
 
         @inlinable
@@ -12594,6 +13520,20 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case enabled = "Enabled"
+        }
+    }
+
+    public struct DataStoriesSharingOption: AWSEncodableShape & AWSDecodableShape {
+        /// Availability status.
+        public let availabilityStatus: DashboardBehavior?
+
+        @inlinable
+        public init(availabilityStatus: DashboardBehavior? = nil) {
+            self.availabilityStatus = availabilityStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityStatus = "AvailabilityStatus"
         }
     }
 
@@ -13616,10 +14556,52 @@ extension QuickSight {
         }
     }
 
-    public struct DeleteAccountCustomizationRequest: AWSEncodableShape {
-        /// The ID for the Amazon Web Services account that you want to delete Amazon QuickSight customizations from in this Amazon Web Services Region.
+    public struct DeleteAccountCustomPermissionRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account from which you want to unapply the custom permissions profile.
         public let awsAccountId: String
-        /// The Amazon QuickSight namespace that you're deleting the customizations from.
+
+        @inlinable
+        public init(awsAccountId: String) {
+            self.awsAccountId = awsAccountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAccountCustomPermissionResponse: AWSDecodableShape {
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(requestId: String? = nil, status: Int? = nil) {
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct DeleteAccountCustomizationRequest: AWSEncodableShape {
+        /// The ID for the Amazon Web Services account that you want to delete Quick Sight customizations from.
+        public let awsAccountId: String
+        /// The Quick Sight namespace that you're deleting the customizations from.
         public let namespace: String?
 
         @inlinable
@@ -13718,6 +14700,71 @@ extension QuickSight {
         }
     }
 
+    public struct DeleteActionConnectorRequest: AWSEncodableShape {
+        /// The unique identifier of the action connector to delete.
+        public let actionConnectorId: String
+        /// The Amazon Web Services account ID that contains the action connector to delete.
+        public let awsAccountId: String
+
+        @inlinable
+        public init(actionConnectorId: String, awsAccountId: String) {
+            self.actionConnectorId = actionConnectorId
+            self.awsAccountId = awsAccountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.actionConnectorId, key: "ActionConnectorId")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.actionConnectorId, name: "actionConnectorId", parent: name, max: 512)
+            try self.validate(self.actionConnectorId, name: "actionConnectorId", parent: name, min: 1)
+            try self.validate(self.actionConnectorId, name: "actionConnectorId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteActionConnectorResponse: AWSDecodableShape {
+        /// The unique identifier of the deleted action connector.
+        public let actionConnectorId: String?
+        /// The Amazon Resource Name (ARN) of the deleted action connector.
+        public let arn: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status code of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(actionConnectorId: String? = nil, arn: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.actionConnectorId = actionConnectorId
+            self.arn = arn
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.actionConnectorId = try container.decodeIfPresent(String.self, forKey: .actionConnectorId)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionConnectorId = "ActionConnectorId"
+            case arn = "Arn"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct DeleteAnalysisRequest: AWSEncodableShape {
         /// The ID of the analysis that you're deleting.
         public let analysisId: String
@@ -13725,7 +14772,7 @@ extension QuickSight {
         public let awsAccountId: String
         /// This option defaults to the value NoForceDeleteWithoutRecovery. To immediately delete the analysis, add the ForceDeleteWithoutRecovery option. You can't restore an analysis after it's deleted.
         public let forceDeleteWithoutRecovery: Bool?
-        /// A value that specifies the number of days that Amazon QuickSight waits before it deletes the analysis. You can't use this parameter with the ForceDeleteWithoutRecovery option in the same API call. The default value is 30.
+        /// A value that specifies the number of days that Amazon Quick Sight waits before it deletes the analysis. You can't use this parameter with the ForceDeleteWithoutRecovery option in the same API call. The default value is 30.
         public let recoveryWindowInDays: Int64?
 
         @inlinable
@@ -13839,7 +14886,7 @@ extension QuickSight {
     public struct DeleteBrandRequest: AWSEncodableShape {
         /// The ID of the Amazon Web Services account that owns the brand.
         public let awsAccountId: String
-        /// The ID of the Amazon QuickSight brand.
+        /// The ID of the QuickSight brand.
         public let brandId: String
 
         @inlinable
@@ -14121,7 +15168,8 @@ extension QuickSight {
     public struct DeleteDataSourceRequest: AWSEncodableShape {
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
-        /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+        /// The ID of the data source. This ID is unique per Amazon Web Services Region for each
+        /// 				Amazon Web Services account.
         public let dataSourceId: String
 
         @inlinable
@@ -14149,7 +15197,8 @@ extension QuickSight {
     public struct DeleteDataSourceResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the data source that you deleted.
         public let arn: String?
-        /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+        /// The ID of the data source. This ID is unique per Amazon Web Services Region for each
+        /// 				Amazon Web Services account.
         public let dataSourceId: String?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
@@ -14181,9 +15230,9 @@ extension QuickSight {
     }
 
     public struct DeleteDefaultQBusinessApplicationRequest: AWSEncodableShape {
-        /// The ID of the Amazon QuickSight account that you want to disconnect from a Amazon Q Business application.
+        /// The ID of the Quick Sight account that you want to disconnect from a Amazon Q Business application.
         public let awsAccountId: String
-        /// The Amazon QuickSight namespace that you want to delete a linked Amazon Q Business application from. If this field is left blank, the Amazon Q Business application is deleted from the default namespace. Currently, the default namespace is the only valid value for this parameter.
+        /// The Quick Sight namespace that you want to delete a linked Amazon Q Business application from. If this field is left blank, the Amazon Q Business application is deleted from the default namespace. Currently, the default namespace is the only valid value for this parameter.
         public let namespace: String?
 
         @inlinable
@@ -14361,7 +15410,7 @@ extension QuickSight {
 
     public struct DeleteGroupMembershipRequest: AWSEncodableShape {
         /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the
-        /// 			Amazon Web Services account that contains your Amazon QuickSight account.
+        /// 			Amazon Web Services account that contains your Amazon Quick Sight account.
         public let awsAccountId: String
         /// The name of the group that you want to delete the user from.
         public let groupName: String
@@ -14429,7 +15478,7 @@ extension QuickSight {
 
     public struct DeleteGroupRequest: AWSEncodableShape {
         /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the
-        /// 			Amazon Web Services account that contains your Amazon QuickSight account.
+        /// 			Amazon Web Services account that contains your Amazon Quick Sight account.
         public let awsAccountId: String
         /// The name of the group that you want to delete.
         public let groupName: String
@@ -14607,7 +15656,7 @@ extension QuickSight {
     }
 
     public struct DeleteNamespaceRequest: AWSEncodableShape {
-        /// The ID for the Amazon Web Services account that you want to delete the Amazon QuickSight namespace from.
+        /// The ID for the Amazon Web Services account that you want to delete the Quick Sight namespace from.
         public let awsAccountId: String
         /// The namespace that you want to delete.
         public let namespace: String
@@ -14727,7 +15776,7 @@ extension QuickSight {
     }
 
     public struct DeleteRoleCustomPermissionRequest: AWSEncodableShape {
-        /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+        /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
         public let awsAccountId: String
         /// The namespace that includes the role.
         public let namespace: String
@@ -14779,7 +15828,7 @@ extension QuickSight {
     }
 
     public struct DeleteRoleMembershipRequest: AWSEncodableShape {
-        /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon QuickSight account.
+        /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon Quick Sight account.
         public let awsAccountId: String
         /// The name of the group.
         public let memberName: String
@@ -15281,7 +16330,7 @@ extension QuickSight {
 
     public struct DeleteUserByPrincipalIdRequest: AWSEncodableShape {
         /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the
-        /// 			Amazon Web Services account that contains your Amazon QuickSight account.
+        /// 			Amazon Web Services account that contains your Amazon Quick Sight account.
         public let awsAccountId: String
         /// The namespace. Currently, you should set this to default.
         public let namespace: String
@@ -15400,7 +16449,7 @@ extension QuickSight {
 
     public struct DeleteUserRequest: AWSEncodableShape {
         /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the
-        /// 			Amazon Web Services account that contains your Amazon QuickSight account.
+        /// 			Amazon Web Services account that contains your Amazon Quick Sight account.
         public let awsAccountId: String
         /// The namespace. Currently, you should set this to default.
         public let namespace: String
@@ -15537,12 +16586,58 @@ extension QuickSight {
         }
     }
 
-    public struct DescribeAccountCustomizationRequest: AWSEncodableShape {
-        /// The ID for the Amazon Web Services account that you want to describe Amazon QuickSight customizations for.
+    public struct DescribeAccountCustomPermissionRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account for which you want to describe the applied custom permissions profile.
         public let awsAccountId: String
-        /// The Amazon QuickSight namespace that you want to describe Amazon QuickSight customizations for.
+
+        @inlinable
+        public init(awsAccountId: String) {
+            self.awsAccountId = awsAccountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeAccountCustomPermissionResponse: AWSDecodableShape {
+        /// The name of the custom permissions profile.
+        public let customPermissionsName: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(customPermissionsName: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.customPermissionsName = customPermissionsName
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customPermissionsName = "CustomPermissionsName"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct DescribeAccountCustomizationRequest: AWSEncodableShape {
+        /// The ID for the Amazon Web Services account that you want to describe Quick Sight customizations for.
+        public let awsAccountId: String
+        /// The Quick Sight namespace that you want to describe Quick Sight customizations for.
         public let namespace: String?
-        /// The Resolved flag works with the other parameters to determine which view of Amazon QuickSight customizations is returned. You can add this flag to your command to use the same view that Amazon QuickSight uses to identify which customizations to apply to the console. Omit this flag, or set it to no-resolved, to reveal customizations that are configured at different levels.
+        /// The Resolved flag works with the other parameters to determine which view of Quick Sight customizations is returned. You can add this flag to your command to use the same view that Quick Sight uses to identify which customizations to apply to the console. Omit this flag, or set it to no-resolved, to reveal customizations that are configured at different levels.
         public let resolved: Bool?
 
         @inlinable
@@ -15572,13 +16667,13 @@ extension QuickSight {
     }
 
     public struct DescribeAccountCustomizationResponse: AWSDecodableShape {
-        /// The Amazon QuickSight customizations that exist in the current Amazon Web Services Region.
+        /// The Quick Sight customizations that exist.
         public let accountCustomization: AccountCustomization?
         /// The Amazon Resource Name (ARN) of the customization that's associated with this Amazon Web Services account.
         public let arn: String?
         /// The ID for the Amazon Web Services account that you're describing.
         public let awsAccountId: String?
-        /// The Amazon QuickSight namespace that you're describing.
+        /// The Quick Sight namespace that you're describing.
         public let namespace: String?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
@@ -15640,7 +16735,7 @@ extension QuickSight {
     }
 
     public struct DescribeAccountSettingsResponse: AWSDecodableShape {
-        /// The Amazon QuickSight settings for this Amazon Web Services account. This information includes the edition of Amazon Amazon QuickSight that you subscribed to (Standard or Enterprise) and the notification email for the Amazon QuickSight subscription.  In the QuickSight console, the Amazon QuickSight subscription is sometimes referred to as a QuickSight "account" even though it's technically not an account by itself. Instead, it's a subscription to the Amazon QuickSight service for your Amazon Web Services account. The edition that you subscribe to applies to Amazon QuickSight in every Amazon Web Services Region where you use it.
+        /// The Amazon Quick Sight settings for this Amazon Web Services account. This information includes the edition of Amazon Quick Sight that you subscribed to (Standard or Enterprise) and the notification email for the Amazon Quick Sight subscription.  In the Quick Sight console, the Amazon Quick Sight subscription is sometimes referred to as a Quick Sight "account" even though it's technically not an account by itself. Instead, it's a subscription to the Amazon Quick Sight service for your Amazon Web Services account. The edition that you subscribe to applies to QuickSight in every Amazon Web Services Region where you use it.
         public let accountSettings: AccountSettings?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
@@ -15669,7 +16764,7 @@ extension QuickSight {
     }
 
     public struct DescribeAccountSubscriptionRequest: AWSEncodableShape {
-        /// The Amazon Web Services account ID associated with your Amazon QuickSight account.
+        /// The Amazon Web Services account ID associated with your Quick Sight account.
         public let awsAccountId: String
 
         @inlinable
@@ -15693,7 +16788,7 @@ extension QuickSight {
     }
 
     public struct DescribeAccountSubscriptionResponse: AWSDecodableShape {
-        /// A structure that contains the following elements:   Your Amazon QuickSight account name.   The edition of Amazon QuickSight that your account is using.   The notification email address that is associated with the Amazon QuickSight account.    The authentication type of the Amazon QuickSight account.   The status of the Amazon QuickSight account's subscription.
+        /// A structure that contains the following elements:   Your Quick Sight account name.   The edition of Quick Sight that your account is using.   The notification email address that is associated with the Amazon Quick Sight account.    The authentication type of the Quick Sight account.   The status of the Quick Sight account's subscription.
         public let accountInfo: AccountInfo?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
@@ -15717,6 +16812,136 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case accountInfo = "AccountInfo"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct DescribeActionConnectorPermissionsRequest: AWSEncodableShape {
+        /// The unique identifier of the action connector whose permissions you want to describe.
+        public let actionConnectorId: String
+        /// The Amazon Web Services account ID that contains the action connector.
+        public let awsAccountId: String
+
+        @inlinable
+        public init(actionConnectorId: String, awsAccountId: String) {
+            self.actionConnectorId = actionConnectorId
+            self.awsAccountId = awsAccountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.actionConnectorId, key: "ActionConnectorId")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.actionConnectorId, name: "actionConnectorId", parent: name, max: 512)
+            try self.validate(self.actionConnectorId, name: "actionConnectorId", parent: name, min: 1)
+            try self.validate(self.actionConnectorId, name: "actionConnectorId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeActionConnectorPermissionsResponse: AWSDecodableShape {
+        /// The unique identifier of the action connector.
+        public let actionConnectorId: String?
+        /// The Amazon Resource Name (ARN) of the action connector.
+        public let arn: String?
+        /// The list of permissions associated with the action connector, including the principals and their allowed actions.
+        public let permissions: [ResourcePermission]?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status code of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(actionConnectorId: String? = nil, arn: String? = nil, permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.actionConnectorId = actionConnectorId
+            self.arn = arn
+            self.permissions = permissions
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.actionConnectorId = try container.decodeIfPresent(String.self, forKey: .actionConnectorId)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.permissions = try container.decodeIfPresent([ResourcePermission].self, forKey: .permissions)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionConnectorId = "ActionConnectorId"
+            case arn = "Arn"
+            case permissions = "Permissions"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct DescribeActionConnectorRequest: AWSEncodableShape {
+        /// The unique identifier of the action connector to describe.
+        public let actionConnectorId: String
+        /// The Amazon Web Services account ID that contains the action connector.
+        public let awsAccountId: String
+
+        @inlinable
+        public init(actionConnectorId: String, awsAccountId: String) {
+            self.actionConnectorId = actionConnectorId
+            self.awsAccountId = awsAccountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.actionConnectorId, key: "ActionConnectorId")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.actionConnectorId, name: "actionConnectorId", parent: name, max: 512)
+            try self.validate(self.actionConnectorId, name: "actionConnectorId", parent: name, min: 1)
+            try self.validate(self.actionConnectorId, name: "actionConnectorId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeActionConnectorResponse: AWSDecodableShape {
+        /// The detailed information about the action connector, including its configuration and current state.
+        public let actionConnector: ActionConnector?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status code of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(actionConnector: ActionConnector? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.actionConnector = actionConnector
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.actionConnector = try container.decodeIfPresent(ActionConnector.self, forKey: .actionConnector)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionConnector = "ActionConnector"
             case requestId = "RequestId"
         }
     }
@@ -16246,7 +17471,7 @@ extension QuickSight {
     public struct DescribeBrandPublishedVersionRequest: AWSEncodableShape {
         /// The ID of the Amazon Web Services account that owns the brand.
         public let awsAccountId: String
-        /// The ID of the Amazon QuickSight brand.
+        /// The ID of the QuickSight brand.
         public let brandId: String
 
         @inlinable
@@ -16299,7 +17524,7 @@ extension QuickSight {
     public struct DescribeBrandRequest: AWSEncodableShape {
         /// The ID of the Amazon Web Services account that owns the brand.
         public let awsAccountId: String
-        /// The ID of the Amazon QuickSight brand.
+        /// The ID of the QuickSight brand.
         public let brandId: String
         /// The ID of the specific version. The default value is the latest version.
         public let versionId: String?
@@ -16455,7 +17680,7 @@ extension QuickSight {
     public struct DescribeDashboardDefinitionResponse: AWSDecodableShape {
         /// The ID of the dashboard described.
         public let dashboardId: String?
-        /// Options for publishing the dashboard:    AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, Amazon QuickSight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.     AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .CSV format isn't enabled when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.
+        /// Options for publishing the dashboard:    AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, Amazon Quick Sight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.     AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .CSV format isn't enabled when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.     AvailabilityStatus for QuickSuiteActionsOption - This status can be either ENABLED or DISABLED. Features related to Actions in Amazon Quick Suite on dashboards are disabled when this is set to DISABLED. This option is DISABLED by default.    AvailabilityStatus for ExecutiveSummaryOption - This status can be either ENABLED or DISABLED. The option to build an executive summary is disabled when this is set to DISABLED. This option is ENABLED by default.    AvailabilityStatus for DataStoriesSharingOption - This status can be either ENABLED or DISABLED. The option to share a data story is disabled when this is set to DISABLED. This option is ENABLED by default.
         public let dashboardPublishOptions: DashboardPublishOptions?
         /// The definition of a dashboard. A definition is the data model of all features in a Dashboard, Template, or Analysis.
         public let definition: DashboardVersionDefinition?
@@ -17079,7 +18304,8 @@ extension QuickSight {
     public struct DescribeDataSourcePermissionsRequest: AWSEncodableShape {
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
-        /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+        /// The ID of the data source. This ID is unique per Amazon Web Services Region for each
+        /// 				Amazon Web Services account.
         public let dataSourceId: String
 
         @inlinable
@@ -17107,7 +18333,8 @@ extension QuickSight {
     public struct DescribeDataSourcePermissionsResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the data source.
         public let dataSourceArn: String?
-        /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+        /// The ID of the data source. This ID is unique per Amazon Web Services Region for each
+        /// 				Amazon Web Services account.
         public let dataSourceId: String?
         /// A list of resource permissions on the data source.
         public let permissions: [ResourcePermission]?
@@ -17146,7 +18373,8 @@ extension QuickSight {
     public struct DescribeDataSourceRequest: AWSEncodableShape {
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
-        /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+        /// The ID of the data source. This ID is unique per Amazon Web Services Region for each
+        /// 				Amazon Web Services account.
         public let dataSourceId: String
 
         @inlinable
@@ -17201,9 +18429,9 @@ extension QuickSight {
     }
 
     public struct DescribeDefaultQBusinessApplicationRequest: AWSEncodableShape {
-        /// The ID of the Amazon QuickSight account that is linked to the Amazon Q Business application that you want described.
+        /// The ID of the Quick Sight account that is linked to the Amazon Q Business application that you want described.
         public let awsAccountId: String
-        /// The Amazon QuickSight namespace that contains the linked Amazon Q Business application. If this field is left blank, the default namespace is used. Currently, the default namespace is the only valid value for this parameter.
+        /// The Quick Sight namespace that contains the linked Amazon Q Business application. If this field is left blank, the default namespace is used. Currently, the default namespace is the only valid value for this parameter.
         public let namespace: String?
 
         @inlinable
@@ -17231,7 +18459,7 @@ extension QuickSight {
     }
 
     public struct DescribeDefaultQBusinessApplicationResponse: AWSDecodableShape {
-        /// The ID of the Amazon Q Business application that is linked to the Amazon QuickSight account.
+        /// The ID of the Amazon Q Business application that is linked to the Quick Sight account.
         public let applicationId: String?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
@@ -17502,7 +18730,7 @@ extension QuickSight {
     }
 
     public struct DescribeGroupMembershipRequest: AWSEncodableShape {
-        /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the  Amazon Web Services account that contains your Amazon QuickSight account.
+        /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the  Amazon Web Services account that contains your Amazon Quick Sight account.
         public let awsAccountId: String
         /// The name of the group that you want to search.
         public let groupName: String
@@ -17574,7 +18802,7 @@ extension QuickSight {
 
     public struct DescribeGroupRequest: AWSEncodableShape {
         /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the
-        /// 			Amazon Web Services account that contains your Amazon QuickSight account.
+        /// 			Amazon Web Services account that contains your Amazon Quick Sight account.
         public let awsAccountId: String
         /// The name of the group that you want to describe.
         public let groupName: String
@@ -17873,17 +19101,20 @@ extension QuickSight {
     public struct DescribeKeyRegistrationResponse: AWSDecodableShape {
         /// The ID of the Amazon Web Services account that contains the customer managed key registration specified in the request.
         public let awsAccountId: String?
-        /// A list of RegisteredCustomerManagedKey objects in a Amazon QuickSight account.
+        /// A list of RegisteredCustomerManagedKey objects in a Quick Sight account.
         public let keyRegistration: [RegisteredCustomerManagedKey]?
+        /// A list of QDataKey objects in a Quick Sight account.
+        public let qDataKey: QDataKey?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
 
         @inlinable
-        public init(awsAccountId: String? = nil, keyRegistration: [RegisteredCustomerManagedKey]? = nil, requestId: String? = nil, status: Int? = nil) {
+        public init(awsAccountId: String? = nil, keyRegistration: [RegisteredCustomerManagedKey]? = nil, qDataKey: QDataKey? = nil, requestId: String? = nil, status: Int? = nil) {
             self.awsAccountId = awsAccountId
             self.keyRegistration = keyRegistration
+            self.qDataKey = qDataKey
             self.requestId = requestId
             self.status = status
         }
@@ -17891,13 +19122,14 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case awsAccountId = "AwsAccountId"
             case keyRegistration = "KeyRegistration"
+            case qDataKey = "QDataKey"
             case requestId = "RequestId"
             case status = "Status"
         }
     }
 
     public struct DescribeNamespaceRequest: AWSEncodableShape {
-        /// The ID for the Amazon Web Services account that contains the Amazon QuickSight namespace that you want to describe.
+        /// The ID for the Amazon Web Services account that contains the Quick Sight namespace that you want to describe.
         public let awsAccountId: String
         /// The namespace that you want to describe.
         public let namespace: String
@@ -18009,7 +19241,7 @@ extension QuickSight {
     }
 
     public struct DescribeQuickSightQSearchConfigurationRequest: AWSEncodableShape {
-        /// The ID of the Amazon Web Services account that contains the Amazon QuickSight Q Search configuration that the user wants described.
+        /// The ID of the Amazon Web Services account that contains the Quick Sight Q Search configuration that the user wants described.
         public let awsAccountId: String
 
         @inlinable
@@ -18033,7 +19265,7 @@ extension QuickSight {
     }
 
     public struct DescribeQuickSightQSearchConfigurationResponse: AWSDecodableShape {
-        /// The status of Amazon QuickSight Q Search configuration.
+        /// The status of Quick Sight Q Search configuration.
         public let qSearchStatus: QSearchStatus?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
@@ -18128,7 +19360,7 @@ extension QuickSight {
     }
 
     public struct DescribeRoleCustomPermissionRequest: AWSEncodableShape {
-        /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon QuickSight account.
+        /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon Quick Sight account.
         public let awsAccountId: String
         /// The namespace that contains the role.
         public let namespace: String
@@ -18999,7 +20231,7 @@ extension QuickSight {
 
     public struct DescribeUserRequest: AWSEncodableShape {
         /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the
-        /// 			Amazon Web Services account that contains your Amazon QuickSight account.
+        /// 			Amazon Web Services account that contains your Amazon Quick Sight account.
         public let awsAccountId: String
         /// The namespace. Currently, you should set this to default.
         public let namespace: String
@@ -19267,7 +20499,7 @@ extension QuickSight {
     }
 
     public struct DonutCenterOptions: AWSEncodableShape & AWSDecodableShape {
-        /// Determines the visibility of the label in a donut chart. In the Amazon QuickSight console, this option is called 'Show total'.
+        /// Determines the visibility of the label in a donut chart. In the Quick Sight console, this option is called 'Show total'.
         public let labelVisibility: Visibility?
 
         @inlinable
@@ -19495,7 +20727,7 @@ extension QuickSight {
     }
 
     public struct ExecutiveSummaryConfigurations: AWSEncodableShape {
-        /// The executive summary settings of an embedded Amazon QuickSight console or dashboard.
+        /// The executive summary settings of an embedded Quick Sight console or dashboard.
         public let enabled: Bool
 
         @inlinable
@@ -19505,6 +20737,20 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case enabled = "Enabled"
+        }
+    }
+
+    public struct ExecutiveSummaryOption: AWSEncodableShape & AWSDecodableShape {
+        /// Availability status.
+        public let availabilityStatus: DashboardBehavior?
+
+        @inlinable
+        public init(availabilityStatus: DashboardBehavior? = nil) {
+            self.availabilityStatus = availabilityStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityStatus = "AvailabilityStatus"
         }
     }
 
@@ -19591,7 +20837,7 @@ extension QuickSight {
         public let keyArn: String?
         /// A message that provides information about why a FailedKeyRegistrationEntry error occurred.
         public let message: String
-        /// A boolean that indicates whether a FailedKeyRegistrationEntry resulted from user error. If the value of this property is True, the error was caused by user error. If the value of this property is False, the error occurred on the backend. If your job continues fail and with a False SenderFault value, contact Amazon Web ServicesSupport.
+        /// A boolean that indicates whether a FailedKeyRegistrationEntry resulted from user error. If the value of this property is True, the error was caused by user error. If the value of this property is False, the error occurred on the backend. If your job continues fail and with a False SenderFault value, contact Amazon Web Services Support.
         public let senderFault: Bool
         /// The HTTP status of a FailedKeyRegistrationEntry error.
         public let statusCode: Int
@@ -20032,7 +21278,7 @@ extension QuickSight {
     }
 
     public struct Filter: AWSEncodableShape & AWSDecodableShape {
-        /// A CategoryFilter filters text values. For more information, see Adding text filters in the Amazon QuickSight User Guide.
+        /// A CategoryFilter filters text values. For more information, see Adding text filters in the Amazon Quick Suite User Guide.
         public let categoryFilter: CategoryFilter?
         /// A NestedFilter filters data with a subset of data that is defined by the nested inner filter.
         public let nestedFilter: NestedFilter?
@@ -20710,6 +21956,68 @@ extension QuickSight {
             case filterControlId = "FilterControlId"
             case sourceFilterId = "SourceFilterId"
             case title = "Title"
+        }
+    }
+
+    public struct FlowSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the flow.
+        public let arn: String
+        /// The identifier of the principal who created the flow.
+        public let createdBy: String?
+        /// The time this flow was created.
+        public let createdTime: Date
+        /// The description of the flow.
+        public let description: String?
+        /// The unique identifier of the flow.
+        public let flowId: String
+        /// The last time this flow was published.
+        public let lastPublishedAt: Date?
+        /// The identifier of the last principal who published the flow.
+        public let lastPublishedBy: String?
+        /// The identifier of the last principal who updated the flow.
+        public let lastUpdatedBy: String?
+        /// The last time this flow was modified.
+        public let lastUpdatedTime: Date?
+        /// The display name of the flow.
+        public let name: String
+        /// The publish state for the flow. The valid values are DRAFT, PUBLISHED,  or PENDING_APPROVAL.
+        public let publishState: FlowPublishState?
+        /// The number of runs done for the flow.
+        public let runCount: Int?
+        /// The number of users who have used the flow.
+        public let userCount: Int?
+
+        @inlinable
+        public init(arn: String, createdBy: String? = nil, createdTime: Date, description: String? = nil, flowId: String, lastPublishedAt: Date? = nil, lastPublishedBy: String? = nil, lastUpdatedBy: String? = nil, lastUpdatedTime: Date? = nil, name: String, publishState: FlowPublishState? = nil, runCount: Int? = nil, userCount: Int? = nil) {
+            self.arn = arn
+            self.createdBy = createdBy
+            self.createdTime = createdTime
+            self.description = description
+            self.flowId = flowId
+            self.lastPublishedAt = lastPublishedAt
+            self.lastPublishedBy = lastPublishedBy
+            self.lastUpdatedBy = lastUpdatedBy
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.publishState = publishState
+            self.runCount = runCount
+            self.userCount = userCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdBy = "CreatedBy"
+            case createdTime = "CreatedTime"
+            case description = "Description"
+            case flowId = "FlowId"
+            case lastPublishedAt = "LastPublishedAt"
+            case lastPublishedBy = "LastPublishedBy"
+            case lastUpdatedBy = "LastUpdatedBy"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case name = "Name"
+            case publishState = "PublishState"
+            case runCount = "RunCount"
+            case userCount = "UserCount"
         }
     }
 
@@ -21741,19 +23049,19 @@ extension QuickSight {
     }
 
     public struct GenerateEmbedUrlForAnonymousUserRequest: AWSEncodableShape {
-        /// The domains that you want to add to the allow list for access to the generated URL that is then embedded. This optional parameter overrides the static domains that are configured in the Manage QuickSight menu in the Amazon QuickSight console. Instead, it allows only the domains that you include in this parameter. You can list up to three domains or subdomains in each API call. To include all subdomains under a specific domain to the allow list, use *. For example, https://*.sapp.amazon.com includes all subdomains under https://sapp.amazon.com.
+        /// The domains that you want to add to the allow list for access to the generated URL that is then embedded. This optional parameter overrides the static domains that are configured in the Manage Quick Sight menu in the Amazon Quick Sight console. Instead, it allows only the domains that you include in this parameter. You can list up to three domains or subdomains in each API call. To include all subdomains under a specific domain to the allow list, use *. For example, https://*.sapp.amazon.com includes all subdomains under https://sapp.amazon.com.
         public let allowedDomains: [String]?
-        /// The Amazon Resource Names (ARNs) for the Amazon QuickSight resources that the user is authorized to access during the lifetime of the session. If you choose Dashboard embedding experience, pass the list of dashboard ARNs in the account that you want the user to be able to view. If you want to make changes to the theme of your embedded content, pass a list of theme ARNs that the anonymous users need access to. Currently, you can pass up to 25 theme ARNs in each API call.
+        /// The Amazon Resource Names (ARNs) for the Quick Sight resources that the user is authorized to access during the lifetime of the session. If you choose Dashboard embedding experience, pass the list of dashboard ARNs in the account that you want the user to be able to view. If you want to make changes to the theme of your embedded content, pass a list of theme ARNs that the anonymous users need access to. Currently, you can pass up to 25 theme ARNs in each API call.
         public let authorizedResourceArns: [String]
         /// The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
         public let awsAccountId: String
         /// The configuration of the experience that you are embedding.
         public let experienceConfiguration: AnonymousUserEmbeddingExperienceConfiguration
-        /// The Amazon QuickSight namespace that the anonymous user virtually belongs to. If you are not using an Amazon QuickSight custom namespace, set this to default.
+        /// The Amazon Quick Sight namespace that the anonymous user virtually belongs to. If you are not using an Amazon QuickSight custom namespace, set this to default.
         public let namespace: String
         /// How many minutes the session is valid. The session lifetime must be in [15-600] minutes range.
         public let sessionLifetimeInMinutes: Int64?
-        /// The session tags used for row-level security. Before you use this parameter, make sure that you have configured the relevant datasets using the DataSet$RowLevelPermissionTagConfiguration parameter so that session tags can be used to provide row-level security. These are not the tags used for the Amazon Web Services resource tagging feature. For more information, see Using Row-Level Security (RLS) with Tagsin the Amazon QuickSight User Guide.
+        /// The session tags used for row-level security. Before you use this parameter, make sure that you have configured the relevant datasets using the DataSet$RowLevelPermissionTagConfiguration parameter so that session tags can be used to provide row-level security. These are not the tags used for the Amazon Web Services resource tagging feature. For more information, see Using Row-Level Security (RLS) with Tagsin the Amazon Quick Sight User Guide.
         public let sessionTags: [SessionTag]?
 
         @inlinable
@@ -21840,11 +23148,11 @@ extension QuickSight {
     }
 
     public struct GenerateEmbedUrlForRegisteredUserRequest: AWSEncodableShape {
-        /// The domains that you want to add to the allow list for access to the generated URL that  is then embedded. This optional parameter overrides the static domains that are  configured in the Manage QuickSight menu in the Amazon QuickSight console. Instead, it  allows only the domains that you include in this parameter. You can list up to three  domains or subdomains in each API call. To include all subdomains under a specific domain to the allow list, use *. For example, https://*.sapp.amazon.com includes all subdomains under https://sapp.amazon.com.
+        /// The domains that you want to add to the allow list for access to the generated URL that is then embedded. This optional parameter overrides the static domains that are configured in the Manage Quick Sight menu in the Amazon Quick Sight console. Instead, it allows only the domains that you include in this parameter. You can list up to three domains or subdomains in each API call. To include all subdomains under a specific domain to the allow list, use *. For example, https://*.sapp.amazon.com includes all subdomains under https://sapp.amazon.com.
         public let allowedDomains: [String]?
         /// The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
         public let awsAccountId: String
-        /// The experience that you want to embed. For registered users, you can embed Amazon QuickSight dashboards, Amazon QuickSight visuals, the Amazon QuickSight Q search bar, the Amazon QuickSight Generative Q&A experience, or the entire Amazon QuickSight console.
+        /// The experience that you want to embed. For registered users, you can embed QuickSight dashboards, Amazon Quick Sight visuals, the Amazon Quick Sight Q search bar, the Amazon Quick Sight Generative Q&A experience, or the entire Amazon Quick Sight console.
         public let experienceConfiguration: RegisteredUserEmbeddingExperienceConfiguration
         /// How many minutes the session is valid. The session lifetime must be in [15-600] minutes range.
         public let sessionLifetimeInMinutes: Int64?
@@ -21888,7 +23196,7 @@ extension QuickSight {
     }
 
     public struct GenerateEmbedUrlForRegisteredUserResponse: AWSDecodableShape {
-        /// The embed URL for the Amazon QuickSight dashboard, visual, Q search bar, Generative Q&A experience, or console.
+        /// The embed URL for the Amazon Quick Sight dashboard, visual, Q search bar, Generative Q&A experience, or console.
         public let embedUrl: String
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String
@@ -22030,7 +23338,7 @@ extension QuickSight {
     }
 
     public struct GenerativeAuthoringConfigurations: AWSEncodableShape {
-        /// The generative BI authoring settings of an embedded Amazon QuickSight console.
+        /// The generative BI authoring settings of an embedded Quick Sight console.
         public let enabled: Bool
 
         @inlinable
@@ -23098,7 +24406,7 @@ extension QuickSight {
     }
 
     public struct GetDashboardEmbedUrlRequest: AWSEncodableShape {
-        /// A list of one or more dashboard IDs that you want anonymous users to have tempporary access to. Currently, the IdentityType parameter must be set to ANONYMOUS because other identity types authenticate as Amazon QuickSight or IAM users. For example, if you set "--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3 identity-type ANONYMOUS", the session can access all three dashboards.
+        /// A list of one or more dashboard IDs that you want anonymous users to have tempporary access to. Currently, the IdentityType parameter must be set to ANONYMOUS because other identity types authenticate as QuickSight or IAM users. For example, if you set "--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3 identity-type ANONYMOUS", the session can access all three dashboards.
         public let additionalDashboardIds: [String]?
         /// The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
         public let awsAccountId: String
@@ -23106,22 +24414,17 @@ extension QuickSight {
         public let dashboardId: String
         /// The authentication method that the user uses to sign in.
         public let identityType: EmbeddingIdentityType
-        /// The Amazon QuickSight namespace that contains the dashboard IDs in this request. 	   If you're not using a custom namespace, set Namespace = default.
+        /// The Amazon Quick Sight namespace that contains the dashboard IDs in this request. If you're not using a custom namespace, set Namespace = default.
         public let namespace: String?
-        /// Remove the reset button on the embedded dashboard. The default is FALSE, which enables the
-        /// 			reset button.
+        /// Remove the reset button on the embedded dashboard. The default is FALSE, which enables the reset button.
         public let resetDisabled: Bool?
         /// How many minutes the session is valid. The session lifetime must be 15-600 minutes.
         public let sessionLifetimeInMinutes: Int64?
-        /// Adds persistence of state for the user session in an embedded dashboard. Persistence applies to the sheet and the parameter settings. These are control settings that the dashboard subscriber (Amazon QuickSight reader) chooses while viewing the dashboard. If this is set to TRUE, the settings are the same when the subscriber reopens the same dashboard URL. The state is stored in Amazon QuickSight, not in a browser cookie. If this is set to FALSE, the state of the user session is not persisted. The default is FALSE.
+        /// Adds persistence of state for the user session in an embedded dashboard. Persistence applies to the sheet and the parameter settings. These are control settings that the dashboard subscriber (Amazon Quick Sight reader) chooses while viewing the dashboard. If this is set to TRUE, the settings are the same when the subscriber reopens the same dashboard URL. The state is stored in Amazon Quick Sight, not in a browser cookie. If this is set to FALSE, the state of the user session is not persisted. The default is FALSE.
         public let statePersistenceEnabled: Bool?
-        /// Remove the undo/redo button on the embedded dashboard. The default is FALSE, which enables
-        /// 			the undo/redo button.
+        /// Remove the undo/redo button on the embedded dashboard. The default is FALSE, which enables the undo/redo button.
         public let undoRedoDisabled: Bool?
-        /// The Amazon QuickSight user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type.
-        /// 			You can use this for any Amazon QuickSight users in your account (readers, authors, or
-        /// 			admins) authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using
-        /// 					SAML, OpenID Connect, or IAM federation.   Omit this parameter for users in the third group – IAM users and IAM role-based sessions.
+        /// The Amazon QuickSight user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any Amazon QuickSight users in your account (readers, authors, or admins) authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation.   Omit this parameter for users in the third group – IAM users and IAM role-based sessions.
         public let userArn: String?
 
         @inlinable
@@ -23177,10 +24480,7 @@ extension QuickSight {
     }
 
     public struct GetDashboardEmbedUrlResponse: AWSDecodableShape {
-        /// A single-use URL that you can put into your server-side webpage to embed your
-        /// 			dashboard. This URL is valid for 5 minutes. The API operation provides the URL with an
-        /// 			auth_code value that enables one (and only one) sign-on to a user session
-        /// 			that is valid for 10 hours.
+        /// A single-use URL that you can put into your server-side webpage to embed your dashboard. This URL is valid for 5 minutes. The API operation provides the URL with an auth_code value that enables one (and only one) sign-on to a user session that is valid for 10 hours.
         public let embedUrl: String?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
@@ -23208,16 +24508,180 @@ extension QuickSight {
         }
     }
 
-    public struct GetSessionEmbedUrlRequest: AWSEncodableShape {
-        /// The ID for the Amazon Web Services account associated with your Amazon QuickSight subscription.
+    public struct GetFlowMetadataInput: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the flow that you are getting metadata for.
         public let awsAccountId: String
-        /// The URL you use to access the embedded session. The entry point URL is constrained to the following paths:    /start     /start/analyses     /start/dashboards     /start/favorites     /dashboards/DashboardId - where DashboardId is the actual ID key from the Amazon QuickSight console URL of the dashboard    /analyses/AnalysisId - where AnalysisId is the actual ID key from the Amazon QuickSight console URL of the analysis
+        /// The unique identifier of the flow.
+        public let flowId: String
+
+        @inlinable
+        public init(awsAccountId: String, flowId: String) {
+            self.awsAccountId = awsAccountId
+            self.flowId = flowId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.flowId, key: "FlowId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.flowId, name: "flowId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetFlowMetadataOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the flow.
+        public let arn: String
+        /// The time this flow was created.
+        public let createdTime: Date
+        /// The description for the flow.
+        public let description: String?
+        /// The unique identifier of the flow.
+        public let flowId: String
+        /// The last time this flow was modified.
+        public let lastUpdatedTime: Date?
+        /// A display name for the flow.
+        public let name: String
+        /// The publish state for the flow. Valid values are DRAFT, PUBLISHED,  or PENDING_APPROVAL.
+        public let publishState: FlowPublishState?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The number of runs done for the flow.
+        public let runCount: Int?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// The number of users who have used the flow.
+        public let userCount: Int?
+
+        @inlinable
+        public init(arn: String, createdTime: Date, description: String? = nil, flowId: String, lastUpdatedTime: Date? = nil, name: String, publishState: FlowPublishState? = nil, requestId: String? = nil, runCount: Int? = nil, status: Int? = nil, userCount: Int? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.description = description
+            self.flowId = flowId
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.publishState = publishState
+            self.requestId = requestId
+            self.runCount = runCount
+            self.status = status
+            self.userCount = userCount
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decode(String.self, forKey: .arn)
+            self.createdTime = try container.decode(Date.self, forKey: .createdTime)
+            self.description = try container.decodeIfPresent(String.self, forKey: .description)
+            self.flowId = try container.decode(String.self, forKey: .flowId)
+            self.lastUpdatedTime = try container.decodeIfPresent(Date.self, forKey: .lastUpdatedTime)
+            self.name = try container.decode(String.self, forKey: .name)
+            self.publishState = try container.decodeIfPresent(FlowPublishState.self, forKey: .publishState)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.runCount = try container.decodeIfPresent(Int.self, forKey: .runCount)
+            self.status = response.decodeStatus()
+            self.userCount = try container.decodeIfPresent(Int.self, forKey: .userCount)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case description = "Description"
+            case flowId = "FlowId"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case name = "Name"
+            case publishState = "PublishState"
+            case requestId = "RequestId"
+            case runCount = "RunCount"
+            case userCount = "UserCount"
+        }
+    }
+
+    public struct GetFlowPermissionsInput: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the flow that you are getting permissions for.
+        public let awsAccountId: String
+        /// The unique identifier of the flow to get permissions from.
+        public let flowId: String
+
+        @inlinable
+        public init(awsAccountId: String, flowId: String) {
+            self.awsAccountId = awsAccountId
+            self.flowId = flowId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.flowId, key: "FlowId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.flowId, name: "flowId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetFlowPermissionsOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the flow you are getting permissions against.
+        public let arn: String
+        /// The unique identifier of the flow with permissions.
+        public let flowId: String
+        /// A structure that contains the permissions for the flow.
+        public let permissions: [Permission]
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(arn: String, flowId: String, permissions: [Permission], requestId: String? = nil, status: Int? = nil) {
+            self.arn = arn
+            self.flowId = flowId
+            self.permissions = permissions
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decode(String.self, forKey: .arn)
+            self.flowId = try container.decode(String.self, forKey: .flowId)
+            self.permissions = try container.decode([Permission].self, forKey: .permissions)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case flowId = "FlowId"
+            case permissions = "Permissions"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct GetSessionEmbedUrlRequest: AWSEncodableShape {
+        /// The ID for the Amazon Web Services account associated with your Amazon Quick Sight subscription.
+        public let awsAccountId: String
+        /// The URL you use to access the embedded session. The entry point URL is constrained to the following paths:    /start     /start/analyses     /start/dashboards     /start/favorites     /dashboards/DashboardId - where DashboardId is the actual ID key from the Amazon Quick Sight console URL of the dashboard    /analyses/AnalysisId - where AnalysisId is the actual ID key from the Amazon Quick Sight console URL of the analysis
         public let entryPoint: String?
         /// How many minutes the session is valid. The session lifetime must be 15-600 minutes.
         public let sessionLifetimeInMinutes: Int64?
-        /// The Amazon QuickSight user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type.
-        /// 			You can use this for any type of Amazon QuickSight users in your account (readers, authors, or
-        /// 			admins). They need to be authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation   Omit this parameter for users in the third group, IAM users and IAM role-based sessions.
+        /// The Amazon QuickSight user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any type of Amazon QuickSight users in your account (readers, authors, or admins). They need to be authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation   Omit this parameter for users in the third group, IAM users and IAM role-based sessions.
         public let userArn: String?
 
         @inlinable
@@ -23251,10 +24715,7 @@ extension QuickSight {
     }
 
     public struct GetSessionEmbedUrlResponse: AWSDecodableShape {
-        /// A single-use URL that you can put into your server-side web page to embed your
-        /// 			Amazon QuickSight session. This URL is valid for 5 minutes. The API operation provides the URL with an
-        /// 			auth_code value that enables one (and only one) sign-on to a user session
-        /// 			that is valid for 10 hours.
+        /// A single-use URL that you can put into your server-side web page to embed your QuickSight session. This URL is valid for 5 minutes. The API operation provides the URL with an auth_code value that enables one (and only one) sign-on to a user session that is valid for 10 hours.
         public let embedUrl: String?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
@@ -23441,7 +24902,7 @@ extension QuickSight {
     public struct GridLayoutScreenCanvasSizeOptions: AWSEncodableShape & AWSDecodableShape {
         /// The width that the view port will be optimized for when the layout renders.
         public let optimizedViewPortWidth: String?
-        /// This value determines the layout behavior when the viewport is resized.    FIXED: A fixed width will be used when optimizing the layout. In the Amazon QuickSight console, this option is called Classic.    RESPONSIVE: The width of the canvas will be responsive and optimized to the view port. In the Amazon QuickSight console, this option is called Tiled.
+        /// This value determines the layout behavior when the viewport is resized.    FIXED: A fixed width will be used when optimizing the layout. In the Quick Sight console, this option is called Classic.    RESPONSIVE: The width of the canvas will be responsive and optimized to the view port. In the Quick Sight console, this option is called Tiled.
         public let resizeOption: ResizeOption
 
         @inlinable
@@ -23645,6 +25106,8 @@ extension QuickSight {
     public struct HeatMapConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The color options (gradient color, point of divergence) in a heat map.
         public let colorScale: ColorScale?
+        /// The options that determine the presentation of the row axis label.
+        public let columnAxisDisplayOptions: AxisDisplayOptions?
         /// The label options of the column that is displayed in a heat map.
         public let columnLabelOptions: ChartAxisLabelOptions?
         /// The options that determine if visual data labels are displayed.
@@ -23655,6 +25118,8 @@ extension QuickSight {
         public let interactions: VisualInteractionOptions?
         /// The legend display setup of the visual.
         public let legend: LegendOptions?
+        /// The options that determine the presentation of the row axis label.
+        public let rowAxisDisplayOptions: AxisDisplayOptions?
         /// The label options of the row that is displayed in a heat map.
         public let rowLabelOptions: ChartAxisLabelOptions?
         /// The sort configuration of a heat map.
@@ -23663,13 +25128,15 @@ extension QuickSight {
         public let tooltip: TooltipOptions?
 
         @inlinable
-        public init(colorScale: ColorScale? = nil, columnLabelOptions: ChartAxisLabelOptions? = nil, dataLabels: DataLabelOptions? = nil, fieldWells: HeatMapFieldWells? = nil, interactions: VisualInteractionOptions? = nil, legend: LegendOptions? = nil, rowLabelOptions: ChartAxisLabelOptions? = nil, sortConfiguration: HeatMapSortConfiguration? = nil, tooltip: TooltipOptions? = nil) {
+        public init(colorScale: ColorScale? = nil, columnAxisDisplayOptions: AxisDisplayOptions? = nil, columnLabelOptions: ChartAxisLabelOptions? = nil, dataLabels: DataLabelOptions? = nil, fieldWells: HeatMapFieldWells? = nil, interactions: VisualInteractionOptions? = nil, legend: LegendOptions? = nil, rowAxisDisplayOptions: AxisDisplayOptions? = nil, rowLabelOptions: ChartAxisLabelOptions? = nil, sortConfiguration: HeatMapSortConfiguration? = nil, tooltip: TooltipOptions? = nil) {
             self.colorScale = colorScale
+            self.columnAxisDisplayOptions = columnAxisDisplayOptions
             self.columnLabelOptions = columnLabelOptions
             self.dataLabels = dataLabels
             self.fieldWells = fieldWells
             self.interactions = interactions
             self.legend = legend
+            self.rowAxisDisplayOptions = rowAxisDisplayOptions
             self.rowLabelOptions = rowLabelOptions
             self.sortConfiguration = sortConfiguration
             self.tooltip = tooltip
@@ -23677,10 +25144,12 @@ extension QuickSight {
 
         public func validate(name: String) throws {
             try self.colorScale?.validate(name: "\(name).colorScale")
+            try self.columnAxisDisplayOptions?.validate(name: "\(name).columnAxisDisplayOptions")
             try self.columnLabelOptions?.validate(name: "\(name).columnLabelOptions")
             try self.dataLabels?.validate(name: "\(name).dataLabels")
             try self.fieldWells?.validate(name: "\(name).fieldWells")
             try self.legend?.validate(name: "\(name).legend")
+            try self.rowAxisDisplayOptions?.validate(name: "\(name).rowAxisDisplayOptions")
             try self.rowLabelOptions?.validate(name: "\(name).rowLabelOptions")
             try self.sortConfiguration?.validate(name: "\(name).sortConfiguration")
             try self.tooltip?.validate(name: "\(name).tooltip")
@@ -23688,11 +25157,13 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case colorScale = "ColorScale"
+            case columnAxisDisplayOptions = "ColumnAxisDisplayOptions"
             case columnLabelOptions = "ColumnLabelOptions"
             case dataLabels = "DataLabels"
             case fieldWells = "FieldWells"
             case interactions = "Interactions"
             case legend = "Legend"
+            case rowAxisDisplayOptions = "RowAxisDisplayOptions"
             case rowLabelOptions = "RowLabelOptions"
             case sortConfiguration = "SortConfiguration"
             case tooltip = "Tooltip"
@@ -23987,6 +25458,25 @@ extension QuickSight {
         }
     }
 
+    public struct IAMConnectionMetadata: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the IAM role to assume for authentication with Amazon Web Services services. This IAM role should be in the same account as Quick Sight.
+        public let roleArn: String
+
+        @inlinable
+        public init(roleArn: String) {
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "RoleArn"
+        }
+    }
+
     public struct IAMPolicyAssignment: AWSDecodableShape {
         /// Assignment ID.
         public let assignmentId: String?
@@ -24273,6 +25763,43 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case source = "Source"
             case staticFileId = "StaticFileId"
+        }
+    }
+
+    public struct ImpalaParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The database of the Impala data source.
+        public let database: String?
+        /// The host name of the Impala data source.
+        public let host: String
+        /// The port of the Impala data source.
+        public let port: Int
+        /// The HTTP path of the Impala data source.
+        public let sqlEndpointPath: String
+
+        @inlinable
+        public init(database: String? = nil, host: String, port: Int, sqlEndpointPath: String) {
+            self.database = database
+            self.host = host
+            self.port = port
+            self.sqlEndpointPath = sqlEndpointPath
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.database, name: "database", parent: name, max: 128)
+            try self.validate(self.database, name: "database", parent: name, min: 1)
+            try self.validate(self.host, name: "host", parent: name, max: 256)
+            try self.validate(self.host, name: "host", parent: name, min: 1)
+            try self.validate(self.port, name: "port", parent: name, max: 65535)
+            try self.validate(self.port, name: "port", parent: name, min: 1)
+            try self.validate(self.sqlEndpointPath, name: "sqlEndpointPath", parent: name, max: 4096)
+            try self.validate(self.sqlEndpointPath, name: "sqlEndpointPath", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case host = "Host"
+            case port = "Port"
+            case sqlEndpointPath = "SqlEndpointPath"
         }
     }
 
@@ -24803,7 +26330,7 @@ extension QuickSight {
     }
 
     public struct JoinKeyProperties: AWSEncodableShape & AWSDecodableShape {
-        /// A value that indicates that a row in a table is uniquely identified by the columns in a join key. This is used by Amazon QuickSight to optimize query performance.
+        /// A value that indicates that a row in a table is uniquely identified by the columns in a join key. This is used by Quick Sight to optimize query performance.
         public let uniqueKey: Bool?
 
         @inlinable
@@ -25905,6 +27432,74 @@ extension QuickSight {
         }
     }
 
+    public struct ListActionConnectorsRequest: AWSEncodableShape {
+        /// The Amazon Web Services account ID for which to list action connectors.
+        public let awsAccountId: String
+        /// The maximum number of action connectors to return in a single response. Valid range is 1 to 100.
+        public let maxResults: Int?
+        /// A pagination token to retrieve the next set of results. Use the token returned from a previous call to continue listing action connectors.
+        public let nextToken: String?
+
+        @inlinable
+        public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListActionConnectorsResponse: AWSDecodableShape {
+        /// A list of action connector summaries containing basic information about each connector.
+        public let actionConnectorSummaries: [ActionConnectorSummary]
+        /// A pagination token to retrieve the next set of results. If null, there are no more results to retrieve.
+        public let nextToken: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status code of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(actionConnectorSummaries: [ActionConnectorSummary], nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.actionConnectorSummaries = actionConnectorSummaries
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.actionConnectorSummaries = try container.decode([ActionConnectorSummary].self, forKey: .actionConnectorSummaries)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionConnectorSummaries = "ActionConnectorSummaries"
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct ListAnalysesRequest: AWSEncodableShape {
         /// The ID of the Amazon Web Services account that contains the analyses.
         public let awsAccountId: String
@@ -26568,6 +28163,74 @@ extension QuickSight {
         }
     }
 
+    public struct ListFlowsInput: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the flow list that you are getting.
+        public let awsAccountId: String
+        /// The maximum number of results to be returned per request.
+        public let maxResults: Int?
+        /// The token to request the next set of results, or null if you want to retrieve the first set.
+        public let nextToken: String?
+
+        @inlinable
+        public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListFlowsOutput: AWSDecodableShape {
+        /// A structure that contains all of the flows in your Amazon Web Services account. This structure provides basic information about the flows.
+        public let flowSummaryList: [FlowSummary]?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(flowSummaryList: [FlowSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.flowSummaryList = flowSummaryList
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.flowSummaryList = try container.decodeIfPresent([FlowSummary].self, forKey: .flowSummaryList)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowSummaryList = "FlowSummaryList"
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct ListFolderMembersRequest: AWSEncodableShape {
         /// The ID for the Amazon Web Services account that contains the folder.
         public let awsAccountId: String
@@ -26785,7 +28448,7 @@ extension QuickSight {
 
     public struct ListGroupMembershipsRequest: AWSEncodableShape {
         /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the
-        /// 			Amazon Web Services account that contains your Amazon QuickSight account.
+        /// 			Amazon Web Services account that contains your Amazon Quick Sight account.
         public let awsAccountId: String
         /// The name of the group that you want to see a membership list of.
         public let groupName: String
@@ -26866,7 +28529,7 @@ extension QuickSight {
 
     public struct ListGroupsRequest: AWSEncodableShape {
         /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the
-        /// 			Amazon Web Services account that contains your Amazon QuickSight account.
+        /// 			Amazon Web Services account that contains your Amazon Quick Sight account.
         public let awsAccountId: String
         /// The maximum number of results to return.
         public let maxResults: Int?
@@ -27137,7 +28800,7 @@ extension QuickSight {
         public let nextToken: String?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
-        /// A list of services and their authorized targets that the Amazon QuickSight IAM Identity Center application can access.
+        /// A list of services and their authorized targets that the Quick Sight IAM Identity Center application can access.
         public let services: [AuthorizedTargetsByService]?
         /// The HTTP status of the request.
         public let status: Int?
@@ -27239,7 +28902,7 @@ extension QuickSight {
     }
 
     public struct ListNamespacesRequest: AWSEncodableShape {
-        /// The ID for the Amazon Web Services account that contains the Amazon QuickSight namespaces that you want to list.
+        /// The ID for the Amazon Web Services account that contains the Quick Sight namespaces that you want to list.
         public let awsAccountId: String
         /// The maximum number of results to return.
         public let maxResults: Int?
@@ -27364,7 +29027,7 @@ extension QuickSight {
     }
 
     public struct ListRoleMembershipsRequest: AWSEncodableShape {
-        /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon QuickSight account.
+        /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon Quick Sight account.
         public let awsAccountId: String
         /// The maximum number of results to return.
         public let maxResults: Int?
@@ -27442,7 +29105,8 @@ extension QuickSight {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the resource that you want a list of tags for.
+        /// The Amazon Resource Name (ARN) of the resource that you want a list of tags
+        /// 			for.
         public let resourceArn: String
 
         @inlinable
@@ -27864,7 +29528,7 @@ extension QuickSight {
         public let maxResults: Int?
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
-        /// The type of themes that you want to list. Valid options include the following:    ALL (default)- Display all existing themes.    CUSTOM - Display only the themes created by people using Amazon QuickSight.    QUICKSIGHT - Display only the starting themes defined by Amazon QuickSight.
+        /// The type of themes that you want to list. Valid options include the following:    ALL (default)- Display all existing themes.    CUSTOM - Display only the themes created by people using Amazon Quick Sight.    QUICKSIGHT - Display only the starting themes defined by Quick Sight.
         public let type: ThemeType?
 
         @inlinable
@@ -28137,7 +29801,7 @@ extension QuickSight {
 
     public struct ListUserGroupsRequest: AWSEncodableShape {
         /// The Amazon Web Services account ID that the user is in. Currently, you use the ID for the Amazon Web Services account
-        /// 			that contains your Amazon QuickSight account.
+        /// 			that contains your Amazon Quick Sight account.
         public let awsAccountId: String
         /// The maximum number of results to return from this request.
         public let maxResults: Int?
@@ -28145,7 +29809,7 @@ extension QuickSight {
         public let namespace: String
         /// A pagination token that can be used in a subsequent request.
         public let nextToken: String?
-        /// The Amazon QuickSight user name that you want to list group memberships for.
+        /// The Amazon Quick Sight user name that you want to list group memberships for.
         public let userName: String
 
         @inlinable
@@ -28218,7 +29882,7 @@ extension QuickSight {
 
     public struct ListUsersRequest: AWSEncodableShape {
         /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the
-        /// 			Amazon Web Services account that contains your Amazon QuickSight account.
+        /// 			Amazon Web Services account that contains your Amazon Quick Sight account.
         public let awsAccountId: String
         /// The maximum number of results to return from this request.
         public let maxResults: Int?
@@ -29178,6 +30842,26 @@ extension QuickSight {
             case decimalStaticValues = "DecimalStaticValues"
             case integerStaticValues = "IntegerStaticValues"
             case stringStaticValues = "StringStaticValues"
+        }
+    }
+
+    public struct NoneConnectionMetadata: AWSEncodableShape {
+        /// The base endpoint URL for connections that do not require authentication.
+        public let baseEndpoint: String
+
+        @inlinable
+        public init(baseEndpoint: String) {
+            self.baseEndpoint = baseEndpoint
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.baseEndpoint, name: "baseEndpoint", parent: name, max: 8192)
+            try self.validate(self.baseEndpoint, name: "baseEndpoint", parent: name, min: 1)
+            try self.validate(self.baseEndpoint, name: "baseEndpoint", parent: name, pattern: "^https://")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseEndpoint = "BaseEndpoint"
         }
     }
 
@@ -30437,6 +32121,33 @@ extension QuickSight {
         }
     }
 
+    public struct Permission: AWSEncodableShape & AWSDecodableShape {
+        /// A list of actions that the principal can perform against the flow. The following are the list of values to set a principal as a flow owner:   quicksight:PublishFlow   quicksight:GetFlow   quicksight:UpdateFlowPermissions   quicksight:GetFlowSession   quicksight:StartFlowSession   quicksight:StopFlowSession   quicksight:UpdateFlowSession   quicksight:UnpublishFlow   quicksight:GetFlowStages   quicksight:DeleteFlow   quicksight:DescribeFlowPermissions   quicksight:UpdateFlow   quicksight:CreatePresignedUrl   The following are the list of values to set a principal as a flow viewer:   quicksight:GetFlow   quicksight:UpdateFlowSession   quicksight:StartFlowSession   quicksight:StopFlowSession   quicksight:GetFlowSession   quicksight:CreatePresignedUrl   quicksight:GetFlowStages
+        public let actions: [String]
+        /// The Amazon Resource Name (ARN) of the principal.  This can be an Amazon QuickSight user, group or namespace associated with the flow. Namespace principal can only be set as a viewer and will grant everyone in the same namespace viewer permissions.
+        public let principal: String
+
+        @inlinable
+        public init(actions: [String], principal: String) {
+            self.actions = actions
+            self.principal = principal
+        }
+
+        public func validate(name: String) throws {
+            try self.actions.forEach {
+                try validate($0, name: "actions[]", parent: name, max: 64)
+                try validate($0, name: "actions[]", parent: name, min: 1)
+            }
+            try self.validate(self.principal, name: "principal", parent: name, max: 256)
+            try self.validate(self.principal, name: "principal", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case principal = "Principal"
+        }
+    }
+
     public struct PieChartAggregatedFieldWells: AWSEncodableShape & AWSDecodableShape {
         /// The category (group/color) field wells of a pie chart.
         public let category: [DimensionField]?
@@ -31329,6 +33040,8 @@ extension QuickSight {
     }
 
     public struct PluginVisual: AWSEncodableShape & AWSDecodableShape {
+        /// The list of custom actions that are configured for a visual.
+        public let actions: [VisualCustomAction]?
         ///  A description of the plugin field wells and their persisted properties.
         public let chartConfiguration: PluginVisualConfiguration?
         /// The Amazon Resource Name (ARN) that reflects the plugin and version.
@@ -31341,7 +33054,8 @@ extension QuickSight {
         public let visualId: String
 
         @inlinable
-        public init(chartConfiguration: PluginVisualConfiguration? = nil, pluginArn: String, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualContentAltText: String? = nil, visualId: String) {
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: PluginVisualConfiguration? = nil, pluginArn: String, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualContentAltText: String? = nil, visualId: String) {
+            self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.pluginArn = pluginArn
             self.subtitle = subtitle
@@ -31351,6 +33065,10 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 10)
             try self.chartConfiguration?.validate(name: "\(name).chartConfiguration")
             try self.subtitle?.validate(name: "\(name).subtitle")
             try self.title?.validate(name: "\(name).title")
@@ -31362,6 +33080,7 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
             case chartConfiguration = "ChartConfiguration"
             case pluginArn = "PluginArn"
             case subtitle = "Subtitle"
@@ -31842,6 +33561,44 @@ extension QuickSight {
         }
     }
 
+    public struct QBusinessParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon Q Business application.
+        public let applicationArn: String
+
+        @inlinable
+        public init(applicationArn: String) {
+            self.applicationArn = applicationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1284)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 1)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:[-a-z0-9]*:qbusiness:[-a-z0-9]*:[0-9]{12}:application/.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+        }
+    }
+
+    public struct QDataKey: AWSDecodableShape {
+        /// The ARN of the KMS key that is registered to a Quick Sight account for encryption and decryption use as a QDataKey.
+        public let qDataKeyArn: String?
+        /// The type of QDataKey.
+        public let qDataKeyType: QDataKeyType?
+
+        @inlinable
+        public init(qDataKeyArn: String? = nil, qDataKeyType: QDataKeyType? = nil) {
+            self.qDataKeyArn = qDataKeyArn
+            self.qDataKeyType = qDataKeyType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case qDataKeyArn = "QDataKeyArn"
+            case qDataKeyType = "QDataKeyType"
+        }
+    }
+
     public struct QueryExecutionOptions: AWSEncodableShape & AWSDecodableShape {
         /// A structure that describes the query execution mode.
         public let queryExecutionMode: QueryExecutionMode?
@@ -31888,6 +33645,20 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
             case requestId = "RequestId"
+        }
+    }
+
+    public struct QuickSuiteActionsOption: AWSEncodableShape & AWSDecodableShape {
+        /// Availability status.
+        public let availabilityStatus: DashboardBehavior?
+
+        @inlinable
+        public init(availabilityStatus: DashboardBehavior? = nil) {
+            self.availabilityStatus = availabilityStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityStatus = "AvailabilityStatus"
         }
     }
 
@@ -32219,8 +33990,182 @@ extension QuickSight {
         }
     }
 
+    public struct ReadAPIKeyConnectionMetadata: AWSDecodableShape {
+        /// The base endpoint URL for API key authentication.
+        public let baseEndpoint: String
+        /// The email address associated with the API key authentication.
+        public let email: String?
+
+        @inlinable
+        public init(baseEndpoint: String, email: String? = nil) {
+            self.baseEndpoint = baseEndpoint
+            self.email = email
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseEndpoint = "BaseEndpoint"
+            case email = "Email"
+        }
+    }
+
+    public struct ReadAuthConfig: AWSDecodableShape {
+        /// The authentication metadata containing configuration details specific to the authentication type.
+        public let authenticationMetadata: ReadAuthenticationMetadata
+        /// The type of authentication being used (BASIC, API_KEY, OAUTH2_CLIENT_CREDENTIALS, or OAUTH2_AUTHORIZATION_CODE).
+        public let authenticationType: ConnectionAuthType
+
+        @inlinable
+        public init(authenticationMetadata: ReadAuthenticationMetadata, authenticationType: ConnectionAuthType) {
+            self.authenticationMetadata = authenticationMetadata
+            self.authenticationType = authenticationType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationMetadata = "AuthenticationMetadata"
+            case authenticationType = "AuthenticationType"
+        }
+    }
+
+    public struct ReadAuthorizationCodeGrantDetails: AWSDecodableShape {
+        /// The authorization server endpoint used to obtain authorization codes from the resource owner.
+        public let authorizationEndpoint: String
+        /// The client identifier for the OAuth2 authorization code grant flow.
+        public let clientId: String
+        /// The authorization server endpoint used to obtain access tokens via the authorization code grant flow.
+        public let tokenEndpoint: String
+
+        @inlinable
+        public init(authorizationEndpoint: String, clientId: String, tokenEndpoint: String) {
+            self.authorizationEndpoint = authorizationEndpoint
+            self.clientId = clientId
+            self.tokenEndpoint = tokenEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationEndpoint = "AuthorizationEndpoint"
+            case clientId = "ClientId"
+            case tokenEndpoint = "TokenEndpoint"
+        }
+    }
+
+    public struct ReadAuthorizationCodeGrantMetadata: AWSDecodableShape {
+        /// The source of credentials for the authorization code grant flow.
+        public let authorizationCodeGrantCredentialsSource: AuthorizationCodeGrantCredentialsSource?
+        /// The base endpoint URL for the OAuth2 authorization code grant flow.
+        public let baseEndpoint: String
+        /// The read-only credentials details for the authorization code grant flow.
+        public let readAuthorizationCodeGrantCredentialsDetails: ReadAuthorizationCodeGrantCredentialsDetails?
+        /// The redirect URL where the authorization server will send the user after authorization.
+        public let redirectUrl: String
+
+        @inlinable
+        public init(authorizationCodeGrantCredentialsSource: AuthorizationCodeGrantCredentialsSource? = nil, baseEndpoint: String, readAuthorizationCodeGrantCredentialsDetails: ReadAuthorizationCodeGrantCredentialsDetails? = nil, redirectUrl: String) {
+            self.authorizationCodeGrantCredentialsSource = authorizationCodeGrantCredentialsSource
+            self.baseEndpoint = baseEndpoint
+            self.readAuthorizationCodeGrantCredentialsDetails = readAuthorizationCodeGrantCredentialsDetails
+            self.redirectUrl = redirectUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationCodeGrantCredentialsSource = "AuthorizationCodeGrantCredentialsSource"
+            case baseEndpoint = "BaseEndpoint"
+            case readAuthorizationCodeGrantCredentialsDetails = "ReadAuthorizationCodeGrantCredentialsDetails"
+            case redirectUrl = "RedirectUrl"
+        }
+    }
+
+    public struct ReadBasicAuthConnectionMetadata: AWSDecodableShape {
+        /// The base endpoint URL for basic authentication.
+        public let baseEndpoint: String
+        /// The username used for basic authentication.
+        public let username: String
+
+        @inlinable
+        public init(baseEndpoint: String, username: String) {
+            self.baseEndpoint = baseEndpoint
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseEndpoint = "BaseEndpoint"
+            case username = "Username"
+        }
+    }
+
+    public struct ReadClientCredentialsGrantDetails: AWSDecodableShape {
+        /// The client identifier for the OAuth2 client credentials grant flow.
+        public let clientId: String
+        /// The authorization server endpoint used to obtain access tokens via the client credentials grant flow.
+        public let tokenEndpoint: String
+
+        @inlinable
+        public init(clientId: String, tokenEndpoint: String) {
+            self.clientId = clientId
+            self.tokenEndpoint = tokenEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientId = "ClientId"
+            case tokenEndpoint = "TokenEndpoint"
+        }
+    }
+
+    public struct ReadClientCredentialsGrantMetadata: AWSDecodableShape {
+        /// The base endpoint URL for the OAuth2 client credentials grant flow.
+        public let baseEndpoint: String
+        /// The source of client credentials for the OAuth2 client credentials grant flow.
+        public let clientCredentialsSource: ClientCredentialsSource?
+        /// The read-only client credentials configuration details.
+        public let readClientCredentialsDetails: ReadClientCredentialsDetails?
+
+        @inlinable
+        public init(baseEndpoint: String, clientCredentialsSource: ClientCredentialsSource? = nil, readClientCredentialsDetails: ReadClientCredentialsDetails? = nil) {
+            self.baseEndpoint = baseEndpoint
+            self.clientCredentialsSource = clientCredentialsSource
+            self.readClientCredentialsDetails = readClientCredentialsDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseEndpoint = "BaseEndpoint"
+            case clientCredentialsSource = "ClientCredentialsSource"
+            case readClientCredentialsDetails = "ReadClientCredentialsDetails"
+        }
+    }
+
+    public struct ReadIamConnectionMetadata: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the IAM role to assume for authentication.
+        public let roleArn: String
+        /// The Amazon Resource Name (ARN) of the source resource for IAM authentication.
+        public let sourceArn: String
+
+        @inlinable
+        public init(roleArn: String, sourceArn: String) {
+            self.roleArn = roleArn
+            self.sourceArn = sourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "RoleArn"
+            case sourceArn = "SourceArn"
+        }
+    }
+
+    public struct ReadNoneConnectionMetadata: AWSDecodableShape {
+        /// The base endpoint URL for connections that do not require authentication.
+        public let baseEndpoint: String
+
+        @inlinable
+        public init(baseEndpoint: String) {
+            self.baseEndpoint = baseEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseEndpoint = "BaseEndpoint"
+        }
+    }
+
     public struct RecentSnapshotsConfigurations: AWSEncodableShape {
-        /// The recent snapshots configuration for an embedded Amazon QuickSight dashboard.
+        /// The recent snapshots configuration for an embedded Quick Sight dashboard.
         public let enabled: Bool
 
         @inlinable
@@ -32234,13 +34179,13 @@ extension QuickSight {
     }
 
     public struct RedshiftIAMParameters: AWSEncodableShape & AWSDecodableShape {
-        /// Automatically creates a database user. If your database doesn't have a DatabaseUser, set this parameter to True. If there is no DatabaseUser, Amazon QuickSight can't connect to your cluster. The RoleArn that you use for this operation must grant access to redshift:CreateClusterUser to successfully create the user.
+        /// Automatically creates a database user. If your database doesn't have a DatabaseUser, set this parameter to True. If there is no DatabaseUser, Quick Sight can't connect to your cluster. The RoleArn that you use for this operation must grant access to redshift:CreateClusterUser to successfully create the user.
         public let autoCreateDatabaseUser: Bool?
-        /// A list of groups whose permissions will be granted to Amazon QuickSight to access the cluster. These permissions are combined with the permissions granted to Amazon QuickSight by the DatabaseUser. If you choose to include this parameter, the RoleArn must grant access to redshift:JoinGroup.
+        /// A list of groups whose permissions will be granted to Quick Sight to access the cluster. These permissions are combined with the permissions granted to Quick Sight by the DatabaseUser. If you choose to include this parameter, the RoleArn must grant access to redshift:JoinGroup.
         public let databaseGroups: [String]?
-        /// The user whose permissions and group memberships will be used by Amazon QuickSight to access the cluster. If this user already exists in your database, Amazon QuickSight is granted the same permissions that the user has. If the user doesn't exist, set the value of AutoCreateDatabaseUser to True to create a new user with PUBLIC permissions.
+        /// The user whose permissions and group memberships will be used by Quick Sight to access the cluster. If this user already exists in your database, Amazon Quick Sight is granted the same permissions that the user has. If the user doesn't exist, set the value of AutoCreateDatabaseUser to True to create a new user with PUBLIC permissions.
         public let databaseUser: String?
-        /// Use the RoleArn structure to allow Amazon QuickSight to call redshift:GetClusterCredentials on your cluster. The calling principal must have iam:PassRole access to pass the role to Amazon QuickSight. The role's trust policy must allow the Amazon QuickSight service principal to assume the role.
+        /// Use the RoleArn structure to allow Quick Sight to call redshift:GetClusterCredentials on your cluster. The calling principal must have iam:PassRole access to pass the role to Quick Sight. The role's trust policy must allow the Quick Sight service principal to assume the role.
         public let roleArn: String
 
         @inlinable
@@ -32279,9 +34224,9 @@ extension QuickSight {
         public let database: String
         /// Host. This field can be blank if ClusterId is provided.
         public let host: String?
-        /// An optional parameter that uses IAM authentication to grant Amazon QuickSight access to your cluster. This parameter can be used instead of DataSourceCredentials.
+        /// An optional parameter that uses IAM authentication to grant Quick Sight access to your cluster. This parameter can be used instead of DataSourceCredentials.
         public let iamParameters: RedshiftIAMParameters?
-        /// An optional parameter that configures IAM Identity Center authentication to grant Amazon QuickSight access to your cluster. This parameter can only be specified if your Amazon QuickSight account is configured with IAM Identity Center.
+        /// An optional parameter that configures IAM Identity Center authentication to grant Quick Sight access to your cluster. This parameter can only be specified if your Quick Sight account is configured with IAM Identity Center.
         public let identityCenterConfiguration: IdentityCenterConfiguration?
         /// Port. This field can be blank if the ClusterId is provided.
         public let port: Int?
@@ -32604,7 +34549,7 @@ extension QuickSight {
     public struct RefreshSchedule: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) for the refresh schedule.
         public let arn: String?
-        /// The type of refresh that a datset undergoes. Valid values are as follows:    FULL_REFRESH: A complete refresh of a dataset.    INCREMENTAL_REFRESH: A partial refresh of some rows of a dataset, based on the time window specified.   For more information on full and incremental refreshes, see Refreshing SPICE data in the Amazon QuickSight User Guide.
+        /// The type of refresh that a datset undergoes. Valid values are as follows:    FULL_REFRESH: A complete refresh of a dataset.    INCREMENTAL_REFRESH: A partial refresh of some rows of a dataset, based on the time window specified.   For more information on full and incremental refreshes, see Refreshing SPICE data in the Amazon Quick Suite User Guide.
         public let refreshType: IngestionType
         /// The frequency for the refresh schedule.
         public let scheduleFrequency: RefreshFrequency
@@ -32637,39 +34582,39 @@ extension QuickSight {
 
     public struct RegisterUserRequest: AWSEncodableShape {
         /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the
-        /// 			Amazon Web Services account that contains your Amazon QuickSight account.
+        /// 			Amazon Web Services account that contains your Amazon Quick Sight account.
         public let awsAccountId: String
-        /// The URL of the custom OpenID Connect (OIDC) provider that provides identity to let a user federate into Amazon QuickSight with an associated Identity and Access Management(IAM) role. This parameter should only be used when ExternalLoginFederationProviderType parameter is set to CUSTOM_OIDC.
+        /// The URL of the custom OpenID Connect (OIDC) provider that provides identity to let a user federate into Quick Sight with an associated Identity and Access Management(IAM) role. This parameter should only be used when ExternalLoginFederationProviderType parameter is set to CUSTOM_OIDC.
         public let customFederationProviderUrl: String?
-        /// (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:   Create and update data sources   Create and update datasets   Create and update email reports   Subscribe to email reports   To add custom permissions to an existing user, use  UpdateUser instead. A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the Amazon QuickSight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a Amazon QuickSight user.  Amazon QuickSight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning Amazon QuickSight users to one of the default security cohorts in Amazon QuickSight (admin, author, reader, admin pro, author pro, reader pro). This feature is available only to Amazon QuickSight Enterprise edition subscriptions.
+        /// (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:   Create and update data sources   Create and update datasets   Create and update email reports   Subscribe to email reports   To add custom permissions to an existing user, use  UpdateUser instead. A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the Quick Sight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a Quick Sight user.  Quick Sight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning Quick Sight users to one of the default security cohorts in Quick Sight (admin, author, reader, admin pro, author pro, reader pro). This feature is available only to Quick Sight Enterprise edition subscriptions.
         public let customPermissionsName: String?
         /// The email address of the user that you want to register.
         public let email: String
-        /// The type of supported external login provider that provides identity to let a user federate into Amazon QuickSight with an associated Identity and Access Management(IAM) role. The type of supported external login provider can be one of the following.    COGNITO: Amazon Cognito. The provider URL is cognito-identity.amazonaws.com. When choosing the COGNITO provider type, don’t use the "CustomFederationProviderUrl" parameter which is only needed when the external provider is custom.    CUSTOM_OIDC: Custom OpenID Connect (OIDC) provider. When choosing CUSTOM_OIDC type, use the CustomFederationProviderUrl parameter to provide the custom OIDC provider URL.
+        /// The type of supported external login provider that provides identity to let a user federate into Amazon Quick Sight with an associated Identity and Access Management(IAM) role. The type of supported external login provider can be one of the following.    COGNITO: Amazon Cognito. The provider URL is cognito-identity.amazonaws.com. When choosing the COGNITO provider type, don’t use the "CustomFederationProviderUrl" parameter which is only needed when the external provider is custom.    CUSTOM_OIDC: Custom OpenID Connect (OIDC) provider. When choosing CUSTOM_OIDC type, use the CustomFederationProviderUrl parameter to provide the custom OIDC provider URL.
         public let externalLoginFederationProviderType: String?
         /// The identity ID for a user in the external login provider.
         public let externalLoginId: String?
-        /// The ARN of the IAM user or role that you are registering with Amazon QuickSight.
+        /// The ARN of the IAM user or role that you are registering with Amazon Quick Sight.
         public let iamArn: String?
-        /// The identity type that your Amazon QuickSight account uses to manage the identity of users.
+        /// The identity type that your Quick Sight account uses to manage the identity of users.
         public let identityType: IdentityType
         /// The namespace. Currently, you should set this to default.
         public let namespace: String
         /// You need to use this parameter only when you register one or more users using an assumed
         /// 			IAM role. You don't need to provide the session name for other scenarios, for example when
-        /// 			you are registering an IAM user or an Amazon QuickSight user. You can register multiple
+        /// 			you are registering an IAM user or an Amazon Quick Sight user. You can register multiple
         /// 			users using the same IAM role if each user has a different session name. For more
         /// 			information on assuming IAM roles, see  assume-role in the CLI Reference.
         public let sessionName: String?
         /// The tags to associate with the user.
         public let tags: [Tag]?
-        /// The Amazon QuickSight user name that you want to create for the user you are
+        /// The Amazon Quick Sight user name that you want to create for the user you are
         /// 			registering.
         public let userName: String?
-        /// The Amazon QuickSight role for the user. The user role can be one of the
+        /// The Amazon Quick Sight role for the user. The user role can be one of the
         /// 			following:    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, datasets, analyses, and
-        /// 					dashboards.    ADMIN: A user who is an author, who can also manage Amazon QuickSight
-        /// 					settings.    READER_PRO: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q in Amazon QuickSight, can build stories with Amazon Q, and can generate executive summaries from dashboards.    AUTHOR_PRO: Author Pro adds Generative BI capabilities to the Author role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&A, and generate executive summaries from dashboards.    ADMIN_PRO: Admin Pros are Author Pros who can also manage Amazon QuickSight administrative settings. Admin Pro users are billed at Author Pro pricing.    RESTRICTED_READER: This role isn't currently available for
+        /// 					dashboards.    ADMIN: A user who is an author, who can also manage Amazon Quick Sight
+        /// 					settings.    READER_PRO: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q in Quick Sight, can build stories with Amazon Q, and can generate executive summaries from dashboards.    AUTHOR_PRO: Author Pro adds Generative BI capabilities to the Author role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&A, and generate executive summaries from dashboards.    ADMIN_PRO: Admin Pros are Author Pros who can also manage Amazon Quick Sight administrative settings. Admin Pro users are billed at Author Pro pricing.    RESTRICTED_READER: This role isn't currently available for
         /// 					use.    RESTRICTED_AUTHOR: This role isn't currently available for
         /// 					use.
         public let userRole: UserRole
@@ -32783,7 +34728,7 @@ extension QuickSight {
     public struct RegisteredCustomerManagedKey: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether a RegisteredCustomerManagedKey is set as the default key for encryption and decryption use.
         public let defaultKey: Bool?
-        /// The ARN of the KMS key that is registered to a Amazon QuickSight account for encryption and decryption use.
+        /// The ARN of the KMS key that is registered to a Quick Sight account for encryption and decryption use.
         public let keyArn: String?
 
         @inlinable
@@ -32799,17 +34744,17 @@ extension QuickSight {
     }
 
     public struct RegisteredUserConsoleFeatureConfigurations: AWSEncodableShape {
-        /// The Amazon Q configurations of an embedded Amazon QuickSight console.
+        /// The Amazon Q configurations of an embedded Amazon Quick Sight console.
         public let amazonQInQuickSight: AmazonQInQuickSightConsoleConfigurations?
-        /// The recent snapshots configuration for an embedded Amazon QuickSight dashboard.
+        /// The recent snapshots configuration for an embedded Quick Sight dashboard.
         public let recentSnapshots: RecentSnapshotsConfigurations?
-        /// The schedules configuration for an embedded Amazon QuickSight dashboard.
+        /// The schedules configuration for an embedded Quick Sight dashboard.
         public let schedules: SchedulesConfigurations?
         /// The shared view settings of an embedded dashboard.
         public let sharedView: SharedViewConfigurations?
-        /// The state persistence configurations of an embedded Amazon QuickSight console.
+        /// The state persistence configurations of an embedded Amazon Quick Sight console.
         public let statePersistence: StatePersistenceConfigurations?
-        /// The threshold alerts configuration for an embedded Amazon QuickSight dashboard.
+        /// The threshold alerts configuration for an embedded Quick Sight dashboard.
         public let thresholdAlerts: ThresholdAlertsConfigurations?
 
         @inlinable
@@ -32833,9 +34778,9 @@ extension QuickSight {
     }
 
     public struct RegisteredUserDashboardEmbeddingConfiguration: AWSEncodableShape {
-        /// The feature configurations of an embbedded Amazon QuickSight dashboard.
+        /// The feature configurations of an embbedded Amazon Quick Sight dashboard.
         public let featureConfigurations: RegisteredUserDashboardFeatureConfigurations?
-        /// The dashboard ID for the dashboard that you want the user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders this dashboard if the user has permissions to view it. If the user does not have permission to view this dashboard, they see a permissions error message.
+        /// The dashboard ID for the dashboard that you want the user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon Quick Sight renders this dashboard if the user has permissions to view it. If the user does not have permission to view this dashboard, they see a permissions error message.
         public let initialDashboardId: String
 
         @inlinable
@@ -32857,19 +34802,19 @@ extension QuickSight {
     }
 
     public struct RegisteredUserDashboardFeatureConfigurations: AWSEncodableShape {
-        /// The Amazon Q configurations of an embedded Amazon QuickSight dashboard.
+        /// The Amazon Q configurations of an embedded Amazon Quick Sight dashboard.
         public let amazonQInQuickSight: AmazonQInQuickSightDashboardConfigurations?
-        /// The bookmarks configuration for an embedded dashboard in Amazon QuickSight.
+        /// The bookmarks configuration for an embedded dashboard in Amazon Quick Sight.
         public let bookmarks: BookmarksConfigurations?
-        /// The recent snapshots configuration for an Amazon QuickSight embedded dashboard
+        /// The recent snapshots configuration for an Quick Sight embedded dashboard
         public let recentSnapshots: RecentSnapshotsConfigurations?
-        /// The schedules configuration for an embedded Amazon QuickSight dashboard.
+        /// The schedules configuration for an embedded Quick Sight dashboard.
         public let schedules: SchedulesConfigurations?
         /// The shared view settings of an embedded dashboard.
         public let sharedView: SharedViewConfigurations?
         /// The state persistence settings of an embedded dashboard.
         public let statePersistence: StatePersistenceConfigurations?
-        /// The threshold alerts configuration for an Amazon QuickSight embedded dashboard.
+        /// The threshold alerts configuration for an Quick Sight embedded dashboard.
         public let thresholdAlerts: ThresholdAlertsConfigurations?
 
         @inlinable
@@ -32895,7 +34840,7 @@ extension QuickSight {
     }
 
     public struct RegisteredUserDashboardVisualEmbeddingConfiguration: AWSEncodableShape {
-        /// The visual ID for the visual that you want the user to embed. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders this visual. The Amazon Resource Name (ARN) of the dashboard that the visual belongs to must be included in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException.
+        /// The visual ID for the visual that you want the user to embed. This ID is included in the output URL. When the URL in response is accessed, Amazon Quick Sight renders this visual. The Amazon Resource Name (ARN) of the dashboard that the visual belongs to must be included in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException.
         public let initialDashboardVisualId: DashboardVisualId
 
         @inlinable
@@ -32915,13 +34860,13 @@ extension QuickSight {
     public struct RegisteredUserEmbeddingExperienceConfiguration: AWSEncodableShape {
         /// The configuration details for providing a dashboard embedding experience.
         public let dashboard: RegisteredUserDashboardEmbeddingConfiguration?
-        /// The type of embedding experience. In this case, Amazon QuickSight visuals.
+        /// The type of embedding experience. In this case, Amazon Quick Sight visuals.
         public let dashboardVisual: RegisteredUserDashboardVisualEmbeddingConfiguration?
-        /// The configuration details for embedding the Generative Q&A experience. For more information about embedding the Generative Q&A experience, see Embedding Overview in the Amazon QuickSight User Guide.
+        /// The configuration details for embedding the Generative Q&A experience. For more information about embedding the Generative Q&A experience, see Embedding Overview in the Amazon Quick Sight User Guide.
         public let generativeQnA: RegisteredUserGenerativeQnAEmbeddingConfiguration?
-        /// The configuration details for embedding the Q search bar. For more information about embedding the Q search bar, see Embedding Overview in the Amazon QuickSight User Guide.
+        /// The configuration details for embedding the Q search bar. For more information about embedding the Q search bar, see Embedding Overview in the Amazon Quick Sight User Guide.
         public let qSearchBar: RegisteredUserQSearchBarEmbeddingConfiguration?
-        /// The configuration details for providing each Amazon QuickSight console embedding experience. This can be used along with custom permissions to restrict access to certain features. For more information, see Customizing Access to the Amazon QuickSight Console in the Amazon QuickSight User Guide. Use  GenerateEmbedUrlForRegisteredUser  where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who accesses an embedded Amazon QuickSight console needs to belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the  UpdateUser API operation. Use the  RegisterUser API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon QuickSight User Guide:    Embedding the Full Functionality of the Amazon QuickSight Console for Authenticated Users     Customizing Access to the Amazon QuickSight Console    For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon QuickSight Developer Portal.
+        /// The configuration details for providing each Amazon Quick Sight console embedding experience. This can be used along with custom permissions to restrict access to certain features. For more information, see Customizing Access to the Amazon Quick Sight Console in the Amazon QuickSight User Guide. Use  GenerateEmbedUrlForRegisteredUser where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who accesses an embedded Amazon Quick Sight console needs to belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the  UpdateUser API operation. Use the  RegisterUser API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon QuickSight User Guide:    Embedding the Full Functionality of the Amazon Quick Sight Console for Authenticated Users     Customizing Access to the Amazon QuickSight Console    For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon QuickSight Developer Portal.
         public let quickSightConsole: RegisteredUserQuickSightConsoleEmbeddingConfiguration?
 
         @inlinable
@@ -32951,7 +34896,7 @@ extension QuickSight {
     }
 
     public struct RegisteredUserGenerativeQnAEmbeddingConfiguration: AWSEncodableShape {
-        /// The ID of the new Q reader experience topic that you want to make the starting topic in the Generative Q&A experience. You can find a topic ID by navigating to the Topics pane in the Amazon QuickSight application and opening a topic. The ID is in the URL for the topic that you open. If you don't specify an initial topic or you specify a legacy topic, a list of all shared new reader experience topics is shown in the Generative Q&A experience for your readers. When you select an initial new reader experience topic, you can specify whether or not readers are allowed to select other new reader experience topics from the available ones in the list.
+        /// The ID of the new Q reader experience topic that you want to make the starting topic in the Generative Q&A experience. You can find a topic ID by navigating to the Topics pane in the QuickSight application and opening a topic. The ID is in the URL for the topic that you open. If you don't specify an initial topic or you specify a legacy topic, a list of all shared new reader experience topics is shown in the Generative Q&A experience for your readers. When you select an initial new reader experience topic, you can specify whether or not readers are allowed to select other new reader experience topics from the available ones in the list.
         public let initialTopicId: String?
 
         @inlinable
@@ -32971,7 +34916,7 @@ extension QuickSight {
     }
 
     public struct RegisteredUserQSearchBarEmbeddingConfiguration: AWSEncodableShape {
-        /// The ID of the legacy Q topic that you want to use as the starting topic in the Q search bar. To locate the topic ID of the topic that you want to use, open the Amazon QuickSight console, navigate to the Topics pane, and choose thre topic that you want to use. The TopicID is located in the URL of the topic that opens. When you select an initial topic, you can specify whether or not readers are allowed to select other topics from the list of available topics. If you don't specify an initial topic or if you specify a new reader experience topic, a list of all shared legacy topics is shown in the Q bar.
+        /// The ID of the legacy Q topic that you want to use as the starting topic in the Q search bar. To locate the topic ID of the topic that you want to use, open the Quick Sight console, navigate to the Topics pane, and choose thre topic that you want to use. The TopicID is located in the URL of the topic that opens. When you select an initial topic, you can specify whether or not readers are allowed to select other topics from the list of available topics. If you don't specify an initial topic or if you specify a new reader experience topic, a list of all shared legacy topics is shown in the Q bar.
         public let initialTopicId: String?
 
         @inlinable
@@ -32991,9 +34936,9 @@ extension QuickSight {
     }
 
     public struct RegisteredUserQuickSightConsoleEmbeddingConfiguration: AWSEncodableShape {
-        /// The embedding configuration of an embedded Amazon QuickSight console.
+        /// The embedding configuration of an embedded Amazon Quick Sight console.
         public let featureConfigurations: RegisteredUserConsoleFeatureConfigurations?
-        /// The initial URL path for the Amazon QuickSight console. InitialPath is required. The entry point URL is constrained to the following paths:    /start     /start/analyses     /start/dashboards     /start/favorites     /dashboards/DashboardId. DashboardId is the actual ID key from the Amazon QuickSight console URL of the dashboard.    /analyses/AnalysisId. AnalysisId is the actual ID key from the Amazon QuickSight console URL of the analysis.
+        /// The initial URL path for the Amazon Quick Sight console. InitialPath is required. The entry point URL is constrained to the following paths:    /start     /start/analyses     /start/dashboards     /start/favorites     /dashboards/DashboardId. DashboardId is the actual ID key from the Amazon Quick Sight console URL of the dashboard.    /analyses/AnalysisId. AnalysisId is the actual ID key from the Amazon Quick Sight console URL of the analysis.
         public let initialPath: String?
 
         @inlinable
@@ -33220,7 +35165,7 @@ extension QuickSight {
     public struct ResourcePermission: AWSEncodableShape & AWSDecodableShape {
         /// The IAM action to grant or revoke permissions on.
         public let actions: [String]
-        /// The Amazon Resource Name (ARN) of the principal. This can be one of the following:   The ARN of an Amazon QuickSight user or group associated with a data source or dataset. (This is common.)   The ARN of an Amazon QuickSight user, group, or namespace associated with an analysis, dashboard, template, or theme. (This is common.)   The ARN of an Amazon Web Services account root: This is an IAM ARN rather than a QuickSight ARN. Use this option only to share resources (templates) across Amazon Web Services accounts. (This is less common.)
+        /// The Amazon Resource Name (ARN) of the principal. This can be one of the following:   The ARN of an Quick Sight user or group associated with a data source or dataset. (This is common.)   The ARN of an Quick Sight user, group, or namespace associated with an analysis, dashboard, template, or theme. Namespace sharing is not supported for action connectors. (This is common.)   The ARN of an Amazon Web Services account root: This is an IAM ARN rather than a Quick Sight ARN. Use this option only to share resources (templates) across Amazon Web Services accounts. Account root sharing is not supported for action connectors. (This is less common.)
         public let principal: String
 
         @inlinable
@@ -33546,8 +35491,39 @@ extension QuickSight {
         }
     }
 
+    public struct S3KnowledgeBaseParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The URL of the S3 bucket that contains the knowledge base data.
+        public let bucketUrl: String
+        /// The location of metadata files within the S3 bucket that describe the structure and content of the knowledge base.
+        public let metadataFilesLocation: String?
+        /// Use the RoleArn structure to override an account-wide role for a specific S3 Knowledge Base data source. For example, say an account administrator has turned off all S3 access with an account-wide role. The administrator can then use RoleArn to bypass the account-wide role and allow S3 access for the single S3 Knowledge Base data source that is specified in the structure, even if the account-wide role forbidding S3 access is still active.
+        public let roleArn: String?
+
+        @inlinable
+        public init(bucketUrl: String, metadataFilesLocation: String? = nil, roleArn: String? = nil) {
+            self.bucketUrl = bucketUrl
+            self.metadataFilesLocation = metadataFilesLocation
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketUrl, name: "bucketUrl", parent: name, max: 1024)
+            try self.validate(self.bucketUrl, name: "bucketUrl", parent: name, min: 1)
+            try self.validate(self.metadataFilesLocation, name: "metadataFilesLocation", parent: name, max: 1024)
+            try self.validate(self.metadataFilesLocation, name: "metadataFilesLocation", parent: name, min: 1)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketUrl = "BucketUrl"
+            case metadataFilesLocation = "MetadataFilesLocation"
+            case roleArn = "RoleArn"
+        }
+    }
+
     public struct S3Parameters: AWSEncodableShape & AWSDecodableShape {
-        /// Location of the Amazon S3 manifest file. This is NULL if the manifest file was uploaded into Amazon QuickSight.
+        /// Location of the Amazon S3 manifest file. This is NULL if the manifest file was uploaded into Quick Sight.
         public let manifestFileLocation: ManifestFileLocation
         /// Use the RoleArn structure to override an account-wide role for a specific S3 data source. For example, say an account administrator has turned off all S3 access with an account-wide role. The administrator can then use RoleArn to bypass the account-wide role and allow S3 access for the single S3 data source that is specified in the structure, even if the account-wide role forbidding S3 access is still active.
         public let roleArn: String?
@@ -34084,7 +36060,7 @@ extension QuickSight {
     }
 
     public struct SchedulesConfigurations: AWSEncodableShape {
-        /// The schedules configuration for an embedded Amazon QuickSight dashboard.
+        /// The schedules configuration for an embedded Quick Sight dashboard.
         public let enabled: Bool
 
         @inlinable
@@ -34116,6 +36092,81 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case visibility = "Visibility"
             case visibleRange = "VisibleRange"
+        }
+    }
+
+    public struct SearchActionConnectorsRequest: AWSEncodableShape {
+        /// The Amazon Web Services account ID in which to search for action connectors.
+        public let awsAccountId: String
+        /// The search filters to apply. You can filter by connector name, type, or user permissions. Maximum of one filter is supported.
+        public let filters: [ActionConnectorSearchFilter]
+        /// The maximum number of action connectors to return in a single response. Valid range is 1 to 100.
+        public let maxResults: Int?
+        /// A pagination token to retrieve the next set of results. Use the token returned from a previous call to continue searching.
+        public let nextToken: String?
+
+        @inlinable
+        public init(awsAccountId: String, filters: [ActionConnectorSearchFilter], maxResults: Int? = nil, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.filters, forKey: .filters)
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.filters, name: "filters", parent: name, max: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+        }
+    }
+
+    public struct SearchActionConnectorsResponse: AWSDecodableShape {
+        /// A list of action connector summaries that match the search criteria.
+        public let actionConnectorSummaries: [ActionConnectorSummary]?
+        /// A pagination token to retrieve the next set of results. If null, there are no more results to retrieve.
+        public let nextToken: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status code of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(actionConnectorSummaries: [ActionConnectorSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.actionConnectorSummaries = actionConnectorSummaries
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.actionConnectorSummaries = try container.decodeIfPresent([ActionConnectorSummary].self, forKey: .actionConnectorSummaries)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionConnectorSummaries = "ActionConnectorSummaries"
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
         }
     }
 
@@ -34398,7 +36449,8 @@ extension QuickSight {
     }
 
     public struct SearchDataSourcesResponse: AWSDecodableShape {
-        /// A DataSourceSummaries object that returns a summary of a data source.
+        /// A DataSourceSummaries object that returns a summary of a data
+        /// 			source.
         public let dataSourceSummaries: [DataSourceSummary]?
         /// A pagination token that can be used in a subsequent request.
         public let nextToken: String?
@@ -34426,6 +36478,104 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case dataSourceSummaries = "DataSourceSummaries"
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct SearchFlowsFilter: AWSEncodableShape {
+        /// The name of the value that you want to use as a filter, for example "Name": "DIRECT_QUICKSIGHT_SOLE_OWNER". Valid values are defined as follows:    assetName: Any flows whose names have a substring match to this value will be returned.    assetDescription: Any flows whose descriptions have a substring match to this value will be returned.    DIRECT_QUICKSIGHT_SOLE_OWNER: Provide an ARN of a user or group, and any analyses with that ARN listed as the only owner of the analysis are returned. Implicit permissions from folders or groups are not considered.    DIRECT_QUICKSIGHT_OWNER: Provide an ARN of a user or group, and any analyses with that ARN listed as one of the owners of the analyses are returned. Implicit permissions from folders or groups are not considered.    DIRECT_QUICKSIGHT_VIEWER_OR_OWNER: Provide an ARN of a user or group, and any analyses with that ARN listed as one of the owners or viewers of the analyses are returned. Implicit permissions from folders or groups are not considered.
+        public let name: FieldName
+        /// The comparison operator that you want to use as a filter, for example  "Operator": "StringEquals". Valid values are  "StringEquals"  and  "StringLike".
+        public let `operator`: SearchFilterOperator
+        /// The value of the named item, in this case DIRECT_QUICKSIGHT_SOLE_OWNER, that you want to use as a filter, for example "Value". An example is "arn:aws:quicksight:us-east-1:1:user/default/UserName1".
+        public let value: String
+
+        @inlinable
+        public init(name: FieldName, operator: SearchFilterOperator, value: String) {
+            self.name = name
+            self.`operator` = `operator`
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case `operator` = "Operator"
+            case value = "Value"
+        }
+    }
+
+    public struct SearchFlowsInput: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account where you are searching for flows from.
+        public let awsAccountId: String
+        /// The filters applied to the search when searching for flows in the Amazon Web Services account.
+        public let filters: [SearchFlowsFilter]
+        /// The maximum number of results to be returned per request.
+        public let maxResults: Int?
+        /// The token to request the next set of results, or null if you want to retrieve the first set.
+        public let nextToken: String?
+
+        @inlinable
+        public init(awsAccountId: String, filters: [SearchFlowsFilter], maxResults: Int? = nil, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.filters, forKey: .filters)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct SearchFlowsOutput: AWSDecodableShape {
+        /// The list of flows found against the search.
+        public let flowSummaryList: [FlowSummary]
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(flowSummaryList: [FlowSummary], nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.flowSummaryList = flowSummaryList
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.flowSummaryList = try container.decode([FlowSummary].self, forKey: .flowSummaryList)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowSummaryList = "FlowSummaryList"
             case nextToken = "NextToken"
             case requestId = "RequestId"
         }
@@ -34509,7 +36659,7 @@ extension QuickSight {
     }
 
     public struct SearchGroupsRequest: AWSEncodableShape {
-        /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+        /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
         public let awsAccountId: String
         /// The structure for the search filters that you want to apply to your search.
         public let filters: [GroupSearchFilter]
@@ -35066,7 +37216,7 @@ extension QuickSight {
     public struct Sheet: AWSDecodableShape {
         /// A list of images on a sheet.
         public let images: [SheetImage]?
-        /// The name of a sheet. This name is displayed on the sheet's tab in the Amazon QuickSight console.
+        /// The name of a sheet. This name is displayed on the sheet's tab in the Quick Sight console.
         public let name: String?
         /// The unique identifier associated with a sheet.
         public let sheetId: String?
@@ -35165,15 +37315,15 @@ extension QuickSight {
         public let customActionDefaults: VisualCustomActionDefaults?
         /// A description of the sheet.
         public let description: String?
-        /// The list of filter controls that are on a sheet. For more information, see Adding filter controls to analysis sheets in the Amazon QuickSight User Guide.
+        /// The list of filter controls that are on a sheet. For more information, see Adding filter controls to analysis sheets in the Amazon Quick Suite User Guide.
         public let filterControls: [FilterControl]?
         /// A list of images on a sheet.
         public let images: [SheetImage]?
-        /// Layouts define how the components of a sheet are arranged. For more information, see Types of layout in the Amazon QuickSight User Guide.
+        /// Layouts define how the components of a sheet are arranged. For more information, see Types of layout in the Amazon Quick Suite User Guide.
         public let layouts: [Layout]?
-        /// The name of the sheet. This name is displayed on the sheet's tab in the Amazon QuickSight console.
+        /// The name of the sheet. This name is displayed on the sheet's tab in the QuickSight console.
         public let name: String?
-        /// The list of parameter controls that are on a sheet. For more information, see Using a Control with a Parameter in Amazon QuickSight in the Amazon QuickSight User Guide.
+        /// The list of parameter controls that are on a sheet. For more information, see Using a Control with a Parameter in Amazon Quick Sight in the Amazon Quick Suite User Guide.
         public let parameterControls: [ParameterControl]?
         /// The control layouts of the sheet.
         public let sheetControlLayouts: [SheetControlLayout]?
@@ -35564,13 +37714,13 @@ extension QuickSight {
     }
 
     public struct SignupResponse: AWSDecodableShape {
-        /// The name of your Amazon QuickSight account.
+        /// The name of your Quick Sight account.
         public let accountName: String?
-        /// The type of Active Directory that is being used to authenticate the Amazon QuickSight account. Valid values are SIMPLE_AD, AD_CONNECTOR, and MICROSOFT_AD.
+        /// The type of Active Directory that is being used to authenticate the Amazon Quick Sight account. Valid values are SIMPLE_AD, AD_CONNECTOR, and MICROSOFT_AD.
         public let directoryType: String?
-        /// A Boolean that is TRUE if the Amazon QuickSight uses IAM as an authentication method.
+        /// A Boolean that is TRUE if the Amazon Quick Sight uses IAM as an authentication method.
         public let iamUser: Bool?
-        /// The user login name for your Amazon QuickSight account.
+        /// The user login name for your Amazon Quick Sight account.
         public let userLoginName: String?
 
         @inlinable
@@ -35724,7 +37874,7 @@ extension QuickSight {
     }
 
     public struct SnapshotAnonymousUser: AWSEncodableShape {
-        /// The tags to be used for row-level security (RLS). Make sure that the relevant datasets have RLS tags configured before you start a snapshot export job. You can configure the RLS tags of a dataset with a DataSet$RowLevelPermissionTagConfiguration API call. These are not the tags that are used for Amazon Web Services resource tagging. For more information on row level security in Amazon QuickSight, see Using Row-Level Security (RLS) with Tagsin the Amazon QuickSight User Guide.
+        /// The tags to be used for row-level security (RLS). Make sure that the relevant datasets have RLS tags configured before you start a snapshot export job. You can configure the RLS tags of a dataset with a DataSet$RowLevelPermissionTagConfiguration API call. These are not the tags that are used for Amazon Web Services resource tagging. For more information on row level security in Amazon Quick Sight, see Using Row-Level Security (RLS) with Tagsin the Amazon QuickSight User Guide.
         public let rowLevelPermissionTags: [SessionTag]?
 
         @inlinable
@@ -36048,7 +38198,7 @@ extension QuickSight {
         public let databaseAccessControlRole: String?
         /// Host.
         public let host: String
-        /// An object that contains information needed to create a data source connection between an Amazon QuickSight account and Snowflake.
+        /// An object that contains information needed to create a data source connection between an Quick Sight account and Snowflake.
         public let oAuthParameters: OAuthParameters?
         /// Warehouse.
         public let warehouse: String
@@ -36212,7 +38362,7 @@ extension QuickSight {
         public let databaseAccessControlRole: String?
         /// The host name of the Starburst data source.
         public let host: String
-        /// An object that contains information needed to create a data source connection between an Amazon QuickSight account and Starburst.
+        /// An object that contains information needed to create a data source connection between an Quick Sight account and Starburst.
         public let oAuthParameters: OAuthParameters?
         /// The port for the Starburst data source.
         public let port: Int
@@ -36373,7 +38523,7 @@ extension QuickSight {
         public let assetBundleImportSource: AssetBundleImportSource
         /// The ID of the Amazon Web Services account to import assets into.
         public let awsAccountId: String
-        /// The failure action for the import job. If you choose ROLLBACK, failed  import jobs will attempt to  undo any asset changes caused by the failed job. If you choose DO_NOTHING, failed import jobs will not attempt to roll back any asset changes caused by the failed job, possibly keeping the Amazon QuickSight account in an inconsistent state.
+        /// The failure action for the import job. If you choose ROLLBACK, failed import jobs will attempt to undo any asset changes caused by the failed job. If you choose DO_NOTHING, failed import jobs will not attempt to roll back any asset changes caused by the failed job, possibly keeping the Amazon Quick Sight account in an inconsistent state.
         public let failureAction: AssetBundleImportFailureAction?
         /// Optional overrides that are applied to the resource configuration before import.
         public let overrideParameters: AssetBundleImportJobOverrideParameters?
@@ -36476,7 +38626,7 @@ extension QuickSight {
         public let snapshotConfiguration: SnapshotConfiguration
         /// An ID for the dashboard snapshot job. This ID is unique to the dashboard while the job is running. This ID can be used to poll the status of a job with a DescribeDashboardSnapshotJob while the job runs. You can reuse this ID for another job 24 hours after the current job is completed.
         public let snapshotJobId: String
-        ///  A structure that contains information about the anonymous users that the generated snapshot is for. This API will not return information about registered Amazon QuickSight.
+        ///  A structure that contains information about the anonymous users that the generated snapshot is for. This API will not return information about registered Amazon Quick Sight.
         public let userConfiguration: SnapshotUserConfiguration
 
         @inlinable
@@ -36558,7 +38708,7 @@ extension QuickSight {
         public let awsAccountId: String
         /// The ID of the dashboard that you want to start a snapshot job schedule for.
         public let dashboardId: String
-        /// The ID of the schedule that you want to start a snapshot job schedule for. The schedule ID can be found in the Amazon QuickSight console in the Schedules pane of the dashboard that the schedule is configured for.
+        /// The ID of the schedule that you want to start a snapshot job schedule for. The schedule ID can be found in the Amazon Quick Sight console in the Schedules pane of the dashboard that the schedule is configured for.
         public let scheduleId: String
 
         @inlinable
@@ -36616,7 +38766,7 @@ extension QuickSight {
     }
 
     public struct StatePersistenceConfigurations: AWSEncodableShape {
-        /// Determines if a Amazon QuickSight dashboard's state persistence settings are turned on or off.
+        /// Determines if a Quick Sight dashboard's state persistence settings are turned on or off.
         public let enabled: Bool
 
         @inlinable
@@ -37765,7 +39915,8 @@ extension QuickSight {
     public struct TagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource that you want to tag.
         public let resourceArn: String
-        /// Contains a map of the key-value pairs for the resource tag or tags assigned to the resource.
+        /// Contains a map of the key-value pairs for the resource tag or tags assigned to the
+        /// 			resource.
         public let tags: [Tag]
 
         @inlinable
@@ -38045,11 +40196,11 @@ extension QuickSight {
         public let columnConfigurations: [ColumnConfiguration]?
         /// An array of dataset configurations. These configurations define the required columns for each dataset used within a template.
         public let dataSetConfigurations: [DataSetConfiguration]
-        /// Filter definitions for a template. For more information, see Filtering Data in the Amazon QuickSight User Guide.
+        /// Filter definitions for a template. For more information, see Filtering Data in the Amazon Quick Suite User Guide.
         public let filterGroups: [FilterGroup]?
         /// An array of option definitions for a template.
         public let options: AssetOptions?
-        /// An array of parameter declarations for a template.  Parameters are named variables that can transfer a value for use by an action or an object. For more information, see Parameters in Amazon QuickSight in the Amazon QuickSight User Guide.
+        /// An array of parameter declarations for a template.  Parameters are named variables that can transfer a value for use by an action or an object. For more information, see Parameters in Amazon Quick Sight in the Amazon Quick Suite User Guide.
         public let parameterDeclarations: [ParameterDeclaration]?
         public let queryExecutionOptions: QueryExecutionOptions?
         /// An array of sheet definitions for a template.
@@ -38075,7 +40226,7 @@ extension QuickSight {
             try self.calculatedFields?.forEach {
                 try $0.validate(name: "\(name).calculatedFields[]")
             }
-            try self.validate(self.calculatedFields, name: "calculatedFields", parent: name, max: 500)
+            try self.validate(self.calculatedFields, name: "calculatedFields", parent: name, max: 2000)
             try self.columnConfigurations?.forEach {
                 try $0.validate(name: "\(name).columnConfigurations[]")
             }
@@ -38447,7 +40598,7 @@ extension QuickSight {
     public struct ThemeVersion: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String?
-        /// The Amazon QuickSight-defined ID of the theme that a custom theme inherits from. All themes initially inherit from a default Amazon QuickSight theme.
+        /// The Quick Sight-defined ID of the theme that a custom theme inherits from. All themes initially inherit from a default Quick Sight theme.
         public let baseThemeId: String?
         /// The theme configuration, which contains all the theme display properties.
         public let configuration: ThemeConfiguration?
@@ -38539,7 +40690,7 @@ extension QuickSight {
     }
 
     public struct ThresholdAlertsConfigurations: AWSEncodableShape {
-        /// The threshold alerts configuration for an embedded Amazon QuickSight dashboard.
+        /// The threshold alerts configuration for an embedded Quick Sight dashboard.
         public let enabled: Bool
 
         @inlinable
@@ -39385,6 +41536,8 @@ extension QuickSight {
         public let filterSynonyms: [String]?
         /// The type of the filter. Valid values for this structure are CATEGORY_FILTER, NUMERIC_EQUALITY_FILTER, NUMERIC_RANGE_FILTER, DATE_RANGE_FILTER, and RELATIVE_DATE_FILTER.
         public let filterType: NamedFilterType?
+        /// The null filter.
+        public let nullFilter: TopicNullFilter?
         /// The numeric equality filter.
         public let numericEqualityFilter: TopicNumericEqualityFilter?
         /// The numeric range filter.
@@ -39395,7 +41548,7 @@ extension QuickSight {
         public let relativeDateFilter: TopicRelativeDateFilter?
 
         @inlinable
-        public init(categoryFilter: TopicCategoryFilter? = nil, dateRangeFilter: TopicDateRangeFilter? = nil, filterClass: FilterClass? = nil, filterDescription: String? = nil, filterName: String, filterSynonyms: [String]? = nil, filterType: NamedFilterType? = nil, numericEqualityFilter: TopicNumericEqualityFilter? = nil, numericRangeFilter: TopicNumericRangeFilter? = nil, operandFieldName: String, relativeDateFilter: TopicRelativeDateFilter? = nil) {
+        public init(categoryFilter: TopicCategoryFilter? = nil, dateRangeFilter: TopicDateRangeFilter? = nil, filterClass: FilterClass? = nil, filterDescription: String? = nil, filterName: String, filterSynonyms: [String]? = nil, filterType: NamedFilterType? = nil, nullFilter: TopicNullFilter? = nil, numericEqualityFilter: TopicNumericEqualityFilter? = nil, numericRangeFilter: TopicNumericRangeFilter? = nil, operandFieldName: String, relativeDateFilter: TopicRelativeDateFilter? = nil) {
             self.categoryFilter = categoryFilter
             self.dateRangeFilter = dateRangeFilter
             self.filterClass = filterClass
@@ -39403,6 +41556,7 @@ extension QuickSight {
             self.filterName = filterName
             self.filterSynonyms = filterSynonyms
             self.filterType = filterType
+            self.nullFilter = nullFilter
             self.numericEqualityFilter = numericEqualityFilter
             self.numericRangeFilter = numericRangeFilter
             self.operandFieldName = operandFieldName
@@ -39417,6 +41571,7 @@ extension QuickSight {
             try self.filterSynonyms?.forEach {
                 try validate($0, name: "filterSynonyms[]", parent: name, max: 256)
             }
+            try self.nullFilter?.validate(name: "\(name).nullFilter")
             try self.numericEqualityFilter?.validate(name: "\(name).numericEqualityFilter")
             try self.numericRangeFilter?.validate(name: "\(name).numericRangeFilter")
             try self.validate(self.operandFieldName, name: "operandFieldName", parent: name, max: 256)
@@ -39431,6 +41586,7 @@ extension QuickSight {
             case filterName = "FilterName"
             case filterSynonyms = "FilterSynonyms"
             case filterType = "FilterType"
+            case nullFilter = "NullFilter"
             case numericEqualityFilter = "NumericEqualityFilter"
             case numericRangeFilter = "NumericRangeFilter"
             case operandFieldName = "OperandFieldName"
@@ -39790,6 +41946,31 @@ extension QuickSight {
             case entityName = "EntityName"
             case entitySynonyms = "EntitySynonyms"
             case semanticEntityType = "SemanticEntityType"
+        }
+    }
+
+    public struct TopicNullFilter: AWSEncodableShape & AWSDecodableShape {
+        public let constant: TopicSingularFilterConstant?
+        /// A Boolean value that indicates if the filter is inverse.
+        public let inverse: Bool?
+        /// The type of the null filter. Valid values for this type are NULLS_ONLY, NON_NULLS_ONLY, and ALL_VALUES.
+        public let nullFilterType: NullFilterType?
+
+        @inlinable
+        public init(constant: TopicSingularFilterConstant? = nil, inverse: Bool? = nil, nullFilterType: NullFilterType? = nil) {
+            self.constant = constant
+            self.inverse = inverse
+            self.nullFilterType = nullFilterType
+        }
+
+        public func validate(name: String) throws {
+            try self.constant?.validate(name: "\(name).constant")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case constant = "Constant"
+            case inverse = "Inverse"
+            case nullFilterType = "NullFilterType"
         }
     }
 
@@ -40708,7 +42889,8 @@ extension QuickSight {
     }
 
     public struct UniqueKey: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the column that is referenced in the UniqueKey configuration.
+        /// The name of the column that is referenced in the UniqueKey
+        /// 			configuration.
         public let columnNames: [String]
 
         @inlinable
@@ -40819,7 +43001,8 @@ extension QuickSight {
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource that you want to untag.
         public let resourceArn: String
-        /// The keys of the key-value pairs for the resource tag or tags assigned to the resource.
+        /// The keys of the key-value pairs for the resource tag or tags assigned to the
+        /// 			resource.
         public let tagKeys: [String]
 
         @inlinable
@@ -40871,12 +43054,63 @@ extension QuickSight {
         }
     }
 
-    public struct UpdateAccountCustomizationRequest: AWSEncodableShape {
-        /// The Amazon QuickSight customizations you're updating in the current Amazon Web Services Region.
-        public let accountCustomization: AccountCustomization
-        /// The ID for the Amazon Web Services account that you want to update Amazon QuickSight customizations for.
+    public struct UpdateAccountCustomPermissionRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account for which you want to apply a custom permissions profile.
         public let awsAccountId: String
-        /// The namespace that you want to update Amazon QuickSight customizations for.
+        /// The name of the custom permissions profile that you want to apply to an account.
+        public let customPermissionsName: String
+
+        @inlinable
+        public init(awsAccountId: String, customPermissionsName: String) {
+            self.awsAccountId = awsAccountId
+            self.customPermissionsName = customPermissionsName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.customPermissionsName, forKey: .customPermissionsName)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, max: 64)
+            try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, min: 1)
+            try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, pattern: "^[a-zA-Z0-9+=,.@_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customPermissionsName = "CustomPermissionsName"
+        }
+    }
+
+    public struct UpdateAccountCustomPermissionResponse: AWSDecodableShape {
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(requestId: String? = nil, status: Int? = nil) {
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct UpdateAccountCustomizationRequest: AWSEncodableShape {
+        /// The Quick Sight customizations you're updating.
+        public let accountCustomization: AccountCustomization
+        /// The ID for the Amazon Web Services account that you want to update Quick Sight customizations for.
+        public let awsAccountId: String
+        /// The namespace that you want to update Quick Sight customizations for.
         public let namespace: String?
 
         @inlinable
@@ -40908,11 +43142,11 @@ extension QuickSight {
     }
 
     public struct UpdateAccountCustomizationResponse: AWSDecodableShape {
-        /// The Amazon QuickSight customizations you're updating in the current Amazon Web Services Region.
+        /// The Quick Sight customizations you're updating.
         public let accountCustomization: AccountCustomization?
         /// The Amazon Resource Name (ARN) for the updated customization for this Amazon Web Services account.
         public let arn: String?
-        /// The ID for the Amazon Web Services account that you want to update Amazon QuickSight customizations for.
+        /// The ID for the Amazon Web Services account that you want to update Quick Sight customizations for.
         public let awsAccountId: String?
         /// The namespace associated with the customization that you're updating.
         public let namespace: String?
@@ -40952,13 +43186,13 @@ extension QuickSight {
     }
 
     public struct UpdateAccountSettingsRequest: AWSEncodableShape {
-        /// The ID for the Amazon Web Services account that contains the Amazon QuickSight settings that you want to list.
+        /// The ID for the Amazon Web Services account that contains the Quick Sight settings that you want to list.
         public let awsAccountId: String
-        /// The default namespace for this Amazon Web Services account. Currently, the default is default. IAM users that register for the first time with Amazon QuickSight provide an email address that becomes associated with the default namespace.
+        /// The default namespace for this Amazon Web Services account. Currently, the default is default. IAM users that register for the first time with Amazon Quick Sight provide an email address that becomes associated with the default namespace.
         public let defaultNamespace: String
-        /// The email address that you want Amazon QuickSight to send notifications to regarding your Amazon Web Services account or Amazon QuickSight subscription.
+        /// The email address that you want Quick Sight to send notifications to regarding your Amazon Web Services account or Quick Sight subscription.
         public let notificationEmail: String?
-        /// A boolean value that determines whether or not an Amazon QuickSight account can be deleted. A True value doesn't allow the account to be deleted and results in an error message if a user tries to make a DeleteAccountSubscription request. A False value will allow the account to be deleted.
+        /// A boolean value that determines whether or not an Quick Sight account can be deleted. A True value doesn't allow the account to be deleted and results in an error message if a user tries to make a DeleteAccountSubscription request. A False value will allow the account to be deleted.
         public let terminationProtectionEnabled: Bool?
 
         @inlinable
@@ -41014,6 +43248,195 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
+        }
+    }
+
+    public struct UpdateActionConnectorPermissionsRequest: AWSEncodableShape {
+        /// The unique identifier of the action connector whose permissions you want to update.
+        public let actionConnectorId: String
+        /// The Amazon Web Services account ID that contains the action connector.
+        public let awsAccountId: String
+        /// The permissions to grant to users and groups for this action connector.
+        public let grantPermissions: [ResourcePermission]?
+        /// The permissions to revoke from users and groups for this action connector.
+        public let revokePermissions: [ResourcePermission]?
+
+        @inlinable
+        public init(actionConnectorId: String, awsAccountId: String, grantPermissions: [ResourcePermission]? = nil, revokePermissions: [ResourcePermission]? = nil) {
+            self.actionConnectorId = actionConnectorId
+            self.awsAccountId = awsAccountId
+            self.grantPermissions = grantPermissions
+            self.revokePermissions = revokePermissions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.actionConnectorId, key: "ActionConnectorId")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.grantPermissions, forKey: .grantPermissions)
+            try container.encodeIfPresent(self.revokePermissions, forKey: .revokePermissions)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.actionConnectorId, name: "actionConnectorId", parent: name, max: 512)
+            try self.validate(self.actionConnectorId, name: "actionConnectorId", parent: name, min: 1)
+            try self.validate(self.actionConnectorId, name: "actionConnectorId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.grantPermissions?.forEach {
+                try $0.validate(name: "\(name).grantPermissions[]")
+            }
+            try self.validate(self.grantPermissions, name: "grantPermissions", parent: name, max: 64)
+            try self.validate(self.grantPermissions, name: "grantPermissions", parent: name, min: 1)
+            try self.revokePermissions?.forEach {
+                try $0.validate(name: "\(name).revokePermissions[]")
+            }
+            try self.validate(self.revokePermissions, name: "revokePermissions", parent: name, max: 64)
+            try self.validate(self.revokePermissions, name: "revokePermissions", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grantPermissions = "GrantPermissions"
+            case revokePermissions = "RevokePermissions"
+        }
+    }
+
+    public struct UpdateActionConnectorPermissionsResponse: AWSDecodableShape {
+        /// The unique identifier of the action connector.
+        public let actionConnectorId: String?
+        /// The Amazon Resource Name (ARN) of the action connector.
+        public let arn: String?
+        /// The updated permissions configuration for the action connector.
+        public let permissions: [ResourcePermission]?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status code of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(actionConnectorId: String? = nil, arn: String? = nil, permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.actionConnectorId = actionConnectorId
+            self.arn = arn
+            self.permissions = permissions
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.actionConnectorId = try container.decodeIfPresent(String.self, forKey: .actionConnectorId)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.permissions = try container.decodeIfPresent([ResourcePermission].self, forKey: .permissions)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionConnectorId = "ActionConnectorId"
+            case arn = "Arn"
+            case permissions = "Permissions"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct UpdateActionConnectorRequest: AWSEncodableShape {
+        /// The unique identifier of the action connector to update.
+        public let actionConnectorId: String
+        /// The updated authentication configuration for connecting to the external service.
+        public let authenticationConfig: AuthConfig
+        /// The Amazon Web Services account ID that contains the action connector to update.
+        public let awsAccountId: String
+        /// The updated description of the action connector.
+        public let description: String?
+        /// The new name for the action connector.
+        public let name: String
+        /// The updated ARN of the VPC connection to use for secure connectivity.
+        public let vpcConnectionArn: String?
+
+        @inlinable
+        public init(actionConnectorId: String, authenticationConfig: AuthConfig, awsAccountId: String, description: String? = nil, name: String, vpcConnectionArn: String? = nil) {
+            self.actionConnectorId = actionConnectorId
+            self.authenticationConfig = authenticationConfig
+            self.awsAccountId = awsAccountId
+            self.description = description
+            self.name = name
+            self.vpcConnectionArn = vpcConnectionArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.actionConnectorId, key: "ActionConnectorId")
+            try container.encode(self.authenticationConfig, forKey: .authenticationConfig)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.vpcConnectionArn, forKey: .vpcConnectionArn)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.actionConnectorId, name: "actionConnectorId", parent: name, max: 512)
+            try self.validate(self.actionConnectorId, name: "actionConnectorId", parent: name, min: 1)
+            try self.validate(self.actionConnectorId, name: "actionConnectorId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.authenticationConfig.validate(name: "\(name).authenticationConfig")
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[A-Za-z0-9 _.,!?-]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9](?:[\\w- ]*[A-Za-z0-9])?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationConfig = "AuthenticationConfig"
+            case description = "Description"
+            case name = "Name"
+            case vpcConnectionArn = "VpcConnectionArn"
+        }
+    }
+
+    public struct UpdateActionConnectorResponse: AWSDecodableShape {
+        /// The unique identifier of the updated action connector.
+        public let actionConnectorId: String?
+        /// The Amazon Resource Name (ARN) of the updated action connector.
+        public let arn: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status code of the request.
+        public let status: Int?
+        /// The status of the update operation.
+        public let updateStatus: ResourceStatus?
+
+        @inlinable
+        public init(actionConnectorId: String? = nil, arn: String? = nil, requestId: String? = nil, status: Int? = nil, updateStatus: ResourceStatus? = nil) {
+            self.actionConnectorId = actionConnectorId
+            self.arn = arn
+            self.requestId = requestId
+            self.status = status
+            self.updateStatus = updateStatus
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.actionConnectorId = try container.decodeIfPresent(String.self, forKey: .actionConnectorId)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.updateStatus = try container.decodeIfPresent(ResourceStatus.self, forKey: .updateStatus)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionConnectorId = "ActionConnectorId"
+            case arn = "Arn"
+            case requestId = "RequestId"
+            case updateStatus = "UpdateStatus"
         }
     }
 
@@ -41113,13 +43536,13 @@ extension QuickSight {
         public let awsAccountId: String
         /// The definition of an analysis. A definition is the data model of all features in a Dashboard, Template, or Analysis.
         public let definition: AnalysisDefinition?
-        /// A descriptive name for the analysis that you're updating. This name displays for the analysis in the Amazon QuickSight console.
+        /// A descriptive name for the analysis that you're updating. This name displays for the analysis in the Amazon Quick Sight console.
         public let name: String
         /// The parameter names and override values that you want to use. An analysis can have  any parameter type, and some parameters might accept multiple values.
         public let parameters: Parameters?
         /// A source entity to use for the analysis that you're updating. This metadata structure contains details that describe a source template and one or more datasets.
         public let sourceEntity: AnalysisSourceEntity?
-        /// The Amazon Resource Name (ARN) for the theme to apply to the analysis that you're creating. To see the theme in the Amazon QuickSight console, make sure that you have access to it.
+        /// The Amazon Resource Name (ARN) for the theme to apply to the analysis that you're creating. To see the theme in the Amazon Quick Sight console, make sure that you have access to it.
         public let themeArn: String?
         /// The option to relax the validation needed to update an analysis with definition objects. This skips the validation step for specific errors.
         public let validationStrategy: ValidationStrategy?
@@ -41215,7 +43638,7 @@ extension QuickSight {
     public struct UpdateApplicationWithTokenExchangeGrantRequest: AWSEncodableShape {
         /// The ID of the Amazon Web Services account to be updated with a token exchange grant.
         public let awsAccountId: String
-        /// The namespace of the Amazon QuickSight application.
+        /// The namespace of the QuickSight application.
         public let namespace: String
 
         @inlinable
@@ -41317,7 +43740,7 @@ extension QuickSight {
     public struct UpdateBrandPublishedVersionRequest: AWSEncodableShape {
         /// The ID of the Amazon Web Services account that owns the brand.
         public let awsAccountId: String
-        /// The ID of the Amazon QuickSight brand.
+        /// The ID of the QuickSight brand.
         public let brandId: String
         /// The ID of the published version.
         public let versionId: String
@@ -41377,7 +43800,7 @@ extension QuickSight {
         public let awsAccountId: String
         /// The definition of the brand.
         public let brandDefinition: BrandDefinition?
-        /// The ID of the Amazon QuickSight brand.
+        /// The ID of the QuickSight brand.
         public let brandId: String
 
         @inlinable
@@ -41641,7 +44064,7 @@ extension QuickSight {
         public let dashboardArn: String?
         /// The ID for the dashboard.
         public let dashboardId: String?
-        /// Updates the permissions of a shared link to an Amazon QuickSight dashboard.
+        /// Updates the permissions of a shared link to an Quick Sight dashboard.
         public let linkSharingConfiguration: LinkSharingConfiguration?
         /// Information about the permissions on the dashboard.
         public let permissions: [ResourcePermission]?
@@ -41755,7 +44178,7 @@ extension QuickSight {
         public let awsAccountId: String
         /// The ID for the dashboard.
         public let dashboardId: String
-        /// Options for publishing the dashboard when you create it:    AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, Amazon QuickSight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.     AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .CSV format isn't enabled when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.
+        /// Options for publishing the dashboard when you create it:    AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, Amazon Quick Sight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.     AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .CSV format isn't enabled when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.     AvailabilityStatus for QuickSuiteActionsOption - This status can be either ENABLED or DISABLED. Features related to Actions in Amazon Quick Suite on dashboards are disabled when this is set to DISABLED. This option is DISABLED by default.    AvailabilityStatus for ExecutiveSummaryOption - This status can be either ENABLED or DISABLED. The option to build an executive summary is disabled when this is set to DISABLED. This option is ENABLED by default.    AvailabilityStatus for DataStoriesSharingOption - This status can be either ENABLED or DISABLED. The option to share a data story is disabled when this is set to DISABLED. This option is ENABLED by default.
         public let dashboardPublishOptions: DashboardPublishOptions?
         /// The definition of a dashboard. A definition is the data model of all features in a Dashboard, Template, or Analysis.
         public let definition: DashboardVersionDefinition?
@@ -41763,7 +44186,7 @@ extension QuickSight {
         public let name: String
         /// A structure that contains the parameters of the dashboard. These are parameter overrides for a dashboard. A dashboard can have any type of parameters, and some parameters might accept multiple values.
         public let parameters: Parameters?
-        /// The entity that you are using as a source when you update the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only update a dashboard from a template, so you use a SourceTemplate entity. If you need to update a dashboard from an analysis, first convert the analysis to a template by using the  CreateTemplate API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplate ARN can contain any Amazon Web Services account and any Amazon QuickSight-supported Amazon Web Services Region.  Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.
+        /// The entity that you are using as a source when you update the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only update a dashboard from a template, so you use a SourceTemplate entity. If you need to update a dashboard from an analysis, first convert the analysis to a template by using the  CreateTemplate API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplate ARN can contain any Amazon Web Services account and any Amazon Quick Sight-supported Amazon Web Services Region.  Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.
         public let sourceEntity: DashboardSourceEntity?
         /// The Amazon Resource Name (ARN) of the theme that is being used for this dashboard. If you add a value for this field, it overrides the value that was originally associated with the entity. The theme ARN must exist in the same Amazon Web Services account where you create the dashboard.
         public let themeArn: String?
@@ -41926,7 +44349,7 @@ extension QuickSight {
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
         /// The ID for the dataset whose permissions you want to update. This ID is unique per
-        /// 			Amazon Web Services Region for each Amazon Web Services account.
+        /// 				Amazon Web Services Region for each Amazon Web Services account.
         public let dataSetId: String
         /// The resource permissions that you want to grant to the dataset.
         public let grantPermissions: [ResourcePermission]?
@@ -41976,7 +44399,7 @@ extension QuickSight {
         /// The Amazon Resource Name (ARN) of the dataset.
         public let dataSetArn: String?
         /// The ID for the dataset whose permissions you want to update. This ID is unique per
-        /// 			Amazon Web Services Region for each Amazon Web Services account.
+        /// 				Amazon Web Services Region for each Amazon Web Services account.
         public let dataSetId: String?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
@@ -42010,12 +44433,12 @@ extension QuickSight {
     public struct UpdateDataSetRequest: AWSEncodableShape {
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
-        /// Groupings of columns that work together in certain Amazon QuickSight features. Currently, only geospatial hierarchy is supported.
+        /// Groupings of columns that work together in certain Amazon Quick Sight features.
+        /// 			Currently, only geospatial hierarchy is supported.
         public let columnGroups: [ColumnGroup]?
         /// A set of one or more definitions of a  ColumnLevelPermissionRule .
         public let columnLevelPermissionRules: [ColumnLevelPermissionRule]?
-        /// The ID for the dataset that you want to update. This ID is unique per Amazon Web Services Region for each
-        /// 			Amazon Web Services account.
+        /// The ID for the dataset that you want to update. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let dataSetId: String
         /// The parameter declarations of the dataset.
         public let datasetParameters: [DatasetParameter]?
@@ -42024,17 +44447,20 @@ extension QuickSight {
         public let fieldFolders: [String: FieldFolder]?
         /// Indicates whether you want to import the data into SPICE.
         public let importMode: DataSetImportMode
-        /// Configures the combination and transformation of the data from the physical tables.
+        /// Configures the combination and transformation of the data from the physical
+        /// 			tables.
         public let logicalTableMap: [String: LogicalTable]?
         /// The display name for the dataset.
         public let name: String
-        /// The configuration for the performance optimization of the dataset that contains a UniqueKey configuration.
+        /// The configuration for the performance optimization of the dataset that contains a
+        /// 				UniqueKey configuration.
         public let performanceConfiguration: PerformanceConfiguration?
         /// Declares the physical tables that are available in the underlying data sources.
         public let physicalTableMap: [String: PhysicalTable]
         /// The row-level security configuration for the data you want to create.
         public let rowLevelPermissionDataSet: RowLevelPermissionDataSet?
-        /// The configuration of tags on a dataset to set row-level security. Row-level security tags are currently supported for anonymous embedding only.
+        /// The configuration of tags on a dataset to set row-level security. Row-level security
+        /// 			tags are currently supported for anonymous embedding only.
         public let rowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration?
 
         @inlinable
@@ -42140,11 +44566,11 @@ extension QuickSight {
         public let arn: String?
         /// The ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let dataSetId: String?
-        /// The ARN for the ingestion, which is triggered as a result of dataset creation if the import
-        /// 			mode is SPICE.
+        /// The ARN for the ingestion, which is triggered as a result of dataset creation if the
+        /// 			import mode is SPICE.
         public let ingestionArn: String?
-        /// The ID of the ingestion, which is triggered as a result of dataset creation if the import
-        /// 			mode is SPICE.
+        /// The ID of the ingestion, which is triggered as a result of dataset creation if the
+        /// 			import mode is SPICE.
         public let ingestionId: String?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
@@ -42184,7 +44610,8 @@ extension QuickSight {
     public struct UpdateDataSourcePermissionsRequest: AWSEncodableShape {
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
-        /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+        /// The ID of the data source. This ID is unique per Amazon Web Services Region for each
+        /// 				Amazon Web Services account.
         public let dataSourceId: String
         /// A list of resource permissions that you want to grant on the data source.
         public let grantPermissions: [ResourcePermission]?
@@ -42233,7 +44660,8 @@ extension QuickSight {
     public struct UpdateDataSourcePermissionsResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the data source.
         public let dataSourceArn: String?
-        /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+        /// The ID of the data source. This ID is unique per Amazon Web Services Region for each
+        /// 				Amazon Web Services account.
         public let dataSourceId: String?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
@@ -42267,20 +44695,22 @@ extension QuickSight {
     public struct UpdateDataSourceRequest: AWSEncodableShape {
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
-        /// The credentials that Amazon QuickSight that uses to connect to your underlying source. Currently,
-        /// 			only credentials based on user name and password are supported.
+        /// The credentials that Amazon Quick Sight that uses to connect to your underlying source.
+        /// 			Currently, only credentials based on user name and password are supported.
         public let credentials: DataSourceCredentials?
-        /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+        /// The ID of the data source. This ID is unique per Amazon Web Services Region for each
+        /// 				Amazon Web Services account.
         public let dataSourceId: String
-        /// The parameters that Amazon QuickSight uses to connect to your underlying source.
+        /// The parameters that Amazon Quick Sight uses to connect to your underlying
+        /// 			source.
         public let dataSourceParameters: DataSourceParameters?
         /// A display name for the data source.
         public let name: String
-        /// Secure Socket Layer (SSL) properties that apply when Amazon QuickSight connects to your underlying
-        /// 			source.
-        public let sslProperties: SslProperties?
-        /// Use this parameter only when you want Amazon QuickSight to use a VPC connection when connecting to
+        /// Secure Socket Layer (SSL) properties that apply when Amazon Quick Sight connects to
         /// 			your underlying source.
+        public let sslProperties: SslProperties?
+        /// Use this parameter only when you want Amazon Quick Sight to use a VPC connection when
+        /// 			connecting to your underlying source.
         public let vpcConnectionProperties: VpcConnectionProperties?
 
         @inlinable
@@ -42328,7 +44758,8 @@ extension QuickSight {
     public struct UpdateDataSourceResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the data source.
         public let arn: String?
-        /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+        /// The ID of the data source. This ID is unique per Amazon Web Services Region for each
+        /// 				Amazon Web Services account.
         public let dataSourceId: String?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
@@ -42367,9 +44798,9 @@ extension QuickSight {
     public struct UpdateDefaultQBusinessApplicationRequest: AWSEncodableShape {
         /// The ID of the Amazon Q Business application that you want to update.
         public let applicationId: String
-        /// The ID of the Amazon QuickSight account that is connected to the Amazon Q Business application that you want to update.
+        /// The ID of the Quick Sight account that is connected to the Amazon Q Business application that you want to update.
         public let awsAccountId: String
-        /// The Amazon QuickSight namespace that contains the linked Amazon Q Business application. If this field is left blank, the default namespace is used. Currently, the default namespace is the only valid value for this parameter.
+        /// The Quick Sight namespace that contains the linked Amazon Q Business application. If this field is left blank, the default namespace is used. Currently, the default namespace is the only valid value for this parameter.
         public let namespace: String?
 
         @inlinable
@@ -42421,6 +44852,93 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct UpdateFlowPermissionsInput: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the flow you are updating permissions against.
+        public let awsAccountId: String
+        /// The unique identifier of the flow to update permissions for.
+        public let flowId: String
+        /// The permissions that you want to grant on this flow.
+        public let grantPermissions: [Permission]?
+        /// The permissions that you want to revoke from this flow.
+        public let revokePermissions: [Permission]?
+
+        @inlinable
+        public init(awsAccountId: String, flowId: String, grantPermissions: [Permission]? = nil, revokePermissions: [Permission]? = nil) {
+            self.awsAccountId = awsAccountId
+            self.flowId = flowId
+            self.grantPermissions = grantPermissions
+            self.revokePermissions = revokePermissions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.flowId, key: "FlowId")
+            try container.encodeIfPresent(self.grantPermissions, forKey: .grantPermissions)
+            try container.encodeIfPresent(self.revokePermissions, forKey: .revokePermissions)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.flowId, name: "flowId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.grantPermissions?.forEach {
+                try $0.validate(name: "\(name).grantPermissions[]")
+            }
+            try self.validate(self.grantPermissions, name: "grantPermissions", parent: name, max: 100)
+            try self.revokePermissions?.forEach {
+                try $0.validate(name: "\(name).revokePermissions[]")
+            }
+            try self.validate(self.revokePermissions, name: "revokePermissions", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grantPermissions = "GrantPermissions"
+            case revokePermissions = "RevokePermissions"
+        }
+    }
+
+    public struct UpdateFlowPermissionsOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the flow you are updating permissions against.
+        public let arn: String
+        /// The unique identifier of the flow with updated permissions.
+        public let flowId: String
+        /// The permissions on the flow after they are updated.
+        public let permissions: [Permission]
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(arn: String, flowId: String, permissions: [Permission], requestId: String, status: Int? = nil) {
+            self.arn = arn
+            self.flowId = flowId
+            self.permissions = permissions
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decode(String.self, forKey: .arn)
+            self.flowId = try container.decode(String.self, forKey: .flowId)
+            self.permissions = try container.decode([Permission].self, forKey: .permissions)
+            self.requestId = try container.decode(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case flowId = "FlowId"
+            case permissions = "Permissions"
             case requestId = "RequestId"
         }
     }
@@ -42582,7 +45100,7 @@ extension QuickSight {
 
     public struct UpdateGroupRequest: AWSEncodableShape {
         /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the
-        /// 			Amazon Web Services account that contains your Amazon QuickSight account.
+        /// 			Amazon Web Services account that contains your Amazon Quick Sight account.
         public let awsAccountId: String
         /// The description for the group that you want to update.
         public let description: String?
@@ -42668,12 +45186,12 @@ extension QuickSight {
         /// The ID of the Amazon Web Services account that contains the IAM policy
         /// 			assignment.
         public let awsAccountId: String
-        /// The Amazon QuickSight users, groups, or both that you want to assign the policy
+        /// The Amazon Quick Sight users, groups, or both that you want to assign the policy
         /// 			to.
         public let identities: [String: [String]]?
         /// The namespace of the assignment.
         public let namespace: String
-        /// The ARN for the IAM policy to apply to the Amazon QuickSight users and
+        /// The ARN for the IAM policy to apply to the Amazon Quick Sight users and
         /// 			groups specified in this assignment.
         public let policyArn: String?
 
@@ -42725,10 +45243,10 @@ extension QuickSight {
         /// 					source.    DRAFT - This assignment is an unfinished draft and isn't used
         /// 					when creating the data source.
         public let assignmentStatus: AssignmentStatus?
-        /// The Amazon QuickSight users, groups, or both that the IAM policy is
+        /// The Amazon Quick Sight users, groups, or both that the IAM policy is
         /// 			assigned to.
         public let identities: [String: [String]]?
-        /// The ARN for the IAM policy applied to the Amazon QuickSight users and
+        /// The ARN for the IAM policy applied to the Amazon Quick Sight users and
         /// 			groups specified in this assignment.
         public let policyArn: String?
         /// The Amazon Web Services request ID for this operation.
@@ -42920,7 +45438,7 @@ extension QuickSight {
     public struct UpdateKeyRegistrationRequest: AWSEncodableShape {
         /// The ID of the Amazon Web Services account that contains the customer managed key registration that you want to update.
         public let awsAccountId: String
-        /// A list of RegisteredCustomerManagedKey objects to be updated to the Amazon QuickSight account.
+        /// A list of RegisteredCustomerManagedKey objects to be updated to the Quick Sight account.
         public let keyRegistration: [RegisteredCustomerManagedKey]
 
         @inlinable
@@ -42970,9 +45488,9 @@ extension QuickSight {
     }
 
     public struct UpdatePublicSharingSettingsRequest: AWSEncodableShape {
-        /// The Amazon Web Services account ID associated with your Amazon QuickSight subscription.
+        /// The Amazon Web Services account ID associated with your Amazon Quick Sight subscription.
         public let awsAccountId: String
-        /// A Boolean value that indicates whether public sharing is turned on for an Amazon QuickSight account.
+        /// A Boolean value that indicates whether public sharing is turned on for an QuickSight account.
         public let publicSharingEnabled: Bool?
 
         @inlinable
@@ -43026,7 +45544,7 @@ extension QuickSight {
     public struct UpdateQPersonalizationConfigurationRequest: AWSEncodableShape {
         /// The ID of the Amazon Web Services account account that contains the personalization configuration that the user wants to update.
         public let awsAccountId: String
-        /// An option to allow Amazon QuickSight to customize data stories with user specific metadata, specifically location and job information, in your IAM Identity Center instance.
+        /// An option to allow Amazon Quick Sight to customize data stories with user specific metadata, specifically location and job information, in your IAM Identity Center instance.
         public let personalizationMode: PersonalizationMode
 
         @inlinable
@@ -43083,9 +45601,9 @@ extension QuickSight {
     }
 
     public struct UpdateQuickSightQSearchConfigurationRequest: AWSEncodableShape {
-        /// The ID of the Amazon Web Services account that contains the Amazon QuickSight Q Search configuration that you want to update.
+        /// The ID of the Amazon Web Services account that contains the Quick Sight Q Search configuration that you want to update.
         public let awsAccountId: String
-        /// The status of the Amazon QuickSight Q Search configuration that the user wants to update.
+        /// The status of the Quick Sight Q Search configuration that the user wants to update.
         public let qSearchStatus: QSearchStatus
 
         @inlinable
@@ -43113,7 +45631,7 @@ extension QuickSight {
     }
 
     public struct UpdateQuickSightQSearchConfigurationResponse: AWSDecodableShape {
-        /// The status of the Amazon QuickSight Q Search configuration.
+        /// The status of the Quick Sight Q Search configuration.
         public let qSearchStatus: QSearchStatus?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
@@ -43211,7 +45729,7 @@ extension QuickSight {
     }
 
     public struct UpdateRoleCustomPermissionRequest: AWSEncodableShape {
-        /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon QuickSight account.
+        /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon Quick Sight account.
         public let awsAccountId: String
         /// The name of the custom permission that you want to update the role with.
         public let customPermissionsName: String
@@ -43504,7 +46022,7 @@ extension QuickSight {
         /// 			analysis. Both of these require an Amazon Resource Name (ARN). For
         /// 			SourceTemplate, specify the ARN of the source template. For
         /// 			SourceAnalysis, specify the ARN of the source analysis. The SourceTemplate
-        /// 			ARN can contain any Amazon Web Services account and any Amazon QuickSight-supported Amazon Web Services Region;.  Use the DataSetReferences entity within SourceTemplate or
+        /// 			ARN can contain any Amazon Web Services account and any Quick Sight-supported Amazon Web Services Region;.  Use the DataSetReferences entity within SourceTemplate or
         /// 			SourceAnalysis to list the replacement datasets for the placeholders listed
         /// 			in the original. The schema in each dataset must match its placeholder.
         public let sourceEntity: TemplateSourceEntity?
@@ -43775,8 +46293,8 @@ extension QuickSight {
     public struct UpdateThemeRequest: AWSEncodableShape {
         /// The ID of the Amazon Web Services account that contains the theme that you're updating.
         public let awsAccountId: String
-        /// The theme ID, defined by Amazon QuickSight, that a custom theme inherits from.
-        /// 		All themes initially inherit from a default Amazon QuickSight theme.
+        /// The theme ID, defined by Amazon Quick Sight, that a custom theme inherits from.
+        /// 		All themes initially inherit from a default Quick Sight theme.
         public let baseThemeId: String
         /// The theme configuration, which contains the theme display properties.
         public let configuration: ThemeConfiguration?
@@ -44200,29 +46718,29 @@ extension QuickSight {
 
     public struct UpdateUserRequest: AWSEncodableShape {
         /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the
-        /// 			Amazon Web Services account that contains your Amazon QuickSight account.
+        /// 			Amazon Web Services account that contains your Amazon Quick Sight account.
         public let awsAccountId: String
-        /// The URL of the custom OpenID Connect (OIDC) provider that provides identity to let a user federate into Amazon QuickSight with an associated Identity and Access Management(IAM) role. This parameter should only be used when ExternalLoginFederationProviderType parameter is set to CUSTOM_OIDC.
+        /// The URL of the custom OpenID Connect (OIDC) provider that provides identity to let a user federate into Quick Sight with an associated Identity and Access Management(IAM) role. This parameter should only be used when ExternalLoginFederationProviderType parameter is set to CUSTOM_OIDC.
         public let customFederationProviderUrl: String?
-        /// (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:   Create and update data sources   Create and update datasets   Create and update email reports   Subscribe to email reports   A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the Amazon QuickSight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a Amazon QuickSight user.  Amazon QuickSight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning Amazon QuickSight users to one of the default security cohorts in Amazon QuickSight (admin, author, reader). This feature is available only to Amazon QuickSight Enterprise edition subscriptions.
+        /// (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:   Create and update data sources   Create and update datasets   Create and update email reports   Subscribe to email reports   A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the Quick Sight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a Quick Sight user.  Quick Sight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning Quick Sight users to one of the default security cohorts in Quick Sight (admin, author, reader). This feature is available only to Quick Sight Enterprise edition subscriptions.
         public let customPermissionsName: String?
         /// The email address of the user that you want to update.
         public let email: String
-        /// The type of supported external login provider that provides identity to let a user federate into Amazon QuickSight with an associated Identity and Access Management(IAM) role. The type of supported external login provider can be one of the following.    COGNITO: Amazon Cognito. The provider URL is cognito-identity.amazonaws.com. When choosing the COGNITO provider type, don’t use the "CustomFederationProviderUrl" parameter which is only needed when the external provider is custom.    CUSTOM_OIDC: Custom OpenID Connect (OIDC) provider. When choosing CUSTOM_OIDC type, use the CustomFederationProviderUrl parameter to provide the custom OIDC provider URL.    NONE: This clears all the previously saved external login information for a user. Use the  DescribeUser  API operation to check the external login information.
+        /// The type of supported external login provider that provides identity to let a user federate into Quick Sight with an associated Identity and Access Management(IAM) role. The type of supported external login provider can be one of the following.    COGNITO: Amazon Cognito. The provider URL is cognito-identity.amazonaws.com. When choosing the COGNITO provider type, don’t use the "CustomFederationProviderUrl" parameter which is only needed when the external provider is custom.    CUSTOM_OIDC: Custom OpenID Connect (OIDC) provider. When choosing CUSTOM_OIDC type, use the CustomFederationProviderUrl parameter to provide the custom OIDC provider URL.    NONE: This clears all the previously saved external login information for a user. Use the  DescribeUser  API operation to check the external login information.
         public let externalLoginFederationProviderType: String?
         /// The identity ID for a user in the external login provider.
         public let externalLoginId: String?
         /// The namespace. Currently, you should set this to default.
         public let namespace: String
-        /// The Amazon QuickSight role of the user. The role can be one of the
+        /// The Amazon Quick Sight role of the user. The role can be one of the
         /// 			following default security cohorts:    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, datasets, analyses, and
-        /// 					dashboards.    ADMIN: A user who is an author, who can also manage Amazon QuickSight
-        /// 					settings.    READER_PRO: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q in Amazon QuickSight, can build stories with Amazon Q, and can generate executive summaries from dashboards.    AUTHOR_PRO: Author Pro adds Generative BI capabilities to the Author role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&A, and generate executive summaries from dashboards.    ADMIN_PRO: Admin Pros are Author Pros who can also manage Amazon QuickSight administrative settings. Admin Pro users are billed at Author Pro pricing.   The name of the Amazon QuickSight role is invisible to the user except for the console
+        /// 					dashboards.    ADMIN: A user who is an author, who can also manage Amazon Quick Sight
+        /// 					settings.    READER_PRO: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q in Quick Sight, can build stories with Amazon Q, and can generate executive summaries from dashboards.    AUTHOR_PRO: Author Pro adds Generative BI capabilities to the Author role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&A, and generate executive summaries from dashboards.    ADMIN_PRO: Admin Pros are Author Pros who can also manage Amazon Quick Sight administrative settings. Admin Pro users are billed at Author Pro pricing.   The name of the Quick Sight role is invisible to the user except for the console
         /// 	        screens dealing with permissions.
         public let role: UserRole
         /// A flag that you use to indicate that you want to remove all custom permissions from this user. Using this parameter resets the user to the state it was in before a custom permissions profile was applied. This parameter defaults to NULL and it doesn't accept any other value.
         public let unapplyCustomPermissions: Bool?
-        /// The Amazon QuickSight user name that you want to update.
+        /// The Amazon Quick Sight user name that you want to update.
         public let userName: String
 
         @inlinable
@@ -44283,7 +46801,7 @@ extension QuickSight {
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
-        /// The Amazon QuickSight user.
+        /// The Amazon Quick Sight user.
         public let user: User?
 
         @inlinable
@@ -44470,7 +46988,7 @@ extension QuickSight {
     }
 
     public struct User: AWSDecodableShape {
-        /// The active status of user. When you create an Amazon QuickSight user that's not an IAM user or an Active Directory user, that user is inactive until they sign in and provide a password.
+        /// The active status of user. When you create an Quick Sight user that's not an IAM user or an Active Directory user, that user is inactive until they sign in and provide a password.
         public let active: Bool?
         /// The Amazon Resource Name (ARN) for the user.
         public let arn: String?
@@ -44478,7 +46996,7 @@ extension QuickSight {
         public let customPermissionsName: String?
         /// The user's email address.
         public let email: String?
-        /// The type of supported external login provider that provides identity to let the user federate into Amazon QuickSight with an associated IAM role. The type can be one of the following.    COGNITO: Amazon Cognito. The provider URL is cognito-identity.amazonaws.com.    CUSTOM_OIDC: Custom OpenID Connect (OIDC) provider.
+        /// The type of supported external login provider that provides identity to let the user federate into Quick Sight with an associated IAM role. The type can be one of the following.    COGNITO: Amazon Cognito. The provider URL is cognito-identity.amazonaws.com.    CUSTOM_OIDC: Custom OpenID Connect (OIDC) provider.
         public let externalLoginFederationProviderType: String?
         /// The URL of the external login provider.
         public let externalLoginFederationProviderUrl: String?
@@ -44488,9 +47006,9 @@ extension QuickSight {
         public let identityType: IdentityType?
         /// The principal ID of the user.
         public let principalId: String?
-        /// The Amazon QuickSight role for the user. The user role can be one of the following:.    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, datasets, analyses, and dashboards.    ADMIN: A user who is an author, who can also manage Amazon Amazon QuickSight settings.    READER_PRO: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q in Amazon QuickSight, can build stories with Amazon Q, and can generate executive summaries from dashboards.    AUTHOR_PRO: Author Pro adds Generative BI capabilities to the Author role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&A, and generate executive summaries from dashboards.    ADMIN_PRO: Admin Pros are Author Pros who can also manage Amazon QuickSight administrative settings. Admin Pro users are billed at Author Pro pricing.    RESTRICTED_READER: This role isn't currently available for use.    RESTRICTED_AUTHOR: This role isn't currently available for use.
+        /// The Quick Sight role for the user. The user role can be one of the following:.    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, datasets, analyses, and dashboards.    ADMIN: A user who is an author, who can also manage Amazon Quick Sight settings.    READER_PRO: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q in Quick Sight, can build stories with Amazon Q, and can generate executive summaries from dashboards.    AUTHOR_PRO: Author Pro adds Generative BI capabilities to the Author role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&A, and generate executive summaries from dashboards.    ADMIN_PRO: Admin Pros are Author Pros who can also manage Quick Sight administrative settings. Admin Pro users are billed at Author Pro pricing.    RESTRICTED_READER: This role isn't currently available for use.    RESTRICTED_AUTHOR: This role isn't currently available for use.
         public let role: UserRole?
-        /// The user's user name. This value is required if you are registering a user that will be managed in Amazon QuickSight. In the output, the value for UserName is N/A when the value for IdentityType is IAM and the corresponding IAM user is deleted.
+        /// The user's user name. This value is required if you are registering a user that will be managed in Quick Sight. In the output, the value for UserName is N/A when the value for IdentityType is IAM and the corresponding IAM user is deleted.
         public let userName: String?
 
         @inlinable
@@ -44672,55 +47190,55 @@ extension QuickSight {
     }
 
     public struct Visual: AWSEncodableShape & AWSDecodableShape {
-        /// A bar chart. For more information, see Using bar charts in the Amazon QuickSight User Guide.
+        /// A bar chart. For more information, see Using bar charts in the Amazon Quick Suite User Guide.
         public let barChartVisual: BarChartVisual?
-        /// A box plot. For more information, see Using box plots in the Amazon QuickSight User Guide.
+        /// A box plot. For more information, see Using box plots in the Amazon Quick Suite User Guide.
         public let boxPlotVisual: BoxPlotVisual?
-        /// A combo chart. For more information, see Using combo charts in the Amazon QuickSight User Guide.
+        /// A combo chart. For more information, see Using combo charts in the Amazon Quick Suite User Guide.
         public let comboChartVisual: ComboChartVisual?
-        /// A visual that contains custom content. For more information, see Using custom visual content in the Amazon QuickSight User Guide.
+        /// A visual that contains custom content. For more information, see Using custom visual content in the Amazon Quick Suite User Guide.
         public let customContentVisual: CustomContentVisual?
         /// An empty visual.
         public let emptyVisual: EmptyVisual?
-        /// A filled map. For more information, see Creating filled maps in the Amazon QuickSight User Guide.
+        /// A filled map. For more information, see Creating filled maps in the Amazon Quick Suite User Guide.
         public let filledMapVisual: FilledMapVisual?
-        /// A funnel chart. For more information, see Using funnel charts in the Amazon QuickSight User Guide.
+        /// A funnel chart. For more information, see Using funnel charts in the Amazon Quick Suite User Guide.
         public let funnelChartVisual: FunnelChartVisual?
-        /// A gauge chart. For more information, see Using gauge charts in the Amazon QuickSight User Guide.
+        /// A gauge chart. For more information, see Using gauge charts in the Amazon Quick Suite User Guide.
         public let gaugeChartVisual: GaugeChartVisual?
-        /// A geospatial map or a points on map visual. For more information, see Creating point maps in the Amazon QuickSight User Guide.
+        /// A geospatial map or a points on map visual. For more information, see Creating point maps in the Amazon Quick Suite User Guide.
         public let geospatialMapVisual: GeospatialMapVisual?
-        /// A heat map. For more information, see Using heat maps in the Amazon QuickSight User Guide.
+        /// A heat map. For more information, see Using heat maps in the Amazon Quick Suite User Guide.
         public let heatMapVisual: HeatMapVisual?
-        /// A histogram. For more information, see Using histograms in the Amazon QuickSight User Guide.
+        /// A histogram. For more information, see Using histograms in the Amazon Quick Suite User Guide.
         public let histogramVisual: HistogramVisual?
-        /// An insight visual. For more information, see Working with insights in the Amazon QuickSight User Guide.
+        /// An insight visual. For more information, see Working with insights in the Amazon Quick Suite User Guide.
         public let insightVisual: InsightVisual?
-        /// A key performance indicator (KPI). For more information, see Using KPIs in the Amazon QuickSight User Guide.
+        /// A key performance indicator (KPI). For more information, see Using KPIs in the Amazon Quick Suite User Guide.
         public let kpiVisual: KPIVisual?
         /// The properties for a layer map visual
         public let layerMapVisual: LayerMapVisual?
-        /// A line chart. For more information, see Using line charts in the Amazon QuickSight User Guide.
+        /// A line chart. For more information, see Using line charts in the Amazon Quick Suite User Guide.
         public let lineChartVisual: LineChartVisual?
-        /// A pie or donut chart. For more information, see Using pie charts in the Amazon QuickSight User Guide.
+        /// A pie or donut chart. For more information, see Using pie charts in the Amazon Quick Suite User Guide.
         public let pieChartVisual: PieChartVisual?
-        /// A pivot table. For more information, see Using pivot tables in the Amazon QuickSight User Guide.
+        /// A pivot table. For more information, see Using pivot tables in the Amazon Quick Suite User Guide.
         public let pivotTableVisual: PivotTableVisual?
         /// The custom plugin visual type.
         public let pluginVisual: PluginVisual?
-        /// A radar chart visual. For more information, see Using radar charts in the Amazon QuickSight User Guide.
+        /// A radar chart visual. For more information, see Using radar charts in the Amazon Quick Suite User Guide.
         public let radarChartVisual: RadarChartVisual?
-        /// A sankey diagram. For more information, see Using Sankey diagrams in the Amazon QuickSight User Guide.
+        /// A sankey diagram. For more information, see Using Sankey diagrams in the Amazon Quick Suite User Guide.
         public let sankeyDiagramVisual: SankeyDiagramVisual?
-        /// A scatter plot. For more information, see Using scatter plots in the Amazon QuickSight User Guide.
+        /// A scatter plot. For more information, see Using scatter plots in the Amazon Quick Suite User Guide.
         public let scatterPlotVisual: ScatterPlotVisual?
-        /// A table visual. For more information, see Using tables as visuals in the Amazon QuickSight User Guide.
+        /// A table visual. For more information, see Using tables as visuals in the Amazon Quick Suite User Guide.
         public let tableVisual: TableVisual?
-        /// A tree map. For more information, see Using tree maps in the Amazon QuickSight User Guide.
+        /// A tree map. For more information, see Using tree maps in the Amazon Quick Suite User Guide.
         public let treeMapVisual: TreeMapVisual?
-        /// A waterfall chart. For more information, see Using waterfall charts in the Amazon QuickSight User Guide.
+        /// A waterfall chart. For more information, see Using waterfall charts in the Amazon Quick Suite User Guide.
         public let waterfallVisual: WaterfallVisual?
-        /// A word cloud. For more information, see Using word clouds in the Amazon QuickSight User Guide.
+        /// A word cloud. For more information, see Using word clouds in the Amazon Quick Suite User Guide.
         public let wordCloudVisual: WordCloudVisual?
 
         @inlinable
@@ -45329,6 +47847,90 @@ extension QuickSight {
         }
     }
 
+    public struct WebCrawlerParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The URL of the login page for the web crawler to authenticate.
+        public let loginPageUrl: String?
+        /// The XPath expression for locating the password submit button on the login page.
+        public let passwordButtonXpath: String?
+        /// The XPath expression for locating the password field on the login page.
+        public let passwordFieldXpath: String?
+        /// The XPath expression for locating the username submit button on the login page.
+        public let usernameButtonXpath: String?
+        /// The XPath expression for locating the username field on the login page.
+        public let usernameFieldXpath: String?
+        /// The authentication type for the web crawler. The type can be one of the following:    NO_AUTH: No authentication required.    BASIC_AUTH: Basic authentication using username and password.    SAML: SAML-based authentication.    FORM: Form-based authentication.
+        public let webCrawlerAuthType: WebCrawlerAuthType
+        /// The hostname of the web proxy server for the web crawler.
+        public let webProxyHostName: String?
+        /// The port number of the web proxy server for the web crawler.
+        public let webProxyPortNumber: Int?
+
+        @inlinable
+        public init(loginPageUrl: String? = nil, passwordButtonXpath: String? = nil, passwordFieldXpath: String? = nil, usernameButtonXpath: String? = nil, usernameFieldXpath: String? = nil, webCrawlerAuthType: WebCrawlerAuthType, webProxyHostName: String? = nil, webProxyPortNumber: Int? = nil) {
+            self.loginPageUrl = loginPageUrl
+            self.passwordButtonXpath = passwordButtonXpath
+            self.passwordFieldXpath = passwordFieldXpath
+            self.usernameButtonXpath = usernameButtonXpath
+            self.usernameFieldXpath = usernameFieldXpath
+            self.webCrawlerAuthType = webCrawlerAuthType
+            self.webProxyHostName = webProxyHostName
+            self.webProxyPortNumber = webProxyPortNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.loginPageUrl, name: "loginPageUrl", parent: name, max: 1024)
+            try self.validate(self.loginPageUrl, name: "loginPageUrl", parent: name, min: 1)
+            try self.validate(self.passwordButtonXpath, name: "passwordButtonXpath", parent: name, max: 1024)
+            try self.validate(self.passwordButtonXpath, name: "passwordButtonXpath", parent: name, min: 1)
+            try self.validate(self.passwordFieldXpath, name: "passwordFieldXpath", parent: name, max: 1024)
+            try self.validate(self.passwordFieldXpath, name: "passwordFieldXpath", parent: name, min: 1)
+            try self.validate(self.usernameButtonXpath, name: "usernameButtonXpath", parent: name, max: 1024)
+            try self.validate(self.usernameButtonXpath, name: "usernameButtonXpath", parent: name, min: 1)
+            try self.validate(self.usernameFieldXpath, name: "usernameFieldXpath", parent: name, max: 1024)
+            try self.validate(self.usernameFieldXpath, name: "usernameFieldXpath", parent: name, min: 1)
+            try self.validate(self.webProxyHostName, name: "webProxyHostName", parent: name, max: 256)
+            try self.validate(self.webProxyHostName, name: "webProxyHostName", parent: name, min: 1)
+            try self.validate(self.webProxyPortNumber, name: "webProxyPortNumber", parent: name, max: 65535)
+            try self.validate(self.webProxyPortNumber, name: "webProxyPortNumber", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loginPageUrl = "LoginPageUrl"
+            case passwordButtonXpath = "PasswordButtonXpath"
+            case passwordFieldXpath = "PasswordFieldXpath"
+            case usernameButtonXpath = "UsernameButtonXpath"
+            case usernameFieldXpath = "UsernameFieldXpath"
+            case webCrawlerAuthType = "WebCrawlerAuthType"
+            case webProxyHostName = "WebProxyHostName"
+            case webProxyPortNumber = "WebProxyPortNumber"
+        }
+    }
+
+    public struct WebProxyCredentials: AWSEncodableShape {
+        /// The password for authenticating with the web proxy server.
+        public let webProxyPassword: String
+        /// The username for authenticating with the web proxy server.
+        public let webProxyUsername: String
+
+        @inlinable
+        public init(webProxyPassword: String, webProxyUsername: String) {
+            self.webProxyPassword = webProxyPassword
+            self.webProxyUsername = webProxyUsername
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.webProxyPassword, name: "webProxyPassword", parent: name, max: 1024)
+            try self.validate(self.webProxyPassword, name: "webProxyPassword", parent: name, min: 1)
+            try self.validate(self.webProxyUsername, name: "webProxyUsername", parent: name, max: 64)
+            try self.validate(self.webProxyUsername, name: "webProxyUsername", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case webProxyPassword = "WebProxyPassword"
+            case webProxyUsername = "WebProxyUsername"
+        }
+    }
+
     public struct WhatIfPointScenario: AWSEncodableShape & AWSDecodableShape {
         /// The date that you need the forecast results for.
         public let date: Date
@@ -45587,6 +48189,70 @@ extension QuickSight {
             case yAxis = "YAxis"
         }
     }
+
+    public struct AuthorizationCodeGrantCredentialsDetails: AWSEncodableShape {
+        /// The authorization code grant configuration details.
+        public let authorizationCodeGrantDetails: AuthorizationCodeGrantDetails?
+
+        @inlinable
+        public init(authorizationCodeGrantDetails: AuthorizationCodeGrantDetails? = nil) {
+            self.authorizationCodeGrantDetails = authorizationCodeGrantDetails
+        }
+
+        public func validate(name: String) throws {
+            try self.authorizationCodeGrantDetails?.validate(name: "\(name).authorizationCodeGrantDetails")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationCodeGrantDetails = "AuthorizationCodeGrantDetails"
+        }
+    }
+
+    public struct ClientCredentialsDetails: AWSEncodableShape {
+        /// The OAuth2 client credentials grant configuration details for authentication.
+        public let clientCredentialsGrantDetails: ClientCredentialsGrantDetails?
+
+        @inlinable
+        public init(clientCredentialsGrantDetails: ClientCredentialsGrantDetails? = nil) {
+            self.clientCredentialsGrantDetails = clientCredentialsGrantDetails
+        }
+
+        public func validate(name: String) throws {
+            try self.clientCredentialsGrantDetails?.validate(name: "\(name).clientCredentialsGrantDetails")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientCredentialsGrantDetails = "ClientCredentialsGrantDetails"
+        }
+    }
+
+    public struct ReadAuthorizationCodeGrantCredentialsDetails: AWSDecodableShape {
+        /// The read-only authorization code grant configuration details.
+        public let readAuthorizationCodeGrantDetails: ReadAuthorizationCodeGrantDetails?
+
+        @inlinable
+        public init(readAuthorizationCodeGrantDetails: ReadAuthorizationCodeGrantDetails? = nil) {
+            self.readAuthorizationCodeGrantDetails = readAuthorizationCodeGrantDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case readAuthorizationCodeGrantDetails = "ReadAuthorizationCodeGrantDetails"
+        }
+    }
+
+    public struct ReadClientCredentialsDetails: AWSDecodableShape {
+        /// The read-only client credentials grant configuration details.
+        public let readClientCredentialsGrantDetails: ReadClientCredentialsGrantDetails?
+
+        @inlinable
+        public init(readClientCredentialsGrantDetails: ReadClientCredentialsGrantDetails? = nil) {
+            self.readClientCredentialsGrantDetails = readClientCredentialsGrantDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case readClientCredentialsGrantDetails = "ReadClientCredentialsGrantDetails"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -45637,7 +48303,7 @@ public struct QuickSightErrorType: AWSErrorType {
 
     /// You don't have access to this item. The provided credentials couldn't be
     /// 			validated. You might not be authorized to carry out the request. Make sure that your
-    /// 			account is authorized to use the Amazon QuickSight service, that your policies have the
+    /// 			account is authorized to use the Amazon Quick Sight service, that your policies have the
     /// 			correct permissions, and that you are using the correct credentials.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// A resource is already in a state that indicates an operation is happening that must complete
@@ -45645,10 +48311,10 @@ public struct QuickSightErrorType: AWSErrorType {
     public static var concurrentUpdatingException: Self { .init(.concurrentUpdatingException) }
     /// Updating or deleting a resource can cause an inconsistent state.
     public static var conflictException: Self { .init(.conflictException) }
-    /// The customer managed key that is registered to your Amazon QuickSight account is unavailable.
+    /// The customer managed key that is registered to your Amazon Quick Sight account is unavailable.
     public static var customerManagedKeyUnavailableException: Self { .init(.customerManagedKeyUnavailableException) }
     /// The domain specified isn't on the allow list. All domains for embedded dashboards must be
-    /// 			added to the approved list by an Amazon QuickSight admin.
+    /// 			added to the approved list by an Amazon Quick Suite admin.
     public static var domainNotWhitelistedException: Self { .init(.domainNotWhitelistedException) }
     /// The identity type specified isn't supported. Supported identity types include
     /// 				IAM and QUICKSIGHT.
@@ -45682,14 +48348,14 @@ public struct QuickSightErrorType: AWSErrorType {
     public static var sessionLifetimeInMinutesInvalidException: Self { .init(.sessionLifetimeInMinutesInvalidException) }
     /// Access is throttled.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// This error indicates that you are calling an embedding operation in Amazon QuickSight
+    /// This error indicates that you are calling an embedding operation in Amazon Quick Sight
     /// 			without the required pricing plan on your Amazon Web Services account. Before you can use embedding
-    /// 			for anonymous users, a QuickSight administrator needs to add capacity pricing to Amazon QuickSight. You
-    /// 		    can do this on the Manage Amazon QuickSight page.  After capacity pricing is added, you can use the   GetDashboardEmbedUrl API operation with the  --identity-type ANONYMOUS option.
+    /// 			for anonymous users, a Quick Suite administrator needs to add capacity pricing to Quick Sight. You
+    /// 		    can do this on the Manage Quick Suite page.  After capacity pricing is added, you can use the   GetDashboardEmbedUrl API operation with the  --identity-type ANONYMOUS option.
     public static var unsupportedPricingPlanException: Self { .init(.unsupportedPricingPlanException) }
-    /// This error indicates that you are calling an operation on an Amazon QuickSight
+    /// This error indicates that you are calling an operation on an Amazon Quick Suite
     /// 			subscription where the edition doesn't include support for that operation. Amazon
-    /// 			Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and
+    /// 			Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and
     /// 			capability is available in every edition.
     public static var unsupportedUserEditionException: Self { .init(.unsupportedUserEditionException) }
 }

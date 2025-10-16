@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS CodeGuruSecurity service.
 ///
-///  Amazon CodeGuru Security is in preview release and is subject to change.  This section provides documentation for the Amazon CodeGuru Security API operations. CodeGuru Security is a service that uses program analysis and machine learning to detect security policy violations and vulnerabilities, and recommends ways to address these security risks. By proactively detecting and providing recommendations for addressing security risks, CodeGuru Security improves the overall security of your application code. For more information about CodeGuru Security, see the  Amazon CodeGuru Security User Guide.
+///  On November 20, 2025, AWS will discontinue support for Amazon CodeGuru Security. After November 20, 2025, you will no longer be able to access the /codeguru/security console, service resources, or documentation. For more information, see https://docs.aws.amazon.com/codeguru/latest/security-ug/end-of-support.html.  This section provides documentation for the Amazon CodeGuru Security API operations. CodeGuru Security is a service that uses program analysis and machine learning to detect security policy violations and vulnerabilities, and recommends ways to address these security risks. By proactively detecting and providing recommendations for addressing security risks, CodeGuru Security improves the overall security of your application code. For more information about CodeGuru Security, see the Amazon CodeGuru Security User Guide.
 public struct CodeGuruSecurity: AWSService {
     // MARK: Member variables
 
@@ -167,7 +167,7 @@ public struct CodeGuruSecurity: AWSService {
     /// Generates a pre-signed URL, request headers used to upload a code resource, and code artifact identifier for the uploaded resource. You can upload your code resource to the URL with the request headers using any HTTP client.
     ///
     /// Parameters:
-    ///   - scanName: The name of the scan that will use the uploaded resource. CodeGuru Security uses the unique scan name to track revisions across multiple scans of the same resource. Use this  scanName when you call CreateScan on the code resource you upload to this URL.
+    ///   - scanName: The name of the scan that will use the uploaded resource. CodeGuru Security uses the unique scan name to track revisions across multiple scans of the same resource. Use this scanName when you call CreateScan on the code resource you upload to this URL.
     ///   - logger: Logger use during operation
     @inlinable
     public func createUploadUrl(

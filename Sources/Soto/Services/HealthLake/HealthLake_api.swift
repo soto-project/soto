@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS HealthLake service.
 ///
-/// AWS HealthLake is a HIPAA eligibile service that allows customers to store, transform, query, and analyze their FHIR-formatted data in a consistent fashion in the cloud.
+/// This is the AWS HealthLake API Reference. For an introduction to the service, see What is AWS HealthLake? in the AWS HealthLake Developer Guide.
 public struct HealthLake: AWSService {
     // MARK: Member variables
 
@@ -79,7 +79,7 @@ public struct HealthLake: AWSService {
 
     // MARK: API Calls
 
-    /// Creates a data store that can ingest and export FHIR formatted data.
+    /// Create a FHIR-enabled data store.
     @Sendable
     @inlinable
     public func createFHIRDatastore(_ input: CreateFHIRDatastoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFHIRDatastoreResponse {
@@ -92,16 +92,16 @@ public struct HealthLake: AWSService {
             logger: logger
         )
     }
-    /// Creates a data store that can ingest and export FHIR formatted data.
+    /// Create a FHIR-enabled data store.
     ///
     /// Parameters:
-    ///   - clientToken: Optional user provided token used for ensuring idempotency.
-    ///   - datastoreName: The user generated name for the data store.
-    ///   - datastoreTypeVersion: The FHIR version of the data store. The only supported version is R4.
-    ///   - identityProviderConfiguration: The configuration of the identity provider that you want to use for your data store.
-    ///   - preloadDataConfig: Optional parameter to preload data upon creation of the data store. Currently, the only supported preloaded data is synthetic data generated from Synthea.
-    ///   - sseConfiguration:  The server-side encryption key configuration for a customer provided encryption key specified for creating a data store.
-    ///   - tags:  Resource tags that are applied to a data store when it is created.
+    ///   - clientToken: An optional user-provided token to ensure API idempotency.
+    ///   - datastoreName: The data store name (user-generated).
+    ///   - datastoreTypeVersion: The FHIR release version supported by the data store. Current support is for version R4.
+    ///   - identityProviderConfiguration: The identity provider configuration to use for the data store.
+    ///   - preloadDataConfig: An optional parameter to preload (import) open source Synthea FHIR data upon creation of the data store.
+    ///   - sseConfiguration: The server-side encryption key configuration for a customer-provided encryption key specified for creating a data store.
+    ///   - tags: The resource tags applied to a data store when it is created.
     ///   - logger: Logger use during operation
     @inlinable
     public func createFHIRDatastore(
@@ -126,7 +126,7 @@ public struct HealthLake: AWSService {
         return try await self.createFHIRDatastore(input, logger: logger)
     }
 
-    /// Deletes a data store.
+    /// Delete a FHIR-enabled data store.
     @Sendable
     @inlinable
     public func deleteFHIRDatastore(_ input: DeleteFHIRDatastoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFHIRDatastoreResponse {
@@ -139,10 +139,10 @@ public struct HealthLake: AWSService {
             logger: logger
         )
     }
-    /// Deletes a data store.
+    /// Delete a FHIR-enabled data store.
     ///
     /// Parameters:
-    ///   - datastoreId:  The AWS-generated ID for the data store to be deleted.
+    ///   - datastoreId:  The AWS-generated identifier for the data store to be deleted.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteFHIRDatastore(
@@ -155,7 +155,7 @@ public struct HealthLake: AWSService {
         return try await self.deleteFHIRDatastore(input, logger: logger)
     }
 
-    /// Gets the properties associated with the FHIR data store, including the data store ID, data store ARN, data store name, data store status, when the data store was created, data store type version, and the data store's endpoint.
+    /// Get properties for a FHIR-enabled data store.
     @Sendable
     @inlinable
     public func describeFHIRDatastore(_ input: DescribeFHIRDatastoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFHIRDatastoreResponse {
@@ -168,10 +168,10 @@ public struct HealthLake: AWSService {
             logger: logger
         )
     }
-    /// Gets the properties associated with the FHIR data store, including the data store ID, data store ARN, data store name, data store status, when the data store was created, data store type version, and the data store's endpoint.
+    /// Get properties for a FHIR-enabled data store.
     ///
     /// Parameters:
-    ///   - datastoreId: The AWS-generated data store ID.
+    ///   - datastoreId: The data store identifier.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeFHIRDatastore(
@@ -184,7 +184,7 @@ public struct HealthLake: AWSService {
         return try await self.describeFHIRDatastore(input, logger: logger)
     }
 
-    /// Displays the properties of a FHIR export job, including the ID, ARN, name, and the status of the job.
+    /// Get FHIR export job properties.
     @Sendable
     @inlinable
     public func describeFHIRExportJob(_ input: DescribeFHIRExportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFHIRExportJobResponse {
@@ -197,11 +197,11 @@ public struct HealthLake: AWSService {
             logger: logger
         )
     }
-    /// Displays the properties of a FHIR export job, including the ID, ARN, name, and the status of the job.
+    /// Get FHIR export job properties.
     ///
     /// Parameters:
-    ///   - datastoreId: The AWS generated ID for the data store from which files are being exported from for an export job.
-    ///   - jobId: The AWS generated ID for an export job.
+    ///   - datastoreId: The data store identifier from which FHIR data is being exported from.
+    ///   - jobId: The export job identifier.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeFHIRExportJob(
@@ -216,7 +216,7 @@ public struct HealthLake: AWSService {
         return try await self.describeFHIRExportJob(input, logger: logger)
     }
 
-    /// Displays the properties of a FHIR import job, including the ID, ARN, name, and the status of the job.
+    /// Get the import job properties to learn more about the job or job progress.
     @Sendable
     @inlinable
     public func describeFHIRImportJob(_ input: DescribeFHIRImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFHIRImportJobResponse {
@@ -229,11 +229,11 @@ public struct HealthLake: AWSService {
             logger: logger
         )
     }
-    /// Displays the properties of a FHIR import job, including the ID, ARN, name, and the status of the job.
+    /// Get the import job properties to learn more about the job or job progress.
     ///
     /// Parameters:
-    ///   - datastoreId: The AWS-generated ID of the data store.
-    ///   - jobId: The AWS-generated job ID.
+    ///   - datastoreId: The data store identifier.
+    ///   - jobId: The import job identifier.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeFHIRImportJob(
@@ -248,7 +248,7 @@ public struct HealthLake: AWSService {
         return try await self.describeFHIRImportJob(input, logger: logger)
     }
 
-    /// Lists all FHIR data stores that are in the user’s account, regardless of data store status.
+    /// List all FHIR-enabled data stores in a user’s account, regardless of data store status.
     @Sendable
     @inlinable
     public func listFHIRDatastores(_ input: ListFHIRDatastoresRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFHIRDatastoresResponse {
@@ -261,12 +261,12 @@ public struct HealthLake: AWSService {
             logger: logger
         )
     }
-    /// Lists all FHIR data stores that are in the user’s account, regardless of data store status.
+    /// List all FHIR-enabled data stores in a user’s account, regardless of data store status.
     ///
     /// Parameters:
-    ///   - filter: Lists all filters associated with a FHIR data store request.
-    ///   - maxResults: The maximum number of data stores returned in a single page of a ListFHIRDatastoresRequest call.
-    ///   - nextToken: Fetches the next page of data stores when results are paginated.
+    ///   - filter: List all filters associated with a FHIR data store request.
+    ///   - maxResults: The maximum number of data stores returned on a page.
+    ///   - nextToken: The token used to retrieve the next page of data stores when results are paginated.
     ///   - logger: Logger use during operation
     @inlinable
     public func listFHIRDatastores(
@@ -283,7 +283,7 @@ public struct HealthLake: AWSService {
         return try await self.listFHIRDatastores(input, logger: logger)
     }
 
-    ///  Lists all FHIR export jobs associated with an account and their statuses.
+    /// Lists all FHIR export jobs associated with an account and their statuses.
     @Sendable
     @inlinable
     public func listFHIRExportJobs(_ input: ListFHIRExportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFHIRExportJobsResponse {
@@ -296,16 +296,16 @@ public struct HealthLake: AWSService {
             logger: logger
         )
     }
-    ///  Lists all FHIR export jobs associated with an account and their statuses.
+    /// Lists all FHIR export jobs associated with an account and their statuses.
     ///
     /// Parameters:
-    ///   - datastoreId:  This parameter limits the response to the export job with the specified data store ID.
-    ///   - jobName:  This parameter limits the response to the export job with the specified job name.
-    ///   - jobStatus:  This parameter limits the response to the export jobs with the specified job status.
-    ///   - maxResults:  This parameter limits the number of results returned for a ListFHIRExportJobs to a maximum quantity specified by the user.
-    ///   - nextToken:  A pagination token used to identify the next page of results to return for a ListFHIRExportJobs query.
-    ///   - submittedAfter:  This parameter limits the response to FHIR export jobs submitted after a user specified date.
-    ///   - submittedBefore:  This parameter limits the response to FHIR export jobs submitted before a user specified date.
+    ///   - datastoreId: Limits the response to the export job with the specified data store ID.
+    ///   - jobName: Limits the response to the export job with the specified job name.
+    ///   - jobStatus: Limits the response to export jobs with the specified job status.
+    ///   - maxResults: Limits the number of results returned for a ListFHIRExportJobs to a maximum quantity specified by the user.
+    ///   - nextToken: A pagination token used to identify the next page of results to return.
+    ///   - submittedAfter: Limits the response to FHIR export jobs submitted after a user-specified date.
+    ///   - submittedBefore: Limits the response to FHIR export jobs submitted before a user- specified date.
     ///   - logger: Logger use during operation
     @inlinable
     public func listFHIRExportJobs(
@@ -330,7 +330,7 @@ public struct HealthLake: AWSService {
         return try await self.listFHIRExportJobs(input, logger: logger)
     }
 
-    ///  Lists all FHIR import jobs associated with an account and their statuses.
+    /// List all FHIR import jobs associated with an account and their statuses.
     @Sendable
     @inlinable
     public func listFHIRImportJobs(_ input: ListFHIRImportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFHIRImportJobsResponse {
@@ -343,16 +343,16 @@ public struct HealthLake: AWSService {
             logger: logger
         )
     }
-    ///  Lists all FHIR import jobs associated with an account and their statuses.
+    /// List all FHIR import jobs associated with an account and their statuses.
     ///
     /// Parameters:
-    ///   - datastoreId:  This parameter limits the response to the import job with the specified data store ID.
-    ///   - jobName:  This parameter limits the response to the import job with the specified job name.
-    ///   - jobStatus:  This parameter limits the response to the import job with the specified job status.
-    ///   - maxResults:  This parameter limits the number of results returned for a ListFHIRImportJobs to a maximum quantity specified by the user.
-    ///   - nextToken:  A pagination token used to identify the next page of results to return for a ListFHIRImportJobs query.
-    ///   - submittedAfter:  This parameter limits the response to FHIR import jobs submitted after a user specified date.
-    ///   - submittedBefore:  This parameter limits the response to FHIR import jobs submitted before a user specified date.
+    ///   - datastoreId: Limits the response to the import job with the specified data store ID.
+    ///   - jobName: Limits the response to the import job with the specified job name.
+    ///   - jobStatus: Limits the response to the import job with the specified job status.
+    ///   - maxResults: Limits the number of results returned for ListFHIRImportJobs to a maximum quantity specified by the user.
+    ///   - nextToken: The pagination token used to identify the next page of results to return.
+    ///   - submittedAfter: Limits the response to FHIR import jobs submitted after a user-specified date.
+    ///   - submittedBefore: Limits the response to FHIR import jobs submitted before a user- specified date.
     ///   - logger: Logger use during operation
     @inlinable
     public func listFHIRImportJobs(
@@ -377,7 +377,7 @@ public struct HealthLake: AWSService {
         return try await self.listFHIRImportJobs(input, logger: logger)
     }
 
-    ///  Returns a list of all existing tags associated with a data store.
+    /// Returns a list of all existing tags associated with a data store.
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -390,10 +390,10 @@ public struct HealthLake: AWSService {
             logger: logger
         )
     }
-    ///  Returns a list of all existing tags associated with a data store.
+    /// Returns a list of all existing tags associated with a data store.
     ///
     /// Parameters:
-    ///   - resourceARN:  The Amazon Resource Name(ARN) of the data store for which tags are being added.
+    ///   - resourceARN: The Amazon Resource Name (ARN) of the data store to which tags are being added.
     ///   - logger: Logger use during operation
     @inlinable
     public func listTagsForResource(
@@ -406,7 +406,7 @@ public struct HealthLake: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Begins a FHIR export job.
+    /// Start a FHIR export job.
     @Sendable
     @inlinable
     public func startFHIRExportJob(_ input: StartFHIRExportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartFHIRExportJobResponse {
@@ -419,14 +419,14 @@ public struct HealthLake: AWSService {
             logger: logger
         )
     }
-    /// Begins a FHIR export job.
+    /// Start a FHIR export job.
     ///
     /// Parameters:
-    ///   - clientToken: An optional user provided token used for ensuring idempotency.
-    ///   - dataAccessRoleArn: The Amazon Resource Name used during the initiation of the job.
-    ///   - datastoreId: The AWS generated ID for the data store from which files are being exported for an export job.
-    ///   - jobName: The user generated name for an export job.
-    ///   - outputDataConfig: The output data configuration that was supplied when the export job was created.
+    ///   - clientToken: An optional user provided token used for ensuring API idempotency.
+    ///   - dataAccessRoleArn: The Amazon Resource Name (ARN) used during initiation of the export job.
+    ///   - datastoreId: The data store identifier from which files are being exported.
+    ///   - jobName: The export job name.
+    ///   - outputDataConfig: The output data configuration supplied when the export job was started.
     ///   - logger: Logger use during operation
     @inlinable
     public func startFHIRExportJob(
@@ -447,7 +447,7 @@ public struct HealthLake: AWSService {
         return try await self.startFHIRExportJob(input, logger: logger)
     }
 
-    /// Begins a FHIR Import job.
+    /// Start importing bulk FHIR data into an ACTIVE data store. The import job imports FHIR data found in the InputDataConfig object and stores processing results in the JobOutputDataConfig object.
     @Sendable
     @inlinable
     public func startFHIRImportJob(_ input: StartFHIRImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartFHIRImportJobResponse {
@@ -460,15 +460,16 @@ public struct HealthLake: AWSService {
             logger: logger
         )
     }
-    /// Begins a FHIR Import job.
+    /// Start importing bulk FHIR data into an ACTIVE data store. The import job imports FHIR data found in the InputDataConfig object and stores processing results in the JobOutputDataConfig object.
     ///
     /// Parameters:
-    ///   - clientToken: Optional user provided token used for ensuring idempotency.
-    ///   - dataAccessRoleArn: The Amazon Resource Name (ARN) that gives AWS HealthLake access permission.
-    ///   - datastoreId: The AWS-generated data store ID.
-    ///   - inputDataConfig: The input properties of the FHIR Import job in the StartFHIRImport job request.
-    ///   - jobName: The name of the FHIR Import job in the StartFHIRImport job request.
+    ///   - clientToken: The optional user-provided token used for ensuring API idempotency.
+    ///   - dataAccessRoleArn: The Amazon Resource Name (ARN) that grants access permission to AWS HealthLake.
+    ///   - datastoreId: The data store identifier.
+    ///   - inputDataConfig: The input properties for the import job request.
+    ///   - jobName: The import job name.
     ///   - jobOutputDataConfig: 
+    ///   - validationLevel: The validation level of the import job.
     ///   - logger: Logger use during operation
     @inlinable
     public func startFHIRImportJob(
@@ -478,6 +479,7 @@ public struct HealthLake: AWSService {
         inputDataConfig: InputDataConfig,
         jobName: String? = nil,
         jobOutputDataConfig: OutputDataConfig,
+        validationLevel: ValidationLevel? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartFHIRImportJobResponse {
         let input = StartFHIRImportJobRequest(
@@ -486,12 +488,13 @@ public struct HealthLake: AWSService {
             datastoreId: datastoreId, 
             inputDataConfig: inputDataConfig, 
             jobName: jobName, 
-            jobOutputDataConfig: jobOutputDataConfig
+            jobOutputDataConfig: jobOutputDataConfig, 
+            validationLevel: validationLevel
         )
         return try await self.startFHIRImportJob(input, logger: logger)
     }
 
-    ///  Adds a user specified key and value tag to a data store.
+    /// Add a user-specifed key and value tag to a data store.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -504,11 +507,11 @@ public struct HealthLake: AWSService {
             logger: logger
         )
     }
-    ///  Adds a user specified key and value tag to a data store.
+    /// Add a user-specifed key and value tag to a data store.
     ///
     /// Parameters:
-    ///   - resourceARN:  The Amazon Resource Name(ARN)that gives AWS HealthLake access to the data store which tags are being added to.
-    ///   - tags:  The user specified key and value pair tags being added to a data store.
+    ///   - resourceARN: The Amazon Resource Name (ARN) that grants access to the data store tags are being added to.
+    ///   - tags: The user-specified key and value pair tags being added to a data store.
     ///   - logger: Logger use during operation
     @inlinable
     public func tagResource(
@@ -523,7 +526,7 @@ public struct HealthLake: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    ///  Removes tags from a data store.
+    /// Remove a user-specifed key and value tag from a data store.
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
@@ -536,11 +539,11 @@ public struct HealthLake: AWSService {
             logger: logger
         )
     }
-    ///  Removes tags from a data store.
+    /// Remove a user-specifed key and value tag from a data store.
     ///
     /// Parameters:
-    ///   - resourceARN: The Amazon Resource Name(ARN) of the data store for which tags are being removed.
-    ///   - tagKeys:  The keys for the tags to be removed from the HealthLake data store.
+    ///   - resourceARN: The Amazon Resource Name (ARN) of the data store from which tags are being removed.
+    ///   - tagKeys: The keys for the tags to be removed from the data store.
     ///   - logger: Logger use during operation
     @inlinable
     public func untagResource(
@@ -590,8 +593,8 @@ extension HealthLake {
     /// Return PaginatorSequence for operation ``listFHIRDatastores(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filter: Lists all filters associated with a FHIR data store request.
-    ///   - maxResults: The maximum number of data stores returned in a single page of a ListFHIRDatastoresRequest call.
+    ///   - filter: List all filters associated with a FHIR data store request.
+    ///   - maxResults: The maximum number of data stores returned on a page.
     ///   - logger: Logger used for logging
     @inlinable
     public func listFHIRDatastoresPaginator(
@@ -627,12 +630,12 @@ extension HealthLake {
     /// Return PaginatorSequence for operation ``listFHIRExportJobs(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - datastoreId:  This parameter limits the response to the export job with the specified data store ID.
-    ///   - jobName:  This parameter limits the response to the export job with the specified job name.
-    ///   - jobStatus:  This parameter limits the response to the export jobs with the specified job status.
-    ///   - maxResults:  This parameter limits the number of results returned for a ListFHIRExportJobs to a maximum quantity specified by the user.
-    ///   - submittedAfter:  This parameter limits the response to FHIR export jobs submitted after a user specified date.
-    ///   - submittedBefore:  This parameter limits the response to FHIR export jobs submitted before a user specified date.
+    ///   - datastoreId: Limits the response to the export job with the specified data store ID.
+    ///   - jobName: Limits the response to the export job with the specified job name.
+    ///   - jobStatus: Limits the response to export jobs with the specified job status.
+    ///   - maxResults: Limits the number of results returned for a ListFHIRExportJobs to a maximum quantity specified by the user.
+    ///   - submittedAfter: Limits the response to FHIR export jobs submitted after a user-specified date.
+    ///   - submittedBefore: Limits the response to FHIR export jobs submitted before a user- specified date.
     ///   - logger: Logger used for logging
     @inlinable
     public func listFHIRExportJobsPaginator(
@@ -676,12 +679,12 @@ extension HealthLake {
     /// Return PaginatorSequence for operation ``listFHIRImportJobs(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - datastoreId:  This parameter limits the response to the import job with the specified data store ID.
-    ///   - jobName:  This parameter limits the response to the import job with the specified job name.
-    ///   - jobStatus:  This parameter limits the response to the import job with the specified job status.
-    ///   - maxResults:  This parameter limits the number of results returned for a ListFHIRImportJobs to a maximum quantity specified by the user.
-    ///   - submittedAfter:  This parameter limits the response to FHIR import jobs submitted after a user specified date.
-    ///   - submittedBefore:  This parameter limits the response to FHIR import jobs submitted before a user specified date.
+    ///   - datastoreId: Limits the response to the import job with the specified data store ID.
+    ///   - jobName: Limits the response to the import job with the specified job name.
+    ///   - jobStatus: Limits the response to the import job with the specified job status.
+    ///   - maxResults: Limits the number of results returned for ListFHIRImportJobs to a maximum quantity specified by the user.
+    ///   - submittedAfter: Limits the response to FHIR import jobs submitted after a user-specified date.
+    ///   - submittedBefore: Limits the response to FHIR import jobs submitted before a user- specified date.
     ///   - logger: Logger used for logging
     @inlinable
     public func listFHIRImportJobsPaginator(
@@ -743,5 +746,168 @@ extension HealthLake.ListFHIRImportJobsRequest: AWSPaginateToken {
             submittedAfter: self.submittedAfter,
             submittedBefore: self.submittedBefore
         )
+    }
+}
+
+// MARK: Waiters
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension HealthLake {
+    /// Waiter for operation ``describeFHIRDatastore(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilFHIRDatastoreActive(
+        _ input: DescribeFHIRDatastoreRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeFHIRDatastoreRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("datastoreProperties.datastoreStatus", expected: "ACTIVE")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("datastoreProperties.datastoreStatus", expected: "CREATE_FAILED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("datastoreProperties.datastoreStatus", expected: "DELETED")),
+            ],
+            minDelayTime: .seconds(60),
+            command: self.describeFHIRDatastore
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeFHIRDatastore(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - datastoreId: The data store identifier.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilFHIRDatastoreActive(
+        datastoreId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeFHIRDatastoreRequest(
+            datastoreId: datastoreId
+        )
+        try await self.waitUntilFHIRDatastoreActive(input, logger: logger)
+    }
+
+    /// Waiter for operation ``describeFHIRDatastore(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilFHIRDatastoreDeleted(
+        _ input: DescribeFHIRDatastoreRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeFHIRDatastoreRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("datastoreProperties.datastoreStatus", expected: "DELETED")),
+            ],
+            minDelayTime: .seconds(120),
+            command: self.describeFHIRDatastore
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeFHIRDatastore(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - datastoreId: The data store identifier.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilFHIRDatastoreDeleted(
+        datastoreId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeFHIRDatastoreRequest(
+            datastoreId: datastoreId
+        )
+        try await self.waitUntilFHIRDatastoreDeleted(input, logger: logger)
+    }
+
+    /// Waiter for operation ``describeFHIRExportJob(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilFHIRExportJobCompleted(
+        _ input: DescribeFHIRExportJobRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeFHIRExportJobRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("exportJobProperties.jobStatus", expected: "COMPLETED")),
+                .init(state: .success, matcher: try! JMESPathMatcher("exportJobProperties.jobStatus", expected: "COMPLETED_WITH_ERRORS")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("exportJobProperties.jobStatus", expected: "CANCEL_COMPLETED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("exportJobProperties.jobStatus", expected: "FAILED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("exportJobProperties.jobStatus", expected: "CANCEL_FAILED")),
+            ],
+            minDelayTime: .seconds(120),
+            command: self.describeFHIRExportJob
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeFHIRExportJob(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - datastoreId: The data store identifier from which FHIR data is being exported from.
+    ///   - jobId: The export job identifier.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilFHIRExportJobCompleted(
+        datastoreId: String,
+        jobId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeFHIRExportJobRequest(
+            datastoreId: datastoreId, 
+            jobId: jobId
+        )
+        try await self.waitUntilFHIRExportJobCompleted(input, logger: logger)
+    }
+
+    /// Waiter for operation ``describeFHIRImportJob(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilFHIRImportJobCompleted(
+        _ input: DescribeFHIRImportJobRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeFHIRImportJobRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("importJobProperties.jobStatus", expected: "COMPLETED")),
+                .init(state: .success, matcher: try! JMESPathMatcher("importJobProperties.jobStatus", expected: "COMPLETED_WITH_ERRORS")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("importJobProperties.jobStatus", expected: "FAILED")),
+            ],
+            minDelayTime: .seconds(120),
+            command: self.describeFHIRImportJob
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeFHIRImportJob(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - datastoreId: The data store identifier.
+    ///   - jobId: The import job identifier.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilFHIRImportJobCompleted(
+        datastoreId: String,
+        jobId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeFHIRImportJobRequest(
+            datastoreId: datastoreId, 
+            jobId: jobId
+        )
+        try await self.waitUntilFHIRImportJobCompleted(input, logger: logger)
     }
 }

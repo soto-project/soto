@@ -47,6 +47,12 @@ extension B2bi {
         public var description: String { return self.rawValue }
     }
 
+    public enum ElementRequirement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case mandatory = "MANDATORY"
+        case optional = "OPTIONAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FileFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case json = "JSON"
         case notUsed = "NOT_USED"
@@ -491,6 +497,55 @@ extension B2bi {
         public var description: String { return self.rawValue }
     }
 
+    public enum X12ValidationRule: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Specifies a code list validation rule that modifies the allowed code values for a specific X12 element. This rule enables you to customize which codes are considered valid for an element, allowing for trading partner-specific code requirements.
+        case codeListValidationRule(X12CodeListValidationRule)
+        /// Specifies an element length validation rule that defines custom length constraints for a specific X12 element. This rule allows you to enforce minimum and maximum length requirements that may differ from the standard X12 specification.
+        case elementLengthValidationRule(X12ElementLengthValidationRule)
+        /// Specifies an element requirement validation rule that modifies whether a specific X12 element is required or optional within a segment. This rule provides flexibility to accommodate different trading partner requirements for element presence.
+        case elementRequirementValidationRule(X12ElementRequirementValidationRule)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .codeListValidationRule:
+                let value = try container.decode(X12CodeListValidationRule.self, forKey: .codeListValidationRule)
+                self = .codeListValidationRule(value)
+            case .elementLengthValidationRule:
+                let value = try container.decode(X12ElementLengthValidationRule.self, forKey: .elementLengthValidationRule)
+                self = .elementLengthValidationRule(value)
+            case .elementRequirementValidationRule:
+                let value = try container.decode(X12ElementRequirementValidationRule.self, forKey: .elementRequirementValidationRule)
+                self = .elementRequirementValidationRule(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .codeListValidationRule(let value):
+                try container.encode(value, forKey: .codeListValidationRule)
+            case .elementLengthValidationRule(let value):
+                try container.encode(value, forKey: .elementLengthValidationRule)
+            case .elementRequirementValidationRule(let value):
+                try container.encode(value, forKey: .elementRequirementValidationRule)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeListValidationRule = "codeListValidationRule"
+            case elementLengthValidationRule = "elementLengthValidationRule"
+            case elementRequirementValidationRule = "elementRequirementValidationRule"
+        }
+    }
+
     // MARK: Shapes
 
     public struct AdvancedOptions: AWSEncodableShape & AWSDecodableShape {
@@ -580,6 +635,7 @@ extension B2bi {
     }
 
     public struct ConversionTarget: AWSEncodableShape {
+        public let advancedOptions: AdvancedOptions?
         /// Currently, only X12 format is supported.
         public let fileFormat: ConversionTargetFormat
         /// A structure that contains the formatting details for the conversion target.
@@ -589,7 +645,8 @@ extension B2bi {
         public let outputSampleFile: OutputSampleFileSource?
 
         @inlinable
-        public init(fileFormat: ConversionTargetFormat, formatDetails: ConversionTargetFormatDetails? = nil, outputSampleFile: OutputSampleFileSource? = nil) {
+        public init(advancedOptions: AdvancedOptions? = nil, fileFormat: ConversionTargetFormat, formatDetails: ConversionTargetFormatDetails? = nil, outputSampleFile: OutputSampleFileSource? = nil) {
+            self.advancedOptions = advancedOptions
             self.fileFormat = fileFormat
             self.formatDetails = formatDetails
             self.outputSampleFile = outputSampleFile
@@ -600,6 +657,7 @@ extension B2bi {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case advancedOptions = "advancedOptions"
             case fileFormat = "fileFormat"
             case formatDetails = "formatDetails"
             case outputSampleFile = "outputSampleFile"
@@ -1997,18 +2055,21 @@ extension B2bi {
     }
 
     public struct OutputConversion: AWSEncodableShape & AWSDecodableShape {
+        public let advancedOptions: AdvancedOptions?
         /// A structure that contains the X12 transaction set and version for the transformer output.
         public let formatOptions: FormatOptions?
         /// The format for the output from an outbound transformer: only X12 is currently supported.
         public let toFormat: ToFormat
 
         @inlinable
-        public init(formatOptions: FormatOptions? = nil, toFormat: ToFormat) {
+        public init(advancedOptions: AdvancedOptions? = nil, formatOptions: FormatOptions? = nil, toFormat: ToFormat) {
+            self.advancedOptions = advancedOptions
             self.formatOptions = formatOptions
             self.toFormat = toFormat
         }
 
         private enum CodingKeys: String, CodingKey {
+            case advancedOptions = "advancedOptions"
             case formatOptions = "formatOptions"
             case toFormat = "toFormat"
         }
@@ -2329,7 +2390,7 @@ extension B2bi {
     public struct TestConversionResponse: AWSDecodableShape {
         /// Returns the converted file content.
         public let convertedFileContent: String
-        /// Returns an array of strings, each containing a message that Amazon Web Services B2B Data Interchange generates during the conversion.
+        /// Returns an array of validation messages that Amazon Web Services B2B Data Interchange generates during the conversion process. These messages include both standard EDI validation results and custom validation messages when custom validation rules are configured. Custom validation messages provide detailed feedback on element length constraints, code list validations, and element requirement checks applied during the outbound EDI generation process.
         public let validationMessages: [String]?
 
         @inlinable
@@ -2420,16 +2481,20 @@ extension B2bi {
         public let parsedFileContent: String
         /// Returns an array of parsed file contents when the input file is split according to the specified split options. Each element in the array represents a separate split file's parsed content.
         public let parsedSplitFileContents: [String]?
+        /// Returns an array of validation messages generated during EDI validation. These messages provide detailed information about validation errors, warnings, or confirmations based on the configured X12 validation rules such as element length constraints, code list validations, and element requirement checks. This field is populated when the TestParsing API validates EDI documents.
+        public let validationMessages: [String]?
 
         @inlinable
-        public init(parsedFileContent: String, parsedSplitFileContents: [String]? = nil) {
+        public init(parsedFileContent: String, parsedSplitFileContents: [String]? = nil, validationMessages: [String]? = nil) {
             self.parsedFileContent = parsedFileContent
             self.parsedSplitFileContents = parsedSplitFileContents
+            self.validationMessages = validationMessages
         }
 
         private enum CodingKeys: String, CodingKey {
             case parsedFileContent = "parsedFileContent"
             case parsedSplitFileContents = "parsedSplitFileContents"
+            case validationMessages = "validationMessages"
         }
     }
 
@@ -3104,14 +3169,40 @@ extension B2bi {
     public struct X12AdvancedOptions: AWSEncodableShape & AWSDecodableShape {
         /// Specifies options for splitting X12 EDI files. These options control how large X12 files are divided into smaller, more manageable units.
         public let splitOptions: X12SplitOptions?
+        /// Specifies validation options for X12 EDI processing. These options control how validation rules are applied during EDI document processing, including custom validation rules for element length constraints, code list validations, and element requirement checks.
+        public let validationOptions: X12ValidationOptions?
 
         @inlinable
-        public init(splitOptions: X12SplitOptions? = nil) {
+        public init(splitOptions: X12SplitOptions? = nil, validationOptions: X12ValidationOptions? = nil) {
             self.splitOptions = splitOptions
+            self.validationOptions = validationOptions
         }
 
         private enum CodingKeys: String, CodingKey {
             case splitOptions = "splitOptions"
+            case validationOptions = "validationOptions"
+        }
+    }
+
+    public struct X12CodeListValidationRule: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies a list of code values to add to the element's allowed values. These codes will be considered valid for the specified element in addition to the standard codes defined by the X12 specification.
+        public let codesToAdd: [String]?
+        /// Specifies a list of code values to remove from the element's allowed values. These codes will be considered invalid for the specified element, even if they are part of the standard codes defined by the X12 specification.
+        public let codesToRemove: [String]?
+        /// Specifies the four-digit element ID to which the code list modifications apply. This identifies which X12 element will have its allowed code values modified.
+        public let elementId: String
+
+        @inlinable
+        public init(codesToAdd: [String]? = nil, codesToRemove: [String]? = nil, elementId: String) {
+            self.codesToAdd = codesToAdd
+            self.codesToRemove = codesToRemove
+            self.elementId = elementId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codesToAdd = "codesToAdd"
+            case codesToRemove = "codesToRemove"
+            case elementId = "elementId"
         }
     }
 
@@ -3195,6 +3286,46 @@ extension B2bi {
         private enum CodingKeys: String, CodingKey {
             case transactionSet = "transactionSet"
             case version = "version"
+        }
+    }
+
+    public struct X12ElementLengthValidationRule: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the four-digit element ID to which the length constraints will be applied. This identifies which X12 element will have its length requirements modified.
+        public let elementId: String
+        /// Specifies the maximum allowed length for the identified element. This value must be between 1 and 200 characters and defines the upper limit for the element's content length.
+        public let maxLength: Int
+        /// Specifies the minimum required length for the identified element. This value must be between 1 and 200 characters and defines the lower limit for the element's content length.
+        public let minLength: Int
+
+        @inlinable
+        public init(elementId: String, maxLength: Int, minLength: Int) {
+            self.elementId = elementId
+            self.maxLength = maxLength
+            self.minLength = minLength
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case elementId = "elementId"
+            case maxLength = "maxLength"
+            case minLength = "minLength"
+        }
+    }
+
+    public struct X12ElementRequirementValidationRule: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the position of the element within an X12 segment for which the requirement status will be modified. The format follows the pattern of segment identifier followed by element position (e.g., "ST-01" for the first element of the ST segment).
+        public let elementPosition: String
+        /// Specifies the requirement status for the element at the specified position. Valid values are OPTIONAL (the element may be omitted) or MANDATORY (the element must be present).
+        public let requirement: ElementRequirement
+
+        @inlinable
+        public init(elementPosition: String, requirement: ElementRequirement) {
+            self.elementPosition = elementPosition
+            self.requirement = requirement
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case elementPosition = "elementPosition"
+            case requirement = "requirement"
         }
     }
 
@@ -3339,7 +3470,7 @@ extension B2bi {
         public let gs05TimeFormat: X12GS05TimeFormat?
         /// In X12 EDI messages, delimiters are used to mark the end of segments or elements, and are defined in the interchange control header.
         public let interchangeControlHeaders: X12InterchangeControlHeaders?
-        /// Specifies whether or not to validate the EDI for this X12 object: TRUE or FALSE.
+        /// Specifies whether or not to validate the EDI for this X12 object: TRUE or FALSE. When enabled, this performs both standard EDI validation and applies any configured custom validation rules including element length constraints, code list validations, and element requirement checks. Validation results are returned in the response validation messages.
         public let validateEdi: Bool?
 
         @inlinable
@@ -3380,6 +3511,20 @@ extension B2bi {
 
         private enum CodingKeys: String, CodingKey {
             case splitBy = "splitBy"
+        }
+    }
+
+    public struct X12ValidationOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies a list of validation rules to apply during EDI document processing. These rules can include code list modifications, element length constraints, and element requirement changes.
+        public let validationRules: [X12ValidationRule]?
+
+        @inlinable
+        public init(validationRules: [X12ValidationRule]? = nil) {
+            self.validationRules = validationRules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case validationRules = "validationRules"
         }
     }
 
@@ -3548,7 +3693,7 @@ public struct B2biErrorType: AWSErrorType {
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// Occurs when a B2BI object cannot be validated against a request from another object.
+    /// Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public static var validationException: Self { .init(.validationException) }
 }
 

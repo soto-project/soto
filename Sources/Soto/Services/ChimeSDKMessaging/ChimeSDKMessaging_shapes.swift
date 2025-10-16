@@ -112,6 +112,12 @@ extension ChimeSDKMessaging {
         public var description: String { return self.rawValue }
     }
 
+    public enum NetworkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dualStack = "DUAL_STACK"
+        case ipv4Only = "IPV4_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PushNotificationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "DEFAULT"
         case voip = "VOIP"
@@ -1249,7 +1255,7 @@ extension ChimeSDKMessaging {
     public struct CreateChannelRequest: AWSEncodableShape {
         /// The ARN of the channel request.
         public let appInstanceArn: String
-        /// The ID of the channel in the request.
+        /// An ID for the channel being created. If you do not specify an ID, a UUID will be created for the channel.
         public let channelId: String?
         /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
         public let chimeBearer: String
@@ -2260,7 +2266,21 @@ extension ChimeSDKMessaging {
     }
 
     public struct GetMessagingSessionEndpointRequest: AWSEncodableShape {
-        public init() {}
+        /// The type of network for the messaging session endpoint. Either IPv4 only or dual-stack (IPv4 and IPv6).
+        public let networkType: NetworkType?
+
+        @inlinable
+        public init(networkType: NetworkType? = nil) {
+            self.networkType = networkType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.networkType, key: "network-type")
+        }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetMessagingSessionEndpointResponse: AWSDecodableShape {
@@ -3535,7 +3555,7 @@ extension ChimeSDKMessaging {
         public let key: SearchFieldKey
         /// The operator used to compare field values, currently EQUALS or INCLUDES.  Use the EQUALS operator to find channels whose memberships equal the specified values.  Use the INCLUDES operator to find channels whose memberships include the specified values.
         public let `operator`: SearchFieldOperator
-        /// The values that you want to search for, a list of strings. The values must be AppInstanceUserArns specified as a list of strings.  This operation isn't supported for AppInstanceUsers with large number of memberships.
+        /// The values that you want to search for, a list of strings. The values must be AppInstanceUserArns specified as a list of strings.  This operation isn't supported for AppInstanceUsers with a large number of memberships.
         public let values: [String]
 
         @inlinable

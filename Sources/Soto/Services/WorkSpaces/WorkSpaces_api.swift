@@ -1343,6 +1343,35 @@ public struct WorkSpaces: AWSService {
         return try await self.describeConnectionAliases(input, logger: logger)
     }
 
+    /// Retrieves information about a WorkSpace BYOL image being imported via ImportCustomWorkspaceImage.
+    @Sendable
+    @inlinable
+    public func describeCustomWorkspaceImageImport(_ input: DescribeCustomWorkspaceImageImportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCustomWorkspaceImageImportResult {
+        try await self.client.execute(
+            operation: "DescribeCustomWorkspaceImageImport", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a WorkSpace BYOL image being imported via ImportCustomWorkspaceImage.
+    ///
+    /// Parameters:
+    ///   - imageId: The identifier of the WorkSpace image.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeCustomWorkspaceImageImport(
+        imageId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeCustomWorkspaceImageImportResult {
+        let input = DescribeCustomWorkspaceImageImportRequest(
+            imageId: imageId
+        )
+        return try await self.describeCustomWorkspaceImageImport(input, logger: logger)
+    }
+
     /// Describes the associations between the applications and the specified image.
     @Sendable
     @inlinable
@@ -1974,6 +2003,59 @@ public struct WorkSpaces: AWSService {
             resourceId: resourceId
         )
         return try await self.importClientBranding(input, logger: logger)
+    }
+
+    /// Imports the specified Windows 10 or 11 Bring Your Own License (BYOL) image into Amazon WorkSpaces using EC2 Image Builder. The image must be an already licensed image that is in your Amazon Web Services account, and you must own the image. For more information about creating BYOL images, see  Bring Your Own Windows Desktop Licenses.
+    @Sendable
+    @inlinable
+    public func importCustomWorkspaceImage(_ input: ImportCustomWorkspaceImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportCustomWorkspaceImageResult {
+        try await self.client.execute(
+            operation: "ImportCustomWorkspaceImage", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Imports the specified Windows 10 or 11 Bring Your Own License (BYOL) image into Amazon WorkSpaces using EC2 Image Builder. The image must be an already licensed image that is in your Amazon Web Services account, and you must own the image. For more information about creating BYOL images, see  Bring Your Own Windows Desktop Licenses.
+    ///
+    /// Parameters:
+    ///   - computeType: The supported compute type for the WorkSpace image.
+    ///   - imageDescription: The description of the WorkSpace image.
+    ///   - imageName: The name of the WorkSpace image.
+    ///   - imageSource: The options for image import source.
+    ///   - infrastructureConfigurationArn: The infrastructure configuration ARN that specifies how the WorkSpace image is built.
+    ///   - osVersion: The OS version for the WorkSpace image source.
+    ///   - platform: The platform for the WorkSpace image source.
+    ///   - protocol: The supported protocol for the WorkSpace image. Windows 11 does not support PCOIP protocol.
+    ///   - tags: The resource tags. Each WorkSpaces resource can have a maximum of 50 tags.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func importCustomWorkspaceImage(
+        computeType: ImageComputeType,
+        imageDescription: String,
+        imageName: String,
+        imageSource: ImageSourceIdentifier,
+        infrastructureConfigurationArn: String,
+        osVersion: OSVersion,
+        platform: Platform,
+        protocol: CustomImageProtocol,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ImportCustomWorkspaceImageResult {
+        let input = ImportCustomWorkspaceImageRequest(
+            computeType: computeType, 
+            imageDescription: imageDescription, 
+            imageName: imageName, 
+            imageSource: imageSource, 
+            infrastructureConfigurationArn: infrastructureConfigurationArn, 
+            osVersion: osVersion, 
+            platform: platform, 
+            protocol: `protocol`, 
+            tags: tags
+        )
+        return try await self.importCustomWorkspaceImage(input, logger: logger)
     }
 
     /// Imports the specified Windows 10 or 11 Bring Your Own License (BYOL)  image into Amazon WorkSpaces. The image must be an already licensed Amazon EC2 image that is  in your Amazon Web Services account, and you must own the image. For more information about  creating BYOL images, see  Bring Your Own Windows Desktop Licenses.

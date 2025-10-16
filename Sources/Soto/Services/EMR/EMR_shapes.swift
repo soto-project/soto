@@ -925,6 +925,8 @@ extension EMR {
         public let ebsRootVolumeThroughput: Int?
         /// Provides information about the Amazon EC2 instances in a cluster grouped by category. For example, key name, subnet ID, IAM instance profile, and so on.
         public let ec2InstanceAttributes: Ec2InstanceAttributes?
+        /// Reserved.
+        public let extendedSupport: Bool?
         /// The unique identifier for the cluster.
         public let id: String?
         ///  The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions.  The instance group configuration of the cluster. A value of INSTANCE_GROUP indicates a uniform instance group configuration. A value of INSTANCE_FLEET indicates an instance fleets configuration.
@@ -975,7 +977,7 @@ extension EMR {
         public let visibleToAllUsers: Bool?
 
         @inlinable
-        public init(applications: [Application]? = nil, autoScalingRole: String? = nil, autoTerminate: Bool? = nil, clusterArn: String? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeIops: Int? = nil, ebsRootVolumeSize: Int? = nil, ebsRootVolumeThroughput: Int? = nil, ec2InstanceAttributes: Ec2InstanceAttributes? = nil, id: String? = nil, instanceCollectionType: InstanceCollectionType? = nil, kerberosAttributes: KerberosAttributes? = nil, logEncryptionKmsKeyId: String? = nil, logUri: String? = nil, masterPublicDnsName: String? = nil, name: String? = nil, normalizedInstanceHours: Int? = nil, osReleaseLabel: String? = nil, outpostArn: String? = nil, placementGroups: [PlacementGroupConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, requestedAmiVersion: String? = nil, runningAmiVersion: String? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, status: ClusterStatus? = nil, stepConcurrencyLevel: Int? = nil, tags: [Tag]? = nil, terminationProtected: Bool? = nil, unhealthyNodeReplacement: Bool? = nil, visibleToAllUsers: Bool? = nil) {
+        public init(applications: [Application]? = nil, autoScalingRole: String? = nil, autoTerminate: Bool? = nil, clusterArn: String? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeIops: Int? = nil, ebsRootVolumeSize: Int? = nil, ebsRootVolumeThroughput: Int? = nil, ec2InstanceAttributes: Ec2InstanceAttributes? = nil, extendedSupport: Bool? = nil, id: String? = nil, instanceCollectionType: InstanceCollectionType? = nil, kerberosAttributes: KerberosAttributes? = nil, logEncryptionKmsKeyId: String? = nil, logUri: String? = nil, masterPublicDnsName: String? = nil, name: String? = nil, normalizedInstanceHours: Int? = nil, osReleaseLabel: String? = nil, outpostArn: String? = nil, placementGroups: [PlacementGroupConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, requestedAmiVersion: String? = nil, runningAmiVersion: String? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, status: ClusterStatus? = nil, stepConcurrencyLevel: Int? = nil, tags: [Tag]? = nil, terminationProtected: Bool? = nil, unhealthyNodeReplacement: Bool? = nil, visibleToAllUsers: Bool? = nil) {
             self.applications = applications
             self.autoScalingRole = autoScalingRole
             self.autoTerminate = autoTerminate
@@ -986,6 +988,7 @@ extension EMR {
             self.ebsRootVolumeSize = ebsRootVolumeSize
             self.ebsRootVolumeThroughput = ebsRootVolumeThroughput
             self.ec2InstanceAttributes = ec2InstanceAttributes
+            self.extendedSupport = extendedSupport
             self.id = id
             self.instanceCollectionType = instanceCollectionType
             self.kerberosAttributes = kerberosAttributes
@@ -1023,6 +1026,7 @@ extension EMR {
             case ebsRootVolumeSize = "EbsRootVolumeSize"
             case ebsRootVolumeThroughput = "EbsRootVolumeThroughput"
             case ec2InstanceAttributes = "Ec2InstanceAttributes"
+            case extendedSupport = "ExtendedSupport"
             case id = "Id"
             case instanceCollectionType = "InstanceCollectionType"
             case kerberosAttributes = "KerberosAttributes"
@@ -1227,7 +1231,7 @@ extension EMR {
     public struct CreatePersistentAppUIInput: AWSEncodableShape {
         /// The EMR containers configuration.
         public let emrContainersConfig: EMRContainersConfig?
-        /// The profiler type for the persistent application user interface. Valid values are SHS, TEZUI, or YTS.
+        /// The profiler type for the persistent application user interface.
         public let profilerType: ProfilerType?
         /// Tags for the persistent application user interface.
         public let tags: [Tag]?
@@ -4207,31 +4211,39 @@ extension EMR {
     public struct ModifyClusterInput: AWSEncodableShape {
         /// The unique identifier of the cluster.
         public let clusterId: String?
+        /// Reserved.
+        public let extendedSupport: Bool?
         /// The number of steps that can be executed concurrently. You can specify a minimum of 1 step and a maximum of 256 steps. We recommend that you do not change this parameter while steps are running or the ActionOnFailure setting may not behave as expected. For more information see Step$ActionOnFailure.
         public let stepConcurrencyLevel: Int?
 
         @inlinable
-        public init(clusterId: String? = nil, stepConcurrencyLevel: Int? = nil) {
+        public init(clusterId: String? = nil, extendedSupport: Bool? = nil, stepConcurrencyLevel: Int? = nil) {
             self.clusterId = clusterId
+            self.extendedSupport = extendedSupport
             self.stepConcurrencyLevel = stepConcurrencyLevel
         }
 
         private enum CodingKeys: String, CodingKey {
             case clusterId = "ClusterId"
+            case extendedSupport = "ExtendedSupport"
             case stepConcurrencyLevel = "StepConcurrencyLevel"
         }
     }
 
     public struct ModifyClusterOutput: AWSDecodableShape {
+        /// Reserved.
+        public let extendedSupport: Bool?
         /// The number of steps that can be executed concurrently.
         public let stepConcurrencyLevel: Int?
 
         @inlinable
-        public init(stepConcurrencyLevel: Int? = nil) {
+        public init(extendedSupport: Bool? = nil, stepConcurrencyLevel: Int? = nil) {
+            self.extendedSupport = extendedSupport
             self.stepConcurrencyLevel = stepConcurrencyLevel
         }
 
         private enum CodingKeys: String, CodingKey {
+            case extendedSupport = "ExtendedSupport"
             case stepConcurrencyLevel = "StepConcurrencyLevel"
         }
     }
@@ -4933,6 +4945,8 @@ extension EMR {
         public let ebsRootVolumeSize: Int?
         /// The throughput, in MiB/s, of the Amazon EBS root device volume of the Linux AMI that is used for each Amazon EC2 instance. Available in Amazon EMR releases 6.15.0 and later.
         public let ebsRootVolumeThroughput: Int?
+        /// Reserved.
+        public let extendedSupport: Bool?
         /// A specification of the number and type of Amazon EC2 instances.
         public let instances: JobFlowInstancesConfig?
         /// Also called instance profile and Amazon EC2 role. An IAM role for an Amazon EMR cluster. The Amazon EC2 instances of the cluster assume this role. The default role is EMR_EC2_DefaultRole. In order to use the default role, you must have already created it using the CLI or console.
@@ -4975,7 +4989,7 @@ extension EMR {
         public let visibleToAllUsers: Bool?
 
         @inlinable
-        public init(additionalInfo: String? = nil, amiVersion: String? = nil, applications: [Application]? = nil, autoScalingRole: String? = nil, autoTerminationPolicy: AutoTerminationPolicy? = nil, bootstrapActions: [BootstrapActionConfig]? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeIops: Int? = nil, ebsRootVolumeSize: Int? = nil, ebsRootVolumeThroughput: Int? = nil, instances: JobFlowInstancesConfig? = nil, jobFlowRole: String? = nil, kerberosAttributes: KerberosAttributes? = nil, logEncryptionKmsKeyId: String? = nil, logUri: String? = nil, managedScalingPolicy: ManagedScalingPolicy? = nil, name: String? = nil, newSupportedProducts: [SupportedProductConfig]? = nil, osReleaseLabel: String? = nil, placementGroupConfigs: [PlacementGroupConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, stepConcurrencyLevel: Int? = nil, steps: [StepConfig]? = nil, supportedProducts: [String]? = nil, tags: [Tag]? = nil, visibleToAllUsers: Bool? = nil) {
+        public init(additionalInfo: String? = nil, amiVersion: String? = nil, applications: [Application]? = nil, autoScalingRole: String? = nil, autoTerminationPolicy: AutoTerminationPolicy? = nil, bootstrapActions: [BootstrapActionConfig]? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeIops: Int? = nil, ebsRootVolumeSize: Int? = nil, ebsRootVolumeThroughput: Int? = nil, extendedSupport: Bool? = nil, instances: JobFlowInstancesConfig? = nil, jobFlowRole: String? = nil, kerberosAttributes: KerberosAttributes? = nil, logEncryptionKmsKeyId: String? = nil, logUri: String? = nil, managedScalingPolicy: ManagedScalingPolicy? = nil, name: String? = nil, newSupportedProducts: [SupportedProductConfig]? = nil, osReleaseLabel: String? = nil, placementGroupConfigs: [PlacementGroupConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, stepConcurrencyLevel: Int? = nil, steps: [StepConfig]? = nil, supportedProducts: [String]? = nil, tags: [Tag]? = nil, visibleToAllUsers: Bool? = nil) {
             self.additionalInfo = additionalInfo
             self.amiVersion = amiVersion
             self.applications = applications
@@ -4987,6 +5001,7 @@ extension EMR {
             self.ebsRootVolumeIops = ebsRootVolumeIops
             self.ebsRootVolumeSize = ebsRootVolumeSize
             self.ebsRootVolumeThroughput = ebsRootVolumeThroughput
+            self.extendedSupport = extendedSupport
             self.instances = instances
             self.jobFlowRole = jobFlowRole
             self.kerberosAttributes = kerberosAttributes
@@ -5064,6 +5079,7 @@ extension EMR {
             case ebsRootVolumeIops = "EbsRootVolumeIops"
             case ebsRootVolumeSize = "EbsRootVolumeSize"
             case ebsRootVolumeThroughput = "EbsRootVolumeThroughput"
+            case extendedSupport = "ExtendedSupport"
             case instances = "Instances"
             case jobFlowRole = "JobFlowRole"
             case kerberosAttributes = "KerberosAttributes"

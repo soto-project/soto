@@ -377,7 +377,7 @@ extension Snowball {
         public let roleARN: String?
         /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each device, rather it represents how quickly each device moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snow devices are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.
         public let shippingOption: ShippingOption?
-        /// The type of Snowcone device to use for this cluster.   For cluster jobs, Amazon Web Services Snow Family currently supports only the EDGE device type.
+        /// The type of Snowball Edge device to use for this cluster.   For cluster jobs, Amazon Web Services Snow Family currently supports only the EDGE device type.
         public let snowballType: SnowballType?
         /// The tax documents required in your Amazon Web Services Region.
         public let taxDocuments: TaxDocuments?
@@ -617,7 +617,7 @@ extension Snowball {
         public let clusterId: String?
         /// Defines an optional description of this specific job, for example Important Photos 2016-08-11.
         public let description: String?
-        /// Defines the device configuration for an Snowcone job. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
+        /// Defines the device configuration for an Snowball Edge job. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
         public let deviceConfiguration: DeviceConfiguration?
         /// The forwarding address ID for a job. This field is not supported in most Regions.
         public let forwardingAddressId: String?
@@ -1052,7 +1052,7 @@ extension Snowball {
     }
 
     public struct DeviceConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Returns information about the device configuration for an Snowcone job.
+        /// Returns information about the device configuration for an Snowball Edge job.
         public let snowconeDeviceConfiguration: SnowconeDeviceConfiguration?
 
         @inlinable
@@ -2209,7 +2209,7 @@ extension Snowball {
     }
 
     public struct SnowconeDeviceConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Configures the wireless connection for the Snowcone device.
+        /// Configures the wireless connection for the Snowball Edge device.
         public let wirelessConnection: WirelessConnection?
 
         @inlinable
@@ -2491,7 +2491,7 @@ extension Snowball {
     }
 
     public struct WirelessConnection: AWSEncodableShape & AWSDecodableShape {
-        /// Enables the Wi-Fi adapter on an Snowcone device.
+        /// Enables the Wi-Fi adapter on an Snowball Edge device.
         public let isWifiEnabled: Bool?
 
         @inlinable

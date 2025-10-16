@@ -153,6 +153,7 @@ extension DirectConnect {
         case down = "down"
         case pending = "pending"
         case rejected = "rejected"
+        case testing = "testing"
         case unknown = "unknown"
         case verifying = "verifying"
         public var description: String { return self.rawValue }
@@ -400,13 +401,13 @@ extension DirectConnect {
     }
 
     public struct AssociateMacSecKeyRequest: AWSEncodableShape {
-        /// The MAC Security (MACsec) CAK to associate with the dedicated connection. You can create the CKN/CAK pair using an industry standard tool. The valid values are 64 hexadecimal characters (0-9, A-E). If you use this request parameter, you must use the ckn request parameter and not use the secretARN request parameter.
+        /// The MAC Security (MACsec) CAK to associate with the connection. You can create the CKN/CAK pair using an industry standard tool. The valid values are 64 hexadecimal characters (0-9, A-E). If you use this request parameter, you must use the ckn request parameter and not use the secretARN request parameter.
         public let cak: String?
-        /// The MAC Security (MACsec) CKN to associate with the dedicated connection. You can create the CKN/CAK pair using an industry standard tool. The valid values are 64 hexadecimal characters (0-9, A-E). If you use this request parameter, you must use the cak request parameter and not use the secretARN request parameter.
+        /// The MAC Security (MACsec) CKN to associate with the connection. You can create the CKN/CAK pair using an industry standard tool. The valid values are 64 hexadecimal characters (0-9, A-E). If you use this request parameter, you must use the cak request parameter and not use the secretARN request parameter.
         public let ckn: String?
-        /// The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG (dxlag-xxxx). You can use DescribeConnections or DescribeLags to retrieve connection ID.
+        /// The ID of the dedicated connection (dxcon-xxxx), interconnect (dxcon-xxxx), or LAG (dxlag-xxxx). You can use DescribeConnections, DescribeInterconnects, or DescribeLags to retrieve connection ID.
         public let connectionId: String
-        /// The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key to associate with the dedicated connection. You can use DescribeConnections or DescribeLags to retrieve the MAC Security (MACsec) secret key. If you use this request parameter, you do not use the ckn and cak request parameters.
+        /// The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key to associate with the connection. You can use DescribeConnections or DescribeLags to retrieve the MAC Security (MACsec) secret key. If you use this request parameter, you do not use the ckn and cak request parameters.
         public let secretARN: String?
 
         @inlinable
@@ -426,9 +427,9 @@ extension DirectConnect {
     }
 
     public struct AssociateMacSecKeyResponse: AWSDecodableShape {
-        /// The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG (dxlag-xxxx).
+        /// The ID of the dedicated connection (dxcon-xxxx), interconnect (dxcon-xxxx), or LAG (dxlag-xxxx).
         public let connectionId: String?
-        /// The MAC Security (MACsec) security keys associated with the dedicated connection.
+        /// The MAC Security (MACsec) security keys associated with the connection.
         public let macSecKeys: [MacSecKey]?
 
         @inlinable
@@ -514,8 +515,10 @@ extension DirectConnect {
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
         public let asn: Int?
+        /// The long ASN for the BGP peer. The valid range is from 1 to 4294967294 for BGP configuration.   You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        public let asnLong: Int64?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
         /// The Direct Connect endpoint that terminates the BGP peer.
@@ -532,10 +535,11 @@ extension DirectConnect {
         public let customerAddress: String?
 
         @inlinable
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, authKey: String? = nil, awsDeviceV2: String? = nil, awsLogicalDeviceId: String? = nil, bgpPeerId: String? = nil, bgpPeerState: BGPPeerState? = nil, bgpStatus: BGPStatus? = nil, customerAddress: String? = nil) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, asnLong: Int64? = nil, authKey: String? = nil, awsDeviceV2: String? = nil, awsLogicalDeviceId: String? = nil, bgpPeerId: String? = nil, bgpPeerState: BGPPeerState? = nil, bgpStatus: BGPStatus? = nil, customerAddress: String? = nil) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
+            self.asnLong = asnLong
             self.authKey = authKey
             self.awsDeviceV2 = awsDeviceV2
             self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -549,6 +553,7 @@ extension DirectConnect {
             case addressFamily = "addressFamily"
             case amazonAddress = "amazonAddress"
             case asn = "asn"
+            case asnLong = "asnLong"
             case authKey = "authKey"
             case awsDeviceV2 = "awsDeviceV2"
             case awsLogicalDeviceId = "awsLogicalDeviceId"
@@ -749,6 +754,8 @@ extension DirectConnect {
         public let macSecKeys: [MacSecKey]?
         /// The ID of the Amazon Web Services account that owns the connection.
         public let ownerAccount: String?
+        /// Indicates whether the interconnect hosting this connection supports MAC Security (MACsec).
+        public let partnerInterconnectMacSecCapable: Bool?
         /// The name of the Direct Connect service provider associated with the connection.
         public let partnerName: String?
         /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
@@ -763,7 +770,7 @@ extension DirectConnect {
         public let vlan: Int?
 
         @inlinable
-        public init(awsDevice: String? = nil, awsDeviceV2: String? = nil, awsLogicalDeviceId: String? = nil, bandwidth: String? = nil, connectionId: String? = nil, connectionName: String? = nil, connectionState: ConnectionState? = nil, encryptionMode: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, loaIssueTime: Date? = nil, location: String? = nil, macSecCapable: Bool? = nil, macSecKeys: [MacSecKey]? = nil, ownerAccount: String? = nil, partnerName: String? = nil, portEncryptionStatus: String? = nil, providerName: String? = nil, region: String? = nil, tags: [Tag]? = nil, vlan: Int? = nil) {
+        public init(awsDevice: String? = nil, awsDeviceV2: String? = nil, awsLogicalDeviceId: String? = nil, bandwidth: String? = nil, connectionId: String? = nil, connectionName: String? = nil, connectionState: ConnectionState? = nil, encryptionMode: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, loaIssueTime: Date? = nil, location: String? = nil, macSecCapable: Bool? = nil, macSecKeys: [MacSecKey]? = nil, ownerAccount: String? = nil, partnerInterconnectMacSecCapable: Bool? = nil, partnerName: String? = nil, portEncryptionStatus: String? = nil, providerName: String? = nil, region: String? = nil, tags: [Tag]? = nil, vlan: Int? = nil) {
             self.awsDevice = awsDevice
             self.awsDeviceV2 = awsDeviceV2
             self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -780,6 +787,7 @@ extension DirectConnect {
             self.macSecCapable = macSecCapable
             self.macSecKeys = macSecKeys
             self.ownerAccount = ownerAccount
+            self.partnerInterconnectMacSecCapable = partnerInterconnectMacSecCapable
             self.partnerName = partnerName
             self.portEncryptionStatus = portEncryptionStatus
             self.providerName = providerName
@@ -805,6 +813,7 @@ extension DirectConnect {
             case macSecCapable = "macSecCapable"
             case macSecKeys = "macSecKeys"
             case ownerAccount = "ownerAccount"
+            case partnerInterconnectMacSecCapable = "partnerInterconnectMacSecCapable"
             case partnerName = "partnerName"
             case portEncryptionStatus = "portEncryptionStatus"
             case providerName = "providerName"
@@ -817,14 +826,18 @@ extension DirectConnect {
     public struct Connections: AWSDecodableShape {
         /// The connections.
         public let connections: [Connection]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
 
         @inlinable
-        public init(connections: [Connection]? = nil) {
+        public init(connections: [Connection]? = nil, nextToken: String? = nil) {
             self.connections = connections
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case connections = "connections"
+            case nextToken = "nextToken"
         }
     }
 
@@ -871,7 +884,7 @@ extension DirectConnect {
         public let location: String
         /// The name of the service provider associated with the requested connection.
         public let providerName: String?
-        /// Indicates whether you want the connection to support MAC Security (MACsec). MAC Security (MACsec) is only available on dedicated connections. For information about MAC Security (MACsec) prerequisties, see  MACsec prerequisties in the Direct Connect User Guide.
+        /// Indicates whether you want the connection to support MAC Security (MACsec). MAC Security (MACsec) is unavailable on hosted connections. For information about MAC Security (MACsec) prerequisites, see  MAC Security in Direct Connect in the Direct Connect User Guide.
         public let requestMACSec: Bool?
         /// The tags to associate with the lag.
         public let tags: [Tag]?
@@ -1043,16 +1056,19 @@ extension DirectConnect {
         public let location: String
         /// The name of the service provider associated with the interconnect.
         public let providerName: String?
+        /// Indicates whether you want the interconnect to support MAC Security (MACsec).
+        public let requestMACSec: Bool?
         /// The tags to associate with the interconnect.
         public let tags: [Tag]?
 
         @inlinable
-        public init(bandwidth: String, interconnectName: String, lagId: String? = nil, location: String, providerName: String? = nil, tags: [Tag]? = nil) {
+        public init(bandwidth: String, interconnectName: String, lagId: String? = nil, location: String, providerName: String? = nil, requestMACSec: Bool? = nil, tags: [Tag]? = nil) {
             self.bandwidth = bandwidth
             self.interconnectName = interconnectName
             self.lagId = lagId
             self.location = location
             self.providerName = providerName
+            self.requestMACSec = requestMACSec
             self.tags = tags
         }
 
@@ -1069,6 +1085,7 @@ extension DirectConnect {
             case lagId = "lagId"
             case location = "location"
             case providerName = "providerName"
+            case requestMACSec = "requestMACSec"
             case tags = "tags"
         }
     }
@@ -1229,8 +1246,10 @@ extension DirectConnect {
     }
 
     public struct DeleteBGPPeerRequest: AWSEncodableShape {
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
         public let asn: Int?
+        /// The long ASN for the BGP peer to be deleted from a Direct Connect virtual interface. The valid range is from 1 to 4294967294 for BGP configuration.   You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        public let asnLong: Int64?
         /// The ID of the BGP peer.
         public let bgpPeerId: String?
         /// The IP address assigned to the customer interface.
@@ -1239,8 +1258,9 @@ extension DirectConnect {
         public let virtualInterfaceId: String?
 
         @inlinable
-        public init(asn: Int? = nil, bgpPeerId: String? = nil, customerAddress: String? = nil, virtualInterfaceId: String? = nil) {
+        public init(asn: Int? = nil, asnLong: Int64? = nil, bgpPeerId: String? = nil, customerAddress: String? = nil, virtualInterfaceId: String? = nil) {
             self.asn = asn
+            self.asnLong = asnLong
             self.bgpPeerId = bgpPeerId
             self.customerAddress = customerAddress
             self.virtualInterfaceId = virtualInterfaceId
@@ -1248,6 +1268,7 @@ extension DirectConnect {
 
         private enum CodingKeys: String, CodingKey {
             case asn = "asn"
+            case asnLong = "asnLong"
             case bgpPeerId = "bgpPeerId"
             case customerAddress = "customerAddress"
             case virtualInterfaceId = "virtualInterfaceId"
@@ -1497,14 +1518,23 @@ extension DirectConnect {
     public struct DescribeConnectionsRequest: AWSEncodableShape {
         /// The ID of the connection.
         public let connectionId: String?
+        /// The maximum number of results to return with a single call.
+        /// 	To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
 
         @inlinable
-        public init(connectionId: String? = nil) {
+        public init(connectionId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.connectionId = connectionId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case connectionId = "connectionId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1717,14 +1747,23 @@ extension DirectConnect {
     public struct DescribeHostedConnectionsRequest: AWSEncodableShape {
         /// The ID of the interconnect or LAG.
         public let connectionId: String
+        /// The maximum number of results to return with a single call.
+        /// 	To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
 
         @inlinable
-        public init(connectionId: String) {
+        public init(connectionId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.connectionId = connectionId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case connectionId = "connectionId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1767,28 +1806,46 @@ extension DirectConnect {
     public struct DescribeInterconnectsRequest: AWSEncodableShape {
         /// The ID of the interconnect.
         public let interconnectId: String?
+        /// The maximum number of results to return with a single call.
+        /// 	To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
 
         @inlinable
-        public init(interconnectId: String? = nil) {
+        public init(interconnectId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.interconnectId = interconnectId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case interconnectId = "interconnectId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeLagsRequest: AWSEncodableShape {
         /// The ID of the LAG.
         public let lagId: String?
+        /// The maximum number of results to return with a single call.
+        /// 	To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
 
         @inlinable
-        public init(lagId: String? = nil) {
+        public init(lagId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.lagId = lagId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case lagId = "lagId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1889,23 +1946,32 @@ extension DirectConnect {
     public struct DescribeVirtualInterfacesRequest: AWSEncodableShape {
         /// The ID of the connection.
         public let connectionId: String?
+        /// The maximum number of results to return with a single call.
+        /// 	To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
         /// The ID of the virtual interface.
         public let virtualInterfaceId: String?
 
         @inlinable
-        public init(connectionId: String? = nil, virtualInterfaceId: String? = nil) {
+        public init(connectionId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, virtualInterfaceId: String? = nil) {
             self.connectionId = connectionId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
             self.virtualInterfaceId = virtualInterfaceId
         }
 
         private enum CodingKeys: String, CodingKey {
             case connectionId = "connectionId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
             case virtualInterfaceId = "virtualInterfaceId"
         }
     }
 
     public struct DirectConnectGateway: AWSDecodableShape {
-        /// The autonomous system number (ASN) for the Amazon side of the connection.
+        /// The autonomous system number (AS) for the Amazon side of the connection.
         public let amazonSideAsn: Int64?
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
@@ -2091,7 +2157,7 @@ extension DirectConnect {
     }
 
     public struct DisassociateMacSecKeyRequest: AWSEncodableShape {
-        /// The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG (dxlag-xxxx). You can use DescribeConnections or DescribeLags to retrieve connection ID.
+        /// The ID of the dedicated connection (dxcon-xxxx), interconnect (dxcon-xxxx), or LAG (dxlag-xxxx). You can use DescribeConnections, DescribeInterconnects, or DescribeLags to retrieve connection ID.
         public let connectionId: String
         /// The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key. You can use DescribeConnections to retrieve the ARN of the MAC Security (MACsec) secret key.
         public let secretARN: String
@@ -2109,9 +2175,9 @@ extension DirectConnect {
     }
 
     public struct DisassociateMacSecKeyResponse: AWSDecodableShape {
-        /// The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG (dxlag-xxxx).
+        /// The ID of the dedicated connection (dxcon-xxxx), interconnect (dxcon-xxxx), or LAG (dxlag-xxxx).
         public let connectionId: String?
-        /// The MAC Security (MACsec) security keys no longer associated with the dedicated connection.
+        /// The MAC Security (MACsec) security keys no longer associated with the connection.
         public let macSecKeys: [MacSecKey]?
 
         @inlinable
@@ -2135,6 +2201,8 @@ extension DirectConnect {
         public let awsLogicalDeviceId: String?
         /// The bandwidth of the connection.
         public let bandwidth: String?
+        /// The MAC Security (MACsec) encryption mode. The valid values are no_encrypt, should_encrypt, and must_encrypt.
+        public let encryptionMode: String?
         /// Indicates whether the interconnect supports a secondary BGP in the same address family (IPv4/IPv6).
         public let hasLogicalRedundancy: HasLogicalRedundancy?
         /// The ID of the interconnect.
@@ -2151,6 +2219,12 @@ extension DirectConnect {
         public let loaIssueTime: Date?
         /// The location of the connection.
         public let location: String?
+        /// Indicates whether the interconnect supports MAC Security (MACsec).
+        public let macSecCapable: Bool?
+        /// The MAC Security (MACsec) security keys.
+        public let macSecKeys: [MacSecKey]?
+        /// The MAC Security (MACsec) port link status. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
+        public let portEncryptionStatus: String?
         /// The name of the service provider associated with the interconnect.
         public let providerName: String?
         /// The Amazon Web Services Region where the connection is located.
@@ -2159,11 +2233,12 @@ extension DirectConnect {
         public let tags: [Tag]?
 
         @inlinable
-        public init(awsDevice: String? = nil, awsDeviceV2: String? = nil, awsLogicalDeviceId: String? = nil, bandwidth: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, interconnectId: String? = nil, interconnectName: String? = nil, interconnectState: InterconnectState? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, loaIssueTime: Date? = nil, location: String? = nil, providerName: String? = nil, region: String? = nil, tags: [Tag]? = nil) {
+        public init(awsDevice: String? = nil, awsDeviceV2: String? = nil, awsLogicalDeviceId: String? = nil, bandwidth: String? = nil, encryptionMode: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, interconnectId: String? = nil, interconnectName: String? = nil, interconnectState: InterconnectState? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, loaIssueTime: Date? = nil, location: String? = nil, macSecCapable: Bool? = nil, macSecKeys: [MacSecKey]? = nil, portEncryptionStatus: String? = nil, providerName: String? = nil, region: String? = nil, tags: [Tag]? = nil) {
             self.awsDevice = awsDevice
             self.awsDeviceV2 = awsDeviceV2
             self.awsLogicalDeviceId = awsLogicalDeviceId
             self.bandwidth = bandwidth
+            self.encryptionMode = encryptionMode
             self.hasLogicalRedundancy = hasLogicalRedundancy
             self.interconnectId = interconnectId
             self.interconnectName = interconnectName
@@ -2172,6 +2247,9 @@ extension DirectConnect {
             self.lagId = lagId
             self.loaIssueTime = loaIssueTime
             self.location = location
+            self.macSecCapable = macSecCapable
+            self.macSecKeys = macSecKeys
+            self.portEncryptionStatus = portEncryptionStatus
             self.providerName = providerName
             self.region = region
             self.tags = tags
@@ -2182,6 +2260,7 @@ extension DirectConnect {
             case awsDeviceV2 = "awsDeviceV2"
             case awsLogicalDeviceId = "awsLogicalDeviceId"
             case bandwidth = "bandwidth"
+            case encryptionMode = "encryptionMode"
             case hasLogicalRedundancy = "hasLogicalRedundancy"
             case interconnectId = "interconnectId"
             case interconnectName = "interconnectName"
@@ -2190,6 +2269,9 @@ extension DirectConnect {
             case lagId = "lagId"
             case loaIssueTime = "loaIssueTime"
             case location = "location"
+            case macSecCapable = "macSecCapable"
+            case macSecKeys = "macSecKeys"
+            case portEncryptionStatus = "portEncryptionStatus"
             case providerName = "providerName"
             case region = "region"
             case tags = "tags"
@@ -2199,14 +2281,18 @@ extension DirectConnect {
     public struct Interconnects: AWSDecodableShape {
         /// The interconnects.
         public let interconnects: [Interconnect]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
 
         @inlinable
-        public init(interconnects: [Interconnect]? = nil) {
+        public init(interconnects: [Interconnect]? = nil, nextToken: String? = nil) {
             self.interconnects = interconnects
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case interconnects = "interconnects"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2307,14 +2393,18 @@ extension DirectConnect {
     public struct Lags: AWSDecodableShape {
         /// The LAGs.
         public let lags: [Lag]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
 
         @inlinable
-        public init(lags: [Lag]? = nil) {
+        public init(lags: [Lag]? = nil, nextToken: String? = nil) {
             self.lags = lags
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case lags = "lags"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2468,18 +2558,21 @@ extension DirectConnect {
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.
         public let asn: Int?
+        /// The long ASN for a new BGP peer.  The valid range is  from 1 to 4294967294.
+        public let asnLong: Int64?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
         /// The IP address assigned to the customer interface.
         public let customerAddress: String?
 
         @inlinable
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, authKey: String? = nil, customerAddress: String? = nil) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, asnLong: Int64? = nil, authKey: String? = nil, customerAddress: String? = nil) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
+            self.asnLong = asnLong
             self.authKey = authKey
             self.customerAddress = customerAddress
         }
@@ -2488,6 +2581,7 @@ extension DirectConnect {
             case addressFamily = "addressFamily"
             case amazonAddress = "amazonAddress"
             case asn = "asn"
+            case asnLong = "asnLong"
             case authKey = "authKey"
             case customerAddress = "customerAddress"
         }
@@ -2498,8 +2592,10 @@ extension DirectConnect {
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
-        public let asn: Int
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.    The valid values are 1-2147483646.
+        public let asn: Int?
+        /// The long ASN for a new private virtual interface. The valid range is from 1 to 4294967294 for BGP configuration.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        public let asnLong: Int64?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
         /// The IP address assigned to the customer interface.
@@ -2520,10 +2616,11 @@ extension DirectConnect {
         public let vlan: Int
 
         @inlinable
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int = 0, authKey: String? = nil, customerAddress: String? = nil, directConnectGatewayId: String? = nil, enableSiteLink: Bool? = nil, mtu: Int? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceName: String, vlan: Int = 0) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, asnLong: Int64? = nil, authKey: String? = nil, customerAddress: String? = nil, directConnectGatewayId: String? = nil, enableSiteLink: Bool? = nil, mtu: Int? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceName: String, vlan: Int = 0) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
+            self.asnLong = asnLong
             self.authKey = authKey
             self.customerAddress = customerAddress
             self.directConnectGatewayId = directConnectGatewayId
@@ -2546,6 +2643,7 @@ extension DirectConnect {
             case addressFamily = "addressFamily"
             case amazonAddress = "amazonAddress"
             case asn = "asn"
+            case asnLong = "asnLong"
             case authKey = "authKey"
             case customerAddress = "customerAddress"
             case directConnectGatewayId = "directConnectGatewayId"
@@ -2563,8 +2661,10 @@ extension DirectConnect {
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
-        public let asn: Int
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.    The valid values are 1-2147483646.
+        public let asn: Int?
+        /// The ASN when allocating a new private virtual interface. The valid range is from 1 to 4294967294 for BGP configuration.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        public let asnLong: Int64?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
         /// The IP address assigned to the customer interface.
@@ -2579,10 +2679,11 @@ extension DirectConnect {
         public let vlan: Int
 
         @inlinable
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int = 0, authKey: String? = nil, customerAddress: String? = nil, mtu: Int? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int = 0) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, asnLong: Int64? = nil, authKey: String? = nil, customerAddress: String? = nil, mtu: Int? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int = 0) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
+            self.asnLong = asnLong
             self.authKey = authKey
             self.customerAddress = customerAddress
             self.mtu = mtu
@@ -2602,6 +2703,7 @@ extension DirectConnect {
             case addressFamily = "addressFamily"
             case amazonAddress = "amazonAddress"
             case asn = "asn"
+            case asnLong = "asnLong"
             case authKey = "authKey"
             case customerAddress = "customerAddress"
             case mtu = "mtu"
@@ -2616,8 +2718,10 @@ extension DirectConnect {
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
-        public let asn: Int
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        public let asn: Int?
+        /// The long ASN for a new public virtual interface. The valid range is from 1 to 4294967294 for BGP configuration.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        public let asnLong: Int64?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
         /// The IP address assigned to the customer interface.
@@ -2632,10 +2736,11 @@ extension DirectConnect {
         public let vlan: Int
 
         @inlinable
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int = 0, authKey: String? = nil, customerAddress: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int = 0) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, asnLong: Int64? = nil, authKey: String? = nil, customerAddress: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int = 0) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
+            self.asnLong = asnLong
             self.authKey = authKey
             self.customerAddress = customerAddress
             self.routeFilterPrefixes = routeFilterPrefixes
@@ -2655,6 +2760,7 @@ extension DirectConnect {
             case addressFamily = "addressFamily"
             case amazonAddress = "amazonAddress"
             case asn = "asn"
+            case asnLong = "asnLong"
             case authKey = "authKey"
             case customerAddress = "customerAddress"
             case routeFilterPrefixes = "routeFilterPrefixes"
@@ -2669,8 +2775,10 @@ extension DirectConnect {
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
-        public let asn: Int
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.    The valid values are 1-2147483646.
+        public let asn: Int?
+        /// The ASN when allocating a new public virtual interface. The valid range is from 1 to 4294967294 for BGP configuration.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        public let asnLong: Int64?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
         /// The IP address assigned to the customer interface.
@@ -2685,10 +2793,11 @@ extension DirectConnect {
         public let vlan: Int
 
         @inlinable
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int = 0, authKey: String? = nil, customerAddress: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int = 0) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, asnLong: Int64? = nil, authKey: String? = nil, customerAddress: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int = 0) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
+            self.asnLong = asnLong
             self.authKey = authKey
             self.customerAddress = customerAddress
             self.routeFilterPrefixes = routeFilterPrefixes
@@ -2708,6 +2817,7 @@ extension DirectConnect {
             case addressFamily = "addressFamily"
             case amazonAddress = "amazonAddress"
             case asn = "asn"
+            case asnLong = "asnLong"
             case authKey = "authKey"
             case customerAddress = "customerAddress"
             case routeFilterPrefixes = "routeFilterPrefixes"
@@ -2722,8 +2832,10 @@ extension DirectConnect {
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
         public let asn: Int?
+        /// The long ASN for a new transit virtual interface.The valid range is from 1 to 4294967294 for BGP configuration.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        public let asnLong: Int64?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
         /// The IP address assigned to the customer interface.
@@ -2742,10 +2854,11 @@ extension DirectConnect {
         public let vlan: Int?
 
         @inlinable
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, authKey: String? = nil, customerAddress: String? = nil, directConnectGatewayId: String? = nil, enableSiteLink: Bool? = nil, mtu: Int? = nil, tags: [Tag]? = nil, virtualInterfaceName: String? = nil, vlan: Int? = nil) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, asnLong: Int64? = nil, authKey: String? = nil, customerAddress: String? = nil, directConnectGatewayId: String? = nil, enableSiteLink: Bool? = nil, mtu: Int? = nil, tags: [Tag]? = nil, virtualInterfaceName: String? = nil, vlan: Int? = nil) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
+            self.asnLong = asnLong
             self.authKey = authKey
             self.customerAddress = customerAddress
             self.directConnectGatewayId = directConnectGatewayId
@@ -2767,6 +2880,7 @@ extension DirectConnect {
             case addressFamily = "addressFamily"
             case amazonAddress = "amazonAddress"
             case asn = "asn"
+            case asnLong = "asnLong"
             case authKey = "authKey"
             case customerAddress = "customerAddress"
             case directConnectGatewayId = "directConnectGatewayId"
@@ -2783,8 +2897,10 @@ extension DirectConnect {
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.    The valid values are 1-2147483646.
         public let asn: Int?
+        /// The ASN when allocating a new transit virtual interface. The valid range is from 1 to 4294967294 for BGP configuration.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        public let asnLong: Int64?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
         /// The IP address assigned to the customer interface.
@@ -2799,10 +2915,11 @@ extension DirectConnect {
         public let vlan: Int?
 
         @inlinable
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, authKey: String? = nil, customerAddress: String? = nil, mtu: Int? = nil, tags: [Tag]? = nil, virtualInterfaceName: String? = nil, vlan: Int? = nil) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, asnLong: Int64? = nil, authKey: String? = nil, customerAddress: String? = nil, mtu: Int? = nil, tags: [Tag]? = nil, virtualInterfaceName: String? = nil, vlan: Int? = nil) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
+            self.asnLong = asnLong
             self.authKey = authKey
             self.customerAddress = customerAddress
             self.mtu = mtu
@@ -2822,6 +2939,7 @@ extension DirectConnect {
             case addressFamily = "addressFamily"
             case amazonAddress = "amazonAddress"
             case asn = "asn"
+            case asnLong = "asnLong"
             case authKey = "authKey"
             case customerAddress = "customerAddress"
             case mtu = "mtu"
@@ -3047,7 +3165,7 @@ extension DirectConnect {
     }
 
     public struct UpdateConnectionRequest: AWSEncodableShape {
-        /// The ID of the dedicated connection. You can use DescribeConnections to retrieve the connection ID.
+        /// The ID of the connection. You can use DescribeConnections to retrieve the connection ID.
         public let connectionId: String
         /// The name of the connection.
         public let connectionName: String?
@@ -3225,10 +3343,12 @@ extension DirectConnect {
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
-        /// The autonomous system number (ASN) for the Amazon side of the connection.
+        /// The autonomous system number (AS) for the Amazon side of the connection.
         public let amazonSideAsn: Int64?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
         public let asn: Int?
+        /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        public let asnLong: Int64?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
         /// The Direct Connect endpoint that terminates the physical connection.
@@ -3275,11 +3395,12 @@ extension DirectConnect {
         public let vlan: Int?
 
         @inlinable
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, amazonSideAsn: Int64? = nil, asn: Int? = nil, authKey: String? = nil, awsDeviceV2: String? = nil, awsLogicalDeviceId: String? = nil, bgpPeers: [BGPPeer]? = nil, connectionId: String? = nil, customerAddress: String? = nil, customerRouterConfig: String? = nil, directConnectGatewayId: String? = nil, jumboFrameCapable: Bool? = nil, location: String? = nil, mtu: Int? = nil, ownerAccount: String? = nil, region: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, siteLinkEnabled: Bool? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceId: String? = nil, virtualInterfaceName: String? = nil, virtualInterfaceState: VirtualInterfaceState? = nil, virtualInterfaceType: String? = nil, vlan: Int? = nil) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, amazonSideAsn: Int64? = nil, asn: Int? = nil, asnLong: Int64? = nil, authKey: String? = nil, awsDeviceV2: String? = nil, awsLogicalDeviceId: String? = nil, bgpPeers: [BGPPeer]? = nil, connectionId: String? = nil, customerAddress: String? = nil, customerRouterConfig: String? = nil, directConnectGatewayId: String? = nil, jumboFrameCapable: Bool? = nil, location: String? = nil, mtu: Int? = nil, ownerAccount: String? = nil, region: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, siteLinkEnabled: Bool? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceId: String? = nil, virtualInterfaceName: String? = nil, virtualInterfaceState: VirtualInterfaceState? = nil, virtualInterfaceType: String? = nil, vlan: Int? = nil) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.amazonSideAsn = amazonSideAsn
             self.asn = asn
+            self.asnLong = asnLong
             self.authKey = authKey
             self.awsDeviceV2 = awsDeviceV2
             self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -3309,6 +3430,7 @@ extension DirectConnect {
             case amazonAddress = "amazonAddress"
             case amazonSideAsn = "amazonSideAsn"
             case asn = "asn"
+            case asnLong = "asnLong"
             case authKey = "authKey"
             case awsDeviceV2 = "awsDeviceV2"
             case awsLogicalDeviceId = "awsLogicalDeviceId"
@@ -3377,15 +3499,19 @@ extension DirectConnect {
     }
 
     public struct VirtualInterfaces: AWSDecodableShape {
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
         /// The virtual interfaces
         public let virtualInterfaces: [VirtualInterface]?
 
         @inlinable
-        public init(virtualInterfaces: [VirtualInterface]? = nil) {
+        public init(nextToken: String? = nil, virtualInterfaces: [VirtualInterface]? = nil) {
+            self.nextToken = nextToken
             self.virtualInterfaces = virtualInterfaces
         }
 
         private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
             case virtualInterfaces = "virtualInterfaces"
         }
     }

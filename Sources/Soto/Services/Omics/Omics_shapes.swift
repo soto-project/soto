@@ -335,6 +335,13 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
+    public enum SourceReferenceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case branch = "BRANCH"
+        case commit = "COMMIT"
+        case tag = "TAG"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StorageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dynamic = "DYNAMIC"
         case `static` = "STATIC"
@@ -405,6 +412,7 @@ extension Omics {
 
     public enum WorkflowExport: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case definition = "DEFINITION"
+        case readme = "README"
         public var description: String { return self.rawValue }
     }
 
@@ -1022,6 +1030,33 @@ extension Omics {
         }
     }
 
+    public struct ContainerRegistryMap: AWSEncodableShape & AWSDecodableShape {
+        /// Image mappings specify path mappings between the ECR private repository and their corresponding external repositories.
+        public let imageMappings: [ImageMapping]?
+        /// Mapping that provides the ECR repository path where upstream container images are pulled and synchronized.
+        public let registryMappings: [RegistryMapping]?
+
+        @inlinable
+        public init(imageMappings: [ImageMapping]? = nil, registryMappings: [RegistryMapping]? = nil) {
+            self.imageMappings = imageMappings
+            self.registryMappings = registryMappings
+        }
+
+        public func validate(name: String) throws {
+            try self.imageMappings?.forEach {
+                try $0.validate(name: "\(name).imageMappings[]")
+            }
+            try self.registryMappings?.forEach {
+                try $0.validate(name: "\(name).registryMappings[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageMappings = "imageMappings"
+            case registryMappings = "registryMappings"
+        }
+    }
+
     public struct CreateAnnotationStoreRequest: AWSEncodableShape {
         /// A description for the store.
         public let description: String?
@@ -1609,23 +1644,23 @@ extension Omics {
     }
 
     public struct CreateSequenceStoreRequest: AWSEncodableShape {
-        /// To ensure that requests don't run multiple times, specify a unique token for each request.
+        /// An idempotency token used to dedupe retry requests so that duplicate runs are not created.
         public let clientToken: String?
         /// A description for the store.
         public let description: String?
-        /// The ETag algorithm family to use for ingested read sets.
+        /// The ETag algorithm family to use for ingested read sets. The default value is MD5up. For more information on ETags, see ETags and data provenance in the Amazon Web Services HealthOmics User Guide.
         public let eTagAlgorithmFamily: ETagAlgorithmFamily?
-        /// An S3 location that is used to store files that have failed a direct upload.
+        /// An S3 location that is used to store files that have failed a direct upload. You can add or change the fallbackLocation after creating a sequence store. This is not required if you are uploading files from a different S3 bucket.
         public let fallbackLocation: String?
         /// A name for the store.
         public let name: String
-        /// The tags keys to propagate to the S3 objects associated with read sets in the sequence store.
+        /// The tags keys to propagate to the S3 objects associated with read sets in the sequence store. These tags can be used as input to add metadata to your read sets.
         public let propagatedSetLevelTags: [String]?
-        /// S3 access configuration parameters
+        /// S3 access configuration parameters. This specifies the parameters needed to access logs stored in S3 buckets. The S3 bucket must be in the same region and account as the sequence store.
         public let s3AccessConfig: S3AccessConfig?
         /// Server-side encryption (SSE) settings for the store.
         public let sseConfig: SseConfig?
-        /// Tags for the store.
+        /// Tags for the store. You can configure up to 50 tags.
         public let tags: [String: String]?
 
         @inlinable
@@ -1696,7 +1731,7 @@ extension Omics {
         /// The tags keys to propagate to the S3 objects associated with read sets in the sequence store.
         public let propagatedSetLevelTags: [String]?
         public let s3Access: SequenceStoreS3Access?
-        /// The store's SSE settings.
+        /// Server-side encryption (SSE) settings for the store. This contains the KMS key ARN that is used to encrypt read set objects.
         public let sseConfig: SseConfig?
         /// The status of the sequence store.
         public let status: SequenceStoreStatus?
@@ -1862,32 +1897,51 @@ extension Omics {
     public struct CreateWorkflowRequest: AWSEncodableShape {
         /// The computational accelerator specified to run the workflow.
         public let accelerators: Accelerators?
-        /// The URI of a definition for the workflow.
+        /// (Optional) Use a container registry map to specify mappings between the ECR private repository and one or more upstream registries. For more information, see Container images in the Amazon Web Services HealthOmics User Guide.
+        public let containerRegistryMap: ContainerRegistryMap?
+        /// (Optional) URI of the S3 location for the registry mapping file.
+        public let containerRegistryMapUri: String?
+        /// The repository information for the workflow definition. This allows you to source your workflow definition directly from a code repository.
+        public let definitionRepository: DefinitionRepository?
+        /// The S3 URI of a definition for the workflow. The S3 bucket must be in the same region as the workflow.
         public let definitionUri: String?
-        /// A ZIP archive for the workflow.
+        /// A ZIP archive containing the main workflow definition file and dependencies that it imports for the workflow. You can use a file with a ://fileb prefix instead of the Base64 string. For more information, see Workflow definition requirements in the Amazon Web Services HealthOmics User Guide.
         public let definitionZip: AWSBase64Data?
         /// A description for the workflow.
         public let description: String?
-        /// The workflow engine for the workflow.
+        /// The workflow engine for the workflow. This is only required if you have workflow definition files from more than one engine in your zip file. Otherwise, the service can detect the engine automatically from your workflow definition.
         public let engine: WorkflowEngine?
-        /// The path of the main definition file for the workflow.
+        /// The path of the main definition file for the workflow. This parameter is not required if the ZIP archive contains only one workflow definition file, or if the main definition file is named “main”. An example path is: workflow-definition/main-file.wdl.
         public let main: String?
-        /// A name for the workflow.
+        /// Name (optional but highly recommended) for the workflow to locate relevant information in the CloudWatch logs and Amazon Web Services HealthOmics console.
         public let name: String?
-        /// A parameter template for the workflow.
+        /// A parameter template for the workflow. If this field is blank, Amazon Web Services HealthOmics will automatically parse the parameter template values from your workflow definition file. To override these service generated default values, provide a parameter template. To view an example of a parameter template, see Parameter template files in the Amazon Web Services HealthOmics User Guide.
         public let parameterTemplate: [String: WorkflowParameter]?
-        /// To ensure that requests don't run multiple times, specify a unique ID for each request.
+        /// The path to the workflow parameter template JSON file within the repository. This file defines the input parameters for runs that use this workflow. If not specified, the workflow will be created without a parameter template.
+        public let parameterTemplatePath: String?
+        /// The markdown content for the workflow's README file. This provides documentation and usage information for users of the workflow.
+        public let readmeMarkdown: String?
+        /// The path to the workflow README markdown file within the repository. This file provides documentation and usage information for the workflow. If not specified, the README.md file from the root directory of the repository will be used.
+        public let readmePath: String?
+        /// The S3 URI of the README file for the workflow. This file provides documentation and usage information for the workflow. Requirements include:   The S3 URI must begin with s3://USER-OWNED-BUCKET/    The requester must have access to the S3 bucket and object.   The max README content length is 500 KiB.
+        public let readmeUri: String?
+        /// An idempotency token to ensure that duplicate workflows are not created when Amazon Web Services HealthOmics submits retry requests.
         public let requestId: String
-        /// The default static storage capacity (in gibibytes) for runs that use this workflow or workflow version.
+        /// The default static storage capacity (in gibibytes) for runs that use this workflow or workflow version. The storageCapacity can be overwritten at run time. The storage capacity is not required for runs with a DYNAMIC storage type.
         public let storageCapacity: Int?
-        ///  The default storage type for runs that use this workflow. STATIC storage allocates a fixed amount of storage. DYNAMIC storage dynamically scales the storage up or down, based on file system utilization. For more information about static and dynamic storage, see Running workflows in the Amazon Web Services HealthOmics User Guide.
+        /// The default storage type for runs that use this workflow. The storageType can be overridden at run time. DYNAMIC storage dynamically scales the storage up or down, based on file system utilization. STATIC storage allocates a fixed amount of storage. For more information about dynamic and static storage types, see Run storage types in the Amazon Web Services HealthOmics User Guide.
         public let storageType: StorageType?
-        /// Tags for the workflow.
+        /// Tags for the workflow. You can define up to 50 tags for the workflow. For more information, see Adding a tag in the Amazon Web Services HealthOmics User Guide.
         public let tags: [String: String]?
+        /// The Amazon Web Services account ID of the expected owner of the S3 bucket that contains the workflow definition. If not specified, the service skips the validation.
+        public let workflowBucketOwnerId: String?
 
         @inlinable
-        public init(accelerators: Accelerators? = nil, definitionUri: String? = nil, definitionZip: AWSBase64Data? = nil, description: String? = nil, engine: WorkflowEngine? = nil, main: String? = nil, name: String? = nil, parameterTemplate: [String: WorkflowParameter]? = nil, requestId: String = CreateWorkflowRequest.idempotencyToken(), storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil) {
+        public init(accelerators: Accelerators? = nil, containerRegistryMap: ContainerRegistryMap? = nil, containerRegistryMapUri: String? = nil, definitionRepository: DefinitionRepository? = nil, definitionUri: String? = nil, definitionZip: AWSBase64Data? = nil, description: String? = nil, engine: WorkflowEngine? = nil, main: String? = nil, name: String? = nil, parameterTemplate: [String: WorkflowParameter]? = nil, parameterTemplatePath: String? = nil, readmeMarkdown: String? = nil, readmePath: String? = nil, readmeUri: String? = nil, requestId: String = CreateWorkflowRequest.idempotencyToken(), storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, workflowBucketOwnerId: String? = nil) {
             self.accelerators = accelerators
+            self.containerRegistryMap = containerRegistryMap
+            self.containerRegistryMapUri = containerRegistryMapUri
+            self.definitionRepository = definitionRepository
             self.definitionUri = definitionUri
             self.definitionZip = definitionZip
             self.description = description
@@ -1895,13 +1949,23 @@ extension Omics {
             self.main = main
             self.name = name
             self.parameterTemplate = parameterTemplate
+            self.parameterTemplatePath = parameterTemplatePath
+            self.readmeMarkdown = readmeMarkdown
+            self.readmePath = readmePath
+            self.readmeUri = readmeUri
             self.requestId = requestId
             self.storageCapacity = storageCapacity
             self.storageType = storageType
             self.tags = tags
+            self.workflowBucketOwnerId = workflowBucketOwnerId
         }
 
         public func validate(name: String) throws {
+            try self.containerRegistryMap?.validate(name: "\(name).containerRegistryMap")
+            try self.validate(self.containerRegistryMapUri, name: "containerRegistryMapUri", parent: name, max: 750)
+            try self.validate(self.containerRegistryMapUri, name: "containerRegistryMapUri", parent: name, min: 1)
+            try self.validate(self.containerRegistryMapUri, name: "containerRegistryMapUri", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.definitionRepository?.validate(name: "\(name).definitionRepository")
             try self.validate(self.definitionUri, name: "definitionUri", parent: name, max: 256)
             try self.validate(self.definitionUri, name: "definitionUri", parent: name, min: 1)
             try self.validate(self.definitionUri, name: "definitionUri", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
@@ -1922,6 +1986,13 @@ extension Omics {
             }
             try self.validate(self.parameterTemplate, name: "parameterTemplate", parent: name, max: 1000)
             try self.validate(self.parameterTemplate, name: "parameterTemplate", parent: name, min: 1)
+            try self.validate(self.parameterTemplatePath, name: "parameterTemplatePath", parent: name, max: 128)
+            try self.validate(self.parameterTemplatePath, name: "parameterTemplatePath", parent: name, min: 1)
+            try self.validate(self.parameterTemplatePath, name: "parameterTemplatePath", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.validate(self.readmePath, name: "readmePath", parent: name, max: 128)
+            try self.validate(self.readmePath, name: "readmePath", parent: name, min: 1)
+            try self.validate(self.readmePath, name: "readmePath", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.validate(self.readmeUri, name: "readmeUri", parent: name, pattern: "^s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/((.{1,1024}))$")
             try self.validate(self.requestId, name: "requestId", parent: name, max: 128)
             try self.validate(self.requestId, name: "requestId", parent: name, min: 1)
             try self.validate(self.requestId, name: "requestId", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
@@ -1930,10 +2001,14 @@ extension Omics {
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
+            try self.validate(self.workflowBucketOwnerId, name: "workflowBucketOwnerId", parent: name, pattern: "^[0-9]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case accelerators = "accelerators"
+            case containerRegistryMap = "containerRegistryMap"
+            case containerRegistryMapUri = "containerRegistryMapUri"
+            case definitionRepository = "definitionRepository"
             case definitionUri = "definitionUri"
             case definitionZip = "definitionZip"
             case description = "description"
@@ -1941,10 +2016,15 @@ extension Omics {
             case main = "main"
             case name = "name"
             case parameterTemplate = "parameterTemplate"
+            case parameterTemplatePath = "parameterTemplatePath"
+            case readmeMarkdown = "readmeMarkdown"
+            case readmePath = "readmePath"
+            case readmeUri = "readmeUri"
             case requestId = "requestId"
             case storageCapacity = "storageCapacity"
             case storageType = "storageType"
             case tags = "tags"
+            case workflowBucketOwnerId = "workflowBucketOwnerId"
         }
     }
 
@@ -1981,42 +2061,63 @@ extension Omics {
     public struct CreateWorkflowVersionRequest: AWSEncodableShape {
         /// The computational accelerator for this workflow version.
         public let accelerators: Accelerators?
-        /// The URI specifies the location of the workflow definition for this workflow version.
+        /// (Optional) Use a container registry map to specify mappings between the ECR private repository and one or more upstream registries. For more information, see Container images in the Amazon Web Services HealthOmics User Guide.
+        public let containerRegistryMap: ContainerRegistryMap?
+        /// (Optional) URI of the S3 location for the registry mapping file.
+        public let containerRegistryMapUri: String?
+        /// The repository information for the workflow version definition. This allows you to source your workflow version definition directly from a code repository.
+        public let definitionRepository: DefinitionRepository?
+        /// The S3 URI of a definition for this workflow version. The S3 bucket must be in the same region as this workflow version.
         public let definitionUri: String?
-        /// A zip archive containing the workflow definition for this workflow version.
+        /// A ZIP archive containing the main workflow definition file and dependencies that it imports for this workflow version. You can use a file with a ://fileb prefix instead of the Base64 string. For more information, see Workflow definition requirements in the Amazon Web Services HealthOmics User Guide.
         public let definitionZip: AWSBase64Data?
         /// A description for this workflow version.
         public let description: String?
-        /// The workflow engine for this workflow version.
+        /// The workflow engine for this workflow version. This is only required if you have workflow definition files from more than one engine in your zip file. Otherwise, the service can detect the engine automatically from your workflow definition.
         public let engine: WorkflowEngine?
-        /// The path of the main definition file for this workflow version.
+        /// The path of the main definition file for this workflow version. This parameter is not required if the ZIP archive contains only one workflow definition file, or if the main definition file is named “main”. An example path is: workflow-definition/main-file.wdl.
         public let main: String?
-        /// The parameter template defines the input parameters for runs that use this workflow version.
+        /// A parameter template for this workflow version. If this field is blank, Amazon Web Services HealthOmics will automatically parse the parameter template values from your workflow definition file. To override these service generated default values, provide a parameter template. To view an example of a parameter template, see Parameter template files in the Amazon Web Services HealthOmics User Guide.
         public let parameterTemplate: [String: WorkflowParameter]?
-        /// To ensure that requests don't run multiple times, specify a unique ID for each request.
+        /// The path to the workflow version parameter template JSON file within the repository. This file defines the input parameters for runs that use this workflow version. If not specified, the workflow version will be created without a parameter template.
+        public let parameterTemplatePath: String?
+        /// The markdown content for the workflow version's README file. This provides documentation and usage information for users of this specific workflow version.
+        public let readmeMarkdown: String?
+        /// The path to the workflow version README markdown file within the repository. This file provides documentation and usage information for the workflow. If not specified, the README.md file from the root directory of the repository will be used.
+        public let readmePath: String?
+        /// The S3 URI of the README file for the workflow version. This file provides documentation and usage information for the workflow version. Requirements include:   The S3 URI must begin with s3://USER-OWNED-BUCKET/    The requester must have access to the S3 bucket and object.   The max README content length is 500 KiB.
+        public let readmeUri: String?
+        /// An idempotency token to ensure that duplicate workflows are not created when Amazon Web Services HealthOmics submits retry requests.
         public let requestId: String
-        /// The default static storage capacity (in gibibytes) for runs that use this workflow or workflow version.
+        /// The default static storage capacity (in gibibytes) for runs that use this workflow version. The storageCapacity can be overwritten at run time. The storage capacity is not required for runs with a DYNAMIC storage type.
         public let storageCapacity: Int?
-        /// The default storage type for runs that use this workflow. STATIC storage allocates a fixed amount of storage. DYNAMIC storage dynamically scales the storage up or down, based on file system utilization. For more information about static and dynamic storage, see Running workflows in the Amazon Web Services HealthOmics User Guide.
+        /// The default storage type for runs that use this workflow version. The storageType can be overridden at run time. DYNAMIC storage dynamically scales the storage up or down, based on file system utilization. STATIC storage allocates a fixed amount of storage. For more information about dynamic and static storage types, see Run storage types in the Amazon Web Services HealthOmics User Guide.
         public let storageType: StorageType?
-        /// Optional tags to associate with this workflow version.
+        /// Tags for this workflow version. You can define up to 50 tags for the workflow. For more information, see Adding a tag in the Amazon Web Services HealthOmics User Guide.
         public let tags: [String: String]?
         /// A name for the workflow version. Provide a version name that is unique for this workflow. You cannot change the name after HealthOmics creates the version.  The version name must start with a letter or number and it can include upper-case and lower-case letters, numbers, hyphens, periods and underscores. The maximum length is 64 characters. You can use a simple naming scheme, such as version1, version2, version3. You can also match your workflow versions with your own internal versioning conventions, such as 2.7.0, 2.7.1, 2.7.2.
         public let versionName: String
         /// Amazon Web Services Id of the owner of the S3 bucket that contains the workflow definition. You need to specify this parameter if your account is not the bucket owner.
         public let workflowBucketOwnerId: String?
-        /// The ID of the workflow where you are creating the new version.
+        /// The ID of the workflow where you are creating the new version. The workflowId is not the UUID.
         public let workflowId: String
 
         @inlinable
-        public init(accelerators: Accelerators? = nil, definitionUri: String? = nil, definitionZip: AWSBase64Data? = nil, description: String? = nil, engine: WorkflowEngine? = nil, main: String? = nil, parameterTemplate: [String: WorkflowParameter]? = nil, requestId: String = CreateWorkflowVersionRequest.idempotencyToken(), storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, versionName: String, workflowBucketOwnerId: String? = nil, workflowId: String) {
+        public init(accelerators: Accelerators? = nil, containerRegistryMap: ContainerRegistryMap? = nil, containerRegistryMapUri: String? = nil, definitionRepository: DefinitionRepository? = nil, definitionUri: String? = nil, definitionZip: AWSBase64Data? = nil, description: String? = nil, engine: WorkflowEngine? = nil, main: String? = nil, parameterTemplate: [String: WorkflowParameter]? = nil, parameterTemplatePath: String? = nil, readmeMarkdown: String? = nil, readmePath: String? = nil, readmeUri: String? = nil, requestId: String = CreateWorkflowVersionRequest.idempotencyToken(), storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, versionName: String, workflowBucketOwnerId: String? = nil, workflowId: String) {
             self.accelerators = accelerators
+            self.containerRegistryMap = containerRegistryMap
+            self.containerRegistryMapUri = containerRegistryMapUri
+            self.definitionRepository = definitionRepository
             self.definitionUri = definitionUri
             self.definitionZip = definitionZip
             self.description = description
             self.engine = engine
             self.main = main
             self.parameterTemplate = parameterTemplate
+            self.parameterTemplatePath = parameterTemplatePath
+            self.readmeMarkdown = readmeMarkdown
+            self.readmePath = readmePath
+            self.readmeUri = readmeUri
             self.requestId = requestId
             self.storageCapacity = storageCapacity
             self.storageType = storageType
@@ -2030,12 +2131,19 @@ extension Omics {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.accelerators, forKey: .accelerators)
+            try container.encodeIfPresent(self.containerRegistryMap, forKey: .containerRegistryMap)
+            try container.encodeIfPresent(self.containerRegistryMapUri, forKey: .containerRegistryMapUri)
+            try container.encodeIfPresent(self.definitionRepository, forKey: .definitionRepository)
             try container.encodeIfPresent(self.definitionUri, forKey: .definitionUri)
             try container.encodeIfPresent(self.definitionZip, forKey: .definitionZip)
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.engine, forKey: .engine)
             try container.encodeIfPresent(self.main, forKey: .main)
             try container.encodeIfPresent(self.parameterTemplate, forKey: .parameterTemplate)
+            try container.encodeIfPresent(self.parameterTemplatePath, forKey: .parameterTemplatePath)
+            try container.encodeIfPresent(self.readmeMarkdown, forKey: .readmeMarkdown)
+            try container.encodeIfPresent(self.readmePath, forKey: .readmePath)
+            try container.encodeIfPresent(self.readmeUri, forKey: .readmeUri)
             try container.encode(self.requestId, forKey: .requestId)
             try container.encodeIfPresent(self.storageCapacity, forKey: .storageCapacity)
             try container.encodeIfPresent(self.storageType, forKey: .storageType)
@@ -2046,6 +2154,11 @@ extension Omics {
         }
 
         public func validate(name: String) throws {
+            try self.containerRegistryMap?.validate(name: "\(name).containerRegistryMap")
+            try self.validate(self.containerRegistryMapUri, name: "containerRegistryMapUri", parent: name, max: 750)
+            try self.validate(self.containerRegistryMapUri, name: "containerRegistryMapUri", parent: name, min: 1)
+            try self.validate(self.containerRegistryMapUri, name: "containerRegistryMapUri", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.definitionRepository?.validate(name: "\(name).definitionRepository")
             try self.validate(self.definitionUri, name: "definitionUri", parent: name, max: 256)
             try self.validate(self.definitionUri, name: "definitionUri", parent: name, min: 1)
             try self.validate(self.definitionUri, name: "definitionUri", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
@@ -2063,6 +2176,13 @@ extension Omics {
             }
             try self.validate(self.parameterTemplate, name: "parameterTemplate", parent: name, max: 1000)
             try self.validate(self.parameterTemplate, name: "parameterTemplate", parent: name, min: 1)
+            try self.validate(self.parameterTemplatePath, name: "parameterTemplatePath", parent: name, max: 128)
+            try self.validate(self.parameterTemplatePath, name: "parameterTemplatePath", parent: name, min: 1)
+            try self.validate(self.parameterTemplatePath, name: "parameterTemplatePath", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.validate(self.readmePath, name: "readmePath", parent: name, max: 128)
+            try self.validate(self.readmePath, name: "readmePath", parent: name, min: 1)
+            try self.validate(self.readmePath, name: "readmePath", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.validate(self.readmeUri, name: "readmeUri", parent: name, pattern: "^s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/((.{1,1024}))$")
             try self.validate(self.requestId, name: "requestId", parent: name, max: 128)
             try self.validate(self.requestId, name: "requestId", parent: name, min: 1)
             try self.validate(self.requestId, name: "requestId", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
@@ -2082,12 +2202,19 @@ extension Omics {
 
         private enum CodingKeys: String, CodingKey {
             case accelerators = "accelerators"
+            case containerRegistryMap = "containerRegistryMap"
+            case containerRegistryMapUri = "containerRegistryMapUri"
+            case definitionRepository = "definitionRepository"
             case definitionUri = "definitionUri"
             case definitionZip = "definitionZip"
             case description = "description"
             case engine = "engine"
             case main = "main"
             case parameterTemplate = "parameterTemplate"
+            case parameterTemplatePath = "parameterTemplatePath"
+            case readmeMarkdown = "readmeMarkdown"
+            case readmePath = "readmePath"
+            case readmeUri = "readmeUri"
             case requestId = "requestId"
             case storageCapacity = "storageCapacity"
             case storageType = "storageType"
@@ -2128,6 +2255,71 @@ extension Omics {
             case uuid = "uuid"
             case versionName = "versionName"
             case workflowId = "workflowId"
+        }
+    }
+
+    public struct DefinitionRepository: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the connection to the source code repository.
+        public let connectionArn: String
+        /// A list of file patterns to exclude when retrieving the workflow definition from the repository.
+        public let excludeFilePatterns: [String]?
+        /// The full repository identifier, including the repository owner and name. For example, 'repository-owner/repository-name'.
+        public let fullRepositoryId: String
+        /// The source reference for the repository, such as a branch name, tag, or commit ID.
+        public let sourceReference: SourceReference?
+
+        @inlinable
+        public init(connectionArn: String, excludeFilePatterns: [String]? = nil, fullRepositoryId: String, sourceReference: SourceReference? = nil) {
+            self.connectionArn = connectionArn
+            self.excludeFilePatterns = excludeFilePatterns
+            self.fullRepositoryId = fullRepositoryId
+            self.sourceReference = sourceReference
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectionArn, name: "connectionArn", parent: name, max: 256)
+            try self.validate(self.connectionArn, name: "connectionArn", parent: name, min: 1)
+            try self.validate(self.connectionArn, name: "connectionArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:.+:.+:[0-9]{12}:.+$")
+            try self.validate(self.excludeFilePatterns, name: "excludeFilePatterns", parent: name, max: 50)
+            try self.validate(self.excludeFilePatterns, name: "excludeFilePatterns", parent: name, min: 1)
+            try self.validate(self.fullRepositoryId, name: "fullRepositoryId", parent: name, pattern: "^.+/.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionArn = "connectionArn"
+            case excludeFilePatterns = "excludeFilePatterns"
+            case fullRepositoryId = "fullRepositoryId"
+            case sourceReference = "sourceReference"
+        }
+    }
+
+    public struct DefinitionRepositoryDetails: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the connection to the source code repository.
+        public let connectionArn: String?
+        /// The full repository identifier, including the repository owner and name. For example, 'repository-owner/repository-name'.
+        public let fullRepositoryId: String?
+        /// The endpoint URL of the source code repository provider.
+        public let providerEndpoint: String?
+        /// The provider type of the source code repository, such as Bitbucket, GitHub, GitHubEnterpriseServer, GitLab, and GitLabSelfManaged.
+        public let providerType: String?
+        /// The source reference for the repository, such as a branch name, tag, or commit ID.
+        public let sourceReference: SourceReference?
+
+        @inlinable
+        public init(connectionArn: String? = nil, fullRepositoryId: String? = nil, providerEndpoint: String? = nil, providerType: String? = nil, sourceReference: SourceReference? = nil) {
+            self.connectionArn = connectionArn
+            self.fullRepositoryId = fullRepositoryId
+            self.providerEndpoint = providerEndpoint
+            self.providerType = providerType
+            self.sourceReference = sourceReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionArn = "connectionArn"
+            case fullRepositoryId = "fullRepositoryId"
+            case providerEndpoint = "providerEndpoint"
+            case providerType = "providerType"
+            case sourceReference = "sourceReference"
         }
     }
 
@@ -4014,6 +4206,8 @@ extension Omics {
         public let failureReason: String?
         /// The number of Graphics Processing Units (GPU) specified in the task.
         public let gpus: Int?
+        /// Details about the container image that this task uses.
+        public let imageDetails: ImageDetails?
         /// The instance type for a task.
         public let instanceType: String?
         /// The task's log stream.
@@ -4036,13 +4230,14 @@ extension Omics {
         public let taskId: String?
 
         @inlinable
-        public init(cacheHit: Bool? = nil, cacheS3Uri: String? = nil, cpus: Int? = nil, creationTime: Date? = nil, failureReason: String? = nil, gpus: Int? = nil, instanceType: String? = nil, logStream: String? = nil, memory: Int? = nil, name: String? = nil, startTime: Date? = nil, status: TaskStatus? = nil, statusMessage: String? = nil, stopTime: Date? = nil, taskId: String? = nil) {
+        public init(cacheHit: Bool? = nil, cacheS3Uri: String? = nil, cpus: Int? = nil, creationTime: Date? = nil, failureReason: String? = nil, gpus: Int? = nil, imageDetails: ImageDetails? = nil, instanceType: String? = nil, logStream: String? = nil, memory: Int? = nil, name: String? = nil, startTime: Date? = nil, status: TaskStatus? = nil, statusMessage: String? = nil, stopTime: Date? = nil, taskId: String? = nil) {
             self.cacheHit = cacheHit
             self.cacheS3Uri = cacheS3Uri
             self.cpus = cpus
             self.creationTime = creationTime
             self.failureReason = failureReason
             self.gpus = gpus
+            self.imageDetails = imageDetails
             self.instanceType = instanceType
             self.logStream = logStream
             self.memory = memory
@@ -4061,6 +4256,7 @@ extension Omics {
             case creationTime = "creationTime"
             case failureReason = "failureReason"
             case gpus = "gpus"
+            case imageDetails = "imageDetails"
             case instanceType = "instanceType"
             case logStream = "logStream"
             case memory = "memory"
@@ -4445,11 +4641,15 @@ extension Omics {
         public let accelerators: Accelerators?
         /// The workflow's ARN.
         public let arn: String?
+        /// The registry map that this workflow is using.
+        public let containerRegistryMap: ContainerRegistryMap?
         /// When the workflow was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationTime: Date?
         /// The workflow's definition.
         public let definition: String?
+        /// Details about the source code repository that hosts the workflow definition files.
+        public let definitionRepositoryDetails: DefinitionRepositoryDetails?
         /// The workflow's description.
         public let description: String?
         /// The workflow's digest.
@@ -4466,6 +4666,10 @@ extension Omics {
         public let name: String?
         /// The workflow's parameter template.
         public let parameterTemplate: [String: WorkflowParameter]?
+        /// The README content for the workflow, providing documentation and usage information.
+        public let readme: String?
+        /// The path to the workflow README markdown file within the repository. This file provides documentation and usage information for the workflow. If not specified, the README.md file from the root directory of the repository will be used.
+        public let readmePath: String?
         /// The workflow's status.
         public let status: WorkflowStatus?
         /// The workflow's status message.
@@ -4482,11 +4686,13 @@ extension Omics {
         public let uuid: String?
 
         @inlinable
-        public init(accelerators: Accelerators? = nil, arn: String? = nil, creationTime: Date? = nil, definition: String? = nil, description: String? = nil, digest: String? = nil, engine: WorkflowEngine? = nil, id: String? = nil, main: String? = nil, metadata: [String: String]? = nil, name: String? = nil, parameterTemplate: [String: WorkflowParameter]? = nil, status: WorkflowStatus? = nil, statusMessage: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, type: WorkflowType? = nil, uuid: String? = nil) {
+        public init(accelerators: Accelerators? = nil, arn: String? = nil, containerRegistryMap: ContainerRegistryMap? = nil, creationTime: Date? = nil, definition: String? = nil, definitionRepositoryDetails: DefinitionRepositoryDetails? = nil, description: String? = nil, digest: String? = nil, engine: WorkflowEngine? = nil, id: String? = nil, main: String? = nil, metadata: [String: String]? = nil, name: String? = nil, parameterTemplate: [String: WorkflowParameter]? = nil, readme: String? = nil, readmePath: String? = nil, status: WorkflowStatus? = nil, statusMessage: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, type: WorkflowType? = nil, uuid: String? = nil) {
             self.accelerators = accelerators
             self.arn = arn
+            self.containerRegistryMap = containerRegistryMap
             self.creationTime = creationTime
             self.definition = definition
+            self.definitionRepositoryDetails = definitionRepositoryDetails
             self.description = description
             self.digest = digest
             self.engine = engine
@@ -4495,6 +4701,8 @@ extension Omics {
             self.metadata = metadata
             self.name = name
             self.parameterTemplate = parameterTemplate
+            self.readme = readme
+            self.readmePath = readmePath
             self.status = status
             self.statusMessage = statusMessage
             self.storageCapacity = storageCapacity
@@ -4507,8 +4715,10 @@ extension Omics {
         private enum CodingKeys: String, CodingKey {
             case accelerators = "accelerators"
             case arn = "arn"
+            case containerRegistryMap = "containerRegistryMap"
             case creationTime = "creationTime"
             case definition = "definition"
+            case definitionRepositoryDetails = "definitionRepositoryDetails"
             case description = "description"
             case digest = "digest"
             case engine = "engine"
@@ -4517,6 +4727,8 @@ extension Omics {
             case metadata = "metadata"
             case name = "name"
             case parameterTemplate = "parameterTemplate"
+            case readme = "readme"
+            case readmePath = "readmePath"
             case status = "status"
             case statusMessage = "statusMessage"
             case storageCapacity = "storageCapacity"
@@ -4534,9 +4746,9 @@ extension Omics {
         public let type: WorkflowType?
         /// The workflow version name.
         public let versionName: String
-        /// The workflow's ID.
+        /// The workflow's ID. The workflowId is not the UUID.
         public let workflowId: String
-        /// Amazon Web Services Id of the owner of the workflow.
+        /// The 12-digit account ID of the workflow owner. The workflow owner ID can be retrieved using the GetShare API operation. If you are the workflow owner, you do not need to include this ID.
         public let workflowOwnerId: String?
 
         @inlinable
@@ -4577,11 +4789,15 @@ extension Omics {
         public let accelerators: Accelerators?
         /// ARN of the workflow version.
         public let arn: String?
+        /// The registry map that this workflow version uses.
+        public let containerRegistryMap: ContainerRegistryMap?
         /// When the workflow version was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationTime: Date?
         /// Definition of the workflow version.
         public let definition: String?
+        /// Details about the source code repository that hosts the workflow version definition files.
+        public let definitionRepositoryDetails: DefinitionRepositoryDetails?
         /// Description of the workflow version.
         public let description: String?
         /// The workflow version's digest.
@@ -4594,6 +4810,10 @@ extension Omics {
         public let metadata: [String: String]?
         /// The parameter template for the workflow version.
         public let parameterTemplate: [String: WorkflowParameter]?
+        /// The README content for the workflow version, providing documentation and usage information specific to this version.
+        public let readme: String?
+        /// The path to the workflow version README markdown file within the repository. This file provides documentation and usage information for the workflow. If not specified, the README.md file from the root directory of the repository will be used.
+        public let readmePath: String?
         /// The workflow version status
         public let status: WorkflowStatus?
         /// The workflow version status message
@@ -4616,17 +4836,21 @@ extension Omics {
         public let workflowId: String?
 
         @inlinable
-        public init(accelerators: Accelerators? = nil, arn: String? = nil, creationTime: Date? = nil, definition: String? = nil, description: String? = nil, digest: String? = nil, engine: WorkflowEngine? = nil, main: String? = nil, metadata: [String: String]? = nil, parameterTemplate: [String: WorkflowParameter]? = nil, status: WorkflowStatus? = nil, statusMessage: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, type: WorkflowType? = nil, uuid: String? = nil, versionName: String? = nil, workflowBucketOwnerId: String? = nil, workflowId: String? = nil) {
+        public init(accelerators: Accelerators? = nil, arn: String? = nil, containerRegistryMap: ContainerRegistryMap? = nil, creationTime: Date? = nil, definition: String? = nil, definitionRepositoryDetails: DefinitionRepositoryDetails? = nil, description: String? = nil, digest: String? = nil, engine: WorkflowEngine? = nil, main: String? = nil, metadata: [String: String]? = nil, parameterTemplate: [String: WorkflowParameter]? = nil, readme: String? = nil, readmePath: String? = nil, status: WorkflowStatus? = nil, statusMessage: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, type: WorkflowType? = nil, uuid: String? = nil, versionName: String? = nil, workflowBucketOwnerId: String? = nil, workflowId: String? = nil) {
             self.accelerators = accelerators
             self.arn = arn
+            self.containerRegistryMap = containerRegistryMap
             self.creationTime = creationTime
             self.definition = definition
+            self.definitionRepositoryDetails = definitionRepositoryDetails
             self.description = description
             self.digest = digest
             self.engine = engine
             self.main = main
             self.metadata = metadata
             self.parameterTemplate = parameterTemplate
+            self.readme = readme
+            self.readmePath = readmePath
             self.status = status
             self.statusMessage = statusMessage
             self.storageCapacity = storageCapacity
@@ -4642,14 +4866,18 @@ extension Omics {
         private enum CodingKeys: String, CodingKey {
             case accelerators = "accelerators"
             case arn = "arn"
+            case containerRegistryMap = "containerRegistryMap"
             case creationTime = "creationTime"
             case definition = "definition"
+            case definitionRepositoryDetails = "definitionRepositoryDetails"
             case description = "description"
             case digest = "digest"
             case engine = "engine"
             case main = "main"
             case metadata = "metadata"
             case parameterTemplate = "parameterTemplate"
+            case readme = "readme"
+            case readmePath = "readmePath"
             case status = "status"
             case statusMessage = "statusMessage"
             case storageCapacity = "storageCapacity"
@@ -4660,6 +4888,55 @@ extension Omics {
             case versionName = "versionName"
             case workflowBucketOwnerId = "workflowBucketOwnerId"
             case workflowId = "workflowId"
+        }
+    }
+
+    public struct ImageDetails: AWSDecodableShape {
+        /// The URI of the container image.
+        public let image: String?
+        /// The container image digest. If the image URI was transformed, this will be the digest of the container image referenced by the transformed URI.
+        public let imageDigest: String?
+        /// URI of the source registry. If the URI is from a third-party registry, Amazon Web Services HealthOmics transforms the URI to the corresponding ECR path, using the pull-through cache mapping rules.
+        public let sourceImage: String?
+
+        @inlinable
+        public init(image: String? = nil, imageDigest: String? = nil, sourceImage: String? = nil) {
+            self.image = image
+            self.imageDigest = imageDigest
+            self.sourceImage = sourceImage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case image = "image"
+            case imageDigest = "imageDigest"
+            case sourceImage = "sourceImage"
+        }
+    }
+
+    public struct ImageMapping: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the URI of the corresponding image in the private ECR registry.
+        public let destinationImage: String?
+        /// Specifies the URI of the source image in the upstream registry.
+        public let sourceImage: String?
+
+        @inlinable
+        public init(destinationImage: String? = nil, sourceImage: String? = nil) {
+            self.destinationImage = destinationImage
+            self.sourceImage = sourceImage
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destinationImage, name: "destinationImage", parent: name, max: 750)
+            try self.validate(self.destinationImage, name: "destinationImage", parent: name, min: 1)
+            try self.validate(self.destinationImage, name: "destinationImage", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.validate(self.sourceImage, name: "sourceImage", parent: name, max: 750)
+            try self.validate(self.sourceImage, name: "sourceImage", parent: name, min: 1)
+            try self.validate(self.sourceImage, name: "sourceImage", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationImage = "destinationImage"
+            case sourceImage = "sourceImage"
         }
     }
 
@@ -5960,7 +6237,7 @@ extension Omics {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 128)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 150)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:.+$")
         }
@@ -6137,9 +6414,9 @@ extension Omics {
         public let startingToken: String?
         /// The workflow type.
         public let type: WorkflowType?
-        /// The workflow's ID.
+        /// The workflow's ID. The workflowId is not the UUID.
         public let workflowId: String
-        /// Amazon Web Services Id of the owner of the workflow.
+        /// The 12-digit account ID of the workflow owner. The workflow owner ID can be retrieved using the GetShare API operation. If you are the workflow owner, you do not need to include this ID.
         public let workflowOwnerId: String?
 
         @inlinable
@@ -6821,6 +7098,47 @@ extension Omics {
         }
     }
 
+    public struct RegistryMapping: AWSEncodableShape & AWSDecodableShape {
+        /// Account ID of the account that owns the upstream container image.
+        public let ecrAccountId: String?
+        /// The repository prefix to use in the ECR private repository.
+        public let ecrRepositoryPrefix: String?
+        /// The URI of the upstream registry.
+        public let upstreamRegistryUrl: String?
+        /// The repository prefix of the corresponding repository in the upstream registry.
+        public let upstreamRepositoryPrefix: String?
+
+        @inlinable
+        public init(ecrAccountId: String? = nil, ecrRepositoryPrefix: String? = nil, upstreamRegistryUrl: String? = nil, upstreamRepositoryPrefix: String? = nil) {
+            self.ecrAccountId = ecrAccountId
+            self.ecrRepositoryPrefix = ecrRepositoryPrefix
+            self.upstreamRegistryUrl = upstreamRegistryUrl
+            self.upstreamRepositoryPrefix = upstreamRepositoryPrefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ecrAccountId, name: "ecrAccountId", parent: name, max: 12)
+            try self.validate(self.ecrAccountId, name: "ecrAccountId", parent: name, min: 12)
+            try self.validate(self.ecrAccountId, name: "ecrAccountId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, max: 256)
+            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, min: 1)
+            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.validate(self.upstreamRegistryUrl, name: "upstreamRegistryUrl", parent: name, max: 750)
+            try self.validate(self.upstreamRegistryUrl, name: "upstreamRegistryUrl", parent: name, min: 1)
+            try self.validate(self.upstreamRegistryUrl, name: "upstreamRegistryUrl", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.validate(self.upstreamRepositoryPrefix, name: "upstreamRepositoryPrefix", parent: name, max: 30)
+            try self.validate(self.upstreamRepositoryPrefix, name: "upstreamRepositoryPrefix", parent: name, min: 2)
+            try self.validate(self.upstreamRepositoryPrefix, name: "upstreamRepositoryPrefix", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ecrAccountId = "ecrAccountId"
+            case ecrRepositoryPrefix = "ecrRepositoryPrefix"
+            case upstreamRegistryUrl = "upstreamRegistryUrl"
+            case upstreamRepositoryPrefix = "upstreamRepositoryPrefix"
+        }
+    }
+
     public struct RunCacheListItem: AWSDecodableShape {
         /// Unique resource identifier for the run cache.
         public let arn: String?
@@ -7214,6 +7532,24 @@ extension Omics {
         private enum CodingKeys: String, CodingKey {
             case source1 = "source1"
             case source2 = "source2"
+        }
+    }
+
+    public struct SourceReference: AWSEncodableShape & AWSDecodableShape {
+        /// The type of source reference, such as branch, tag, or commit.
+        public let type: SourceReferenceType
+        /// The value of the source reference, such as the branch name, tag name, or commit ID.
+        public let value: String
+
+        @inlinable
+        public init(type: SourceReferenceType, value: String) {
+            self.type = type
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "type"
+            case value = "value"
         }
     }
 
@@ -7755,41 +8091,41 @@ extension Omics {
         public let cacheId: String?
         /// A log level for the run.
         public let logLevel: RunLogLevel?
-        /// A name for the run.
+        /// A name for the run. This is recommended to view and organize runs in the Amazon Web Services HealthOmics console and CloudWatch logs.
         public let name: String?
-        /// An output URI for the run.
-        public let outputUri: String?
-        /// Parameters for the run.
+        /// An output S3 URI for the run. The S3 bucket must be in the same region as the workflow. The role ARN must have permission to write to this S3 bucket.
+        public let outputUri: String
+        /// Parameters for the run. The run needs all required parameters and can include optional parameters. The run cannot include any parameters that are not defined in the parameter template. To retrieve parameters from the run, use the GetRun API operation.
         public let parameters: AWSDocument?
-        /// A priority for the run.
+        /// Use the run priority (highest: 1) to establish the order of runs in a run group when you start a run. If multiple runs share the same priority, the run that was initiated first will have the higher priority. Runs that do not belong to a run group can be assigned a priority. The priorities of these runs are ranked among other runs that are not in a run group. For more information, see Run priority in the Amazon Web Services HealthOmics User Guide.
         public let priority: Int?
-        /// To ensure that requests don't run multiple times, specify a unique ID for each request.
+        /// An idempotency token used to dedupe retry requests so that duplicate runs are not created.
         public let requestId: String
         /// The retention mode for the run. The default value is RETAIN.  Amazon Web Services HealthOmics stores a fixed number of runs that are available to the console and API. In the default mode (RETAIN), you need to remove runs manually when the number of run exceeds the maximum. If you set the retention mode to REMOVE, Amazon Web Services HealthOmics automatically removes runs (that have mode set to REMOVE) when the number of run exceeds the maximum. All run logs are available in CloudWatch logs, if you need information about a run that is no longer available to the API. For more information about retention mode, see Specifying run retention mode in the Amazon Web Services HealthOmics User Guide.
         public let retentionMode: RunRetentionMode?
-        /// A service role for the run.
+        /// A service role for the run. The roleArn requires access to Amazon Web Services HealthOmics, S3, Cloudwatch logs, and EC2. An example roleArn is arn:aws:iam::123456789012:role/omics-service-role-serviceRole-W8O1XMPL7QZ. In this example, the AWS account ID is 123456789012 and the role name is omics-service-role-serviceRole-W8O1XMPL7QZ.
         public let roleArn: String
-        /// The run's group ID.
+        /// The run's group ID. Use a run group to cap the compute resources (and number of concurrent runs) for the runs that you add to the run group.
         public let runGroupId: String?
         /// The ID of a run to duplicate.
         public let runId: String?
-        /// The static storage capacity (in gibibytes) for this run. This field is not required if the storage type is dynamic (the system ignores any value that you enter).
+        /// The STATIC storage capacity (in gibibytes, GiB) for this run. The default run storage capacity is 1200 GiB. If your requested storage capacity is unavailable, the system rounds up the value to the nearest 1200 GiB multiple. If the requested storage capacity is still unavailable, the system rounds up the value to the nearest 2400 GiB multiple. This field is not required if the storage type is DYNAMIC (the system ignores any value that you enter).
         public let storageCapacity: Int?
-        /// The storage type for the run. By default, the run uses STATIC storage type, which allocates a fixed amount of storage. If you set the storage type to DYNAMIC, Amazon Web Services HealthOmics dynamically scales the storage up or down, based on file system utilization. For more information about static and dynamic storage, see Running workflows in the Amazon Web Services HealthOmics User Guide.
+        /// The storage type for the run. If you set the storage type to DYNAMIC, Amazon Web Services HealthOmics dynamically scales the storage up or down, based on file system utilization. By default, the run uses STATIC storage type, which allocates a fixed amount of storage. For more information about DYNAMIC and STATIC storage, see Run storage types in the Amazon Web Services HealthOmics User Guide.
         public let storageType: StorageType?
-        /// Tags for the run.
+        /// Tags for the run. You can add up to 50 tags per run. For more information, see Adding a tag in the Amazon Web Services HealthOmics User Guide.
         public let tags: [String: String]?
-        /// The run's workflow ID.
+        /// The run's workflow ID. The workflowId is not the UUID.
         public let workflowId: String?
-        /// The ID of the workflow owner.
+        /// The 12-digit account ID of the workflow owner that is used for running a shared workflow. The workflow owner ID can be retrieved using the GetShare API operation. If you are the workflow owner, you do not need to include this ID.
         public let workflowOwnerId: String?
-        /// The run's workflow type.
+        /// The run's workflow type. The workflowType must be specified if you are running a READY2RUN workflow. If you are running a PRIVATE workflow (default), you do not need to include the workflow type.
         public let workflowType: WorkflowType?
-        /// The name of the workflow version.
+        /// The name of the workflow version. Use workflow versions to track and organize changes to the workflow. If your workflow has multiple versions, the run uses the default version unless you specify a version name. To learn more, see Workflow versioning in the Amazon Web Services HealthOmics User Guide.
         public let workflowVersionName: String?
 
         @inlinable
-        public init(cacheBehavior: CacheBehavior? = nil, cacheId: String? = nil, logLevel: RunLogLevel? = nil, name: String? = nil, outputUri: String? = nil, parameters: AWSDocument? = nil, priority: Int? = nil, requestId: String = StartRunRequest.idempotencyToken(), retentionMode: RunRetentionMode? = nil, roleArn: String, runGroupId: String? = nil, runId: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil, workflowVersionName: String? = nil) {
+        public init(cacheBehavior: CacheBehavior? = nil, cacheId: String? = nil, logLevel: RunLogLevel? = nil, name: String? = nil, outputUri: String, parameters: AWSDocument? = nil, priority: Int? = nil, requestId: String = StartRunRequest.idempotencyToken(), retentionMode: RunRetentionMode? = nil, roleArn: String, runGroupId: String? = nil, runId: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil, workflowVersionName: String? = nil) {
             self.cacheBehavior = cacheBehavior
             self.cacheId = cacheId
             self.logLevel = logLevel
@@ -7981,7 +8317,7 @@ extension Omics {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 128)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 150)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:.+$")
             try self.tags.forEach {
@@ -8157,7 +8493,7 @@ extension Omics {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 128)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 150)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:.+$")
             try self.tagKeys.forEach {
@@ -8631,16 +8967,19 @@ extension Omics {
         public let id: String
         /// A name for the workflow.
         public let name: String?
+        /// The markdown content for the workflow's README file. This provides documentation and usage information for users of the workflow.
+        public let readmeMarkdown: String?
         /// The default static storage capacity (in gibibytes) for runs that use this workflow or workflow version.
         public let storageCapacity: Int?
         /// The default storage type for runs that use this workflow. STATIC storage allocates a fixed amount of storage. DYNAMIC storage dynamically scales the storage up or down, based on file system utilization. For more information about static and dynamic storage, see Running workflows in the Amazon Web Services HealthOmics User Guide.
         public let storageType: StorageType?
 
         @inlinable
-        public init(description: String? = nil, id: String, name: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil) {
+        public init(description: String? = nil, id: String, name: String? = nil, readmeMarkdown: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil) {
             self.description = description
             self.id = id
             self.name = name
+            self.readmeMarkdown = readmeMarkdown
             self.storageCapacity = storageCapacity
             self.storageType = storageType
         }
@@ -8651,6 +8990,7 @@ extension Omics {
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.id, key: "id")
             try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.readmeMarkdown, forKey: .readmeMarkdown)
             try container.encodeIfPresent(self.storageCapacity, forKey: .storageCapacity)
             try container.encodeIfPresent(self.storageType, forKey: .storageType)
         }
@@ -8670,6 +9010,7 @@ extension Omics {
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case name = "name"
+            case readmeMarkdown = "readmeMarkdown"
             case storageCapacity = "storageCapacity"
             case storageType = "storageType"
         }
@@ -8678,18 +9019,21 @@ extension Omics {
     public struct UpdateWorkflowVersionRequest: AWSEncodableShape {
         /// Description of the workflow version.
         public let description: String?
-        /// The default static storage capacity (in gibibytes) for runs that use this workflow or workflow version.
+        /// The markdown content for the workflow version's README file. This provides documentation and usage information for users of this specific workflow version.
+        public let readmeMarkdown: String?
+        /// The default static storage capacity (in gibibytes) for runs that use this workflow version. The storageCapacity can be overwritten at run time. The storage capacity is not required for runs with a DYNAMIC storage type.
         public let storageCapacity: Int?
-        /// The default storage type for runs that use this workflow. STATIC storage allocates a fixed amount of storage. DYNAMIC storage dynamically scales the storage up or down, based on file system utilization. For more information about static and dynamic storage, see Running workflows in the Amazon Web Services HealthOmics User Guide.
+        /// The default storage type for runs that use this workflow version. The storageType can be overridden at run time. DYNAMIC storage dynamically scales the storage up or down, based on file system utilization. STATIC storage allocates a fixed amount of storage. For more information about dynamic and static storage types, see Run storage types in the in the Amazon Web Services HealthOmics User Guide .
         public let storageType: StorageType?
         /// The name of the workflow version.
         public let versionName: String
-        /// The workflow's ID.
+        /// The workflow's ID. The workflowId is not the UUID.
         public let workflowId: String
 
         @inlinable
-        public init(description: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, versionName: String, workflowId: String) {
+        public init(description: String? = nil, readmeMarkdown: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, versionName: String, workflowId: String) {
             self.description = description
+            self.readmeMarkdown = readmeMarkdown
             self.storageCapacity = storageCapacity
             self.storageType = storageType
             self.versionName = versionName
@@ -8700,6 +9044,7 @@ extension Omics {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.readmeMarkdown, forKey: .readmeMarkdown)
             try container.encodeIfPresent(self.storageCapacity, forKey: .storageCapacity)
             try container.encodeIfPresent(self.storageType, forKey: .storageType)
             request.encodePath(self.versionName, key: "versionName")
@@ -8720,6 +9065,7 @@ extension Omics {
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
+            case readmeMarkdown = "readmeMarkdown"
             case storageCapacity = "storageCapacity"
             case storageType = "storageType"
         }

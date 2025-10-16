@@ -435,6 +435,41 @@ public struct Amp: AWSService {
         return try await self.deleteQueryLoggingConfiguration(input, logger: logger)
     }
 
+    /// Deletes the resource-based policy attached to an Amazon Managed Service for Prometheus workspace.
+    @Sendable
+    @inlinable
+    public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteResourcePolicy", 
+            path: "/workspaces/{workspaceId}/policy", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the resource-based policy attached to an Amazon Managed Service for Prometheus workspace.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the request is safe to retry (idempotent).
+    ///   - revisionId: The revision ID of the policy to delete. Use this parameter to ensure that you are deleting the correct version of the policy.
+    ///   - workspaceId: The ID of the workspace from which to delete the resource-based policy.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteResourcePolicy(
+        clientToken: String? = DeleteResourcePolicyRequest.idempotencyToken(),
+        revisionId: String? = nil,
+        workspaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteResourcePolicyRequest(
+            clientToken: clientToken, 
+            revisionId: revisionId, 
+            workspaceId: workspaceId
+        )
+        return try await self.deleteResourcePolicy(input, logger: logger)
+    }
+
     /// Deletes one rule groups namespace and its associated rule groups definition.
     @Sendable
     @inlinable
@@ -500,6 +535,38 @@ public struct Amp: AWSService {
             scraperId: scraperId
         )
         return try await self.deleteScraper(input, logger: logger)
+    }
+
+    /// Deletes the logging configuration for a Amazon Managed Service for Prometheus scraper.
+    @Sendable
+    @inlinable
+    public func deleteScraperLoggingConfiguration(_ input: DeleteScraperLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteScraperLoggingConfiguration", 
+            path: "/scrapers/{scraperId}/logging-configuration", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the logging configuration for a Amazon Managed Service for Prometheus scraper.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the request is processed exactly once.
+    ///   - scraperId: The ID of the scraper whose logging configuration will be deleted.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteScraperLoggingConfiguration(
+        clientToken: String? = DeleteScraperLoggingConfigurationRequest.idempotencyToken(),
+        scraperId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteScraperLoggingConfigurationRequest(
+            clientToken: clientToken, 
+            scraperId: scraperId
+        )
+        return try await self.deleteScraperLoggingConfiguration(input, logger: logger)
     }
 
     /// Deletes an existing workspace.   When you delete a workspace, the data that has been ingested into it is not immediately deleted. It will be permanently deleted within one month.
@@ -621,6 +688,35 @@ public struct Amp: AWSService {
         return try await self.describeQueryLoggingConfiguration(input, logger: logger)
     }
 
+    /// Returns information about the resource-based policy attached to an Amazon Managed Service for Prometheus workspace.
+    @Sendable
+    @inlinable
+    public func describeResourcePolicy(_ input: DescribeResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeResourcePolicyResponse {
+        try await self.client.execute(
+            operation: "DescribeResourcePolicy", 
+            path: "/workspaces/{workspaceId}/policy", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about the resource-based policy attached to an Amazon Managed Service for Prometheus workspace.
+    ///
+    /// Parameters:
+    ///   - workspaceId: The ID of the workspace to describe the resource-based policy for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeResourcePolicy(
+        workspaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeResourcePolicyResponse {
+        let input = DescribeResourcePolicyRequest(
+            workspaceId: workspaceId
+        )
+        return try await self.describeResourcePolicy(input, logger: logger)
+    }
+
     /// Returns complete information about one rule groups namespace. To retrieve a list of rule groups namespaces, use ListRuleGroupsNamespaces.
     @Sendable
     @inlinable
@@ -680,6 +776,35 @@ public struct Amp: AWSService {
             scraperId: scraperId
         )
         return try await self.describeScraper(input, logger: logger)
+    }
+
+    /// Describes the logging configuration for a Amazon Managed Service for Prometheus scraper.
+    @Sendable
+    @inlinable
+    public func describeScraperLoggingConfiguration(_ input: DescribeScraperLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeScraperLoggingConfigurationResponse {
+        try await self.client.execute(
+            operation: "DescribeScraperLoggingConfiguration", 
+            path: "/scrapers/{scraperId}/logging-configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the logging configuration for a Amazon Managed Service for Prometheus scraper.
+    ///
+    /// Parameters:
+    ///   - scraperId: The ID of the scraper whose logging configuration will be described.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeScraperLoggingConfiguration(
+        scraperId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeScraperLoggingConfigurationResponse {
+        let input = DescribeScraperLoggingConfigurationRequest(
+            scraperId: scraperId
+        )
+        return try await self.describeScraperLoggingConfiguration(input, logger: logger)
     }
 
     /// Returns information about an existing workspace.
@@ -938,6 +1063,44 @@ public struct Amp: AWSService {
         return try await self.putAlertManagerDefinition(input, logger: logger)
     }
 
+    /// Creates or updates a resource-based policy for an Amazon Managed Service for Prometheus workspace. Use resource-based policies to grant permissions to other AWS accounts or services to access your workspace. Only Prometheus-compatible APIs can be used for workspace sharing. You can add non-Prometheus-compatible APIs to the policy, but they will be ignored. For more information, see Prometheus-compatible APIs in the Amazon Managed Service for Prometheus User Guide. If your workspace uses customer-managed KMS keys for encryption, you must grant the principals in your resource-based policy access to those KMS keys. You can do this by creating KMS grants. For more information, see CreateGrant in the AWS Key Management Service API Reference and Encryption at rest in the Amazon Managed Service for Prometheus User Guide. For more information about working with IAM, see Using Amazon Managed Service for Prometheus with IAM in the Amazon Managed Service for Prometheus User Guide.
+    @Sendable
+    @inlinable
+    public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePolicyResponse {
+        try await self.client.execute(
+            operation: "PutResourcePolicy", 
+            path: "/workspaces/{workspaceId}/policy", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates or updates a resource-based policy for an Amazon Managed Service for Prometheus workspace. Use resource-based policies to grant permissions to other AWS accounts or services to access your workspace. Only Prometheus-compatible APIs can be used for workspace sharing. You can add non-Prometheus-compatible APIs to the policy, but they will be ignored. For more information, see Prometheus-compatible APIs in the Amazon Managed Service for Prometheus User Guide. If your workspace uses customer-managed KMS keys for encryption, you must grant the principals in your resource-based policy access to those KMS keys. You can do this by creating KMS grants. For more information, see CreateGrant in the AWS Key Management Service API Reference and Encryption at rest in the Amazon Managed Service for Prometheus User Guide. For more information about working with IAM, see Using Amazon Managed Service for Prometheus with IAM in the Amazon Managed Service for Prometheus User Guide.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the request is safe to retry (idempotent).
+    ///   - policyDocument: The JSON policy document to use as the resource-based policy. This policy defines the permissions that other AWS accounts or services have to access your workspace.
+    ///   - revisionId: The revision ID of the policy to update. Use this parameter to ensure that you are updating the correct version of the policy. If you don't specify a revision ID, the policy is updated regardless of its current revision. For the first PUT request on a workspace that doesn't have an existing resource policy, you can specify NO_POLICY as the revision ID.
+    ///   - workspaceId: The ID of the workspace to attach the resource-based policy to.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putResourcePolicy(
+        clientToken: String? = PutResourcePolicyRequest.idempotencyToken(),
+        policyDocument: String,
+        revisionId: String? = nil,
+        workspaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutResourcePolicyResponse {
+        let input = PutResourcePolicyRequest(
+            clientToken: clientToken, 
+            policyDocument: policyDocument, 
+            revisionId: revisionId, 
+            workspaceId: workspaceId
+        )
+        return try await self.putResourcePolicy(input, logger: logger)
+    }
+
     /// Updates an existing rule groups namespace within a workspace. A rule groups namespace is associated with exactly one rules file. A workspace can have multiple rule groups namespaces. Use this operation only to update existing rule groups namespaces. To create a new rule groups namespace, use CreateRuleGroupsNamespace. You can't use this operation to add tags to an existing rule groups namespace. Instead, use TagResource.
     @Sendable
     @inlinable
@@ -1152,6 +1315,41 @@ public struct Amp: AWSService {
             scraperId: scraperId
         )
         return try await self.updateScraper(input, logger: logger)
+    }
+
+    /// Updates the logging configuration for a Amazon Managed Service for Prometheus scraper.
+    @Sendable
+    @inlinable
+    public func updateScraperLoggingConfiguration(_ input: UpdateScraperLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateScraperLoggingConfigurationResponse {
+        try await self.client.execute(
+            operation: "UpdateScraperLoggingConfiguration", 
+            path: "/scrapers/{scraperId}/logging-configuration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the logging configuration for a Amazon Managed Service for Prometheus scraper.
+    ///
+    /// Parameters:
+    ///   - loggingDestination: The destination where scraper logs will be sent.
+    ///   - scraperComponents: The list of scraper components to configure for logging.
+    ///   - scraperId: The ID of the scraper whose logging configuration will be updated.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateScraperLoggingConfiguration(
+        loggingDestination: ScraperLoggingDestination,
+        scraperComponents: [ScraperComponent]? = nil,
+        scraperId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateScraperLoggingConfigurationResponse {
+        let input = UpdateScraperLoggingConfigurationRequest(
+            loggingDestination: loggingDestination, 
+            scraperComponents: scraperComponents, 
+            scraperId: scraperId
+        )
+        return try await self.updateScraperLoggingConfiguration(input, logger: logger)
     }
 
     /// Updates the alias of an existing workspace.

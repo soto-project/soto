@@ -392,6 +392,38 @@ public struct MediaConvert: AWSService {
         return try await self.createQueue(input, logger: logger)
     }
 
+    /// Create a new resource share request for MediaConvert resources with AWS Support.
+    @Sendable
+    @inlinable
+    public func createResourceShare(_ input: CreateResourceShareRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateResourceShareResponse {
+        try await self.client.execute(
+            operation: "CreateResourceShare", 
+            path: "/2017-08-29/resourceShares", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Create a new resource share request for MediaConvert resources with AWS Support.
+    ///
+    /// Parameters:
+    ///   - jobId: Specify MediaConvert Job ID or ARN to share
+    ///   - supportCaseId: AWS Support case identifier
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createResourceShare(
+        jobId: String? = nil,
+        supportCaseId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateResourceShareResponse {
+        let input = CreateResourceShareRequest(
+            jobId: jobId, 
+            supportCaseId: supportCaseId
+        )
+        return try await self.createResourceShare(input, logger: logger)
+    }
+
     /// Permanently delete a job template you have created.
     @Sendable
     @inlinable

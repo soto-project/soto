@@ -62,6 +62,19 @@ extension Transfer {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConnectorEgressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case serviceManaged = "SERVICE_MANAGED"
+        case vpcLattice = "VPC_LATTICE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectorStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case errored = "ERRORED"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CustomStepStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failure = "FAILURE"
         case success = "SUCCESS"
@@ -367,6 +380,32 @@ extension Transfer {
         }
     }
 
+    public struct ConnectorVpcLatticeEgressConfig: AWSEncodableShape {
+        /// Port number for connecting to the SFTP server through VPC_LATTICE. Defaults to 22 if not specified. Must match the port on which the target SFTP server is listening.
+        public let portNumber: Int?
+        /// ARN of the VPC_LATTICE Resource Configuration that defines the target SFTP server location. Must point to a valid Resource Configuration in the customer's VPC with appropriate network connectivity to the SFTP server.
+        public let resourceConfigurationArn: String
+
+        @inlinable
+        public init(portNumber: Int? = nil, resourceConfigurationArn: String) {
+            self.portNumber = portNumber
+            self.resourceConfigurationArn = resourceConfigurationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.portNumber, name: "portNumber", parent: name, max: 65535)
+            try self.validate(self.portNumber, name: "portNumber", parent: name, min: 1)
+            try self.validate(self.resourceConfigurationArn, name: "resourceConfigurationArn", parent: name, max: 2048)
+            try self.validate(self.resourceConfigurationArn, name: "resourceConfigurationArn", parent: name, min: 1)
+            try self.validate(self.resourceConfigurationArn, name: "resourceConfigurationArn", parent: name, pattern: "^arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:resourceconfiguration/rcfg-[0-9a-z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case portNumber = "PortNumber"
+            case resourceConfigurationArn = "ResourceConfigurationArn"
+        }
+    }
+
     public struct CopyStepDetails: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the location for the file being copied. Use ${Transfer:UserName} or ${Transfer:UploadDate} in this field to parametrize the destination prefix by username or uploaded date.   Set the value of DestinationFileLocation to ${Transfer:UserName} to copy uploaded files to an Amazon S3 bucket that is prefixed with the name of the Transfer Family user that uploaded the file.   Set the value of DestinationFileLocation to ${Transfer:UploadDate} to copy uploaded files to an Amazon S3 bucket that is prefixed with the date of the upload.  The system resolves UploadDate to a date format of YYYY-MM-DD, based on the date the file is uploaded in UTC.
         public let destinationFileLocation: InputFileLocation?
@@ -580,6 +619,8 @@ extension Transfer {
         public let accessRole: String
         /// A structure that contains the parameters for an AS2 connector object.
         public let as2Config: As2ConnectorConfig?
+        /// Specifies the egress configuration for the connector, which determines how traffic is routed from the connector to the SFTP server. When set to VPC, enables routing through customer VPCs using VPC_LATTICE for private connectivity.
+        public let egressConfig: ConnectorEgressConfig?
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When set, you can view connector activity in your CloudWatch logs.
         public let loggingRole: String?
         /// Specifies the name of the security policy for the connector.
@@ -588,13 +629,14 @@ extension Transfer {
         public let sftpConfig: SftpConnectorConfig?
         /// Key-value pairs that can be used to group and search for connectors. Tags are metadata attached to connectors for any purpose.
         public let tags: [Tag]?
-        /// The URL of the partner's AS2 or SFTP endpoint.
-        public let url: String
+        /// The URL of the partner's AS2 or SFTP endpoint. When creating AS2 connectors or service-managed SFTP connectors (connectors without egress configuration), you must provide a URL to specify the remote server endpoint. For VPC Lattice type connectors, the URL must be null.
+        public let url: String?
 
         @inlinable
-        public init(accessRole: String, as2Config: As2ConnectorConfig? = nil, loggingRole: String? = nil, securityPolicyName: String? = nil, sftpConfig: SftpConnectorConfig? = nil, tags: [Tag]? = nil, url: String) {
+        public init(accessRole: String, as2Config: As2ConnectorConfig? = nil, egressConfig: ConnectorEgressConfig? = nil, loggingRole: String? = nil, securityPolicyName: String? = nil, sftpConfig: SftpConnectorConfig? = nil, tags: [Tag]? = nil, url: String? = nil) {
             self.accessRole = accessRole
             self.as2Config = as2Config
+            self.egressConfig = egressConfig
             self.loggingRole = loggingRole
             self.securityPolicyName = securityPolicyName
             self.sftpConfig = sftpConfig
@@ -607,6 +649,7 @@ extension Transfer {
             try self.validate(self.accessRole, name: "accessRole", parent: name, min: 20)
             try self.validate(self.accessRole, name: "accessRole", parent: name, pattern: "^arn:.*role/\\S+$")
             try self.as2Config?.validate(name: "\(name).as2Config")
+            try self.egressConfig?.validate(name: "\(name).egressConfig")
             try self.validate(self.loggingRole, name: "loggingRole", parent: name, max: 2048)
             try self.validate(self.loggingRole, name: "loggingRole", parent: name, min: 20)
             try self.validate(self.loggingRole, name: "loggingRole", parent: name, pattern: "^arn:.*role/\\S+$")
@@ -624,6 +667,7 @@ extension Transfer {
         private enum CodingKeys: String, CodingKey {
             case accessRole = "AccessRole"
             case as2Config = "As2Config"
+            case egressConfig = "EgressConfig"
             case loggingRole = "LoggingRole"
             case securityPolicyName = "SecurityPolicyName"
             case sftpConfig = "SftpConfig"
@@ -725,11 +769,11 @@ extension Transfer {
         public let postAuthenticationLoginBanner: String?
         /// Specifies a string to display when users connect to a server. This string is displayed before the user authenticates. For example, the following banner displays details about using the system:  This system is for the use of authorized users only. Individuals using this computer system without authority, or in excess of their authority, are subject to having all of their activities on this system monitored and recorded by system personnel.
         public let preAuthenticationLoginBanner: String?
-        /// The protocol settings that are configured for your server.    To indicate passive mode (for FTP and FTPS protocols), use the PassiveIp parameter. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.    To ignore the error that is generated when the client attempts to use the SETSTAT command on a file that you are uploading to an Amazon S3 bucket, use the SetStatOption parameter. To have the Transfer Family server ignore the SETSTAT command and upload files without needing to make any changes to your SFTP client, set the value to ENABLE_NO_OP. If you set the SetStatOption parameter to ENABLE_NO_OP, Transfer Family generates a log entry to Amazon CloudWatch Logs, so that you can determine when the client is making a SETSTAT call.   To determine whether your Transfer Family server resumes recent, negotiated sessions through a unique session ID, use the TlsSessionResumptionMode parameter.    As2Transports indicates the transport method for the AS2 messages. Currently, only HTTP is supported.
+        /// The protocol settings that are configured for your server.  Avoid placing Network Load Balancers (NLBs) or NAT gateways in front of Transfer Family servers, as this increases costs and can cause performance issues, including reduced connection limits for FTPS. For more details, see  Avoid placing NLBs and NATs in front of Transfer Family.     To indicate passive mode (for FTP and FTPS protocols), use the PassiveIp parameter. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.    To ignore the error that is generated when the client attempts to use the SETSTAT command on a file that you are uploading to an Amazon S3 bucket, use the SetStatOption parameter. To have the Transfer Family server ignore the SETSTAT command and upload files without needing to make any changes to your SFTP client, set the value to ENABLE_NO_OP. If you set the SetStatOption parameter to ENABLE_NO_OP, Transfer Family generates a log entry to Amazon CloudWatch Logs, so that you can determine when the client is making a SETSTAT call.   To determine whether your Transfer Family server resumes recent, negotiated sessions through a unique session ID, use the TlsSessionResumptionMode parameter.    As2Transports indicates the transport method for the AS2 messages. Currently, only HTTP is supported.
         public let protocolDetails: ProtocolDetails?
         /// Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:    SFTP (Secure Shell (SSH) File Transfer Protocol): File transfer over SSH    FTPS (File Transfer Protocol Secure): File transfer with TLS encryption    FTP (File Transfer Protocol): Unencrypted file transfer    AS2 (Applicability Statement 2): used for transporting structured business-to-business data      If you select FTPS, you must choose a certificate stored in Certificate Manager (ACM) which is used to identify your server when clients connect to it over FTPS.   If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be either AWS_DIRECTORY_SERVICE, AWS_LAMBDA, or API_GATEWAY.   If Protocol includes FTP, then AddressAllocationIds cannot be associated.   If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set any of the supported identity types: SERVICE_MANAGED, AWS_DIRECTORY_SERVICE, AWS_LAMBDA, or API_GATEWAY.   If Protocol includes AS2, then the EndpointType must be VPC, and domain must be Amazon S3.
         public let protocols: [`Protocol`]?
-        /// Specifies whether or not performance for your Amazon S3 directories is optimized. This is disabled by default. By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntry Type to FILE if you want a mapping to have a file target.
+        /// Specifies whether or not performance for your Amazon S3 directories is optimized.   If using the console, this is enabled by default.   If using the API or CLI, this is disabled by default.   By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntry Type to FILE if you want a mapping to have a file target.
         public let s3StorageOptions: S3StorageOptions?
         /// Specifies the name of the security policy for the server.
         public let securityPolicyName: String?
@@ -2125,6 +2169,12 @@ extension Transfer {
         public let as2Config: As2ConnectorConfig?
         /// The unique identifier for the connector.
         public let connectorId: String?
+        /// Current egress configuration of the connector, showing how traffic is routed to the SFTP server. Contains VPC Lattice settings when using VPC_LATTICE egress type. When using the VPC_LATTICE egress type, Transfer Family uses a managed Service Network to simplify the resource sharing process.
+        public let egressConfig: DescribedConnectorEgressConfig?
+        /// Type of egress configuration for the connector. SERVICE_MANAGED uses Transfer Family managed NAT gateways, while VPC_LATTICE routes traffic through customer VPCs using VPC Lattice.
+        public let egressType: ConnectorEgressType
+        /// Error message providing details when the connector is in ERRORED status. Contains information to help troubleshoot connector creation or operation failures.
+        public let errorMessage: String?
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When set, you can view connector activity in your CloudWatch logs.
         public let loggingRole: String?
         /// The text name of the security policy for the specified connector.
@@ -2133,21 +2183,27 @@ extension Transfer {
         public let serviceManagedEgressIpAddresses: [String]?
         /// A structure that contains the parameters for an SFTP connector object.
         public let sftpConfig: SftpConnectorConfig?
+        /// Current status of the connector. PENDING indicates creation/update in progress, ACTIVE means ready for operations, and ERRORED indicates a failure requiring attention.
+        public let status: ConnectorStatus
         /// Key-value pairs that can be used to group and search for connectors.
         public let tags: [Tag]?
-        /// The URL of the partner's AS2 or SFTP endpoint.
+        /// The URL of the partner's AS2 or SFTP endpoint. When creating AS2 connectors or service-managed SFTP connectors (connectors without egress configuration), you must provide a URL to specify the remote server endpoint. For VPC Lattice type connectors, the URL must be null.
         public let url: String?
 
         @inlinable
-        public init(accessRole: String? = nil, arn: String, as2Config: As2ConnectorConfig? = nil, connectorId: String? = nil, loggingRole: String? = nil, securityPolicyName: String? = nil, serviceManagedEgressIpAddresses: [String]? = nil, sftpConfig: SftpConnectorConfig? = nil, tags: [Tag]? = nil, url: String? = nil) {
+        public init(accessRole: String? = nil, arn: String, as2Config: As2ConnectorConfig? = nil, connectorId: String? = nil, egressConfig: DescribedConnectorEgressConfig? = nil, egressType: ConnectorEgressType, errorMessage: String? = nil, loggingRole: String? = nil, securityPolicyName: String? = nil, serviceManagedEgressIpAddresses: [String]? = nil, sftpConfig: SftpConnectorConfig? = nil, status: ConnectorStatus, tags: [Tag]? = nil, url: String? = nil) {
             self.accessRole = accessRole
             self.arn = arn
             self.as2Config = as2Config
             self.connectorId = connectorId
+            self.egressConfig = egressConfig
+            self.egressType = egressType
+            self.errorMessage = errorMessage
             self.loggingRole = loggingRole
             self.securityPolicyName = securityPolicyName
             self.serviceManagedEgressIpAddresses = serviceManagedEgressIpAddresses
             self.sftpConfig = sftpConfig
+            self.status = status
             self.tags = tags
             self.url = url
         }
@@ -2157,12 +2213,34 @@ extension Transfer {
             case arn = "Arn"
             case as2Config = "As2Config"
             case connectorId = "ConnectorId"
+            case egressConfig = "EgressConfig"
+            case egressType = "EgressType"
+            case errorMessage = "ErrorMessage"
             case loggingRole = "LoggingRole"
             case securityPolicyName = "SecurityPolicyName"
             case serviceManagedEgressIpAddresses = "ServiceManagedEgressIpAddresses"
             case sftpConfig = "SftpConfig"
+            case status = "Status"
             case tags = "Tags"
             case url = "Url"
+        }
+    }
+
+    public struct DescribedConnectorVpcLatticeEgressConfig: AWSDecodableShape {
+        /// Port number currently configured for SFTP connections through VPC_LATTICE. Shows the port on which the connector attempts to connect to the target SFTP server.
+        public let portNumber: Int?
+        /// ARN of the VPC_LATTICE Resource Configuration currently used by the connector. This Resource Configuration defines the network path to the SFTP server through the customer's VPC.
+        public let resourceConfigurationArn: String
+
+        @inlinable
+        public init(portNumber: Int? = nil, resourceConfigurationArn: String) {
+            self.portNumber = portNumber
+            self.resourceConfigurationArn = resourceConfigurationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case portNumber = "PortNumber"
+            case resourceConfigurationArn = "ResourceConfigurationArn"
         }
     }
 
@@ -2374,11 +2452,11 @@ extension Transfer {
         public let postAuthenticationLoginBanner: String?
         /// Specifies a string to display when users connect to a server. This string is displayed before the user authenticates. For example, the following banner displays details about using the system:  This system is for the use of authorized users only. Individuals using this computer system without authority, or in excess of their authority, are subject to having all of their activities on this system monitored and recorded by system personnel.
         public let preAuthenticationLoginBanner: String?
-        /// The protocol settings that are configured for your server.    To indicate passive mode (for FTP and FTPS protocols), use the PassiveIp parameter. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.    To ignore the error that is generated when the client attempts to use the SETSTAT command on a file that you are uploading to an Amazon S3 bucket, use the SetStatOption parameter. To have the Transfer Family server ignore the SETSTAT command and upload files without needing to make any changes to your SFTP client, set the value to ENABLE_NO_OP. If you set the SetStatOption parameter to ENABLE_NO_OP, Transfer Family generates a log entry to Amazon CloudWatch Logs, so that you can determine when the client is making a SETSTAT call.   To determine whether your Transfer Family server resumes recent, negotiated sessions through a unique session ID, use the TlsSessionResumptionMode parameter.    As2Transports indicates the transport method for the AS2 messages. Currently, only HTTP is supported.
+        /// The protocol settings that are configured for your server.  Avoid placing Network Load Balancers (NLBs) or NAT gateways in front of Transfer Family servers, as this increases costs and can cause performance issues, including reduced connection limits for FTPS. For more details, see  Avoid placing NLBs and NATs in front of Transfer Family.     To indicate passive mode (for FTP and FTPS protocols), use the PassiveIp parameter. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.    To ignore the error that is generated when the client attempts to use the SETSTAT command on a file that you are uploading to an Amazon S3 bucket, use the SetStatOption parameter. To have the Transfer Family server ignore the SETSTAT command and upload files without needing to make any changes to your SFTP client, set the value to ENABLE_NO_OP. If you set the SetStatOption parameter to ENABLE_NO_OP, Transfer Family generates a log entry to Amazon CloudWatch Logs, so that you can determine when the client is making a SETSTAT call.   To determine whether your Transfer Family server resumes recent, negotiated sessions through a unique session ID, use the TlsSessionResumptionMode parameter.    As2Transports indicates the transport method for the AS2 messages. Currently, only HTTP is supported.
         public let protocolDetails: ProtocolDetails?
         /// Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:    SFTP (Secure Shell (SSH) File Transfer Protocol): File transfer over SSH    FTPS (File Transfer Protocol Secure): File transfer with TLS encryption    FTP (File Transfer Protocol): Unencrypted file transfer    AS2 (Applicability Statement 2): used for transporting structured business-to-business data      If you select FTPS, you must choose a certificate stored in Certificate Manager (ACM) which is used to identify your server when clients connect to it over FTPS.   If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be either AWS_DIRECTORY_SERVICE, AWS_LAMBDA, or API_GATEWAY.   If Protocol includes FTP, then AddressAllocationIds cannot be associated.   If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set any of the supported identity types: SERVICE_MANAGED, AWS_DIRECTORY_SERVICE, AWS_LAMBDA, or API_GATEWAY.   If Protocol includes AS2, then the EndpointType must be VPC, and domain must be Amazon S3.
         public let protocols: [`Protocol`]?
-        /// Specifies whether or not performance for your Amazon S3 directories is optimized. This is disabled by default. By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntry Type to FILE if you want a mapping to have a file target.
+        /// Specifies whether or not performance for your Amazon S3 directories is optimized.   If using the console, this is enabled by default.   If using the API or CLI, this is disabled by default.   By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntry Type to FILE if you want a mapping to have a file target.
         public let s3StorageOptions: S3StorageOptions?
         /// Specifies the name of the security policy for the server.
         public let securityPolicyName: String?
@@ -2634,7 +2712,7 @@ extension Transfer {
     public struct EndpointDetails: AWSEncodableShape & AWSDecodableShape {
         /// A list of address allocation IDs that are required to attach an Elastic IP address to your server's endpoint. An address allocation ID corresponds to the allocation ID of an Elastic IP address. This value can be retrieved from the allocationId field from the Amazon EC2 Address data type. One way to retrieve this value is by calling the EC2 DescribeAddresses API. This parameter is optional. Set this parameter if you want to make your VPC endpoint public-facing. For details, see Create an internet-facing endpoint for your server.  This property can only be set as follows:    EndpointType must be set to VPC    The Transfer Family server must be offline.   You cannot set this parameter for Transfer Family servers that use the FTP protocol.   The server must already have SubnetIds populated (SubnetIds and AddressAllocationIds cannot be updated simultaneously).    AddressAllocationIds can't contain duplicates, and must be equal in length to SubnetIds. For example, if you have three subnet IDs, you must also specify three address allocation IDs.   Call the UpdateServer API to set or change this parameter.   You can't set address allocation IDs for servers that have an IpAddressType set to DUALSTACK You can only set this property if IpAddressType is set to IPV4.
         public let addressAllocationIds: [String]?
-        /// A list of security groups IDs that are available to attach to your server's endpoint.  This property can only be set when EndpointType is set to VPC. You can edit the SecurityGroupIds property in the UpdateServer API only if you are changing the EndpointType from PUBLIC or VPC_ENDPOINT to VPC. To change security groups associated with your server's VPC endpoint after creation, use the Amazon EC2 ModifyVpcEndpoint API.
+        /// A list of security groups IDs that are available to attach to your server's endpoint.  While SecurityGroupIds appears in the response syntax for consistency with CreateServer and UpdateServer operations, this field is not populated in DescribeServer responses. Security groups are managed at the VPC endpoint level and can be modified outside of the Transfer Family service. To retrieve current security group information, use the EC2 DescribeVpcEndpoints API with the VpcEndpointId returned in the response. This property can only be set when EndpointType is set to VPC. You can edit the SecurityGroupIds property in the UpdateServer API only if you are changing the EndpointType from PUBLIC or VPC_ENDPOINT to VPC. To change security groups associated with your server's VPC endpoint after creation, use the Amazon EC2 ModifyVpcEndpoint API.
         public let securityGroupIds: [String]?
         /// A list of subnet IDs that are required to host your server endpoint in your VPC.  This property can only be set when EndpointType is set to VPC.
         public let subnetIds: [String]?
@@ -3852,7 +3930,7 @@ extension Transfer {
         public let arn: String?
         /// The unique identifier for the connector.
         public let connectorId: String?
-        /// The URL of the partner's AS2 or SFTP endpoint.
+        /// The URL of the partner's AS2 or SFTP endpoint. When creating AS2 connectors or service-managed SFTP connectors (connectors without egress configuration), you must provide a URL to specify the remote server endpoint. For VPC Lattice type connectors, the URL must be null.
         public let url: String?
 
         @inlinable
@@ -4134,7 +4212,7 @@ extension Transfer {
     public struct ProtocolDetails: AWSEncodableShape & AWSDecodableShape {
         /// Indicates the transport method for the AS2 messages. Currently, only HTTP is supported.
         public let as2Transports: [As2Transport]?
-        ///  Indicates passive mode, for FTP and FTPS protocols. Enter a single IPv4 address, such as the public IP address of a firewall, router, or load balancer. For example:   aws transfer update-server --protocol-details PassiveIp=0.0.0.0  Replace 0.0.0.0 in the example above with the actual IP address you want to use.   If you change the PassiveIp value, you must stop and then restart your Transfer Family server for the change to take effect. For details on using passive mode (PASV) in a NAT environment, see Configuring your FTPS server behind a firewall or NAT with Transfer Family.    Special values  The AUTO and 0.0.0.0 are special values for the PassiveIp parameter. The value PassiveIp=AUTO is assigned by default to FTP and FTPS type servers. In this case, the server automatically responds with one of the endpoint IPs within the PASV response. PassiveIp=0.0.0.0 has a more unique application for its usage. For example, if you have a High Availability (HA) Network Load Balancer (NLB) environment, where you have 3 subnets, you can only specify a single IP address using the PassiveIp parameter. This reduces the effectiveness of having High Availability. In this case, you can specify PassiveIp=0.0.0.0. This tells the client to use the same IP address as the Control connection and utilize all AZs for their connections. Note, however, that not all FTP clients support the PassiveIp=0.0.0.0 response. FileZilla and WinSCP do support it. If you are using other clients, check to see if your client supports the PassiveIp=0.0.0.0 response.
+        ///  Indicates passive mode, for FTP and FTPS protocols. Enter a single IPv4 address, such as the public IP address of a firewall, router, or load balancer. For example:   aws transfer update-server --protocol-details PassiveIp=0.0.0.0  Replace 0.0.0.0 in the example above with the actual IP address you want to use.   If you change the PassiveIp value, you must stop and then restart your Transfer Family server for the change to take effect. For details on using passive mode (PASV) in a NAT environment, see Configuring your FTPS server behind a firewall or NAT with Transfer Family.  Additionally, avoid placing Network Load Balancers (NLBs) or NAT gateways in front of Transfer Family servers. This configuration increases costs and can cause performance issues. When NLBs or NATs are in the communication path, Transfer Family cannot accurately recognize client IP addresses, which impacts connection sharding and limits FTPS servers to only 300 simultaneous connections instead of 10,000. If you must use an NLB, use port 21 for health checks and enable TLS session resumption by setting TlsSessionResumptionMode = ENFORCED. For optimal performance, migrate to VPC endpoints with Elastic IP addresses instead of using NLBs. For more details, see  Avoid placing NLBs and NATs in front of Transfer Family.    Special values  The AUTO and 0.0.0.0 are special values for the PassiveIp parameter. The value PassiveIp=AUTO is assigned by default to FTP and FTPS type servers. In this case, the server automatically responds with one of the endpoint IPs within the PASV response. PassiveIp=0.0.0.0 has a more unique application for its usage. For example, if you have a High Availability (HA) Network Load Balancer (NLB) environment, where you have 3 subnets, you can only specify a single IP address using the PassiveIp parameter. This reduces the effectiveness of having High Availability. In this case, you can specify PassiveIp=0.0.0.0. This tells the client to use the same IP address as the Control connection and utilize all AZs for their connections. Note, however, that not all FTP clients support the PassiveIp=0.0.0.0 response. FileZilla and WinSCP do support it. If you are using other clients, check to see if your client supports the PassiveIp=0.0.0.0 response.
         public let passiveIp: String?
         /// Use the SetStatOption to ignore the error that is generated when the client attempts to use SETSTAT on a file you are uploading to an S3 bucket. Some SFTP file transfer clients can attempt to change the attributes of remote files, including timestamp and permissions, using commands, such as SETSTAT when uploading the file. However, these commands are not compatible with object storage systems, such as Amazon S3. Due to this incompatibility, file uploads from these clients can result in errors even when the file is otherwise successfully uploaded. Set the value to ENABLE_NO_OP to have the Transfer Family server ignore the SETSTAT command, and upload files without needing to make any changes to your SFTP client. While the SetStatOption ENABLE_NO_OP setting ignores the error, it does generate a log entry in Amazon CloudWatch Logs, so you can determine when the client is making a SETSTAT call.  If you want to preserve the original timestamp for your file, and modify other file attributes using SETSTAT, you can use Amazon EFS as backend storage with Transfer Family.
         public let setStatOption: SetStatOption?
@@ -4254,7 +4332,7 @@ extension Transfer {
     }
 
     public struct S3StorageOptions: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies whether or not performance for your Amazon S3 directories is optimized. This is disabled by default. By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntry Type to FILE if you want a mapping to have a file target.
+        /// Specifies whether or not performance for your Amazon S3 directories is optimized.   If using the console, this is enabled by default.   If using the API or CLI, this is disabled by default.   By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntry Type to FILE if you want a mapping to have a file target.
         public let directoryListingOptimization: DirectoryListingOptimization?
 
         @inlinable
@@ -4350,9 +4428,9 @@ extension Transfer {
     }
 
     public struct SftpConnectorConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Specify the number of concurrent connections that your connector creates to the remote server. The default value is 5 (this is also the maximum value allowed). This parameter specifies the number of active connections that your connector can establish with the remote server at the same time. Increasing this value can enhance connector performance when transferring large file batches by enabling parallel operations.
+        /// Specify the number of concurrent connections that your connector creates to the remote server. The default value is 1. The maximum values is 5.  If you are using the Amazon Web Services Management Console, the default value is 5.  This parameter specifies the number of active connections that your connector can establish with the remote server at the same time. Increasing this value can enhance connector performance when transferring large file batches by enabling parallel operations.
         public let maxConcurrentConnections: Int?
-        /// The public portion of the host key, or keys, that are used to identify the external server to which you are connecting. You can use the ssh-keyscan command against the SFTP server to retrieve the necessary key.   TrustedHostKeys is optional for CreateConnector. If not provided, you can use TestConnection to retrieve the server host key during the initial connection attempt, and subsequently update the connector with the observed host key.  The three standard SSH public key format elements are &lt;key type&gt;, &lt;body base64&gt;, and an optional &lt;comment&gt;, with spaces between each element. Specify only the &lt;key type&gt; and &lt;body base64&gt;: do not enter the &lt;comment&gt; portion of the key. For the trusted host key, Transfer Family accepts RSA and ECDSA keys.   For RSA keys, the &lt;key type&gt; string is ssh-rsa.   For ECDSA keys, the &lt;key type&gt; string is either ecdsa-sha2-nistp256, ecdsa-sha2-nistp384, or ecdsa-sha2-nistp521, depending on the size of the key you generated.   Run this command to retrieve the SFTP server host key, where your SFTP server name is ftp.host.com.  ssh-keyscan ftp.host.com  This prints the public host key to standard output.  ftp.host.com ssh-rsa AAAAB3Nza...&lt;long-string-for-public-key  Copy and paste this string into the TrustedHostKeys field for the create-connector command or into the Trusted host keys field in the console.
+        /// The public portion of the host key, or keys, that are used to identify the external server to which you are connecting. You can use the ssh-keyscan command against the SFTP server to retrieve the necessary key.   TrustedHostKeys is optional for CreateConnector. If not provided, you can use TestConnection to retrieve the server host key during the initial connection attempt, and subsequently update the connector with the observed host key.  When creating connectors with egress config (VPC_LATTICE type connectors), since host name is not something we can verify, the only accepted trusted host key format is key-type key-body without the host name. For example: ssh-rsa AAAAB3Nza...&lt;long-string-for-public-key&gt;  The three standard SSH public key format elements are &lt;key type&gt;, &lt;body base64&gt;, and an optional &lt;comment&gt;, with spaces between each element. Specify only the &lt;key type&gt; and &lt;body base64&gt;: do not enter the &lt;comment&gt; portion of the key. For the trusted host key, Transfer Family accepts RSA and ECDSA keys.   For RSA keys, the &lt;key type&gt; string is ssh-rsa.   For ECDSA keys, the &lt;key type&gt; string is either ecdsa-sha2-nistp256, ecdsa-sha2-nistp384, or ecdsa-sha2-nistp521, depending on the size of the key you generated.   Run this command to retrieve the SFTP server host key, where your SFTP server name is ftp.host.com.  ssh-keyscan ftp.host.com  This prints the public host key to standard output.  ftp.host.com ssh-rsa AAAAB3Nza...&lt;long-string-for-public-key&gt;  Copy and paste this string into the TrustedHostKeys field for the create-connector command or into the Trusted host keys field in the console. For VPC Lattice type connectors (VPC_LATTICE), remove the hostname from the key and use only the key-type key-body format. In this example, it should be: ssh-rsa AAAAB3Nza...&lt;long-string-for-public-key&gt;
         public let trustedHostKeys: [String]?
         /// The identifier for the secret (in Amazon Web Services Secrets Manager) that contains the SFTP user's private key, password, or both. The identifier must be the Amazon Resource Name (ARN) of the secret.    Required when creating an SFTP connector   Optional when updating an existing SFTP connector
         public let userSecretId: String?
@@ -5148,20 +5226,23 @@ extension Transfer {
         public let as2Config: As2ConnectorConfig?
         /// The unique identifier for the connector.
         public let connectorId: String
+        /// Updates the egress configuration for the connector, allowing you to modify how traffic is routed from the connector to the SFTP server. Changes to VPC configuration may require connector restart.
+        public let egressConfig: UpdateConnectorEgressConfig?
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When set, you can view connector activity in your CloudWatch logs.
         public let loggingRole: String?
         /// Specifies the name of the security policy for the connector.
         public let securityPolicyName: String?
         /// A structure that contains the parameters for an SFTP connector object.
         public let sftpConfig: SftpConnectorConfig?
-        /// The URL of the partner's AS2 or SFTP endpoint.
+        /// The URL of the partner's AS2 or SFTP endpoint. When creating AS2 connectors or service-managed SFTP connectors (connectors without egress configuration), you must provide a URL to specify the remote server endpoint. For VPC Lattice type connectors, the URL must be null.
         public let url: String?
 
         @inlinable
-        public init(accessRole: String? = nil, as2Config: As2ConnectorConfig? = nil, connectorId: String, loggingRole: String? = nil, securityPolicyName: String? = nil, sftpConfig: SftpConnectorConfig? = nil, url: String? = nil) {
+        public init(accessRole: String? = nil, as2Config: As2ConnectorConfig? = nil, connectorId: String, egressConfig: UpdateConnectorEgressConfig? = nil, loggingRole: String? = nil, securityPolicyName: String? = nil, sftpConfig: SftpConnectorConfig? = nil, url: String? = nil) {
             self.accessRole = accessRole
             self.as2Config = as2Config
             self.connectorId = connectorId
+            self.egressConfig = egressConfig
             self.loggingRole = loggingRole
             self.securityPolicyName = securityPolicyName
             self.sftpConfig = sftpConfig
@@ -5176,6 +5257,7 @@ extension Transfer {
             try self.validate(self.connectorId, name: "connectorId", parent: name, max: 19)
             try self.validate(self.connectorId, name: "connectorId", parent: name, min: 19)
             try self.validate(self.connectorId, name: "connectorId", parent: name, pattern: "^c-([0-9a-f]{17})$")
+            try self.egressConfig?.validate(name: "\(name).egressConfig")
             try self.validate(self.loggingRole, name: "loggingRole", parent: name, max: 2048)
             try self.validate(self.loggingRole, name: "loggingRole", parent: name, min: 20)
             try self.validate(self.loggingRole, name: "loggingRole", parent: name, pattern: "^arn:.*role/\\S+$")
@@ -5189,6 +5271,7 @@ extension Transfer {
             case accessRole = "AccessRole"
             case as2Config = "As2Config"
             case connectorId = "ConnectorId"
+            case egressConfig = "EgressConfig"
             case loggingRole = "LoggingRole"
             case securityPolicyName = "SecurityPolicyName"
             case sftpConfig = "SftpConfig"
@@ -5207,6 +5290,32 @@ extension Transfer {
 
         private enum CodingKeys: String, CodingKey {
             case connectorId = "ConnectorId"
+        }
+    }
+
+    public struct UpdateConnectorVpcLatticeEgressConfig: AWSEncodableShape {
+        /// Updated port number for SFTP connections through VPC_LATTICE. Change this if the target SFTP server port has been modified or if connecting to a different server endpoint.
+        public let portNumber: Int?
+        /// Updated ARN of the VPC_LATTICE Resource Configuration. Use this to change the target SFTP server location or modify the network path through the customer's VPC infrastructure.
+        public let resourceConfigurationArn: String?
+
+        @inlinable
+        public init(portNumber: Int? = nil, resourceConfigurationArn: String? = nil) {
+            self.portNumber = portNumber
+            self.resourceConfigurationArn = resourceConfigurationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.portNumber, name: "portNumber", parent: name, max: 65535)
+            try self.validate(self.portNumber, name: "portNumber", parent: name, min: 1)
+            try self.validate(self.resourceConfigurationArn, name: "resourceConfigurationArn", parent: name, max: 2048)
+            try self.validate(self.resourceConfigurationArn, name: "resourceConfigurationArn", parent: name, min: 1)
+            try self.validate(self.resourceConfigurationArn, name: "resourceConfigurationArn", parent: name, pattern: "^arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:resourceconfiguration/rcfg-[0-9a-z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case portNumber = "PortNumber"
+            case resourceConfigurationArn = "ResourceConfigurationArn"
         }
     }
 
@@ -5315,6 +5424,8 @@ extension Transfer {
         public let hostKey: String?
         /// An array containing all of the information required to call a customer's authentication API method.
         public let identityProviderDetails: IdentityProviderDetails?
+        /// The mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Directory Service for Microsoft Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connector. This option also requires you to provide a Directory ID by using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an Amazon API Gateway endpoint URL to call for authentication by using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to directly use an Lambda function as your identity provider. If you choose this value, you must specify the ARN for the Lambda function in the Function parameter for the IdentityProviderDetails data type.
+        public let identityProviderType: IdentityProviderType?
         /// Specifies whether to use IPv4 only, or to use dual-stack (IPv4 and IPv6) for your Transfer Family endpoint. The default value is IPV4.  The IpAddressType parameter has the following limitations:   It cannot be changed while the server is online. You must stop the server before modifying this parameter.   It cannot be updated to DUALSTACK if the server has AddressAllocationIds specified.     When using DUALSTACK as the IpAddressType, you cannot set the AddressAllocationIds parameter for the EndpointDetails for the server.
         public let ipAddressType: IpAddressType?
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set, you can view user activity in your CloudWatch logs.
@@ -5323,11 +5434,11 @@ extension Transfer {
         public let postAuthenticationLoginBanner: String?
         /// Specifies a string to display when users connect to a server. This string is displayed before the user authenticates. For example, the following banner displays details about using the system:  This system is for the use of authorized users only. Individuals using this computer system without authority, or in excess of their authority, are subject to having all of their activities on this system monitored and recorded by system personnel.
         public let preAuthenticationLoginBanner: String?
-        /// The protocol settings that are configured for your server.    To indicate passive mode (for FTP and FTPS protocols), use the PassiveIp parameter. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.    To ignore the error that is generated when the client attempts to use the SETSTAT command on a file that you are uploading to an Amazon S3 bucket, use the SetStatOption parameter. To have the Transfer Family server ignore the SETSTAT command and upload files without needing to make any changes to your SFTP client, set the value to ENABLE_NO_OP. If you set the SetStatOption parameter to ENABLE_NO_OP, Transfer Family generates a log entry to Amazon CloudWatch Logs, so that you can determine when the client is making a SETSTAT call.   To determine whether your Transfer Family server resumes recent, negotiated sessions through a unique session ID, use the TlsSessionResumptionMode parameter.    As2Transports indicates the transport method for the AS2 messages. Currently, only HTTP is supported.
+        /// The protocol settings that are configured for your server.  Avoid placing Network Load Balancers (NLBs) or NAT gateways in front of Transfer Family servers, as this increases costs and can cause performance issues, including reduced connection limits for FTPS. For more details, see  Avoid placing NLBs and NATs in front of Transfer Family.     To indicate passive mode (for FTP and FTPS protocols), use the PassiveIp parameter. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.    To ignore the error that is generated when the client attempts to use the SETSTAT command on a file that you are uploading to an Amazon S3 bucket, use the SetStatOption parameter. To have the Transfer Family server ignore the SETSTAT command and upload files without needing to make any changes to your SFTP client, set the value to ENABLE_NO_OP. If you set the SetStatOption parameter to ENABLE_NO_OP, Transfer Family generates a log entry to Amazon CloudWatch Logs, so that you can determine when the client is making a SETSTAT call.   To determine whether your Transfer Family server resumes recent, negotiated sessions through a unique session ID, use the TlsSessionResumptionMode parameter.    As2Transports indicates the transport method for the AS2 messages. Currently, only HTTP is supported.
         public let protocolDetails: ProtocolDetails?
         /// Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:    SFTP (Secure Shell (SSH) File Transfer Protocol): File transfer over SSH    FTPS (File Transfer Protocol Secure): File transfer with TLS encryption    FTP (File Transfer Protocol): Unencrypted file transfer    AS2 (Applicability Statement 2): used for transporting structured business-to-business data      If you select FTPS, you must choose a certificate stored in Certificate Manager (ACM) which is used to identify your server when clients connect to it over FTPS.   If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be either AWS_DIRECTORY_SERVICE, AWS_LAMBDA, or API_GATEWAY.   If Protocol includes FTP, then AddressAllocationIds cannot be associated.   If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set any of the supported identity types: SERVICE_MANAGED, AWS_DIRECTORY_SERVICE, AWS_LAMBDA, or API_GATEWAY.   If Protocol includes AS2, then the EndpointType must be VPC, and domain must be Amazon S3.
         public let protocols: [`Protocol`]?
-        /// Specifies whether or not performance for your Amazon S3 directories is optimized. This is disabled by default. By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntry Type to FILE if you want a mapping to have a file target.
+        /// Specifies whether or not performance for your Amazon S3 directories is optimized.   If using the console, this is enabled by default.   If using the API or CLI, this is disabled by default.   By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntry Type to FILE if you want a mapping to have a file target.
         public let s3StorageOptions: S3StorageOptions?
         /// Specifies the name of the security policy for the server.
         public let securityPolicyName: String?
@@ -5339,12 +5450,13 @@ extension Transfer {
         public let workflowDetails: WorkflowDetails?
 
         @inlinable
-        public init(certificate: String? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, ipAddressType: IpAddressType? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, s3StorageOptions: S3StorageOptions? = nil, securityPolicyName: String? = nil, serverId: String, structuredLogDestinations: [String]? = nil, workflowDetails: WorkflowDetails? = nil) {
+        public init(certificate: String? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, ipAddressType: IpAddressType? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, s3StorageOptions: S3StorageOptions? = nil, securityPolicyName: String? = nil, serverId: String, structuredLogDestinations: [String]? = nil, workflowDetails: WorkflowDetails? = nil) {
             self.certificate = certificate
             self.endpointDetails = endpointDetails
             self.endpointType = endpointType
             self.hostKey = hostKey
             self.identityProviderDetails = identityProviderDetails
+            self.identityProviderType = identityProviderType
             self.ipAddressType = ipAddressType
             self.loggingRole = loggingRole
             self.postAuthenticationLoginBanner = postAuthenticationLoginBanner
@@ -5392,6 +5504,7 @@ extension Transfer {
             case endpointType = "EndpointType"
             case hostKey = "HostKey"
             case identityProviderDetails = "IdentityProviderDetails"
+            case identityProviderType = "IdentityProviderType"
             case ipAddressType = "IpAddressType"
             case loggingRole = "LoggingRole"
             case postAuthenticationLoginBanner = "PostAuthenticationLoginBanner"
@@ -5742,6 +5855,38 @@ extension Transfer {
         }
     }
 
+    public struct ConnectorEgressConfig: AWSEncodableShape {
+        /// VPC_LATTICE configuration for routing connector traffic through customer VPCs. Enables private connectivity to SFTP servers without requiring public internet access or complex network configurations.
+        public let vpcLattice: ConnectorVpcLatticeEgressConfig?
+
+        @inlinable
+        public init(vpcLattice: ConnectorVpcLatticeEgressConfig? = nil) {
+            self.vpcLattice = vpcLattice
+        }
+
+        public func validate(name: String) throws {
+            try self.vpcLattice?.validate(name: "\(name).vpcLattice")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcLattice = "VpcLattice"
+        }
+    }
+
+    public struct DescribedConnectorEgressConfig: AWSDecodableShape {
+        /// VPC_LATTICE configuration details in the response, showing the current Resource Configuration ARN and port settings for VPC-based connectivity.
+        public let vpcLattice: DescribedConnectorVpcLatticeEgressConfig?
+
+        @inlinable
+        public init(vpcLattice: DescribedConnectorVpcLatticeEgressConfig? = nil) {
+            self.vpcLattice = vpcLattice
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcLattice = "VpcLattice"
+        }
+    }
+
     public struct DescribedWebAppIdentityProviderDetails: AWSDecodableShape {
         /// Returns a structure for your identity provider details. This structure contains the instance ARN and role being used for the web app.
         public let identityCenterConfig: DescribedIdentityCenterConfig?
@@ -5753,6 +5898,24 @@ extension Transfer {
 
         private enum CodingKeys: String, CodingKey {
             case identityCenterConfig = "IdentityCenterConfig"
+        }
+    }
+
+    public struct UpdateConnectorEgressConfig: AWSEncodableShape {
+        /// VPC_LATTICE configuration updates for the connector. Use this to modify the Resource Configuration ARN or port number for VPC-based connectivity.
+        public let vpcLattice: UpdateConnectorVpcLatticeEgressConfig?
+
+        @inlinable
+        public init(vpcLattice: UpdateConnectorVpcLatticeEgressConfig? = nil) {
+            self.vpcLattice = vpcLattice
+        }
+
+        public func validate(name: String) throws {
+            try self.vpcLattice?.validate(name: "\(name).vpcLattice")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcLattice = "VpcLattice"
         }
     }
 

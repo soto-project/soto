@@ -305,7 +305,7 @@ public struct AppRunner: AWSService {
     ///
     /// Parameters:
     ///   - securityGroups: A list of IDs of security groups that App Runner should use for access to Amazon Web Services resources under the specified subnets. If not specified, App Runner uses the default security group of the Amazon VPC. The default security group allows all outbound traffic.
-    ///   - subnets: A list of IDs of subnets that App Runner should use when it associates your service with a custom Amazon VPC. Specify IDs of subnets of a single Amazon VPC. App Runner determines the Amazon VPC from the subnets you specify.   App Runner currently only provides support for IPv4.
+    ///   - subnets: A list of IDs of subnets that App Runner should use when it associates your service with a custom Amazon VPC. Specify IDs of subnets of a single Amazon VPC. App Runner determines the Amazon VPC from the subnets you specify.   App Runner only supports subnets of IP address type IPv4 and dual stack (IPv4 and IPv6).
     ///   - tags: A list of metadata items that you can associate with your VPC connector resource. A tag is a key-value pair.
     ///   - vpcConnectorName: A name for the VPC connector.
     ///   - logger: Logger use during operation

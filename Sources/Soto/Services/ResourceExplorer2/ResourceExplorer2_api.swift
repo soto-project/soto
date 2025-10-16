@@ -98,7 +98,7 @@ public struct ResourceExplorer2: AWSService {
 
     // MARK: API Calls
 
-    /// Sets the specified view as the default for the Amazon Web Services Region in which you call this operation. When a user performs a Search that doesn't explicitly specify which view to use, then Amazon Web Services Resource Explorer automatically chooses this default view for searches performed in this Amazon Web Services Region. If an Amazon Web Services Region doesn't have a default view  configured, then users must explicitly specify a view with every Search  operation performed in that Region.
+    /// Sets the specified view as the default for the Amazon Web Services Region in which you call this operation. When a user performs a Search that doesn't explicitly specify which view to use, then Amazon Web Services Resource Explorer automatically chooses this default view for searches performed in this Amazon Web Services Region. If an Amazon Web Services Region doesn't have a default view configured, then users must explicitly specify a view with every Search operation performed in that Region.
     @Sendable
     @inlinable
     public func associateDefaultView(_ input: AssociateDefaultViewInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateDefaultViewOutput {
@@ -111,7 +111,7 @@ public struct ResourceExplorer2: AWSService {
             logger: logger
         )
     }
-    /// Sets the specified view as the default for the Amazon Web Services Region in which you call this operation. When a user performs a Search that doesn't explicitly specify which view to use, then Amazon Web Services Resource Explorer automatically chooses this default view for searches performed in this Amazon Web Services Region. If an Amazon Web Services Region doesn't have a default view  configured, then users must explicitly specify a view with every Search  operation performed in that Region.
+    /// Sets the specified view as the default for the Amazon Web Services Region in which you call this operation. When a user performs a Search that doesn't explicitly specify which view to use, then Amazon Web Services Resource Explorer automatically chooses this default view for searches performed in this Amazon Web Services Region. If an Amazon Web Services Region doesn't have a default view configured, then users must explicitly specify a view with every Search operation performed in that Region.
     ///
     /// Parameters:
     ///   - viewArn: The Amazon resource name (ARN) of the view to set as the default for the Amazon Web Services Region and Amazon Web Services account in which you call this operation. The specified view must already exist in the called Region.
@@ -188,6 +188,41 @@ public struct ResourceExplorer2: AWSService {
         return try await self.createIndex(input, logger: logger)
     }
 
+    /// Creates a Resource Explorer setup configuration across multiple Amazon Web Services Regions. This operation sets up indexes and views in the specified Regions. This operation can also be used to set an aggregator Region for cross-Region resource search.
+    @Sendable
+    @inlinable
+    public func createResourceExplorerSetup(_ input: CreateResourceExplorerSetupInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateResourceExplorerSetupOutput {
+        try await self.client.execute(
+            operation: "CreateResourceExplorerSetup", 
+            path: "/CreateResourceExplorerSetup", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a Resource Explorer setup configuration across multiple Amazon Web Services Regions. This operation sets up indexes and views in the specified Regions. This operation can also be used to set an aggregator Region for cross-Region resource search.
+    ///
+    /// Parameters:
+    ///   - aggregatorRegions: A list of Amazon Web Services Regions that should be configured as aggregator Regions. Aggregator Regions receive replicated index information from all other Regions where there is a user-owned index.
+    ///   - regionList: A list of Amazon Web Services Regions where Resource Explorer should be configured. Each Region in the list will have a user-owned index created.
+    ///   - viewName: The name for the view to be created as part of the Resource Explorer setup. The view name must be unique within the Amazon Web Services account and Region.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createResourceExplorerSetup(
+        aggregatorRegions: [String]? = nil,
+        regionList: [String],
+        viewName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateResourceExplorerSetupOutput {
+        let input = CreateResourceExplorerSetupInput(
+            aggregatorRegions: aggregatorRegions, 
+            regionList: regionList, 
+            viewName: viewName
+        )
+        return try await self.createResourceExplorerSetup(input, logger: logger)
+    }
+
     /// Creates a view that users can query by using the Search operation. Results from queries that you make using this view include only resources that match the view's Filters. For more information about Amazon Web Services Resource Explorer views, see Managing views in the Amazon Web Services Resource Explorer User Guide. Only the principals with an IAM identity-based policy that grants Allow to the Search action on a Resource with the Amazon resource name (ARN) of this view can Search using views you create with this operation.
     @Sendable
     @inlinable
@@ -205,7 +240,7 @@ public struct ResourceExplorer2: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: This value helps ensure idempotency. Resource Explorer uses this value to prevent the accidental creation of duplicate versions. We recommend that you generate a UUID-type value to ensure the uniqueness of your views.
-    ///   - filters: An array of strings that specify which resources are included in the results of  queries made using this view. When you use this view in a Search  operation, the filter string is combined with the search's QueryString  parameter using a logical AND operator. For information about the supported syntax, see Search query reference for Resource Explorer in the Amazon Web Services Resource Explorer User Guide.  This query string in the context of this operation supports only filter prefixes with optional operators. It doesn't support free-form text. For example, the  string region:us* service:ec2 -tag:stage=prod includes all Amazon EC2  resources in any Amazon Web Services Region that begins with the letters us and is not tagged with a key Stage that has the value prod.
+    ///   - filters: An array of strings that specify which resources are included in the results of queries made using this view. When you use this view in a Search operation, the filter string is combined with the search's QueryString parameter using a logical AND operator. For information about the supported syntax, see Search query reference for Resource Explorer in the Amazon Web Services Resource Explorer User Guide.  This query string in the context of this operation supports only filter prefixes with optional operators. It doesn't support free-form text. For example, the string region:us* service:ec2 -tag:stage=prod includes all Amazon EC2 resources in any Amazon Web Services Region that begins with the letters us and is not tagged with a key Stage that has the value prod.
     ///   - includedProperties: Specifies optional fields that you want included in search results from this view. It is a list of objects that each describe a field to include. The default is an empty list, with no optional fields included in the results.
     ///   - scope: The root ARN of the account, an organizational unit (OU), or an organization ARN. If left empty, the default is account.
     ///   - tags: Tag key and value pairs that are attached to the view.
@@ -261,6 +296,38 @@ public struct ResourceExplorer2: AWSService {
         return try await self.deleteIndex(input, logger: logger)
     }
 
+    /// Deletes a Resource Explorer setup configuration. This operation removes indexes and views from the specified Regions or all Regions where Resource Explorer is configured.
+    @Sendable
+    @inlinable
+    public func deleteResourceExplorerSetup(_ input: DeleteResourceExplorerSetupInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourceExplorerSetupOutput {
+        try await self.client.execute(
+            operation: "DeleteResourceExplorerSetup", 
+            path: "/DeleteResourceExplorerSetup", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a Resource Explorer setup configuration. This operation removes indexes and views from the specified Regions or all Regions where Resource Explorer is configured.
+    ///
+    /// Parameters:
+    ///   - deleteInAllRegions: Specifies whether to delete Resource Explorer configuration from all Regions where it is currently enabled. If this parameter is set to true, a value for RegionList must not be provided. Otherwise, the operation fails with a ValidationException error.
+    ///   - regionList: A list of Amazon Web Services Regions from which to delete the Resource Explorer configuration. If not specified, the operation uses the DeleteInAllRegions parameter to determine scope.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteResourceExplorerSetup(
+        deleteInAllRegions: Bool? = nil,
+        regionList: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteResourceExplorerSetupOutput {
+        let input = DeleteResourceExplorerSetupInput(
+            deleteInAllRegions: deleteInAllRegions, 
+            regionList: regionList
+        )
+        return try await self.deleteResourceExplorerSetup(input, logger: logger)
+    }
+
     /// Deletes the specified view. If the specified view is the default view for its Amazon Web Services Region, then all Search operations in that Region must explicitly specify the view to use until you configure a new default by calling the AssociateDefaultView operation.
     @Sendable
     @inlinable
@@ -290,7 +357,7 @@ public struct ResourceExplorer2: AWSService {
         return try await self.deleteView(input, logger: logger)
     }
 
-    /// After you call this operation, the affected Amazon Web Services Region no longer has a default view. All Search operations in that Region must explicitly specify a view or the operation fails. You can configure a new default by calling the AssociateDefaultView operation. If an Amazon Web Services Region doesn't have a default view  configured, then users must explicitly specify a view with every Search  operation performed in that Region.
+    /// After you call this operation, the affected Amazon Web Services Region no longer has a default view. All Search operations in that Region must explicitly specify a view or the operation fails. You can configure a new default by calling the AssociateDefaultView operation. If an Amazon Web Services Region doesn't have a default view configured, then users must explicitly specify a view with every Search operation performed in that Region.
     @Sendable
     @inlinable
     public func disassociateDefaultView(logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -371,6 +438,83 @@ public struct ResourceExplorer2: AWSService {
         return try await self.getManagedView(input, logger: logger)
     }
 
+    /// Retrieves the status and details of a Resource Explorer setup operation. This operation returns information about the progress of creating or deleting Resource Explorer configurations across Regions.
+    @Sendable
+    @inlinable
+    public func getResourceExplorerSetup(_ input: GetResourceExplorerSetupInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceExplorerSetupOutput {
+        try await self.client.execute(
+            operation: "GetResourceExplorerSetup", 
+            path: "/GetResourceExplorerSetup", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the status and details of a Resource Explorer setup operation. This operation returns information about the progress of creating or deleting Resource Explorer configurations across Regions.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of Region status results to return in a single response. Valid values are between 1 and 100.
+    ///   - nextToken: The pagination token from a previous GetResourceExplorerSetup response. Use this token to retrieve the next set of results.
+    ///   - taskId: The unique identifier of the setup task to retrieve status information for. This ID is returned by CreateResourceExplorerSetup or DeleteResourceExplorerSetup operations.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getResourceExplorerSetup(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        taskId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetResourceExplorerSetupOutput {
+        let input = GetResourceExplorerSetupInput(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            taskId: taskId
+        )
+        return try await self.getResourceExplorerSetup(input, logger: logger)
+    }
+
+    /// Retrieves information about the Resource Explorer index in the current Amazon Web Services Region. This operation returns the ARN and type of the index if one exists.
+    @Sendable
+    @inlinable
+    public func getServiceIndex(logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceIndexOutput {
+        try await self.client.execute(
+            operation: "GetServiceIndex", 
+            path: "/GetServiceIndex", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves details about a specific Resource Explorer service view. This operation returns the configuration and properties of the specified view.
+    @Sendable
+    @inlinable
+    public func getServiceView(_ input: GetServiceViewInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceViewOutput {
+        try await self.client.execute(
+            operation: "GetServiceView", 
+            path: "/GetServiceView", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves details about a specific Resource Explorer service view. This operation returns the configuration and properties of the specified view.
+    ///
+    /// Parameters:
+    ///   - serviceViewArn: The Amazon Resource Name (ARN) of the service view to retrieve details for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getServiceView(
+        serviceViewArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetServiceViewOutput {
+        let input = GetServiceViewInput(
+            serviceViewArn: serviceViewArn
+        )
+        return try await self.getServiceView(input, logger: logger)
+    }
+
     /// Retrieves details of the specified view.
     @Sendable
     @inlinable
@@ -416,8 +560,8 @@ public struct ResourceExplorer2: AWSService {
     /// Retrieves a list of all of the indexes in Amazon Web Services Regions that are currently collecting resource information for Amazon Web Services Resource Explorer.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value appropriate to the  operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
-    ///   - nextToken: The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from. The pagination tokens expire after 24 hours.
+    ///   - maxResults: The maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results.  An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    ///   - nextToken: The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from. The pagination tokens expire after 24 hours.
     ///   - regions: If specified, limits the response to only information about the index in the specified list of Amazon Web Services Regions.
     ///   - type: If specified, limits the output to only indexes of the specified Type, either LOCAL or AGGREGATOR. Use this option to discover the aggregator index for your account.
     ///   - logger: Logger use during operation
@@ -455,8 +599,8 @@ public struct ResourceExplorer2: AWSService {
     ///
     /// Parameters:
     ///   - accountIdList: The account IDs will limit the output to only indexes from these accounts.
-    ///   - maxResults: The maximum number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value appropriate to the  operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
-    ///   - nextToken: The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from. The pagination tokens expire after 24 hours.
+    ///   - maxResults: The maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results.  An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    ///   - nextToken: The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from. The pagination tokens expire after 24 hours.
     ///   - logger: Logger use during operation
     @inlinable
     public func listIndexesForMembers(
@@ -473,7 +617,7 @@ public struct ResourceExplorer2: AWSService {
         return try await self.listIndexesForMembers(input, logger: logger)
     }
 
-    /// Lists the Amazon resource names (ARNs) of the  Amazon Web Services-managed views available  in the Amazon Web Services Region in which you call this operation.
+    /// Lists the Amazon resource names (ARNs) of the Amazon Web Services-managed views available in the Amazon Web Services Region in which you call this operation.
     @Sendable
     @inlinable
     public func listManagedViews(_ input: ListManagedViewsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListManagedViewsOutput {
@@ -486,12 +630,12 @@ public struct ResourceExplorer2: AWSService {
             logger: logger
         )
     }
-    /// Lists the Amazon resource names (ARNs) of the  Amazon Web Services-managed views available  in the Amazon Web Services Region in which you call this operation.
+    /// Lists the Amazon resource names (ARNs) of the Amazon Web Services-managed views available in the Amazon Web Services Region in which you call this operation.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value appropriate to the  operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
-    ///   - nextToken: The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from. The pagination tokens expire after 24 hours.
-    ///   - servicePrincipal: Specifies a service principal name. If specified, then the  operation only returns the managed views that are managed by the input service.
+    ///   - maxResults: The maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results.  An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    ///   - nextToken: The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from. The pagination tokens expire after 24 hours.
+    ///   - servicePrincipal: Specifies a service principal name. If specified, then the operation only returns the managed views that are managed by the input service.
     ///   - logger: Logger use during operation
     @inlinable
     public func listManagedViews(
@@ -508,7 +652,7 @@ public struct ResourceExplorer2: AWSService {
         return try await self.listManagedViews(input, logger: logger)
     }
 
-    /// Returns a list of resources and their details that match the specified criteria. This query must  use a view. If you don’t explicitly specify a view, then Resource Explorer uses the default view for the Amazon Web Services Region  in which you call this operation.
+    /// Returns a list of resources and their details that match the specified criteria. This query must use a view. If you don’t explicitly specify a view, then Resource Explorer uses the default view for the Amazon Web Services Region in which you call this operation.
     @Sendable
     @inlinable
     public func listResources(_ input: ListResourcesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourcesOutput {
@@ -521,13 +665,13 @@ public struct ResourceExplorer2: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of resources and their details that match the specified criteria. This query must  use a view. If you don’t explicitly specify a view, then Resource Explorer uses the default view for the Amazon Web Services Region  in which you call this operation.
+    /// Returns a list of resources and their details that match the specified criteria. This query must use a view. If you don’t explicitly specify a view, then Resource Explorer uses the default view for the Amazon Web Services Region in which you call this operation.
     ///
     /// Parameters:
-    ///   - filters: An array of strings that specify which resources are included in the results of  queries made using this view. When you use this view in a Search  operation, the filter string is combined with the search's QueryString  parameter using a logical AND operator. For information about the supported syntax, see Search query reference for Resource Explorer in the Amazon Web Services Resource Explorer User Guide.  This query string in the context of this operation supports only filter prefixes with optional operators. It doesn't support free-form text. For example, the  string region:us* service:ec2 -tag:stage=prod includes all Amazon EC2  resources in any Amazon Web Services Region that begins with the letters us and is not tagged with a key Stage that has the value prod.
-    ///   - maxResults: The maximum number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value appropriate to the  operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
-    ///   - nextToken: The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from. The pagination tokens expire after 24 hours.  The ListResources operation  does not generate a NextToken if you set MaxResults to 1000.
-    ///   - viewArn: Specifies the Amazon resource name (ARN) of the view to use for the query. If you don't  specify a value for this parameter, then the operation automatically uses the default view  for the Amazon Web Services Region in which you called this operation. If the Region either doesn't have  a default view or if you don't have permission to use the default view, then the operation  fails with a 401 Unauthorized exception.
+    ///   - filters: An array of strings that specify which resources are included in the results of queries made using this view. When you use this view in a Search operation, the filter string is combined with the search's QueryString parameter using a logical AND operator. For information about the supported syntax, see Search query reference for Resource Explorer in the Amazon Web Services Resource Explorer User Guide.  This query string in the context of this operation supports only filter prefixes with optional operators. It doesn't support free-form text. For example, the string region:us* service:ec2 -tag:stage=prod includes all Amazon EC2 resources in any Amazon Web Services Region that begins with the letters us and is not tagged with a key Stage that has the value prod.
+    ///   - maxResults: The maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results.  An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    ///   - nextToken: The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from. The pagination tokens expire after 24 hours.  The ListResources operation does not generate a NextToken if you set MaxResults to 1000.
+    ///   - viewArn: Specifies the Amazon resource name (ARN) of the view to use for the query. If you don't specify a value for this parameter, then the operation automatically uses the default view for the Amazon Web Services Region in which you called this operation. If the Region either doesn't have a default view or if you don't have permission to use the default view, then the operation fails with a 401 Unauthorized exception.
     ///   - logger: Logger use during operation
     @inlinable
     public func listResources(
@@ -546,6 +690,105 @@ public struct ResourceExplorer2: AWSService {
         return try await self.listResources(input, logger: logger)
     }
 
+    /// Lists all Resource Explorer indexes across the specified Amazon Web Services Regions. This operation returns information about indexes including their ARNs, types, and Regions.
+    @Sendable
+    @inlinable
+    public func listServiceIndexes(_ input: ListServiceIndexesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServiceIndexesOutput {
+        try await self.client.execute(
+            operation: "ListServiceIndexes", 
+            path: "/ListServiceIndexes", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all Resource Explorer indexes across the specified Amazon Web Services Regions. This operation returns information about indexes including their ARNs, types, and Regions.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of index results to return in a single response. Valid values are between 1 and 100.
+    ///   - nextToken: The pagination token from a previous ListServiceIndexes response. Use this token to retrieve the next set of results.
+    ///   - regions: A list of Amazon Web Services Regions to include in the search for indexes. If not specified, indexes from all Regions are returned.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listServiceIndexes(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        regions: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListServiceIndexesOutput {
+        let input = ListServiceIndexesInput(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            regions: regions
+        )
+        return try await self.listServiceIndexes(input, logger: logger)
+    }
+
+    /// Lists all Resource Explorer service views available in the current Amazon Web Services account. This operation returns the ARNs of available service views.
+    @Sendable
+    @inlinable
+    public func listServiceViews(_ input: ListServiceViewsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServiceViewsOutput {
+        try await self.client.execute(
+            operation: "ListServiceViews", 
+            path: "/ListServiceViews", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all Resource Explorer service views available in the current Amazon Web Services account. This operation returns the ARNs of available service views.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of service view results to return in a single response. Valid values are between 1 and 50.
+    ///   - nextToken: The pagination token from a previous ListServiceViews response. Use this token to retrieve the next set of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listServiceViews(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListServiceViewsOutput {
+        let input = ListServiceViewsInput(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listServiceViews(input, logger: logger)
+    }
+
+    /// Returns a list of Amazon Web Services services that have been granted streaming access to your Resource Explorer data. Streaming access allows Amazon Web Services services to receive real-time updates about your resources as they are indexed by Resource Explorer.
+    @Sendable
+    @inlinable
+    public func listStreamingAccessForServices(_ input: ListStreamingAccessForServicesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStreamingAccessForServicesOutput {
+        try await self.client.execute(
+            operation: "ListStreamingAccessForServices", 
+            path: "/ListStreamingAccessForServices", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of Amazon Web Services services that have been granted streaming access to your Resource Explorer data. Streaming access allows Amazon Web Services services to receive real-time updates about your resources as they are indexed by Resource Explorer.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of streaming access entries to return in the response. If there are more results available, the response includes a NextToken value that you can use in a subsequent call to get the next set of results. The value must be between 1 and 50. If you don't specify a value, the default is 50.
+    ///   - nextToken: The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from. The pagination tokens expire after 24 hours.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listStreamingAccessForServices(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListStreamingAccessForServicesOutput {
+        let input = ListStreamingAccessForServicesInput(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listStreamingAccessForServices(input, logger: logger)
+    }
+
     /// Retrieves a list of all resource types currently supported by Amazon Web Services Resource Explorer.
     @Sendable
     @inlinable
@@ -562,8 +805,8 @@ public struct ResourceExplorer2: AWSService {
     /// Retrieves a list of all resource types currently supported by Amazon Web Services Resource Explorer.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value appropriate to the  operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
-    ///   - nextToken: The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from. The pagination tokens expire after 24 hours.
+    ///   - maxResults: The maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results.  An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    ///   - nextToken: The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from. The pagination tokens expire after 24 hours.
     ///   - logger: Logger use during operation
     @inlinable
     public func listSupportedResourceTypes(
@@ -607,11 +850,7 @@ public struct ResourceExplorer2: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Lists the Amazon resource names (ARNs) of the views available in the Amazon Web Services Region in which you call this operation.  Always check the NextToken response parameter
-    /// for a null value when calling a paginated operation. These operations can
-    /// occasionally return an empty set of results even when there are more results available. The
-    /// NextToken response parameter value is null only
-    /// when there are no more results to display.
+    /// Lists the Amazon resource names (ARNs) of the views available in the Amazon Web Services Region in which you call this operation.  Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.
     @Sendable
     @inlinable
     public func listViews(_ input: ListViewsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListViewsOutput {
@@ -624,15 +863,11 @@ public struct ResourceExplorer2: AWSService {
             logger: logger
         )
     }
-    /// Lists the Amazon resource names (ARNs) of the views available in the Amazon Web Services Region in which you call this operation.  Always check the NextToken response parameter
-    /// for a null value when calling a paginated operation. These operations can
-    /// occasionally return an empty set of results even when there are more results available. The
-    /// NextToken response parameter value is null only
-    /// when there are no more results to display.
+    /// Lists the Amazon resource names (ARNs) of the views available in the Amazon Web Services Region in which you call this operation.  Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value appropriate to the  operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
-    ///   - nextToken: The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from. The pagination tokens expire after 24 hours.
+    ///   - maxResults: The maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results.  An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    ///   - nextToken: The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from. The pagination tokens expire after 24 hours.
     ///   - logger: Logger use during operation
     @inlinable
     public func listViews(
@@ -663,8 +898,8 @@ public struct ResourceExplorer2: AWSService {
     /// Searches for resources and displays details about all resources that match the specified criteria. You must specify a query string. All search queries must use a view. If you don't explicitly specify a view, then Amazon Web Services Resource Explorer uses the default view for the Amazon Web Services Region in which you call this operation. The results are the logical intersection of the results that match both the QueryString parameter supplied to this operation and the SearchFilter parameter attached to the view. For the complete syntax supported by the QueryString parameter, see Search query syntax reference for Resource Explorer. If your search results are empty, or are missing results that you think should be there, see Troubleshooting Resource Explorer search.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value appropriate to the  operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
-    ///   - nextToken: The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from. The pagination tokens expire after 24 hours.
+    ///   - maxResults: The maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results.  An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    ///   - nextToken: The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from. The pagination tokens expire after 24 hours.
     ///   - queryString: A string that includes keywords and filters that specify the resources that you want to include in the results. For the complete syntax supported by the QueryString parameter, see Search query syntax reference for Resource Explorer. The search is completely case insensitive. You can specify an empty string to return all results up to the limit of 1,000 total results.  The operation can return only the first 1,000 results. If the resource you want is not included, then use a different value for QueryString to refine the results.
     ///   - viewArn: Specifies the Amazon resource name (ARN) of the view to use for the query. If you don't specify a value for this parameter, then the operation automatically uses the default view for the Amazon Web Services Region in which you called this operation. If the Region either doesn't have a default view or if you don't have permission to use the default view, then the operation fails with a 401 Unauthorized exception.
     ///   - logger: Logger use during operation
@@ -797,7 +1032,7 @@ public struct ResourceExplorer2: AWSService {
     /// Modifies some of the details of a view. You can change the filter string and the list of included properties. You can't change the name of the view.
     ///
     /// Parameters:
-    ///   - filters: An array of strings that specify which resources are included in the results of  queries made using this view. When you use this view in a Search  operation, the filter string is combined with the search's QueryString  parameter using a logical AND operator. For information about the supported syntax, see Search query reference for Resource Explorer in the Amazon Web Services Resource Explorer User Guide.  This query string in the context of this operation supports only filter prefixes with optional operators. It doesn't support free-form text. For example, the  string region:us* service:ec2 -tag:stage=prod includes all Amazon EC2  resources in any Amazon Web Services Region that begins with the letters us and is not tagged with a key Stage that has the value prod.
+    ///   - filters: An array of strings that specify which resources are included in the results of queries made using this view. When you use this view in a Search operation, the filter string is combined with the search's QueryString parameter using a logical AND operator. For information about the supported syntax, see Search query reference for Resource Explorer in the Amazon Web Services Resource Explorer User Guide.  This query string in the context of this operation supports only filter prefixes with optional operators. It doesn't support free-form text. For example, the string region:us* service:ec2 -tag:stage=prod includes all Amazon EC2 resources in any Amazon Web Services Region that begins with the letters us and is not tagged with a key Stage that has the value prod.
     ///   - includedProperties: Specifies optional fields that you want included in search results from this view. It is a list of objects that each describe a field to include. The default is an empty list, with no optional fields included in the results.
     ///   - viewArn: The Amazon resource name (ARN) of the view that you want to modify.
     ///   - logger: Logger use during operation
@@ -830,6 +1065,43 @@ extension ResourceExplorer2 {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ResourceExplorer2 {
+    /// Return PaginatorSequence for operation ``getResourceExplorerSetup(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getResourceExplorerSetupPaginator(
+        _ input: GetResourceExplorerSetupInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetResourceExplorerSetupInput, GetResourceExplorerSetupOutput> {
+        return .init(
+            input: input,
+            command: self.getResourceExplorerSetup,
+            inputKey: \GetResourceExplorerSetupInput.nextToken,
+            outputKey: \GetResourceExplorerSetupOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getResourceExplorerSetup(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of Region status results to return in a single response. Valid values are between 1 and 100.
+    ///   - taskId: The unique identifier of the setup task to retrieve status information for. This ID is returned by CreateResourceExplorerSetup or DeleteResourceExplorerSetup operations.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getResourceExplorerSetupPaginator(
+        maxResults: Int? = nil,
+        taskId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetResourceExplorerSetupInput, GetResourceExplorerSetupOutput> {
+        let input = GetResourceExplorerSetupInput(
+            maxResults: maxResults, 
+            taskId: taskId
+        )
+        return self.getResourceExplorerSetupPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listIndexes(_:logger:)``.
     ///
     /// - Parameters:
@@ -851,7 +1123,7 @@ extension ResourceExplorer2 {
     /// Return PaginatorSequence for operation ``listIndexes(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value appropriate to the  operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
+    ///   - maxResults: The maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results.  An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     ///   - regions: If specified, limits the response to only information about the index in the specified list of Amazon Web Services Regions.
     ///   - type: If specified, limits the output to only indexes of the specified Type, either LOCAL or AGGREGATOR. Use this option to discover the aggregator index for your account.
     ///   - logger: Logger used for logging
@@ -892,7 +1164,7 @@ extension ResourceExplorer2 {
     ///
     /// - Parameters:
     ///   - accountIdList: The account IDs will limit the output to only indexes from these accounts.
-    ///   - maxResults: The maximum number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value appropriate to the  operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
+    ///   - maxResults: The maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results.  An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     ///   - logger: Logger used for logging
     @inlinable
     public func listIndexesForMembersPaginator(
@@ -928,8 +1200,8 @@ extension ResourceExplorer2 {
     /// Return PaginatorSequence for operation ``listManagedViews(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value appropriate to the  operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
-    ///   - servicePrincipal: Specifies a service principal name. If specified, then the  operation only returns the managed views that are managed by the input service.
+    ///   - maxResults: The maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results.  An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    ///   - servicePrincipal: Specifies a service principal name. If specified, then the operation only returns the managed views that are managed by the input service.
     ///   - logger: Logger used for logging
     @inlinable
     public func listManagedViewsPaginator(
@@ -965,9 +1237,9 @@ extension ResourceExplorer2 {
     /// Return PaginatorSequence for operation ``listResources(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: An array of strings that specify which resources are included in the results of  queries made using this view. When you use this view in a Search  operation, the filter string is combined with the search's QueryString  parameter using a logical AND operator. For information about the supported syntax, see Search query reference for Resource Explorer in the Amazon Web Services Resource Explorer User Guide.  This query string in the context of this operation supports only filter prefixes with optional operators. It doesn't support free-form text. For example, the  string region:us* service:ec2 -tag:stage=prod includes all Amazon EC2  resources in any Amazon Web Services Region that begins with the letters us and is not tagged with a key Stage that has the value prod.
-    ///   - maxResults: The maximum number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value appropriate to the  operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
-    ///   - viewArn: Specifies the Amazon resource name (ARN) of the view to use for the query. If you don't  specify a value for this parameter, then the operation automatically uses the default view  for the Amazon Web Services Region in which you called this operation. If the Region either doesn't have  a default view or if you don't have permission to use the default view, then the operation  fails with a 401 Unauthorized exception.
+    ///   - filters: An array of strings that specify which resources are included in the results of queries made using this view. When you use this view in a Search operation, the filter string is combined with the search's QueryString parameter using a logical AND operator. For information about the supported syntax, see Search query reference for Resource Explorer in the Amazon Web Services Resource Explorer User Guide.  This query string in the context of this operation supports only filter prefixes with optional operators. It doesn't support free-form text. For example, the string region:us* service:ec2 -tag:stage=prod includes all Amazon EC2 resources in any Amazon Web Services Region that begins with the letters us and is not tagged with a key Stage that has the value prod.
+    ///   - maxResults: The maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results.  An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    ///   - viewArn: Specifies the Amazon resource name (ARN) of the view to use for the query. If you don't specify a value for this parameter, then the operation automatically uses the default view for the Amazon Web Services Region in which you called this operation. If the Region either doesn't have a default view or if you don't have permission to use the default view, then the operation fails with a 401 Unauthorized exception.
     ///   - logger: Logger used for logging
     @inlinable
     public func listResourcesPaginator(
@@ -982,6 +1254,111 @@ extension ResourceExplorer2 {
             viewArn: viewArn
         )
         return self.listResourcesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listServiceIndexes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listServiceIndexesPaginator(
+        _ input: ListServiceIndexesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListServiceIndexesInput, ListServiceIndexesOutput> {
+        return .init(
+            input: input,
+            command: self.listServiceIndexes,
+            inputKey: \ListServiceIndexesInput.nextToken,
+            outputKey: \ListServiceIndexesOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listServiceIndexes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of index results to return in a single response. Valid values are between 1 and 100.
+    ///   - regions: A list of Amazon Web Services Regions to include in the search for indexes. If not specified, indexes from all Regions are returned.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listServiceIndexesPaginator(
+        maxResults: Int? = nil,
+        regions: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListServiceIndexesInput, ListServiceIndexesOutput> {
+        let input = ListServiceIndexesInput(
+            maxResults: maxResults, 
+            regions: regions
+        )
+        return self.listServiceIndexesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listServiceViews(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listServiceViewsPaginator(
+        _ input: ListServiceViewsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListServiceViewsInput, ListServiceViewsOutput> {
+        return .init(
+            input: input,
+            command: self.listServiceViews,
+            inputKey: \ListServiceViewsInput.nextToken,
+            outputKey: \ListServiceViewsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listServiceViews(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of service view results to return in a single response. Valid values are between 1 and 50.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listServiceViewsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListServiceViewsInput, ListServiceViewsOutput> {
+        let input = ListServiceViewsInput(
+            maxResults: maxResults
+        )
+        return self.listServiceViewsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listStreamingAccessForServices(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listStreamingAccessForServicesPaginator(
+        _ input: ListStreamingAccessForServicesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListStreamingAccessForServicesInput, ListStreamingAccessForServicesOutput> {
+        return .init(
+            input: input,
+            command: self.listStreamingAccessForServices,
+            inputKey: \ListStreamingAccessForServicesInput.nextToken,
+            outputKey: \ListStreamingAccessForServicesOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listStreamingAccessForServices(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of streaming access entries to return in the response. If there are more results available, the response includes a NextToken value that you can use in a subsequent call to get the next set of results. The value must be between 1 and 50. If you don't specify a value, the default is 50.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listStreamingAccessForServicesPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListStreamingAccessForServicesInput, ListStreamingAccessForServicesOutput> {
+        let input = ListStreamingAccessForServicesInput(
+            maxResults: maxResults
+        )
+        return self.listStreamingAccessForServicesPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listSupportedResourceTypes(_:logger:)``.
@@ -1005,7 +1382,7 @@ extension ResourceExplorer2 {
     /// Return PaginatorSequence for operation ``listSupportedResourceTypes(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value appropriate to the  operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
+    ///   - maxResults: The maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results.  An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     ///   - logger: Logger used for logging
     @inlinable
     public func listSupportedResourceTypesPaginator(
@@ -1039,7 +1416,7 @@ extension ResourceExplorer2 {
     /// Return PaginatorSequence for operation ``listViews(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value appropriate to the  operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
+    ///   - maxResults: The maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results.  An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     ///   - logger: Logger used for logging
     @inlinable
     public func listViewsPaginator(
@@ -1073,7 +1450,7 @@ extension ResourceExplorer2 {
     /// Return PaginatorSequence for operation ``search(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value appropriate to the  operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
+    ///   - maxResults: The maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results.  An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     ///   - queryString: A string that includes keywords and filters that specify the resources that you want to include in the results. For the complete syntax supported by the QueryString parameter, see Search query syntax reference for Resource Explorer. The search is completely case insensitive. You can specify an empty string to return all results up to the limit of 1,000 total results.  The operation can return only the first 1,000 results. If the resource you want is not included, then use a different value for QueryString to refine the results.
     ///   - viewArn: Specifies the Amazon resource name (ARN) of the view to use for the query. If you don't specify a value for this parameter, then the operation automatically uses the default view for the Amazon Web Services Region in which you called this operation. If the Region either doesn't have a default view or if you don't have permission to use the default view, then the operation fails with a 401 Unauthorized exception.
     ///   - logger: Logger used for logging
@@ -1090,6 +1467,17 @@ extension ResourceExplorer2 {
             viewArn: viewArn
         )
         return self.searchPaginator(input, logger: logger)
+    }
+}
+
+extension ResourceExplorer2.GetResourceExplorerSetupInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ResourceExplorer2.GetResourceExplorerSetupInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            taskId: self.taskId
+        )
     }
 }
 
@@ -1135,6 +1523,37 @@ extension ResourceExplorer2.ListResourcesInput: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             viewArn: self.viewArn
+        )
+    }
+}
+
+extension ResourceExplorer2.ListServiceIndexesInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ResourceExplorer2.ListServiceIndexesInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            regions: self.regions
+        )
+    }
+}
+
+extension ResourceExplorer2.ListServiceViewsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ResourceExplorer2.ListServiceViewsInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension ResourceExplorer2.ListStreamingAccessForServicesInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ResourceExplorer2.ListStreamingAccessForServicesInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

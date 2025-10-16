@@ -219,17 +219,19 @@ public struct CleanRooms: AWSService {
     /// Parameters:
     ///   - analysisParameters: The parameters of the analysis template.
     ///   - description: The description of the analysis template.
+    ///   - errorMessageConfiguration: The configuration that specifies the level of detail in error messages returned by analyses using this template. When set to DETAILED, error messages include more information to help troubleshoot issues with PySpark jobs. Detailed error messages may expose underlying data, including sensitive information. Recommended for faster troubleshooting in development and testing environments.
     ///   - format: The format of the analysis template.
     ///   - membershipIdentifier: The identifier for a membership resource.
     ///   - name: The name of the analysis template.
     ///   - schema: 
-    ///   - source: The information in the analysis template. Currently supports text, the query text for the analysis template.
+    ///   - source: The information in the analysis template.
     ///   - tags: An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
     ///   - logger: Logger use during operation
     @inlinable
     public func createAnalysisTemplate(
         analysisParameters: [AnalysisParameter]? = nil,
         description: String? = nil,
+        errorMessageConfiguration: ErrorMessageConfiguration? = nil,
         format: AnalysisFormat,
         membershipIdentifier: String,
         name: String,
@@ -241,6 +243,7 @@ public struct CleanRooms: AWSService {
         let input = CreateAnalysisTemplateInput(
             analysisParameters: analysisParameters, 
             description: description, 
+            errorMessageConfiguration: errorMessageConfiguration, 
             format: format, 
             membershipIdentifier: membershipIdentifier, 
             name: name, 
@@ -267,7 +270,9 @@ public struct CleanRooms: AWSService {
     /// Creates a new collaboration.
     ///
     /// Parameters:
-    ///   - analyticsEngine:  The analytics engine.
+    ///   - allowedResultRegions: The Amazon Web Services Regions where collaboration query results can be stored. When specified, results can only be written to these Regions. This parameter enables you to meet your compliance and data governance requirements, and implement regional data governance policies.
+    ///   - analyticsEngine:  The analytics engine.  After July 16, 2025, the CLEAN_ROOMS_SQL parameter will no longer be available.
+    ///   - autoApprovedChangeRequestTypes: The types of change requests that are automatically approved for this collaboration.
     ///   - creatorDisplayName: The display name of the collaboration creator.
     ///   - creatorMemberAbilities: The abilities granted to the collaboration creator.
     ///   - creatorMLMemberAbilities: The ML abilities granted to the collaboration creator.
@@ -282,7 +287,9 @@ public struct CleanRooms: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createCollaboration(
+        allowedResultRegions: [SupportedS3Region]? = nil,
         analyticsEngine: AnalyticsEngine? = nil,
+        autoApprovedChangeRequestTypes: [AutoApprovedChangeType]? = nil,
         creatorDisplayName: String,
         creatorMemberAbilities: [MemberAbility],
         creatorMLMemberAbilities: MLMemberAbilities? = nil,
@@ -297,7 +304,9 @@ public struct CleanRooms: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateCollaborationOutput {
         let input = CreateCollaborationInput(
+            allowedResultRegions: allowedResultRegions, 
             analyticsEngine: analyticsEngine, 
+            autoApprovedChangeRequestTypes: autoApprovedChangeRequestTypes, 
             creatorDisplayName: creatorDisplayName, 
             creatorMemberAbilities: creatorMemberAbilities, 
             creatorMLMemberAbilities: creatorMLMemberAbilities, 
@@ -311,6 +320,38 @@ public struct CleanRooms: AWSService {
             tags: tags
         )
         return try await self.createCollaboration(input, logger: logger)
+    }
+
+    /// Creates a new change request to modify an existing collaboration. This enables post-creation modifications to collaborations through a structured API-driven approach.
+    @Sendable
+    @inlinable
+    public func createCollaborationChangeRequest(_ input: CreateCollaborationChangeRequestInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCollaborationChangeRequestOutput {
+        try await self.client.execute(
+            operation: "CreateCollaborationChangeRequest", 
+            path: "/collaborations/{collaborationIdentifier}/changeRequests", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new change request to modify an existing collaboration. This enables post-creation modifications to collaborations through a structured API-driven approach.
+    ///
+    /// Parameters:
+    ///   - changes: The list of changes to apply to the collaboration. Each change specifies the type of modification and the details of what should be changed.
+    ///   - collaborationIdentifier: The identifier of the collaboration that the change request is made against.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createCollaborationChangeRequest(
+        changes: [ChangeInput],
+        collaborationIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateCollaborationChangeRequestOutput {
+        let input = CreateCollaborationChangeRequestInput(
+            changes: changes, 
+            collaborationIdentifier: collaborationIdentifier
+        )
+        return try await self.createCollaborationChangeRequest(input, logger: logger)
     }
 
     /// Provides the details necessary to create a configured audience model association.
@@ -656,7 +697,7 @@ public struct CleanRooms: AWSService {
         return try await self.createMembership(input, logger: logger)
     }
 
-    /// Creates a privacy budget template for a specified membership. Each membership can have only one privacy budget template, but it can be deleted and recreated. If you need to change the privacy budget template for a membership, use the UpdatePrivacyBudgetTemplate operation.
+    /// Creates a privacy budget template for a specified collaboration. Each collaboration can have only one privacy budget template. If you need to change the privacy budget template, use the UpdatePrivacyBudgetTemplate operation.
     @Sendable
     @inlinable
     public func createPrivacyBudgetTemplate(_ input: CreatePrivacyBudgetTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePrivacyBudgetTemplateOutput {
@@ -669,7 +710,7 @@ public struct CleanRooms: AWSService {
             logger: logger
         )
     }
-    /// Creates a privacy budget template for a specified membership. Each membership can have only one privacy budget template, but it can be deleted and recreated. If you need to change the privacy budget template for a membership, use the UpdatePrivacyBudgetTemplate operation.
+    /// Creates a privacy budget template for a specified collaboration. Each collaboration can have only one privacy budget template. If you need to change the privacy budget template, use the UpdatePrivacyBudgetTemplate operation.
     ///
     /// Parameters:
     ///   - autoRefresh: How often the privacy budget refreshes.  If you plan to regularly bring new data into the collaboration, you can use CALENDAR_MONTH to automatically get a new privacy budget for the collaboration every calendar month. Choosing this option allows arbitrary amounts of information to be revealed about rows of the data when repeatedly queries across refreshes. Avoid choosing this if the same rows will be repeatedly queried between privacy budget refreshes.
@@ -680,7 +721,7 @@ public struct CleanRooms: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createPrivacyBudgetTemplate(
-        autoRefresh: PrivacyBudgetTemplateAutoRefresh,
+        autoRefresh: PrivacyBudgetTemplateAutoRefresh? = nil,
         membershipIdentifier: String,
         parameters: PrivacyBudgetTemplateParametersInput,
         privacyBudgetType: PrivacyBudgetType,
@@ -1043,7 +1084,7 @@ public struct CleanRooms: AWSService {
         return try await self.deleteMembership(input, logger: logger)
     }
 
-    /// Deletes a privacy budget template for a specified membership.
+    /// Deletes a privacy budget template for a specified collaboration.
     @Sendable
     @inlinable
     public func deletePrivacyBudgetTemplate(_ input: DeletePrivacyBudgetTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePrivacyBudgetTemplateOutput {
@@ -1056,7 +1097,7 @@ public struct CleanRooms: AWSService {
             logger: logger
         )
     }
-    /// Deletes a privacy budget template for a specified membership.
+    /// Deletes a privacy budget template for a specified collaboration.
     ///
     /// Parameters:
     ///   - membershipIdentifier: A unique identifier for one of your memberships for a collaboration. The privacy budget template is deleted from the collaboration that this membership belongs to. Accepts a membership ID.
@@ -1166,6 +1207,38 @@ public struct CleanRooms: AWSService {
             collaborationIdentifier: collaborationIdentifier
         )
         return try await self.getCollaborationAnalysisTemplate(input, logger: logger)
+    }
+
+    /// Retrieves detailed information about a specific collaboration change request.
+    @Sendable
+    @inlinable
+    public func getCollaborationChangeRequest(_ input: GetCollaborationChangeRequestInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCollaborationChangeRequestOutput {
+        try await self.client.execute(
+            operation: "GetCollaborationChangeRequest", 
+            path: "/collaborations/{collaborationIdentifier}/changeRequests/{changeRequestIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about a specific collaboration change request.
+    ///
+    /// Parameters:
+    ///   - changeRequestIdentifier: A unique identifier for the change request to retrieve.
+    ///   - collaborationIdentifier: The identifier of the collaboration that the change request is made against.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCollaborationChangeRequest(
+        changeRequestIdentifier: String,
+        collaborationIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCollaborationChangeRequestOutput {
+        let input = GetCollaborationChangeRequestInput(
+            changeRequestIdentifier: changeRequestIdentifier, 
+            collaborationIdentifier: collaborationIdentifier
+        )
+        return try await self.getCollaborationChangeRequest(input, logger: logger)
     }
 
     /// Retrieves a configured audience model association within a collaboration.
@@ -1750,6 +1823,44 @@ public struct CleanRooms: AWSService {
         return try await self.listCollaborationAnalysisTemplates(input, logger: logger)
     }
 
+    /// Lists all change requests for a collaboration with pagination support. Returns change requests sorted by creation time.
+    @Sendable
+    @inlinable
+    public func listCollaborationChangeRequests(_ input: ListCollaborationChangeRequestsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCollaborationChangeRequestsOutput {
+        try await self.client.execute(
+            operation: "ListCollaborationChangeRequests", 
+            path: "/collaborations/{collaborationIdentifier}/changeRequests", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all change requests for a collaboration with pagination support. Returns change requests sorted by creation time.
+    ///
+    /// Parameters:
+    ///   - collaborationIdentifier: The identifier of the collaboration that the change request is made against.
+    ///   - maxResults: The maximum number of results that are returned for an API request call.
+    ///   - nextToken: The pagination token that's used to fetch the next set of results.
+    ///   - status: A filter to only return change requests with the specified status.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCollaborationChangeRequests(
+        collaborationIdentifier: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        status: ChangeRequestStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCollaborationChangeRequestsOutput {
+        let input = ListCollaborationChangeRequestsInput(
+            collaborationIdentifier: collaborationIdentifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            status: status
+        )
+        return try await self.listCollaborationChangeRequests(input, logger: logger)
+    }
+
     /// Lists configured audience model associations within a collaboration.
     @Sendable
     @inlinable
@@ -1871,6 +1982,7 @@ public struct CleanRooms: AWSService {
     /// Returns an array that summarizes each privacy budget in a specified collaboration. The summary includes the collaboration ARN, creation time, creating account, and privacy budget details.
     ///
     /// Parameters:
+    ///   - accessBudgetResourceArn: The Amazon Resource Name (ARN) of the Configured Table Association (ConfiguredTableAssociation) used to filter privacy budgets.
     ///   - collaborationIdentifier: A unique identifier for one of your collaborations.
     ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     ///   - nextToken: The pagination token that's used to fetch the next set of results.
@@ -1878,6 +1990,7 @@ public struct CleanRooms: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func listCollaborationPrivacyBudgets(
+        accessBudgetResourceArn: String? = nil,
         collaborationIdentifier: String,
         maxResults: Int? = nil,
         nextToken: String? = nil,
@@ -1885,6 +1998,7 @@ public struct CleanRooms: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListCollaborationPrivacyBudgetsOutput {
         let input = ListCollaborationPrivacyBudgetsInput(
+            accessBudgetResourceArn: accessBudgetResourceArn, 
             collaborationIdentifier: collaborationIdentifier, 
             maxResults: maxResults, 
             nextToken: nextToken, 
@@ -2221,6 +2335,7 @@ public struct CleanRooms: AWSService {
     /// Returns detailed information about the privacy budgets in a specified membership.
     ///
     /// Parameters:
+    ///   - accessBudgetResourceArn: The Amazon Resource Name (ARN) of the access budget resource to filter privacy budgets by.
     ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     ///   - membershipIdentifier: A unique identifier for one of your memberships for a collaboration. The privacy budget is retrieved from the collaboration that this membership belongs to. Accepts a membership ID.
     ///   - nextToken: The pagination token that's used to fetch the next set of results.
@@ -2228,6 +2343,7 @@ public struct CleanRooms: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func listPrivacyBudgets(
+        accessBudgetResourceArn: String? = nil,
         maxResults: Int? = nil,
         membershipIdentifier: String,
         nextToken: String? = nil,
@@ -2235,6 +2351,7 @@ public struct CleanRooms: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListPrivacyBudgetsOutput {
         let input = ListPrivacyBudgetsInput(
+            accessBudgetResourceArn: accessBudgetResourceArn, 
             maxResults: maxResults, 
             membershipIdentifier: membershipIdentifier, 
             nextToken: nextToken, 
@@ -2403,16 +2520,19 @@ public struct CleanRooms: AWSService {
     ///
     /// Parameters:
     ///   - idMappingTableIdentifier: The unique identifier of the ID mapping table that you want to populate.
+    ///   - jobType: The job type of the rule-based ID mapping job. Valid values include:  INCREMENTAL: Processes only new or changed data since the last job run. This is the default job type if the ID mapping workflow was created in Entity Resolution with incrementalRunConfig specified.  BATCH: Processes all data from the input source, regardless of previous job runs. This is the default job type if the ID mapping workflow was created in Entity Resolution but incrementalRunConfig wasn't specified.  DELETE_ONLY: Processes only deletion requests from BatchDeleteUniqueId, which is set in Entity Resolution. For more information about incrementalRunConfig and BatchDeleteUniqueId, see the Entity Resolution API Reference.
     ///   - membershipIdentifier: The unique identifier of the membership that contains the ID mapping table that you want to populate.
     ///   - logger: Logger use during operation
     @inlinable
     public func populateIdMappingTable(
         idMappingTableIdentifier: String,
+        jobType: JobType? = nil,
         membershipIdentifier: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> PopulateIdMappingTableOutput {
         let input = PopulateIdMappingTableInput(
             idMappingTableIdentifier: idMappingTableIdentifier, 
+            jobType: jobType, 
             membershipIdentifier: membershipIdentifier
         )
         return try await self.populateIdMappingTable(input, logger: logger)
@@ -2466,6 +2586,7 @@ public struct CleanRooms: AWSService {
     /// Creates a protected job that is started by Clean Rooms.
     ///
     /// Parameters:
+    ///   - computeConfiguration: The compute configuration for the protected job.
     ///   - jobParameters:  The job parameters.
     ///   - membershipIdentifier: A unique identifier for the membership to run this job against. Currently accepts a membership ID.
     ///   - resultConfiguration: The details needed to write the job results.
@@ -2473,6 +2594,7 @@ public struct CleanRooms: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func startProtectedJob(
+        computeConfiguration: ProtectedJobComputeConfiguration? = nil,
         jobParameters: ProtectedJobParameters,
         membershipIdentifier: String,
         resultConfiguration: ProtectedJobResultConfigurationInput? = nil,
@@ -2480,6 +2602,7 @@ public struct CleanRooms: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartProtectedJobOutput {
         let input = StartProtectedJobInput(
+            computeConfiguration: computeConfiguration, 
             jobParameters: jobParameters, 
             membershipIdentifier: membershipIdentifier, 
             resultConfiguration: resultConfiguration, 
@@ -2644,7 +2767,7 @@ public struct CleanRooms: AWSService {
     /// Updates collaboration metadata and can only be called by the collaboration owner.
     ///
     /// Parameters:
-    ///   - analyticsEngine: The analytics engine.
+    ///   - analyticsEngine: The analytics engine.  After July 16, 2025, the CLEAN_ROOMS_SQL parameter will no longer be available.
     ///   - collaborationIdentifier: The identifier for the collaboration.
     ///   - description: A description of the collaboration.
     ///   - name: A human-readable identifier provided by the collaboration owner. Display names are not unique.
@@ -2720,27 +2843,33 @@ public struct CleanRooms: AWSService {
     /// Updates a configured table.
     ///
     /// Parameters:
+    ///   - allowedColumns: The columns of the underlying table that can be used by collaborations or analysis rules.
     ///   - analysisMethod:  The analysis method for the configured table.  DIRECT_QUERY allows SQL queries to be run directly on this table.  DIRECT_JOB allows PySpark jobs to be run directly on this table.  MULTIPLE allows both SQL queries and PySpark jobs to be run directly on this table.
     ///   - configuredTableIdentifier: The identifier for the configured table to update. Currently accepts the configured table ID.
     ///   - description: A new description for the configured table.
     ///   - name: A new name for the configured table.
     ///   - selectedAnalysisMethods:  The selected analysis methods for the table configuration update.
+    ///   - tableReference: 
     ///   - logger: Logger use during operation
     @inlinable
     public func updateConfiguredTable(
+        allowedColumns: [String]? = nil,
         analysisMethod: AnalysisMethod? = nil,
         configuredTableIdentifier: String,
         description: String? = nil,
         name: String? = nil,
         selectedAnalysisMethods: [SelectedAnalysisMethod]? = nil,
+        tableReference: TableReference? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateConfiguredTableOutput {
         let input = UpdateConfiguredTableInput(
+            allowedColumns: allowedColumns, 
             analysisMethod: analysisMethod, 
             configuredTableIdentifier: configuredTableIdentifier, 
             description: description, 
             name: name, 
-            selectedAnalysisMethods: selectedAnalysisMethods
+            selectedAnalysisMethods: selectedAnalysisMethods, 
+            tableReference: tableReference
         )
         return try await self.updateConfiguredTable(input, logger: logger)
     }
@@ -2976,7 +3105,7 @@ public struct CleanRooms: AWSService {
         return try await self.updateMembership(input, logger: logger)
     }
 
-    /// Updates the privacy budget template for the specified membership.
+    /// Updates the privacy budget template for the specified collaboration.
     @Sendable
     @inlinable
     public func updatePrivacyBudgetTemplate(_ input: UpdatePrivacyBudgetTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePrivacyBudgetTemplateOutput {
@@ -2989,7 +3118,7 @@ public struct CleanRooms: AWSService {
             logger: logger
         )
     }
-    /// Updates the privacy budget template for the specified membership.
+    /// Updates the privacy budget template for the specified collaboration.
     ///
     /// Parameters:
     ///   - membershipIdentifier: A unique identifier for one of your memberships for a collaboration. The privacy budget template is updated in the collaboration that this membership belongs to. Accepts a membership ID.
@@ -3098,6 +3227,46 @@ extension CleanRooms {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CleanRooms {
+    /// Return PaginatorSequence for operation ``listCollaborationChangeRequests(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCollaborationChangeRequestsPaginator(
+        _ input: ListCollaborationChangeRequestsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCollaborationChangeRequestsInput, ListCollaborationChangeRequestsOutput> {
+        return .init(
+            input: input,
+            command: self.listCollaborationChangeRequests,
+            inputKey: \ListCollaborationChangeRequestsInput.nextToken,
+            outputKey: \ListCollaborationChangeRequestsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCollaborationChangeRequests(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - collaborationIdentifier: The identifier of the collaboration that the change request is made against.
+    ///   - maxResults: The maximum number of results that are returned for an API request call.
+    ///   - status: A filter to only return change requests with the specified status.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCollaborationChangeRequestsPaginator(
+        collaborationIdentifier: String,
+        maxResults: Int? = nil,
+        status: ChangeRequestStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCollaborationChangeRequestsInput, ListCollaborationChangeRequestsOutput> {
+        let input = ListCollaborationChangeRequestsInput(
+            collaborationIdentifier: collaborationIdentifier, 
+            maxResults: maxResults, 
+            status: status
+        )
+        return self.listCollaborationChangeRequestsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listCollaborationConfiguredAudienceModelAssociations(_:logger:)``.
     ///
     /// - Parameters:
@@ -3230,18 +3399,21 @@ extension CleanRooms {
     /// Return PaginatorSequence for operation ``listCollaborationPrivacyBudgets(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - accessBudgetResourceArn: The Amazon Resource Name (ARN) of the Configured Table Association (ConfiguredTableAssociation) used to filter privacy budgets.
     ///   - collaborationIdentifier: A unique identifier for one of your collaborations.
     ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     ///   - privacyBudgetType: Specifies the type of the privacy budget.
     ///   - logger: Logger used for logging
     @inlinable
     public func listCollaborationPrivacyBudgetsPaginator(
+        accessBudgetResourceArn: String? = nil,
         collaborationIdentifier: String,
         maxResults: Int? = nil,
         privacyBudgetType: PrivacyBudgetType,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListCollaborationPrivacyBudgetsInput, ListCollaborationPrivacyBudgetsOutput> {
         let input = ListCollaborationPrivacyBudgetsInput(
+            accessBudgetResourceArn: accessBudgetResourceArn, 
             collaborationIdentifier: collaborationIdentifier, 
             maxResults: maxResults, 
             privacyBudgetType: privacyBudgetType
@@ -3418,18 +3590,21 @@ extension CleanRooms {
     /// Return PaginatorSequence for operation ``listPrivacyBudgets(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - accessBudgetResourceArn: The Amazon Resource Name (ARN) of the access budget resource to filter privacy budgets by.
     ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     ///   - membershipIdentifier: A unique identifier for one of your memberships for a collaboration. The privacy budget is retrieved from the collaboration that this membership belongs to. Accepts a membership ID.
     ///   - privacyBudgetType: The privacy budget type.
     ///   - logger: Logger used for logging
     @inlinable
     public func listPrivacyBudgetsPaginator(
+        accessBudgetResourceArn: String? = nil,
         maxResults: Int? = nil,
         membershipIdentifier: String,
         privacyBudgetType: PrivacyBudgetType,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListPrivacyBudgetsInput, ListPrivacyBudgetsOutput> {
         let input = ListPrivacyBudgetsInput(
+            accessBudgetResourceArn: accessBudgetResourceArn, 
             maxResults: maxResults, 
             membershipIdentifier: membershipIdentifier, 
             privacyBudgetType: privacyBudgetType
@@ -3518,6 +3693,18 @@ extension CleanRooms {
     }
 }
 
+extension CleanRooms.ListCollaborationChangeRequestsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CleanRooms.ListCollaborationChangeRequestsInput {
+        return .init(
+            collaborationIdentifier: self.collaborationIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status
+        )
+    }
+}
+
 extension CleanRooms.ListCollaborationConfiguredAudienceModelAssociationsInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> CleanRooms.ListCollaborationConfiguredAudienceModelAssociationsInput {
@@ -3555,6 +3742,7 @@ extension CleanRooms.ListCollaborationPrivacyBudgetsInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> CleanRooms.ListCollaborationPrivacyBudgetsInput {
         return .init(
+            accessBudgetResourceArn: self.accessBudgetResourceArn,
             collaborationIdentifier: self.collaborationIdentifier,
             maxResults: self.maxResults,
             nextToken: token,
@@ -3611,6 +3799,7 @@ extension CleanRooms.ListPrivacyBudgetsInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> CleanRooms.ListPrivacyBudgetsInput {
         return .init(
+            accessBudgetResourceArn: self.accessBudgetResourceArn,
             maxResults: self.maxResults,
             membershipIdentifier: self.membershipIdentifier,
             nextToken: token,

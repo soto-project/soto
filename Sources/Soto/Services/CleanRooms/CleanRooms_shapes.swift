@@ -25,6 +25,14 @@ import Foundation
 extension CleanRooms {
     // MARK: Enums
 
+    public enum AccessBudgetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case calendarDay = "CALENDAR_DAY"
+        case calendarMonth = "CALENDAR_MONTH"
+        case calendarWeek = "CALENDAR_WEEK"
+        case lifetime = "LIFETIME"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AccessDeniedExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case insufficientPermissions = "INSUFFICIENT_PERMISSIONS"
         public var description: String { return self.rawValue }
@@ -96,6 +104,36 @@ extension CleanRooms {
         public var description: String { return self.rawValue }
     }
 
+    public enum AutoApprovedChangeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case addMember = "ADD_MEMBER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoRefreshMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChangeRequestStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case approved = "APPROVED"
+        case cancelled = "CANCELLED"
+        case committed = "COMMITTED"
+        case denied = "DENIED"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChangeSpecificationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case member = "MEMBER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChangeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case addMember = "ADD_MEMBER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CollaborationJobLogStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -105,6 +143,43 @@ extension CleanRooms {
     public enum CollaborationQueryLogStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CommercialRegion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case afSouth1 = "af-south-1"
+        case apEast1 = "ap-east-1"
+        case apEast2 = "ap-east-2"
+        case apNortheast1 = "ap-northeast-1"
+        case apNortheast2 = "ap-northeast-2"
+        case apNortheast3 = "ap-northeast-3"
+        case apSouth1 = "ap-south-1"
+        case apSouth2 = "ap-south-2"
+        case apSoutheast1 = "ap-southeast-1"
+        case apSoutheast2 = "ap-southeast-2"
+        case apSoutheast3 = "ap-southeast-3"
+        case apSoutheast4 = "ap-southeast-4"
+        case apSoutheast5 = "ap-southeast-5"
+        case apSoutheast7 = "ap-southeast-7"
+        case caCentral1 = "ca-central-1"
+        case caWest1 = "ca-west-1"
+        case euCentral1 = "eu-central-1"
+        case euCentral2 = "eu-central-2"
+        case euNorth1 = "eu-north-1"
+        case euSouth1 = "eu-south-1"
+        case euSouth2 = "eu-south-2"
+        case euWest1 = "eu-west-1"
+        case euWest2 = "eu-west-2"
+        case euWest3 = "eu-west-3"
+        case ilCentral1 = "il-central-1"
+        case meCentral1 = "me-central-1"
+        case meSouth1 = "me-south-1"
+        case mxCentral1 = "mx-central-1"
+        case saEast1 = "sa-east-1"
+        case usEast1 = "us-east-1"
+        case usEast2 = "us-east-2"
+        case usWest1 = "us-west-1"
+        case usWest2 = "us-west-2"
         public var description: String { return self.rawValue }
     }
 
@@ -144,6 +219,11 @@ extension CleanRooms {
         public var description: String { return self.rawValue }
     }
 
+    public enum ErrorMessageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case detailed = "DETAILED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FilterableMemberStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case invited = "INVITED"
@@ -153,6 +233,13 @@ extension CleanRooms {
     public enum IdNamespaceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case source = "SOURCE"
         case target = "TARGET"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case batch = "BATCH"
+        case deleteOnly = "DELETE_ONLY"
+        case incremental = "INCREMENTAL"
         public var description: String { return self.rawValue }
     }
 
@@ -240,6 +327,7 @@ extension CleanRooms {
     }
 
     public enum PrivacyBudgetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accessBudget = "ACCESS_BUDGET"
         case differentialPrivacy = "DIFFERENTIAL_PRIVACY"
         public var description: String { return self.rawValue }
     }
@@ -261,6 +349,12 @@ extension CleanRooms {
 
     public enum ProtectedJobType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pyspark = "PYSPARK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProtectedJobWorkerComputeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cr1x = "CR.1X"
+        case cr4x = "CR.4X"
         public var description: String { return self.rawValue }
     }
 
@@ -357,6 +451,43 @@ extension CleanRooms {
     public enum SelectedAnalysisMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case directJob = "DIRECT_JOB"
         case directQuery = "DIRECT_QUERY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SupportedS3Region: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case afSouth1 = "af-south-1"
+        case apEast1 = "ap-east-1"
+        case apEast2 = "ap-east-2"
+        case apNortheast1 = "ap-northeast-1"
+        case apNortheast2 = "ap-northeast-2"
+        case apNortheast3 = "ap-northeast-3"
+        case apSouth1 = "ap-south-1"
+        case apSouth2 = "ap-south-2"
+        case apSoutheast1 = "ap-southeast-1"
+        case apSoutheast2 = "ap-southeast-2"
+        case apSoutheast3 = "ap-southeast-3"
+        case apSoutheast4 = "ap-southeast-4"
+        case apSoutheast5 = "ap-southeast-5"
+        case apSoutheast7 = "ap-southeast-7"
+        case caCentral1 = "ca-central-1"
+        case caWest1 = "ca-west-1"
+        case euCentral1 = "eu-central-1"
+        case euCentral2 = "eu-central-2"
+        case euNorth1 = "eu-north-1"
+        case euSouth1 = "eu-south-1"
+        case euSouth2 = "eu-south-2"
+        case euWest1 = "eu-west-1"
+        case euWest2 = "eu-west-2"
+        case euWest3 = "eu-west-3"
+        case ilCentral1 = "il-central-1"
+        case meCentral1 = "me-central-1"
+        case meSouth1 = "me-south-1"
+        case mxCentral1 = "mx-central-1"
+        case saEast1 = "sa-east-1"
+        case usEast1 = "us-east-1"
+        case usEast2 = "us-east-2"
+        case usWest1 = "us-west-1"
+        case usWest2 = "us-west-2"
         public var description: String { return self.rawValue }
     }
 
@@ -633,6 +764,130 @@ extension CleanRooms {
         }
     }
 
+    public enum PrivacyBudget: AWSDecodableShape, Sendable {
+        /// Access budget information associated with this privacy budget.
+        case accessBudget(AccessBudget)
+        /// An object that specifies the epsilon parameter and the utility in terms of total aggregations, as well as the remaining aggregations available.
+        case differentialPrivacy(DifferentialPrivacyPrivacyBudget)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .accessBudget:
+                let value = try container.decode(AccessBudget.self, forKey: .accessBudget)
+                self = .accessBudget(value)
+            case .differentialPrivacy:
+                let value = try container.decode(DifferentialPrivacyPrivacyBudget.self, forKey: .differentialPrivacy)
+                self = .differentialPrivacy(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessBudget = "accessBudget"
+            case differentialPrivacy = "differentialPrivacy"
+        }
+    }
+
+    public enum PrivacyBudgetTemplateParametersInput: AWSEncodableShape, Sendable {
+        /// Access budget configuration for the privacy budget template input, enabling integration with access budget functionality.
+        case accessBudget(AccessBudgetsPrivacyTemplateParametersInput)
+        /// An object that specifies the epsilon and noise parameters.
+        case differentialPrivacy(DifferentialPrivacyTemplateParametersInput)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .accessBudget(let value):
+                try container.encode(value, forKey: .accessBudget)
+            case .differentialPrivacy(let value):
+                try container.encode(value, forKey: .differentialPrivacy)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .accessBudget(let value):
+                try value.validate(name: "\(name).accessBudget")
+            case .differentialPrivacy(let value):
+                try value.validate(name: "\(name).differentialPrivacy")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessBudget = "accessBudget"
+            case differentialPrivacy = "differentialPrivacy"
+        }
+    }
+
+    public enum PrivacyBudgetTemplateParametersOutput: AWSDecodableShape, Sendable {
+        /// Access budget configuration returned from the privacy budget template, containing the configured access budget settings.
+        case accessBudget(AccessBudgetsPrivacyTemplateParametersOutput)
+        /// The epsilon and noise parameters.
+        case differentialPrivacy(DifferentialPrivacyTemplateParametersOutput)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .accessBudget:
+                let value = try container.decode(AccessBudgetsPrivacyTemplateParametersOutput.self, forKey: .accessBudget)
+                self = .accessBudget(value)
+            case .differentialPrivacy:
+                let value = try container.decode(DifferentialPrivacyTemplateParametersOutput.self, forKey: .differentialPrivacy)
+                self = .differentialPrivacy(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessBudget = "accessBudget"
+            case differentialPrivacy = "differentialPrivacy"
+        }
+    }
+
+    public enum PrivacyBudgetTemplateUpdateParameters: AWSEncodableShape, Sendable {
+        ///  The new access budget configuration that completely replaces the existing access budget settings in the privacy budget template.
+        case accessBudget(AccessBudgetsPrivacyTemplateUpdateParameters)
+        /// An object that specifies the new values for the epsilon and noise parameters.
+        case differentialPrivacy(DifferentialPrivacyTemplateUpdateParameters)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .accessBudget(let value):
+                try container.encode(value, forKey: .accessBudget)
+            case .differentialPrivacy(let value):
+                try container.encode(value, forKey: .differentialPrivacy)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .accessBudget(let value):
+                try value.validate(name: "\(name).accessBudget")
+            case .differentialPrivacy(let value):
+                try value.validate(name: "\(name).differentialPrivacy")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessBudget = "accessBudget"
+            case differentialPrivacy = "differentialPrivacy"
+        }
+    }
+
     public enum ProtectedJobOutput: AWSDecodableShape, Sendable {
         /// The list of member Amazon Web Services account(s) that received the results of the job.
         case memberList([ProtectedJobSingleMemberOutput])
@@ -901,6 +1156,130 @@ extension CleanRooms {
     }
 
     // MARK: Shapes
+
+    public struct AccessBudget: AWSDecodableShape {
+        /// The total remaining budget across all budget parameters, showing the lower value between the per-period budget and lifetime budget for this access budget. For individual parameter budgets, see remainingBudget.
+        public let aggregateRemainingBudget: Int
+        /// Detailed budget information including time bounds, remaining budget, and refresh settings.
+        public let details: [AccessBudgetDetails]
+        /// The Amazon Resource Name (ARN) of the access budget resource.
+        public let resourceArn: String
+
+        @inlinable
+        public init(aggregateRemainingBudget: Int, details: [AccessBudgetDetails], resourceArn: String) {
+            self.aggregateRemainingBudget = aggregateRemainingBudget
+            self.details = details
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregateRemainingBudget = "aggregateRemainingBudget"
+            case details = "details"
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct AccessBudgetDetails: AWSDecodableShape {
+        /// Indicates whether the budget automatically refreshes for each time period specified in budgetType. Valid values are:  ENABLED - The budget refreshes automatically at the start of each period.  DISABLED - The budget must be refreshed manually.  NULL - The value is null when budgetType is set to LIFETIME.
+        public let autoRefresh: AutoRefreshMode?
+        /// The total budget allocation amount for this access budget.
+        public let budget: Int
+        /// Specifies the time period for limiting table usage in queries and jobs. For calendar-based periods, the budget can renew if auto refresh is enabled. For lifetime budgets, the limit applies to the total usage throughout the collaboration. Valid values are:  CALENDAR_DAY - Limit table usage per day.  CALENDAR_WEEK - Limit table usage per week.  CALENDAR_MONTH - Limit table usage per month.  LIFETIME - Limit total table usage for the collaboration duration.
+        public let budgetType: AccessBudgetType
+        /// The end time for the access budget period.
+        public let endTime: Date?
+        /// The remaining budget amount available for use within this access budget.
+        public let remainingBudget: Int
+        /// The start time for the access budget period.
+        public let startTime: Date
+
+        @inlinable
+        public init(autoRefresh: AutoRefreshMode? = nil, budget: Int, budgetType: AccessBudgetType, endTime: Date? = nil, remainingBudget: Int, startTime: Date) {
+            self.autoRefresh = autoRefresh
+            self.budget = budget
+            self.budgetType = budgetType
+            self.endTime = endTime
+            self.remainingBudget = remainingBudget
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoRefresh = "autoRefresh"
+            case budget = "budget"
+            case budgetType = "budgetType"
+            case endTime = "endTime"
+            case remainingBudget = "remainingBudget"
+            case startTime = "startTime"
+        }
+    }
+
+    public struct AccessBudgetsPrivacyTemplateParametersInput: AWSEncodableShape {
+        /// An array of budget parameters that define the access budget configuration for the privacy template.
+        public let budgetParameters: [BudgetParameter]
+        /// The Amazon Resource Name (ARN) of the resource associated with this privacy budget template.
+        public let resourceArn: String
+
+        @inlinable
+        public init(budgetParameters: [BudgetParameter], resourceArn: String) {
+            self.budgetParameters = budgetParameters
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.budgetParameters.forEach {
+                try $0.validate(name: "\(name).budgetParameters[]")
+            }
+            try self.validate(self.budgetParameters, name: "budgetParameters", parent: name, max: 2)
+            try self.validate(self.budgetParameters, name: "budgetParameters", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 200)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:[\\w]+:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:membership/[\\d\\w-]+/configuredtableassociation/[\\d\\w-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case budgetParameters = "budgetParameters"
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct AccessBudgetsPrivacyTemplateParametersOutput: AWSDecodableShape {
+        /// An array of budget parameters returned from the access budget configuration.
+        public let budgetParameters: [BudgetParameter]
+        /// The Amazon Resource Name (ARN) of the resource associated with this privacy budget template.
+        public let resourceArn: String
+
+        @inlinable
+        public init(budgetParameters: [BudgetParameter], resourceArn: String) {
+            self.budgetParameters = budgetParameters
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case budgetParameters = "budgetParameters"
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct AccessBudgetsPrivacyTemplateUpdateParameters: AWSEncodableShape {
+        /// Updated array of budget parameters for the access budget configuration.
+        public let budgetParameters: [BudgetParameter]
+
+        @inlinable
+        public init(budgetParameters: [BudgetParameter]) {
+            self.budgetParameters = budgetParameters
+        }
+
+        public func validate(name: String) throws {
+            try self.budgetParameters.forEach {
+                try $0.validate(name: "\(name).budgetParameters[]")
+            }
+            try self.validate(self.budgetParameters, name: "budgetParameters", parent: name, max: 2)
+            try self.validate(self.budgetParameters, name: "budgetParameters", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case budgetParameters = "budgetParameters"
+        }
+    }
 
     public struct AccessDeniedException: AWSErrorShape {
         public let message: String?
@@ -1250,6 +1629,8 @@ extension CleanRooms {
         public let createTime: Date
         /// The description of the analysis template.
         public let description: String?
+        /// The configuration that specifies the level of detail in error messages returned by analyses using this template. When set to DETAILED, error messages include more information to help troubleshoot issues with PySpark jobs. Detailed error messages may expose underlying data, including sensitive information. Recommended for faster troubleshooting in development and testing environments.
+        public let errorMessageConfiguration: ErrorMessageConfiguration?
         /// The format of the analysis template.
         public let format: AnalysisFormat
         /// The identifier for the analysis template.
@@ -1272,13 +1653,14 @@ extension CleanRooms {
         public let validations: [AnalysisTemplateValidationStatusDetail]?
 
         @inlinable
-        public init(analysisParameters: [AnalysisParameter]? = nil, arn: String, collaborationArn: String, collaborationId: String, createTime: Date, description: String? = nil, format: AnalysisFormat, id: String, membershipArn: String, membershipId: String, name: String, schema: AnalysisSchema, source: AnalysisSource, sourceMetadata: AnalysisSourceMetadata? = nil, updateTime: Date, validations: [AnalysisTemplateValidationStatusDetail]? = nil) {
+        public init(analysisParameters: [AnalysisParameter]? = nil, arn: String, collaborationArn: String, collaborationId: String, createTime: Date, description: String? = nil, errorMessageConfiguration: ErrorMessageConfiguration? = nil, format: AnalysisFormat, id: String, membershipArn: String, membershipId: String, name: String, schema: AnalysisSchema, source: AnalysisSource, sourceMetadata: AnalysisSourceMetadata? = nil, updateTime: Date, validations: [AnalysisTemplateValidationStatusDetail]? = nil) {
             self.analysisParameters = analysisParameters
             self.arn = arn
             self.collaborationArn = collaborationArn
             self.collaborationId = collaborationId
             self.createTime = createTime
             self.description = description
+            self.errorMessageConfiguration = errorMessageConfiguration
             self.format = format
             self.id = id
             self.membershipArn = membershipArn
@@ -1298,6 +1680,7 @@ extension CleanRooms {
             case collaborationId = "collaborationId"
             case createTime = "createTime"
             case description = "description"
+            case errorMessageConfiguration = "errorMessageConfiguration"
             case format = "format"
             case id = "id"
             case membershipArn = "membershipArn"
@@ -1464,15 +1847,18 @@ extension CleanRooms {
         public let databaseName: String
         ///  The output location for the Athena table.
         public let outputLocation: String?
+        /// The Amazon Web Services Region where the Athena table is located. This parameter is required to uniquely identify and access tables across different Regions.
+        public let region: CommercialRegion?
         ///  The table reference.
         public let tableName: String
         ///  The workgroup of the Athena table reference.
         public let workGroup: String
 
         @inlinable
-        public init(databaseName: String, outputLocation: String? = nil, tableName: String, workGroup: String) {
+        public init(databaseName: String, outputLocation: String? = nil, region: CommercialRegion? = nil, tableName: String, workGroup: String) {
             self.databaseName = databaseName
             self.outputLocation = outputLocation
+            self.region = region
             self.tableName = tableName
             self.workGroup = workGroup
         }
@@ -1493,6 +1879,7 @@ extension CleanRooms {
         private enum CodingKeys: String, CodingKey {
             case databaseName = "databaseName"
             case outputLocation = "outputLocation"
+            case region = "region"
             case tableName = "tableName"
             case workGroup = "workGroup"
         }
@@ -1757,11 +2144,86 @@ extension CleanRooms {
         }
     }
 
+    public struct BudgetParameter: AWSEncodableShape & AWSDecodableShape {
+        /// Whether this individual budget parameter automatically refreshes when the budget period resets.
+        public let autoRefresh: AutoRefreshMode?
+        /// The budget allocation amount for this specific parameter.
+        public let budget: Int
+        /// The type of budget parameter being configured.
+        public let type: AccessBudgetType
+
+        @inlinable
+        public init(autoRefresh: AutoRefreshMode? = nil, budget: Int, type: AccessBudgetType) {
+            self.autoRefresh = autoRefresh
+            self.budget = budget
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.budget, name: "budget", parent: name, max: 1000000)
+            try self.validate(self.budget, name: "budget", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoRefresh = "autoRefresh"
+            case budget = "budget"
+            case type = "type"
+        }
+    }
+
+    public struct Change: AWSDecodableShape {
+        /// The specification details for this change.
+        public let specification: ChangeSpecification
+        /// The type of specification for this change.
+        public let specificationType: ChangeSpecificationType
+        /// The list of change types that were applied.
+        public let types: [ChangeType]
+
+        @inlinable
+        public init(specification: ChangeSpecification, specificationType: ChangeSpecificationType, types: [ChangeType]) {
+            self.specification = specification
+            self.specificationType = specificationType
+            self.types = types
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case specification = "specification"
+            case specificationType = "specificationType"
+            case types = "types"
+        }
+    }
+
+    public struct ChangeInput: AWSEncodableShape {
+        /// The specification details for the change. The structure depends on the specification type.
+        public let specification: ChangeSpecification
+        /// The type of specification for the change. Currently supports MEMBER for member-related changes.
+        public let specificationType: ChangeSpecificationType
+
+        @inlinable
+        public init(specification: ChangeSpecification, specificationType: ChangeSpecificationType) {
+            self.specification = specification
+            self.specificationType = specificationType
+        }
+
+        public func validate(name: String) throws {
+            try self.specification.validate(name: "\(name).specification")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case specification = "specification"
+            case specificationType = "specificationType"
+        }
+    }
+
     public struct Collaboration: AWSDecodableShape {
-        ///  The analytics engine for the collaboration.
+        /// The Amazon Web Services Regions where collaboration query results can be stored. Returns the list of Region identifiers that were specified when the collaboration was created. This list is used to enforce regional storage policies and compliance requirements.
+        public let allowedResultRegions: [SupportedS3Region]?
+        ///  The analytics engine for the collaboration.  After July 16, 2025, the CLEAN_ROOMS_SQL parameter will no longer be available.
         public let analyticsEngine: AnalyticsEngine?
         /// The unique ARN for the collaboration.
         public let arn: String
+        /// The types of change requests that are automatically approved for this collaboration.
+        public let autoApprovedChangeTypes: [AutoApprovedChangeType]?
         /// The time when the collaboration was created.
         public let createTime: Date
         /// The identifier used to reference members of the collaboration. Currently only supports Amazon Web Services account ID.
@@ -1790,9 +2252,11 @@ extension CleanRooms {
         public let updateTime: Date
 
         @inlinable
-        public init(analyticsEngine: AnalyticsEngine? = nil, arn: String, createTime: Date, creatorAccountId: String, creatorDisplayName: String, dataEncryptionMetadata: DataEncryptionMetadata? = nil, description: String? = nil, id: String, jobLogStatus: CollaborationJobLogStatus? = nil, membershipArn: String? = nil, membershipId: String? = nil, memberStatus: MemberStatus, name: String, queryLogStatus: CollaborationQueryLogStatus, updateTime: Date) {
+        public init(allowedResultRegions: [SupportedS3Region]? = nil, analyticsEngine: AnalyticsEngine? = nil, arn: String, autoApprovedChangeTypes: [AutoApprovedChangeType]? = nil, createTime: Date, creatorAccountId: String, creatorDisplayName: String, dataEncryptionMetadata: DataEncryptionMetadata? = nil, description: String? = nil, id: String, jobLogStatus: CollaborationJobLogStatus? = nil, membershipArn: String? = nil, membershipId: String? = nil, memberStatus: MemberStatus, name: String, queryLogStatus: CollaborationQueryLogStatus, updateTime: Date) {
+            self.allowedResultRegions = allowedResultRegions
             self.analyticsEngine = analyticsEngine
             self.arn = arn
+            self.autoApprovedChangeTypes = autoApprovedChangeTypes
             self.createTime = createTime
             self.creatorAccountId = creatorAccountId
             self.creatorDisplayName = creatorDisplayName
@@ -1809,8 +2273,10 @@ extension CleanRooms {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowedResultRegions = "allowedResultRegions"
             case analyticsEngine = "analyticsEngine"
             case arn = "arn"
+            case autoApprovedChangeTypes = "autoApprovedChangeTypes"
             case createTime = "createTime"
             case creatorAccountId = "creatorAccountId"
             case creatorDisplayName = "creatorDisplayName"
@@ -1842,6 +2308,8 @@ extension CleanRooms {
         public let creatorAccountId: String
         /// The description of the analysis template.
         public let description: String?
+        /// The configuration that specifies the level of detail in error messages returned by analyses using this template. When set to DETAILED, error messages include more information to help troubleshoot issues with PySpark jobs. Detailed error messages may expose underlying data, including sensitive information. Recommended for faster troubleshooting in development and testing environments.
+        public let errorMessageConfiguration: ErrorMessageConfiguration?
         /// The format of the analysis template in the collaboration.
         public let format: AnalysisFormat
         /// The identifier of the analysis template.
@@ -1860,7 +2328,7 @@ extension CleanRooms {
         public let validations: [AnalysisTemplateValidationStatusDetail]?
 
         @inlinable
-        public init(analysisParameters: [AnalysisParameter]? = nil, arn: String, collaborationArn: String, collaborationId: String, createTime: Date, creatorAccountId: String, description: String? = nil, format: AnalysisFormat, id: String, name: String, schema: AnalysisSchema, source: AnalysisSource? = nil, sourceMetadata: AnalysisSourceMetadata? = nil, updateTime: Date, validations: [AnalysisTemplateValidationStatusDetail]? = nil) {
+        public init(analysisParameters: [AnalysisParameter]? = nil, arn: String, collaborationArn: String, collaborationId: String, createTime: Date, creatorAccountId: String, description: String? = nil, errorMessageConfiguration: ErrorMessageConfiguration? = nil, format: AnalysisFormat, id: String, name: String, schema: AnalysisSchema, source: AnalysisSource? = nil, sourceMetadata: AnalysisSourceMetadata? = nil, updateTime: Date, validations: [AnalysisTemplateValidationStatusDetail]? = nil) {
             self.analysisParameters = analysisParameters
             self.arn = arn
             self.collaborationArn = collaborationArn
@@ -1868,6 +2336,7 @@ extension CleanRooms {
             self.createTime = createTime
             self.creatorAccountId = creatorAccountId
             self.description = description
+            self.errorMessageConfiguration = errorMessageConfiguration
             self.format = format
             self.id = id
             self.name = name
@@ -1886,6 +2355,7 @@ extension CleanRooms {
             case createTime = "createTime"
             case creatorAccountId = "creatorAccountId"
             case description = "description"
+            case errorMessageConfiguration = "errorMessageConfiguration"
             case format = "format"
             case id = "id"
             case name = "name"
@@ -1939,6 +2409,82 @@ extension CleanRooms {
             case description = "description"
             case id = "id"
             case name = "name"
+            case updateTime = "updateTime"
+        }
+    }
+
+    public struct CollaborationChangeRequest: AWSDecodableShape {
+        /// The list of changes specified in this change request.
+        public let changes: [Change]
+        /// The unique identifier for the collaboration being modified.
+        public let collaborationId: String
+        /// The time when the change request was created.
+        public let createTime: Date
+        /// The unique identifier for the change request.
+        public let id: String
+        /// Whether the change request was automatically approved based on the collaboration's auto-approval settings.
+        public let isAutoApproved: Bool
+        /// The current status of the change request. Valid values are PENDING, APPROVED, DENIED, COMMITTED, and CANCELLED.
+        public let status: ChangeRequestStatus
+        /// The time when the change request was last updated.
+        public let updateTime: Date
+
+        @inlinable
+        public init(changes: [Change], collaborationId: String, createTime: Date, id: String, isAutoApproved: Bool, status: ChangeRequestStatus, updateTime: Date) {
+            self.changes = changes
+            self.collaborationId = collaborationId
+            self.createTime = createTime
+            self.id = id
+            self.isAutoApproved = isAutoApproved
+            self.status = status
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changes = "changes"
+            case collaborationId = "collaborationId"
+            case createTime = "createTime"
+            case id = "id"
+            case isAutoApproved = "isAutoApproved"
+            case status = "status"
+            case updateTime = "updateTime"
+        }
+    }
+
+    public struct CollaborationChangeRequestSummary: AWSDecodableShape {
+        /// Summary of the changes in this change request.
+        public let changes: [Change]
+        /// The unique identifier for the collaboration.
+        public let collaborationId: String
+        /// The time when the change request was created.
+        public let createTime: Date
+        /// The unique identifier for the change request.
+        public let id: String
+        /// Whether the change request was automatically approved.
+        public let isAutoApproved: Bool
+        /// The current status of the change request.
+        public let status: ChangeRequestStatus
+        /// The time when the change request was last updated.
+        public let updateTime: Date
+
+        @inlinable
+        public init(changes: [Change], collaborationId: String, createTime: Date, id: String, isAutoApproved: Bool, status: ChangeRequestStatus, updateTime: Date) {
+            self.changes = changes
+            self.collaborationId = collaborationId
+            self.createTime = createTime
+            self.id = id
+            self.isAutoApproved = isAutoApproved
+            self.status = status
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changes = "changes"
+            case collaborationId = "collaborationId"
+            case createTime = "createTime"
+            case id = "id"
+            case isAutoApproved = "isAutoApproved"
+            case status = "status"
             case updateTime = "updateTime"
         }
     }
@@ -2293,7 +2839,7 @@ extension CleanRooms {
     }
 
     public struct CollaborationSummary: AWSDecodableShape {
-        ///  The analytics engine.
+        ///  The analytics engine.  After July 16, 2025, the CLEAN_ROOMS_SQL parameter will no longer be available.
         public let analyticsEngine: AnalyticsEngine?
         /// The ARN of the collaboration.
         public let arn: String
@@ -2992,6 +3538,8 @@ extension CleanRooms {
         public let analysisParameters: [AnalysisParameter]?
         /// The description of the analysis template.
         public let description: String?
+        /// The configuration that specifies the level of detail in error messages returned by analyses using this template. When set to DETAILED, error messages include more information to help troubleshoot issues with PySpark jobs. Detailed error messages may expose underlying data, including sensitive information. Recommended for faster troubleshooting in development and testing environments.
+        public let errorMessageConfiguration: ErrorMessageConfiguration?
         /// The format of the analysis template.
         public let format: AnalysisFormat
         /// The identifier for a membership resource.
@@ -2999,15 +3547,16 @@ extension CleanRooms {
         /// The name of the analysis template.
         public let name: String
         public let schema: AnalysisSchema?
-        /// The information in the analysis template. Currently supports text, the query text for the analysis template.
+        /// The information in the analysis template.
         public let source: AnalysisSource
         /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
         public let tags: [String: String]?
 
         @inlinable
-        public init(analysisParameters: [AnalysisParameter]? = nil, description: String? = nil, format: AnalysisFormat, membershipIdentifier: String, name: String, schema: AnalysisSchema? = nil, source: AnalysisSource, tags: [String: String]? = nil) {
+        public init(analysisParameters: [AnalysisParameter]? = nil, description: String? = nil, errorMessageConfiguration: ErrorMessageConfiguration? = nil, format: AnalysisFormat, membershipIdentifier: String, name: String, schema: AnalysisSchema? = nil, source: AnalysisSource, tags: [String: String]? = nil) {
             self.analysisParameters = analysisParameters
             self.description = description
+            self.errorMessageConfiguration = errorMessageConfiguration
             self.format = format
             self.membershipIdentifier = membershipIdentifier
             self.name = name
@@ -3021,6 +3570,7 @@ extension CleanRooms {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.analysisParameters, forKey: .analysisParameters)
             try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.errorMessageConfiguration, forKey: .errorMessageConfiguration)
             try container.encode(self.format, forKey: .format)
             request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
             try container.encode(self.name, forKey: .name)
@@ -3054,6 +3604,7 @@ extension CleanRooms {
         private enum CodingKeys: String, CodingKey {
             case analysisParameters = "analysisParameters"
             case description = "description"
+            case errorMessageConfiguration = "errorMessageConfiguration"
             case format = "format"
             case name = "name"
             case schema = "schema"
@@ -3076,9 +3627,61 @@ extension CleanRooms {
         }
     }
 
+    public struct CreateCollaborationChangeRequestInput: AWSEncodableShape {
+        /// The list of changes to apply to the collaboration. Each change specifies the type of modification and the details of what should be changed.
+        public let changes: [ChangeInput]
+        /// The identifier of the collaboration that the change request is made against.
+        public let collaborationIdentifier: String
+
+        @inlinable
+        public init(changes: [ChangeInput], collaborationIdentifier: String) {
+            self.changes = changes
+            self.collaborationIdentifier = collaborationIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.changes, forKey: .changes)
+            request.encodePath(self.collaborationIdentifier, key: "collaborationIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.changes.forEach {
+                try $0.validate(name: "\(name).changes[]")
+            }
+            try self.validate(self.changes, name: "changes", parent: name, max: 10)
+            try self.validate(self.changes, name: "changes", parent: name, min: 1)
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, max: 36)
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, min: 36)
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changes = "changes"
+        }
+    }
+
+    public struct CreateCollaborationChangeRequestOutput: AWSDecodableShape {
+        public let collaborationChangeRequest: CollaborationChangeRequest
+
+        @inlinable
+        public init(collaborationChangeRequest: CollaborationChangeRequest) {
+            self.collaborationChangeRequest = collaborationChangeRequest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collaborationChangeRequest = "collaborationChangeRequest"
+        }
+    }
+
     public struct CreateCollaborationInput: AWSEncodableShape {
-        ///  The analytics engine.
+        /// The Amazon Web Services Regions where collaboration query results can be stored. When specified, results can only be written to these Regions. This parameter enables you to meet your compliance and data governance requirements, and implement regional data governance policies.
+        public let allowedResultRegions: [SupportedS3Region]?
+        ///  The analytics engine.  After July 16, 2025, the CLEAN_ROOMS_SQL parameter will no longer be available.
         public let analyticsEngine: AnalyticsEngine?
+        /// The types of change requests that are automatically approved for this collaboration.
+        public let autoApprovedChangeRequestTypes: [AutoApprovedChangeType]?
         /// The display name of the collaboration creator.
         public let creatorDisplayName: String
         /// The abilities granted to the collaboration creator.
@@ -3103,8 +3706,10 @@ extension CleanRooms {
         public let tags: [String: String]?
 
         @inlinable
-        public init(analyticsEngine: AnalyticsEngine? = nil, creatorDisplayName: String, creatorMemberAbilities: [MemberAbility], creatorMLMemberAbilities: MLMemberAbilities? = nil, creatorPaymentConfiguration: PaymentConfiguration? = nil, dataEncryptionMetadata: DataEncryptionMetadata? = nil, description: String, jobLogStatus: CollaborationJobLogStatus? = nil, members: [MemberSpecification], name: String, queryLogStatus: CollaborationQueryLogStatus, tags: [String: String]? = nil) {
+        public init(allowedResultRegions: [SupportedS3Region]? = nil, analyticsEngine: AnalyticsEngine? = nil, autoApprovedChangeRequestTypes: [AutoApprovedChangeType]? = nil, creatorDisplayName: String, creatorMemberAbilities: [MemberAbility], creatorMLMemberAbilities: MLMemberAbilities? = nil, creatorPaymentConfiguration: PaymentConfiguration? = nil, dataEncryptionMetadata: DataEncryptionMetadata? = nil, description: String, jobLogStatus: CollaborationJobLogStatus? = nil, members: [MemberSpecification], name: String, queryLogStatus: CollaborationQueryLogStatus, tags: [String: String]? = nil) {
+            self.allowedResultRegions = allowedResultRegions
             self.analyticsEngine = analyticsEngine
+            self.autoApprovedChangeRequestTypes = autoApprovedChangeRequestTypes
             self.creatorDisplayName = creatorDisplayName
             self.creatorMemberAbilities = creatorMemberAbilities
             self.creatorMLMemberAbilities = creatorMLMemberAbilities
@@ -3142,7 +3747,9 @@ extension CleanRooms {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowedResultRegions = "allowedResultRegions"
             case analyticsEngine = "analyticsEngine"
+            case autoApprovedChangeRequestTypes = "autoApprovedChangeRequestTypes"
             case creatorDisplayName = "creatorDisplayName"
             case creatorMemberAbilities = "creatorMemberAbilities"
             case creatorMLMemberAbilities = "creatorMLMemberAbilities"
@@ -3730,7 +4337,7 @@ extension CleanRooms {
 
     public struct CreatePrivacyBudgetTemplateInput: AWSEncodableShape {
         /// How often the privacy budget refreshes.  If you plan to regularly bring new data into the collaboration, you can use CALENDAR_MONTH to automatically get a new privacy budget for the collaboration every calendar month. Choosing this option allows arbitrary amounts of information to be revealed about rows of the data when repeatedly queries across refreshes. Avoid choosing this if the same rows will be repeatedly queried between privacy budget refreshes.
-        public let autoRefresh: PrivacyBudgetTemplateAutoRefresh
+        public let autoRefresh: PrivacyBudgetTemplateAutoRefresh?
         /// A unique identifier for one of your memberships for a collaboration. The privacy budget template is created in the collaboration that this membership belongs to. Accepts a membership ID.
         public let membershipIdentifier: String
         /// Specifies your parameters for the privacy budget template.
@@ -3741,7 +4348,7 @@ extension CleanRooms {
         public let tags: [String: String]?
 
         @inlinable
-        public init(autoRefresh: PrivacyBudgetTemplateAutoRefresh, membershipIdentifier: String, parameters: PrivacyBudgetTemplateParametersInput, privacyBudgetType: PrivacyBudgetType, tags: [String: String]? = nil) {
+        public init(autoRefresh: PrivacyBudgetTemplateAutoRefresh? = nil, membershipIdentifier: String, parameters: PrivacyBudgetTemplateParametersInput, privacyBudgetType: PrivacyBudgetType, tags: [String: String]? = nil) {
             self.autoRefresh = autoRefresh
             self.membershipIdentifier = membershipIdentifier
             self.parameters = parameters
@@ -3752,7 +4359,7 @@ extension CleanRooms {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.autoRefresh, forKey: .autoRefresh)
+            try container.encodeIfPresent(self.autoRefresh, forKey: .autoRefresh)
             request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
             try container.encode(self.parameters, forKey: .parameters)
             try container.encode(self.privacyBudgetType, forKey: .privacyBudgetType)
@@ -4476,6 +5083,20 @@ extension CleanRooms {
         }
     }
 
+    public struct ErrorMessageConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The level of detail for error messages returned by the PySpark job. When set to DETAILED, error messages include more information to help troubleshoot issues with your PySpark job. Because this setting may expose sensitive data, it is recommended for development and testing environments.
+        public let type: ErrorMessageType
+
+        @inlinable
+        public init(type: ErrorMessageType) {
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "type"
+        }
+    }
+
     public struct GetAnalysisTemplateInput: AWSEncodableShape {
         /// The identifier for the analysis template resource.
         public let analysisTemplateIdentifier: String
@@ -4562,6 +5183,51 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case collaborationAnalysisTemplate = "collaborationAnalysisTemplate"
+        }
+    }
+
+    public struct GetCollaborationChangeRequestInput: AWSEncodableShape {
+        /// A unique identifier for the change request to retrieve.
+        public let changeRequestIdentifier: String
+        /// The identifier of the collaboration that the change request is made against.
+        public let collaborationIdentifier: String
+
+        @inlinable
+        public init(changeRequestIdentifier: String, collaborationIdentifier: String) {
+            self.changeRequestIdentifier = changeRequestIdentifier
+            self.collaborationIdentifier = collaborationIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.changeRequestIdentifier, key: "changeRequestIdentifier")
+            request.encodePath(self.collaborationIdentifier, key: "collaborationIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.changeRequestIdentifier, name: "changeRequestIdentifier", parent: name, max: 36)
+            try self.validate(self.changeRequestIdentifier, name: "changeRequestIdentifier", parent: name, min: 36)
+            try self.validate(self.changeRequestIdentifier, name: "changeRequestIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, max: 36)
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, min: 36)
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetCollaborationChangeRequestOutput: AWSDecodableShape {
+        /// The collaboration change request that was requested.
+        public let collaborationChangeRequest: CollaborationChangeRequest
+
+        @inlinable
+        public init(collaborationChangeRequest: CollaborationChangeRequest) {
+            self.collaborationChangeRequest = collaborationChangeRequest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collaborationChangeRequest = "collaborationChangeRequest"
         }
     }
 
@@ -5315,12 +5981,15 @@ extension CleanRooms {
     public struct GlueTableReference: AWSEncodableShape & AWSDecodableShape {
         /// The name of the database the Glue table belongs to.
         public let databaseName: String
+        /// The Amazon Web Services Region where the Glue table is located. This parameter is required to uniquely identify and access tables across different Regions.
+        public let region: CommercialRegion?
         /// The name of the Glue table.
         public let tableName: String
 
         @inlinable
-        public init(databaseName: String, tableName: String) {
+        public init(databaseName: String, region: CommercialRegion? = nil, tableName: String) {
             self.databaseName = databaseName
+            self.region = region
             self.tableName = tableName
         }
 
@@ -5333,6 +6002,7 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case databaseName = "databaseName"
+            case region = "region"
             case tableName = "tableName"
         }
     }
@@ -5846,6 +6516,63 @@ extension CleanRooms {
         }
     }
 
+    public struct ListCollaborationChangeRequestsInput: AWSEncodableShape {
+        /// The identifier of the collaboration that the change request is made against.
+        public let collaborationIdentifier: String
+        /// The maximum number of results that are returned for an API request call.
+        public let maxResults: Int?
+        /// The pagination token that's used to fetch the next set of results.
+        public let nextToken: String?
+        /// A filter to only return change requests with the specified status.
+        public let status: ChangeRequestStatus?
+
+        @inlinable
+        public init(collaborationIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, status: ChangeRequestStatus? = nil) {
+            self.collaborationIdentifier = collaborationIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collaborationIdentifier, key: "collaborationIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.status, key: "status")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, max: 36)
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, min: 36)
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10240)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCollaborationChangeRequestsOutput: AWSDecodableShape {
+        /// The list of collaboration change request summaries.
+        public let collaborationChangeRequestSummaries: [CollaborationChangeRequestSummary]
+        /// The pagination token that's used to fetch the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(collaborationChangeRequestSummaries: [CollaborationChangeRequestSummary], nextToken: String? = nil) {
+            self.collaborationChangeRequestSummaries = collaborationChangeRequestSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collaborationChangeRequestSummaries = "collaborationChangeRequestSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListCollaborationConfiguredAudienceModelAssociationsInput: AWSEncodableShape {
         /// A unique identifier for the collaboration that the configured audience model association belongs to. Accepts a collaboration ID.
         public let collaborationIdentifier: String
@@ -6006,6 +6733,8 @@ extension CleanRooms {
     }
 
     public struct ListCollaborationPrivacyBudgetsInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Configured Table Association (ConfiguredTableAssociation) used to filter privacy budgets.
+        public let accessBudgetResourceArn: String?
         /// A unique identifier for one of your collaborations.
         public let collaborationIdentifier: String
         /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
@@ -6016,7 +6745,8 @@ extension CleanRooms {
         public let privacyBudgetType: PrivacyBudgetType
 
         @inlinable
-        public init(collaborationIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, privacyBudgetType: PrivacyBudgetType) {
+        public init(accessBudgetResourceArn: String? = nil, collaborationIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, privacyBudgetType: PrivacyBudgetType) {
+            self.accessBudgetResourceArn = accessBudgetResourceArn
             self.collaborationIdentifier = collaborationIdentifier
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6026,6 +6756,7 @@ extension CleanRooms {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.accessBudgetResourceArn, key: "accessBudgetResourceArn")
             request.encodePath(self.collaborationIdentifier, key: "collaborationIdentifier")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
@@ -6033,6 +6764,8 @@ extension CleanRooms {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accessBudgetResourceArn, name: "accessBudgetResourceArn", parent: name, max: 200)
+            try self.validate(self.accessBudgetResourceArn, name: "accessBudgetResourceArn", parent: name, pattern: "^arn:aws:[\\w]+:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:membership/[\\d\\w-]+/configuredtableassociation/[\\d\\w-]+$")
             try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, max: 36)
             try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, min: 36)
             try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -6527,6 +7260,8 @@ extension CleanRooms {
     }
 
     public struct ListPrivacyBudgetsInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the access budget resource to filter privacy budgets by.
+        public let accessBudgetResourceArn: String?
         /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
         public let maxResults: Int?
         /// A unique identifier for one of your memberships for a collaboration. The privacy budget is retrieved from the collaboration that this membership belongs to. Accepts a membership ID.
@@ -6537,7 +7272,8 @@ extension CleanRooms {
         public let privacyBudgetType: PrivacyBudgetType
 
         @inlinable
-        public init(maxResults: Int? = nil, membershipIdentifier: String, nextToken: String? = nil, privacyBudgetType: PrivacyBudgetType) {
+        public init(accessBudgetResourceArn: String? = nil, maxResults: Int? = nil, membershipIdentifier: String, nextToken: String? = nil, privacyBudgetType: PrivacyBudgetType) {
+            self.accessBudgetResourceArn = accessBudgetResourceArn
             self.maxResults = maxResults
             self.membershipIdentifier = membershipIdentifier
             self.nextToken = nextToken
@@ -6547,6 +7283,7 @@ extension CleanRooms {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.accessBudgetResourceArn, key: "accessBudgetResourceArn")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
             request.encodeQuery(self.nextToken, key: "nextToken")
@@ -6554,6 +7291,8 @@ extension CleanRooms {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accessBudgetResourceArn, name: "accessBudgetResourceArn", parent: name, max: 200)
+            try self.validate(self.accessBudgetResourceArn, name: "accessBudgetResourceArn", parent: name, pattern: "^arn:aws:[\\w]+:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:membership/[\\d\\w-]+/configuredtableassociation/[\\d\\w-]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
@@ -6824,6 +7563,37 @@ extension CleanRooms {
         private enum CodingKeys: String, CodingKey {
             case modelInference = "modelInference"
             case modelTraining = "modelTraining"
+        }
+    }
+
+    public struct MemberChangeSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Web Services account ID of the member to add to the collaboration.
+        public let accountId: String
+        /// Specifies the display name that will be shown for this member in the collaboration. While this field is required when inviting new members, it becomes optional when modifying abilities of existing collaboration members.
+        public let displayName: String?
+        /// The abilities granted to the collaboration member. These determine what actions the member can perform within the collaboration.  The following values are currently not supported: CAN_QUERY, CAN_RECEIVE_RESULTS, and CAN_RUN_JOB.  Set the value of memberAbilities to [] to allow a member to contribute data.
+        public let memberAbilities: [MemberAbility]
+
+        @inlinable
+        public init(accountId: String, displayName: String? = nil, memberAbilities: [MemberAbility]) {
+            self.accountId = accountId
+            self.displayName = displayName
+            self.memberAbilities = memberAbilities
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d+$")
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^(?!\\s*$)[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case displayName = "displayName"
+            case memberAbilities = "memberAbilities"
         }
     }
 
@@ -7256,19 +8026,23 @@ extension CleanRooms {
     public struct PopulateIdMappingTableInput: AWSEncodableShape {
         /// The unique identifier of the ID mapping table that you want to populate.
         public let idMappingTableIdentifier: String
+        /// The job type of the rule-based ID mapping job. Valid values include:  INCREMENTAL: Processes only new or changed data since the last job run. This is the default job type if the ID mapping workflow was created in Entity Resolution with incrementalRunConfig specified.  BATCH: Processes all data from the input source, regardless of previous job runs. This is the default job type if the ID mapping workflow was created in Entity Resolution but incrementalRunConfig wasn't specified.  DELETE_ONLY: Processes only deletion requests from BatchDeleteUniqueId, which is set in Entity Resolution. For more information about incrementalRunConfig and BatchDeleteUniqueId, see the Entity Resolution API Reference.
+        public let jobType: JobType?
         /// The unique identifier of the membership that contains the ID mapping table that you want to populate.
         public let membershipIdentifier: String
 
         @inlinable
-        public init(idMappingTableIdentifier: String, membershipIdentifier: String) {
+        public init(idMappingTableIdentifier: String, jobType: JobType? = nil, membershipIdentifier: String) {
             self.idMappingTableIdentifier = idMappingTableIdentifier
+            self.jobType = jobType
             self.membershipIdentifier = membershipIdentifier
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
-            _ = encoder.container(keyedBy: CodingKeys.self)
+            var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.idMappingTableIdentifier, key: "idMappingTableIdentifier")
+            try container.encodeIfPresent(self.jobType, forKey: .jobType)
             request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
         }
 
@@ -7281,7 +8055,9 @@ extension CleanRooms {
             try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case jobType = "jobType"
+        }
     }
 
     public struct PopulateIdMappingTableOutput: AWSDecodableShape {
@@ -7498,6 +8274,8 @@ extension CleanRooms {
     }
 
     public struct ProtectedJob: AWSDecodableShape {
+        /// The compute configuration for the protected job.
+        public let computeConfiguration: ProtectedJobComputeConfiguration?
         ///  The creation time of the protected job.
         public let createTime: Date
         ///  The error from the protected job.
@@ -7520,7 +8298,8 @@ extension CleanRooms {
         public let status: ProtectedJobStatus
 
         @inlinable
-        public init(createTime: Date, error: ProtectedJobError? = nil, id: String, jobParameters: ProtectedJobParameters? = nil, membershipArn: String, membershipId: String, result: ProtectedJobResult? = nil, resultConfiguration: ProtectedJobResultConfigurationOutput? = nil, statistics: ProtectedJobStatistics? = nil, status: ProtectedJobStatus) {
+        public init(computeConfiguration: ProtectedJobComputeConfiguration? = nil, createTime: Date, error: ProtectedJobError? = nil, id: String, jobParameters: ProtectedJobParameters? = nil, membershipArn: String, membershipId: String, result: ProtectedJobResult? = nil, resultConfiguration: ProtectedJobResultConfigurationOutput? = nil, statistics: ProtectedJobStatistics? = nil, status: ProtectedJobStatus) {
+            self.computeConfiguration = computeConfiguration
             self.createTime = createTime
             self.error = error
             self.id = id
@@ -7534,6 +8313,7 @@ extension CleanRooms {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case computeConfiguration = "computeConfiguration"
             case createTime = "createTime"
             case error = "error"
             case id = "id"
@@ -7814,6 +8594,24 @@ extension CleanRooms {
             case membershipId = "membershipId"
             case receiverConfigurations = "receiverConfigurations"
             case status = "status"
+        }
+    }
+
+    public struct ProtectedJobWorkerComputeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The number of workers for a PySpark job.
+        public let number: Int
+        /// The worker compute configuration type.
+        public let type: ProtectedJobWorkerComputeType
+
+        @inlinable
+        public init(number: Int, type: ProtectedJobWorkerComputeType) {
+            self.number = number
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case number = "number"
+            case type = "type"
         }
     }
 
@@ -8232,6 +9030,8 @@ extension CleanRooms {
         public let name: String
         /// The partition keys for the dataset underlying this schema.
         public let partitionKeys: [Column]
+        /// The Amazon Resource Name (ARN) of the schema resource.
+        public let resourceArn: String?
         /// Details about the status of the schema. Currently, only one entry is present.
         public let schemaStatusDetails: [SchemaStatusDetail]
         /// The schema type properties.
@@ -8244,7 +9044,7 @@ extension CleanRooms {
         public let updateTime: Date
 
         @inlinable
-        public init(analysisMethod: AnalysisMethod? = nil, analysisRuleTypes: [AnalysisRuleType], collaborationArn: String, collaborationId: String, columns: [Column], createTime: Date, creatorAccountId: String, description: String, name: String, partitionKeys: [Column], schemaStatusDetails: [SchemaStatusDetail], schemaTypeProperties: SchemaTypeProperties? = nil, selectedAnalysisMethods: [SelectedAnalysisMethod]? = nil, type: SchemaType, updateTime: Date) {
+        public init(analysisMethod: AnalysisMethod? = nil, analysisRuleTypes: [AnalysisRuleType], collaborationArn: String, collaborationId: String, columns: [Column], createTime: Date, creatorAccountId: String, description: String, name: String, partitionKeys: [Column], resourceArn: String? = nil, schemaStatusDetails: [SchemaStatusDetail], schemaTypeProperties: SchemaTypeProperties? = nil, selectedAnalysisMethods: [SelectedAnalysisMethod]? = nil, type: SchemaType, updateTime: Date) {
             self.analysisMethod = analysisMethod
             self.analysisRuleTypes = analysisRuleTypes
             self.collaborationArn = collaborationArn
@@ -8255,6 +9055,7 @@ extension CleanRooms {
             self.description = description
             self.name = name
             self.partitionKeys = partitionKeys
+            self.resourceArn = resourceArn
             self.schemaStatusDetails = schemaStatusDetails
             self.schemaTypeProperties = schemaTypeProperties
             self.selectedAnalysisMethods = selectedAnalysisMethods
@@ -8273,6 +9074,7 @@ extension CleanRooms {
             case description = "description"
             case name = "name"
             case partitionKeys = "partitionKeys"
+            case resourceArn = "resourceArn"
             case schemaStatusDetails = "schemaStatusDetails"
             case schemaTypeProperties = "schemaTypeProperties"
             case selectedAnalysisMethods = "selectedAnalysisMethods"
@@ -8367,6 +9169,8 @@ extension CleanRooms {
         public let creatorAccountId: String
         /// The name for the schema object.
         public let name: String
+        /// The Amazon Resource Name (ARN) of the schema summary resource.
+        public let resourceArn: String?
         ///  The selected analysis methods for the schema.
         public let selectedAnalysisMethods: [SelectedAnalysisMethod]?
         /// The type of schema object.
@@ -8375,7 +9179,7 @@ extension CleanRooms {
         public let updateTime: Date
 
         @inlinable
-        public init(analysisMethod: AnalysisMethod? = nil, analysisRuleTypes: [AnalysisRuleType], collaborationArn: String, collaborationId: String, createTime: Date, creatorAccountId: String, name: String, selectedAnalysisMethods: [SelectedAnalysisMethod]? = nil, type: SchemaType, updateTime: Date) {
+        public init(analysisMethod: AnalysisMethod? = nil, analysisRuleTypes: [AnalysisRuleType], collaborationArn: String, collaborationId: String, createTime: Date, creatorAccountId: String, name: String, resourceArn: String? = nil, selectedAnalysisMethods: [SelectedAnalysisMethod]? = nil, type: SchemaType, updateTime: Date) {
             self.analysisMethod = analysisMethod
             self.analysisRuleTypes = analysisRuleTypes
             self.collaborationArn = collaborationArn
@@ -8383,6 +9187,7 @@ extension CleanRooms {
             self.createTime = createTime
             self.creatorAccountId = creatorAccountId
             self.name = name
+            self.resourceArn = resourceArn
             self.selectedAnalysisMethods = selectedAnalysisMethods
             self.type = type
             self.updateTime = updateTime
@@ -8396,6 +9201,7 @@ extension CleanRooms {
             case createTime = "createTime"
             case creatorAccountId = "creatorAccountId"
             case name = "name"
+            case resourceArn = "resourceArn"
             case selectedAnalysisMethods = "selectedAnalysisMethods"
             case type = "type"
             case updateTime = "updateTime"
@@ -8501,6 +9307,8 @@ extension CleanRooms {
     }
 
     public struct StartProtectedJobInput: AWSEncodableShape {
+        /// The compute configuration for the protected job.
+        public let computeConfiguration: ProtectedJobComputeConfiguration?
         ///  The job parameters.
         public let jobParameters: ProtectedJobParameters
         /// A unique identifier for the membership to run this job against. Currently accepts a membership ID.
@@ -8511,7 +9319,8 @@ extension CleanRooms {
         public let type: ProtectedJobType
 
         @inlinable
-        public init(jobParameters: ProtectedJobParameters, membershipIdentifier: String, resultConfiguration: ProtectedJobResultConfigurationInput? = nil, type: ProtectedJobType) {
+        public init(computeConfiguration: ProtectedJobComputeConfiguration? = nil, jobParameters: ProtectedJobParameters, membershipIdentifier: String, resultConfiguration: ProtectedJobResultConfigurationInput? = nil, type: ProtectedJobType) {
+            self.computeConfiguration = computeConfiguration
             self.jobParameters = jobParameters
             self.membershipIdentifier = membershipIdentifier
             self.resultConfiguration = resultConfiguration
@@ -8521,6 +9330,7 @@ extension CleanRooms {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.computeConfiguration, forKey: .computeConfiguration)
             try container.encode(self.jobParameters, forKey: .jobParameters)
             request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
             try container.encodeIfPresent(self.resultConfiguration, forKey: .resultConfiguration)
@@ -8536,6 +9346,7 @@ extension CleanRooms {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case computeConfiguration = "computeConfiguration"
             case jobParameters = "jobParameters"
             case resultConfiguration = "resultConfiguration"
             case type = "type"
@@ -8745,7 +9556,7 @@ extension CleanRooms {
     }
 
     public struct UpdateCollaborationInput: AWSEncodableShape {
-        /// The analytics engine.
+        /// The analytics engine.  After July 16, 2025, the CLEAN_ROOMS_SQL parameter will no longer be available.
         public let analyticsEngine: AnalyticsEngine?
         /// The identifier for the collaboration.
         public let collaborationIdentifier: String
@@ -9032,6 +9843,8 @@ extension CleanRooms {
     }
 
     public struct UpdateConfiguredTableInput: AWSEncodableShape {
+        /// The columns of the underlying table that can be used by collaborations or analysis rules.
+        public let allowedColumns: [String]?
         ///  The analysis method for the configured table.  DIRECT_QUERY allows SQL queries to be run directly on this table.  DIRECT_JOB allows PySpark jobs to be run directly on this table.  MULTIPLE allows both SQL queries and PySpark jobs to be run directly on this table.
         public let analysisMethod: AnalysisMethod?
         /// The identifier for the configured table to update. Currently accepts the configured table ID.
@@ -9042,27 +9855,37 @@ extension CleanRooms {
         public let name: String?
         ///  The selected analysis methods for the table configuration update.
         public let selectedAnalysisMethods: [SelectedAnalysisMethod]?
+        public let tableReference: TableReference?
 
         @inlinable
-        public init(analysisMethod: AnalysisMethod? = nil, configuredTableIdentifier: String, description: String? = nil, name: String? = nil, selectedAnalysisMethods: [SelectedAnalysisMethod]? = nil) {
+        public init(allowedColumns: [String]? = nil, analysisMethod: AnalysisMethod? = nil, configuredTableIdentifier: String, description: String? = nil, name: String? = nil, selectedAnalysisMethods: [SelectedAnalysisMethod]? = nil, tableReference: TableReference? = nil) {
+            self.allowedColumns = allowedColumns
             self.analysisMethod = analysisMethod
             self.configuredTableIdentifier = configuredTableIdentifier
             self.description = description
             self.name = name
             self.selectedAnalysisMethods = selectedAnalysisMethods
+            self.tableReference = tableReference
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.allowedColumns, forKey: .allowedColumns)
             try container.encodeIfPresent(self.analysisMethod, forKey: .analysisMethod)
             request.encodePath(self.configuredTableIdentifier, key: "configuredTableIdentifier")
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.name, forKey: .name)
             try container.encodeIfPresent(self.selectedAnalysisMethods, forKey: .selectedAnalysisMethods)
+            try container.encodeIfPresent(self.tableReference, forKey: .tableReference)
         }
 
         public func validate(name: String) throws {
+            try self.allowedColumns?.forEach {
+                try validate($0, name: "allowedColumns[]", parent: name, max: 128)
+                try validate($0, name: "allowedColumns[]", parent: name, pattern: "^[a-z0-9_](([a-z0-9_ ]+-)*([a-z0-9_ ]+))?$")
+            }
+            try self.validate(self.allowedColumns, name: "allowedColumns", parent: name, min: 1)
             try self.validate(self.configuredTableIdentifier, name: "configuredTableIdentifier", parent: name, max: 36)
             try self.validate(self.configuredTableIdentifier, name: "configuredTableIdentifier", parent: name, min: 36)
             try self.validate(self.configuredTableIdentifier, name: "configuredTableIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -9071,13 +9894,16 @@ extension CleanRooms {
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?!\\s*$)[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t]*$")
+            try self.tableReference?.validate(name: "\(name).tableReference")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowedColumns = "allowedColumns"
             case analysisMethod = "analysisMethod"
             case description = "description"
             case name = "name"
             case selectedAnalysisMethods = "selectedAnalysisMethods"
+            case tableReference = "tableReference"
         }
     }
 
@@ -9481,7 +10307,7 @@ extension CleanRooms {
     }
 
     public struct WorkerComputeConfiguration: AWSEncodableShape & AWSDecodableShape {
-        ///  The number of workers.
+        ///  The number of workers. SQL queries support a minimum value of 2 and a maximum value of 400.  PySpark jobs support a minimum value of 4 and a maximum value of 128.
         public let number: Int?
         ///  The worker compute configuration type.
         public let type: WorkerComputeType?
@@ -9523,6 +10349,24 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case artifacts = "artifacts"
+        }
+    }
+
+    public struct ChangeSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// The member change specification when the change type is MEMBER.
+        public let member: MemberChangeSpecification?
+
+        @inlinable
+        public init(member: MemberChangeSpecification? = nil) {
+            self.member = member
+        }
+
+        public func validate(name: String) throws {
+            try self.member?.validate(name: "\(name).member")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case member = "member"
         }
     }
 
@@ -9657,70 +10501,6 @@ extension CleanRooms {
         }
     }
 
-    public struct PrivacyBudget: AWSDecodableShape {
-        /// An object that specifies the epsilon parameter and the utility in terms of total aggregations, as well as the remaining aggregations available.
-        public let differentialPrivacy: DifferentialPrivacyPrivacyBudget?
-
-        @inlinable
-        public init(differentialPrivacy: DifferentialPrivacyPrivacyBudget? = nil) {
-            self.differentialPrivacy = differentialPrivacy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case differentialPrivacy = "differentialPrivacy"
-        }
-    }
-
-    public struct PrivacyBudgetTemplateParametersInput: AWSEncodableShape {
-        /// An object that specifies the epsilon and noise parameters.
-        public let differentialPrivacy: DifferentialPrivacyTemplateParametersInput?
-
-        @inlinable
-        public init(differentialPrivacy: DifferentialPrivacyTemplateParametersInput? = nil) {
-            self.differentialPrivacy = differentialPrivacy
-        }
-
-        public func validate(name: String) throws {
-            try self.differentialPrivacy?.validate(name: "\(name).differentialPrivacy")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case differentialPrivacy = "differentialPrivacy"
-        }
-    }
-
-    public struct PrivacyBudgetTemplateParametersOutput: AWSDecodableShape {
-        /// The epsilon and noise parameters.
-        public let differentialPrivacy: DifferentialPrivacyTemplateParametersOutput?
-
-        @inlinable
-        public init(differentialPrivacy: DifferentialPrivacyTemplateParametersOutput? = nil) {
-            self.differentialPrivacy = differentialPrivacy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case differentialPrivacy = "differentialPrivacy"
-        }
-    }
-
-    public struct PrivacyBudgetTemplateUpdateParameters: AWSEncodableShape {
-        /// An object that specifies the new values for the epsilon and noise parameters.
-        public let differentialPrivacy: DifferentialPrivacyTemplateUpdateParameters?
-
-        @inlinable
-        public init(differentialPrivacy: DifferentialPrivacyTemplateUpdateParameters? = nil) {
-            self.differentialPrivacy = differentialPrivacy
-        }
-
-        public func validate(name: String) throws {
-            try self.differentialPrivacy?.validate(name: "\(name).differentialPrivacy")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case differentialPrivacy = "differentialPrivacy"
-        }
-    }
-
     public struct PrivacyImpact: AWSDecodableShape {
         /// An object that lists the number and type of aggregation functions you can perform.
         public let differentialPrivacy: DifferentialPrivacyPrivacyImpact?
@@ -9732,6 +10512,20 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case differentialPrivacy = "differentialPrivacy"
+        }
+    }
+
+    public struct ProtectedJobComputeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The worker configuration for the compute environment.
+        public let worker: ProtectedJobWorkerComputeConfiguration?
+
+        @inlinable
+        public init(worker: ProtectedJobWorkerComputeConfiguration? = nil) {
+            self.worker = worker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case worker = "worker"
         }
     }
 

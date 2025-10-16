@@ -161,6 +161,13 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
+    public enum IpAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dualStack = "dualstack"
+        case ipv4 = "ipv4"
+        case ipv6 = "ipv6"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ItemSelection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "all"
         case none = "none"
@@ -198,6 +205,8 @@ extension CloudFront {
         case tlSv122018 = "TLSv1.2_2018"
         case tlSv122019 = "TLSv1.2_2019"
         case tlSv122021 = "TLSv1.2_2021"
+        case tlSv122025 = "TLSv1.2_2025"
+        case tlSv132025 = "TLSv1.3_2025"
         public var description: String { return self.rawValue }
     }
 
@@ -2816,19 +2825,22 @@ extension CloudFront {
         public let httpPort: Int
         /// The HTTPS port that CloudFront uses to connect to the origin. Specify the HTTPS port that the origin listens on.
         public let httpsPort: Int
+        /// Specifies which IP protocol CloudFront uses when connecting to your origin. If your origin uses both IPv4 and IPv6 protocols, you can choose dualstack to help optimize reliability.
+        public let ipAddressType: IpAddressType?
         /// Specifies how long, in seconds, CloudFront persists its connection to the origin. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 5 seconds. For more information, see Keep-alive timeout (custom origins only) in the Amazon CloudFront Developer Guide.
         public let originKeepaliveTimeout: Int?
         /// Specifies the protocol (HTTP or HTTPS) that CloudFront uses to connect to the origin. Valid values are:    http-only – CloudFront always uses HTTP to connect to the origin.    match-viewer – CloudFront connects to the origin using the same protocol that the viewer used to connect to CloudFront.    https-only – CloudFront always uses HTTPS to connect to the origin.
         public let originProtocolPolicy: OriginProtocolPolicy
-        /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is also known as the origin response timeout. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 30 seconds. For more information, see Response timeout (custom origins only) in the Amazon CloudFront Developer Guide.
+        /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is also known as the origin response timeout. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 30 seconds. For more information, see Response timeout in the Amazon CloudFront Developer Guide.
         public let originReadTimeout: Int?
         /// Specifies the minimum SSL/TLS protocol that CloudFront uses when connecting to your origin over HTTPS. Valid values include SSLv3, TLSv1, TLSv1.1, and TLSv1.2. For more information, see Minimum Origin SSL Protocol in the Amazon CloudFront Developer Guide.
         public let originSslProtocols: OriginSslProtocols?
 
         @inlinable
-        public init(httpPort: Int, httpsPort: Int, originKeepaliveTimeout: Int? = nil, originProtocolPolicy: OriginProtocolPolicy, originReadTimeout: Int? = nil, originSslProtocols: OriginSslProtocols? = nil) {
+        public init(httpPort: Int, httpsPort: Int, ipAddressType: IpAddressType? = nil, originKeepaliveTimeout: Int? = nil, originProtocolPolicy: OriginProtocolPolicy, originReadTimeout: Int? = nil, originSslProtocols: OriginSslProtocols? = nil) {
             self.httpPort = httpPort
             self.httpsPort = httpsPort
+            self.ipAddressType = ipAddressType
             self.originKeepaliveTimeout = originKeepaliveTimeout
             self.originProtocolPolicy = originProtocolPolicy
             self.originReadTimeout = originReadTimeout
@@ -2838,6 +2850,7 @@ extension CloudFront {
         private enum CodingKeys: String, CodingKey {
             case httpPort = "HTTPPort"
             case httpsPort = "HTTPSPort"
+            case ipAddressType = "IpAddressType"
             case originKeepaliveTimeout = "OriginKeepaliveTimeout"
             case originProtocolPolicy = "OriginProtocolPolicy"
             case originReadTimeout = "OriginReadTimeout"
@@ -3197,6 +3210,12 @@ extension CloudFront {
             request.encodePath(self.name, key: "Name")
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]{1,64}$")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -3463,6 +3482,12 @@ extension CloudFront {
             request.encodeQuery(self.stage, key: "Stage")
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]{1,64}$")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -3690,7 +3715,7 @@ extension CloudFront {
         public let callerReference: String
         /// A comment to describe the distribution. The comment cannot be longer than 128 characters.
         public let comment: String
-        /// This field specifies whether the connection mode is through a standard distribution (direct) or a multi-tenant distribution with distribution tenants(tenant-only).
+        /// This field specifies whether the connection mode is through a standard distribution (direct) or a multi-tenant distribution with distribution tenants (tenant-only).
         public let connectionMode: ConnectionMode?
         ///  This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see Unsupported features for SaaS Manager for Amazon CloudFront in the Amazon CloudFront Developer Guide.  The identifier of a continuous deployment policy. For more information, see CreateContinuousDeploymentPolicy.
         public let continuousDeploymentPolicyId: String?
@@ -3757,6 +3782,7 @@ extension CloudFront {
             try self.originGroups?.validate(name: "\(name).originGroups")
             try self.origins.validate(name: "\(name).origins")
             try self.tenantConfig?.validate(name: "\(name).tenantConfig")
+            try self.viewerCertificate?.validate(name: "\(name).viewerCertificate")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3916,7 +3942,7 @@ extension CloudFront {
         public let cacheBehaviors: CacheBehaviors
         /// The comment originally specified when this distribution was created.
         public let comment: String
-        /// This field specifies whether the connection mode is through a standard distribution (direct) or a multi-tenant distribution with distribution tenants(tenant-only).
+        /// This field specifies whether the connection mode is through a standard distribution (direct) or a multi-tenant distribution with distribution tenants (tenant-only).
         public let connectionMode: ConnectionMode?
         /// A complex type that contains zero or more CustomErrorResponses elements.
         public let customErrorResponses: CustomErrorResponses
@@ -5448,6 +5474,12 @@ extension CloudFront {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.name, key: "Name")
             request.encodeQuery(self.stage, key: "Stage")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]{1,64}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -7064,7 +7096,7 @@ extension CloudFront {
     }
 
     public struct ListDistributionsByConnectionModeRequest: AWSEncodableShape {
-        /// This field specifies whether the connection mode is through a standard distribution (direct) or a multi-tenant distribution with distribution tenants(tenant-only).
+        /// This field specifies whether the connection mode is through a standard distribution (direct) or a multi-tenant distribution with distribution tenants (tenant-only).
         public let connectionMode: ConnectionMode
         ///  The marker for the next set of distributions to retrieve.
         public let marker: String?
@@ -8161,13 +8193,15 @@ extension CloudFront {
         public let originPath: String?
         /// CloudFront Origin Shield. Using Origin Shield can help reduce the load on your origin. For more information, see Using Origin Shield in the Amazon CloudFront Developer Guide.
         public let originShield: OriginShield?
+        /// The time (in seconds) that a request from CloudFront to the origin can stay open and wait for a response. If the complete response isn't received from the origin by this time, CloudFront ends the connection. The value for ResponseCompletionTimeout must be equal to or greater than the value for OriginReadTimeout. If you don't set a value for ResponseCompletionTimeout, CloudFront doesn't enforce a maximum value. For more information, see Response completion timeout in the Amazon CloudFront Developer Guide.
+        public let responseCompletionTimeout: Int?
         /// Use this type to specify an origin that is an Amazon S3 bucket that is not configured with static website hosting. To specify any other type of origin, including an Amazon S3 bucket that is configured with static website hosting, use the CustomOriginConfig type instead.
         public let s3OriginConfig: S3OriginConfig?
         /// The VPC origin configuration.
         public let vpcOriginConfig: VpcOriginConfig?
 
         @inlinable
-        public init(connectionAttempts: Int? = nil, connectionTimeout: Int? = nil, customHeaders: CustomHeaders? = nil, customOriginConfig: CustomOriginConfig? = nil, domainName: String, id: String, originAccessControlId: String? = nil, originPath: String? = nil, originShield: OriginShield? = nil, s3OriginConfig: S3OriginConfig? = nil, vpcOriginConfig: VpcOriginConfig? = nil) {
+        public init(connectionAttempts: Int? = nil, connectionTimeout: Int? = nil, customHeaders: CustomHeaders? = nil, customOriginConfig: CustomOriginConfig? = nil, domainName: String, id: String, originAccessControlId: String? = nil, originPath: String? = nil, originShield: OriginShield? = nil, responseCompletionTimeout: Int? = nil, s3OriginConfig: S3OriginConfig? = nil, vpcOriginConfig: VpcOriginConfig? = nil) {
             self.connectionAttempts = connectionAttempts
             self.connectionTimeout = connectionTimeout
             self.customHeaders = customHeaders
@@ -8177,6 +8211,7 @@ extension CloudFront {
             self.originAccessControlId = originAccessControlId
             self.originPath = originPath
             self.originShield = originShield
+            self.responseCompletionTimeout = responseCompletionTimeout
             self.s3OriginConfig = s3OriginConfig
             self.vpcOriginConfig = vpcOriginConfig
         }
@@ -8195,6 +8230,7 @@ extension CloudFront {
             case originAccessControlId = "OriginAccessControlId"
             case originPath = "OriginPath"
             case originShield = "OriginShield"
+            case responseCompletionTimeout = "ResponseCompletionTimeout"
             case s3OriginConfig = "S3OriginConfig"
             case vpcOriginConfig = "VpcOriginConfig"
         }
@@ -8923,6 +8959,12 @@ extension CloudFront {
             request.encodePath(self.name, key: "Name")
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]{1,64}$")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -9644,14 +9686,18 @@ extension CloudFront {
     public struct S3OriginConfig: AWSEncodableShape & AWSDecodableShape {
         ///  If you're using origin access control (OAC) instead of origin access identity, specify an empty OriginAccessIdentity element. For more information, see Restricting access to an Amazon Web Services in the Amazon CloudFront Developer Guide.  The CloudFront origin access identity to associate with the origin. Use an origin access identity to configure the origin so that viewers can only access objects in an Amazon S3 bucket through CloudFront. The format of the value is:  origin-access-identity/cloudfront/ID-of-origin-access-identity  The  ID-of-origin-access-identity  is the value that CloudFront returned in the ID element when you created the origin access identity. If you want viewers to be able to access objects using either the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distribution, update the distribution configuration and include an empty OriginAccessIdentity element. To replace the origin access identity, update the distribution configuration and specify the new origin access identity. For more information about the origin access identity, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
         public let originAccessIdentity: String
+        /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is also known as the origin response timeout. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 30 seconds. For more information, see Response timeout in the Amazon CloudFront Developer Guide.
+        public let originReadTimeout: Int?
 
         @inlinable
-        public init(originAccessIdentity: String) {
+        public init(originAccessIdentity: String, originReadTimeout: Int? = nil) {
             self.originAccessIdentity = originAccessIdentity
+            self.originReadTimeout = originReadTimeout
         }
 
         private enum CodingKeys: String, CodingKey {
             case originAccessIdentity = "OriginAccessIdentity"
+            case originReadTimeout = "OriginReadTimeout"
         }
     }
 
@@ -10131,6 +10177,9 @@ extension CloudFront {
 
         public func validate(name: String) throws {
             try self.validate(self.eventObject, name: "eventObject", parent: name, max: 40960)
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]{1,64}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10869,6 +10918,9 @@ extension CloudFront {
             try self.validate(self.functionCode, name: "functionCode", parent: name, max: 40960)
             try self.validate(self.functionCode, name: "functionCode", parent: name, min: 1)
             try self.functionConfig.validate(name: "\(name).functionConfig")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]{1,64}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11447,6 +11499,10 @@ extension CloudFront {
             self.sslSupportMethod = sslSupportMethod
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.iamCertificateId, name: "iamCertificateId", parent: name, max: 32)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case acmCertificateArn = "ACMCertificateArn"
             case certificate = "Certificate"
@@ -11495,7 +11551,7 @@ extension CloudFront {
     public struct VpcOriginConfig: AWSEncodableShape & AWSDecodableShape {
         /// Specifies how long, in seconds, CloudFront persists its connection to the origin. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 5 seconds. For more information, see Keep-alive timeout (custom origins only) in the Amazon CloudFront Developer Guide.
         public let originKeepaliveTimeout: Int?
-        /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is also known as the origin response timeout. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 30 seconds. For more information, see Response timeout (custom origins only) in the Amazon CloudFront Developer Guide.
+        /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is also known as the origin response timeout. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 30 seconds. For more information, see Response timeout in the Amazon CloudFront Developer Guide.
         public let originReadTimeout: Int?
         /// The VPC origin ID.
         public let vpcOriginId: String

@@ -169,7 +169,7 @@ extension Location {
     }
 
     public struct ApiKeyRestrictions: AWSEncodableShape & AWSDecodableShape {
-        /// A list of allowed actions that an API key resource grants permissions to perform. You must have at least one action for each type of resource. For example, if you have a place resource, you must include at least one place action. The following are valid values for the actions.    Map actions     geo:GetMap* - Allows all actions needed for map rendering.      Place actions     geo:SearchPlaceIndexForText - Allows geocoding.    geo:SearchPlaceIndexForPosition - Allows reverse  geocoding.    geo:SearchPlaceIndexForSuggestions - Allows generating suggestions from text.    GetPlace - Allows finding a place by place ID.      Route actions     geo:CalculateRoute - Allows point to point routing.    geo:CalculateRouteMatrix - Allows calculating a matrix of routes.      You must use these strings exactly. For example, to provide access to map  rendering, the only valid action is geo:GetMap* as an input to  the list. ["geo:GetMap*"] is valid but ["geo:GetMapTile"] is not. Similarly, you cannot use ["geo:SearchPlaceIndexFor*"] - you must list each of the Place actions separately.
+        /// A list of allowed actions that an API key resource grants permissions to perform. You must have at least one action for each type of resource. For example, if you have a place resource, you must include at least one place action. The following are valid values for the actions.    Map actions     geo:GetMap* - Allows all actions needed for map rendering.    geo-maps:GetTile - Allows retrieving map tiles.    geo-maps:GetStaticMap - Allows retrieving static map images.    geo-maps:* - Allows all actions related to map functionalities.      Place actions     geo:SearchPlaceIndexForText - Allows geocoding.    geo:SearchPlaceIndexForPosition - Allows reverse geocoding.    geo:SearchPlaceIndexForSuggestions - Allows generating suggestions from text.    GetPlace - Allows finding a place by place ID.    geo-places:Geocode - Allows geocoding using place information.    geo-places:ReverseGeocode - Allows reverse geocoding from location coordinates.    geo-places:SearchNearby - Allows searching for places near a location.    geo-places:SearchText - Allows searching for places based on text input.    geo-places:Autocomplete - Allows auto-completion of place names based on text input.    geo-places:Suggest - Allows generating suggestions for places based on partial input.    geo-places:GetPlace - Allows finding a place by its ID.    geo-places:* - Allows all actions related to place services.      Route actions     geo:CalculateRoute - Allows point to point routing.    geo:CalculateRouteMatrix - Allows calculating a matrix of routes.    geo-routes:CalculateRoutes - Allows calculating multiple routes between points.    geo-routes:CalculateRouteMatrix - Allows calculating a matrix of routes between points.    geo-routes:CalculateIsolines - Allows calculating isolines for a given area.    geo-routes:OptimizeWaypoints - Allows optimizing the order of waypoints in a route.    geo-routes:SnapToRoads - Allows snapping a route to the nearest roads.    geo-routes:* - Allows all actions related to routing functionalities.      You must use these strings exactly. For example, to provide access to map  rendering, the only valid action is geo:GetMap* as an input to  the list. ["geo:GetMap*"] is valid but ["geo:GetMapTile"] is not. Similarly, you cannot use ["geo:SearchPlaceIndexFor*"] - you must list each of the Place actions separately.
         public let allowActions: [String]
         /// An optional list of allowed HTTP referers for which requests must originate from. Requests using this API key from other domains will not be allowed. Requirements:   Contain only alphanumeric characters (A–Z, a–z, 0–9) or any symbols in this list $\-._+!*`(),;/?:@=&amp;    May contain a percent (%) if followed by 2 hexadecimal digits (A-F, a-f, 0-9); this is used for URL encoding purposes.   May contain wildcard characters question mark (?) and asterisk (*). Question mark (?) will replace any single character (including hexadecimal digits). Asterisk (*) will replace any multiple characters (including multiple hexadecimal digits).   No spaces allowed. For example, https://example.com.
         public let allowReferers: [String]?
@@ -590,7 +590,7 @@ extension Location {
         public let geofenceId: String
         /// Associates one of more properties with the geofence. A property is a key-value pair stored with the geofence and added to any geofence event triggered with that geofence. Format: "key" : "value"
         public let geofenceProperties: [String: String]?
-        /// Contains the details to specify the position of the geofence. Can be a polygon, a circle or a polygon encoded in Geobuf format. Including multiple selections will return a validation error.  The  geofence polygon format supports a maximum of 1,000 vertices. The Geofence geobuf format supports a maximum of 100,000 vertices.
+        /// Contains the details to specify the position of the geofence. Can be a circle, a polygon, or a multipolygon. Polygon and MultiPolygon geometries can be defined using their respective parameters, or encoded in Geobuf format using the Geobuf parameter. Including multiple geometry types in the same request will return a validation error.  The geofence Polygon and MultiPolygon formats support a maximum of 1,000 total vertices. The Geobuf format supports a maximum of 100,000 vertices.
         public let geometry: GeofenceGeometry
 
         @inlinable
@@ -1099,7 +1099,6 @@ extension Location {
         /// An optional description for the geofence collection.
         public let description: String?
         /// A key identifier for an Amazon Web Services KMS customer managed key. Enter a key ID, key ARN, alias name, or alias ARN.
-        ///
         public let kmsKeyId: String?
         /// No longer used. If included, the only allowed value is RequestBasedUsage.
         public let pricingPlan: PricingPlan?
@@ -1337,7 +1336,7 @@ extension Location {
     }
 
     public struct CreatePlaceIndexRequest: AWSEncodableShape {
-        /// Specifies the geospatial data provider for the new place index.  This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error.  Valid values include:    Esri – For additional information about Esri's coverage in your region of interest, see Esri details on geocoding coverage.    Grab – Grab provides place index functionality for Southeast  Asia. For additional information about GrabMaps' coverage, see GrabMaps countries and areas covered.    Here – For additional information about HERE Technologies' coverage in your region of interest, see HERE details on goecoding coverage.  If you specify HERE Technologies (Here) as the data provider, you may not store results for locations in Japan. For more information, see the Amazon Web Services Service Terms for Amazon Location Service.    For additional information , see Data providers on the Amazon Location Service Developer Guide.
+        /// Specifies the geospatial data provider for the new place index.  This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error.  Valid values include:    Esri – For additional information about Esri's coverage in your region of interest, see Esri details on geocoding coverage.    Grab – Grab provides place index functionality for Southeast  Asia. For additional information about GrabMaps' coverage, see GrabMaps countries and areas covered.    Here – For additional information about HERE Technologies' coverage in your region of interest, see HERE details on goecoding coverage.  If you specify HERE Technologies (Here) as the data provider, you may not store results for locations in Japan. For more information, see the Amazon Web Services service terms for Amazon Location Service.    For additional information , see Data providers on the Amazon Location Service developer guide.
         public let dataSource: String
         /// Specifies the data storage option requesting Places.
         public let dataSourceConfiguration: DataSourceConfiguration?
@@ -2483,7 +2482,7 @@ extension Location {
     public struct ForecastGeofenceEventsRequest: AWSEncodableShape {
         /// The name of the geofence collection.
         public let collectionName: String
-        /// The device's state, including current position and speed.
+        /// Represents the device's state, including its current position and speed. When speed is omitted, this API performs a containment check. The containment check operation returns IDLE events for geofences where the device is currently inside of, but no other events.
         public let deviceState: ForecastGeofenceEventsDeviceState
         /// The distance unit used for the NearestDistance property returned in a forecasted event. The measurement system must match for DistanceUnit and SpeedUnit; if Kilometers is specified for DistanceUnit, then SpeedUnit must be KilometersPerHour.  Default Value: Kilometers
         public let distanceUnit: DistanceUnit?
@@ -2493,7 +2492,7 @@ extension Location {
         public let nextToken: String?
         /// The speed unit for the device captured by the device state. The measurement system must match for DistanceUnit and SpeedUnit; if Kilometers is specified for DistanceUnit, then SpeedUnit must be KilometersPerHour. Default Value: KilometersPerHour.
         public let speedUnit: SpeedUnit?
-        /// Specifies the time horizon in minutes for the forecasted events.
+        /// The forward-looking time window for forecasting, specified in minutes. The API only returns events that are predicted to occur within this time horizon. When no value is specified, this API performs a containment check. The containment check operation returns IDLE events for geofences where the device is currently inside of, but no other events.
         public let timeHorizonMinutes: Double?
 
         @inlinable
@@ -2606,21 +2605,28 @@ extension Location {
     public struct GeofenceGeometry: AWSEncodableShape & AWSDecodableShape {
         /// A circle on the earth, as defined by a center point and a radius.
         public let circle: Circle?
-        /// Geobuf is a compact binary encoding for geographic data that provides lossless compression of GeoJSON polygons. The Geobuf must be Base64-encoded. A polygon in Geobuf format can have up to 100,000 vertices.
+        /// Geobuf is a compact binary encoding for geographic data that provides lossless compression of GeoJSON polygons. The Geobuf must be Base64-encoded. This parameter can contain a Geobuf-encoded GeoJSON geometry object of type Polygon OR MultiPolygon. For more information and specific configuration requirements for these object types, see Polygon and MultiPolygon.  The following limitations apply specifically to geometries defined using the Geobuf parameter, and supercede the corresponding limitations of the Polygon and MultiPolygon parameters:   A Polygon in Geobuf format can have up to 25,000 rings and up to 100,000 total vertices, including all vertices from all component rings.   A MultiPolygon in Geobuf format can contain up to 10,000 Polygons and up to 100,000 total vertices, including all vertices from all component Polygons.
         public let geobuf: AWSBase64Data?
-        /// A polygon is a list of linear rings which are each made up of a list of vertices. Each vertex is a 2-dimensional point of the form: [longitude, latitude]. This is represented as an array of doubles of length 2 (so [double, double]). An array of 4 or more vertices, where the first and last vertex are the same (to form a closed boundary), is called a linear ring. The linear ring vertices must be listed in counter-clockwise order around the ring’s interior. The linear ring is represented as an array of vertices, or an array of arrays of doubles ([[double, double], ...]). A geofence consists of a single linear ring. To allow for future expansion, the Polygon parameter takes an array of linear rings, which is represented as an array of arrays of arrays of doubles ([[[double, double], ...], ...]). A linear ring for use in geofences can consist of between 4 and 1,000 vertices.
+        /// A MultiPolygon is a list of up to 250 Polygon elements which represent the shape of a geofence. The Polygon components of a MultiPolygon geometry can define separate geographical areas that are considered part of the same geofence, perimeters of larger exterior areas with smaller interior spaces that are excluded from the geofence, or some combination of these use cases to form complex geofence boundaries. For more information and specific configuration requirements for the Polygon components that form a MultiPolygon, see Polygon.  The following additional requirements and limitations apply to geometries defined using the MultiPolygon parameter:   The entire MultiPolygon must consist of no more than 1,000 vertices, including all vertices from all component Polygons.   Each edge of a component Polygon must intersect no more than 5 edges from other Polygons. Parallel edges that are shared but do not cross are not counted toward this limit.   The total number of intersecting edges of component Polygons must be no more than 100,000. Parallel edges that are shared but do not cross are not counted toward this limit.
+        public let multiPolygon: [[[[Double]]]]?
+        /// A Polygon is a list of up to 250 linear rings which represent the shape of a geofence. This list must include 1 exterior ring (representing the outer perimeter of the geofence), and can optionally include up to 249 interior rings (representing polygonal spaces within the perimeter, which are excluded from the geofence area). A linear ring is an array of 4 or more vertices, where the first and last vertex are the same (to form a closed boundary). Each vertex is a 2-dimensional point represented as an array of doubles of length 2: [longitude, latitude]. Each linear ring is represented as an array of arrays of doubles ([[longitude, latitude], [longitude, latitude], ...]). The vertices for the exterior ring must be listed in counter-clockwise sequence. Vertices for all interior rings must be listed in clockwise sequence. The list of linear rings that describe the entire Polygon is represented as an array of arrays of arrays of doubles ([[[longitude, latitude], [longitude, latitude], ...], [[longitude, latitude], [longitude, latitude], ...], ...]). The exterior ring must be listed first, before any interior rings.  The following additional requirements and limitations apply to geometries defined using the Polygon parameter:   The entire Polygon must consist of no more than 1,000 vertices, including all vertices from the exterior ring and all interior rings.   Rings must not touch or cross each other.   All interior rings must be fully contained within the exterior ring.   Interior rings must not contain other interior rings.   No ring is permitted to intersect itself.
         public let polygon: [[[Double]]]?
 
         @inlinable
-        public init(circle: Circle? = nil, geobuf: AWSBase64Data? = nil, polygon: [[[Double]]]? = nil) {
+        public init(circle: Circle? = nil, geobuf: AWSBase64Data? = nil, multiPolygon: [[[[Double]]]]? = nil, polygon: [[[Double]]]? = nil) {
             self.circle = circle
             self.geobuf = geobuf
+            self.multiPolygon = multiPolygon
             self.polygon = polygon
         }
 
         public func validate(name: String) throws {
             try self.circle?.validate(name: "\(name).circle")
-            try self.validate(self.geobuf, name: "geobuf", parent: name, max: 600000)
+            try self.validate(self.geobuf, name: "geobuf", parent: name, max: 700000)
+            try self.multiPolygon?.forEach {
+                try validate($0, name: "multiPolygon[]", parent: name, min: 1)
+            }
+            try self.validate(self.multiPolygon, name: "multiPolygon", parent: name, min: 1)
             try self.polygon?.forEach {
                 try validate($0, name: "polygon[]", parent: name, min: 4)
             }
@@ -2630,6 +2636,7 @@ extension Location {
         private enum CodingKeys: String, CodingKey {
             case circle = "Circle"
             case geobuf = "Geobuf"
+            case multiPolygon = "MultiPolygon"
             case polygon = "Polygon"
         }
     }
@@ -2814,7 +2821,7 @@ extension Location {
         public let geofenceId: String
         /// User defined properties of the geofence. A property is a key-value pair stored with the geofence and added to any geofence event triggered with that geofence. Format: "key" : "value"
         public let geofenceProperties: [String: String]?
-        /// Contains the geofence geometry details describing a polygon or a circle.
+        /// Contains the geofence geometry details describing the position of the geofence. Can be a circle, a polygon, or a multipolygon.
         public let geometry: GeofenceGeometry
         /// Identifies the state of the geofence. A geofence will hold one of the following states:    ACTIVE — The geofence has been indexed by the system.     PENDING — The geofence is being processed by the system.    FAILED — The geofence failed to be indexed by the system.    DELETED — The geofence has been deleted from the system index.    DELETING — The geofence is being deleted from the system index.
         public let status: String
@@ -3405,7 +3412,7 @@ extension Location {
         public let geofenceId: String
         /// User defined properties of the geofence. A property is a key-value pair stored with the geofence and added to any geofence event triggered with that geofence. Format: "key" : "value"
         public let geofenceProperties: [String: String]?
-        /// Contains the geofence geometry details describing a polygon or a circle.
+        /// Contains the geofence geometry details describing the position of the geofence. Can be a circle, a polygon, or a multipolygon.
         public let geometry: GeofenceGeometry
         /// Identifies the state of the geofence. A geofence will hold one of the following states:    ACTIVE — The geofence has been indexed by the system.     PENDING — The geofence is being processed by the system.    FAILED — The geofence failed to be indexed by the system.    DELETED — The geofence has been deleted from the system index.    DELETING — The geofence is being deleted from the system index.
         public let status: String
@@ -4215,7 +4222,7 @@ extension Location {
     public struct Place: AWSDecodableShape {
         /// The numerical portion of an address, such as a building number.
         public let addressNumber: String?
-        /// The Amazon Location categories that describe this Place. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering, in the Amazon Location Service Developer  Guide.
+        /// The Amazon Location categories that describe this Place. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering, in the Amazon Location Service developer  guide.
         public let categories: [String]?
         /// A country/region specified using ISO 3166 3-digit country/region code. For example, CAN.
         public let country: String?
@@ -4324,7 +4331,7 @@ extension Location {
         public let geofenceId: String
         /// Associates one of more properties with the geofence. A property is a key-value pair stored with the geofence and added to any geofence event triggered with that geofence. Format: "key" : "value"
         public let geofenceProperties: [String: String]?
-        /// Contains the details to specify the position of the geofence. Can be a polygon, a circle or a polygon encoded in Geobuf format. Including multiple selections will return a validation error.  The  geofence polygon format supports a maximum of 1,000 vertices. The Geofence Geobuf format supports a maximum of 100,000 vertices.
+        /// Contains the details to specify the position of the geofence. Can be a circle, a polygon, or a multipolygon. Polygon and MultiPolygon geometries can be defined using their respective parameters, or encoded in Geobuf format using the Geobuf parameter. Including multiple geometry types in the same request will return a validation error.  The geofence Polygon and MultiPolygon formats support a maximum of 1,000 total vertices. The Geobuf format supports a maximum of 100,000 vertices.
         public let geometry: GeofenceGeometry
 
         @inlinable
@@ -4448,7 +4455,7 @@ extension Location {
     }
 
     public struct SearchForSuggestionsResult: AWSDecodableShape {
-        /// The Amazon Location categories that describe the Place. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering, in the Amazon Location Service Developer  Guide.
+        /// The Amazon Location categories that describe the Place. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering, in the Amazon Location Service developer  guide.
         public let categories: [String]?
         /// The unique identifier of the Place. You can use this with the GetPlace operation to find the place again later, or to get full information for the Place. The GetPlace request must use the same PlaceIndex  resource as the SearchPlaceIndexForSuggestions that generated the Place  ID.  For SearchPlaceIndexForSuggestions operations, the PlaceId is returned by place indexes that use Esri, Grab, or HERE as data providers.
         public let placeId: String?
@@ -4599,7 +4606,7 @@ extension Location {
         public let biasPosition: [Double]?
         /// An optional parameter that limits the search results by returning only suggestions within a specified bounding box. If provided, this parameter must contain a total of four consecutive numbers in two pairs. The first pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the southwest corner of the bounding box; the second pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the northeast corner of the bounding box. For example, [-12.7935, -37.4835, -12.0684, -36.9542] represents a bounding box where the southwest corner has longitude -12.7935 and latitude -37.4835, and the northeast corner has longitude -12.0684 and latitude -36.9542.   FilterBBox and BiasPosition are mutually exclusive. Specifying both options results in an error.
         public let filterBBox: [Double]?
-        /// A list of one or more Amazon Location categories to filter the returned places. If you  include more than one category, the results will include results that match  any of the categories listed. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering, in the Amazon Location Service Developer  Guide.
+        /// A list of one or more Amazon Location categories to filter the returned places. If you  include more than one category, the results will include results that match  any of the categories listed. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering, in the Amazon Location Service developer  guide.
         public let filterCategories: [String]?
         /// An optional parameter that limits the search results by returning only suggestions within the provided list of countries.   Use the ISO 3166 3-digit country code. For example, Australia uses three upper-case characters: AUS.
         public let filterCountries: [String]?
@@ -4742,7 +4749,7 @@ extension Location {
         public let biasPosition: [Double]?
         /// An optional parameter that limits the search results by returning only places that are within the provided bounding box. If provided, this parameter must contain a total of four consecutive numbers in two pairs. The first pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the southwest corner of the bounding box; the second pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the northeast corner of the bounding box. For example, [-12.7935, -37.4835, -12.0684, -36.9542] represents a bounding box where the southwest corner has longitude -12.7935 and latitude -37.4835, and the northeast corner has longitude -12.0684 and latitude -36.9542.   FilterBBox and BiasPosition are mutually exclusive. Specifying both options results in an error.
         public let filterBBox: [Double]?
-        /// A list of one or more Amazon Location categories to filter the returned places. If you  include more than one category, the results will include results that match  any of the categories listed. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering, in the Amazon Location Service Developer  Guide.
+        /// A list of one or more Amazon Location categories to filter the returned places. If you  include more than one category, the results will include results that match  any of the categories listed. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering, in the Amazon Location Service developer  guide.
         public let filterCategories: [String]?
         /// An optional parameter that limits the search results by returning only places that are in a specified list of countries.   Valid values include ISO 3166 3-digit country codes. For example, Australia uses three upper-case characters: AUS.
         public let filterCountries: [String]?

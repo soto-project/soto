@@ -169,6 +169,164 @@ public struct Bedrock: AWSService {
         return try await self.batchDeleteEvaluationJob(input, logger: logger)
     }
 
+    /// Cancels a running Automated Reasoning policy build workflow. This stops the policy generation process and prevents further processing of the source documents.
+    @Sendable
+    @inlinable
+    public func cancelAutomatedReasoningPolicyBuildWorkflow(_ input: CancelAutomatedReasoningPolicyBuildWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelAutomatedReasoningPolicyBuildWorkflowResponse {
+        try await self.client.execute(
+            operation: "CancelAutomatedReasoningPolicyBuildWorkflow", 
+            path: "/automated-reasoning-policies/{policyArn}/build-workflows/{buildWorkflowId}/cancel", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Cancels a running Automated Reasoning policy build workflow. This stops the policy generation process and prevents further processing of the source documents.
+    ///
+    /// Parameters:
+    ///   - buildWorkflowId: The unique identifier of the build workflow to cancel. You can get this ID from the StartAutomatedReasoningPolicyBuildWorkflow response or by listing build workflows.
+    ///   - policyArn: The Amazon Resource Name (ARN) of the Automated Reasoning policy whose build workflow you want to cancel.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func cancelAutomatedReasoningPolicyBuildWorkflow(
+        buildWorkflowId: String,
+        policyArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CancelAutomatedReasoningPolicyBuildWorkflowResponse {
+        let input = CancelAutomatedReasoningPolicyBuildWorkflowRequest(
+            buildWorkflowId: buildWorkflowId, 
+            policyArn: policyArn
+        )
+        return try await self.cancelAutomatedReasoningPolicyBuildWorkflow(input, logger: logger)
+    }
+
+    /// Creates an Automated Reasoning policy for Amazon Bedrock Guardrails. Automated Reasoning policies use mathematical techniques to detect hallucinations, suggest corrections, and highlight unstated assumptions in the responses of your GenAI application. To create a policy, you upload a source document that describes the rules that you're encoding. Automated Reasoning extracts important concepts from the source document that will become variables in the policy and infers policy rules.
+    @Sendable
+    @inlinable
+    public func createAutomatedReasoningPolicy(_ input: CreateAutomatedReasoningPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAutomatedReasoningPolicyResponse {
+        try await self.client.execute(
+            operation: "CreateAutomatedReasoningPolicy", 
+            path: "/automated-reasoning-policies", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an Automated Reasoning policy for Amazon Bedrock Guardrails. Automated Reasoning policies use mathematical techniques to detect hallucinations, suggest corrections, and highlight unstated assumptions in the responses of your GenAI application. To create a policy, you upload a source document that describes the rules that you're encoding. Automated Reasoning extracts important concepts from the source document that will become variables in the policy and infers policy rules.
+    ///
+    /// Parameters:
+    ///   - clientRequestToken: A unique, case-sensitive identifier to ensure that the operation completes no more than once. If this token matches a previous request, Amazon Bedrock ignores the request but doesn't return an error.
+    ///   - description: A description of the Automated Reasoning policy. Use this to provide context about the policy's purpose and the types of validations it performs.
+    ///   - kmsKeyId: The identifier of the KMS key to use for encrypting the automated reasoning policy and its associated artifacts. If you don't specify a KMS key, Amazon Bedrock uses an KMS managed key for encryption. For enhanced security and control, you can specify a customer managed KMS key.
+    ///   - name: A unique name for the Automated Reasoning policy. The name must be between 1 and 63 characters and can contain letters, numbers, hyphens, and underscores.
+    ///   - policyDefinition: The policy definition that contains the formal logic rules, variables, and custom variable types used to validate foundation model responses in your application.
+    ///   - tags: A list of tags to associate with the Automated Reasoning policy. Tags help you organize and manage your policies.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAutomatedReasoningPolicy(
+        clientRequestToken: String? = CreateAutomatedReasoningPolicyRequest.idempotencyToken(),
+        description: String? = nil,
+        kmsKeyId: String? = nil,
+        name: String,
+        policyDefinition: AutomatedReasoningPolicyDefinition? = nil,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAutomatedReasoningPolicyResponse {
+        let input = CreateAutomatedReasoningPolicyRequest(
+            clientRequestToken: clientRequestToken, 
+            description: description, 
+            kmsKeyId: kmsKeyId, 
+            name: name, 
+            policyDefinition: policyDefinition, 
+            tags: tags
+        )
+        return try await self.createAutomatedReasoningPolicy(input, logger: logger)
+    }
+
+    /// Creates a test for an Automated Reasoning policy. Tests validate that your policy works as expected by providing sample inputs and expected outcomes. Use tests to verify policy behavior before deploying to production.
+    @Sendable
+    @inlinable
+    public func createAutomatedReasoningPolicyTestCase(_ input: CreateAutomatedReasoningPolicyTestCaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAutomatedReasoningPolicyTestCaseResponse {
+        try await self.client.execute(
+            operation: "CreateAutomatedReasoningPolicyTestCase", 
+            path: "/automated-reasoning-policies/{policyArn}/test-cases", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a test for an Automated Reasoning policy. Tests validate that your policy works as expected by providing sample inputs and expected outcomes. Use tests to verify policy behavior before deploying to production.
+    ///
+    /// Parameters:
+    ///   - clientRequestToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error.
+    ///   - confidenceThreshold: The minimum confidence level for logic validation. Content that meets the threshold is considered a high-confidence finding that can be validated.
+    ///   - expectedAggregatedFindingsResult: The expected result of the Automated Reasoning check. Valid values include: , TOO_COMPLEX, and NO_TRANSLATIONS.    VALID - The claims are true. The claims are implied by the premises and the Automated Reasoning policy. Given the Automated Reasoning policy and premises, it is not possible for these claims to be false. In other words, there are no alternative answers that are true that contradict the claims.    INVALID - The claims are false. The claims are not implied by the premises and Automated Reasoning policy. Furthermore, there exists different claims that are consistent with the premises and Automated Reasoning policy.    SATISFIABLE - The claims can be true or false. It depends on what assumptions are made for the claim to be implied from the premises and Automated Reasoning policy rules. In this situation, different assumptions can make input claims false and alternative claims true.    IMPOSSIBLE - Automated Reasoning can’t make a statement about the claims. This can happen if the premises are logically incorrect, or if there is a conflict within the Automated Reasoning policy itself.    TRANSLATION_AMBIGUOUS - Detected an ambiguity in the translation meant it would be unsound to continue with validity checking. Additional context or follow-up questions might be needed to get translation to succeed.    TOO_COMPLEX - The input contains too much information for Automated Reasoning to process within its latency limits.    NO_TRANSLATIONS - Identifies that some or all of the input prompt wasn't translated into logic. This can happen if the input isn't relevant to the Automated Reasoning policy, or if the policy doesn't have variables to model relevant input. If Automated Reasoning can't translate anything, you get a single NO_TRANSLATIONS finding. You might also see a NO_TRANSLATIONS (along with other findings) if some part of the validation isn't translated.
+    ///   - guardContent: The output content that's validated by the Automated Reasoning policy. This represents the foundation model response that will be checked for accuracy.
+    ///   - policyArn: The Amazon Resource Name (ARN) of the Automated Reasoning policy for which to create the test.
+    ///   - queryContent: The input query or prompt that generated the content. This provides context for the validation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAutomatedReasoningPolicyTestCase(
+        clientRequestToken: String? = CreateAutomatedReasoningPolicyTestCaseRequest.idempotencyToken(),
+        confidenceThreshold: Double? = nil,
+        expectedAggregatedFindingsResult: AutomatedReasoningCheckResult,
+        guardContent: String,
+        policyArn: String,
+        queryContent: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAutomatedReasoningPolicyTestCaseResponse {
+        let input = CreateAutomatedReasoningPolicyTestCaseRequest(
+            clientRequestToken: clientRequestToken, 
+            confidenceThreshold: confidenceThreshold, 
+            expectedAggregatedFindingsResult: expectedAggregatedFindingsResult, 
+            guardContent: guardContent, 
+            policyArn: policyArn, 
+            queryContent: queryContent
+        )
+        return try await self.createAutomatedReasoningPolicyTestCase(input, logger: logger)
+    }
+
+    /// Creates a new version of an existing Automated Reasoning policy. This allows you to iterate on your policy rules while maintaining previous versions for rollback or comparison purposes.
+    @Sendable
+    @inlinable
+    public func createAutomatedReasoningPolicyVersion(_ input: CreateAutomatedReasoningPolicyVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAutomatedReasoningPolicyVersionResponse {
+        try await self.client.execute(
+            operation: "CreateAutomatedReasoningPolicyVersion", 
+            path: "/automated-reasoning-policies/{policyArn}/versions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new version of an existing Automated Reasoning policy. This allows you to iterate on your policy rules while maintaining previous versions for rollback or comparison purposes.
+    ///
+    /// Parameters:
+    ///   - clientRequestToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error.
+    ///   - lastUpdatedDefinitionHash: The hash of the current policy definition used as a concurrency token to ensure the policy hasn't been modified since you last retrieved it.
+    ///   - policyArn: The Amazon Resource Name (ARN) of the Automated Reasoning policy for which to create a version.
+    ///   - tags: A list of tags to associate with the policy version.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAutomatedReasoningPolicyVersion(
+        clientRequestToken: String? = CreateAutomatedReasoningPolicyVersionRequest.idempotencyToken(),
+        lastUpdatedDefinitionHash: String,
+        policyArn: String,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAutomatedReasoningPolicyVersionResponse {
+        let input = CreateAutomatedReasoningPolicyVersionRequest(
+            clientRequestToken: clientRequestToken, 
+            lastUpdatedDefinitionHash: lastUpdatedDefinitionHash, 
+            policyArn: policyArn, 
+            tags: tags
+        )
+        return try await self.createAutomatedReasoningPolicyVersion(input, logger: logger)
+    }
+
     /// Creates a new custom model in Amazon Bedrock. After the model is active, you can use it for inference. To use the model for inference, you must purchase Provisioned Throughput for it. You can't use On-demand inference with these custom models. For more information about Provisioned Throughput, see Provisioned Throughput. The model appears in ListCustomModels with a customizationType of imported. To track the status of the new model, you use the GetCustomModel API operation. The model can be in the following states:    Creating - Initial state during validation and registration    Active - Model is ready for use in inference    Failed - Creation process encountered an error    Related APIs     GetCustomModel     ListCustomModels     DeleteCustomModel
     @Sendable
     @inlinable
@@ -358,6 +516,7 @@ public struct Bedrock: AWSService {
     /// Creates a guardrail to block topics and to implement safeguards for your generative AI applications. You can configure the following policies in a guardrail to avoid undesirable and harmful content, filter out denied topics and words, and remove sensitive information for privacy protection.    Content filters - Adjust filter strengths to block input prompts or model responses containing harmful content.    Denied topics - Define a set of topics that are undesirable in the context of your application. These topics will be blocked if detected in user queries or model responses.    Word filters - Configure filters to block undesirable words, phrases, and profanity. Such words can include offensive terms, competitor names etc.    Sensitive information filters - Block or mask sensitive information such as personally identifiable information (PII) or custom regex in user inputs and model responses.   In addition to the above policies, you can also configure the messages to be returned to the user if a user input or model response is in violation of the policies defined in the guardrail. For more information, see Amazon Bedrock Guardrails in the Amazon Bedrock User Guide.
     ///
     /// Parameters:
+    ///   - automatedReasoningPolicyConfig: Optional configuration for integrating Automated Reasoning policies with the new guardrail.
     ///   - blockedInputMessaging: The message to return when the guardrail blocks a prompt.
     ///   - blockedOutputsMessaging: The message to return when the guardrail blocks a model response.
     ///   - clientRequestToken: A unique, case-sensitive identifier to ensure that the API request completes no more than once. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency in the Amazon S3 User Guide.
@@ -374,6 +533,7 @@ public struct Bedrock: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createGuardrail(
+        automatedReasoningPolicyConfig: GuardrailAutomatedReasoningPolicyConfig? = nil,
         blockedInputMessaging: String,
         blockedOutputsMessaging: String,
         clientRequestToken: String? = CreateGuardrailRequest.idempotencyToken(),
@@ -390,6 +550,7 @@ public struct Bedrock: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateGuardrailResponse {
         let input = CreateGuardrailRequest(
+            automatedReasoningPolicyConfig: automatedReasoningPolicyConfig, 
             blockedInputMessaging: blockedInputMessaging, 
             blockedOutputsMessaging: blockedOutputsMessaging, 
             clientRequestToken: clientRequestToken, 
@@ -836,6 +997,108 @@ public struct Bedrock: AWSService {
         return try await self.createProvisionedModelThroughput(input, logger: logger)
     }
 
+    /// Deletes an Automated Reasoning policy or policy version. This operation is idempotent. If you delete a policy more than once, each call succeeds. Deleting a policy removes it permanently and cannot be undone.
+    @Sendable
+    @inlinable
+    public func deleteAutomatedReasoningPolicy(_ input: DeleteAutomatedReasoningPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAutomatedReasoningPolicyResponse {
+        try await self.client.execute(
+            operation: "DeleteAutomatedReasoningPolicy", 
+            path: "/automated-reasoning-policies/{policyArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an Automated Reasoning policy or policy version. This operation is idempotent. If you delete a policy more than once, each call succeeds. Deleting a policy removes it permanently and cannot be undone.
+    ///
+    /// Parameters:
+    ///   - force: Specifies whether to force delete the automated reasoning policy even if it has active resources. When false, Amazon Bedrock validates if all artifacts have been deleted (e.g. policy version, test case, test result) for a policy before deletion. When true, Amazon Bedrock will delete the policy and all its artifacts without validation. Default is false.
+    ///   - policyArn: The Amazon Resource Name (ARN) of the Automated Reasoning policy to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAutomatedReasoningPolicy(
+        force: Bool? = nil,
+        policyArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteAutomatedReasoningPolicyResponse {
+        let input = DeleteAutomatedReasoningPolicyRequest(
+            force: force, 
+            policyArn: policyArn
+        )
+        return try await self.deleteAutomatedReasoningPolicy(input, logger: logger)
+    }
+
+    /// Deletes an Automated Reasoning policy build workflow and its associated artifacts. This permanently removes the workflow history and any generated assets.
+    @Sendable
+    @inlinable
+    public func deleteAutomatedReasoningPolicyBuildWorkflow(_ input: DeleteAutomatedReasoningPolicyBuildWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAutomatedReasoningPolicyBuildWorkflowResponse {
+        try await self.client.execute(
+            operation: "DeleteAutomatedReasoningPolicyBuildWorkflow", 
+            path: "/automated-reasoning-policies/{policyArn}/build-workflows/{buildWorkflowId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an Automated Reasoning policy build workflow and its associated artifacts. This permanently removes the workflow history and any generated assets.
+    ///
+    /// Parameters:
+    ///   - buildWorkflowId: The unique identifier of the build workflow to delete.
+    ///   - lastUpdatedAt: The timestamp when the build workflow was last updated. This is used for optimistic concurrency control to prevent accidental deletion of workflows that have been modified.
+    ///   - policyArn: The Amazon Resource Name (ARN) of the Automated Reasoning policy whose build workflow you want to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAutomatedReasoningPolicyBuildWorkflow(
+        buildWorkflowId: String,
+        lastUpdatedAt: Date,
+        policyArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteAutomatedReasoningPolicyBuildWorkflowResponse {
+        let input = DeleteAutomatedReasoningPolicyBuildWorkflowRequest(
+            buildWorkflowId: buildWorkflowId, 
+            lastUpdatedAt: lastUpdatedAt, 
+            policyArn: policyArn
+        )
+        return try await self.deleteAutomatedReasoningPolicyBuildWorkflow(input, logger: logger)
+    }
+
+    /// Deletes an Automated Reasoning policy test. This operation is idempotent; if you delete a test more than once, each call succeeds.
+    @Sendable
+    @inlinable
+    public func deleteAutomatedReasoningPolicyTestCase(_ input: DeleteAutomatedReasoningPolicyTestCaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAutomatedReasoningPolicyTestCaseResponse {
+        try await self.client.execute(
+            operation: "DeleteAutomatedReasoningPolicyTestCase", 
+            path: "/automated-reasoning-policies/{policyArn}/test-cases/{testCaseId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an Automated Reasoning policy test. This operation is idempotent; if you delete a test more than once, each call succeeds.
+    ///
+    /// Parameters:
+    ///   - lastUpdatedAt: The timestamp when the test was last updated. This is used as a concurrency token to prevent conflicting modifications.
+    ///   - policyArn: The Amazon Resource Name (ARN) of the Automated Reasoning policy that contains the test.
+    ///   - testCaseId: The unique identifier of the test to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAutomatedReasoningPolicyTestCase(
+        lastUpdatedAt: Date,
+        policyArn: String,
+        testCaseId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteAutomatedReasoningPolicyTestCaseResponse {
+        let input = DeleteAutomatedReasoningPolicyTestCaseRequest(
+            lastUpdatedAt: lastUpdatedAt, 
+            policyArn: policyArn, 
+            testCaseId: testCaseId
+        )
+        return try await self.deleteAutomatedReasoningPolicyTestCase(input, logger: logger)
+    }
+
     /// Deletes a custom model that you created earlier. For more information, see Custom models in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
@@ -1153,6 +1416,262 @@ public struct Bedrock: AWSService {
             endpointArn: endpointArn
         )
         return try await self.deregisterMarketplaceModelEndpoint(input, logger: logger)
+    }
+
+    /// Exports the policy definition for an Automated Reasoning policy version. Returns the complete policy definition including rules, variables, and custom variable types in a structured format.
+    @Sendable
+    @inlinable
+    public func exportAutomatedReasoningPolicyVersion(_ input: ExportAutomatedReasoningPolicyVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportAutomatedReasoningPolicyVersionResponse {
+        try await self.client.execute(
+            operation: "ExportAutomatedReasoningPolicyVersion", 
+            path: "/automated-reasoning-policies/{policyArn}/export", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Exports the policy definition for an Automated Reasoning policy version. Returns the complete policy definition including rules, variables, and custom variable types in a structured format.
+    ///
+    /// Parameters:
+    ///   - policyArn: The Amazon Resource Name (ARN) of the Automated Reasoning policy to export. Can be either the unversioned ARN for the draft policy or a versioned ARN for a specific policy version.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func exportAutomatedReasoningPolicyVersion(
+        policyArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ExportAutomatedReasoningPolicyVersionResponse {
+        let input = ExportAutomatedReasoningPolicyVersionRequest(
+            policyArn: policyArn
+        )
+        return try await self.exportAutomatedReasoningPolicyVersion(input, logger: logger)
+    }
+
+    /// Retrieves details about an Automated Reasoning policy or policy version. Returns information including the policy definition, metadata, and timestamps.
+    @Sendable
+    @inlinable
+    public func getAutomatedReasoningPolicy(_ input: GetAutomatedReasoningPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAutomatedReasoningPolicyResponse {
+        try await self.client.execute(
+            operation: "GetAutomatedReasoningPolicy", 
+            path: "/automated-reasoning-policies/{policyArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves details about an Automated Reasoning policy or policy version. Returns information including the policy definition, metadata, and timestamps.
+    ///
+    /// Parameters:
+    ///   - policyArn: The Amazon Resource Name (ARN) of the Automated Reasoning policy to retrieve. Can be either the unversioned ARN for the draft policy or an ARN for a specific policy version.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAutomatedReasoningPolicy(
+        policyArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAutomatedReasoningPolicyResponse {
+        let input = GetAutomatedReasoningPolicyRequest(
+            policyArn: policyArn
+        )
+        return try await self.getAutomatedReasoningPolicy(input, logger: logger)
+    }
+
+    /// Retrieves the current annotations for an Automated Reasoning policy build workflow. Annotations contain corrections to the rules, variables and types to be applied to the policy.
+    @Sendable
+    @inlinable
+    public func getAutomatedReasoningPolicyAnnotations(_ input: GetAutomatedReasoningPolicyAnnotationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAutomatedReasoningPolicyAnnotationsResponse {
+        try await self.client.execute(
+            operation: "GetAutomatedReasoningPolicyAnnotations", 
+            path: "/automated-reasoning-policies/{policyArn}/build-workflows/{buildWorkflowId}/annotations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the current annotations for an Automated Reasoning policy build workflow. Annotations contain corrections to the rules, variables and types to be applied to the policy.
+    ///
+    /// Parameters:
+    ///   - buildWorkflowId: The unique identifier of the build workflow whose annotations you want to retrieve.
+    ///   - policyArn: The Amazon Resource Name (ARN) of the Automated Reasoning policy whose annotations you want to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAutomatedReasoningPolicyAnnotations(
+        buildWorkflowId: String,
+        policyArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAutomatedReasoningPolicyAnnotationsResponse {
+        let input = GetAutomatedReasoningPolicyAnnotationsRequest(
+            buildWorkflowId: buildWorkflowId, 
+            policyArn: policyArn
+        )
+        return try await self.getAutomatedReasoningPolicyAnnotations(input, logger: logger)
+    }
+
+    /// Retrieves detailed information about an Automated Reasoning policy build workflow, including its status, configuration, and metadata.
+    @Sendable
+    @inlinable
+    public func getAutomatedReasoningPolicyBuildWorkflow(_ input: GetAutomatedReasoningPolicyBuildWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAutomatedReasoningPolicyBuildWorkflowResponse {
+        try await self.client.execute(
+            operation: "GetAutomatedReasoningPolicyBuildWorkflow", 
+            path: "/automated-reasoning-policies/{policyArn}/build-workflows/{buildWorkflowId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about an Automated Reasoning policy build workflow, including its status, configuration, and metadata.
+    ///
+    /// Parameters:
+    ///   - buildWorkflowId: The unique identifier of the build workflow to retrieve.
+    ///   - policyArn: The Amazon Resource Name (ARN) of the Automated Reasoning policy whose build workflow you want to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAutomatedReasoningPolicyBuildWorkflow(
+        buildWorkflowId: String,
+        policyArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAutomatedReasoningPolicyBuildWorkflowResponse {
+        let input = GetAutomatedReasoningPolicyBuildWorkflowRequest(
+            buildWorkflowId: buildWorkflowId, 
+            policyArn: policyArn
+        )
+        return try await self.getAutomatedReasoningPolicyBuildWorkflow(input, logger: logger)
+    }
+
+    /// Retrieves the resulting assets from a completed Automated Reasoning policy build workflow, including build logs, quality reports, and generated policy artifacts.
+    @Sendable
+    @inlinable
+    public func getAutomatedReasoningPolicyBuildWorkflowResultAssets(_ input: GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAutomatedReasoningPolicyBuildWorkflowResultAssetsResponse {
+        try await self.client.execute(
+            operation: "GetAutomatedReasoningPolicyBuildWorkflowResultAssets", 
+            path: "/automated-reasoning-policies/{policyArn}/build-workflows/{buildWorkflowId}/result-assets", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the resulting assets from a completed Automated Reasoning policy build workflow, including build logs, quality reports, and generated policy artifacts.
+    ///
+    /// Parameters:
+    ///   - assetType: The type of asset to retrieve (e.g., BUILD_LOG, QUALITY_REPORT, POLICY_DEFINITION).
+    ///   - buildWorkflowId: The unique identifier of the build workflow whose result assets you want to retrieve.
+    ///   - policyArn: The Amazon Resource Name (ARN) of the Automated Reasoning policy whose build workflow assets you want to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAutomatedReasoningPolicyBuildWorkflowResultAssets(
+        assetType: AutomatedReasoningPolicyBuildResultAssetType,
+        buildWorkflowId: String,
+        policyArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAutomatedReasoningPolicyBuildWorkflowResultAssetsResponse {
+        let input = GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest(
+            assetType: assetType, 
+            buildWorkflowId: buildWorkflowId, 
+            policyArn: policyArn
+        )
+        return try await self.getAutomatedReasoningPolicyBuildWorkflowResultAssets(input, logger: logger)
+    }
+
+    /// Retrieves the next test scenario for validating an Automated Reasoning policy. This is used during the interactive policy refinement process to test policy behavior.
+    @Sendable
+    @inlinable
+    public func getAutomatedReasoningPolicyNextScenario(_ input: GetAutomatedReasoningPolicyNextScenarioRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAutomatedReasoningPolicyNextScenarioResponse {
+        try await self.client.execute(
+            operation: "GetAutomatedReasoningPolicyNextScenario", 
+            path: "/automated-reasoning-policies/{policyArn}/build-workflows/{buildWorkflowId}/scenarios", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the next test scenario for validating an Automated Reasoning policy. This is used during the interactive policy refinement process to test policy behavior.
+    ///
+    /// Parameters:
+    ///   - buildWorkflowId: The unique identifier of the build workflow associated with the test scenarios.
+    ///   - policyArn: The Amazon Resource Name (ARN) of the Automated Reasoning policy for which you want to get the next test scenario.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAutomatedReasoningPolicyNextScenario(
+        buildWorkflowId: String,
+        policyArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAutomatedReasoningPolicyNextScenarioResponse {
+        let input = GetAutomatedReasoningPolicyNextScenarioRequest(
+            buildWorkflowId: buildWorkflowId, 
+            policyArn: policyArn
+        )
+        return try await self.getAutomatedReasoningPolicyNextScenario(input, logger: logger)
+    }
+
+    /// Retrieves details about a specific Automated Reasoning policy test.
+    @Sendable
+    @inlinable
+    public func getAutomatedReasoningPolicyTestCase(_ input: GetAutomatedReasoningPolicyTestCaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAutomatedReasoningPolicyTestCaseResponse {
+        try await self.client.execute(
+            operation: "GetAutomatedReasoningPolicyTestCase", 
+            path: "/automated-reasoning-policies/{policyArn}/test-cases/{testCaseId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves details about a specific Automated Reasoning policy test.
+    ///
+    /// Parameters:
+    ///   - policyArn: The Amazon Resource Name (ARN) of the Automated Reasoning policy that contains the test.
+    ///   - testCaseId: The unique identifier of the test to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAutomatedReasoningPolicyTestCase(
+        policyArn: String,
+        testCaseId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAutomatedReasoningPolicyTestCaseResponse {
+        let input = GetAutomatedReasoningPolicyTestCaseRequest(
+            policyArn: policyArn, 
+            testCaseId: testCaseId
+        )
+        return try await self.getAutomatedReasoningPolicyTestCase(input, logger: logger)
+    }
+
+    /// Retrieves the test result for a specific Automated Reasoning policy test. Returns detailed validation findings and execution status.
+    @Sendable
+    @inlinable
+    public func getAutomatedReasoningPolicyTestResult(_ input: GetAutomatedReasoningPolicyTestResultRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAutomatedReasoningPolicyTestResultResponse {
+        try await self.client.execute(
+            operation: "GetAutomatedReasoningPolicyTestResult", 
+            path: "/automated-reasoning-policies/{policyArn}/build-workflows/{buildWorkflowId}/test-cases/{testCaseId}/test-results", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the test result for a specific Automated Reasoning policy test. Returns detailed validation findings and execution status.
+    ///
+    /// Parameters:
+    ///   - buildWorkflowId: The build workflow identifier. The build workflow must display a COMPLETED status to get results.
+    ///   - policyArn: The Amazon Resource Name (ARN) of the Automated Reasoning policy.
+    ///   - testCaseId: The unique identifier of the test for which to retrieve results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAutomatedReasoningPolicyTestResult(
+        buildWorkflowId: String,
+        policyArn: String,
+        testCaseId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAutomatedReasoningPolicyTestResultResponse {
+        let input = GetAutomatedReasoningPolicyTestResultRequest(
+            buildWorkflowId: buildWorkflowId, 
+            policyArn: policyArn, 
+            testCaseId: testCaseId
+        )
+        return try await self.getAutomatedReasoningPolicyTestResult(input, logger: logger)
     }
 
     /// Get the properties associated with a Amazon Bedrock custom model that you have created. For more information, see Custom models in the Amazon Bedrock User Guide.
@@ -1643,6 +2162,149 @@ public struct Bedrock: AWSService {
         let input = GetUseCaseForModelAccessRequest(
         )
         return try await self.getUseCaseForModelAccess(input, logger: logger)
+    }
+
+    /// Lists all Automated Reasoning policies in your account, with optional filtering by policy ARN. This helps you manage and discover existing policies.
+    @Sendable
+    @inlinable
+    public func listAutomatedReasoningPolicies(_ input: ListAutomatedReasoningPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAutomatedReasoningPoliciesResponse {
+        try await self.client.execute(
+            operation: "ListAutomatedReasoningPolicies", 
+            path: "/automated-reasoning-policies", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all Automated Reasoning policies in your account, with optional filtering by policy ARN. This helps you manage and discover existing policies.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of policies to return in a single call.
+    ///   - nextToken: The pagination token from a previous request to retrieve the next page of results.
+    ///   - policyArn: Optional filter to list only the policy versions with the specified Amazon Resource Name (ARN). If not provided, the DRAFT versions for all policies are listed.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAutomatedReasoningPolicies(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        policyArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAutomatedReasoningPoliciesResponse {
+        let input = ListAutomatedReasoningPoliciesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            policyArn: policyArn
+        )
+        return try await self.listAutomatedReasoningPolicies(input, logger: logger)
+    }
+
+    /// Lists all build workflows for an Automated Reasoning policy, showing the history of policy creation and modification attempts.
+    @Sendable
+    @inlinable
+    public func listAutomatedReasoningPolicyBuildWorkflows(_ input: ListAutomatedReasoningPolicyBuildWorkflowsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAutomatedReasoningPolicyBuildWorkflowsResponse {
+        try await self.client.execute(
+            operation: "ListAutomatedReasoningPolicyBuildWorkflows", 
+            path: "/automated-reasoning-policies/{policyArn}/build-workflows", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all build workflows for an Automated Reasoning policy, showing the history of policy creation and modification attempts.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of build workflows to return in a single response. Valid range is 1-100.
+    ///   - nextToken: A pagination token from a previous request to continue listing build workflows from where the previous request left off.
+    ///   - policyArn: The Amazon Resource Name (ARN) of the Automated Reasoning policy whose build workflows you want to list.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAutomatedReasoningPolicyBuildWorkflows(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        policyArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAutomatedReasoningPolicyBuildWorkflowsResponse {
+        let input = ListAutomatedReasoningPolicyBuildWorkflowsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            policyArn: policyArn
+        )
+        return try await self.listAutomatedReasoningPolicyBuildWorkflows(input, logger: logger)
+    }
+
+    /// Lists tests for an Automated Reasoning policy. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    @Sendable
+    @inlinable
+    public func listAutomatedReasoningPolicyTestCases(_ input: ListAutomatedReasoningPolicyTestCasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAutomatedReasoningPolicyTestCasesResponse {
+        try await self.client.execute(
+            operation: "ListAutomatedReasoningPolicyTestCases", 
+            path: "/automated-reasoning-policies/{policyArn}/test-cases", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists tests for an Automated Reasoning policy. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of tests to return in a single call.
+    ///   - nextToken: The pagination token from a previous request to retrieve the next page of results.
+    ///   - policyArn: The Amazon Resource Name (ARN) of the Automated Reasoning policy for which to list tests.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAutomatedReasoningPolicyTestCases(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        policyArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAutomatedReasoningPolicyTestCasesResponse {
+        let input = ListAutomatedReasoningPolicyTestCasesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            policyArn: policyArn
+        )
+        return try await self.listAutomatedReasoningPolicyTestCases(input, logger: logger)
+    }
+
+    /// Lists test results for an Automated Reasoning policy, showing how the policy performed against various test scenarios and validation checks.
+    @Sendable
+    @inlinable
+    public func listAutomatedReasoningPolicyTestResults(_ input: ListAutomatedReasoningPolicyTestResultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAutomatedReasoningPolicyTestResultsResponse {
+        try await self.client.execute(
+            operation: "ListAutomatedReasoningPolicyTestResults", 
+            path: "/automated-reasoning-policies/{policyArn}/build-workflows/{buildWorkflowId}/test-results", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists test results for an Automated Reasoning policy, showing how the policy performed against various test scenarios and validation checks.
+    ///
+    /// Parameters:
+    ///   - buildWorkflowId: The unique identifier of the build workflow whose test results you want to list.
+    ///   - maxResults: The maximum number of test results to return in a single response. Valid range is 1-100.
+    ///   - nextToken: A pagination token from a previous request to continue listing test results from where the previous request left off.
+    ///   - policyArn: The Amazon Resource Name (ARN) of the Automated Reasoning policy whose test results you want to list.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAutomatedReasoningPolicyTestResults(
+        buildWorkflowId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        policyArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAutomatedReasoningPolicyTestResultsResponse {
+        let input = ListAutomatedReasoningPolicyTestResultsRequest(
+            buildWorkflowId: buildWorkflowId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            policyArn: policyArn
+        )
+        return try await self.listAutomatedReasoningPolicyTestResults(input, logger: logger)
     }
 
     /// Lists custom model deployments in your account. You can filter the results by creation time, name, status, and associated model. Use this operation to manage and monitor your custom model deployments. We recommend using pagination to ensure that the operation returns quickly and successfully. The following actions are related to the ListCustomModelDeployments operation:    CreateCustomModelDeployment     GetCustomModelDeployment     DeleteCustomModelDeployment
@@ -2445,6 +3107,82 @@ public struct Bedrock: AWSService {
         return try await self.registerMarketplaceModelEndpoint(input, logger: logger)
     }
 
+    /// Starts a new build workflow for an Automated Reasoning policy. This initiates the process of analyzing source documents and generating policy rules, variables, and types.
+    @Sendable
+    @inlinable
+    public func startAutomatedReasoningPolicyBuildWorkflow(_ input: StartAutomatedReasoningPolicyBuildWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAutomatedReasoningPolicyBuildWorkflowResponse {
+        try await self.client.execute(
+            operation: "StartAutomatedReasoningPolicyBuildWorkflow", 
+            path: "/automated-reasoning-policies/{policyArn}/build-workflows/{buildWorkflowType}/start", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts a new build workflow for an Automated Reasoning policy. This initiates the process of analyzing source documents and generating policy rules, variables, and types.
+    ///
+    /// Parameters:
+    ///   - buildWorkflowType: The type of build workflow to start (e.g., DOCUMENT_INGESTION for processing new documents, POLICY_REPAIR for fixing existing policies).
+    ///   - clientRequestToken: A unique, case-sensitive identifier to ensure that the operation completes no more than once. If this token matches a previous request, Amazon Bedrock ignores the request but doesn't return an error.
+    ///   - policyArn: The Amazon Resource Name (ARN) of the Automated Reasoning policy for which to start the build workflow.
+    ///   - sourceContent: The source content for the build workflow, such as documents to analyze or repair instructions for existing policies.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startAutomatedReasoningPolicyBuildWorkflow(
+        buildWorkflowType: AutomatedReasoningPolicyBuildWorkflowType,
+        clientRequestToken: String? = StartAutomatedReasoningPolicyBuildWorkflowRequest.idempotencyToken(),
+        policyArn: String,
+        sourceContent: AutomatedReasoningPolicyBuildWorkflowSource,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartAutomatedReasoningPolicyBuildWorkflowResponse {
+        let input = StartAutomatedReasoningPolicyBuildWorkflowRequest(
+            buildWorkflowType: buildWorkflowType, 
+            clientRequestToken: clientRequestToken, 
+            policyArn: policyArn, 
+            sourceContent: sourceContent
+        )
+        return try await self.startAutomatedReasoningPolicyBuildWorkflow(input, logger: logger)
+    }
+
+    /// Initiates a test workflow to validate Automated Reasoning policy tests. The workflow executes the specified tests against the policy and generates validation results.
+    @Sendable
+    @inlinable
+    public func startAutomatedReasoningPolicyTestWorkflow(_ input: StartAutomatedReasoningPolicyTestWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAutomatedReasoningPolicyTestWorkflowResponse {
+        try await self.client.execute(
+            operation: "StartAutomatedReasoningPolicyTestWorkflow", 
+            path: "/automated-reasoning-policies/{policyArn}/build-workflows/{buildWorkflowId}/test-workflows", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Initiates a test workflow to validate Automated Reasoning policy tests. The workflow executes the specified tests against the policy and generates validation results.
+    ///
+    /// Parameters:
+    ///   - buildWorkflowId: The build workflow identifier. The build workflow must show a COMPLETED status before running tests.
+    ///   - clientRequestToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request but doesn't return an error.
+    ///   - policyArn: The Amazon Resource Name (ARN) of the Automated Reasoning policy to test.
+    ///   - testCaseIds: The list of test identifiers to run. If not provided, all tests for the policy are run.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startAutomatedReasoningPolicyTestWorkflow(
+        buildWorkflowId: String,
+        clientRequestToken: String? = StartAutomatedReasoningPolicyTestWorkflowRequest.idempotencyToken(),
+        policyArn: String,
+        testCaseIds: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartAutomatedReasoningPolicyTestWorkflowResponse {
+        let input = StartAutomatedReasoningPolicyTestWorkflowRequest(
+            buildWorkflowId: buildWorkflowId, 
+            clientRequestToken: clientRequestToken, 
+            policyArn: policyArn, 
+            testCaseIds: testCaseIds
+        )
+        return try await self.startAutomatedReasoningPolicyTestWorkflow(input, logger: logger)
+    }
+
     /// Stops an evaluation job that is current being created or running.
     @Sendable
     @inlinable
@@ -2596,6 +3334,132 @@ public struct Bedrock: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
+    /// Updates an existing Automated Reasoning policy with new rules, variables, or configuration. This creates a new version of the policy while preserving the previous version.
+    @Sendable
+    @inlinable
+    public func updateAutomatedReasoningPolicy(_ input: UpdateAutomatedReasoningPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAutomatedReasoningPolicyResponse {
+        try await self.client.execute(
+            operation: "UpdateAutomatedReasoningPolicy", 
+            path: "/automated-reasoning-policies/{policyArn}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing Automated Reasoning policy with new rules, variables, or configuration. This creates a new version of the policy while preserving the previous version.
+    ///
+    /// Parameters:
+    ///   - description: The updated description for the Automated Reasoning policy.
+    ///   - name: The updated name for the Automated Reasoning policy.
+    ///   - policyArn: The Amazon Resource Name (ARN) of the Automated Reasoning policy to update. This must be the ARN of a draft policy.
+    ///   - policyDefinition: The updated policy definition containing the formal logic rules, variables, and types.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAutomatedReasoningPolicy(
+        description: String? = nil,
+        name: String? = nil,
+        policyArn: String,
+        policyDefinition: AutomatedReasoningPolicyDefinition,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateAutomatedReasoningPolicyResponse {
+        let input = UpdateAutomatedReasoningPolicyRequest(
+            description: description, 
+            name: name, 
+            policyArn: policyArn, 
+            policyDefinition: policyDefinition
+        )
+        return try await self.updateAutomatedReasoningPolicy(input, logger: logger)
+    }
+
+    /// Updates the annotations for an Automated Reasoning policy build workflow. This allows you to modify extracted rules, variables, and types before finalizing the policy.
+    @Sendable
+    @inlinable
+    public func updateAutomatedReasoningPolicyAnnotations(_ input: UpdateAutomatedReasoningPolicyAnnotationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAutomatedReasoningPolicyAnnotationsResponse {
+        try await self.client.execute(
+            operation: "UpdateAutomatedReasoningPolicyAnnotations", 
+            path: "/automated-reasoning-policies/{policyArn}/build-workflows/{buildWorkflowId}/annotations", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the annotations for an Automated Reasoning policy build workflow. This allows you to modify extracted rules, variables, and types before finalizing the policy.
+    ///
+    /// Parameters:
+    ///   - annotations: The updated annotations containing modified rules, variables, and types for the policy.
+    ///   - buildWorkflowId: The unique identifier of the build workflow whose annotations you want to update.
+    ///   - lastUpdatedAnnotationSetHash: The hash value of the annotation set that you're updating. This is used for optimistic concurrency control to prevent conflicting updates.
+    ///   - policyArn: The Amazon Resource Name (ARN) of the Automated Reasoning policy whose annotations you want to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAutomatedReasoningPolicyAnnotations(
+        annotations: [AutomatedReasoningPolicyAnnotation],
+        buildWorkflowId: String,
+        lastUpdatedAnnotationSetHash: String,
+        policyArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateAutomatedReasoningPolicyAnnotationsResponse {
+        let input = UpdateAutomatedReasoningPolicyAnnotationsRequest(
+            annotations: annotations, 
+            buildWorkflowId: buildWorkflowId, 
+            lastUpdatedAnnotationSetHash: lastUpdatedAnnotationSetHash, 
+            policyArn: policyArn
+        )
+        return try await self.updateAutomatedReasoningPolicyAnnotations(input, logger: logger)
+    }
+
+    /// Updates an existing Automated Reasoning policy test. You can modify the content, query, expected result, and confidence threshold.
+    @Sendable
+    @inlinable
+    public func updateAutomatedReasoningPolicyTestCase(_ input: UpdateAutomatedReasoningPolicyTestCaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAutomatedReasoningPolicyTestCaseResponse {
+        try await self.client.execute(
+            operation: "UpdateAutomatedReasoningPolicyTestCase", 
+            path: "/automated-reasoning-policies/{policyArn}/test-cases/{testCaseId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing Automated Reasoning policy test. You can modify the content, query, expected result, and confidence threshold.
+    ///
+    /// Parameters:
+    ///   - clientRequestToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error.
+    ///   - confidenceThreshold: The updated minimum confidence level for logic validation. If null is provided, the threshold will be removed.
+    ///   - expectedAggregatedFindingsResult: The updated expected result of the Automated Reasoning check.
+    ///   - guardContent: The updated content to be validated by the Automated Reasoning policy.
+    ///   - lastUpdatedAt: The timestamp when the test was last updated. This is used as a concurrency token to prevent conflicting modifications.
+    ///   - policyArn: The Amazon Resource Name (ARN) of the Automated Reasoning policy that contains the test.
+    ///   - queryContent: The updated input query or prompt that generated the content.
+    ///   - testCaseId: The unique identifier of the test to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAutomatedReasoningPolicyTestCase(
+        clientRequestToken: String? = UpdateAutomatedReasoningPolicyTestCaseRequest.idempotencyToken(),
+        confidenceThreshold: Double? = nil,
+        expectedAggregatedFindingsResult: AutomatedReasoningCheckResult,
+        guardContent: String,
+        lastUpdatedAt: Date,
+        policyArn: String,
+        queryContent: String? = nil,
+        testCaseId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateAutomatedReasoningPolicyTestCaseResponse {
+        let input = UpdateAutomatedReasoningPolicyTestCaseRequest(
+            clientRequestToken: clientRequestToken, 
+            confidenceThreshold: confidenceThreshold, 
+            expectedAggregatedFindingsResult: expectedAggregatedFindingsResult, 
+            guardContent: guardContent, 
+            lastUpdatedAt: lastUpdatedAt, 
+            policyArn: policyArn, 
+            queryContent: queryContent, 
+            testCaseId: testCaseId
+        )
+        return try await self.updateAutomatedReasoningPolicyTestCase(input, logger: logger)
+    }
+
     /// Updates a guardrail with the values you specify.   Specify a name and optional description.   Specify messages for when the guardrail successfully blocks a prompt or a model response in the blockedInputMessaging and blockedOutputsMessaging fields.   Specify topics for the guardrail to deny in the topicPolicyConfig object. Each GuardrailTopicConfig object in the topicsConfig list pertains to one topic.   Give a name and description so that the guardrail can properly identify the topic.   Specify DENY in the type field.   (Optional) Provide up to five prompts that you would categorize as belonging to the topic in the examples list.     Specify filter strengths for the harmful categories defined in Amazon Bedrock in the contentPolicyConfig object. Each GuardrailContentFilterConfig object in the filtersConfig list pertains to a harmful category. For more information, see Content filters. For more information about the fields in a content filter, see GuardrailContentFilterConfig.   Specify the category in the type field.   Specify the strength of the filter for prompts in the inputStrength field and for model responses in the strength field of the GuardrailContentFilterConfig.     (Optional) For security, include the ARN of a KMS key in the kmsKeyId field.
     @Sendable
     @inlinable
@@ -2612,6 +3476,7 @@ public struct Bedrock: AWSService {
     /// Updates a guardrail with the values you specify.   Specify a name and optional description.   Specify messages for when the guardrail successfully blocks a prompt or a model response in the blockedInputMessaging and blockedOutputsMessaging fields.   Specify topics for the guardrail to deny in the topicPolicyConfig object. Each GuardrailTopicConfig object in the topicsConfig list pertains to one topic.   Give a name and description so that the guardrail can properly identify the topic.   Specify DENY in the type field.   (Optional) Provide up to five prompts that you would categorize as belonging to the topic in the examples list.     Specify filter strengths for the harmful categories defined in Amazon Bedrock in the contentPolicyConfig object. Each GuardrailContentFilterConfig object in the filtersConfig list pertains to a harmful category. For more information, see Content filters. For more information about the fields in a content filter, see GuardrailContentFilterConfig.   Specify the category in the type field.   Specify the strength of the filter for prompts in the inputStrength field and for model responses in the strength field of the GuardrailContentFilterConfig.     (Optional) For security, include the ARN of a KMS key in the kmsKeyId field.
     ///
     /// Parameters:
+    ///   - automatedReasoningPolicyConfig: Updated configuration for Automated Reasoning policies associated with the guardrail.
     ///   - blockedInputMessaging: The message to return when the guardrail blocks a prompt.
     ///   - blockedOutputsMessaging: The message to return when the guardrail blocks a model response.
     ///   - contentPolicyConfig: The content policy to configure for the guardrail.
@@ -2627,6 +3492,7 @@ public struct Bedrock: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateGuardrail(
+        automatedReasoningPolicyConfig: GuardrailAutomatedReasoningPolicyConfig? = nil,
         blockedInputMessaging: String,
         blockedOutputsMessaging: String,
         contentPolicyConfig: GuardrailContentPolicyConfig? = nil,
@@ -2642,6 +3508,7 @@ public struct Bedrock: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateGuardrailResponse {
         let input = UpdateGuardrailRequest(
+            automatedReasoningPolicyConfig: automatedReasoningPolicyConfig, 
             blockedInputMessaging: blockedInputMessaging, 
             blockedOutputsMessaging: blockedOutputsMessaging, 
             contentPolicyConfig: contentPolicyConfig, 
@@ -2742,6 +3609,157 @@ extension Bedrock {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Bedrock {
+    /// Return PaginatorSequence for operation ``listAutomatedReasoningPolicies(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAutomatedReasoningPoliciesPaginator(
+        _ input: ListAutomatedReasoningPoliciesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAutomatedReasoningPoliciesRequest, ListAutomatedReasoningPoliciesResponse> {
+        return .init(
+            input: input,
+            command: self.listAutomatedReasoningPolicies,
+            inputKey: \ListAutomatedReasoningPoliciesRequest.nextToken,
+            outputKey: \ListAutomatedReasoningPoliciesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAutomatedReasoningPolicies(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of policies to return in a single call.
+    ///   - policyArn: Optional filter to list only the policy versions with the specified Amazon Resource Name (ARN). If not provided, the DRAFT versions for all policies are listed.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAutomatedReasoningPoliciesPaginator(
+        maxResults: Int? = nil,
+        policyArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAutomatedReasoningPoliciesRequest, ListAutomatedReasoningPoliciesResponse> {
+        let input = ListAutomatedReasoningPoliciesRequest(
+            maxResults: maxResults, 
+            policyArn: policyArn
+        )
+        return self.listAutomatedReasoningPoliciesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAutomatedReasoningPolicyBuildWorkflows(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAutomatedReasoningPolicyBuildWorkflowsPaginator(
+        _ input: ListAutomatedReasoningPolicyBuildWorkflowsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAutomatedReasoningPolicyBuildWorkflowsRequest, ListAutomatedReasoningPolicyBuildWorkflowsResponse> {
+        return .init(
+            input: input,
+            command: self.listAutomatedReasoningPolicyBuildWorkflows,
+            inputKey: \ListAutomatedReasoningPolicyBuildWorkflowsRequest.nextToken,
+            outputKey: \ListAutomatedReasoningPolicyBuildWorkflowsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAutomatedReasoningPolicyBuildWorkflows(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of build workflows to return in a single response. Valid range is 1-100.
+    ///   - policyArn: The Amazon Resource Name (ARN) of the Automated Reasoning policy whose build workflows you want to list.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAutomatedReasoningPolicyBuildWorkflowsPaginator(
+        maxResults: Int? = nil,
+        policyArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAutomatedReasoningPolicyBuildWorkflowsRequest, ListAutomatedReasoningPolicyBuildWorkflowsResponse> {
+        let input = ListAutomatedReasoningPolicyBuildWorkflowsRequest(
+            maxResults: maxResults, 
+            policyArn: policyArn
+        )
+        return self.listAutomatedReasoningPolicyBuildWorkflowsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAutomatedReasoningPolicyTestCases(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAutomatedReasoningPolicyTestCasesPaginator(
+        _ input: ListAutomatedReasoningPolicyTestCasesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAutomatedReasoningPolicyTestCasesRequest, ListAutomatedReasoningPolicyTestCasesResponse> {
+        return .init(
+            input: input,
+            command: self.listAutomatedReasoningPolicyTestCases,
+            inputKey: \ListAutomatedReasoningPolicyTestCasesRequest.nextToken,
+            outputKey: \ListAutomatedReasoningPolicyTestCasesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAutomatedReasoningPolicyTestCases(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of tests to return in a single call.
+    ///   - policyArn: The Amazon Resource Name (ARN) of the Automated Reasoning policy for which to list tests.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAutomatedReasoningPolicyTestCasesPaginator(
+        maxResults: Int? = nil,
+        policyArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAutomatedReasoningPolicyTestCasesRequest, ListAutomatedReasoningPolicyTestCasesResponse> {
+        let input = ListAutomatedReasoningPolicyTestCasesRequest(
+            maxResults: maxResults, 
+            policyArn: policyArn
+        )
+        return self.listAutomatedReasoningPolicyTestCasesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAutomatedReasoningPolicyTestResults(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAutomatedReasoningPolicyTestResultsPaginator(
+        _ input: ListAutomatedReasoningPolicyTestResultsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAutomatedReasoningPolicyTestResultsRequest, ListAutomatedReasoningPolicyTestResultsResponse> {
+        return .init(
+            input: input,
+            command: self.listAutomatedReasoningPolicyTestResults,
+            inputKey: \ListAutomatedReasoningPolicyTestResultsRequest.nextToken,
+            outputKey: \ListAutomatedReasoningPolicyTestResultsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAutomatedReasoningPolicyTestResults(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - buildWorkflowId: The unique identifier of the build workflow whose test results you want to list.
+    ///   - maxResults: The maximum number of test results to return in a single response. Valid range is 1-100.
+    ///   - policyArn: The Amazon Resource Name (ARN) of the Automated Reasoning policy whose test results you want to list.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAutomatedReasoningPolicyTestResultsPaginator(
+        buildWorkflowId: String,
+        maxResults: Int? = nil,
+        policyArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAutomatedReasoningPolicyTestResultsRequest, ListAutomatedReasoningPolicyTestResultsResponse> {
+        let input = ListAutomatedReasoningPolicyTestResultsRequest(
+            buildWorkflowId: buildWorkflowId, 
+            maxResults: maxResults, 
+            policyArn: policyArn
+        )
+        return self.listAutomatedReasoningPolicyTestResultsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listCustomModelDeployments(_:logger:)``.
     ///
     /// - Parameters:
@@ -3377,6 +4395,51 @@ extension Bedrock {
             statusEquals: statusEquals
         )
         return self.listProvisionedModelThroughputsPaginator(input, logger: logger)
+    }
+}
+
+extension Bedrock.ListAutomatedReasoningPoliciesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Bedrock.ListAutomatedReasoningPoliciesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            policyArn: self.policyArn
+        )
+    }
+}
+
+extension Bedrock.ListAutomatedReasoningPolicyBuildWorkflowsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Bedrock.ListAutomatedReasoningPolicyBuildWorkflowsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            policyArn: self.policyArn
+        )
+    }
+}
+
+extension Bedrock.ListAutomatedReasoningPolicyTestCasesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Bedrock.ListAutomatedReasoningPolicyTestCasesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            policyArn: self.policyArn
+        )
+    }
+}
+
+extension Bedrock.ListAutomatedReasoningPolicyTestResultsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Bedrock.ListAutomatedReasoningPolicyTestResultsRequest {
+        return .init(
+            buildWorkflowId: self.buildWorkflowId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            policyArn: self.policyArn
+        )
     }
 }
 

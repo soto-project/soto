@@ -92,6 +92,7 @@ public struct EKS: AWSService {
             "ap-southeast-3": "fips.eks.ap-southeast-3.amazonaws.com",
             "ap-southeast-4": "fips.eks.ap-southeast-4.amazonaws.com",
             "ap-southeast-5": "fips.eks.ap-southeast-5.amazonaws.com",
+            "ap-southeast-6": "fips.eks.ap-southeast-6.amazonaws.com",
             "ap-southeast-7": "fips.eks.ap-southeast-7.amazonaws.com",
             "ca-central-1": "fips.eks.ca-central-1.amazonaws.com",
             "ca-west-1": "fips.eks.ca-west-1.amazonaws.com",
@@ -298,6 +299,7 @@ public struct EKS: AWSService {
     ///   - clientRequestToken: A unique, case-sensitive identifier that you provide to ensure
     ///   - clusterName: The name of your cluster.
     ///   - configurationValues: The set of configuration values for the add-on that's created. The values that you provide are validated against the schema returned by DescribeAddonConfiguration.
+    ///   - namespaceConfig: The namespace configuration for the addon. If specified, this will override the default namespace for the addon.
     ///   - podIdentityAssociations: An array of EKS Pod Identity associations to be created. Each association maps a Kubernetes service account to an IAM role. For more information, see Attach an IAM Role to an Amazon EKS add-on using EKS Pod Identity in the Amazon EKS User Guide.
     ///   - resolveConflicts: How to resolve field value conflicts for an Amazon EKS add-on. Conflicts are handled based on the value you choose:    None – If the self-managed version of the add-on is installed on your cluster, Amazon EKS doesn't change the value. Creation of the add-on might fail.    Overwrite – If the self-managed version of the add-on is installed on your cluster and the Amazon EKS default value is different than the existing value, Amazon EKS changes the value to the Amazon EKS default value.    Preserve – This is similar to the NONE option. If the self-managed version of the add-on is installed on your cluster Amazon EKS doesn't change the add-on resource properties. Creation of the add-on might fail if conflicts are detected. This option works differently during the update operation. For more information, see  UpdateAddon .   If you don't currently have the self-managed version of the add-on installed on your cluster, the Amazon EKS add-on is installed. Amazon EKS sets all values to default values, regardless of the option that you specify.
     ///   - serviceAccountRoleArn: The Amazon Resource Name (ARN) of an existing IAM role to bind to the add-on's service account. The role must be assigned the IAM permissions required by the add-on. If you don't specify an existing IAM role, then the add-on uses the permissions assigned to the node IAM role. For more information, see Amazon EKS node IAM role in the Amazon EKS User Guide.  To specify an existing IAM role, you must have an IAM OpenID Connect (OIDC) provider created for your cluster. For more information, see Enabling IAM roles for service accounts on your cluster in the Amazon EKS User Guide.
@@ -310,6 +312,7 @@ public struct EKS: AWSService {
         clientRequestToken: String? = CreateAddonRequest.idempotencyToken(),
         clusterName: String,
         configurationValues: String? = nil,
+        namespaceConfig: AddonNamespaceConfigRequest? = nil,
         podIdentityAssociations: [AddonPodIdentityAssociations]? = nil,
         resolveConflicts: ResolveConflicts? = nil,
         serviceAccountRoleArn: String? = nil,
@@ -322,6 +325,7 @@ public struct EKS: AWSService {
             clientRequestToken: clientRequestToken, 
             clusterName: clusterName, 
             configurationValues: configurationValues, 
+            namespaceConfig: namespaceConfig, 
             podIdentityAssociations: podIdentityAssociations, 
             resolveConflicts: resolveConflicts, 
             serviceAccountRoleArn: serviceAccountRoleArn, 
@@ -350,6 +354,7 @@ public struct EKS: AWSService {
     ///   - bootstrapSelfManagedAddons: If you set this value to False when creating a cluster, the default networking add-ons will not be installed. The default networking add-ons include vpc-cni, coredns, and kube-proxy. Use this option when you plan to install third-party alternative add-ons or self-manage the default networking add-ons.
     ///   - clientRequestToken: A unique, case-sensitive identifier that you provide to ensure
     ///   - computeConfig: Enable or disable the compute capability of EKS Auto Mode when creating your EKS Auto Mode cluster. If the compute capability is enabled, EKS Auto Mode will create and delete EC2 Managed Instances in your Amazon Web Services account
+    ///   - deletionProtection: Indicates whether to enable deletion protection for the cluster. When enabled, the cluster  cannot be deleted unless deletion protection is first disabled. This helps prevent  accidental cluster deletion. Default value is false.
     ///   - encryptionConfig: The encryption configuration for the cluster.
     ///   - kubernetesNetworkConfig: The Kubernetes network configuration for the cluster.
     ///   - logging: Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs . By default, cluster control plane logs aren't exported to CloudWatch Logs . For more information, see Amazon EKS Cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
@@ -370,6 +375,7 @@ public struct EKS: AWSService {
         bootstrapSelfManagedAddons: Bool? = nil,
         clientRequestToken: String? = CreateClusterRequest.idempotencyToken(),
         computeConfig: ComputeConfigRequest? = nil,
+        deletionProtection: Bool? = nil,
         encryptionConfig: [EncryptionConfig]? = nil,
         kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil,
         logging: Logging? = nil,
@@ -390,6 +396,7 @@ public struct EKS: AWSService {
             bootstrapSelfManagedAddons: bootstrapSelfManagedAddons, 
             clientRequestToken: clientRequestToken, 
             computeConfig: computeConfig, 
+            deletionProtection: deletionProtection, 
             encryptionConfig: encryptionConfig, 
             kubernetesNetworkConfig: kubernetesNetworkConfig, 
             logging: logging, 
@@ -1228,6 +1235,35 @@ public struct EKS: AWSService {
         return try await self.describeInsight(input, logger: logger)
     }
 
+    /// Returns the status of the latest on-demand cluster insights refresh operation.
+    @Sendable
+    @inlinable
+    public func describeInsightsRefresh(_ input: DescribeInsightsRefreshRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInsightsRefreshResponse {
+        try await self.client.execute(
+            operation: "DescribeInsightsRefresh", 
+            path: "/clusters/{clusterName}/insights-refresh", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the status of the latest on-demand cluster insights refresh operation.
+    ///
+    /// Parameters:
+    ///   - clusterName: The name of the cluster associated with the insights refresh operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeInsightsRefresh(
+        clusterName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeInsightsRefreshResponse {
+        let input = DescribeInsightsRefreshRequest(
+            clusterName: clusterName
+        )
+        return try await self.describeInsightsRefresh(input, logger: logger)
+    }
+
     /// Describes a managed node group.
     @Sendable
     @inlinable
@@ -1905,6 +1941,35 @@ public struct EKS: AWSService {
         return try await self.registerCluster(input, logger: logger)
     }
 
+    /// Initiates an on-demand refresh operation for cluster insights, getting the latest analysis outside of the standard refresh schedule.
+    @Sendable
+    @inlinable
+    public func startInsightsRefresh(_ input: StartInsightsRefreshRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartInsightsRefreshResponse {
+        try await self.client.execute(
+            operation: "StartInsightsRefresh", 
+            path: "/clusters/{clusterName}/insights-refresh", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Initiates an on-demand refresh operation for cluster insights, getting the latest analysis outside of the standard refresh schedule.
+    ///
+    /// Parameters:
+    ///   - clusterName: The name of the cluster for the refresh insights operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startInsightsRefresh(
+        clusterName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartInsightsRefreshResponse {
+        let input = StartInsightsRefreshRequest(
+            clusterName: clusterName
+        )
+        return try await self.startInsightsRefresh(input, logger: logger)
+    }
+
     /// Associates the specified tags to an Amazon EKS resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted. Tags that you create for Amazon EKS resources don't propagate to any other resources associated with the cluster. For example, if you tag a cluster with this operation, that tag doesn't automatically propagate to the subnets and nodes associated with the cluster.
     @Sendable
     @inlinable
@@ -2079,6 +2144,7 @@ public struct EKS: AWSService {
     ///   - accessConfig: The access configuration for the cluster.
     ///   - clientRequestToken: A unique, case-sensitive identifier that you provide to ensure
     ///   - computeConfig: Update the configuration of the compute capability of your EKS Auto Mode cluster. For example, enable the capability.
+    ///   - deletionProtection: Specifies whether to enable or disable deletion protection for the cluster. When  enabled (true), the cluster cannot be deleted until deletion protection is  explicitly disabled. When disabled (false), the cluster can be deleted  normally.
     ///   - kubernetesNetworkConfig: 
     ///   - logging: Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs . By default, cluster control plane logs aren't exported to CloudWatch Logs . For more information, see Amazon EKS cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
     ///   - name: The name of the Amazon EKS cluster to update.
@@ -2093,6 +2159,7 @@ public struct EKS: AWSService {
         accessConfig: UpdateAccessConfigRequest? = nil,
         clientRequestToken: String? = UpdateClusterConfigRequest.idempotencyToken(),
         computeConfig: ComputeConfigRequest? = nil,
+        deletionProtection: Bool? = nil,
         kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil,
         logging: Logging? = nil,
         name: String,
@@ -2107,6 +2174,7 @@ public struct EKS: AWSService {
             accessConfig: accessConfig, 
             clientRequestToken: clientRequestToken, 
             computeConfig: computeConfig, 
+            deletionProtection: deletionProtection, 
             kubernetesNetworkConfig: kubernetesNetworkConfig, 
             logging: logging, 
             name: name, 

@@ -190,6 +190,7 @@ public struct Synthetics: AWSService {
     /// Parameters:
     ///   - artifactConfig: A structure that contains the configuration for canary artifacts, including  the encryption-at-rest settings for artifacts that the canary uploads to Amazon S3.
     ///   - artifactS3Location: The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files.  The name of the  Amazon S3 bucket can't include a period (.).
+    ///   - browserConfigs: CloudWatch Synthetics now supports multibrowser canaries for syn-nodejs-puppeteer-11.0 and syn-nodejs-playwright-3.0 runtimes. This feature allows you to run your canaries on both  Firefox and Chrome browsers. To create a multibrowser canary, you need to specify the BrowserConfigs with a list of browsers you want to use.  If not specified, browserConfigs defaults to Chrome.
     ///   - code: A structure that includes the entry point from which the canary should start running your script. If the script is stored in  an Amazon S3 bucket, the bucket name, key, and version are also included.
     ///   - executionRoleArn: The ARN of the IAM role to be used to run the canary. This role must already exist,  and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permissions:    s3:PutObject     s3:GetBucketLocation     s3:ListAllMyBuckets     cloudwatch:PutMetricData     logs:CreateLogGroup     logs:CreateLogStream     logs:PutLogEvents
     ///   - failureRetentionPeriodInDays: The number of days to retain data about failed runs of this canary. If you omit  this field, the default of 31 days is used. The valid range is 1 to 455 days. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
@@ -207,6 +208,7 @@ public struct Synthetics: AWSService {
     public func createCanary(
         artifactConfig: ArtifactConfigInput? = nil,
         artifactS3Location: String,
+        browserConfigs: [BrowserConfig]? = nil,
         code: CanaryCodeInput,
         executionRoleArn: String,
         failureRetentionPeriodInDays: Int? = nil,
@@ -224,6 +226,7 @@ public struct Synthetics: AWSService {
         let input = CreateCanaryRequest(
             artifactConfig: artifactConfig, 
             artifactS3Location: artifactS3Location, 
+            browserConfigs: browserConfigs, 
             code: code, 
             executionRoleArn: executionRoleArn, 
             failureRetentionPeriodInDays: failureRetentionPeriodInDays, 
@@ -384,18 +387,21 @@ public struct Synthetics: AWSService {
     /// Use this operation to see information from the most recent run of each canary that you have created. This operation supports resource-level authorization using an IAM policy and  the Names parameter. If you specify the Names parameter, the operation is successful only if you have authorization to view all the canaries that you specify in your request. If you do not have permission to view any of  the canaries, the request fails with a 403 response. You are required to use the Names parameter if you are logged on to a user or role that has an  IAM policy that restricts which canaries that you are allowed to view. For more information,  see  Limiting a user to viewing specific canaries.
     ///
     /// Parameters:
+    ///   - browserType: The type of browser to use for the canary run.
     ///   - maxResults: Specify this parameter to limit how many runs are returned each time you use the DescribeLastRun operation. If you omit this parameter, the default of 100 is used.
     ///   - names: Use this parameter to return only canaries that match the names that you specify here. You can specify as many as five canary names. If you specify this parameter, the operation is successful only if you have authorization to view all the canaries that you specify in your request. If you do not have permission to view any of  the canaries, the request fails with a 403 response. You are required to use the Names parameter if you are logged on to a user or role that has an  IAM policy that restricts which canaries that you are allowed to view. For more information,  see  Limiting a user to viewing specific canaries.
     ///   - nextToken: A token that indicates that there is more data available. You can use this token in a subsequent DescribeCanariesLastRun operation to retrieve the next  set of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeCanariesLastRun(
+        browserType: BrowserType? = nil,
         maxResults: Int? = nil,
         names: [String]? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DescribeCanariesLastRunResponse {
         let input = DescribeCanariesLastRunRequest(
+            browserType: browserType, 
             maxResults: maxResults, 
             names: names, 
             nextToken: nextToken
@@ -747,6 +753,7 @@ public struct Synthetics: AWSService {
     /// Parameters:
     ///   - artifactConfig: 
     ///   - artifactS3Location: The location in Amazon S3 where Synthetics stores artifacts from the test runs of this
+    ///   - browserConfigs: A structure that specifies the browser type to use for a canary run. CloudWatch Synthetics supports running canaries on both CHROME and FIREFOX browsers.  If not specified, browserConfigs defaults to Chrome.
     ///   - code: 
     ///   - executionRoleArn: The ARN of the IAM role to be used to run the canary. This role must already exist,  and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permissions:
     ///   - failureRetentionPeriodInDays: The number of days to retain data about failed runs of this canary. If you omit  this field, the default of 31 days is used. The valid range is 1 to 455 days. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
@@ -756,12 +763,14 @@ public struct Synthetics: AWSService {
     ///   - runtimeVersion: Specifies the runtime version to use for the canary.   For a list of valid runtime versions and for more information about runtime versions, see  Canary Runtime Versions.
     ///   - successRetentionPeriodInDays: The number of days to retain data about successful runs of this canary. If you omit  this field, the default of 31 days is used. The valid range is 1 to 455 days. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
     ///   - visualReference: 
+    ///   - visualReferences: A list of visual reference configurations for the canary, one for each browser type that the canary is configured to run on. Visual references are used for visual monitoring comparisons.  syn-nodejs-puppeteer-11.0 and above, and syn-nodejs-playwright-3.0 and above, only supports visualReferences. visualReference field is not supported. Versions older than syn-nodejs-puppeteer-11.0 supports both visualReference and visualReferences for backward compatibility. It is recommended to use visualReferences for consistency and future compatibility.
     ///   - vpcConfig: 
     ///   - logger: Logger use during operation
     @inlinable
     public func startCanaryDryRun(
         artifactConfig: ArtifactConfigInput? = nil,
         artifactS3Location: String? = nil,
+        browserConfigs: [BrowserConfig]? = nil,
         code: CanaryCodeInput? = nil,
         executionRoleArn: String? = nil,
         failureRetentionPeriodInDays: Int? = nil,
@@ -771,12 +780,14 @@ public struct Synthetics: AWSService {
         runtimeVersion: String? = nil,
         successRetentionPeriodInDays: Int? = nil,
         visualReference: VisualReferenceInput? = nil,
+        visualReferences: [VisualReferenceInput]? = nil,
         vpcConfig: VpcConfigInput? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartCanaryDryRunResponse {
         let input = StartCanaryDryRunRequest(
             artifactConfig: artifactConfig, 
             artifactS3Location: artifactS3Location, 
+            browserConfigs: browserConfigs, 
             code: code, 
             executionRoleArn: executionRoleArn, 
             failureRetentionPeriodInDays: failureRetentionPeriodInDays, 
@@ -786,6 +797,7 @@ public struct Synthetics: AWSService {
             runtimeVersion: runtimeVersion, 
             successRetentionPeriodInDays: successRetentionPeriodInDays, 
             visualReference: visualReference, 
+            visualReferences: visualReferences, 
             vpcConfig: vpcConfig
         )
         return try await self.startCanaryDryRun(input, logger: logger)
@@ -884,7 +896,7 @@ public struct Synthetics: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Updates the configuration of a canary that has  already been created. You can't use this operation to update the tags of an existing canary. To  change the tags of an existing canary, use TagResource.  When you use the dryRunId field when updating a canary, the only other field you can provide is the Schedule. Adding any other field will thrown an exception.
+    /// Updates the configuration of a canary that has already been created. For multibrowser canaries, you can add or remove browsers by updating the browserConfig list in the update call. For example:   To add Firefox to a canary that currently uses Chrome, specify browserConfigs as [CHROME, FIREFOX]   To remove Firefox and keep only Chrome, specify browserConfigs as [CHROME]   You can't use this operation to update the tags of an existing canary. To change the tags of an existing canary, use TagResource.  When you use the dryRunId field when updating a canary, the only other field you can provide is the Schedule. Adding any other field will thrown an exception.
     @Sendable
     @inlinable
     public func updateCanary(_ input: UpdateCanaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCanaryResponse {
@@ -897,11 +909,12 @@ public struct Synthetics: AWSService {
             logger: logger
         )
     }
-    /// Updates the configuration of a canary that has  already been created. You can't use this operation to update the tags of an existing canary. To  change the tags of an existing canary, use TagResource.  When you use the dryRunId field when updating a canary, the only other field you can provide is the Schedule. Adding any other field will thrown an exception.
+    /// Updates the configuration of a canary that has already been created. For multibrowser canaries, you can add or remove browsers by updating the browserConfig list in the update call. For example:   To add Firefox to a canary that currently uses Chrome, specify browserConfigs as [CHROME, FIREFOX]   To remove Firefox and keep only Chrome, specify browserConfigs as [CHROME]   You can't use this operation to update the tags of an existing canary. To change the tags of an existing canary, use TagResource.  When you use the dryRunId field when updating a canary, the only other field you can provide is the Schedule. Adding any other field will thrown an exception.
     ///
     /// Parameters:
     ///   - artifactConfig: A structure that contains the configuration for canary artifacts,  including the encryption-at-rest settings for artifacts that  the canary uploads to Amazon S3.
     ///   - artifactS3Location: The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary.  Artifacts include the log file, screenshots, and HAR files. The name of the Amazon S3 bucket can't include a period (.).
+    ///   - browserConfigs: A structure that specifies the browser type to use for a canary run. CloudWatch Synthetics supports running canaries on both CHROME and FIREFOX browsers.  If not specified, browserConfigs defaults to Chrome.
     ///   - code: A structure that includes the entry point from which the canary should start running your script. If the script is stored in  an Amazon S3 bucket, the bucket name, key, and version are also included.
     ///   - dryRunId: Update the existing canary using the updated configurations from the DryRun associated with the DryRunId.  When you use the dryRunId field when updating a canary, the only other field you can provide is the Schedule. Adding any other field will thrown an exception.
     ///   - executionRoleArn: The ARN of the IAM role to be used to run the canary. This role must already exist,  and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permissions:    s3:PutObject     s3:GetBucketLocation     s3:ListAllMyBuckets     cloudwatch:PutMetricData     logs:CreateLogGroup     logs:CreateLogStream     logs:CreateLogStream
@@ -913,12 +926,14 @@ public struct Synthetics: AWSService {
     ///   - schedule: A structure that contains information about how often the canary is to run, and when these runs are to stop.
     ///   - successRetentionPeriodInDays: The number of days to retain data about successful runs of this canary. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
     ///   - visualReference: Defines the screenshots to use as the baseline for comparisons during visual monitoring comparisons during future runs of this canary. If you omit this  parameter, no changes are made to any baseline screenshots that the canary might be using already. Visual monitoring is supported only on canaries running the syn-puppeteer-node-3.2 runtime or later. For more information, see  Visual monitoring and  Visual monitoring blueprint
+    ///   - visualReferences: A list of visual reference configurations for the canary, one for each browser type that the canary is configured to run on. Visual references are used for visual monitoring comparisons.  syn-nodejs-puppeteer-11.0 and above, and syn-nodejs-playwright-3.0 and above, only supports visualReferences. visualReference field is not supported. Versions older than syn-nodejs-puppeteer-11.0 supports both visualReference and visualReferences for backward compatibility. It is recommended to use visualReferences for consistency and future compatibility. For multibrowser visual monitoring,  you can update the baseline for all configured browsers in a single update call by specifying a list of VisualReference objects, one per browser.  Each VisualReference object maps to a specific browser configuration, allowing you to manage visual baselines for multiple browsers simultaneously. For single configuration canaries using Chrome browser (default browser), use visualReferences for syn-nodejs-puppeteer-11.0 and above, and syn-nodejs-playwright-3.0 and  above canaries. The browserType in the visualReference object is not mandatory.
     ///   - vpcConfig: If this canary is to test an endpoint in a VPC, this structure contains information about the subnet and security groups of the VPC endpoint.  For more information, see  Running a Canary in a VPC.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateCanary(
         artifactConfig: ArtifactConfigInput? = nil,
         artifactS3Location: String? = nil,
+        browserConfigs: [BrowserConfig]? = nil,
         code: CanaryCodeInput? = nil,
         dryRunId: String? = nil,
         executionRoleArn: String? = nil,
@@ -930,12 +945,14 @@ public struct Synthetics: AWSService {
         schedule: CanaryScheduleInput? = nil,
         successRetentionPeriodInDays: Int? = nil,
         visualReference: VisualReferenceInput? = nil,
+        visualReferences: [VisualReferenceInput]? = nil,
         vpcConfig: VpcConfigInput? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateCanaryResponse {
         let input = UpdateCanaryRequest(
             artifactConfig: artifactConfig, 
             artifactS3Location: artifactS3Location, 
+            browserConfigs: browserConfigs, 
             code: code, 
             dryRunId: dryRunId, 
             executionRoleArn: executionRoleArn, 
@@ -947,6 +964,7 @@ public struct Synthetics: AWSService {
             schedule: schedule, 
             successRetentionPeriodInDays: successRetentionPeriodInDays, 
             visualReference: visualReference, 
+            visualReferences: visualReferences, 
             vpcConfig: vpcConfig
         )
         return try await self.updateCanary(input, logger: logger)
@@ -1024,16 +1042,19 @@ extension Synthetics {
     /// Return PaginatorSequence for operation ``describeCanariesLastRun(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - browserType: The type of browser to use for the canary run.
     ///   - maxResults: Specify this parameter to limit how many runs are returned each time you use the DescribeLastRun operation. If you omit this parameter, the default of 100 is used.
     ///   - names: Use this parameter to return only canaries that match the names that you specify here. You can specify as many as five canary names. If you specify this parameter, the operation is successful only if you have authorization to view all the canaries that you specify in your request. If you do not have permission to view any of  the canaries, the request fails with a 403 response. You are required to use the Names parameter if you are logged on to a user or role that has an  IAM policy that restricts which canaries that you are allowed to view. For more information,  see  Limiting a user to viewing specific canaries.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeCanariesLastRunPaginator(
+        browserType: BrowserType? = nil,
         maxResults: Int? = nil,
         names: [String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<DescribeCanariesLastRunRequest, DescribeCanariesLastRunResponse> {
         let input = DescribeCanariesLastRunRequest(
+            browserType: browserType, 
             maxResults: maxResults, 
             names: names
         )
@@ -1230,6 +1251,7 @@ extension Synthetics.DescribeCanariesLastRunRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Synthetics.DescribeCanariesLastRunRequest {
         return .init(
+            browserType: self.browserType,
             maxResults: self.maxResults,
             names: self.names,
             nextToken: token

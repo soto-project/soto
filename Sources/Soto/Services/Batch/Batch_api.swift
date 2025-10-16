@@ -93,6 +93,7 @@ public struct Batch: AWSService {
             "ap-southeast-3": "fips.batch.ap-southeast-3.amazonaws.com",
             "ap-southeast-4": "fips.batch.ap-southeast-4.amazonaws.com",
             "ap-southeast-5": "fips.batch.ap-southeast-5.amazonaws.com",
+            "ap-southeast-6": "fips.batch.ap-southeast-6.amazonaws.com",
             "ap-southeast-7": "fips.batch.ap-southeast-7.amazonaws.com",
             "ca-central-1": "fips.batch.ca-central-1.amazonaws.com",
             "ca-west-1": "fips.batch.ca-west-1.amazonaws.com",
@@ -152,7 +153,7 @@ public struct Batch: AWSService {
         return try await self.cancelJob(input, logger: logger)
     }
 
-    /// Creates an Batch compute environment. You can create MANAGED or UNMANAGED compute environments. MANAGED compute environments can use Amazon EC2 or Fargate resources. UNMANAGED compute environments can only use EC2 resources. In a managed compute environment, Batch manages the capacity and instance types of the compute resources within the environment. This is based on the compute resource specification that you define or the launch template that you specify when you create the compute environment. Either, you can choose to use EC2 On-Demand Instances and EC2 Spot Instances. Or, you can use Fargate and Fargate Spot capacity in your managed compute environment. You can optionally set a maximum price so that Spot Instances only launch when the Spot Instance price is less than a specified percentage of the On-Demand price.  Multi-node parallel jobs aren't supported on Spot Instances.  In an unmanaged compute environment, you can manage your own EC2 compute resources and have flexibility with how you configure your compute resources. For example, you can use custom AMIs. However, you must verify that each of your AMIs meet the Amazon ECS container instance AMI specification. For more information, see container instance AMIs in the Amazon Elastic Container Service Developer Guide. After you created your unmanaged compute environment, you can use the DescribeComputeEnvironments operation to find the Amazon ECS cluster that's associated with it. Then, launch your container instances into that Amazon ECS cluster. For more information, see Launching an Amazon ECS container instance in the Amazon Elastic Container Service Developer Guide.  To create a compute environment that uses EKS resources, the caller must have permissions to call eks:DescribeCluster.   Batch doesn't automatically upgrade the AMIs in a compute environment after it's created. For example, it also doesn't update the AMIs in your compute environment when a newer version of the Amazon ECS optimized AMI is available. You're responsible for the management of the guest operating system. This includes any updates and security patches. You're also responsible for any additional application software or utilities that you install on the compute resources. There are two ways to use a new AMI for your Batch jobs. The original method is to complete these steps:   Create a new compute environment with the new AMI.   Add the compute environment to an existing job queue.   Remove the earlier compute environment from your job queue.   Delete the earlier compute environment.   In April 2022, Batch added enhanced support for updating compute environments. For more information, see Updating compute environments. To use the enhanced updating of compute environments to update AMIs, follow these rules:   Either don't set the service role (serviceRole) parameter or set it to the AWSBatchServiceRole service-linked role.   Set the allocation strategy (allocationStrategy) parameter to BEST_FIT_PROGRESSIVE, SPOT_CAPACITY_OPTIMIZED, or SPOT_PRICE_CAPACITY_OPTIMIZED.   Set the update to latest image version (updateToLatestImageVersion) parameter to true. The updateToLatestImageVersion parameter  is used when you update a compute environment. This parameter is ignored when you create  a compute environment.   Don't specify an AMI ID in imageId, imageIdOverride (in  ec2Configuration ), or in the launch template (launchTemplate). In that case, Batch selects the latest Amazon ECS optimized AMI that's supported by Batch at the time the infrastructure update is initiated. Alternatively, you can specify the AMI ID in the imageId or imageIdOverride parameters, or the launch template identified by the LaunchTemplate properties. Changing any of these properties starts an infrastructure update. If the AMI ID is specified in the launch template, it can't be replaced by specifying an AMI ID in either the imageId or imageIdOverride parameters. It can only be replaced by specifying a different launch template, or if the launch template version is set to $Default or $Latest, by setting either a new default version for the launch template (if $Default) or by adding a new version to the launch template (if $Latest).   If these rules are followed, any update that starts an infrastructure update causes the AMI ID to be re-selected. If the version setting in the launch template (launchTemplate) is set to $Latest or $Default, the latest or default version of the launch template is evaluated up at the time of the infrastructure update, even if the launchTemplate wasn't updated.
+    /// Creates an Batch compute environment. You can create MANAGED or UNMANAGED compute environments. MANAGED compute environments can use Amazon EC2 or Fargate resources. UNMANAGED compute environments can only use EC2 resources. In a managed compute environment, Batch manages the capacity and instance types of the compute resources within the environment. This is based on the compute resource specification that you define or the launch template that you specify when you create the compute environment. Either, you can choose to use EC2 On-Demand Instances and EC2 Spot Instances. Or, you can use Fargate and Fargate Spot capacity in your managed compute environment. You can optionally set a maximum price so that Spot Instances only launch when the Spot Instance price is less than a specified percentage of the On-Demand price. In an unmanaged compute environment, you can manage your own EC2 compute resources and have flexibility with how you configure your compute resources. For example, you can use custom AMIs. However, you must verify that each of your AMIs meet the Amazon ECS container instance AMI specification. For more information, see container instance AMIs in the Amazon Elastic Container Service Developer Guide. After you created your unmanaged compute environment, you can use the DescribeComputeEnvironments operation to find the Amazon ECS cluster that's associated with it. Then, launch your container instances into that Amazon ECS cluster. For more information, see Launching an Amazon ECS container instance in the Amazon Elastic Container Service Developer Guide.  Batch doesn't automatically upgrade the AMIs in a compute environment after it's created. For more information on how to update a compute environment's AMI, see Updating compute environments in the Batch User Guide.
     @Sendable
     @inlinable
     public func createComputeEnvironment(_ input: CreateComputeEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateComputeEnvironmentResponse {
@@ -165,13 +166,13 @@ public struct Batch: AWSService {
             logger: logger
         )
     }
-    /// Creates an Batch compute environment. You can create MANAGED or UNMANAGED compute environments. MANAGED compute environments can use Amazon EC2 or Fargate resources. UNMANAGED compute environments can only use EC2 resources. In a managed compute environment, Batch manages the capacity and instance types of the compute resources within the environment. This is based on the compute resource specification that you define or the launch template that you specify when you create the compute environment. Either, you can choose to use EC2 On-Demand Instances and EC2 Spot Instances. Or, you can use Fargate and Fargate Spot capacity in your managed compute environment. You can optionally set a maximum price so that Spot Instances only launch when the Spot Instance price is less than a specified percentage of the On-Demand price.  Multi-node parallel jobs aren't supported on Spot Instances.  In an unmanaged compute environment, you can manage your own EC2 compute resources and have flexibility with how you configure your compute resources. For example, you can use custom AMIs. However, you must verify that each of your AMIs meet the Amazon ECS container instance AMI specification. For more information, see container instance AMIs in the Amazon Elastic Container Service Developer Guide. After you created your unmanaged compute environment, you can use the DescribeComputeEnvironments operation to find the Amazon ECS cluster that's associated with it. Then, launch your container instances into that Amazon ECS cluster. For more information, see Launching an Amazon ECS container instance in the Amazon Elastic Container Service Developer Guide.  To create a compute environment that uses EKS resources, the caller must have permissions to call eks:DescribeCluster.   Batch doesn't automatically upgrade the AMIs in a compute environment after it's created. For example, it also doesn't update the AMIs in your compute environment when a newer version of the Amazon ECS optimized AMI is available. You're responsible for the management of the guest operating system. This includes any updates and security patches. You're also responsible for any additional application software or utilities that you install on the compute resources. There are two ways to use a new AMI for your Batch jobs. The original method is to complete these steps:   Create a new compute environment with the new AMI.   Add the compute environment to an existing job queue.   Remove the earlier compute environment from your job queue.   Delete the earlier compute environment.   In April 2022, Batch added enhanced support for updating compute environments. For more information, see Updating compute environments. To use the enhanced updating of compute environments to update AMIs, follow these rules:   Either don't set the service role (serviceRole) parameter or set it to the AWSBatchServiceRole service-linked role.   Set the allocation strategy (allocationStrategy) parameter to BEST_FIT_PROGRESSIVE, SPOT_CAPACITY_OPTIMIZED, or SPOT_PRICE_CAPACITY_OPTIMIZED.   Set the update to latest image version (updateToLatestImageVersion) parameter to true. The updateToLatestImageVersion parameter  is used when you update a compute environment. This parameter is ignored when you create  a compute environment.   Don't specify an AMI ID in imageId, imageIdOverride (in  ec2Configuration ), or in the launch template (launchTemplate). In that case, Batch selects the latest Amazon ECS optimized AMI that's supported by Batch at the time the infrastructure update is initiated. Alternatively, you can specify the AMI ID in the imageId or imageIdOverride parameters, or the launch template identified by the LaunchTemplate properties. Changing any of these properties starts an infrastructure update. If the AMI ID is specified in the launch template, it can't be replaced by specifying an AMI ID in either the imageId or imageIdOverride parameters. It can only be replaced by specifying a different launch template, or if the launch template version is set to $Default or $Latest, by setting either a new default version for the launch template (if $Default) or by adding a new version to the launch template (if $Latest).   If these rules are followed, any update that starts an infrastructure update causes the AMI ID to be re-selected. If the version setting in the launch template (launchTemplate) is set to $Latest or $Default, the latest or default version of the launch template is evaluated up at the time of the infrastructure update, even if the launchTemplate wasn't updated.
+    /// Creates an Batch compute environment. You can create MANAGED or UNMANAGED compute environments. MANAGED compute environments can use Amazon EC2 or Fargate resources. UNMANAGED compute environments can only use EC2 resources. In a managed compute environment, Batch manages the capacity and instance types of the compute resources within the environment. This is based on the compute resource specification that you define or the launch template that you specify when you create the compute environment. Either, you can choose to use EC2 On-Demand Instances and EC2 Spot Instances. Or, you can use Fargate and Fargate Spot capacity in your managed compute environment. You can optionally set a maximum price so that Spot Instances only launch when the Spot Instance price is less than a specified percentage of the On-Demand price. In an unmanaged compute environment, you can manage your own EC2 compute resources and have flexibility with how you configure your compute resources. For example, you can use custom AMIs. However, you must verify that each of your AMIs meet the Amazon ECS container instance AMI specification. For more information, see container instance AMIs in the Amazon Elastic Container Service Developer Guide. After you created your unmanaged compute environment, you can use the DescribeComputeEnvironments operation to find the Amazon ECS cluster that's associated with it. Then, launch your container instances into that Amazon ECS cluster. For more information, see Launching an Amazon ECS container instance in the Amazon Elastic Container Service Developer Guide.  Batch doesn't automatically upgrade the AMIs in a compute environment after it's created. For more information on how to update a compute environment's AMI, see Updating compute environments in the Batch User Guide.
     ///
     /// Parameters:
     ///   - computeEnvironmentName: The name for your compute environment. It can be up to 128 characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
     ///   - computeResources: Details about the compute resources managed by the compute environment. This parameter is required for managed compute environments. For more information, see Compute Environments in the Batch User Guide.
     ///   - context: Reserved.
-    ///   - eksConfiguration: The details for the Amazon EKS cluster that supports the compute environment.
+    ///   - eksConfiguration: The details for the Amazon EKS cluster that supports the compute environment.  To create a compute environment that uses EKS resources, the caller must have permissions to call eks:DescribeCluster.
     ///   - serviceRole: The full Amazon Resource Name (ARN) of the IAM role that allows Batch to make calls to other Amazon Web Services services on your behalf. For more information, see Batch service IAM role in the Batch User Guide.  If your account already created the Batch service-linked role, that role is used by default for your compute environment unless you specify a different role here. If the Batch service-linked role doesn't exist in your account, and no role is specified here, the service attempts to create the Batch service-linked role in your account.  If your specified role has a path other than /, then you must specify either the full role ARN (recommended) or prefix the role name with the path. For example, if a role with the name bar has a path of /foo/, specify /foo/bar as the role name. For more information, see Friendly names and paths in the IAM User Guide.  Depending on how you created your Batch service role, its ARN might contain the service-role path prefix. When you only specify the name of the service role, Batch assumes that your ARN doesn't use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments.
     ///   - state: The state of the compute environment. If the state is ENABLED, then the compute environment accepts jobs from a queue and can scale out automatically based on queues. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out.   Compute environments in a DISABLED state may continue to incur billing charges. To prevent additional charges, turn off and then delete the compute environment. For more information, see State in the Batch User Guide.  When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
     ///   - tags: The tags that you apply to the compute environment to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging Amazon Web Services Resources in Amazon Web Services General Reference. These tags can be updated or removed using the TagResource and UntagResource API operations. These tags don't propagate to the underlying compute resources.
@@ -261,9 +262,11 @@ public struct Batch: AWSService {
     /// Parameters:
     ///   - computeEnvironmentOrder: The set of compute environments mapped to a job queue and their order relative to each other. The job scheduler uses this parameter to determine which compute environment runs a specific job. Compute environments must be in the VALID state before you can associate them with a job queue. You can associate up to three compute environments with a job queue. All of the compute environments must be either EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT); EC2 and Fargate compute environments can't be mixed.  All compute environments that are associated with a job queue must share the same architecture. Batch doesn't support mixing compute environment architecture types in a single job queue.
     ///   - jobQueueName: The name of the job queue. It can be up to 128 letters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
+    ///   - jobQueueType: The type of job queue. For service jobs that run on SageMaker Training, this value is SAGEMAKER_TRAINING. For regular container jobs, this value is EKS, ECS, or ECS_FARGATE depending on the compute environment.
     ///   - jobStateTimeLimitActions: The set of actions that Batch performs on jobs that remain at the head of the job queue in the specified state longer than specified times. Batch will perform each action after maxTimeSeconds has passed. (Note: The minimum value for maxTimeSeconds is 600 (10 minutes) and its maximum value is 86,400 (24 hours).)
     ///   - priority: The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with the same compute environment. Priority is determined in descending order. For example, a job queue with a priority value of 10 is given scheduling preference over a job queue with a priority value of 1. All of the compute environments must be either EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT); EC2 and Fargate compute environments can't be mixed.
     ///   - schedulingPolicyArn: The Amazon Resource Name (ARN) of the fair-share scheduling policy. Job queues that don't have a fair-share scheduling policy are scheduled in a first-in, first-out (FIFO) model.  After a job queue has a fair-share scheduling policy, it can be replaced but can't be removed. The format is aws:Partition:batch:Region:Account:scheduling-policy/Name . An example is aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy. A job queue without a fair-share scheduling policy is scheduled as a FIFO job queue and can't have a fair-share scheduling policy added. Jobs queues with a fair-share scheduling policy can have a maximum of 500 active share identifiers. When the limit has been reached, submissions of any jobs that add a new share identifier fail.
+    ///   - serviceEnvironmentOrder: A list of service environments that this job queue can use to allocate jobs. All serviceEnvironments must have the same type. A job queue can't have both a serviceEnvironmentOrder and a computeEnvironmentOrder field.
     ///   - state: The state of the job queue. If the job queue state is ENABLED, it is able to accept jobs. If the job queue state is DISABLED, new jobs can't be added to the queue, but jobs already in the queue can finish.
     ///   - tags: The tags that you apply to the job queue to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging your Batch resources in Batch User Guide.
     ///   - logger: Logger use during operation
@@ -271,9 +274,11 @@ public struct Batch: AWSService {
     public func createJobQueue(
         computeEnvironmentOrder: [ComputeEnvironmentOrder]? = nil,
         jobQueueName: String? = nil,
+        jobQueueType: JobQueueType? = nil,
         jobStateTimeLimitActions: [JobStateTimeLimitAction]? = nil,
         priority: Int? = nil,
         schedulingPolicyArn: String? = nil,
+        serviceEnvironmentOrder: [ServiceEnvironmentOrder]? = nil,
         state: JQState? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -281,9 +286,11 @@ public struct Batch: AWSService {
         let input = CreateJobQueueRequest(
             computeEnvironmentOrder: computeEnvironmentOrder, 
             jobQueueName: jobQueueName, 
+            jobQueueType: jobQueueType, 
             jobStateTimeLimitActions: jobStateTimeLimitActions, 
             priority: priority, 
             schedulingPolicyArn: schedulingPolicyArn, 
+            serviceEnvironmentOrder: serviceEnvironmentOrder, 
             state: state, 
             tags: tags
         )
@@ -323,6 +330,47 @@ public struct Batch: AWSService {
             tags: tags
         )
         return try await self.createSchedulingPolicy(input, logger: logger)
+    }
+
+    /// Creates a service environment for running service jobs. Service environments define capacity limits for specific service types such as SageMaker Training jobs.
+    @Sendable
+    @inlinable
+    public func createServiceEnvironment(_ input: CreateServiceEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateServiceEnvironmentResponse {
+        try await self.client.execute(
+            operation: "CreateServiceEnvironment", 
+            path: "/v1/createserviceenvironment", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a service environment for running service jobs. Service environments define capacity limits for specific service types such as SageMaker Training jobs.
+    ///
+    /// Parameters:
+    ///   - capacityLimits: The capacity limits for the service environment. The number of instances a job consumes is the total number of instances requested in the submit training job request resource configuration.
+    ///   - serviceEnvironmentName: The name for the service environment. It can be up to 128 characters long and can contain letters, numbers, hyphens (-), and underscores (_).
+    ///   - serviceEnvironmentType: The type of service environment. For SageMaker Training jobs, specify SAGEMAKER_TRAINING.
+    ///   - state: The state of the service environment. Valid values are ENABLED and DISABLED. The default value is ENABLED.
+    ///   - tags: The tags that you apply to the service environment to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging your Batch resources.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createServiceEnvironment(
+        capacityLimits: [CapacityLimit]? = nil,
+        serviceEnvironmentName: String? = nil,
+        serviceEnvironmentType: ServiceEnvironmentType? = nil,
+        state: ServiceEnvironmentState? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateServiceEnvironmentResponse {
+        let input = CreateServiceEnvironmentRequest(
+            capacityLimits: capacityLimits, 
+            serviceEnvironmentName: serviceEnvironmentName, 
+            serviceEnvironmentType: serviceEnvironmentType, 
+            state: state, 
+            tags: tags
+        )
+        return try await self.createServiceEnvironment(input, logger: logger)
     }
 
     /// Deletes an Batch compute environment. Before you can delete a compute environment, you must set its state to DISABLED with the UpdateComputeEnvironment API operation and disassociate it from any job queues with the UpdateJobQueue API operation. Compute environments that use Fargate resources must terminate all active jobs on that compute environment before deleting the compute environment. If this isn't done, the compute environment enters an invalid state.
@@ -439,6 +487,35 @@ public struct Batch: AWSService {
             arn: arn
         )
         return try await self.deleteSchedulingPolicy(input, logger: logger)
+    }
+
+    /// Deletes a Service environment. Before you can delete a service environment, you must first set its state to DISABLED with the UpdateServiceEnvironment API operation and disassociate it from any job queues with the UpdateJobQueue API operation.
+    @Sendable
+    @inlinable
+    public func deleteServiceEnvironment(_ input: DeleteServiceEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteServiceEnvironmentResponse {
+        try await self.client.execute(
+            operation: "DeleteServiceEnvironment", 
+            path: "/v1/deleteserviceenvironment", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a Service environment. Before you can delete a service environment, you must first set its state to DISABLED with the UpdateServiceEnvironment API operation and disassociate it from any job queues with the UpdateJobQueue API operation.
+    ///
+    /// Parameters:
+    ///   - serviceEnvironment: The name or ARN of the service environment to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteServiceEnvironment(
+        serviceEnvironment: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteServiceEnvironmentResponse {
+        let input = DeleteServiceEnvironmentRequest(
+            serviceEnvironment: serviceEnvironment
+        )
+        return try await self.deleteServiceEnvironment(input, logger: logger)
     }
 
     /// Deregisters an Batch job definition. Job definitions are permanently deleted after 180 days.
@@ -668,6 +745,70 @@ public struct Batch: AWSService {
         return try await self.describeSchedulingPolicies(input, logger: logger)
     }
 
+    /// Describes one or more of your service environments.
+    @Sendable
+    @inlinable
+    public func describeServiceEnvironments(_ input: DescribeServiceEnvironmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeServiceEnvironmentsResponse {
+        try await self.client.execute(
+            operation: "DescribeServiceEnvironments", 
+            path: "/v1/describeserviceenvironments", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes one or more of your service environments.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results returned by DescribeServiceEnvironments in paginated output. When this parameter is used, DescribeServiceEnvironments only returns maxResults results in a single page and a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeServiceEnvironments request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then DescribeServiceEnvironments returns up to 100 results and a nextToken value if applicable.
+    ///   - nextToken: The nextToken value returned from a previous paginated DescribeServiceEnvironments request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  Treat this token as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes.
+    ///   - serviceEnvironments: An array of service environment names or ARN entries.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeServiceEnvironments(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        serviceEnvironments: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeServiceEnvironmentsResponse {
+        let input = DescribeServiceEnvironmentsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            serviceEnvironments: serviceEnvironments
+        )
+        return try await self.describeServiceEnvironments(input, logger: logger)
+    }
+
+    /// The details of a service job.
+    @Sendable
+    @inlinable
+    public func describeServiceJob(_ input: DescribeServiceJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeServiceJobResponse {
+        try await self.client.execute(
+            operation: "DescribeServiceJob", 
+            path: "/v1/describeservicejob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// The details of a service job.
+    ///
+    /// Parameters:
+    ///   - jobId: The job ID for the service job to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeServiceJob(
+        jobId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeServiceJobResponse {
+        let input = DescribeServiceJobRequest(
+            jobId: jobId
+        )
+        return try await self.describeServiceJob(input, logger: logger)
+    }
+
     /// Provides a list of the first 100 RUNNABLE jobs associated to a single job queue.
     @Sendable
     @inlinable
@@ -849,6 +990,47 @@ public struct Batch: AWSService {
         return try await self.listSchedulingPolicies(input, logger: logger)
     }
 
+    /// Returns a list of service jobs for a specified job queue.
+    @Sendable
+    @inlinable
+    public func listServiceJobs(_ input: ListServiceJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServiceJobsResponse {
+        try await self.client.execute(
+            operation: "ListServiceJobs", 
+            path: "/v1/listservicejobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of service jobs for a specified job queue.
+    ///
+    /// Parameters:
+    ///   - filters: The filter to apply to the query. Only one filter can be used at a time. When the filter is used, jobStatus is ignored. The results are sorted by the createdAt field, with the most recent jobs being first.  JOB_NAME  The value of the filter is a case-insensitive match for the job name. If the value ends with an asterisk (*), the filter matches any job name that begins with the string before the '*'. This corresponds to the jobName value. For example, test1 matches both Test1 and test1, and test1* matches both test1 and Test10. When the JOB_NAME filter is used, the results are grouped by the job name and version.  BEFORE_CREATED_AT  The value for the filter is the time that's before the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970.  AFTER_CREATED_AT  The value for the filter is the time that's after the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970.
+    ///   - jobQueue: The name or ARN of the job queue with which to list service jobs.
+    ///   - jobStatus: The job status with which to filter service jobs.
+    ///   - maxResults: The maximum number of results returned by ListServiceJobs in paginated output. When this parameter is used, ListServiceJobs only returns maxResults results in a single page and a nextToken response element. The remaining results of the initial request can be seen by sending another ListServiceJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListServiceJobs returns up to 100 results and a nextToken value if applicable.
+    ///   - nextToken: The nextToken value returned from a previous paginated ListServiceJobs request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  Treat this token as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listServiceJobs(
+        filters: [KeyValuesPair]? = nil,
+        jobQueue: String? = nil,
+        jobStatus: ServiceJobStatus? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListServiceJobsResponse {
+        let input = ListServiceJobsRequest(
+            filters: filters, 
+            jobQueue: jobQueue, 
+            jobStatus: jobStatus, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listServiceJobs(input, logger: logger)
+    }
+
     /// Lists the tags for an Batch resource. Batch resources that support tags are compute environments, jobs, job definitions, job queues, and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP) jobs aren't supported.
     @Sendable
     @inlinable
@@ -1023,6 +1205,62 @@ public struct Batch: AWSService {
         return try await self.submitJob(input, logger: logger)
     }
 
+    /// Submits a service job to a specified job queue to run on SageMaker AI. A service job is a unit of work that you submit to Batch for execution on SageMaker AI.
+    @Sendable
+    @inlinable
+    public func submitServiceJob(_ input: SubmitServiceJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SubmitServiceJobResponse {
+        try await self.client.execute(
+            operation: "SubmitServiceJob", 
+            path: "/v1/submitservicejob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Submits a service job to a specified job queue to run on SageMaker AI. A service job is a unit of work that you submit to Batch for execution on SageMaker AI.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique identifier for the request. This token is used to ensure idempotency of requests. If this parameter is specified and two submit requests with identical payloads and clientTokens are received, these requests are considered the same request and the second request is rejected.
+    ///   - jobName: The name of the service job. It can be up to 128 characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
+    ///   - jobQueue: The job queue into which the service job is submitted. You can specify either the name or the ARN of the queue. The job queue must have the type SAGEMAKER_TRAINING.
+    ///   - retryStrategy: The retry strategy to use for failed service jobs that are submitted with this service job request.
+    ///   - schedulingPriority: The scheduling priority of the service job.  Valid values are integers between 0 and 9999.
+    ///   - serviceJobType: The type of service job. For SageMaker Training jobs, specify SAGEMAKER_TRAINING.
+    ///   - serviceRequestPayload: The request, in JSON, for the service that the SubmitServiceJob operation is queueing.
+    ///   - shareIdentifier: The share identifier for the service job. Don't specify this parameter if the job queue doesn't have a fair-share scheduling policy. If the job queue has a fair-share scheduling policy, then this parameter must be specified.
+    ///   - tags: The tags that you apply to the service job request. Each tag consists of a key and an optional value. For more information, see Tagging your Batch resources.
+    ///   - timeoutConfig: The timeout configuration for the service job. If none is specified, Batch defers to the default timeout of the underlying service handling the job.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func submitServiceJob(
+        clientToken: String? = SubmitServiceJobRequest.idempotencyToken(),
+        jobName: String? = nil,
+        jobQueue: String? = nil,
+        retryStrategy: ServiceJobRetryStrategy? = nil,
+        schedulingPriority: Int? = nil,
+        serviceJobType: ServiceJobType? = nil,
+        serviceRequestPayload: String? = nil,
+        shareIdentifier: String? = nil,
+        tags: [String: String]? = nil,
+        timeoutConfig: ServiceJobTimeout? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SubmitServiceJobResponse {
+        let input = SubmitServiceJobRequest(
+            clientToken: clientToken, 
+            jobName: jobName, 
+            jobQueue: jobQueue, 
+            retryStrategy: retryStrategy, 
+            schedulingPriority: schedulingPriority, 
+            serviceJobType: serviceJobType, 
+            serviceRequestPayload: serviceRequestPayload, 
+            shareIdentifier: shareIdentifier, 
+            tags: tags, 
+            timeoutConfig: timeoutConfig
+        )
+        return try await self.submitServiceJob(input, logger: logger)
+    }
+
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource aren't specified in the request parameters, they aren't changed. When a resource is deleted, the tags that are associated with that resource are deleted as well. Batch resources that support tags are compute environments, jobs, job definitions, job queues, and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP) jobs aren't supported.
     @Sendable
     @inlinable
@@ -1085,6 +1323,38 @@ public struct Batch: AWSService {
             reason: reason
         )
         return try await self.terminateJob(input, logger: logger)
+    }
+
+    /// Terminates a service job in a job queue.
+    @Sendable
+    @inlinable
+    public func terminateServiceJob(_ input: TerminateServiceJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TerminateServiceJobResponse {
+        try await self.client.execute(
+            operation: "TerminateServiceJob", 
+            path: "/v1/terminateservicejob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Terminates a service job in a job queue.
+    ///
+    /// Parameters:
+    ///   - jobId: The service job ID of the service job to terminate.
+    ///   - reason: A message to attach to the service job that explains the reason for canceling it. This message is returned by DescribeServiceJob operations on the service job.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func terminateServiceJob(
+        jobId: String? = nil,
+        reason: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> TerminateServiceJobResponse {
+        let input = TerminateServiceJobRequest(
+            jobId: jobId, 
+            reason: reason
+        )
+        return try await self.terminateServiceJob(input, logger: logger)
     }
 
     /// Deletes specified tags from an Batch resource.
@@ -1182,7 +1452,7 @@ public struct Batch: AWSService {
     /// Updates a consumable resource.
     ///
     /// Parameters:
-    ///   - clientToken: If this parameter is specified and two update requests with identical payloads and  clientTokens are received, these requests are considered the same request and  the second request is rejected. A clientToken is valid for 8 hours or until one hour after the consumable resource is deleted, whichever is less.
+    ///   - clientToken: If this parameter is specified and two update requests with identical payloads and  clientTokens are received, these requests are considered the same request. Both requests will succeed, but the update will only happen once. A clientToken is valid for 8 hours.
     ///   - consumableResource: The name or ARN of the consumable resource to be updated.
     ///   - operation: Indicates how the quantity of the consumable resource will be updated. Must be one of:    SET  Sets the quantity of the resource to the value specified by the quantity parameter.    ADD  Increases the quantity of the resource by the value specified by the quantity parameter.    REMOVE  Reduces the quantity of the resource by the value specified by the quantity parameter.
     ///   - quantity: The change in the total quantity of the consumable resource. The operation parameter determines whether the value specified here will be the new total quantity, or the amount by which the total quantity will be increased or reduced. Must be a non-negative  value.
@@ -1225,6 +1495,7 @@ public struct Batch: AWSService {
     ///   - jobStateTimeLimitActions: The set of actions that Batch perform on jobs that remain at the head of the job queue in the specified state longer than specified times. Batch will perform each action after maxTimeSeconds has passed. (Note: The minimum value for maxTimeSeconds is 600 (10 minutes) and its maximum value is 86,400 (24 hours).)
     ///   - priority: The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with the same compute environment. Priority is determined in descending order. For example, a job queue with a priority value of 10 is given scheduling preference over a job queue with a priority value of 1. All of the compute environments must be either EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT). EC2 and Fargate compute environments can't be mixed.
     ///   - schedulingPolicyArn: Amazon Resource Name (ARN) of the fair-share scheduling policy. Once a job queue is created, the fair-share scheduling policy can be replaced but not removed. The format is aws:Partition:batch:Region:Account:scheduling-policy/Name . For example, aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy.
+    ///   - serviceEnvironmentOrder: The order of the service environment associated with the job queue. Job queues with a higher priority are evaluated first when associated with the same service environment.
     ///   - state: Describes the queue's ability to accept new jobs. If the job queue state is ENABLED, it can accept jobs. If the job queue state is DISABLED, new jobs can't be added to the queue, but jobs already in the queue can finish.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1234,6 +1505,7 @@ public struct Batch: AWSService {
         jobStateTimeLimitActions: [JobStateTimeLimitAction]? = nil,
         priority: Int? = nil,
         schedulingPolicyArn: String? = nil,
+        serviceEnvironmentOrder: [ServiceEnvironmentOrder]? = nil,
         state: JQState? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateJobQueueResponse {
@@ -1243,6 +1515,7 @@ public struct Batch: AWSService {
             jobStateTimeLimitActions: jobStateTimeLimitActions, 
             priority: priority, 
             schedulingPolicyArn: schedulingPolicyArn, 
+            serviceEnvironmentOrder: serviceEnvironmentOrder, 
             state: state
         )
         return try await self.updateJobQueue(input, logger: logger)
@@ -1278,6 +1551,41 @@ public struct Batch: AWSService {
             fairsharePolicy: fairsharePolicy
         )
         return try await self.updateSchedulingPolicy(input, logger: logger)
+    }
+
+    /// Updates a service environment. You can update the state of a service environment from ENABLED to DISABLED to prevent new service jobs from being placed in the service environment.
+    @Sendable
+    @inlinable
+    public func updateServiceEnvironment(_ input: UpdateServiceEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServiceEnvironmentResponse {
+        try await self.client.execute(
+            operation: "UpdateServiceEnvironment", 
+            path: "/v1/updateserviceenvironment", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a service environment. You can update the state of a service environment from ENABLED to DISABLED to prevent new service jobs from being placed in the service environment.
+    ///
+    /// Parameters:
+    ///   - capacityLimits: The capacity limits for the service environment. This defines the maximum resources that can be used by service jobs in this environment.
+    ///   - serviceEnvironment: The name or ARN of the service environment to update.
+    ///   - state: The state of the service environment.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateServiceEnvironment(
+        capacityLimits: [CapacityLimit]? = nil,
+        serviceEnvironment: String? = nil,
+        state: ServiceEnvironmentState? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateServiceEnvironmentResponse {
+        let input = UpdateServiceEnvironmentRequest(
+            capacityLimits: capacityLimits, 
+            serviceEnvironment: serviceEnvironment, 
+            state: state
+        )
+        return try await self.updateServiceEnvironment(input, logger: logger)
     }
 }
 
@@ -1409,6 +1717,43 @@ extension Batch {
             maxResults: maxResults
         )
         return self.describeJobQueuesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``describeServiceEnvironments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeServiceEnvironmentsPaginator(
+        _ input: DescribeServiceEnvironmentsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeServiceEnvironmentsRequest, DescribeServiceEnvironmentsResponse> {
+        return .init(
+            input: input,
+            command: self.describeServiceEnvironments,
+            inputKey: \DescribeServiceEnvironmentsRequest.nextToken,
+            outputKey: \DescribeServiceEnvironmentsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeServiceEnvironments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results returned by DescribeServiceEnvironments in paginated output. When this parameter is used, DescribeServiceEnvironments only returns maxResults results in a single page and a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeServiceEnvironments request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then DescribeServiceEnvironments returns up to 100 results and a nextToken value if applicable.
+    ///   - serviceEnvironments: An array of service environment names or ARN entries.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeServiceEnvironmentsPaginator(
+        maxResults: Int? = nil,
+        serviceEnvironments: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeServiceEnvironmentsRequest, DescribeServiceEnvironmentsResponse> {
+        let input = DescribeServiceEnvironmentsRequest(
+            maxResults: maxResults, 
+            serviceEnvironments: serviceEnvironments
+        )
+        return self.describeServiceEnvironmentsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listConsumableResources(_:logger:)``.
@@ -1570,6 +1915,49 @@ extension Batch {
         )
         return self.listSchedulingPoliciesPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listServiceJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listServiceJobsPaginator(
+        _ input: ListServiceJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListServiceJobsRequest, ListServiceJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listServiceJobs,
+            inputKey: \ListServiceJobsRequest.nextToken,
+            outputKey: \ListServiceJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listServiceJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: The filter to apply to the query. Only one filter can be used at a time. When the filter is used, jobStatus is ignored. The results are sorted by the createdAt field, with the most recent jobs being first.  JOB_NAME  The value of the filter is a case-insensitive match for the job name. If the value ends with an asterisk (*), the filter matches any job name that begins with the string before the '*'. This corresponds to the jobName value. For example, test1 matches both Test1 and test1, and test1* matches both test1 and Test10. When the JOB_NAME filter is used, the results are grouped by the job name and version.  BEFORE_CREATED_AT  The value for the filter is the time that's before the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970.  AFTER_CREATED_AT  The value for the filter is the time that's after the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970.
+    ///   - jobQueue: The name or ARN of the job queue with which to list service jobs.
+    ///   - jobStatus: The job status with which to filter service jobs.
+    ///   - maxResults: The maximum number of results returned by ListServiceJobs in paginated output. When this parameter is used, ListServiceJobs only returns maxResults results in a single page and a nextToken response element. The remaining results of the initial request can be seen by sending another ListServiceJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListServiceJobs returns up to 100 results and a nextToken value if applicable.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listServiceJobsPaginator(
+        filters: [KeyValuesPair]? = nil,
+        jobQueue: String? = nil,
+        jobStatus: ServiceJobStatus? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListServiceJobsRequest, ListServiceJobsResponse> {
+        let input = ListServiceJobsRequest(
+            filters: filters, 
+            jobQueue: jobQueue, 
+            jobStatus: jobStatus, 
+            maxResults: maxResults
+        )
+        return self.listServiceJobsPaginator(input, logger: logger)
+    }
 }
 
 extension Batch.DescribeComputeEnvironmentsRequest: AWSPaginateToken {
@@ -1603,6 +1991,17 @@ extension Batch.DescribeJobQueuesRequest: AWSPaginateToken {
             jobQueues: self.jobQueues,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension Batch.DescribeServiceEnvironmentsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Batch.DescribeServiceEnvironmentsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            serviceEnvironments: self.serviceEnvironments
         )
     }
 }
@@ -1649,6 +2048,19 @@ extension Batch.ListSchedulingPoliciesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Batch.ListSchedulingPoliciesRequest {
         return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Batch.ListServiceJobsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Batch.ListServiceJobsRequest {
+        return .init(
+            filters: self.filters,
+            jobQueue: self.jobQueue,
+            jobStatus: self.jobStatus,
             maxResults: self.maxResults,
             nextToken: token
         )

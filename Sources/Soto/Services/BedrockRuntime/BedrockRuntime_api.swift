@@ -238,6 +238,38 @@ public struct BedrockRuntime: AWSService {
         return try await self.converseStream(input, logger: logger)
     }
 
+    /// Returns the token count for a given inference request. This operation helps you estimate token usage before sending requests to foundation models by returning the token count that would be used if the same input were sent to the model in an inference request. Token counting is model-specific because different models use different tokenization strategies. The token count returned by this operation will match the token count that would be charged if the same input were sent to the model in an InvokeModel or Converse request. You can use this operation to:   Estimate costs before sending inference requests.   Optimize prompts to fit within token limits.   Plan for token usage in your applications.   This operation accepts the same input formats as InvokeModel and Converse, allowing you to count tokens for both raw text inputs and structured conversation formats. The following operations are related to CountTokens:    InvokeModel - Sends inference requests to foundation models    Converse - Sends conversation-based inference requests to foundation models
+    @Sendable
+    @inlinable
+    public func countTokens(_ input: CountTokensRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CountTokensResponse {
+        try await self.client.execute(
+            operation: "CountTokens", 
+            path: "/model/{modelId}/count-tokens", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the token count for a given inference request. This operation helps you estimate token usage before sending requests to foundation models by returning the token count that would be used if the same input were sent to the model in an inference request. Token counting is model-specific because different models use different tokenization strategies. The token count returned by this operation will match the token count that would be charged if the same input were sent to the model in an InvokeModel or Converse request. You can use this operation to:   Estimate costs before sending inference requests.   Optimize prompts to fit within token limits.   Plan for token usage in your applications.   This operation accepts the same input formats as InvokeModel and Converse, allowing you to count tokens for both raw text inputs and structured conversation formats. The following operations are related to CountTokens:    InvokeModel - Sends inference requests to foundation models    Converse - Sends conversation-based inference requests to foundation models
+    ///
+    /// Parameters:
+    ///   - input: The input for which to count tokens. The structure of this parameter depends on whether you're counting tokens for an InvokeModel or Converse request:   For InvokeModel requests, provide the request body in the invokeModel field   For Converse requests, provide the messages and system content in the converse field   The input format must be compatible with the model specified in the modelId parameter.
+    ///   - modelId: The unique identifier or ARN of the foundation model to use for token counting. Each model processes tokens differently, so the token count is specific to the model you specify.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func countTokens(
+        input: CountTokensInput,
+        modelId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CountTokensResponse {
+        let input = CountTokensRequest(
+            input: input, 
+            modelId: modelId
+        )
+        return try await self.countTokens(input, logger: logger)
+    }
+
     /// Retrieve information about an asynchronous invocation.
     @Sendable
     @inlinable

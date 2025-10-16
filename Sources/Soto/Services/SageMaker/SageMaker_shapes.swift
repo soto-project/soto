@@ -196,6 +196,7 @@ extension SageMaker {
         case mlP4De24Xlarge = "ml.p4de.24xlarge"
         case mlP548Xlarge = "ml.p5.48xlarge"
         case mlP5En48Xlarge = "ml.p5en.48xlarge"
+        case mlP6B20048Xlarge = "ml.p6-b200.48xlarge"
         case mlR512Xlarge = "ml.r5.12xlarge"
         case mlR516Xlarge = "ml.r5.16xlarge"
         case mlR524Xlarge = "ml.r5.24xlarge"
@@ -508,6 +509,12 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum BatchAddClusterNodesErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case instanceGroupNotFound = "InstanceGroupNotFound"
+        case invalidInstanceGroupStatus = "InvalidInstanceGroupStatus"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BatchDeleteClusterNodesErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case invalidNodeStatus = "InvalidNodeStatus"
         case nodeIdInUse = "NodeIdInUse"
@@ -552,6 +559,12 @@ extension SageMaker {
 
     public enum CapacityReservationPreference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case capacityReservationsOnly = "capacity-reservations-only"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CapacityReservationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case crg = "CRG"
+        case odcr = "ODCR"
         public var description: String { return self.rawValue }
     }
 
@@ -652,9 +665,42 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum ClusterAutoScalerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case karpenter = "Karpenter"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClusterAutoScalingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disable = "Disable"
+        case enable = "Enable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClusterAutoScalingStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case creating = "Creating"
+        case deleting = "Deleting"
+        case failed = "Failed"
+        case inservice = "InService"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClusterConfigMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disable = "Disable"
+        case enable = "Enable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClusterEventResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cluster = "Cluster"
+        case instance = "Instance"
+        case instanceGroup = "InstanceGroup"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ClusterInstanceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deepHealthCheckInProgress = "DeepHealthCheckInProgress"
         case failure = "Failure"
+        case notFound = "NotFound"
         case pending = "Pending"
         case running = "Running"
         case shuttingDown = "ShuttingDown"
@@ -750,6 +796,7 @@ extension SageMaker {
         case mlP5E48Xlarge = "ml.p5e.48xlarge"
         case mlP5En48Xlarge = "ml.p5en.48xlarge"
         case mlP6B20048Xlarge = "ml.p6-b200.48xlarge"
+        case mlP6EGb20036Xlarge = "ml.p6e-gb200.36xlarge"
         case mlR6I12Xlarge = "ml.r6i.12xlarge"
         case mlR6I16Xlarge = "ml.r6i.16xlarge"
         case mlR6I24Xlarge = "ml.r6i.24xlarge"
@@ -775,6 +822,11 @@ extension SageMaker {
         case mlTrn132Xlarge = "ml.trn1.32xlarge"
         case mlTrn1N32Xlarge = "ml.trn1n.32xlarge"
         case mlTrn248Xlarge = "ml.trn2.48xlarge"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClusterNodeProvisioningMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case continuous = "Continuous"
         public var description: String { return self.rawValue }
     }
 
@@ -992,6 +1044,11 @@ extension SageMaker {
         case systemUpdating = "SystemUpdating"
         case updateRollbackFailed = "UpdateRollbackFailed"
         case updating = "Updating"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventSortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case eventTime = "EventTime"
         public var description: String { return self.rawValue }
     }
 
@@ -1214,6 +1271,12 @@ extension SageMaker {
     public enum HyperParameterTuningJobWarmStartType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case identicalDataAndAlgorithm = "IdenticalDataAndAlgorithm"
         case transferLearning = "TransferLearning"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IPAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dualstack = "dualstack"
+        case ipv4 = "ipv4"
         public var description: String { return self.rawValue }
     }
 
@@ -1458,6 +1521,7 @@ extension SageMaker {
         case mlP4D24Xlarge = "ml.p4d.24xlarge"
         case mlP4De24Xlarge = "ml.p4de.24xlarge"
         case mlP548Xlarge = "ml.p5.48xlarge"
+        case mlP6B20048Xlarge = "ml.p6-b200.48xlarge"
         case mlR512Xlarge = "ml.r5.12xlarge"
         case mlR516Xlarge = "ml.r5.16xlarge"
         case mlR524Xlarge = "ml.r5.24xlarge"
@@ -2149,6 +2213,7 @@ extension SageMaker {
         case mlP316Xlarge = "ml.p3.16xlarge"
         case mlP32Xlarge = "ml.p3.2xlarge"
         case mlP38Xlarge = "ml.p3.8xlarge"
+        case mlP54Xlarge = "ml.p5.4xlarge"
         case mlR512Xlarge = "ml.r5.12xlarge"
         case mlR516Xlarge = "ml.r5.16xlarge"
         case mlR524Xlarge = "ml.r5.24xlarge"
@@ -2434,6 +2499,7 @@ extension SageMaker {
         case mlP4D24Xlarge = "ml.p4d.24xlarge"
         case mlP4De24Xlarge = "ml.p4de.24xlarge"
         case mlP548Xlarge = "ml.p5.48xlarge"
+        case mlP54Xlarge = "ml.p5.4xlarge"
         case mlP5E48Xlarge = "ml.p5e.48xlarge"
         case mlP5En48Xlarge = "ml.p5en.48xlarge"
         case mlP6B20048Xlarge = "ml.p6-b200.48xlarge"
@@ -2627,10 +2693,13 @@ extension SageMaker {
 
     public enum ReservedCapacityInstanceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mlP4D24Xlarge = "ml.p4d.24xlarge"
+        case mlP4De24Xlarge = "ml.p4de.24xlarge"
         case mlP548Xlarge = "ml.p5.48xlarge"
+        case mlP54Xlarge = "ml.p5.4xlarge"
         case mlP5E48Xlarge = "ml.p5e.48xlarge"
         case mlP5En48Xlarge = "ml.p5en.48xlarge"
         case mlP6B20048Xlarge = "ml.p6-b200.48xlarge"
+        case mlP6EGb20036Xlarge = "ml.p6e-gb200.36xlarge"
         case mlTrn132Xlarge = "ml.trn1.32xlarge"
         case mlTrn248Xlarge = "ml.trn2.48xlarge"
         public var description: String { return self.rawValue }
@@ -2642,6 +2711,12 @@ extension SageMaker {
         case failed = "Failed"
         case pending = "Pending"
         case scheduled = "Scheduled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReservedCapacityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case instance = "Instance"
+        case ultraserver = "UltraServer"
         public var description: String { return self.rawValue }
     }
 
@@ -3239,9 +3314,11 @@ extension SageMaker {
         case mlP4D24Xlarge = "ml.p4d.24xlarge"
         case mlP4De24Xlarge = "ml.p4de.24xlarge"
         case mlP548Xlarge = "ml.p5.48xlarge"
+        case mlP54Xlarge = "ml.p5.4xlarge"
         case mlP5E48Xlarge = "ml.p5e.48xlarge"
         case mlP5En48Xlarge = "ml.p5en.48xlarge"
         case mlP6B20048Xlarge = "ml.p6-b200.48xlarge"
+        case mlP6EGb20036Xlarge = "ml.p6e-gb200.36xlarge"
         case mlR512Xlarge = "ml.r5.12xlarge"
         case mlR516Xlarge = "ml.r5.16xlarge"
         case mlR524Xlarge = "ml.r5.24xlarge"
@@ -3465,6 +3542,13 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum UltraServerHealthStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case impaired = "Impaired"
+        case insufficientData = "Insufficient-Data"
+        case ok = "OK"
+        public var description: String { return self.rawValue }
+    }
+
     public enum UserProfileSortKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creationTime = "CreationTime"
         case lastModifiedTime = "LastModifiedTime"
@@ -3506,11 +3590,26 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum VolumeAttachmentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case attached = "attached"
+        case attaching = "attaching"
+        case busy = "busy"
+        case detached = "detached"
+        case detaching = "detaching"
+        public var description: String { return self.rawValue }
+    }
+
     public enum WarmPoolResourceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "Available"
         case inuse = "InUse"
         case reused = "Reused"
         case terminated = "Terminated"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorkforceIpAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dualstack = "dualstack"
+        case ipv4 = "ipv4"
         public var description: String { return self.rawValue }
     }
 
@@ -3639,6 +3738,8 @@ extension SageMaker {
         case efsFileSystem(EFSFileSystem)
         /// A custom file system in Amazon FSx for Lustre.
         case fSxLustreFileSystem(FSxLustreFileSystem)
+        /// A custom file system in Amazon S3. This is only supported in Amazon SageMaker Unified Studio.
+        case s3FileSystem(S3FileSystem)
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -3656,6 +3757,9 @@ extension SageMaker {
             case .fSxLustreFileSystem:
                 let value = try container.decode(FSxLustreFileSystem.self, forKey: .fSxLustreFileSystem)
                 self = .fSxLustreFileSystem(value)
+            case .s3FileSystem:
+                let value = try container.decode(S3FileSystem.self, forKey: .s3FileSystem)
+                self = .s3FileSystem(value)
             }
         }
 
@@ -3666,6 +3770,8 @@ extension SageMaker {
                 try container.encode(value, forKey: .efsFileSystem)
             case .fSxLustreFileSystem(let value):
                 try container.encode(value, forKey: .fSxLustreFileSystem)
+            case .s3FileSystem(let value):
+                try container.encode(value, forKey: .s3FileSystem)
             }
         }
 
@@ -3675,12 +3781,15 @@ extension SageMaker {
                 try value.validate(name: "\(name).efsFileSystem")
             case .fSxLustreFileSystem(let value):
                 try value.validate(name: "\(name).fSxLustreFileSystem")
+            case .s3FileSystem(let value):
+                try value.validate(name: "\(name).s3FileSystem")
             }
         }
 
         private enum CodingKeys: String, CodingKey {
             case efsFileSystem = "EFSFileSystem"
             case fSxLustreFileSystem = "FSxLustreFileSystem"
+            case s3FileSystem = "S3FileSystem"
         }
     }
 
@@ -3689,6 +3798,8 @@ extension SageMaker {
         case efsFileSystemConfig(EFSFileSystemConfig)
         /// The settings for a custom Amazon FSx for Lustre file system.
         case fSxLustreFileSystemConfig(FSxLustreFileSystemConfig)
+        /// Configuration settings for a custom Amazon S3 file system.
+        case s3FileSystemConfig(S3FileSystemConfig)
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -3706,6 +3817,9 @@ extension SageMaker {
             case .fSxLustreFileSystemConfig:
                 let value = try container.decode(FSxLustreFileSystemConfig.self, forKey: .fSxLustreFileSystemConfig)
                 self = .fSxLustreFileSystemConfig(value)
+            case .s3FileSystemConfig:
+                let value = try container.decode(S3FileSystemConfig.self, forKey: .s3FileSystemConfig)
+                self = .s3FileSystemConfig(value)
             }
         }
 
@@ -3716,6 +3830,8 @@ extension SageMaker {
                 try container.encode(value, forKey: .efsFileSystemConfig)
             case .fSxLustreFileSystemConfig(let value):
                 try container.encode(value, forKey: .fSxLustreFileSystemConfig)
+            case .s3FileSystemConfig(let value):
+                try container.encode(value, forKey: .s3FileSystemConfig)
             }
         }
 
@@ -3725,12 +3841,58 @@ extension SageMaker {
                 try value.validate(name: "\(name).efsFileSystemConfig")
             case .fSxLustreFileSystemConfig(let value):
                 try value.validate(name: "\(name).fSxLustreFileSystemConfig")
+            case .s3FileSystemConfig(let value):
+                try value.validate(name: "\(name).s3FileSystemConfig")
             }
         }
 
         private enum CodingKeys: String, CodingKey {
             case efsFileSystemConfig = "EFSFileSystemConfig"
             case fSxLustreFileSystemConfig = "FSxLustreFileSystemConfig"
+            case s3FileSystemConfig = "S3FileSystemConfig"
+        }
+    }
+
+    public enum EventMetadata: AWSDecodableShape, Sendable {
+        /// Metadata specific to cluster-level events.
+        case cluster(ClusterMetadata)
+        /// Metadata specific to instance-level events.
+        case instance(InstanceMetadata)
+        /// Metadata specific to instance group-level events.
+        case instanceGroup(InstanceGroupMetadata)
+        /// Metadata related to instance group scaling events.
+        case instanceGroupScaling(InstanceGroupScalingMetadata)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .cluster:
+                let value = try container.decode(ClusterMetadata.self, forKey: .cluster)
+                self = .cluster(value)
+            case .instance:
+                let value = try container.decode(InstanceMetadata.self, forKey: .instance)
+                self = .instance(value)
+            case .instanceGroup:
+                let value = try container.decode(InstanceGroupMetadata.self, forKey: .instanceGroup)
+                self = .instanceGroup(value)
+            case .instanceGroupScaling:
+                let value = try container.decode(InstanceGroupScalingMetadata.self, forKey: .instanceGroupScaling)
+                self = .instanceGroupScaling(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
+            case instance = "Instance"
+            case instanceGroup = "InstanceGroup"
+            case instanceGroupScaling = "InstanceGroupScaling"
         }
     }
 
@@ -3993,6 +4155,32 @@ extension SageMaker {
         }
     }
 
+    public struct AddClusterNodeSpecification: AWSEncodableShape {
+        /// The number of nodes to add to the specified instance group. The total number of nodes across all instance groups in a single request cannot exceed 50.
+        public let incrementTargetCountBy: Int
+        /// The name of the instance group to which you want to add nodes.
+        public let instanceGroupName: String
+
+        @inlinable
+        public init(incrementTargetCountBy: Int, instanceGroupName: String) {
+            self.incrementTargetCountBy = incrementTargetCountBy
+            self.instanceGroupName = instanceGroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.incrementTargetCountBy, name: "incrementTargetCountBy", parent: name, max: 50)
+            try self.validate(self.incrementTargetCountBy, name: "incrementTargetCountBy", parent: name, min: 1)
+            try self.validate(self.instanceGroupName, name: "instanceGroupName", parent: name, max: 63)
+            try self.validate(self.instanceGroupName, name: "instanceGroupName", parent: name, min: 1)
+            try self.validate(self.instanceGroupName, name: "instanceGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case incrementTargetCountBy = "IncrementTargetCountBy"
+            case instanceGroupName = "InstanceGroupName"
+        }
+    }
+
     public struct AddTagsInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource that you want to tag.
         public let resourceArn: String?
@@ -4031,6 +4219,20 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
+        }
+    }
+
+    public struct AdditionalEnis: AWSDecodableShape {
+        /// A list of Elastic Fabric Adapter (EFA) ENIs associated with the instance.
+        public let efaEnis: [String]?
+
+        @inlinable
+        public init(efaEnis: [String]? = nil) {
+            self.efaEnis = efaEnis
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case efaEnis = "EfaEnis"
         }
     }
 
@@ -4425,7 +4627,7 @@ extension SageMaker {
     }
 
     public struct AnnotationConsolidationConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of a Lambda function implements the logic for annotation consolidation and to process output data. For built-in task types, use one of the following Amazon SageMaker Ground Truth Lambda function ARNs for AnnotationConsolidationLambdaArn. For custom labeling workflows, see Post-annotation Lambda.  Bounding box - Finds the most similar boxes from different workers based on the Jaccard index of the boxes.    arn:aws:lambda:us-east-1:432418664414:function:ACS-BoundingBox     arn:aws:lambda:us-east-2:266458841044:function:ACS-BoundingBox     arn:aws:lambda:us-west-2:081040173940:function:ACS-BoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:ACS-BoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-BoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-BoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:ACS-BoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:ACS-BoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-BoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:ACS-BoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-BoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:ACS-BoundingBox     Image classification - Uses a variant of the Expectation Maximization approach to estimate the true class of an image based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-ImageMultiClass     arn:aws:lambda:us-east-2:266458841044:function:ACS-ImageMultiClass     arn:aws:lambda:us-west-2:081040173940:function:ACS-ImageMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:ACS-ImageMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-ImageMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-ImageMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:ACS-ImageMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:ACS-ImageMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-ImageMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:ACS-ImageMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-ImageMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:ACS-ImageMultiClass     Multi-label image classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of an image based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:ACS-ImageMultiClassMultiLabel     Semantic segmentation - Treats each pixel in an image as a multi-class classification and treats pixel annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:ACS-SemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-SemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-SemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-SemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-SemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-SemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-SemanticSegmentation     Text classification - Uses a variant of the Expectation Maximization approach to estimate the true class of text based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-TextMultiClass     arn:aws:lambda:us-east-2:266458841044:function:ACS-TextMultiClass     arn:aws:lambda:us-west-2:081040173940:function:ACS-TextMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:ACS-TextMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-TextMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-TextMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:ACS-TextMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:ACS-TextMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-TextMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:ACS-TextMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-TextMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:ACS-TextMultiClass     Multi-label text classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of text based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:ACS-TextMultiClassMultiLabel     Named entity recognition - Groups similar selections and calculates aggregate boundaries, resolving to most-assigned label.    arn:aws:lambda:us-east-1:432418664414:function:ACS-NamedEntityRecognition     arn:aws:lambda:us-east-2:266458841044:function:ACS-NamedEntityRecognition     arn:aws:lambda:us-west-2:081040173940:function:ACS-NamedEntityRecognition     arn:aws:lambda:eu-west-1:568282634449:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-south-1:565803892007:function:ACS-NamedEntityRecognition     arn:aws:lambda:eu-central-1:203001061592:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-NamedEntityRecognition     arn:aws:lambda:eu-west-2:487402164563:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-NamedEntityRecognition     arn:aws:lambda:ca-central-1:918755190332:function:ACS-NamedEntityRecognition     Video Classification - Use this task type when you need workers to classify videos using predefined labels that you specify. Workers are shown videos and are asked to choose one label for each video.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VideoMultiClass     arn:aws:lambda:us-east-2:266458841044:function:ACS-VideoMultiClass     arn:aws:lambda:us-west-2:081040173940:function:ACS-VideoMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VideoMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VideoMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VideoMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VideoMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VideoMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VideoMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VideoMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VideoMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VideoMultiClass     Video Frame Object Detection - Use this task type to have workers identify and locate objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to identify and localize various objects in a series of video frames, such as cars, bikes, and pedestrians.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-VideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-VideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VideoObjectDetection     Video Frame Object Tracking - Use this task type to have workers track the movement of objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to track the movement of objects, such as cars, bikes, and pedestrians.     arn:aws:lambda:us-east-1:432418664414:function:ACS-VideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-VideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-VideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VideoObjectTracking     3D Point Cloud Object Detection - Use this task type when you want workers to classify objects in a 3D point cloud by drawing 3D cuboids around objects. For example, you can use this task type to ask workers to identify different types of objects in a point cloud, such as cars, bikes, and pedestrians.    arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-3DPointCloudObjectDetection     3D Point Cloud Object Tracking - Use this task type when you want workers to draw 3D cuboids around objects that appear in a sequence of 3D point cloud frames. For example, you can use this task type to ask workers to track the movement of vehicles across multiple point cloud frames.     arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-3DPointCloudObjectTracking     3D Point Cloud Semantic Segmentation - Use this task type when you want workers to create a point-level semantic segmentation masks by painting objects in a 3D point cloud using different colors where each color is assigned to one of the classes you specify.    arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-3DPointCloudSemanticSegmentation     Use the following ARNs for Label Verification and Adjustment Jobs  Use label verification and adjustment jobs to review and adjust labels. To learn more, see Verify and Adjust Labels .  Semantic Segmentation Adjustment - Treats each pixel in an image as a multi-class classification and treats pixel adjusted annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentSemanticSegmentation     Semantic Segmentation Verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgment for semantic segmentation labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VerificationSemanticSegmentation     Bounding Box Adjustment - Finds the most similar boxes from different workers based on the Jaccard index of the adjusted annotations.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentBoundingBox     Bounding Box Verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgement for bounding box labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VerificationBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:ACS-VerificationBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:ACS-VerificationBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VerificationBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VerificationBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VerificationBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VerificationBoundingBox     Video Frame Object Detection Adjustment - Use this task type when you want workers to adjust bounding boxes that workers have added to video frames to classify and localize objects in a sequence of video frames.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentVideoObjectDetection     Video Frame Object Tracking Adjustment - Use this task type when you want workers to adjust bounding boxes that workers have added to video frames to track object movement across a sequence of video frames.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentVideoObjectTracking     3D Point Cloud Object Detection Adjustment - Use this task type when you want workers to adjust 3D cuboids around objects in a 3D point cloud.     arn:aws:lambda:us-east-1:432418664414:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-Adjustment3DPointCloudObjectDetection     3D Point Cloud Object Tracking Adjustment - Use this task type when you want workers to adjust 3D cuboids around objects that appear in a sequence of 3D point cloud frames.    arn:aws:lambda:us-east-1:432418664414:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-Adjustment3DPointCloudObjectTracking     3D Point Cloud Semantic Segmentation Adjustment - Use this task type when you want workers to adjust a point-level semantic segmentation masks using a paint tool.    arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-1:432418664414:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-Adjustment3DPointCloudSemanticSegmentation
+        /// The Amazon Resource Name (ARN) of a Lambda function implements the logic for annotation consolidation and to process output data. For built-in task types, use one of the following Amazon SageMaker Ground Truth Lambda function ARNs for AnnotationConsolidationLambdaArn. For custom labeling workflows, see Post-annotation Lambda.  Bounding box - Finds the most similar boxes from different workers based on the Jaccard index of the boxes.    arn:aws:lambda:us-east-1:432418664414:function:ACS-BoundingBox     arn:aws:lambda:us-east-2:266458841044:function:ACS-BoundingBox     arn:aws:lambda:us-west-2:081040173940:function:ACS-BoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:ACS-BoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-BoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-BoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:ACS-BoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:ACS-BoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-BoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:ACS-BoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-BoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:ACS-BoundingBox     Image classification - Uses a variant of the Expectation Maximization approach to estimate the true class of an image based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-ImageMultiClass     arn:aws:lambda:us-east-2:266458841044:function:ACS-ImageMultiClass     arn:aws:lambda:us-west-2:081040173940:function:ACS-ImageMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:ACS-ImageMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-ImageMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-ImageMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:ACS-ImageMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:ACS-ImageMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-ImageMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:ACS-ImageMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-ImageMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:ACS-ImageMultiClass     Multi-label image classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of an image based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:ACS-ImageMultiClassMultiLabel     Semantic segmentation - Treats each pixel in an image as a multi-class classification and treats pixel annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:ACS-SemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-SemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-SemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-SemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-SemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-SemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-SemanticSegmentation     Text classification - Uses a variant of the Expectation Maximization approach to estimate the true class of text based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-TextMultiClass     arn:aws:lambda:us-east-2:266458841044:function:ACS-TextMultiClass     arn:aws:lambda:us-west-2:081040173940:function:ACS-TextMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:ACS-TextMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-TextMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-TextMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:ACS-TextMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:ACS-TextMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-TextMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:ACS-TextMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-TextMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:ACS-TextMultiClass     Multi-label text classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of text based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:ACS-TextMultiClassMultiLabel     Named entity recognition - Groups similar selections and calculates aggregate boundaries, resolving to most-assigned label.    arn:aws:lambda:us-east-1:432418664414:function:ACS-NamedEntityRecognition     arn:aws:lambda:us-east-2:266458841044:function:ACS-NamedEntityRecognition     arn:aws:lambda:us-west-2:081040173940:function:ACS-NamedEntityRecognition     arn:aws:lambda:eu-west-1:568282634449:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-south-1:565803892007:function:ACS-NamedEntityRecognition     arn:aws:lambda:eu-central-1:203001061592:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-NamedEntityRecognition     arn:aws:lambda:eu-west-2:487402164563:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-NamedEntityRecognition     arn:aws:lambda:ca-central-1:918755190332:function:ACS-NamedEntityRecognition     Video Classification - Use this task type when you need workers to classify videos using predefined labels that you specify. Workers are shown videos and are asked to choose one label for each video.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VideoMultiClass     arn:aws:lambda:us-east-2:266458841044:function:ACS-VideoMultiClass     arn:aws:lambda:us-west-2:081040173940:function:ACS-VideoMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VideoMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VideoMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VideoMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VideoMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VideoMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VideoMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VideoMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VideoMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VideoMultiClass     Video Frame Object Detection - Use this task type to have workers identify and locate objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to identify and localize various objects in a series of video frames, such as cars, bikes, and pedestrians.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-VideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-VideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VideoObjectDetection     Video Frame Object Tracking - Use this task type to have workers track the movement of objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to track the movement of objects, such as cars, bikes, and pedestrians.     arn:aws:lambda:us-east-1:432418664414:function:ACS-VideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-VideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-VideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VideoObjectTracking     3D Point Cloud Object Detection - Use this task type when you want workers to classify objects in a 3D point cloud by drawing 3D cuboids around objects. For example, you can use this task type to ask workers to identify different types of objects in a point cloud, such as cars, bikes, and pedestrians.    arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-3DPointCloudObjectDetection     3D Point Cloud Object Tracking - Use this task type when you want workers to draw 3D cuboids around objects that appear in a sequence of 3D point cloud frames. For example, you can use this task type to ask workers to track the movement of vehicles across multiple point cloud frames.     arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-3DPointCloudObjectTracking     3D Point Cloud Semantic Segmentation - Use this task type when you want workers to create a point-level semantic segmentation masks by painting objects in a 3D point cloud using different colors where each color is assigned to one of the classes you specify.    arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-3DPointCloudSemanticSegmentation     Use the following ARNs for Label Verification and Adjustment Jobs  Use label verification and adjustment jobs to review and adjust labels. To learn more, see Verify and Adjust Labels .  Semantic Segmentation Adjustment - Treats each pixel in an image as a multi-class classification and treats pixel adjusted annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentSemanticSegmentation     Semantic Segmentation Verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgment for semantic segmentation labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VerificationSemanticSegmentation     Bounding Box Adjustment - Finds the most similar boxes from different workers based on the Jaccard index of the adjusted annotations.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentBoundingBox     Bounding Box Verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgement for bounding box labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VerificationBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:ACS-VerificationBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:ACS-VerificationBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VerificationBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VerificationBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VerificationBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VerificationBoundingBox     Video Frame Object Detection Adjustment - Use this task type when you want workers to adjust bounding boxes that workers have added to video frames to classify and localize objects in a sequence of video frames.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentVideoObjectDetection     Video Frame Object Tracking Adjustment - Use this task type when you want workers to adjust bounding boxes that workers have added to video frames to track object movement across a sequence of video frames.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentVideoObjectTracking     3D Point Cloud Object Detection Adjustment - Use this task type when you want workers to adjust 3D cuboids around objects in a 3D point cloud.     arn:aws:lambda:us-east-1:432418664414:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-Adjustment3DPointCloudObjectDetection     3D Point Cloud Object Tracking Adjustment - Use this task type when you want workers to adjust 3D cuboids around objects that appear in a sequence of 3D point cloud frames.    arn:aws:lambda:us-east-1:432418664414:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-Adjustment3DPointCloudObjectTracking     3D Point Cloud Semantic Segmentation Adjustment - Use this task type when you want workers to adjust a point-level semantic segmentation masks using a paint tool.    arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-1:432418664414:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-Adjustment3DPointCloudSemanticSegmentation     Generative AI/Custom - Direct passthrough of output data without any transformation.    arn:aws:lambda:us-east-1:432418664414:function:ACS-PassThrough     arn:aws:lambda:us-east-2:266458841044:function:ACS-PassThrough     arn:aws:lambda:us-west-2:081040173940:function:ACS-PassThrough     arn:aws:lambda:eu-west-1:568282634449:function:ACS-PassThrough     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-PassThrough     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-PassThrough     arn:aws:lambda:ap-south-1:565803892007:function:ACS-PassThrough     arn:aws:lambda:eu-central-1:203001061592:function:ACS-PassThrough     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-PassThrough     arn:aws:lambda:eu-west-2:487402164563:function:ACS-PassThrough     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-PassThrough     arn:aws:lambda:ca-central-1:918755190332:function:ACS-PassThrough
         public let annotationConsolidationLambdaArn: String?
 
         @inlinable
@@ -4912,6 +5114,73 @@ extension SageMaker {
             case outputS3Uri = "OutputS3Uri"
             case queryString = "QueryString"
             case workGroup = "WorkGroup"
+        }
+    }
+
+    public struct AttachClusterNodeVolumeRequest: AWSEncodableShape {
+        ///  The Amazon Resource Name (ARN) of your SageMaker HyperPod cluster containing the target node. Your cluster must use EKS as the orchestration and be in the InService state.
+        public let clusterArn: String?
+        ///  The unique identifier of the cluster node to which you want to attach the volume. The node must belong to your specified HyperPod cluster and cannot be part of a Restricted Instance Group (RIG).
+        public let nodeId: String?
+        ///  The unique identifier of your EBS volume to attach. The volume must be in the available state.
+        public let volumeId: String?
+
+        @inlinable
+        public init(clusterArn: String? = nil, nodeId: String? = nil, volumeId: String? = nil) {
+            self.clusterArn = clusterArn
+            self.nodeId = nodeId
+            self.volumeId = volumeId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterArn, name: "clusterArn", parent: name, max: 256)
+            try self.validate(self.clusterArn, name: "clusterArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:cluster/[a-z0-9]{12}$")
+            try self.validate(self.nodeId, name: "nodeId", parent: name, max: 256)
+            try self.validate(self.nodeId, name: "nodeId", parent: name, min: 1)
+            try self.validate(self.nodeId, name: "nodeId", parent: name, pattern: "^i-[a-f0-9]{8}(?:[a-f0-9]{9})?$")
+            try self.validate(self.volumeId, name: "volumeId", parent: name, max: 256)
+            try self.validate(self.volumeId, name: "volumeId", parent: name, min: 1)
+            try self.validate(self.volumeId, name: "volumeId", parent: name, pattern: "^vol-[a-f0-9]{8}(?:[a-f0-9]{9})?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "ClusterArn"
+            case nodeId = "NodeId"
+            case volumeId = "VolumeId"
+        }
+    }
+
+    public struct AttachClusterNodeVolumeResponse: AWSDecodableShape {
+        ///  The timestamp when the volume attachment operation was initiated by the SageMaker HyperPod service.
+        public let attachTime: Date?
+        ///  The Amazon Resource Name (ARN) of your SageMaker HyperPod cluster where the volume attachment operation was performed.
+        public let clusterArn: String?
+        ///  The device name assigned to your attached volume on the target instance.
+        public let deviceName: String?
+        ///  The unique identifier of the cluster node where your volume was attached.
+        public let nodeId: String?
+        ///  The current status of your volume attachment operation.
+        public let status: VolumeAttachmentStatus?
+        ///  The unique identifier of your EBS volume that was attached.
+        public let volumeId: String?
+
+        @inlinable
+        public init(attachTime: Date? = nil, clusterArn: String? = nil, deviceName: String? = nil, nodeId: String? = nil, status: VolumeAttachmentStatus? = nil, volumeId: String? = nil) {
+            self.attachTime = attachTime
+            self.clusterArn = clusterArn
+            self.deviceName = deviceName
+            self.nodeId = nodeId
+            self.status = status
+            self.volumeId = volumeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachTime = "AttachTime"
+            case clusterArn = "ClusterArn"
+            case deviceName = "DeviceName"
+            case nodeId = "NodeId"
+            case status = "Status"
+            case volumeId = "VolumeId"
         }
     }
 
@@ -5539,6 +5808,82 @@ extension SageMaker {
         }
     }
 
+    public struct BatchAddClusterNodesError: AWSDecodableShape {
+        /// The error code associated with the failure. Possible values include InstanceGroupNotFound and InvalidInstanceGroupState.
+        public let errorCode: BatchAddClusterNodesErrorCode
+        /// The number of nodes that failed to be added to the specified instance group.
+        public let failedCount: Int
+        /// The name of the instance group for which the error occurred.
+        public let instanceGroupName: String
+        /// A descriptive message providing additional details about the error.
+        public let message: String?
+
+        @inlinable
+        public init(errorCode: BatchAddClusterNodesErrorCode, failedCount: Int, instanceGroupName: String, message: String? = nil) {
+            self.errorCode = errorCode
+            self.failedCount = failedCount
+            self.instanceGroupName = instanceGroupName
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case failedCount = "FailedCount"
+            case instanceGroupName = "InstanceGroupName"
+            case message = "Message"
+        }
+    }
+
+    public struct BatchAddClusterNodesRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This token is valid for 8 hours. If you retry the request with the same client token within this timeframe and the same parameters, the API returns the same set of NodeLogicalIds with their latest status.
+        public let clientToken: String?
+        /// The name of the HyperPod cluster to which you want to add nodes.
+        public let clusterName: String
+        /// A list of instance groups and the number of nodes to add to each. You can specify up to 5 instance groups in a single request, with a maximum of 50 nodes total across all instance groups.
+        public let nodesToAdd: [AddClusterNodeSpecification]?
+
+        @inlinable
+        public init(clientToken: String? = nil, clusterName: String, nodesToAdd: [AddClusterNodeSpecification]? = nil) {
+            self.clientToken = clientToken
+            self.clusterName = clusterName
+            self.nodesToAdd = nodesToAdd
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterName, name: "clusterName", parent: name, max: 256)
+            try self.validate(self.clusterName, name: "clusterName", parent: name, pattern: "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:cluster/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})$")
+            try self.nodesToAdd?.forEach {
+                try $0.validate(name: "\(name).nodesToAdd[]")
+            }
+            try self.validate(self.nodesToAdd, name: "nodesToAdd", parent: name, max: 5)
+            try self.validate(self.nodesToAdd, name: "nodesToAdd", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case clusterName = "ClusterName"
+            case nodesToAdd = "NodesToAdd"
+        }
+    }
+
+    public struct BatchAddClusterNodesResponse: AWSDecodableShape {
+        /// A list of errors that occurred during the node addition operation. Each entry includes the instance group name, error code, number of failed additions, and an error message.
+        public let failed: [BatchAddClusterNodesError]
+        /// A list of NodeLogicalIDs that were successfully added to the cluster. The NodeLogicalID is unique per cluster and does not change between instance replacements. Each entry includes a NodeLogicalId that can be used to track the node's provisioning status (with DescribeClusterNode), the instance group name, and the current status of the node.
+        public let successful: [NodeAdditionResult]
+
+        @inlinable
+        public init(failed: [BatchAddClusterNodesError], successful: [NodeAdditionResult]) {
+            self.failed = failed
+            self.successful = successful
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failed = "Failed"
+            case successful = "Successful"
+        }
+    }
+
     public struct BatchDataCaptureConfig: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon S3 location being used to capture the data.
         public let destinationS3Uri: String?
@@ -5565,6 +5910,28 @@ extension SageMaker {
             case destinationS3Uri = "DestinationS3Uri"
             case generateInferenceId = "GenerateInferenceId"
             case kmsKeyId = "KmsKeyId"
+        }
+    }
+
+    public struct BatchDeleteClusterNodeLogicalIdsError: AWSDecodableShape {
+        /// The error code associated with the failure. Possible values include NodeLogicalIdNotFound, InvalidNodeStatus, and InternalError.
+        public let code: BatchDeleteClusterNodesErrorCode?
+        /// A descriptive message providing additional details about the error.
+        public let message: String?
+        /// The NodeLogicalId of the node that could not be deleted.
+        public let nodeLogicalId: String?
+
+        @inlinable
+        public init(code: BatchDeleteClusterNodesErrorCode? = nil, message: String? = nil, nodeLogicalId: String? = nil) {
+            self.code = code
+            self.message = message
+            self.nodeLogicalId = nodeLogicalId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case nodeLogicalId = "NodeLogicalId"
         }
     }
 
@@ -5595,11 +5962,14 @@ extension SageMaker {
         public let clusterName: String?
         /// A list of node IDs to be deleted from the specified cluster.    For SageMaker HyperPod clusters using the Slurm workload manager, you cannot remove instances that are configured as Slurm controller nodes.   If you need to delete more than 99 instances, contact Support for assistance.
         public let nodeIds: [String]?
+        /// A list of NodeLogicalIds identifying the nodes to be deleted. You can specify up to 50 NodeLogicalIds. You must specify either NodeLogicalIds, InstanceIds, or both, with a combined maximum of 50 identifiers.
+        public let nodeLogicalIds: [String]?
 
         @inlinable
-        public init(clusterName: String? = nil, nodeIds: [String]? = nil) {
+        public init(clusterName: String? = nil, nodeIds: [String]? = nil, nodeLogicalIds: [String]? = nil) {
             self.clusterName = clusterName
             self.nodeIds = nodeIds
+            self.nodeLogicalIds = nodeLogicalIds
         }
 
         public func validate(name: String) throws {
@@ -5612,29 +5982,45 @@ extension SageMaker {
             }
             try self.validate(self.nodeIds, name: "nodeIds", parent: name, max: 3000)
             try self.validate(self.nodeIds, name: "nodeIds", parent: name, min: 1)
+            try self.nodeLogicalIds?.forEach {
+                try validate($0, name: "nodeLogicalIds[]", parent: name, max: 128)
+                try validate($0, name: "nodeLogicalIds[]", parent: name, min: 1)
+                try validate($0, name: "nodeLogicalIds[]", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9]$")
+            }
+            try self.validate(self.nodeLogicalIds, name: "nodeLogicalIds", parent: name, max: 99)
+            try self.validate(self.nodeLogicalIds, name: "nodeLogicalIds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case clusterName = "ClusterName"
             case nodeIds = "NodeIds"
+            case nodeLogicalIds = "NodeLogicalIds"
         }
     }
 
     public struct BatchDeleteClusterNodesResponse: AWSDecodableShape {
         /// A list of errors encountered when deleting the specified nodes.
         public let failed: [BatchDeleteClusterNodesError]?
+        /// A list of NodeLogicalIds that could not be deleted, along with error information explaining why the deletion failed.
+        public let failedNodeLogicalIds: [BatchDeleteClusterNodeLogicalIdsError]?
         /// A list of node IDs that were successfully deleted from the specified cluster.
         public let successful: [String]?
+        /// A list of NodeLogicalIds that were successfully deleted from the cluster.
+        public let successfulNodeLogicalIds: [String]?
 
         @inlinable
-        public init(failed: [BatchDeleteClusterNodesError]? = nil, successful: [String]? = nil) {
+        public init(failed: [BatchDeleteClusterNodesError]? = nil, failedNodeLogicalIds: [BatchDeleteClusterNodeLogicalIdsError]? = nil, successful: [String]? = nil, successfulNodeLogicalIds: [String]? = nil) {
             self.failed = failed
+            self.failedNodeLogicalIds = failedNodeLogicalIds
             self.successful = successful
+            self.successfulNodeLogicalIds = successfulNodeLogicalIds
         }
 
         private enum CodingKeys: String, CodingKey {
             case failed = "Failed"
+            case failedNodeLogicalIds = "FailedNodeLogicalIds"
             case successful = "Successful"
+            case successfulNodeLogicalIds = "SuccessfulNodeLogicalIds"
         }
     }
 
@@ -6033,6 +6419,24 @@ extension SageMaker {
             case modelRegisterSettings = "ModelRegisterSettings"
             case timeSeriesForecastingSettings = "TimeSeriesForecastingSettings"
             case workspaceSettings = "WorkspaceSettings"
+        }
+    }
+
+    public struct CapacityReservation: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Capacity Reservation.
+        public let arn: String?
+        /// The type of Capacity Reservation. Valid values are ODCR (On-Demand Capacity Reservation) or CRG (Capacity Reservation Group).
+        public let type: CapacityReservationType?
+
+        @inlinable
+        public init(arn: String? = nil, type: CapacityReservationType? = nil) {
+            self.arn = arn
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case type = "Type"
         }
     }
 
@@ -6773,28 +7177,174 @@ extension SageMaker {
         }
     }
 
+    public struct ClusterAutoScalingConfig: AWSEncodableShape {
+        /// The type of autoscaler to use. Currently supported value is Karpenter.
+        public let autoScalerType: ClusterAutoScalerType?
+        /// Describes whether autoscaling is enabled or disabled for the cluster. Valid values are Enable and Disable.
+        public let mode: ClusterAutoScalingMode
+
+        @inlinable
+        public init(autoScalerType: ClusterAutoScalerType? = nil, mode: ClusterAutoScalingMode) {
+            self.autoScalerType = autoScalerType
+            self.mode = mode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalerType = "AutoScalerType"
+            case mode = "Mode"
+        }
+    }
+
+    public struct ClusterAutoScalingConfigOutput: AWSDecodableShape {
+        /// The type of autoscaler configured for the cluster.
+        public let autoScalerType: ClusterAutoScalerType?
+        /// If the autoscaling status is Failed, this field contains a message describing the failure.
+        public let failureMessage: String?
+        /// Describes whether autoscaling is enabled or disabled for the cluster.
+        public let mode: ClusterAutoScalingMode
+        /// The current status of the autoscaling configuration. Valid values are InService, Failed, Creating, and Deleting.
+        public let status: ClusterAutoScalingStatus
+
+        @inlinable
+        public init(autoScalerType: ClusterAutoScalerType? = nil, failureMessage: String? = nil, mode: ClusterAutoScalingMode, status: ClusterAutoScalingStatus) {
+            self.autoScalerType = autoScalerType
+            self.failureMessage = failureMessage
+            self.mode = mode
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalerType = "AutoScalerType"
+            case failureMessage = "FailureMessage"
+            case mode = "Mode"
+            case status = "Status"
+        }
+    }
+
     public struct ClusterEbsVolumeConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether the configuration is for the cluster's root or secondary Amazon EBS volume. You can specify two ClusterEbsVolumeConfig fields to configure both the root and secondary volumes. Set the value to True if you'd like to provide your own customer managed Amazon Web Services KMS key to encrypt the root volume. When True:   The configuration is applied to the root volume.   You can't specify the VolumeSizeInGB field. The size of the root volume is determined for you.   You must specify a KMS key ID for VolumeKmsKeyId to encrypt the root volume with your own KMS key instead of an Amazon Web Services owned KMS key.   Otherwise, by default, the value is False, and the following applies:   The configuration is applied to the secondary volume, while the root volume is encrypted with an Amazon Web Services owned key.   You must specify the VolumeSizeInGB field.   You can optionally specify the VolumeKmsKeyId to encrypt the secondary volume with your own KMS key instead of an Amazon Web Services owned KMS key.
+        public let rootVolume: Bool?
+        /// The ID of a KMS key to encrypt the Amazon EBS volume.
+        public let volumeKmsKeyId: String?
         /// The size in gigabytes (GB) of the additional EBS volume to be attached to the instances in the SageMaker HyperPod cluster instance group. The additional EBS volume is attached to each instance within the SageMaker HyperPod cluster instance group and mounted to /opt/sagemaker.
         public let volumeSizeInGB: Int?
 
         @inlinable
-        public init(volumeSizeInGB: Int? = nil) {
+        public init(rootVolume: Bool? = nil, volumeKmsKeyId: String? = nil, volumeSizeInGB: Int? = nil) {
+            self.rootVolume = rootVolume
+            self.volumeKmsKeyId = volumeKmsKeyId
             self.volumeSizeInGB = volumeSizeInGB
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
+            try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: "^[a-zA-Z0-9:/_-]*$")
             try self.validate(self.volumeSizeInGB, name: "volumeSizeInGB", parent: name, max: 16384)
             try self.validate(self.volumeSizeInGB, name: "volumeSizeInGB", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case rootVolume = "RootVolume"
+            case volumeKmsKeyId = "VolumeKmsKeyId"
             case volumeSizeInGB = "VolumeSizeInGB"
+        }
+    }
+
+    public struct ClusterEventDetail: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the HyperPod cluster associated with the event.
+        public let clusterArn: String?
+        /// The name of the HyperPod cluster associated with the event.
+        public let clusterName: String?
+        /// A human-readable description of the event.
+        public let description: String?
+        /// Additional details about the event, including event-specific metadata.
+        public let eventDetails: EventDetails?
+        /// The unique identifier (UUID) of the event.
+        public let eventId: String?
+        /// The timestamp when the event occurred.
+        public let eventTime: Date?
+        /// The name of the instance group associated with the event, if applicable.
+        public let instanceGroupName: String?
+        /// The EC2 instance ID associated with the event, if applicable.
+        public let instanceId: String?
+        /// The type of resource associated with the event. Valid values are Cluster, InstanceGroup, or Instance.
+        public let resourceType: ClusterEventResourceType?
+
+        @inlinable
+        public init(clusterArn: String? = nil, clusterName: String? = nil, description: String? = nil, eventDetails: EventDetails? = nil, eventId: String? = nil, eventTime: Date? = nil, instanceGroupName: String? = nil, instanceId: String? = nil, resourceType: ClusterEventResourceType? = nil) {
+            self.clusterArn = clusterArn
+            self.clusterName = clusterName
+            self.description = description
+            self.eventDetails = eventDetails
+            self.eventId = eventId
+            self.eventTime = eventTime
+            self.instanceGroupName = instanceGroupName
+            self.instanceId = instanceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "ClusterArn"
+            case clusterName = "ClusterName"
+            case description = "Description"
+            case eventDetails = "EventDetails"
+            case eventId = "EventId"
+            case eventTime = "EventTime"
+            case instanceGroupName = "InstanceGroupName"
+            case instanceId = "InstanceId"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct ClusterEventSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the HyperPod cluster associated with the event.
+        public let clusterArn: String?
+        /// The name of the HyperPod cluster associated with the event.
+        public let clusterName: String?
+        /// A brief, human-readable description of the event.
+        public let description: String?
+        /// The unique identifier (UUID) of the event.
+        public let eventId: String?
+        /// The timestamp when the event occurred.
+        public let eventTime: Date?
+        /// The name of the instance group associated with the event, if applicable.
+        public let instanceGroupName: String?
+        /// The Amazon Elastic Compute Cloud (EC2) instance ID associated with the event, if applicable.
+        public let instanceId: String?
+        /// The type of resource associated with the event. Valid values are Cluster, InstanceGroup, or Instance.
+        public let resourceType: ClusterEventResourceType?
+
+        @inlinable
+        public init(clusterArn: String? = nil, clusterName: String? = nil, description: String? = nil, eventId: String? = nil, eventTime: Date? = nil, instanceGroupName: String? = nil, instanceId: String? = nil, resourceType: ClusterEventResourceType? = nil) {
+            self.clusterArn = clusterArn
+            self.clusterName = clusterName
+            self.description = description
+            self.eventId = eventId
+            self.eventTime = eventTime
+            self.instanceGroupName = instanceGroupName
+            self.instanceId = instanceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "ClusterArn"
+            case clusterName = "ClusterName"
+            case description = "Description"
+            case eventId = "EventId"
+            case eventTime = "EventTime"
+            case instanceGroupName = "InstanceGroupName"
+            case instanceId = "InstanceId"
+            case resourceType = "ResourceType"
         }
     }
 
     public struct ClusterInstanceGroupDetails: AWSDecodableShape {
         /// The number of instances that are currently in the instance group of a SageMaker HyperPod cluster.
         public let currentCount: Int?
+        /// The ID of the Amazon Machine Image (AMI) currently in use by the instance group.
+        public let currentImageId: String?
+        /// The ID of the Amazon Machine Image (AMI) desired for the instance group.
+        public let desiredImageId: String?
         /// The execution role for the instance group to assume.
         public let executionRole: String?
         /// The name of the instance group of a SageMaker HyperPod cluster.
@@ -6823,8 +7373,10 @@ extension SageMaker {
         public let trainingPlanStatus: String?
 
         @inlinable
-        public init(currentCount: Int? = nil, executionRole: String? = nil, instanceGroupName: String? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, onStartDeepHealthChecks: [DeepHealthCheckType]? = nil, overrideVpcConfig: VpcConfig? = nil, scheduledUpdateConfig: ScheduledUpdateConfig? = nil, status: InstanceGroupStatus? = nil, targetCount: Int? = nil, threadsPerCore: Int? = nil, trainingPlanArn: String? = nil, trainingPlanStatus: String? = nil) {
+        public init(currentCount: Int? = nil, currentImageId: String? = nil, desiredImageId: String? = nil, executionRole: String? = nil, instanceGroupName: String? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, onStartDeepHealthChecks: [DeepHealthCheckType]? = nil, overrideVpcConfig: VpcConfig? = nil, scheduledUpdateConfig: ScheduledUpdateConfig? = nil, status: InstanceGroupStatus? = nil, targetCount: Int? = nil, threadsPerCore: Int? = nil, trainingPlanArn: String? = nil, trainingPlanStatus: String? = nil) {
             self.currentCount = currentCount
+            self.currentImageId = currentImageId
+            self.desiredImageId = desiredImageId
             self.executionRole = executionRole
             self.instanceGroupName = instanceGroupName
             self.instanceStorageConfigs = instanceStorageConfigs
@@ -6842,6 +7394,8 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case currentCount = "CurrentCount"
+            case currentImageId = "CurrentImageId"
+            case desiredImageId = "DesiredImageId"
             case executionRole = "ExecutionRole"
             case instanceGroupName = "InstanceGroupName"
             case instanceStorageConfigs = "InstanceStorageConfigs"
@@ -6861,6 +7415,8 @@ extension SageMaker {
     public struct ClusterInstanceGroupSpecification: AWSEncodableShape {
         /// Specifies an IAM execution role to be assumed by the instance group.
         public let executionRole: String?
+        /// When configuring your HyperPod cluster, you can specify an image ID using one of the following options:    HyperPodPublicAmiId: Use a HyperPod public AMI    CustomAmiId: Use your custom AMI    default: Use the default latest system image   If you choose to use a custom AMI (CustomAmiId), ensure it meets the following requirements:   Encryption: The custom AMI must be unencrypted.   Ownership: The custom AMI must be owned by the same Amazon Web Services account that is creating the HyperPod cluster.   Volume support: Only the primary AMI snapshot volume is supported; additional AMI volumes are not supported.   When updating the instance group's AMI through the UpdateClusterSoftware operation, if an instance group uses a custom AMI, you must provide an ImageId or use the default as input. Note that if you don't specify an instance group in your UpdateClusterSoftware request, then all of the instance groups are patched with the specified image.
+        public let imageId: String?
         /// Specifies the number of instances to add to the instance group of a SageMaker HyperPod cluster.
         public let instanceCount: Int?
         /// Specifies the name of the instance group.
@@ -6883,8 +7439,9 @@ extension SageMaker {
         public let trainingPlanArn: String?
 
         @inlinable
-        public init(executionRole: String? = nil, instanceCount: Int? = nil, instanceGroupName: String? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, onStartDeepHealthChecks: [DeepHealthCheckType]? = nil, overrideVpcConfig: VpcConfig? = nil, scheduledUpdateConfig: ScheduledUpdateConfig? = nil, threadsPerCore: Int? = nil, trainingPlanArn: String? = nil) {
+        public init(executionRole: String? = nil, imageId: String? = nil, instanceCount: Int? = nil, instanceGroupName: String? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, onStartDeepHealthChecks: [DeepHealthCheckType]? = nil, overrideVpcConfig: VpcConfig? = nil, scheduledUpdateConfig: ScheduledUpdateConfig? = nil, threadsPerCore: Int? = nil, trainingPlanArn: String? = nil) {
             self.executionRole = executionRole
+            self.imageId = imageId
             self.instanceCount = instanceCount
             self.instanceGroupName = instanceGroupName
             self.instanceStorageConfigs = instanceStorageConfigs
@@ -6901,6 +7458,9 @@ extension SageMaker {
             try self.validate(self.executionRole, name: "executionRole", parent: name, max: 2048)
             try self.validate(self.executionRole, name: "executionRole", parent: name, min: 20)
             try self.validate(self.executionRole, name: "executionRole", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.validate(self.imageId, name: "imageId", parent: name, max: 21)
+            try self.validate(self.imageId, name: "imageId", parent: name, min: 7)
+            try self.validate(self.imageId, name: "imageId", parent: name, pattern: "^ami-[0-9a-fA-F]{8,17}|default$")
             try self.validate(self.instanceCount, name: "instanceCount", parent: name, max: 6758)
             try self.validate(self.instanceCount, name: "instanceCount", parent: name, min: 0)
             try self.validate(self.instanceGroupName, name: "instanceGroupName", parent: name, max: 63)
@@ -6909,7 +7469,7 @@ extension SageMaker {
             try self.instanceStorageConfigs?.forEach {
                 try $0.validate(name: "\(name).instanceStorageConfigs[]")
             }
-            try self.validate(self.instanceStorageConfigs, name: "instanceStorageConfigs", parent: name, max: 1)
+            try self.validate(self.instanceStorageConfigs, name: "instanceStorageConfigs", parent: name, max: 2)
             try self.lifeCycleConfig?.validate(name: "\(name).lifeCycleConfig")
             try self.validate(self.onStartDeepHealthChecks, name: "onStartDeepHealthChecks", parent: name, max: 2)
             try self.validate(self.onStartDeepHealthChecks, name: "onStartDeepHealthChecks", parent: name, min: 1)
@@ -6924,6 +7484,7 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case executionRole = "ExecutionRole"
+            case imageId = "ImageId"
             case instanceCount = "InstanceCount"
             case instanceGroupName = "InstanceGroupName"
             case instanceStorageConfigs = "InstanceStorageConfigs"
@@ -6999,7 +7560,33 @@ extension SageMaker {
         }
     }
 
+    public struct ClusterMetadata: AWSDecodableShape {
+        /// A list of Amazon EKS IAM role ARNs associated with the cluster. This is created by HyperPod on your behalf and only applies for EKS orchestrated clusters.
+        public let eksRoleAccessEntries: [String]?
+        /// An error message describing why the cluster level operation (such as creating, updating, or deleting) failed.
+        public let failureMessage: String?
+        /// The Service-Linked Role (SLR) associated with the cluster. This is created by HyperPod on your behalf and only applies for EKS orchestrated clusters.
+        public let slrAccessEntry: String?
+
+        @inlinable
+        public init(eksRoleAccessEntries: [String]? = nil, failureMessage: String? = nil, slrAccessEntry: String? = nil) {
+            self.eksRoleAccessEntries = eksRoleAccessEntries
+            self.failureMessage = failureMessage
+            self.slrAccessEntry = slrAccessEntry
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eksRoleAccessEntries = "EksRoleAccessEntries"
+            case failureMessage = "FailureMessage"
+            case slrAccessEntry = "SlrAccessEntry"
+        }
+    }
+
     public struct ClusterNodeDetails: AWSDecodableShape {
+        /// The ID of the Amazon Machine Image (AMI) currently in use by the node.
+        public let currentImageId: String?
+        /// The ID of the Amazon Machine Image (AMI) desired for the node.
+        public let desiredImageId: String?
         /// The instance group name in which the instance is.
         public let instanceGroupName: String?
         /// The ID of the instance.
@@ -7016,6 +7603,8 @@ extension SageMaker {
         public let launchTime: Date?
         /// The LifeCycle configuration applied to the instance.
         public let lifeCycleConfig: ClusterLifeCycleConfig?
+        /// A unique identifier for the node that persists throughout its lifecycle, from provisioning request to termination. This identifier can be used to track the node even before it has an assigned InstanceId.
+        public let nodeLogicalId: String?
         /// The customized Amazon VPC configuration at the instance group level that overrides the default Amazon VPC configuration of the SageMaker HyperPod cluster.
         public let overrideVpcConfig: VpcConfig?
         /// The placement details of the SageMaker HyperPod cluster node.
@@ -7028,9 +7617,13 @@ extension SageMaker {
         public let privatePrimaryIpv6: String?
         /// The number of threads per CPU core you specified under CreateCluster.
         public let threadsPerCore: Int?
+        /// Contains information about the UltraServer.
+        public let ultraServerInfo: UltraServerInfo?
 
         @inlinable
-        public init(instanceGroupName: String? = nil, instanceId: String? = nil, instanceStatus: ClusterInstanceStatusDetails? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, lastSoftwareUpdateTime: Date? = nil, launchTime: Date? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, overrideVpcConfig: VpcConfig? = nil, placement: ClusterInstancePlacement? = nil, privateDnsHostname: String? = nil, privatePrimaryIp: String? = nil, privatePrimaryIpv6: String? = nil, threadsPerCore: Int? = nil) {
+        public init(currentImageId: String? = nil, desiredImageId: String? = nil, instanceGroupName: String? = nil, instanceId: String? = nil, instanceStatus: ClusterInstanceStatusDetails? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, lastSoftwareUpdateTime: Date? = nil, launchTime: Date? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, nodeLogicalId: String? = nil, overrideVpcConfig: VpcConfig? = nil, placement: ClusterInstancePlacement? = nil, privateDnsHostname: String? = nil, privatePrimaryIp: String? = nil, privatePrimaryIpv6: String? = nil, threadsPerCore: Int? = nil, ultraServerInfo: UltraServerInfo? = nil) {
+            self.currentImageId = currentImageId
+            self.desiredImageId = desiredImageId
             self.instanceGroupName = instanceGroupName
             self.instanceId = instanceId
             self.instanceStatus = instanceStatus
@@ -7039,15 +7632,19 @@ extension SageMaker {
             self.lastSoftwareUpdateTime = lastSoftwareUpdateTime
             self.launchTime = launchTime
             self.lifeCycleConfig = lifeCycleConfig
+            self.nodeLogicalId = nodeLogicalId
             self.overrideVpcConfig = overrideVpcConfig
             self.placement = placement
             self.privateDnsHostname = privateDnsHostname
             self.privatePrimaryIp = privatePrimaryIp
             self.privatePrimaryIpv6 = privatePrimaryIpv6
             self.threadsPerCore = threadsPerCore
+            self.ultraServerInfo = ultraServerInfo
         }
 
         private enum CodingKeys: String, CodingKey {
+            case currentImageId = "CurrentImageId"
+            case desiredImageId = "DesiredImageId"
             case instanceGroupName = "InstanceGroupName"
             case instanceId = "InstanceId"
             case instanceStatus = "InstanceStatus"
@@ -7056,12 +7653,14 @@ extension SageMaker {
             case lastSoftwareUpdateTime = "LastSoftwareUpdateTime"
             case launchTime = "LaunchTime"
             case lifeCycleConfig = "LifeCycleConfig"
+            case nodeLogicalId = "NodeLogicalId"
             case overrideVpcConfig = "OverrideVpcConfig"
             case placement = "Placement"
             case privateDnsHostname = "PrivateDnsHostname"
             case privatePrimaryIp = "PrivatePrimaryIp"
             case privatePrimaryIpv6 = "PrivatePrimaryIpv6"
             case threadsPerCore = "ThreadsPerCore"
+            case ultraServerInfo = "UltraServerInfo"
         }
     }
 
@@ -7078,15 +7677,21 @@ extension SageMaker {
         public let lastSoftwareUpdateTime: Date?
         /// The time when the instance is launched.
         public let launchTime: Date?
+        /// A unique identifier for the node that persists throughout its lifecycle, from provisioning request to termination. This identifier can be used to track the node even before it has an assigned InstanceId. This field is only included when IncludeNodeLogicalIds is set to True in the ListClusterNodes request.
+        public let nodeLogicalId: String?
+        /// Contains information about the UltraServer.
+        public let ultraServerInfo: UltraServerInfo?
 
         @inlinable
-        public init(instanceGroupName: String? = nil, instanceId: String? = nil, instanceStatus: ClusterInstanceStatusDetails? = nil, instanceType: ClusterInstanceType? = nil, lastSoftwareUpdateTime: Date? = nil, launchTime: Date? = nil) {
+        public init(instanceGroupName: String? = nil, instanceId: String? = nil, instanceStatus: ClusterInstanceStatusDetails? = nil, instanceType: ClusterInstanceType? = nil, lastSoftwareUpdateTime: Date? = nil, launchTime: Date? = nil, nodeLogicalId: String? = nil, ultraServerInfo: UltraServerInfo? = nil) {
             self.instanceGroupName = instanceGroupName
             self.instanceId = instanceId
             self.instanceStatus = instanceStatus
             self.instanceType = instanceType
             self.lastSoftwareUpdateTime = lastSoftwareUpdateTime
             self.launchTime = launchTime
+            self.nodeLogicalId = nodeLogicalId
+            self.ultraServerInfo = ultraServerInfo
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7096,6 +7701,8 @@ extension SageMaker {
             case instanceType = "InstanceType"
             case lastSoftwareUpdateTime = "LastSoftwareUpdateTime"
             case launchTime = "LaunchTime"
+            case nodeLogicalId = "NodeLogicalId"
+            case ultraServerInfo = "UltraServerInfo"
         }
     }
 
@@ -7251,7 +7858,7 @@ extension SageMaker {
             try self.instanceStorageConfigs?.forEach {
                 try $0.validate(name: "\(name).instanceStorageConfigs[]")
             }
-            try self.validate(self.instanceStorageConfigs, name: "instanceStorageConfigs", parent: name, max: 1)
+            try self.validate(self.instanceStorageConfigs, name: "instanceStorageConfigs", parent: name, max: 2)
             try self.validate(self.onStartDeepHealthChecks, name: "onStartDeepHealthChecks", parent: name, max: 2)
             try self.validate(self.onStartDeepHealthChecks, name: "onStartDeepHealthChecks", parent: name, min: 1)
             try self.overrideVpcConfig?.validate(name: "\(name).overrideVpcConfig")
@@ -7347,6 +7954,29 @@ extension SageMaker {
             case clusterStatus = "ClusterStatus"
             case creationTime = "CreationTime"
             case trainingPlanArns = "TrainingPlanArns"
+        }
+    }
+
+    public struct ClusterTieredStorageConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The percentage (int) of cluster memory to allocate for checkpointing.
+        public let instanceMemoryAllocationPercentage: Int?
+        /// Specifies whether managed tier checkpointing is enabled or disabled for the HyperPod cluster. When set to Enable, the system installs a memory management daemon that provides disaggregated memory as a service for checkpoint storage. When set to Disable, the feature is turned off and the memory management daemon is removed from the cluster.
+        public let mode: ClusterConfigMode?
+
+        @inlinable
+        public init(instanceMemoryAllocationPercentage: Int? = nil, mode: ClusterConfigMode? = nil) {
+            self.instanceMemoryAllocationPercentage = instanceMemoryAllocationPercentage
+            self.mode = mode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceMemoryAllocationPercentage, name: "instanceMemoryAllocationPercentage", parent: name, max: 100)
+            try self.validate(self.instanceMemoryAllocationPercentage, name: "instanceMemoryAllocationPercentage", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceMemoryAllocationPercentage = "InstanceMemoryAllocationPercentage"
+            case mode = "Mode"
         }
     }
 
@@ -7642,24 +8272,43 @@ extension SageMaker {
     }
 
     public struct ComputeQuotaResourceConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The number of accelerators to allocate. If you don't specify a value for vCPU and MemoryInGiB, SageMaker AI automatically allocates ratio-based values for those parameters based on the number of accelerators you provide. For example, if you allocate 16 out of 32 total accelerators, SageMaker AI uses the ratio of 0.5 and allocates values to vCPU and MemoryInGiB.
+        public let accelerators: Int?
         /// The number of instances to add to the instance group of a SageMaker HyperPod cluster.
         public let count: Int?
         /// The instance type of the instance group for the cluster.
         public let instanceType: ClusterInstanceType?
+        /// The amount of memory in GiB to allocate. If you specify a value only for this parameter, SageMaker AI automatically allocates a ratio-based value for vCPU based on this memory that you provide. For example, if you allocate 200 out of 400 total memory in GiB, SageMaker AI uses the ratio of 0.5 and allocates values to vCPU. Accelerators are set to 0.
+        public let memoryInGiB: Float?
+        /// The number of vCPU to allocate. If you specify a value only for vCPU, SageMaker AI automatically allocates ratio-based values for MemoryInGiB based on this vCPU parameter. For example, if you allocate 20 out of 40 total vCPU, SageMaker AI uses the ratio of 0.5 and allocates values to MemoryInGiB. Accelerators are set to 0.
+        public let vCpu: Float?
 
         @inlinable
-        public init(count: Int? = nil, instanceType: ClusterInstanceType? = nil) {
+        public init(accelerators: Int? = nil, count: Int? = nil, instanceType: ClusterInstanceType? = nil, memoryInGiB: Float? = nil, vCpu: Float? = nil) {
+            self.accelerators = accelerators
             self.count = count
             self.instanceType = instanceType
+            self.memoryInGiB = memoryInGiB
+            self.vCpu = vCpu
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.count, name: "count", parent: name, min: 1)
+            try self.validate(self.accelerators, name: "accelerators", parent: name, max: 10000000)
+            try self.validate(self.accelerators, name: "accelerators", parent: name, min: 0)
+            try self.validate(self.count, name: "count", parent: name, max: 10000000)
+            try self.validate(self.count, name: "count", parent: name, min: 0)
+            try self.validate(self.memoryInGiB, name: "memoryInGiB", parent: name, max: 10000000.0)
+            try self.validate(self.memoryInGiB, name: "memoryInGiB", parent: name, min: 0.0)
+            try self.validate(self.vCpu, name: "vCpu", parent: name, max: 10000000.0)
+            try self.validate(self.vCpu, name: "vCpu", parent: name, min: 0.0)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accelerators = "Accelerators"
             case count = "Count"
             case instanceType = "InstanceType"
+            case memoryInGiB = "MemoryInGiB"
+            case vCpu = "VCpu"
         }
     }
 
@@ -8533,29 +9182,41 @@ extension SageMaker {
     }
 
     public struct CreateClusterRequest: AWSEncodableShape {
+        /// The autoscaling configuration for the cluster. Enables automatic scaling of cluster nodes based on workload demand using a Karpenter-based system.
+        public let autoScaling: ClusterAutoScalingConfig?
         /// The name for the new SageMaker HyperPod cluster.
         public let clusterName: String?
+        /// The Amazon Resource Name (ARN) of the IAM role that HyperPod assumes to perform cluster autoscaling operations. This role must have permissions for sagemaker:BatchAddClusterNodes and sagemaker:BatchDeleteClusterNodes. This is only required when autoscaling is enabled and when HyperPod is performing autoscaling operations.
+        public let clusterRole: String?
         /// The instance groups to be created in the SageMaker HyperPod cluster.
         public let instanceGroups: [ClusterInstanceGroupSpecification]?
+        /// The mode for provisioning nodes in the cluster. You can specify the following modes:    Continuous: Scaling behavior that enables 1) concurrent operation execution within instance groups, 2) continuous retry mechanisms for failed operations, 3) enhanced customer visibility into cluster events through detailed event streams, 4) partial provisioning capabilities. Your clusters and instance groups remain InService while scaling. This mode is only supported for EKS orchestrated clusters.
+        public let nodeProvisioningMode: ClusterNodeProvisioningMode?
         /// The node recovery mode for the SageMaker HyperPod cluster. When set to Automatic, SageMaker HyperPod will automatically reboot or replace faulty nodes when issues are detected. When set to None, cluster administrators will need to manually manage any faulty cluster instances.
         public let nodeRecovery: ClusterNodeRecovery?
-        /// The type of orchestrator to use for the SageMaker HyperPod cluster. Currently, the only supported value is "eks", which is to use an Amazon Elastic Kubernetes Service (EKS) cluster as the orchestrator.
+        /// The type of orchestrator to use for the SageMaker HyperPod cluster. Currently, the only supported value is "eks", which is to use an Amazon Elastic Kubernetes Service cluster as the orchestrator.
         public let orchestrator: ClusterOrchestrator?
         /// The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
         public let restrictedInstanceGroups: [ClusterRestrictedInstanceGroupSpecification]?
         /// Custom tags for managing the SageMaker HyperPod cluster as an Amazon Web Services resource. You can add tags to your cluster in the same way you add them in other Amazon Web Services services that support tagging. To learn more about tagging Amazon Web Services resources in general, see Tagging Amazon Web Services Resources User Guide.
         public let tags: [Tag]?
+        /// The configuration for managed tier checkpointing on the HyperPod cluster. When enabled, this feature uses a multi-tier storage approach for storing model checkpoints, providing faster checkpoint operations and improved fault tolerance across cluster nodes.
+        public let tieredStorageConfig: ClusterTieredStorageConfig?
         /// Specifies the Amazon Virtual Private Cloud (VPC) that is associated with the Amazon SageMaker HyperPod cluster. You can control access to and from your resources by configuring your VPC. For more information, see Give SageMaker access to resources in your Amazon VPC.  When your Amazon VPC and subnets support IPv6, network communications differ based on the cluster orchestration platform:   Slurm-orchestrated clusters automatically configure nodes with dual IPv6 and IPv4 addresses, allowing immediate IPv6 network communications.   In Amazon EKS-orchestrated clusters, nodes receive dual-stack addressing, but pods can only use IPv6 when the Amazon EKS cluster is explicitly IPv6-enabled. For information about deploying an IPv6 Amazon EKS cluster, see Amazon EKS IPv6 Cluster Deployment.   Additional resources for IPv6 configuration:   For information about adding IPv6 support to your VPC, see to IPv6 Support for VPC.   For information about creating a new IPv6-compatible VPC, see Amazon VPC Creation Guide.   To configure SageMaker HyperPod with a custom Amazon VPC, see Custom Amazon VPC Setup for SageMaker HyperPod.
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(clusterName: String? = nil, instanceGroups: [ClusterInstanceGroupSpecification]? = nil, nodeRecovery: ClusterNodeRecovery? = nil, orchestrator: ClusterOrchestrator? = nil, restrictedInstanceGroups: [ClusterRestrictedInstanceGroupSpecification]? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(autoScaling: ClusterAutoScalingConfig? = nil, clusterName: String? = nil, clusterRole: String? = nil, instanceGroups: [ClusterInstanceGroupSpecification]? = nil, nodeProvisioningMode: ClusterNodeProvisioningMode? = nil, nodeRecovery: ClusterNodeRecovery? = nil, orchestrator: ClusterOrchestrator? = nil, restrictedInstanceGroups: [ClusterRestrictedInstanceGroupSpecification]? = nil, tags: [Tag]? = nil, tieredStorageConfig: ClusterTieredStorageConfig? = nil, vpcConfig: VpcConfig? = nil) {
+            self.autoScaling = autoScaling
             self.clusterName = clusterName
+            self.clusterRole = clusterRole
             self.instanceGroups = instanceGroups
+            self.nodeProvisioningMode = nodeProvisioningMode
             self.nodeRecovery = nodeRecovery
             self.orchestrator = orchestrator
             self.restrictedInstanceGroups = restrictedInstanceGroups
             self.tags = tags
+            self.tieredStorageConfig = tieredStorageConfig
             self.vpcConfig = vpcConfig
         }
 
@@ -8563,6 +9224,9 @@ extension SageMaker {
             try self.validate(self.clusterName, name: "clusterName", parent: name, max: 63)
             try self.validate(self.clusterName, name: "clusterName", parent: name, min: 1)
             try self.validate(self.clusterName, name: "clusterName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.clusterRole, name: "clusterRole", parent: name, max: 2048)
+            try self.validate(self.clusterRole, name: "clusterRole", parent: name, min: 20)
+            try self.validate(self.clusterRole, name: "clusterRole", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.instanceGroups?.forEach {
                 try $0.validate(name: "\(name).instanceGroups[]")
             }
@@ -8578,16 +9242,21 @@ extension SageMaker {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.tieredStorageConfig?.validate(name: "\(name).tieredStorageConfig")
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoScaling = "AutoScaling"
             case clusterName = "ClusterName"
+            case clusterRole = "ClusterRole"
             case instanceGroups = "InstanceGroups"
+            case nodeProvisioningMode = "NodeProvisioningMode"
             case nodeRecovery = "NodeRecovery"
             case orchestrator = "Orchestrator"
             case restrictedInstanceGroups = "RestrictedInstanceGroups"
             case tags = "Tags"
+            case tieredStorageConfig = "TieredStorageConfig"
             case vpcConfig = "VpcConfig"
         }
     }
@@ -9084,13 +9753,13 @@ extension SageMaker {
         public let homeEfsFileSystemKmsKeyId: String?
         /// SageMaker AI uses Amazon Web Services KMS to encrypt EFS and EBS volumes attached to the domain with an Amazon Web Services managed key by default. For more control, specify a customer managed key.
         public let kmsKeyId: String?
-        /// The VPC subnets that the domain uses for communication.
+        /// The VPC subnets that the domain uses for communication. The field is optional when the AppNetworkAccessType parameter is set to PublicInternetOnly for domains created from Amazon SageMaker Unified Studio.
         public let subnetIds: [String]?
         /// Indicates whether custom tag propagation is supported for the domain. Defaults to DISABLED.
         public let tagPropagation: TagPropagation?
         /// Tags to associated with the Domain. Each tag consists of a key and an optional value. Tag keys must be unique per resource. Tags are searchable using the Search API. Tags that you specify for the Domain are also added to all Apps that the Domain launches.
         public let tags: [Tag]?
-        /// The ID of the Amazon Virtual Private Cloud (VPC) that the domain uses for communication.
+        /// The ID of the Amazon Virtual Private Cloud (VPC) that the domain uses for communication. The field is optional when the AppNetworkAccessType parameter is set to PublicInternetOnly for domains created from Amazon SageMaker Unified Studio.
         public let vpcId: String?
 
         @inlinable
@@ -10415,7 +11084,7 @@ extension SageMaker {
         public let humanTaskConfig: HumanTaskConfig?
         /// Input data for the labeling job, such as the Amazon S3 location of the data objects and the location of the manifest file that describes the data objects. You must specify at least one of the following: S3DataSource or SnsDataSource.    Use SnsDataSource to specify an SNS input topic for a streaming labeling job. If you do not specify and SNS input topic ARN, Ground Truth will create a one-time labeling job that stops after all data objects in the input manifest file have been labeled.   Use S3DataSource to specify an input manifest file for both streaming and one-time labeling jobs. Adding an S3DataSource is optional if you use SnsDataSource to create a streaming labeling job.   If you use the Amazon Mechanical Turk workforce, your input data should not include confidential information, personal information or protected health information. Use ContentClassifiers to specify that your data is free of personally identifiable information and adult content.
         public let inputConfig: LabelingJobInputConfig?
-        /// The attribute name to use for the label in the output manifest file. This is the key for the key/value pair formed with the label that a worker assigns to the object. The LabelAttributeName must meet the following requirements.   The name can't end with "-metadata".    If you are using one of the following built-in task types, the attribute name must end with "-ref". If the task type you are using is not listed below, the attribute name must not end with "-ref".   Image semantic segmentation (SemanticSegmentation), and adjustment (AdjustmentSemanticSegmentation) and verification (VerificationSemanticSegmentation) labeling jobs for this task type.   Video frame object detection (VideoObjectDetection), and adjustment and verification (AdjustmentVideoObjectDetection) labeling jobs for this task type.   Video frame object tracking (VideoObjectTracking), and adjustment and verification (AdjustmentVideoObjectTracking) labeling jobs for this task type.   3D point cloud semantic segmentation (3DPointCloudSemanticSegmentation), and adjustment and verification (Adjustment3DPointCloudSemanticSegmentation) labeling jobs for this task type.    3D point cloud object tracking (3DPointCloudObjectTracking), and adjustment and verification (Adjustment3DPointCloudObjectTracking) labeling jobs for this task type.        If you are creating an adjustment or verification labeling job, you must use a different LabelAttributeName than the one used in the original labeling job. The original labeling job is the Ground Truth labeling job that produced the labels that you want verified or adjusted. To learn more about adjustment and verification labeling jobs, see Verify and Adjust Labels.
+        /// The attribute name to use for the label in the output manifest file. This is the key for the key/value pair formed with the label that a worker assigns to the object. The LabelAttributeName must meet the following requirements.   The name can't end with "-metadata".    If you are using one of the built-in task types or one of the following, the attribute name must end with "-ref".   Image semantic segmentation (SemanticSegmentation) and adjustment (AdjustmentSemanticSegmentation) labeling jobs for this task type. One exception is that verification (VerificationSemanticSegmentation) must not end with -"ref".   Video frame object detection (VideoObjectDetection), and adjustment and verification (AdjustmentVideoObjectDetection) labeling jobs for this task type.   Video frame object tracking (VideoObjectTracking), and adjustment and verification (AdjustmentVideoObjectTracking) labeling jobs for this task type.   3D point cloud semantic segmentation (3DPointCloudSemanticSegmentation), and adjustment and verification (Adjustment3DPointCloudSemanticSegmentation) labeling jobs for this task type.    3D point cloud object tracking (3DPointCloudObjectTracking), and adjustment and verification (Adjustment3DPointCloudObjectTracking) labeling jobs for this task type.        If you are creating an adjustment or verification labeling job, you must use a different LabelAttributeName than the one used in the original labeling job. The original labeling job is the Ground Truth labeling job that produced the labels that you want verified or adjusted. To learn more about adjustment and verification labeling jobs, see Verify and Adjust Labels.
         public let labelAttributeName: String?
         /// The S3 URI of the file, referred to as a label category configuration file, that defines the categories used to label the data objects. For 3D point cloud and video frame task types, you can add label category attributes and frame attributes to your label category configuration file. To learn how, see Create a Labeling Category Configuration File for 3D Point Cloud Labeling Jobs.  For named entity recognition jobs, in addition to "labels", you must provide worker instructions in the label category configuration file using the "instructions" parameter: "instructions": {"shortInstruction":"&lt;h1&gt;Add header&lt;/h1&gt;&lt;p&gt;Add Instructions&lt;/p&gt;", "fullInstruction":"&lt;p&gt;Add additional instructions.&lt;/p&gt;"}. For details and an example, see Create a Named Entity Recognition Labeling Job (API) . For all other built-in task types and custom tasks, your label category configuration file must be a JSON file in the following format. Identify the labels you want to use by replacing label_1, label_2,...,label_n with your label categories.  {    "document-version": "2018-11-28",   "labels": [{"label": "label_1"},{"label": "label_2"},...{"label": "label_n"}]   }  Note the following about the label category configuration file:   For image classification and text classification (single and multi-label) you must specify at least two label categories. For all other task types, the minimum number of label categories required is one.    Each label category must be unique, you cannot specify duplicate label categories.   If you create a 3D point cloud or video frame adjustment or verification labeling job, you must include auditLabelAttributeName in the label category configuration. Use this parameter to enter the  LabelAttributeName  of the labeling job you want to adjust or verify annotations of.
         public let labelCategoryConfigS3Uri: String?
@@ -11265,6 +11934,8 @@ extension SageMaker {
         public let instanceMetadataServiceConfiguration: InstanceMetadataServiceConfiguration?
         /// The type of ML compute instance to launch for the notebook instance.
         public let instanceType: InstanceType?
+        /// The IP address type for the notebook instance. Specify ipv4 for IPv4-only connectivity or dualstack for both IPv4 and IPv6 connectivity. When you specify dualstack, the subnet must support IPv6 CIDR blocks. If not specified, defaults to ipv4.
+        public let ipAddressType: IPAddressType?
         /// The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that SageMaker AI uses to encrypt data on the storage volume attached to your notebook instance. The KMS key you provide must be enabled. For information, see Enabling and Disabling Keys in the Amazon Web Services Key Management Service Developer Guide.
         public let kmsKeyId: String?
         /// The name of a lifecycle configuration to associate with the notebook instance. For information about lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance.
@@ -11287,13 +11958,14 @@ extension SageMaker {
         public let volumeSizeInGB: Int?
 
         @inlinable
-        public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, defaultCodeRepository: String? = nil, directInternetAccess: DirectInternetAccess? = nil, instanceMetadataServiceConfiguration: InstanceMetadataServiceConfiguration? = nil, instanceType: InstanceType? = nil, kmsKeyId: String? = nil, lifecycleConfigName: String? = nil, notebookInstanceName: String? = nil, platformIdentifier: String? = nil, roleArn: String? = nil, rootAccess: RootAccess? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil, tags: [Tag]? = nil, volumeSizeInGB: Int? = nil) {
+        public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, defaultCodeRepository: String? = nil, directInternetAccess: DirectInternetAccess? = nil, instanceMetadataServiceConfiguration: InstanceMetadataServiceConfiguration? = nil, instanceType: InstanceType? = nil, ipAddressType: IPAddressType? = nil, kmsKeyId: String? = nil, lifecycleConfigName: String? = nil, notebookInstanceName: String? = nil, platformIdentifier: String? = nil, roleArn: String? = nil, rootAccess: RootAccess? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil, tags: [Tag]? = nil, volumeSizeInGB: Int? = nil) {
             self.acceleratorTypes = acceleratorTypes
             self.additionalCodeRepositories = additionalCodeRepositories
             self.defaultCodeRepository = defaultCodeRepository
             self.directInternetAccess = directInternetAccess
             self.instanceMetadataServiceConfiguration = instanceMetadataServiceConfiguration
             self.instanceType = instanceType
+            self.ipAddressType = ipAddressType
             self.kmsKeyId = kmsKeyId
             self.lifecycleConfigName = lifecycleConfigName
             self.notebookInstanceName = notebookInstanceName
@@ -11323,8 +11995,8 @@ extension SageMaker {
             try self.validate(self.lifecycleConfigName, name: "lifecycleConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.validate(self.notebookInstanceName, name: "notebookInstanceName", parent: name, max: 63)
             try self.validate(self.notebookInstanceName, name: "notebookInstanceName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
-            try self.validate(self.platformIdentifier, name: "platformIdentifier", parent: name, max: 15)
-            try self.validate(self.platformIdentifier, name: "platformIdentifier", parent: name, pattern: "^(notebook-al1-v1|notebook-al2-v1|notebook-al2-v2|notebook-al2-v3)$")
+            try self.validate(self.platformIdentifier, name: "platformIdentifier", parent: name, max: 20)
+            try self.validate(self.platformIdentifier, name: "platformIdentifier", parent: name, pattern: "^(notebook-al1-v1|notebook-al2-v1|notebook-al2-v2|notebook-al2-v3|notebook-al2023-v1)$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
@@ -11350,6 +12022,7 @@ extension SageMaker {
             case directInternetAccess = "DirectInternetAccess"
             case instanceMetadataServiceConfiguration = "InstanceMetadataServiceConfiguration"
             case instanceType = "InstanceType"
+            case ipAddressType = "IpAddressType"
             case kmsKeyId = "KmsKeyId"
             case lifecycleConfigName = "LifecycleConfigName"
             case notebookInstanceName = "NotebookInstanceName"
@@ -12364,6 +13037,8 @@ extension SageMaker {
     }
 
     public struct CreateTrainingPlanRequest: AWSEncodableShape {
+        /// Number of spare instances to reserve per UltraServer for enhanced resiliency. Default is 1.
+        public let spareInstanceCountPerUltraServer: Int?
         /// An array of key-value pairs to apply to this training plan.
         public let tags: [Tag]?
         /// The name of the training plan to create.
@@ -12372,13 +13047,15 @@ extension SageMaker {
         public let trainingPlanOfferingId: String?
 
         @inlinable
-        public init(tags: [Tag]? = nil, trainingPlanName: String? = nil, trainingPlanOfferingId: String? = nil) {
+        public init(spareInstanceCountPerUltraServer: Int? = nil, tags: [Tag]? = nil, trainingPlanName: String? = nil, trainingPlanOfferingId: String? = nil) {
+            self.spareInstanceCountPerUltraServer = spareInstanceCountPerUltraServer
             self.tags = tags
             self.trainingPlanName = trainingPlanName
             self.trainingPlanOfferingId = trainingPlanOfferingId
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.spareInstanceCountPerUltraServer, name: "spareInstanceCountPerUltraServer", parent: name, min: 0)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -12392,6 +13069,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case spareInstanceCountPerUltraServer = "SpareInstanceCountPerUltraServer"
             case tags = "Tags"
             case trainingPlanName = "TrainingPlanName"
             case trainingPlanOfferingId = "TrainingPlanOfferingId"
@@ -12740,6 +13418,8 @@ extension SageMaker {
     public struct CreateWorkforceRequest: AWSEncodableShape {
         /// Use this parameter to configure an Amazon Cognito private workforce. A single Cognito workforce is created using and corresponds to a single  Amazon Cognito user pool. Do not use OidcConfig if you specify values for CognitoConfig.
         public let cognitoConfig: CognitoConfig?
+        /// Use this parameter to specify whether you want IPv4 only or dualstack (IPv4 and IPv6) to support your labeling workforce.
+        public let ipAddressType: WorkforceIpAddressType?
         /// Use this parameter to configure a private workforce using your own OIDC Identity Provider. Do not use CognitoConfig if you specify values for OidcConfig.
         public let oidcConfig: OidcConfig?
         public let sourceIpConfig: SourceIpConfig?
@@ -12751,8 +13431,9 @@ extension SageMaker {
         public let workforceVpcConfig: WorkforceVpcConfigRequest?
 
         @inlinable
-        public init(cognitoConfig: CognitoConfig? = nil, oidcConfig: OidcConfig? = nil, sourceIpConfig: SourceIpConfig? = nil, tags: [Tag]? = nil, workforceName: String? = nil, workforceVpcConfig: WorkforceVpcConfigRequest? = nil) {
+        public init(cognitoConfig: CognitoConfig? = nil, ipAddressType: WorkforceIpAddressType? = nil, oidcConfig: OidcConfig? = nil, sourceIpConfig: SourceIpConfig? = nil, tags: [Tag]? = nil, workforceName: String? = nil, workforceVpcConfig: WorkforceVpcConfigRequest? = nil) {
             self.cognitoConfig = cognitoConfig
+            self.ipAddressType = ipAddressType
             self.oidcConfig = oidcConfig
             self.sourceIpConfig = sourceIpConfig
             self.tags = tags
@@ -12776,6 +13457,7 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case cognitoConfig = "CognitoConfig"
+            case ipAddressType = "IpAddressType"
             case oidcConfig = "OidcConfig"
             case sourceIpConfig = "SourceIpConfig"
             case tags = "Tags"
@@ -15358,6 +16040,8 @@ extension SageMaker {
         public let creationTime: Date?
         /// The domain ID.
         public let domainId: String?
+        /// The effective status of Trusted Identity Propagation (TIP) for this application. When enabled, user identities from IAM Identity Center are being propagated through the application to TIP enabled Amazon Web Services services. When disabled, standard IAM role-based access is used.
+        public let effectiveTrustedIdentityPropagationStatus: FeatureStatus?
         /// The failure reason.
         public let failureReason: String?
         /// The timestamp of the last health check.
@@ -15376,13 +16060,14 @@ extension SageMaker {
         public let userProfileName: String?
 
         @inlinable
-        public init(appArn: String? = nil, appName: String? = nil, appType: AppType? = nil, builtInLifecycleConfigArn: String? = nil, creationTime: Date? = nil, domainId: String? = nil, failureReason: String? = nil, lastHealthCheckTimestamp: Date? = nil, lastUserActivityTimestamp: Date? = nil, recoveryMode: Bool? = nil, resourceSpec: ResourceSpec? = nil, spaceName: String? = nil, status: AppStatus? = nil, userProfileName: String? = nil) {
+        public init(appArn: String? = nil, appName: String? = nil, appType: AppType? = nil, builtInLifecycleConfigArn: String? = nil, creationTime: Date? = nil, domainId: String? = nil, effectiveTrustedIdentityPropagationStatus: FeatureStatus? = nil, failureReason: String? = nil, lastHealthCheckTimestamp: Date? = nil, lastUserActivityTimestamp: Date? = nil, recoveryMode: Bool? = nil, resourceSpec: ResourceSpec? = nil, spaceName: String? = nil, status: AppStatus? = nil, userProfileName: String? = nil) {
             self.appArn = appArn
             self.appName = appName
             self.appType = appType
             self.builtInLifecycleConfigArn = builtInLifecycleConfigArn
             self.creationTime = creationTime
             self.domainId = domainId
+            self.effectiveTrustedIdentityPropagationStatus = effectiveTrustedIdentityPropagationStatus
             self.failureReason = failureReason
             self.lastHealthCheckTimestamp = lastHealthCheckTimestamp
             self.lastUserActivityTimestamp = lastUserActivityTimestamp
@@ -15400,6 +16085,7 @@ extension SageMaker {
             case builtInLifecycleConfigArn = "BuiltInLifecycleConfigArn"
             case creationTime = "CreationTime"
             case domainId = "DomainId"
+            case effectiveTrustedIdentityPropagationStatus = "EffectiveTrustedIdentityPropagationStatus"
             case failureReason = "FailureReason"
             case lastHealthCheckTimestamp = "LastHealthCheckTimestamp"
             case lastUserActivityTimestamp = "LastUserActivityTimestamp"
@@ -15716,16 +16402,57 @@ extension SageMaker {
         }
     }
 
+    public struct DescribeClusterEventRequest: AWSEncodableShape {
+        /// The name or Amazon Resource Name (ARN) of the HyperPod cluster associated with the event.
+        public let clusterName: String?
+        /// The unique identifier (UUID) of the event to describe. This ID can be obtained from the ListClusterEvents operation.
+        public let eventId: String?
+
+        @inlinable
+        public init(clusterName: String? = nil, eventId: String? = nil) {
+            self.clusterName = clusterName
+            self.eventId = eventId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterName, name: "clusterName", parent: name, max: 256)
+            try self.validate(self.clusterName, name: "clusterName", parent: name, pattern: "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:cluster/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})$")
+            try self.validate(self.eventId, name: "eventId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterName = "ClusterName"
+            case eventId = "EventId"
+        }
+    }
+
+    public struct DescribeClusterEventResponse: AWSDecodableShape {
+        /// Detailed information about the requested cluster event, including event metadata for various resource types such as Cluster, InstanceGroup, Instance, and their associated attributes.
+        public let eventDetails: ClusterEventDetail?
+
+        @inlinable
+        public init(eventDetails: ClusterEventDetail? = nil) {
+            self.eventDetails = eventDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventDetails = "EventDetails"
+        }
+    }
+
     public struct DescribeClusterNodeRequest: AWSEncodableShape {
         /// The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster in which the node is.
         public let clusterName: String?
         /// The ID of the SageMaker HyperPod cluster node.
         public let nodeId: String?
+        /// The logical identifier of the node to describe. You can specify either NodeLogicalId or InstanceId, but not both. NodeLogicalId can be used to describe nodes that are still being provisioned and don't yet have an InstanceId assigned.
+        public let nodeLogicalId: String?
 
         @inlinable
-        public init(clusterName: String? = nil, nodeId: String? = nil) {
+        public init(clusterName: String? = nil, nodeId: String? = nil, nodeLogicalId: String? = nil) {
             self.clusterName = clusterName
             self.nodeId = nodeId
+            self.nodeLogicalId = nodeLogicalId
         }
 
         public func validate(name: String) throws {
@@ -15734,11 +16461,15 @@ extension SageMaker {
             try self.validate(self.nodeId, name: "nodeId", parent: name, max: 256)
             try self.validate(self.nodeId, name: "nodeId", parent: name, min: 1)
             try self.validate(self.nodeId, name: "nodeId", parent: name, pattern: "^i-[a-f0-9]{8}(?:[a-f0-9]{9})?$")
+            try self.validate(self.nodeLogicalId, name: "nodeLogicalId", parent: name, max: 128)
+            try self.validate(self.nodeLogicalId, name: "nodeLogicalId", parent: name, min: 1)
+            try self.validate(self.nodeLogicalId, name: "nodeLogicalId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case clusterName = "ClusterName"
             case nodeId = "NodeId"
+            case nodeLogicalId = "NodeLogicalId"
         }
     }
 
@@ -15776,10 +16507,14 @@ extension SageMaker {
     }
 
     public struct DescribeClusterResponse: AWSDecodableShape {
+        /// The current autoscaling configuration and status for the autoscaler.
+        public let autoScaling: ClusterAutoScalingConfigOutput?
         /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster.
         public let clusterArn: String?
         /// The name of the SageMaker HyperPod cluster.
         public let clusterName: String?
+        /// The Amazon Resource Name (ARN) of the IAM role that HyperPod uses for cluster autoscaling operations.
+        public let clusterRole: String?
         /// The status of the SageMaker HyperPod cluster.
         public let clusterStatus: ClusterStatus?
         /// The time when the SageMaker Cluster is created.
@@ -15788,38 +16523,50 @@ extension SageMaker {
         public let failureMessage: String?
         /// The instance groups of the SageMaker HyperPod cluster.
         public let instanceGroups: [ClusterInstanceGroupDetails]?
+        /// The mode used for provisioning nodes in the cluster.
+        public let nodeProvisioningMode: ClusterNodeProvisioningMode?
         /// The node recovery mode configured for the SageMaker HyperPod cluster.
         public let nodeRecovery: ClusterNodeRecovery?
         /// The type of orchestrator used for the SageMaker HyperPod cluster.
         public let orchestrator: ClusterOrchestrator?
         /// The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
         public let restrictedInstanceGroups: [ClusterRestrictedInstanceGroupDetails]?
+        /// The current configuration for managed tier checkpointing on the HyperPod cluster. For example, this shows whether the feature is enabled and the percentage of cluster memory allocated for checkpoint storage.
+        public let tieredStorageConfig: ClusterTieredStorageConfig?
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(clusterArn: String? = nil, clusterName: String? = nil, clusterStatus: ClusterStatus? = nil, creationTime: Date? = nil, failureMessage: String? = nil, instanceGroups: [ClusterInstanceGroupDetails]? = nil, nodeRecovery: ClusterNodeRecovery? = nil, orchestrator: ClusterOrchestrator? = nil, restrictedInstanceGroups: [ClusterRestrictedInstanceGroupDetails]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(autoScaling: ClusterAutoScalingConfigOutput? = nil, clusterArn: String? = nil, clusterName: String? = nil, clusterRole: String? = nil, clusterStatus: ClusterStatus? = nil, creationTime: Date? = nil, failureMessage: String? = nil, instanceGroups: [ClusterInstanceGroupDetails]? = nil, nodeProvisioningMode: ClusterNodeProvisioningMode? = nil, nodeRecovery: ClusterNodeRecovery? = nil, orchestrator: ClusterOrchestrator? = nil, restrictedInstanceGroups: [ClusterRestrictedInstanceGroupDetails]? = nil, tieredStorageConfig: ClusterTieredStorageConfig? = nil, vpcConfig: VpcConfig? = nil) {
+            self.autoScaling = autoScaling
             self.clusterArn = clusterArn
             self.clusterName = clusterName
+            self.clusterRole = clusterRole
             self.clusterStatus = clusterStatus
             self.creationTime = creationTime
             self.failureMessage = failureMessage
             self.instanceGroups = instanceGroups
+            self.nodeProvisioningMode = nodeProvisioningMode
             self.nodeRecovery = nodeRecovery
             self.orchestrator = orchestrator
             self.restrictedInstanceGroups = restrictedInstanceGroups
+            self.tieredStorageConfig = tieredStorageConfig
             self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoScaling = "AutoScaling"
             case clusterArn = "ClusterArn"
             case clusterName = "ClusterName"
+            case clusterRole = "ClusterRole"
             case clusterStatus = "ClusterStatus"
             case creationTime = "CreationTime"
             case failureMessage = "FailureMessage"
             case instanceGroups = "InstanceGroups"
+            case nodeProvisioningMode = "NodeProvisioningMode"
             case nodeRecovery = "NodeRecovery"
             case orchestrator = "Orchestrator"
             case restrictedInstanceGroups = "RestrictedInstanceGroups"
+            case tieredStorageConfig = "TieredStorageConfig"
             case vpcConfig = "VpcConfig"
         }
     }
@@ -19048,6 +19795,8 @@ extension SageMaker {
         public let instanceMetadataServiceConfiguration: InstanceMetadataServiceConfiguration?
         /// The type of ML compute instance running on the notebook instance.
         public let instanceType: InstanceType?
+        /// The IP address type configured for the notebook instance. Returns ipv4 for IPv4-only connectivity or dualstack for both IPv4 and IPv6 connectivity.
+        public let ipAddressType: IPAddressType?
         /// The Amazon Web Services KMS key ID SageMaker AI uses to encrypt data when storing it on the ML storage volume attached to the instance.
         public let kmsKeyId: String?
         /// A timestamp. Use this parameter to retrieve the time when the notebook instance was last modified.
@@ -19078,7 +19827,7 @@ extension SageMaker {
         public let volumeSizeInGB: Int?
 
         @inlinable
-        public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, creationTime: Date? = nil, defaultCodeRepository: String? = nil, directInternetAccess: DirectInternetAccess? = nil, failureReason: String? = nil, instanceMetadataServiceConfiguration: InstanceMetadataServiceConfiguration? = nil, instanceType: InstanceType? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date? = nil, networkInterfaceId: String? = nil, notebookInstanceArn: String? = nil, notebookInstanceLifecycleConfigName: String? = nil, notebookInstanceName: String? = nil, notebookInstanceStatus: NotebookInstanceStatus? = nil, platformIdentifier: String? = nil, roleArn: String? = nil, rootAccess: RootAccess? = nil, securityGroups: [String]? = nil, subnetId: String? = nil, url: String? = nil, volumeSizeInGB: Int? = nil) {
+        public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, creationTime: Date? = nil, defaultCodeRepository: String? = nil, directInternetAccess: DirectInternetAccess? = nil, failureReason: String? = nil, instanceMetadataServiceConfiguration: InstanceMetadataServiceConfiguration? = nil, instanceType: InstanceType? = nil, ipAddressType: IPAddressType? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date? = nil, networkInterfaceId: String? = nil, notebookInstanceArn: String? = nil, notebookInstanceLifecycleConfigName: String? = nil, notebookInstanceName: String? = nil, notebookInstanceStatus: NotebookInstanceStatus? = nil, platformIdentifier: String? = nil, roleArn: String? = nil, rootAccess: RootAccess? = nil, securityGroups: [String]? = nil, subnetId: String? = nil, url: String? = nil, volumeSizeInGB: Int? = nil) {
             self.acceleratorTypes = acceleratorTypes
             self.additionalCodeRepositories = additionalCodeRepositories
             self.creationTime = creationTime
@@ -19087,6 +19836,7 @@ extension SageMaker {
             self.failureReason = failureReason
             self.instanceMetadataServiceConfiguration = instanceMetadataServiceConfiguration
             self.instanceType = instanceType
+            self.ipAddressType = ipAddressType
             self.kmsKeyId = kmsKeyId
             self.lastModifiedTime = lastModifiedTime
             self.networkInterfaceId = networkInterfaceId
@@ -19112,6 +19862,7 @@ extension SageMaker {
             case failureReason = "FailureReason"
             case instanceMetadataServiceConfiguration = "InstanceMetadataServiceConfiguration"
             case instanceType = "InstanceType"
+            case ipAddressType = "IpAddressType"
             case kmsKeyId = "KmsKeyId"
             case lastModifiedTime = "LastModifiedTime"
             case networkInterfaceId = "NetworkInterfaceId"
@@ -19271,7 +20022,7 @@ extension SageMaker {
         public let maintenanceConfig: PartnerAppMaintenanceConfig?
         /// The name of the SageMaker Partner AI App.
         public let name: String?
-        /// The status of the SageMaker Partner AI App.
+        /// The status of the SageMaker Partner AI App.   Creating: SageMaker AI is creating the partner AI app. The partner AI app is not available during creation.   Updating: SageMaker AI is updating the partner AI app. The partner AI app is not available when updating.   Deleting: SageMaker AI is deleting the partner AI app. The partner AI app is not available during deletion.   Available: The partner AI app is provisioned and accessible.   Failed: The partner AI app is in a failed state and isn't available. SageMaker AI is investigating the issue. For further guidance, contact Amazon Web Services Support.   UpdateFailed: The partner AI app couldn't be updated but is available.   Deleted: The partner AI app is permanently deleted and not available.
         public let status: PartnerAppStatus?
         /// The instance type and size of the cluster attached to the SageMaker Partner AI App.
         public let tier: String?
@@ -19722,6 +20473,88 @@ extension SageMaker {
         }
     }
 
+    public struct DescribeReservedCapacityRequest: AWSEncodableShape {
+        /// ARN of the reserved capacity to describe.
+        public let reservedCapacityArn: String?
+
+        @inlinable
+        public init(reservedCapacityArn: String? = nil) {
+            self.reservedCapacityArn = reservedCapacityArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.reservedCapacityArn, name: "reservedCapacityArn", parent: name, max: 2048)
+            try self.validate(self.reservedCapacityArn, name: "reservedCapacityArn", parent: name, min: 50)
+            try self.validate(self.reservedCapacityArn, name: "reservedCapacityArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:reserved-capacity/")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservedCapacityArn = "ReservedCapacityArn"
+        }
+    }
+
+    public struct DescribeReservedCapacityResponse: AWSDecodableShape {
+        /// The Availability Zone where the reserved capacity is provisioned.
+        public let availabilityZone: String?
+        /// The number of instances currently available for use in this reserved capacity.
+        public let availableInstanceCount: Int?
+        /// The total duration of the reserved capacity in hours.
+        public let durationHours: Int64?
+        /// The number of minutes for the duration of the reserved capacity. For example, if a reserved capacity starts at 08:55 and ends at 11:30, the minutes field would be 35.
+        public let durationMinutes: Int64?
+        /// The timestamp when the reserved capacity expires.
+        public let endTime: Date?
+        /// The Amazon EC2 instance type used in the reserved capacity.
+        public let instanceType: ReservedCapacityInstanceType?
+        /// The number of instances currently in use from this reserved capacity.
+        public let inUseInstanceCount: Int?
+        /// ARN of the reserved capacity.
+        public let reservedCapacityArn: String?
+        /// The type of reserved capacity.
+        public let reservedCapacityType: ReservedCapacityType?
+        /// The timestamp when the reserved capacity becomes active.
+        public let startTime: Date?
+        /// The current status of the reserved capacity.
+        public let status: ReservedCapacityStatus?
+        /// The total number of instances allocated to this reserved capacity.
+        public let totalInstanceCount: Int?
+        /// A summary of the UltraServer associated with this reserved capacity.
+        public let ultraServerSummary: UltraServerSummary?
+
+        @inlinable
+        public init(availabilityZone: String? = nil, availableInstanceCount: Int? = nil, durationHours: Int64? = nil, durationMinutes: Int64? = nil, endTime: Date? = nil, instanceType: ReservedCapacityInstanceType? = nil, inUseInstanceCount: Int? = nil, reservedCapacityArn: String? = nil, reservedCapacityType: ReservedCapacityType? = nil, startTime: Date? = nil, status: ReservedCapacityStatus? = nil, totalInstanceCount: Int? = nil, ultraServerSummary: UltraServerSummary? = nil) {
+            self.availabilityZone = availabilityZone
+            self.availableInstanceCount = availableInstanceCount
+            self.durationHours = durationHours
+            self.durationMinutes = durationMinutes
+            self.endTime = endTime
+            self.instanceType = instanceType
+            self.inUseInstanceCount = inUseInstanceCount
+            self.reservedCapacityArn = reservedCapacityArn
+            self.reservedCapacityType = reservedCapacityType
+            self.startTime = startTime
+            self.status = status
+            self.totalInstanceCount = totalInstanceCount
+            self.ultraServerSummary = ultraServerSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case availableInstanceCount = "AvailableInstanceCount"
+            case durationHours = "DurationHours"
+            case durationMinutes = "DurationMinutes"
+            case endTime = "EndTime"
+            case instanceType = "InstanceType"
+            case inUseInstanceCount = "InUseInstanceCount"
+            case reservedCapacityArn = "ReservedCapacityArn"
+            case reservedCapacityType = "ReservedCapacityType"
+            case startTime = "StartTime"
+            case status = "Status"
+            case totalInstanceCount = "TotalInstanceCount"
+            case ultraServerSummary = "UltraServerSummary"
+        }
+    }
+
     public struct DescribeSpaceRequest: AWSEncodableShape {
         /// The ID of the associated domain.
         public let domainId: String?
@@ -20115,6 +20948,8 @@ extension SageMaker {
     public struct DescribeTrainingPlanResponse: AWSDecodableShape {
         /// The number of instances currently available for use in this training plan.
         public let availableInstanceCount: Int?
+        /// The number of available spare instances in the training plan.
+        public let availableSpareInstanceCount: Int?
         /// The currency code for the upfront fee (e.g., USD).
         public let currencyCode: String?
         /// The number of whole hours in the total duration for this training plan.
@@ -20137,16 +20972,21 @@ extension SageMaker {
         public let targetResources: [SageMakerResourceName]?
         /// The total number of instances reserved in this training plan.
         public let totalInstanceCount: Int?
+        /// The total number of UltraServers reserved to this training plan.
+        public let totalUltraServerCount: Int?
         /// The Amazon Resource Name (ARN); of the training plan.
         public let trainingPlanArn: String?
         /// The name of the training plan.
         public let trainingPlanName: String?
+        /// The number of instances in the training plan that are currently in an unhealthy state.
+        public let unhealthyInstanceCount: Int?
         /// The upfront fee for the training plan.
         public let upfrontFee: String?
 
         @inlinable
-        public init(availableInstanceCount: Int? = nil, currencyCode: String? = nil, durationHours: Int64? = nil, durationMinutes: Int64? = nil, endTime: Date? = nil, inUseInstanceCount: Int? = nil, reservedCapacitySummaries: [ReservedCapacitySummary]? = nil, startTime: Date? = nil, status: TrainingPlanStatus? = nil, statusMessage: String? = nil, targetResources: [SageMakerResourceName]? = nil, totalInstanceCount: Int? = nil, trainingPlanArn: String? = nil, trainingPlanName: String? = nil, upfrontFee: String? = nil) {
+        public init(availableInstanceCount: Int? = nil, availableSpareInstanceCount: Int? = nil, currencyCode: String? = nil, durationHours: Int64? = nil, durationMinutes: Int64? = nil, endTime: Date? = nil, inUseInstanceCount: Int? = nil, reservedCapacitySummaries: [ReservedCapacitySummary]? = nil, startTime: Date? = nil, status: TrainingPlanStatus? = nil, statusMessage: String? = nil, targetResources: [SageMakerResourceName]? = nil, totalInstanceCount: Int? = nil, totalUltraServerCount: Int? = nil, trainingPlanArn: String? = nil, trainingPlanName: String? = nil, unhealthyInstanceCount: Int? = nil, upfrontFee: String? = nil) {
             self.availableInstanceCount = availableInstanceCount
+            self.availableSpareInstanceCount = availableSpareInstanceCount
             self.currencyCode = currencyCode
             self.durationHours = durationHours
             self.durationMinutes = durationMinutes
@@ -20158,13 +20998,16 @@ extension SageMaker {
             self.statusMessage = statusMessage
             self.targetResources = targetResources
             self.totalInstanceCount = totalInstanceCount
+            self.totalUltraServerCount = totalUltraServerCount
             self.trainingPlanArn = trainingPlanArn
             self.trainingPlanName = trainingPlanName
+            self.unhealthyInstanceCount = unhealthyInstanceCount
             self.upfrontFee = upfrontFee
         }
 
         private enum CodingKeys: String, CodingKey {
             case availableInstanceCount = "AvailableInstanceCount"
+            case availableSpareInstanceCount = "AvailableSpareInstanceCount"
             case currencyCode = "CurrencyCode"
             case durationHours = "DurationHours"
             case durationMinutes = "DurationMinutes"
@@ -20176,8 +21019,10 @@ extension SageMaker {
             case statusMessage = "StatusMessage"
             case targetResources = "TargetResources"
             case totalInstanceCount = "TotalInstanceCount"
+            case totalUltraServerCount = "TotalUltraServerCount"
             case trainingPlanArn = "TrainingPlanArn"
             case trainingPlanName = "TrainingPlanName"
+            case unhealthyInstanceCount = "UnhealthyInstanceCount"
             case upfrontFee = "UpfrontFee"
         }
     }
@@ -20645,6 +21490,73 @@ extension SageMaker {
         }
     }
 
+    public struct DetachClusterNodeVolumeRequest: AWSEncodableShape {
+        ///  The Amazon Resource Name (ARN) of your SageMaker HyperPod cluster containing the target node. Your cluster must use EKS as the orchestration and be in the InService state.
+        public let clusterArn: String?
+        ///  The unique identifier of the cluster node from which you want to detach the volume.
+        public let nodeId: String?
+        ///  The unique identifier of your EBS volume that you want to detach. Your volume must be currently attached to the specified node.
+        public let volumeId: String?
+
+        @inlinable
+        public init(clusterArn: String? = nil, nodeId: String? = nil, volumeId: String? = nil) {
+            self.clusterArn = clusterArn
+            self.nodeId = nodeId
+            self.volumeId = volumeId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterArn, name: "clusterArn", parent: name, max: 256)
+            try self.validate(self.clusterArn, name: "clusterArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:cluster/[a-z0-9]{12}$")
+            try self.validate(self.nodeId, name: "nodeId", parent: name, max: 256)
+            try self.validate(self.nodeId, name: "nodeId", parent: name, min: 1)
+            try self.validate(self.nodeId, name: "nodeId", parent: name, pattern: "^i-[a-f0-9]{8}(?:[a-f0-9]{9})?$")
+            try self.validate(self.volumeId, name: "volumeId", parent: name, max: 256)
+            try self.validate(self.volumeId, name: "volumeId", parent: name, min: 1)
+            try self.validate(self.volumeId, name: "volumeId", parent: name, pattern: "^vol-[a-f0-9]{8}(?:[a-f0-9]{9})?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "ClusterArn"
+            case nodeId = "NodeId"
+            case volumeId = "VolumeId"
+        }
+    }
+
+    public struct DetachClusterNodeVolumeResponse: AWSDecodableShape {
+        ///  The original timestamp when your volume was initially attached to the node.
+        public let attachTime: Date?
+        ///  The Amazon Resource Name (ARN) of your SageMaker HyperPod cluster where the volume detachment operation was performed.
+        public let clusterArn: String?
+        ///  The device name assigned to your attached volume on the target instance.
+        public let deviceName: String?
+        ///  The unique identifier of the cluster node from which your volume was detached.
+        public let nodeId: String?
+        ///  The current status of your volume detachment operation.
+        public let status: VolumeAttachmentStatus?
+        ///  The unique identifier of your EBS volume that was detached.
+        public let volumeId: String?
+
+        @inlinable
+        public init(attachTime: Date? = nil, clusterArn: String? = nil, deviceName: String? = nil, nodeId: String? = nil, status: VolumeAttachmentStatus? = nil, volumeId: String? = nil) {
+            self.attachTime = attachTime
+            self.clusterArn = clusterArn
+            self.deviceName = deviceName
+            self.nodeId = nodeId
+            self.status = status
+            self.volumeId = volumeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachTime = "AttachTime"
+            case clusterArn = "ClusterArn"
+            case deviceName = "DeviceName"
+            case nodeId = "NodeId"
+            case status = "Status"
+            case volumeId = "VolumeId"
+        }
+    }
+
     public struct Device: AWSEncodableShape {
         /// Description of the device.
         public let description: String?
@@ -20930,12 +21842,15 @@ extension SageMaker {
     public struct DockerSettings: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether the domain can access Docker.
         public let enableDockerAccess: FeatureStatus?
+        /// Indicates whether to use rootless Docker.
+        public let rootlessDocker: FeatureStatus?
         /// The list of Amazon Web Services accounts that are trusted when the domain is created in VPC-only mode.
         public let vpcOnlyTrustedAccounts: [String]?
 
         @inlinable
-        public init(enableDockerAccess: FeatureStatus? = nil, vpcOnlyTrustedAccounts: [String]? = nil) {
+        public init(enableDockerAccess: FeatureStatus? = nil, rootlessDocker: FeatureStatus? = nil, vpcOnlyTrustedAccounts: [String]? = nil) {
             self.enableDockerAccess = enableDockerAccess
+            self.rootlessDocker = rootlessDocker
             self.vpcOnlyTrustedAccounts = vpcOnlyTrustedAccounts
         }
 
@@ -20950,6 +21865,7 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case enableDockerAccess = "EnableDockerAccess"
+            case rootlessDocker = "RootlessDocker"
             case vpcOnlyTrustedAccounts = "VpcOnlyTrustedAccounts"
         }
     }
@@ -20999,20 +21915,26 @@ extension SageMaker {
         public let dockerSettings: DockerSettings?
         /// The configuration for attaching a SageMaker AI user profile name to the execution role as a sts:SourceIdentity key.
         public let executionRoleIdentityConfig: ExecutionRoleIdentityConfig?
+        /// The IP address type for the domain. Specify ipv4 for IPv4-only connectivity or dualstack for both IPv4 and IPv6 connectivity. When you specify dualstack, the subnet must support IPv6 CIDR blocks. If not specified, defaults to ipv4.
+        public let ipAddressType: IPAddressType?
         /// A collection of settings that configure the RStudioServerPro Domain-level app.
         public let rStudioServerProDomainSettings: RStudioServerProDomainSettings?
         /// The security groups for the Amazon Virtual Private Cloud that the Domain uses for communication between Domain-level apps and user apps.
         public let securityGroupIds: [String]?
+        /// The Trusted Identity Propagation (TIP) settings for the SageMaker domain. These settings determine how user identities from IAM Identity Center are propagated through the domain to TIP enabled Amazon Web Services services.
+        public let trustedIdentityPropagationSettings: TrustedIdentityPropagationSettings?
         /// The settings that apply to an SageMaker AI domain when you use it in Amazon SageMaker Unified Studio.
         public let unifiedStudioSettings: UnifiedStudioSettings?
 
         @inlinable
-        public init(amazonQSettings: AmazonQSettings? = nil, dockerSettings: DockerSettings? = nil, executionRoleIdentityConfig: ExecutionRoleIdentityConfig? = nil, rStudioServerProDomainSettings: RStudioServerProDomainSettings? = nil, securityGroupIds: [String]? = nil, unifiedStudioSettings: UnifiedStudioSettings? = nil) {
+        public init(amazonQSettings: AmazonQSettings? = nil, dockerSettings: DockerSettings? = nil, executionRoleIdentityConfig: ExecutionRoleIdentityConfig? = nil, ipAddressType: IPAddressType? = nil, rStudioServerProDomainSettings: RStudioServerProDomainSettings? = nil, securityGroupIds: [String]? = nil, trustedIdentityPropagationSettings: TrustedIdentityPropagationSettings? = nil, unifiedStudioSettings: UnifiedStudioSettings? = nil) {
             self.amazonQSettings = amazonQSettings
             self.dockerSettings = dockerSettings
             self.executionRoleIdentityConfig = executionRoleIdentityConfig
+            self.ipAddressType = ipAddressType
             self.rStudioServerProDomainSettings = rStudioServerProDomainSettings
             self.securityGroupIds = securityGroupIds
+            self.trustedIdentityPropagationSettings = trustedIdentityPropagationSettings
             self.unifiedStudioSettings = unifiedStudioSettings
         }
 
@@ -21032,8 +21954,10 @@ extension SageMaker {
             case amazonQSettings = "AmazonQSettings"
             case dockerSettings = "DockerSettings"
             case executionRoleIdentityConfig = "ExecutionRoleIdentityConfig"
+            case ipAddressType = "IpAddressType"
             case rStudioServerProDomainSettings = "RStudioServerProDomainSettings"
             case securityGroupIds = "SecurityGroupIds"
+            case trustedIdentityPropagationSettings = "TrustedIdentityPropagationSettings"
             case unifiedStudioSettings = "UnifiedStudioSettings"
         }
     }
@@ -21045,20 +21969,26 @@ extension SageMaker {
         public let dockerSettings: DockerSettings?
         /// The configuration for attaching a SageMaker AI user profile name to the execution role as a sts:SourceIdentity key. This configuration can only be modified if there are no apps in the InService or Pending state.
         public let executionRoleIdentityConfig: ExecutionRoleIdentityConfig?
+        /// The IP address type for the domain. Specify ipv4 for IPv4-only connectivity or dualstack for both IPv4 and IPv6 connectivity. When you specify dualstack, the subnet must support IPv6 CIDR blocks.
+        public let ipAddressType: IPAddressType?
         /// A collection of RStudioServerPro Domain-level app settings to update. A single RStudioServerPro application is created for a domain.
         public let rStudioServerProDomainSettingsForUpdate: RStudioServerProDomainSettingsForUpdate?
         /// The security groups for the Amazon Virtual Private Cloud that the Domain uses for communication between Domain-level apps and user apps.
         public let securityGroupIds: [String]?
+        /// The Trusted Identity Propagation (TIP) settings for the SageMaker domain. These settings determine how user identities from IAM Identity Center are propagated through the domain to TIP enabled Amazon Web Services services.
+        public let trustedIdentityPropagationSettings: TrustedIdentityPropagationSettings?
         /// The settings that apply to an SageMaker AI domain when you use it in Amazon SageMaker Unified Studio.
         public let unifiedStudioSettings: UnifiedStudioSettings?
 
         @inlinable
-        public init(amazonQSettings: AmazonQSettings? = nil, dockerSettings: DockerSettings? = nil, executionRoleIdentityConfig: ExecutionRoleIdentityConfig? = nil, rStudioServerProDomainSettingsForUpdate: RStudioServerProDomainSettingsForUpdate? = nil, securityGroupIds: [String]? = nil, unifiedStudioSettings: UnifiedStudioSettings? = nil) {
+        public init(amazonQSettings: AmazonQSettings? = nil, dockerSettings: DockerSettings? = nil, executionRoleIdentityConfig: ExecutionRoleIdentityConfig? = nil, ipAddressType: IPAddressType? = nil, rStudioServerProDomainSettingsForUpdate: RStudioServerProDomainSettingsForUpdate? = nil, securityGroupIds: [String]? = nil, trustedIdentityPropagationSettings: TrustedIdentityPropagationSettings? = nil, unifiedStudioSettings: UnifiedStudioSettings? = nil) {
             self.amazonQSettings = amazonQSettings
             self.dockerSettings = dockerSettings
             self.executionRoleIdentityConfig = executionRoleIdentityConfig
+            self.ipAddressType = ipAddressType
             self.rStudioServerProDomainSettingsForUpdate = rStudioServerProDomainSettingsForUpdate
             self.securityGroupIds = securityGroupIds
+            self.trustedIdentityPropagationSettings = trustedIdentityPropagationSettings
             self.unifiedStudioSettings = unifiedStudioSettings
         }
 
@@ -21078,8 +22008,10 @@ extension SageMaker {
             case amazonQSettings = "AmazonQSettings"
             case dockerSettings = "DockerSettings"
             case executionRoleIdentityConfig = "ExecutionRoleIdentityConfig"
+            case ipAddressType = "IpAddressType"
             case rStudioServerProDomainSettingsForUpdate = "RStudioServerProDomainSettingsForUpdate"
             case securityGroupIds = "SecurityGroupIds"
+            case trustedIdentityPropagationSettings = "TrustedIdentityPropagationSettings"
             case unifiedStudioSettings = "UnifiedStudioSettings"
         }
     }
@@ -22189,6 +23121,20 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case reason = "Reason"
+        }
+    }
+
+    public struct EventDetails: AWSDecodableShape {
+        /// Metadata specific to the event, which may include information about the cluster, instance group, or instance involved.
+        public let eventMetadata: EventMetadata?
+
+        @inlinable
+        public init(eventMetadata: EventMetadata? = nil) {
+            self.eventMetadata = eventMetadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventMetadata = "EventMetadata"
         }
     }
 
@@ -23561,7 +24507,7 @@ extension SageMaker {
         public let maxConcurrentTaskCount: Int?
         /// The number of human workers that will label an object.
         public let numberOfHumanWorkersPerDataObject: Int?
-        /// The Amazon Resource Name (ARN) of a Lambda function that is run before a data object is sent to a human worker. Use this function to provide input to a custom labeling job. For built-in task types, use one of the following Amazon SageMaker Ground Truth Lambda function ARNs for PreHumanTaskLambdaArn. For custom labeling workflows, see Pre-annotation Lambda.   Bounding box - Finds the most similar boxes from different workers based on the Jaccard index of the boxes.    arn:aws:lambda:us-east-1:432418664414:function:PRE-BoundingBox     arn:aws:lambda:us-east-2:266458841044:function:PRE-BoundingBox     arn:aws:lambda:us-west-2:081040173940:function:PRE-BoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:PRE-BoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:PRE-BoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:PRE-BoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:PRE-BoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-BoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-BoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:PRE-BoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-BoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-BoundingBox     Image classification - Uses a variant of the Expectation Maximization approach to estimate the true class of an image based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-ImageMultiClass     arn:aws:lambda:us-east-2:266458841044:function:PRE-ImageMultiClass     arn:aws:lambda:us-west-2:081040173940:function:PRE-ImageMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:PRE-ImageMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:PRE-ImageMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:PRE-ImageMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:PRE-ImageMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-ImageMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-ImageMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:PRE-ImageMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-ImageMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-ImageMultiClass     Multi-label image classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of an image based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-ImageMultiClassMultiLabel     Semantic segmentation - Treats each pixel in an image as a multi-class classification and treats pixel annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:PRE-SemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-SemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-SemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-SemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-SemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-SemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-SemanticSegmentation     Text classification - Uses a variant of the Expectation Maximization approach to estimate the true class of text based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-TextMultiClass     arn:aws:lambda:us-east-2:266458841044:function:PRE-TextMultiClass     arn:aws:lambda:us-west-2:081040173940:function:PRE-TextMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:PRE-TextMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:PRE-TextMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:PRE-TextMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:PRE-TextMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-TextMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-TextMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:PRE-TextMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-TextMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-TextMultiClass     Multi-label text classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of text based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-TextMultiClassMultiLabel     Named entity recognition - Groups similar selections and calculates aggregate boundaries, resolving to most-assigned label.    arn:aws:lambda:us-east-1:432418664414:function:PRE-NamedEntityRecognition     arn:aws:lambda:us-east-2:266458841044:function:PRE-NamedEntityRecognition     arn:aws:lambda:us-west-2:081040173940:function:PRE-NamedEntityRecognition     arn:aws:lambda:ca-central-1:918755190332:function:PRE-NamedEntityRecognition     arn:aws:lambda:eu-west-1:568282634449:function:PRE-NamedEntityRecognition     arn:aws:lambda:eu-west-2:487402164563:function:PRE-NamedEntityRecognition     arn:aws:lambda:eu-central-1:203001061592:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-south-1:565803892007:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-NamedEntityRecognition     Video Classification - Use this task type when you need workers to classify videos using predefined labels that you specify. Workers are shown videos and are asked to choose one label for each video.    arn:aws:lambda:us-east-1:432418664414:function:PRE-VideoMultiClass     arn:aws:lambda:us-east-2:266458841044:function:PRE-VideoMultiClass     arn:aws:lambda:us-west-2:081040173940:function:PRE-VideoMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VideoMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VideoMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VideoMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VideoMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VideoMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VideoMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VideoMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VideoMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VideoMultiClass     Video Frame Object Detection - Use this task type to have workers identify and locate objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to identify and localize various objects in a series of video frames, such as cars, bikes, and pedestrians.    arn:aws:lambda:us-east-1:432418664414:function:PRE-VideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:PRE-VideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:PRE-VideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VideoObjectDetection     Video Frame Object Tracking - Use this task type to have workers track the movement of objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to track the movement of objects, such as cars, bikes, and pedestrians.     arn:aws:lambda:us-east-1:432418664414:function:PRE-VideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:PRE-VideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:PRE-VideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VideoObjectTracking     3D Point Cloud Modalities  Use the following pre-annotation lambdas for 3D point cloud labeling modality tasks. See 3D Point Cloud Task types  to learn more.   3D Point Cloud Object Detection - Use this task type when you want workers to classify objects in a 3D point cloud by drawing 3D cuboids around objects. For example, you can use this task type to ask workers to identify different types of objects in a point cloud, such as cars, bikes, and pedestrians.    arn:aws:lambda:us-east-1:432418664414:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:PRE-3DPointCloudObjectDetection     3D Point Cloud Object Tracking - Use this task type when you want workers to draw 3D cuboids around objects that appear in a sequence of 3D point cloud frames. For example, you can use this task type to ask workers to track the movement of vehicles across multiple point cloud frames.     arn:aws:lambda:us-east-1:432418664414:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:PRE-3DPointCloudObjectTracking     3D Point Cloud Semantic Segmentation - Use this task type when you want workers to create a point-level semantic segmentation masks by painting objects in a 3D point cloud using different colors where each color is assigned to one of the classes you specify.    arn:aws:lambda:us-east-1:432418664414:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-3DPointCloudSemanticSegmentation     Use the following ARNs for Label Verification and Adjustment Jobs  Use label verification and adjustment jobs to review and adjust labels. To learn more, see Verify and Adjust Labels .  Bounding box verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgement for bounding box labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-VerificationBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:PRE-VerificationBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:PRE-VerificationBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VerificationBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VerificationBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VerificationBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VerificationBoundingBox     Bounding box adjustment - Finds the most similar boxes from different workers based on the Jaccard index of the adjusted annotations.    arn:aws:lambda:us-east-1:432418664414:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-AdjustmentBoundingBox     Semantic segmentation verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgment for semantic segmentation labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VerificationSemanticSegmentation     Semantic segmentation adjustment - Treats each pixel in an image as a multi-class classification and treats pixel adjusted annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-AdjustmentSemanticSegmentation     Video Frame Object Detection Adjustment - Use this task type when you want workers to adjust bounding boxes that workers have added to video frames to classify and localize objects in a sequence of video frames.    arn:aws:lambda:us-east-1:432418664414:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:PRE-AdjustmentVideoObjectDetection     Video Frame Object Tracking Adjustment - Use this task type when you want workers to adjust bounding boxes that workers have added to video frames to track object movement across a sequence of video frames.    arn:aws:lambda:us-east-1:432418664414:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:PRE-AdjustmentVideoObjectTracking     3D point cloud object detection adjustment - Adjust 3D cuboids in a point cloud frame.     arn:aws:lambda:us-east-1:432418664414:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:PRE-Adjustment3DPointCloudObjectDetection     3D point cloud object tracking adjustment - Adjust 3D cuboids across a sequence of point cloud frames.     arn:aws:lambda:us-east-1:432418664414:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:PRE-Adjustment3DPointCloudObjectTracking     3D point cloud semantic segmentation adjustment - Adjust semantic segmentation masks in a 3D point cloud.     arn:aws:lambda:us-east-1:432418664414:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-Adjustment3DPointCloudSemanticSegmentation
+        /// The Amazon Resource Name (ARN) of a Lambda function that is run before a data object is sent to a human worker. Use this function to provide input to a custom labeling job. For built-in task types, use one of the following Amazon SageMaker Ground Truth Lambda function ARNs for PreHumanTaskLambdaArn. For custom labeling workflows, see Pre-annotation Lambda.   Bounding box - Finds the most similar boxes from different workers based on the Jaccard index of the boxes.    arn:aws:lambda:us-east-1:432418664414:function:PRE-BoundingBox     arn:aws:lambda:us-east-2:266458841044:function:PRE-BoundingBox     arn:aws:lambda:us-west-2:081040173940:function:PRE-BoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:PRE-BoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:PRE-BoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:PRE-BoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:PRE-BoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-BoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-BoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:PRE-BoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-BoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-BoundingBox     Image classification - Uses a variant of the Expectation Maximization approach to estimate the true class of an image based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-ImageMultiClass     arn:aws:lambda:us-east-2:266458841044:function:PRE-ImageMultiClass     arn:aws:lambda:us-west-2:081040173940:function:PRE-ImageMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:PRE-ImageMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:PRE-ImageMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:PRE-ImageMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:PRE-ImageMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-ImageMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-ImageMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:PRE-ImageMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-ImageMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-ImageMultiClass     Multi-label image classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of an image based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-ImageMultiClassMultiLabel     Semantic segmentation - Treats each pixel in an image as a multi-class classification and treats pixel annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:PRE-SemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-SemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-SemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-SemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-SemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-SemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-SemanticSegmentation     Text classification - Uses a variant of the Expectation Maximization approach to estimate the true class of text based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-TextMultiClass     arn:aws:lambda:us-east-2:266458841044:function:PRE-TextMultiClass     arn:aws:lambda:us-west-2:081040173940:function:PRE-TextMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:PRE-TextMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:PRE-TextMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:PRE-TextMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:PRE-TextMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-TextMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-TextMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:PRE-TextMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-TextMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-TextMultiClass     Multi-label text classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of text based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-TextMultiClassMultiLabel     Named entity recognition - Groups similar selections and calculates aggregate boundaries, resolving to most-assigned label.    arn:aws:lambda:us-east-1:432418664414:function:PRE-NamedEntityRecognition     arn:aws:lambda:us-east-2:266458841044:function:PRE-NamedEntityRecognition     arn:aws:lambda:us-west-2:081040173940:function:PRE-NamedEntityRecognition     arn:aws:lambda:ca-central-1:918755190332:function:PRE-NamedEntityRecognition     arn:aws:lambda:eu-west-1:568282634449:function:PRE-NamedEntityRecognition     arn:aws:lambda:eu-west-2:487402164563:function:PRE-NamedEntityRecognition     arn:aws:lambda:eu-central-1:203001061592:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-south-1:565803892007:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-NamedEntityRecognition     Video Classification - Use this task type when you need workers to classify videos using predefined labels that you specify. Workers are shown videos and are asked to choose one label for each video.    arn:aws:lambda:us-east-1:432418664414:function:PRE-VideoMultiClass     arn:aws:lambda:us-east-2:266458841044:function:PRE-VideoMultiClass     arn:aws:lambda:us-west-2:081040173940:function:PRE-VideoMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VideoMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VideoMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VideoMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VideoMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VideoMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VideoMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VideoMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VideoMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VideoMultiClass     Video Frame Object Detection - Use this task type to have workers identify and locate objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to identify and localize various objects in a series of video frames, such as cars, bikes, and pedestrians.    arn:aws:lambda:us-east-1:432418664414:function:PRE-VideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:PRE-VideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:PRE-VideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VideoObjectDetection     Video Frame Object Tracking - Use this task type to have workers track the movement of objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to track the movement of objects, such as cars, bikes, and pedestrians.     arn:aws:lambda:us-east-1:432418664414:function:PRE-VideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:PRE-VideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:PRE-VideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VideoObjectTracking     3D Point Cloud Modalities  Use the following pre-annotation lambdas for 3D point cloud labeling modality tasks. See 3D Point Cloud Task types  to learn more.   3D Point Cloud Object Detection - Use this task type when you want workers to classify objects in a 3D point cloud by drawing 3D cuboids around objects. For example, you can use this task type to ask workers to identify different types of objects in a point cloud, such as cars, bikes, and pedestrians.    arn:aws:lambda:us-east-1:432418664414:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:PRE-3DPointCloudObjectDetection     3D Point Cloud Object Tracking - Use this task type when you want workers to draw 3D cuboids around objects that appear in a sequence of 3D point cloud frames. For example, you can use this task type to ask workers to track the movement of vehicles across multiple point cloud frames.     arn:aws:lambda:us-east-1:432418664414:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:PRE-3DPointCloudObjectTracking     3D Point Cloud Semantic Segmentation - Use this task type when you want workers to create a point-level semantic segmentation masks by painting objects in a 3D point cloud using different colors where each color is assigned to one of the classes you specify.    arn:aws:lambda:us-east-1:432418664414:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-3DPointCloudSemanticSegmentation     Use the following ARNs for Label Verification and Adjustment Jobs  Use label verification and adjustment jobs to review and adjust labels. To learn more, see Verify and Adjust Labels .  Bounding box verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgement for bounding box labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-VerificationBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:PRE-VerificationBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:PRE-VerificationBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VerificationBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VerificationBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VerificationBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VerificationBoundingBox     Bounding box adjustment - Finds the most similar boxes from different workers based on the Jaccard index of the adjusted annotations.    arn:aws:lambda:us-east-1:432418664414:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-AdjustmentBoundingBox     Semantic segmentation verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgment for semantic segmentation labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VerificationSemanticSegmentation     Semantic segmentation adjustment - Treats each pixel in an image as a multi-class classification and treats pixel adjusted annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-AdjustmentSemanticSegmentation     Video Frame Object Detection Adjustment - Use this task type when you want workers to adjust bounding boxes that workers have added to video frames to classify and localize objects in a sequence of video frames.    arn:aws:lambda:us-east-1:432418664414:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:PRE-AdjustmentVideoObjectDetection     Video Frame Object Tracking Adjustment - Use this task type when you want workers to adjust bounding boxes that workers have added to video frames to track object movement across a sequence of video frames.    arn:aws:lambda:us-east-1:432418664414:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:PRE-AdjustmentVideoObjectTracking     3D point cloud object detection adjustment - Adjust 3D cuboids in a point cloud frame.     arn:aws:lambda:us-east-1:432418664414:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:PRE-Adjustment3DPointCloudObjectDetection     3D point cloud object tracking adjustment - Adjust 3D cuboids across a sequence of point cloud frames.     arn:aws:lambda:us-east-1:432418664414:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:PRE-Adjustment3DPointCloudObjectTracking     3D point cloud semantic segmentation adjustment - Adjust semantic segmentation masks in a 3D point cloud.     arn:aws:lambda:us-east-1:432418664414:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-Adjustment3DPointCloudSemanticSegmentation     Generative AI/Custom - Direct passthrough of input data without any transformation.    arn:aws:lambda:us-east-1:432418664414:function:PRE-PassThrough     arn:aws:lambda:us-east-2:266458841044:function:PRE-PassThrough     arn:aws:lambda:us-west-2:081040173940:function:PRE-PassThrough     arn:aws:lambda:ca-central-1:918755190332:function:PRE-PassThrough     arn:aws:lambda:eu-west-1:568282634449:function:PRE-PassThrough     arn:aws:lambda:eu-west-2:487402164563:function:PRE-PassThrough     arn:aws:lambda:eu-central-1:203001061592:function:PRE-PassThrough     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-PassThrough     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-PassThrough     arn:aws:lambda:ap-south-1:565803892007:function:PRE-PassThrough     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-PassThrough     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-PassThrough
         public let preHumanTaskLambdaArn: String?
         /// The price that you pay for each task performed by an Amazon Mechanical Turk worker.
         public let publicWorkforceTaskPrice: PublicWorkforceTaskPrice?
@@ -25361,6 +26307,96 @@ extension SageMaker {
         }
     }
 
+    public struct InstanceGroupMetadata: AWSDecodableShape {
+        /// If you use a custom Amazon Machine Image (AMI) for the instance group, this field shows the ID of the custom AMI.
+        public let amiOverride: String?
+        /// The ID of the Availability Zone where the instance group is located.
+        public let availabilityZoneId: String?
+        /// Information about the Capacity Reservation used by the instance group.
+        public let capacityReservation: CapacityReservation?
+        /// An error message describing why the instance group level operation (such as creating, scaling, or deleting) failed.
+        public let failureMessage: String?
+        /// A list of security group IDs associated with the instance group.
+        public let securityGroupIds: [String]?
+        /// The ID of the subnet where the instance group is located.
+        public let subnetId: String?
+
+        @inlinable
+        public init(amiOverride: String? = nil, availabilityZoneId: String? = nil, capacityReservation: CapacityReservation? = nil, failureMessage: String? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil) {
+            self.amiOverride = amiOverride
+            self.availabilityZoneId = availabilityZoneId
+            self.capacityReservation = capacityReservation
+            self.failureMessage = failureMessage
+            self.securityGroupIds = securityGroupIds
+            self.subnetId = subnetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amiOverride = "AmiOverride"
+            case availabilityZoneId = "AvailabilityZoneId"
+            case capacityReservation = "CapacityReservation"
+            case failureMessage = "FailureMessage"
+            case securityGroupIds = "SecurityGroupIds"
+            case subnetId = "SubnetId"
+        }
+    }
+
+    public struct InstanceGroupScalingMetadata: AWSDecodableShape {
+        /// An error message describing why the scaling operation failed, if applicable.
+        public let failureMessage: String?
+        /// The current number of instances in the group.
+        public let instanceCount: Int?
+        /// The desired number of instances for the group after scaling.
+        public let targetCount: Int?
+
+        @inlinable
+        public init(failureMessage: String? = nil, instanceCount: Int? = nil, targetCount: Int? = nil) {
+            self.failureMessage = failureMessage
+            self.instanceCount = instanceCount
+            self.targetCount = targetCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureMessage = "FailureMessage"
+            case instanceCount = "InstanceCount"
+            case targetCount = "TargetCount"
+        }
+    }
+
+    public struct InstanceMetadata: AWSDecodableShape {
+        /// Information about additional Elastic Network Interfaces (ENIs) associated with the instance.
+        public let additionalEnis: AdditionalEnis?
+        /// Information about the Capacity Reservation used by the instance.
+        public let capacityReservation: CapacityReservation?
+        /// The ID of the customer-managed Elastic Network Interface (ENI) associated with the instance.
+        public let customerEni: String?
+        /// An error message describing why the instance creation or update failed, if applicable.
+        public let failureMessage: String?
+        /// The execution state of the Lifecycle Script (LCS) for the instance.
+        public let lcsExecutionState: String?
+        /// The unique logical identifier of the node within the cluster. The ID used here is the same object as in the BatchAddClusterNodes API.
+        public let nodeLogicalId: String?
+
+        @inlinable
+        public init(additionalEnis: AdditionalEnis? = nil, capacityReservation: CapacityReservation? = nil, customerEni: String? = nil, failureMessage: String? = nil, lcsExecutionState: String? = nil, nodeLogicalId: String? = nil) {
+            self.additionalEnis = additionalEnis
+            self.capacityReservation = capacityReservation
+            self.customerEni = customerEni
+            self.failureMessage = failureMessage
+            self.lcsExecutionState = lcsExecutionState
+            self.nodeLogicalId = nodeLogicalId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalEnis = "AdditionalEnis"
+            case capacityReservation = "CapacityReservation"
+            case customerEni = "CustomerEni"
+            case failureMessage = "FailureMessage"
+            case lcsExecutionState = "LcsExecutionState"
+            case nodeLogicalId = "NodeLogicalId"
+        }
+    }
+
     public struct InstanceMetadataServiceConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Indicates the minimum IMDS version that the notebook instance supports. When passed as part of CreateNotebookInstance, if no value is selected, then it defaults to IMDSv1. This means that both IMDSv1 and IMDSv2 are supported. If passed as part of UpdateNotebookInstance, there is no default.
         public let minimumInstanceMetadataServiceVersion: String?
@@ -25377,6 +26413,31 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case minimumInstanceMetadataServiceVersion = "MinimumInstanceMetadataServiceVersion"
+        }
+    }
+
+    public struct InstancePlacementConfig: AWSEncodableShape & AWSDecodableShape {
+        /// If set to true, allows multiple jobs to share the same UltraServer instances. If set to false, ensures this job's instances are placed on an UltraServer exclusively, with no other jobs sharing the same UltraServer. Default is false.
+        public let enableMultipleJobs: Bool?
+        /// A list of specifications for how instances should be placed on specific UltraServers. Maximum of 10 items is supported.
+        public let placementSpecifications: [PlacementSpecification]?
+
+        @inlinable
+        public init(enableMultipleJobs: Bool? = nil, placementSpecifications: [PlacementSpecification]? = nil) {
+            self.enableMultipleJobs = enableMultipleJobs
+            self.placementSpecifications = placementSpecifications
+        }
+
+        public func validate(name: String) throws {
+            try self.placementSpecifications?.forEach {
+                try $0.validate(name: "\(name).placementSpecifications[]")
+            }
+            try self.validate(self.placementSpecifications, name: "placementSpecifications", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enableMultipleJobs = "EnableMultipleJobs"
+            case placementSpecifications = "PlacementSpecifications"
         }
     }
 
@@ -26730,6 +27791,89 @@ extension SageMaker {
         }
     }
 
+    public struct ListClusterEventsRequest: AWSEncodableShape {
+        /// The name or Amazon Resource Name (ARN) of the HyperPod cluster for which to list events.
+        public let clusterName: String?
+        /// The start of the time range for filtering events. Only events that occurred after this time are included in the results.
+        public let eventTimeAfter: Date?
+        /// The end of the time range for filtering events. Only events that occurred before this time are included in the results.
+        public let eventTimeBefore: Date?
+        /// The name of the instance group to filter events. If specified, only events related to this instance group are returned.
+        public let instanceGroupName: String?
+        /// The maximum number of events to return in the response. Valid range is 1 to 100.
+        public let maxResults: Int?
+        /// A token to retrieve the next set of results. This token is obtained from the output of a previous ListClusterEvents call.
+        public let nextToken: String?
+        /// The EC2 instance ID to filter events. If specified, only events related to this instance are returned.
+        public let nodeId: String?
+        /// The type of resource for which to filter events. Valid values are Cluster, InstanceGroup, or Instance.
+        public let resourceType: ClusterEventResourceType?
+        /// The field to use for sorting the event list. Currently, the only supported value is EventTime.
+        public let sortBy: EventSortBy?
+        /// The order in which to sort the results. Valid values are Ascending or Descending (the default is Descending).
+        public let sortOrder: SortOrder?
+
+        @inlinable
+        public init(clusterName: String? = nil, eventTimeAfter: Date? = nil, eventTimeBefore: Date? = nil, instanceGroupName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, nodeId: String? = nil, resourceType: ClusterEventResourceType? = nil, sortBy: EventSortBy? = nil, sortOrder: SortOrder? = nil) {
+            self.clusterName = clusterName
+            self.eventTimeAfter = eventTimeAfter
+            self.eventTimeBefore = eventTimeBefore
+            self.instanceGroupName = instanceGroupName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.nodeId = nodeId
+            self.resourceType = resourceType
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterName, name: "clusterName", parent: name, max: 256)
+            try self.validate(self.clusterName, name: "clusterName", parent: name, pattern: "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:cluster/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})$")
+            try self.validate(self.instanceGroupName, name: "instanceGroupName", parent: name, max: 63)
+            try self.validate(self.instanceGroupName, name: "instanceGroupName", parent: name, min: 1)
+            try self.validate(self.instanceGroupName, name: "instanceGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+            try self.validate(self.nodeId, name: "nodeId", parent: name, max: 256)
+            try self.validate(self.nodeId, name: "nodeId", parent: name, min: 1)
+            try self.validate(self.nodeId, name: "nodeId", parent: name, pattern: "^i-[a-f0-9]{8}(?:[a-f0-9]{9})?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterName = "ClusterName"
+            case eventTimeAfter = "EventTimeAfter"
+            case eventTimeBefore = "EventTimeBefore"
+            case instanceGroupName = "InstanceGroupName"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case nodeId = "NodeId"
+            case resourceType = "ResourceType"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ListClusterEventsResponse: AWSDecodableShape {
+        /// A list of event summaries matching the specified criteria.
+        public let events: [ClusterEventSummary]?
+        /// A token to retrieve the next set of results. Include this token in subsequent ListClusterEvents calls to fetch more events.
+        public let nextToken: String?
+
+        @inlinable
+        public init(events: [ClusterEventSummary]? = nil, nextToken: String? = nil) {
+            self.events = events
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case events = "Events"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListClusterNodesRequest: AWSEncodableShape {
         /// The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster in which you want to retrieve the list of nodes.
         public let clusterName: String?
@@ -26737,6 +27881,8 @@ extension SageMaker {
         public let creationTimeAfter: Date?
         /// A filter that returns nodes in a SageMaker HyperPod cluster created before the specified time. The acceptable formats are the same as the timestamp formats for CreationTimeAfter. For more information about the timestamp format, see Timestamp in the Amazon Web Services Command Line Interface User Guide.
         public let creationTimeBefore: Date?
+        /// Specifies whether to include nodes that are still being provisioned in the response. When set to true, the response includes all nodes regardless of their provisioning status. When set to False (default), only nodes with assigned InstanceIds are returned.
+        public let includeNodeLogicalIds: Bool?
         /// A filter that returns the instance groups whose name contain a specified string.
         public let instanceGroupNameContains: String?
         /// The maximum number of nodes to return in the response.
@@ -26749,10 +27895,11 @@ extension SageMaker {
         public let sortOrder: SortOrder?
 
         @inlinable
-        public init(clusterName: String? = nil, creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, instanceGroupNameContains: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: ClusterSortBy? = nil, sortOrder: SortOrder? = nil) {
+        public init(clusterName: String? = nil, creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, includeNodeLogicalIds: Bool? = nil, instanceGroupNameContains: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: ClusterSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.clusterName = clusterName
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
+            self.includeNodeLogicalIds = includeNodeLogicalIds
             self.instanceGroupNameContains = instanceGroupNameContains
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -26776,6 +27923,7 @@ extension SageMaker {
             case clusterName = "ClusterName"
             case creationTimeAfter = "CreationTimeAfter"
             case creationTimeBefore = "CreationTimeBefore"
+            case includeNodeLogicalIds = "IncludeNodeLogicalIds"
             case instanceGroupNameContains = "InstanceGroupNameContains"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -31659,6 +32807,56 @@ extension SageMaker {
         }
     }
 
+    public struct ListUltraServersByReservedCapacityRequest: AWSEncodableShape {
+        /// The maximum number of UltraServers to return in the response. The default value is 10.
+        public let maxResults: Int?
+        /// If the previous response was truncated, you receive this token. Use it in your next request to receive the next set of results.
+        public let nextToken: String?
+        /// The ARN of the reserved capacity to list UltraServers for.
+        public let reservedCapacityArn: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, reservedCapacityArn: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.reservedCapacityArn = reservedCapacityArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+            try self.validate(self.reservedCapacityArn, name: "reservedCapacityArn", parent: name, max: 2048)
+            try self.validate(self.reservedCapacityArn, name: "reservedCapacityArn", parent: name, min: 50)
+            try self.validate(self.reservedCapacityArn, name: "reservedCapacityArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:reserved-capacity/")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case reservedCapacityArn = "ReservedCapacityArn"
+        }
+    }
+
+    public struct ListUltraServersByReservedCapacityResponse: AWSDecodableShape {
+        /// If the response is truncated, SageMaker returns this token. Use it in the next request to retrieve the next set of UltraServers.
+        public let nextToken: String?
+        /// A list of UltraServers that are part of the specified reserved capacity.
+        public let ultraServers: [UltraServer]?
+
+        @inlinable
+        public init(nextToken: String? = nil, ultraServers: [UltraServer]? = nil) {
+            self.nextToken = nextToken
+            self.ultraServers = ultraServers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case ultraServers = "UltraServers"
+        }
+    }
+
     public struct ListUserProfilesRequest: AWSEncodableShape {
         /// A parameter by which to filter the results.
         public let domainIdEquals: String?
@@ -34647,6 +35845,28 @@ extension SageMaker {
         }
     }
 
+    public struct NodeAdditionResult: AWSDecodableShape {
+        /// The name of the instance group to which the node was added.
+        public let instanceGroupName: String
+        /// A unique identifier assigned to the node that can be used to track its provisioning status through the DescribeClusterNode operation.
+        public let nodeLogicalId: String
+        /// The current status of the node. Possible values include Pending, Running, Failed, ShuttingDown, SystemUpdating, DeepHealthCheckInProgress, and NotFound.
+        public let status: ClusterInstanceStatus
+
+        @inlinable
+        public init(instanceGroupName: String, nodeLogicalId: String, status: ClusterInstanceStatus) {
+            self.instanceGroupName = instanceGroupName
+            self.nodeLogicalId = nodeLogicalId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceGroupName = "InstanceGroupName"
+            case nodeLogicalId = "NodeLogicalId"
+            case status = "Status"
+        }
+    }
+
     public struct NotebookInstanceLifecycleConfigSummary: AWSDecodableShape {
         /// A timestamp that tells when the lifecycle configuration was created.
         public let creationTime: Date?
@@ -36169,6 +37389,29 @@ extension SageMaker {
             case pipelineVersionDescription = "PipelineVersionDescription"
             case pipelineVersionDisplayName = "PipelineVersionDisplayName"
             case pipelineVersionId = "PipelineVersionId"
+        }
+    }
+
+    public struct PlacementSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// The number of ML compute instances required to be placed together on the same UltraServer. Minimum value of 1.
+        public let instanceCount: Int?
+        /// The unique identifier of the UltraServer where instances should be placed.
+        public let ultraServerId: String?
+
+        @inlinable
+        public init(instanceCount: Int? = nil, ultraServerId: String? = nil) {
+            self.instanceCount = instanceCount
+            self.ultraServerId = ultraServerId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceCount, name: "instanceCount", parent: name, min: 0)
+            try self.validate(self.ultraServerId, name: "ultraServerId", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceCount = "InstanceCount"
+            case ultraServerId = "UltraServerId"
         }
     }
 
@@ -38317,18 +39560,27 @@ extension SageMaker {
         public let instanceCount: Int?
         /// The instance type for the reserved capacity offering.
         public let instanceType: ReservedCapacityInstanceType?
+        /// The type of reserved capacity offering.
+        public let reservedCapacityType: ReservedCapacityType?
         /// The start time of the reserved capacity offering.
         public let startTime: Date?
+        /// The number of UltraServers included in this reserved capacity offering.
+        public let ultraServerCount: Int?
+        /// The type of UltraServer included in this reserved capacity offering, such as ml.u-p6e-gb200x72.
+        public let ultraServerType: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, durationHours: Int64? = nil, durationMinutes: Int64? = nil, endTime: Date? = nil, instanceCount: Int? = nil, instanceType: ReservedCapacityInstanceType? = nil, startTime: Date? = nil) {
+        public init(availabilityZone: String? = nil, durationHours: Int64? = nil, durationMinutes: Int64? = nil, endTime: Date? = nil, instanceCount: Int? = nil, instanceType: ReservedCapacityInstanceType? = nil, reservedCapacityType: ReservedCapacityType? = nil, startTime: Date? = nil, ultraServerCount: Int? = nil, ultraServerType: String? = nil) {
             self.availabilityZone = availabilityZone
             self.durationHours = durationHours
             self.durationMinutes = durationMinutes
             self.endTime = endTime
             self.instanceCount = instanceCount
             self.instanceType = instanceType
+            self.reservedCapacityType = reservedCapacityType
             self.startTime = startTime
+            self.ultraServerCount = ultraServerCount
+            self.ultraServerType = ultraServerType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -38338,7 +39590,10 @@ extension SageMaker {
             case endTime = "EndTime"
             case instanceCount = "InstanceCount"
             case instanceType = "InstanceType"
+            case reservedCapacityType = "ReservedCapacityType"
             case startTime = "StartTime"
+            case ultraServerCount = "UltraServerCount"
+            case ultraServerType = "UltraServerType"
         }
     }
 
@@ -38355,24 +39610,33 @@ extension SageMaker {
         public let instanceType: ReservedCapacityInstanceType?
         /// The Amazon Resource Name (ARN); of the reserved capacity.
         public let reservedCapacityArn: String?
+        /// The type of reserved capacity.
+        public let reservedCapacityType: ReservedCapacityType?
         /// The start time of the reserved capacity.
         public let startTime: Date?
         /// The current status of the reserved capacity.
         public let status: ReservedCapacityStatus?
         /// The total number of instances in the reserved capacity.
         public let totalInstanceCount: Int?
+        /// The number of UltraServers included in this reserved capacity.
+        public let ultraServerCount: Int?
+        /// The type of UltraServer included in this reserved capacity, such as ml.u-p6e-gb200x72.
+        public let ultraServerType: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, durationHours: Int64? = nil, durationMinutes: Int64? = nil, endTime: Date? = nil, instanceType: ReservedCapacityInstanceType? = nil, reservedCapacityArn: String? = nil, startTime: Date? = nil, status: ReservedCapacityStatus? = nil, totalInstanceCount: Int? = nil) {
+        public init(availabilityZone: String? = nil, durationHours: Int64? = nil, durationMinutes: Int64? = nil, endTime: Date? = nil, instanceType: ReservedCapacityInstanceType? = nil, reservedCapacityArn: String? = nil, reservedCapacityType: ReservedCapacityType? = nil, startTime: Date? = nil, status: ReservedCapacityStatus? = nil, totalInstanceCount: Int? = nil, ultraServerCount: Int? = nil, ultraServerType: String? = nil) {
             self.availabilityZone = availabilityZone
             self.durationHours = durationHours
             self.durationMinutes = durationMinutes
             self.endTime = endTime
             self.instanceType = instanceType
             self.reservedCapacityArn = reservedCapacityArn
+            self.reservedCapacityType = reservedCapacityType
             self.startTime = startTime
             self.status = status
             self.totalInstanceCount = totalInstanceCount
+            self.ultraServerCount = ultraServerCount
+            self.ultraServerType = ultraServerType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -38382,9 +39646,12 @@ extension SageMaker {
             case endTime = "EndTime"
             case instanceType = "InstanceType"
             case reservedCapacityArn = "ReservedCapacityArn"
+            case reservedCapacityType = "ReservedCapacityType"
             case startTime = "StartTime"
             case status = "Status"
             case totalInstanceCount = "TotalInstanceCount"
+            case ultraServerCount = "UltraServerCount"
+            case ultraServerType = "UltraServerType"
         }
     }
 
@@ -38439,6 +39706,8 @@ extension SageMaker {
         public let instanceCount: Int?
         /// The configuration of a heterogeneous cluster in JSON format.
         public let instanceGroups: [InstanceGroup]?
+        /// Configuration for how training job instances are placed and allocated within UltraServers. Only applicable for UltraServer capacity.
+        public let instancePlacementConfig: InstancePlacementConfig?
         /// The ML compute instance type.
         public let instanceType: TrainingInstanceType?
         /// The duration of time in seconds to retain configured resources in a warm pool for subsequent training jobs.
@@ -38451,9 +39720,10 @@ extension SageMaker {
         public let volumeSizeInGB: Int?
 
         @inlinable
-        public init(instanceCount: Int? = nil, instanceGroups: [InstanceGroup]? = nil, instanceType: TrainingInstanceType? = nil, keepAlivePeriodInSeconds: Int? = nil, trainingPlanArn: String? = nil, volumeKmsKeyId: String? = nil, volumeSizeInGB: Int? = nil) {
+        public init(instanceCount: Int? = nil, instanceGroups: [InstanceGroup]? = nil, instancePlacementConfig: InstancePlacementConfig? = nil, instanceType: TrainingInstanceType? = nil, keepAlivePeriodInSeconds: Int? = nil, trainingPlanArn: String? = nil, volumeKmsKeyId: String? = nil, volumeSizeInGB: Int? = nil) {
             self.instanceCount = instanceCount
             self.instanceGroups = instanceGroups
+            self.instancePlacementConfig = instancePlacementConfig
             self.instanceType = instanceType
             self.keepAlivePeriodInSeconds = keepAlivePeriodInSeconds
             self.trainingPlanArn = trainingPlanArn
@@ -38467,6 +39737,7 @@ extension SageMaker {
                 try $0.validate(name: "\(name).instanceGroups[]")
             }
             try self.validate(self.instanceGroups, name: "instanceGroups", parent: name, max: 5)
+            try self.instancePlacementConfig?.validate(name: "\(name).instancePlacementConfig")
             try self.validate(self.keepAlivePeriodInSeconds, name: "keepAlivePeriodInSeconds", parent: name, max: 3600)
             try self.validate(self.keepAlivePeriodInSeconds, name: "keepAlivePeriodInSeconds", parent: name, min: 0)
             try self.validate(self.trainingPlanArn, name: "trainingPlanArn", parent: name, max: 2048)
@@ -38480,6 +39751,7 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case instanceCount = "InstanceCount"
             case instanceGroups = "InstanceGroups"
+            case instancePlacementConfig = "InstancePlacementConfig"
             case instanceType = "InstanceType"
             case keepAlivePeriodInSeconds = "KeepAlivePeriodInSeconds"
             case trainingPlanArn = "TrainingPlanArn"
@@ -38550,7 +39822,7 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.validate(self.borrowLimit, name: "borrowLimit", parent: name, max: 500)
-            try self.validate(self.borrowLimit, name: "borrowLimit", parent: name, min: 1)
+            try self.validate(self.borrowLimit, name: "borrowLimit", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -38787,6 +40059,49 @@ extension SageMaker {
             case modelAccessConfig = "ModelAccessConfig"
             case s3DataDistributionType = "S3DataDistributionType"
             case s3DataType = "S3DataType"
+            case s3Uri = "S3Uri"
+        }
+    }
+
+    public struct S3FileSystem: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon S3 URI that specifies the location in S3 where files are stored, which is mounted within the Studio environment. For example: s3://&lt;bucket-name&gt;/&lt;prefix&gt;/.
+        public let s3Uri: String?
+
+        @inlinable
+        public init(s3Uri: String? = nil) {
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^(s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Uri = "S3Uri"
+        }
+    }
+
+    public struct S3FileSystemConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The file system path where the Amazon S3 storage location will be mounted within the Amazon SageMaker Studio environment.
+        public let mountPath: String?
+        /// The Amazon S3 URI of the S3 file system configuration.
+        public let s3Uri: String?
+
+        @inlinable
+        public init(mountPath: String? = nil, s3Uri: String? = nil) {
+            self.mountPath = mountPath
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.mountPath, name: "mountPath", parent: name, max: 1024)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^(s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mountPath = "MountPath"
             case s3Uri = "S3Uri"
         }
     }
@@ -39202,15 +40517,21 @@ extension SageMaker {
         public let startTimeAfter: Date?
         /// The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod) to search for in the offerings. Training plans are specific to their target resource.   A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.   A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.
         public let targetResources: [SageMakerResourceName]?
+        /// The number of UltraServers to search for.
+        public let ultraServerCount: Int?
+        /// The type of UltraServer to search for, such as ml.u-p6e-gb200x72.
+        public let ultraServerType: String?
 
         @inlinable
-        public init(durationHours: Int64? = nil, endTimeBefore: Date? = nil, instanceCount: Int? = nil, instanceType: ReservedCapacityInstanceType? = nil, startTimeAfter: Date? = nil, targetResources: [SageMakerResourceName]? = nil) {
+        public init(durationHours: Int64? = nil, endTimeBefore: Date? = nil, instanceCount: Int? = nil, instanceType: ReservedCapacityInstanceType? = nil, startTimeAfter: Date? = nil, targetResources: [SageMakerResourceName]? = nil, ultraServerCount: Int? = nil, ultraServerType: String? = nil) {
             self.durationHours = durationHours
             self.endTimeBefore = endTimeBefore
             self.instanceCount = instanceCount
             self.instanceType = instanceType
             self.startTimeAfter = startTimeAfter
             self.targetResources = targetResources
+            self.ultraServerCount = ultraServerCount
+            self.ultraServerType = ultraServerType
         }
 
         public func validate(name: String) throws {
@@ -39219,6 +40540,10 @@ extension SageMaker {
             try self.validate(self.instanceCount, name: "instanceCount", parent: name, max: 256)
             try self.validate(self.instanceCount, name: "instanceCount", parent: name, min: 0)
             try self.validate(self.targetResources, name: "targetResources", parent: name, min: 1)
+            try self.validate(self.ultraServerCount, name: "ultraServerCount", parent: name, min: 1)
+            try self.validate(self.ultraServerType, name: "ultraServerType", parent: name, max: 64)
+            try self.validate(self.ultraServerType, name: "ultraServerType", parent: name, min: 1)
+            try self.validate(self.ultraServerType, name: "ultraServerType", parent: name, pattern: "^ml.[a-z0-9\\-.]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -39228,6 +40553,8 @@ extension SageMaker {
             case instanceType = "InstanceType"
             case startTimeAfter = "StartTimeAfter"
             case targetResources = "TargetResources"
+            case ultraServerCount = "UltraServerCount"
+            case ultraServerType = "UltraServerType"
         }
     }
 
@@ -41832,6 +43159,8 @@ extension SageMaker {
         public let targetResources: [SageMakerResourceName]?
         /// The total number of instances reserved in this training plan.
         public let totalInstanceCount: Int?
+        /// The total number of UltraServers allocated to this training plan.
+        public let totalUltraServerCount: Int?
         /// The Amazon Resource Name (ARN); of the training plan.
         public let trainingPlanArn: String?
         /// The name of the training plan.
@@ -41840,7 +43169,7 @@ extension SageMaker {
         public let upfrontFee: String?
 
         @inlinable
-        public init(availableInstanceCount: Int? = nil, currencyCode: String? = nil, durationHours: Int64? = nil, durationMinutes: Int64? = nil, endTime: Date? = nil, inUseInstanceCount: Int? = nil, reservedCapacitySummaries: [ReservedCapacitySummary]? = nil, startTime: Date? = nil, status: TrainingPlanStatus? = nil, statusMessage: String? = nil, targetResources: [SageMakerResourceName]? = nil, totalInstanceCount: Int? = nil, trainingPlanArn: String? = nil, trainingPlanName: String? = nil, upfrontFee: String? = nil) {
+        public init(availableInstanceCount: Int? = nil, currencyCode: String? = nil, durationHours: Int64? = nil, durationMinutes: Int64? = nil, endTime: Date? = nil, inUseInstanceCount: Int? = nil, reservedCapacitySummaries: [ReservedCapacitySummary]? = nil, startTime: Date? = nil, status: TrainingPlanStatus? = nil, statusMessage: String? = nil, targetResources: [SageMakerResourceName]? = nil, totalInstanceCount: Int? = nil, totalUltraServerCount: Int? = nil, trainingPlanArn: String? = nil, trainingPlanName: String? = nil, upfrontFee: String? = nil) {
             self.availableInstanceCount = availableInstanceCount
             self.currencyCode = currencyCode
             self.durationHours = durationHours
@@ -41853,6 +43182,7 @@ extension SageMaker {
             self.statusMessage = statusMessage
             self.targetResources = targetResources
             self.totalInstanceCount = totalInstanceCount
+            self.totalUltraServerCount = totalUltraServerCount
             self.trainingPlanArn = trainingPlanArn
             self.trainingPlanName = trainingPlanName
             self.upfrontFee = upfrontFee
@@ -41871,6 +43201,7 @@ extension SageMaker {
             case statusMessage = "StatusMessage"
             case targetResources = "TargetResources"
             case totalInstanceCount = "TotalInstanceCount"
+            case totalUltraServerCount = "TotalUltraServerCount"
             case trainingPlanArn = "TrainingPlanArn"
             case trainingPlanName = "TrainingPlanName"
             case upfrontFee = "UpfrontFee"
@@ -42722,6 +44053,20 @@ extension SageMaker {
         }
     }
 
+    public struct TrustedIdentityPropagationSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The status of Trusted Identity Propagation (TIP) at the SageMaker domain level.  When disabled, standard IAM role-based access is used.  When enabled:   User identities from IAM Identity Center are propagated through the application to TIP enabled Amazon Web Services services.   New applications or existing applications that are automatically patched, will use the domain level configuration.
+        public let status: FeatureStatus?
+
+        @inlinable
+        public init(status: FeatureStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
+    }
+
     public struct TtlDuration: AWSEncodableShape & AWSDecodableShape {
         ///  TtlDuration time unit.
         public let unit: TtlDurationUnit?
@@ -42878,6 +44223,104 @@ extension SageMaker {
         }
     }
 
+    public struct UltraServer: AWSDecodableShape {
+        /// The name of the Availability Zone where the UltraServer is provisioned.
+        public let availabilityZone: String?
+        /// The number of instances currently available for use in this UltraServer.
+        public let availableInstanceCount: Int?
+        /// The number of available spare instances in the UltraServer.
+        public let availableSpareInstanceCount: Int?
+        /// The number of spare instances configured for this UltraServer to provide enhanced resiliency.
+        public let configuredSpareInstanceCount: Int?
+        /// The overall health status of the UltraServer.
+        public let healthStatus: UltraServerHealthStatus?
+        /// The Amazon EC2 instance type used in the UltraServer.
+        public let instanceType: ReservedCapacityInstanceType?
+        /// The number of instances currently in use in this UltraServer.
+        public let inUseInstanceCount: Int?
+        /// The total number of instances in this UltraServer.
+        public let totalInstanceCount: Int?
+        /// The unique identifier for the UltraServer.
+        public let ultraServerId: String?
+        /// The type of UltraServer, such as ml.u-p6e-gb200x72.
+        public let ultraServerType: String?
+        /// The number of instances in this UltraServer that are currently in an unhealthy state.
+        public let unhealthyInstanceCount: Int?
+
+        @inlinable
+        public init(availabilityZone: String? = nil, availableInstanceCount: Int? = nil, availableSpareInstanceCount: Int? = nil, configuredSpareInstanceCount: Int? = nil, healthStatus: UltraServerHealthStatus? = nil, instanceType: ReservedCapacityInstanceType? = nil, inUseInstanceCount: Int? = nil, totalInstanceCount: Int? = nil, ultraServerId: String? = nil, ultraServerType: String? = nil, unhealthyInstanceCount: Int? = nil) {
+            self.availabilityZone = availabilityZone
+            self.availableInstanceCount = availableInstanceCount
+            self.availableSpareInstanceCount = availableSpareInstanceCount
+            self.configuredSpareInstanceCount = configuredSpareInstanceCount
+            self.healthStatus = healthStatus
+            self.instanceType = instanceType
+            self.inUseInstanceCount = inUseInstanceCount
+            self.totalInstanceCount = totalInstanceCount
+            self.ultraServerId = ultraServerId
+            self.ultraServerType = ultraServerType
+            self.unhealthyInstanceCount = unhealthyInstanceCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case availableInstanceCount = "AvailableInstanceCount"
+            case availableSpareInstanceCount = "AvailableSpareInstanceCount"
+            case configuredSpareInstanceCount = "ConfiguredSpareInstanceCount"
+            case healthStatus = "HealthStatus"
+            case instanceType = "InstanceType"
+            case inUseInstanceCount = "InUseInstanceCount"
+            case totalInstanceCount = "TotalInstanceCount"
+            case ultraServerId = "UltraServerId"
+            case ultraServerType = "UltraServerType"
+            case unhealthyInstanceCount = "UnhealthyInstanceCount"
+        }
+    }
+
+    public struct UltraServerInfo: AWSDecodableShape {
+        /// The unique identifier of the UltraServer.
+        public let id: String?
+
+        @inlinable
+        public init(id: String? = nil) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct UltraServerSummary: AWSDecodableShape {
+        /// The number of available spare instances in the UltraServers.
+        public let availableSpareInstanceCount: Int?
+        /// The Amazon EC2 instance type used in the UltraServer.
+        public let instanceType: ReservedCapacityInstanceType?
+        /// The number of UltraServers of this type.
+        public let ultraServerCount: Int?
+        /// The type of UltraServer, such as ml.u-p6e-gb200x72.
+        public let ultraServerType: String?
+        /// The total number of instances across all UltraServers of this type that are currently in an unhealthy state.
+        public let unhealthyInstanceCount: Int?
+
+        @inlinable
+        public init(availableSpareInstanceCount: Int? = nil, instanceType: ReservedCapacityInstanceType? = nil, ultraServerCount: Int? = nil, ultraServerType: String? = nil, unhealthyInstanceCount: Int? = nil) {
+            self.availableSpareInstanceCount = availableSpareInstanceCount
+            self.instanceType = instanceType
+            self.ultraServerCount = ultraServerCount
+            self.ultraServerType = ultraServerType
+            self.unhealthyInstanceCount = unhealthyInstanceCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availableSpareInstanceCount = "AvailableSpareInstanceCount"
+            case instanceType = "InstanceType"
+            case ultraServerCount = "UltraServerCount"
+            case ultraServerType = "UltraServerType"
+            case unhealthyInstanceCount = "UnhealthyInstanceCount"
+        }
+    }
+
     public struct UnifiedStudioSettings: AWSEncodableShape & AWSDecodableShape {
         /// The ID of the Amazon Web Services account that has the Amazon SageMaker Unified Studio domain. The default value, if you don't specify an ID, is the ID of the account that has the Amazon SageMaker AI domain.
         public let domainAccountId: String?
@@ -42891,7 +44334,7 @@ extension SageMaker {
         public let projectId: String?
         /// The location where Amazon S3 stores temporary execution data and other artifacts for the project that corresponds to the domain.
         public let projectS3Path: String?
-        /// The ARN of the application managed by SageMaker AI and SageMaker Unified Studio in the Amazon Web Services IAM Identity Center.
+        /// The ARN of the Amazon DataZone application managed by Amazon SageMaker Unified Studio in the Amazon Web Services IAM Identity Center.
         public let singleSignOnApplicationArn: String?
         /// Sets whether you can access the domain in Amazon SageMaker Studio:  ENABLED  You can access the domain in Amazon SageMaker Studio. If you migrate the domain to Amazon SageMaker Unified Studio, you can access it in both studio interfaces.  DISABLED  You can't access the domain in Amazon SageMaker Studio. If you migrate the domain to Amazon SageMaker Unified Studio, you can access it only in that studio interface.   To migrate a domain to Amazon SageMaker Unified Studio, you specify the UnifiedStudioSettings data type when you use the UpdateDomain action.
         public let studioWebPortalAccess: FeatureStatus?
@@ -43105,8 +44548,12 @@ extension SageMaker {
     }
 
     public struct UpdateClusterRequest: AWSEncodableShape {
+        /// Updates the autoscaling configuration for the cluster. Use to enable or disable automatic node scaling.
+        public let autoScaling: ClusterAutoScalingConfig?
         /// Specify the name of the SageMaker HyperPod cluster you want to update.
         public let clusterName: String?
+        /// The Amazon Resource Name (ARN) of the IAM role that HyperPod assumes for cluster autoscaling operations. Cannot be updated while autoscaling is enabled.
+        public let clusterRole: String?
         /// Specify the instance groups to update.
         public let instanceGroups: [ClusterInstanceGroupSpecification]?
         /// Specify the names of the instance groups to delete. Use a single , as the separator between multiple names.
@@ -43115,19 +44562,27 @@ extension SageMaker {
         public let nodeRecovery: ClusterNodeRecovery?
         /// The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
         public let restrictedInstanceGroups: [ClusterRestrictedInstanceGroupSpecification]?
+        /// Updates the configuration for managed tier checkpointing on the HyperPod cluster. For example, you can enable or disable the feature and modify the percentage of cluster memory allocated for checkpoint storage.
+        public let tieredStorageConfig: ClusterTieredStorageConfig?
 
         @inlinable
-        public init(clusterName: String? = nil, instanceGroups: [ClusterInstanceGroupSpecification]? = nil, instanceGroupsToDelete: [String]? = nil, nodeRecovery: ClusterNodeRecovery? = nil, restrictedInstanceGroups: [ClusterRestrictedInstanceGroupSpecification]? = nil) {
+        public init(autoScaling: ClusterAutoScalingConfig? = nil, clusterName: String? = nil, clusterRole: String? = nil, instanceGroups: [ClusterInstanceGroupSpecification]? = nil, instanceGroupsToDelete: [String]? = nil, nodeRecovery: ClusterNodeRecovery? = nil, restrictedInstanceGroups: [ClusterRestrictedInstanceGroupSpecification]? = nil, tieredStorageConfig: ClusterTieredStorageConfig? = nil) {
+            self.autoScaling = autoScaling
             self.clusterName = clusterName
+            self.clusterRole = clusterRole
             self.instanceGroups = instanceGroups
             self.instanceGroupsToDelete = instanceGroupsToDelete
             self.nodeRecovery = nodeRecovery
             self.restrictedInstanceGroups = restrictedInstanceGroups
+            self.tieredStorageConfig = tieredStorageConfig
         }
 
         public func validate(name: String) throws {
             try self.validate(self.clusterName, name: "clusterName", parent: name, max: 256)
             try self.validate(self.clusterName, name: "clusterName", parent: name, pattern: "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:cluster/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})$")
+            try self.validate(self.clusterRole, name: "clusterRole", parent: name, max: 2048)
+            try self.validate(self.clusterRole, name: "clusterRole", parent: name, min: 20)
+            try self.validate(self.clusterRole, name: "clusterRole", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.instanceGroups?.forEach {
                 try $0.validate(name: "\(name).instanceGroups[]")
             }
@@ -43144,14 +44599,18 @@ extension SageMaker {
             }
             try self.validate(self.restrictedInstanceGroups, name: "restrictedInstanceGroups", parent: name, max: 100)
             try self.validate(self.restrictedInstanceGroups, name: "restrictedInstanceGroups", parent: name, min: 1)
+            try self.tieredStorageConfig?.validate(name: "\(name).tieredStorageConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoScaling = "AutoScaling"
             case clusterName = "ClusterName"
+            case clusterRole = "ClusterRole"
             case instanceGroups = "InstanceGroups"
             case instanceGroupsToDelete = "InstanceGroupsToDelete"
             case nodeRecovery = "NodeRecovery"
             case restrictedInstanceGroups = "RestrictedInstanceGroups"
+            case tieredStorageConfig = "TieredStorageConfig"
         }
     }
 
@@ -43246,13 +44705,16 @@ extension SageMaker {
         public let clusterName: String?
         /// The configuration to use when updating the AMI versions.
         public let deploymentConfig: DeploymentConfiguration?
+        /// When configuring your HyperPod cluster, you can specify an image ID using one of the following options:    HyperPodPublicAmiId: Use a HyperPod public AMI    CustomAmiId: Use your custom AMI    default: Use the default latest system image   If you choose to use a custom AMI (CustomAmiId), ensure it meets the following requirements:   Encryption: The custom AMI must be unencrypted.   Ownership: The custom AMI must be owned by the same Amazon Web Services account that is creating the HyperPod cluster.   Volume support: Only the primary AMI snapshot volume is supported; additional AMI volumes are not supported.   When updating the instance group's AMI through the UpdateClusterSoftware operation, if an instance group uses a custom AMI, you must provide an ImageId or use the default as input. Note that if you don't specify an instance group in your UpdateClusterSoftware request, then all of the instance groups are patched with the specified image.
+        public let imageId: String?
         /// The array of instance groups for which to update AMI versions.
         public let instanceGroups: [UpdateClusterSoftwareInstanceGroupSpecification]?
 
         @inlinable
-        public init(clusterName: String? = nil, deploymentConfig: DeploymentConfiguration? = nil, instanceGroups: [UpdateClusterSoftwareInstanceGroupSpecification]? = nil) {
+        public init(clusterName: String? = nil, deploymentConfig: DeploymentConfiguration? = nil, imageId: String? = nil, instanceGroups: [UpdateClusterSoftwareInstanceGroupSpecification]? = nil) {
             self.clusterName = clusterName
             self.deploymentConfig = deploymentConfig
+            self.imageId = imageId
             self.instanceGroups = instanceGroups
         }
 
@@ -43260,6 +44722,9 @@ extension SageMaker {
             try self.validate(self.clusterName, name: "clusterName", parent: name, max: 256)
             try self.validate(self.clusterName, name: "clusterName", parent: name, pattern: "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:cluster/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})$")
             try self.deploymentConfig?.validate(name: "\(name).deploymentConfig")
+            try self.validate(self.imageId, name: "imageId", parent: name, max: 21)
+            try self.validate(self.imageId, name: "imageId", parent: name, min: 7)
+            try self.validate(self.imageId, name: "imageId", parent: name, pattern: "^ami-[0-9a-fA-F]{8,17}|default$")
             try self.instanceGroups?.forEach {
                 try $0.validate(name: "\(name).instanceGroups[]")
             }
@@ -43270,6 +44735,7 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case clusterName = "ClusterName"
             case deploymentConfig = "DeploymentConfig"
+            case imageId = "ImageId"
             case instanceGroups = "InstanceGroups"
         }
     }
@@ -44655,6 +46121,8 @@ extension SageMaker {
         public let instanceMetadataServiceConfiguration: InstanceMetadataServiceConfiguration?
         /// The Amazon ML compute instance type.
         public let instanceType: InstanceType?
+        /// The IP address type for the notebook instance. Specify ipv4 for IPv4-only connectivity or dualstack for both IPv4 and IPv6 connectivity. The notebook instance must be stopped before updating this setting. When you specify dualstack, the subnet must support IPv6 addressing.
+        public let ipAddressType: IPAddressType?
         /// The name of a lifecycle configuration to associate with the notebook instance. For information about lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance.
         public let lifecycleConfigName: String?
         /// The name of the notebook instance to update.
@@ -44667,7 +46135,7 @@ extension SageMaker {
         public let volumeSizeInGB: Int?
 
         @inlinable
-        public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, defaultCodeRepository: String? = nil, disassociateAcceleratorTypes: Bool? = nil, disassociateAdditionalCodeRepositories: Bool? = nil, disassociateDefaultCodeRepository: Bool? = nil, disassociateLifecycleConfig: Bool? = nil, instanceMetadataServiceConfiguration: InstanceMetadataServiceConfiguration? = nil, instanceType: InstanceType? = nil, lifecycleConfigName: String? = nil, notebookInstanceName: String? = nil, roleArn: String? = nil, rootAccess: RootAccess? = nil, volumeSizeInGB: Int? = nil) {
+        public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, defaultCodeRepository: String? = nil, disassociateAcceleratorTypes: Bool? = nil, disassociateAdditionalCodeRepositories: Bool? = nil, disassociateDefaultCodeRepository: Bool? = nil, disassociateLifecycleConfig: Bool? = nil, instanceMetadataServiceConfiguration: InstanceMetadataServiceConfiguration? = nil, instanceType: InstanceType? = nil, ipAddressType: IPAddressType? = nil, lifecycleConfigName: String? = nil, notebookInstanceName: String? = nil, roleArn: String? = nil, rootAccess: RootAccess? = nil, volumeSizeInGB: Int? = nil) {
             self.acceleratorTypes = acceleratorTypes
             self.additionalCodeRepositories = additionalCodeRepositories
             self.defaultCodeRepository = defaultCodeRepository
@@ -44677,6 +46145,7 @@ extension SageMaker {
             self.disassociateLifecycleConfig = disassociateLifecycleConfig
             self.instanceMetadataServiceConfiguration = instanceMetadataServiceConfiguration
             self.instanceType = instanceType
+            self.ipAddressType = ipAddressType
             self.lifecycleConfigName = lifecycleConfigName
             self.notebookInstanceName = notebookInstanceName
             self.roleArn = roleArn
@@ -44716,6 +46185,7 @@ extension SageMaker {
             case disassociateLifecycleConfig = "DisassociateLifecycleConfig"
             case instanceMetadataServiceConfiguration = "InstanceMetadataServiceConfiguration"
             case instanceType = "InstanceType"
+            case ipAddressType = "IpAddressType"
             case lifecycleConfigName = "LifecycleConfigName"
             case notebookInstanceName = "NotebookInstanceName"
             case roleArn = "RoleArn"
@@ -45397,6 +46867,8 @@ extension SageMaker {
     }
 
     public struct UpdateWorkforceRequest: AWSEncodableShape {
+        /// Use this parameter to specify whether you want IPv4 only or dualstack (IPv4 and IPv6) to support your labeling workforce.
+        public let ipAddressType: WorkforceIpAddressType?
         /// Use this parameter to update your OIDC Identity Provider (IdP) configuration for a workforce made using your own IdP.
         public let oidcConfig: OidcConfig?
         /// A list of one to ten worker IP address ranges (CIDRs) that can be used to access tasks assigned to this workforce. Maximum: Ten CIDR values
@@ -45407,7 +46879,8 @@ extension SageMaker {
         public let workforceVpcConfig: WorkforceVpcConfigRequest?
 
         @inlinable
-        public init(oidcConfig: OidcConfig? = nil, sourceIpConfig: SourceIpConfig? = nil, workforceName: String? = nil, workforceVpcConfig: WorkforceVpcConfigRequest? = nil) {
+        public init(ipAddressType: WorkforceIpAddressType? = nil, oidcConfig: OidcConfig? = nil, sourceIpConfig: SourceIpConfig? = nil, workforceName: String? = nil, workforceVpcConfig: WorkforceVpcConfigRequest? = nil) {
+            self.ipAddressType = ipAddressType
             self.oidcConfig = oidcConfig
             self.sourceIpConfig = sourceIpConfig
             self.workforceName = workforceName
@@ -45424,6 +46897,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case ipAddressType = "IpAddressType"
             case oidcConfig = "OidcConfig"
             case sourceIpConfig = "SourceIpConfig"
             case workforceName = "WorkforceName"
@@ -45826,6 +47300,8 @@ extension SageMaker {
         public let createDate: Date?
         /// The reason your workforce failed.
         public let failureReason: String?
+        /// The IP address type you specify - either IPv4 only or dualstack (IPv4 and IPv6) - to support your labeling workforce.
+        public let ipAddressType: WorkforceIpAddressType?
         /// The most recent date that UpdateWorkforce was used to successfully add one or more IP address ranges (CIDRs) to a private workforce's allow list.
         public let lastUpdatedDate: Date?
         /// The configuration of an OIDC Identity Provider (IdP) private workforce.
@@ -45844,10 +47320,11 @@ extension SageMaker {
         public let workforceVpcConfig: WorkforceVpcConfigResponse?
 
         @inlinable
-        public init(cognitoConfig: CognitoConfig? = nil, createDate: Date? = nil, failureReason: String? = nil, lastUpdatedDate: Date? = nil, oidcConfig: OidcConfigForResponse? = nil, sourceIpConfig: SourceIpConfig? = nil, status: WorkforceStatus? = nil, subDomain: String? = nil, workforceArn: String? = nil, workforceName: String? = nil, workforceVpcConfig: WorkforceVpcConfigResponse? = nil) {
+        public init(cognitoConfig: CognitoConfig? = nil, createDate: Date? = nil, failureReason: String? = nil, ipAddressType: WorkforceIpAddressType? = nil, lastUpdatedDate: Date? = nil, oidcConfig: OidcConfigForResponse? = nil, sourceIpConfig: SourceIpConfig? = nil, status: WorkforceStatus? = nil, subDomain: String? = nil, workforceArn: String? = nil, workforceName: String? = nil, workforceVpcConfig: WorkforceVpcConfigResponse? = nil) {
             self.cognitoConfig = cognitoConfig
             self.createDate = createDate
             self.failureReason = failureReason
+            self.ipAddressType = ipAddressType
             self.lastUpdatedDate = lastUpdatedDate
             self.oidcConfig = oidcConfig
             self.sourceIpConfig = sourceIpConfig
@@ -45862,6 +47339,7 @@ extension SageMaker {
             case cognitoConfig = "CognitoConfig"
             case createDate = "CreateDate"
             case failureReason = "FailureReason"
+            case ipAddressType = "IpAddressType"
             case lastUpdatedDate = "LastUpdatedDate"
             case oidcConfig = "OidcConfig"
             case sourceIpConfig = "SourceIpConfig"

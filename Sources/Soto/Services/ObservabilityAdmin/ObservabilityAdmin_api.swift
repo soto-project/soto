@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS ObservabilityAdmin service.
 ///
-///  Amazon CloudWatch Obsersavability Admin to control temletry config for your AWS Organization or account. Telemetry config conﬁg to discover and understand the state of telemetry conﬁguration for your AWS resources from a central view in the CloudWatch console. Telemetry conﬁg simpliﬁes the process of auditing your telemetry collection conﬁgurations across multiple resource types across your AWS Organization or account.  For more information, see Auditing CloudWatch telemetry conﬁgurations in the CloudWatch User Guide. For information on the permissions you need to use this API, see Identity and access management for Amazon CloudWatch in the CloudWatch User Guide.
+///  You can use Amazon CloudWatch Observability Admin to discover and understand the state of telemetry configuration in CloudWatch for your Amazon Web Services Organization or account. This simplifies the process of auditing your telemetry collection configurations across multiple resource types within your Amazon Web Services Organization or account. By providing a consolidated view, it allows you to easily review and manage telemetry settings, helping you ensure proper monitoring and data collection across your Amazon Web Services environment. For more information, see Auditing CloudWatch telemetry conﬁgurations in the CloudWatch User Guide. For information on the permissions you need to use this API, see Identity and access management for Amazon CloudWatch in the CloudWatch User Guide.
 public struct ObservabilityAdmin: AWSService {
     // MARK: Member variables
 
@@ -78,6 +78,240 @@ public struct ObservabilityAdmin: AWSService {
 
     // MARK: API Calls
 
+    /// Creates a centralization rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
+    @Sendable
+    @inlinable
+    public func createCentralizationRuleForOrganization(_ input: CreateCentralizationRuleForOrganizationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCentralizationRuleForOrganizationOutput {
+        try await self.client.execute(
+            operation: "CreateCentralizationRuleForOrganization", 
+            path: "/CreateCentralizationRuleForOrganization", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a centralization rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
+    ///
+    /// Parameters:
+    ///   - rule: The configuration details for the organization-wide centralization rule, including the source configuration and the destination configuration to centralize telemetry data across the organization.
+    ///   - ruleName: A unique name for the organization-wide centralization rule being created.
+    ///   - tags: The key-value pairs to associate with the organization telemetry rule resource for categorization and management purposes.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createCentralizationRuleForOrganization(
+        rule: CentralizationRule,
+        ruleName: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateCentralizationRuleForOrganizationOutput {
+        let input = CreateCentralizationRuleForOrganizationInput(
+            rule: rule, 
+            ruleName: ruleName, 
+            tags: tags
+        )
+        return try await self.createCentralizationRuleForOrganization(input, logger: logger)
+    }
+
+    ///  Creates a telemetry rule that defines how telemetry should be configured for Amazon Web Services resources in your account. The rule specifies which resources should have telemetry enabled and how that telemetry data should be collected based on resource type, telemetry type, and selection criteria.
+    @Sendable
+    @inlinable
+    public func createTelemetryRule(_ input: CreateTelemetryRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTelemetryRuleOutput {
+        try await self.client.execute(
+            operation: "CreateTelemetryRule", 
+            path: "/CreateTelemetryRule", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Creates a telemetry rule that defines how telemetry should be configured for Amazon Web Services resources in your account. The rule specifies which resources should have telemetry enabled and how that telemetry data should be collected based on resource type, telemetry type, and selection criteria.
+    ///
+    /// Parameters:
+    ///   - rule:  The configuration details for the telemetry rule, including the resource type, telemetry type, destination configuration, and selection criteria for which resources the rule applies to.
+    ///   - ruleName:  A unique name for the telemetry rule being created.
+    ///   - tags:  The key-value pairs to associate with the telemetry rule resource for categorization and management purposes.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createTelemetryRule(
+        rule: TelemetryRule,
+        ruleName: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateTelemetryRuleOutput {
+        let input = CreateTelemetryRuleInput(
+            rule: rule, 
+            ruleName: ruleName, 
+            tags: tags
+        )
+        return try await self.createTelemetryRule(input, logger: logger)
+    }
+
+    ///  Creates a telemetry rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
+    @Sendable
+    @inlinable
+    public func createTelemetryRuleForOrganization(_ input: CreateTelemetryRuleForOrganizationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTelemetryRuleForOrganizationOutput {
+        try await self.client.execute(
+            operation: "CreateTelemetryRuleForOrganization", 
+            path: "/CreateTelemetryRuleForOrganization", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Creates a telemetry rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
+    ///
+    /// Parameters:
+    ///   - rule:  The configuration details for the organization-wide telemetry rule, including the resource type, telemetry type, destination configuration, and selection criteria for which resources the rule applies to across the organization.
+    ///   - ruleName:  A unique name for the organization-wide telemetry rule being created.
+    ///   - tags:  The key-value pairs to associate with the organization telemetry rule resource for categorization and management purposes.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createTelemetryRuleForOrganization(
+        rule: TelemetryRule,
+        ruleName: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateTelemetryRuleForOrganizationOutput {
+        let input = CreateTelemetryRuleForOrganizationInput(
+            rule: rule, 
+            ruleName: ruleName, 
+            tags: tags
+        )
+        return try await self.createTelemetryRuleForOrganization(input, logger: logger)
+    }
+
+    /// Deletes an organization-wide centralization rule. This operation can only be called by the organization's management account or a delegated administrator account.
+    @Sendable
+    @inlinable
+    public func deleteCentralizationRuleForOrganization(_ input: DeleteCentralizationRuleForOrganizationInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteCentralizationRuleForOrganization", 
+            path: "/DeleteCentralizationRuleForOrganization", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an organization-wide centralization rule. This operation can only be called by the organization's management account or a delegated administrator account.
+    ///
+    /// Parameters:
+    ///   - ruleIdentifier: The identifier (name or ARN) of the organization centralization rule to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteCentralizationRuleForOrganization(
+        ruleIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteCentralizationRuleForOrganizationInput(
+            ruleIdentifier: ruleIdentifier
+        )
+        return try await self.deleteCentralizationRuleForOrganization(input, logger: logger)
+    }
+
+    ///  Deletes a telemetry rule from your account. Any telemetry configurations previously created by the rule will remain but no new resources will be configured by this rule.
+    @Sendable
+    @inlinable
+    public func deleteTelemetryRule(_ input: DeleteTelemetryRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteTelemetryRule", 
+            path: "/DeleteTelemetryRule", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Deletes a telemetry rule from your account. Any telemetry configurations previously created by the rule will remain but no new resources will be configured by this rule.
+    ///
+    /// Parameters:
+    ///   - ruleIdentifier:  The identifier (name or ARN) of the telemetry rule to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteTelemetryRule(
+        ruleIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteTelemetryRuleInput(
+            ruleIdentifier: ruleIdentifier
+        )
+        return try await self.deleteTelemetryRule(input, logger: logger)
+    }
+
+    ///  Deletes an organization-wide telemetry rule. This operation can only be called by the organization's management account or a delegated administrator account.
+    @Sendable
+    @inlinable
+    public func deleteTelemetryRuleForOrganization(_ input: DeleteTelemetryRuleForOrganizationInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteTelemetryRuleForOrganization", 
+            path: "/DeleteTelemetryRuleForOrganization", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Deletes an organization-wide telemetry rule. This operation can only be called by the organization's management account or a delegated administrator account.
+    ///
+    /// Parameters:
+    ///   - ruleIdentifier:  The identifier (name or ARN) of the organization telemetry rule to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteTelemetryRuleForOrganization(
+        ruleIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteTelemetryRuleForOrganizationInput(
+            ruleIdentifier: ruleIdentifier
+        )
+        return try await self.deleteTelemetryRuleForOrganization(input, logger: logger)
+    }
+
+    /// Retrieves the details of a specific organization centralization rule. This operation can only be called by the organization's management account or a delegated administrator account.
+    @Sendable
+    @inlinable
+    public func getCentralizationRuleForOrganization(_ input: GetCentralizationRuleForOrganizationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCentralizationRuleForOrganizationOutput {
+        try await self.client.execute(
+            operation: "GetCentralizationRuleForOrganization", 
+            path: "/GetCentralizationRuleForOrganization", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the details of a specific organization centralization rule. This operation can only be called by the organization's management account or a delegated administrator account.
+    ///
+    /// Parameters:
+    ///   - ruleIdentifier: The identifier (name or ARN) of the organization centralization rule to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCentralizationRuleForOrganization(
+        ruleIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCentralizationRuleForOrganizationOutput {
+        let input = GetCentralizationRuleForOrganizationInput(
+            ruleIdentifier: ruleIdentifier
+        )
+        return try await self.getCentralizationRuleForOrganization(input, logger: logger)
+    }
+
+    ///  Returns the current status of the resource tags for telemetry feature, which enhances telemetry data with additional resource metadata from Amazon Web Services Resource Explorer.
+    @Sendable
+    @inlinable
+    public func getTelemetryEnrichmentStatus(logger: Logger = AWSClient.loggingDisabled) async throws -> GetTelemetryEnrichmentStatusOutput {
+        try await self.client.execute(
+            operation: "GetTelemetryEnrichmentStatus", 
+            path: "/GetTelemetryEnrichmentStatus", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            logger: logger
+        )
+    }
+
     ///  Returns the current onboarding status of the telemetry config feature, including the status of the feature and reason the feature failed to start or stop.
     @Sendable
     @inlinable
@@ -91,7 +325,7 @@ public struct ObservabilityAdmin: AWSService {
         )
     }
 
-    ///  This returns the onboarding status of the telemetry configuration feature for the organization. It can only be called by a Management Account of an AWS Organization or an assigned Delegated Admin Account of AWS CloudWatch telemetry config.
+    ///  This returns the onboarding status of the telemetry configuration feature for the organization. It can only be called by a Management Account of an Amazon Web Services Organization or an assigned Delegated Admin Account of Amazon CloudWatch telemetry config.
     @Sendable
     @inlinable
     public func getTelemetryEvaluationStatusForOrganization(logger: Logger = AWSClient.loggingDisabled) async throws -> GetTelemetryEvaluationStatusForOrganizationOutput {
@@ -104,7 +338,103 @@ public struct ObservabilityAdmin: AWSService {
         )
     }
 
-    ///  Returns a list of telemetry configurations for AWS resources supported by telemetry config. For more information, see Auditing CloudWatch telemetry configurations.
+    ///  Retrieves the details of a specific telemetry rule in your account.
+    @Sendable
+    @inlinable
+    public func getTelemetryRule(_ input: GetTelemetryRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTelemetryRuleOutput {
+        try await self.client.execute(
+            operation: "GetTelemetryRule", 
+            path: "/GetTelemetryRule", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Retrieves the details of a specific telemetry rule in your account.
+    ///
+    /// Parameters:
+    ///   - ruleIdentifier:  The identifier (name or ARN) of the telemetry rule to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTelemetryRule(
+        ruleIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTelemetryRuleOutput {
+        let input = GetTelemetryRuleInput(
+            ruleIdentifier: ruleIdentifier
+        )
+        return try await self.getTelemetryRule(input, logger: logger)
+    }
+
+    ///  Retrieves the details of a specific organization telemetry rule. This operation can only be called by the organization's management account or a delegated administrator account.
+    @Sendable
+    @inlinable
+    public func getTelemetryRuleForOrganization(_ input: GetTelemetryRuleForOrganizationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTelemetryRuleForOrganizationOutput {
+        try await self.client.execute(
+            operation: "GetTelemetryRuleForOrganization", 
+            path: "/GetTelemetryRuleForOrganization", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Retrieves the details of a specific organization telemetry rule. This operation can only be called by the organization's management account or a delegated administrator account.
+    ///
+    /// Parameters:
+    ///   - ruleIdentifier:  The identifier (name or ARN) of the organization telemetry rule to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTelemetryRuleForOrganization(
+        ruleIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTelemetryRuleForOrganizationOutput {
+        let input = GetTelemetryRuleForOrganizationInput(
+            ruleIdentifier: ruleIdentifier
+        )
+        return try await self.getTelemetryRuleForOrganization(input, logger: logger)
+    }
+
+    /// Lists all centralization rules in your organization. This operation can only be called by the organization's management account or a delegated administrator account.
+    @Sendable
+    @inlinable
+    public func listCentralizationRulesForOrganization(_ input: ListCentralizationRulesForOrganizationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCentralizationRulesForOrganizationOutput {
+        try await self.client.execute(
+            operation: "ListCentralizationRulesForOrganization", 
+            path: "/ListCentralizationRulesForOrganization", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all centralization rules in your organization. This operation can only be called by the organization's management account or a delegated administrator account.
+    ///
+    /// Parameters:
+    ///   - allRegions: A flag determining whether to return organization centralization rules from all regions or only the current region.
+    ///   - maxResults: The maximum number of organization centralization rules to return in a single call.
+    ///   - nextToken: The token for the next set of results. A previous call generates this token.
+    ///   - ruleNamePrefix: A string to filter organization centralization rules whose names begin with the specified prefix.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCentralizationRulesForOrganization(
+        allRegions: Bool? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        ruleNamePrefix: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCentralizationRulesForOrganizationOutput {
+        let input = ListCentralizationRulesForOrganizationInput(
+            allRegions: allRegions, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            ruleNamePrefix: ruleNamePrefix
+        )
+        return try await self.listCentralizationRulesForOrganization(input, logger: logger)
+    }
+
+    ///  Returns a list of telemetry configurations for Amazon Web Services resources supported by telemetry config. For more information, see Auditing CloudWatch telemetry configurations.
     @Sendable
     @inlinable
     public func listResourceTelemetry(_ input: ListResourceTelemetryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourceTelemetryOutput {
@@ -117,7 +447,7 @@ public struct ObservabilityAdmin: AWSService {
             logger: logger
         )
     }
-    ///  Returns a list of telemetry configurations for AWS resources supported by telemetry config. For more information, see Auditing CloudWatch telemetry configurations.
+    ///  Returns a list of telemetry configurations for Amazon Web Services resources supported by telemetry config. For more information, see Auditing CloudWatch telemetry configurations.
     ///
     /// Parameters:
     ///   - maxResults:  A number field used to limit the number of results within the returned list.
@@ -148,7 +478,7 @@ public struct ObservabilityAdmin: AWSService {
         return try await self.listResourceTelemetry(input, logger: logger)
     }
 
-    ///  Returns a list of telemetry configurations for AWS resources supported by telemetry config in the organization.
+    ///  Returns a list of telemetry configurations for Amazon Web Services resources supported by telemetry config in the organization.
     @Sendable
     @inlinable
     public func listResourceTelemetryForOrganization(_ input: ListResourceTelemetryForOrganizationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourceTelemetryForOrganizationOutput {
@@ -161,10 +491,10 @@ public struct ObservabilityAdmin: AWSService {
             logger: logger
         )
     }
-    ///  Returns a list of telemetry configurations for AWS resources supported by telemetry config in the organization.
+    ///  Returns a list of telemetry configurations for Amazon Web Services resources supported by telemetry config in the organization.
     ///
     /// Parameters:
-    ///   - accountIdentifiers:  A list of AWS account IDs used to filter the resources to those associated with the specified accounts.
+    ///   - accountIdentifiers:  A list of Amazon Web Services accounts used to filter the resources to those associated with the specified accounts.
     ///   - maxResults:  A number field used to limit the number of results within the returned list.
     ///   - nextToken:  The token for the next set of items to return. A previous call provides this token.
     ///   - resourceIdentifierPrefix:  A string used to filter resources in the organization which have a ResourceIdentifier starting with the ResourceIdentifierPrefix.
@@ -195,7 +525,125 @@ public struct ObservabilityAdmin: AWSService {
         return try await self.listResourceTelemetryForOrganization(input, logger: logger)
     }
 
-    ///  This action begins onboarding onboarding the caller AWS account to the telemetry config feature.
+    ///  Lists all tags attached to the specified telemetry rule resource.
+    @Sendable
+    @inlinable
+    public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceOutput {
+        try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/ListTagsForResource", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Lists all tags attached to the specified telemetry rule resource.
+    ///
+    /// Parameters:
+    ///   - resourceARN:  The Amazon Resource Name (ARN) of the telemetry rule resource whose tags you want to list.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTagsForResource(
+        resourceARN: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTagsForResourceOutput {
+        let input = ListTagsForResourceInput(
+            resourceARN: resourceARN
+        )
+        return try await self.listTagsForResource(input, logger: logger)
+    }
+
+    ///  Lists all telemetry rules in your account. You can filter the results by specifying a rule name prefix.
+    @Sendable
+    @inlinable
+    public func listTelemetryRules(_ input: ListTelemetryRulesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTelemetryRulesOutput {
+        try await self.client.execute(
+            operation: "ListTelemetryRules", 
+            path: "/ListTelemetryRules", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Lists all telemetry rules in your account. You can filter the results by specifying a rule name prefix.
+    ///
+    /// Parameters:
+    ///   - maxResults:  The maximum number of telemetry rules to return in a single call.
+    ///   - nextToken:  The token for the next set of results. A previous call generates this token.
+    ///   - ruleNamePrefix:  A string to filter telemetry rules whose names begin with the specified prefix.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTelemetryRules(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        ruleNamePrefix: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTelemetryRulesOutput {
+        let input = ListTelemetryRulesInput(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            ruleNamePrefix: ruleNamePrefix
+        )
+        return try await self.listTelemetryRules(input, logger: logger)
+    }
+
+    ///  Lists all telemetry rules in your organization. This operation can only be called by the organization's management account or a delegated administrator account.
+    @Sendable
+    @inlinable
+    public func listTelemetryRulesForOrganization(_ input: ListTelemetryRulesForOrganizationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTelemetryRulesForOrganizationOutput {
+        try await self.client.execute(
+            operation: "ListTelemetryRulesForOrganization", 
+            path: "/ListTelemetryRulesForOrganization", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Lists all telemetry rules in your organization. This operation can only be called by the organization's management account or a delegated administrator account.
+    ///
+    /// Parameters:
+    ///   - maxResults:  The maximum number of organization telemetry rules to return in a single call.
+    ///   - nextToken:  The token for the next set of results. A previous call generates this token.
+    ///   - ruleNamePrefix:  A string to filter organization telemetry rules whose names begin with the specified prefix.
+    ///   - sourceAccountIds:  The list of account IDs to filter organization telemetry rules by their source accounts.
+    ///   - sourceOrganizationUnitIds:  The list of organizational unit IDs to filter organization telemetry rules by their source organizational units.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTelemetryRulesForOrganization(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        ruleNamePrefix: String? = nil,
+        sourceAccountIds: [String]? = nil,
+        sourceOrganizationUnitIds: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTelemetryRulesForOrganizationOutput {
+        let input = ListTelemetryRulesForOrganizationInput(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            ruleNamePrefix: ruleNamePrefix, 
+            sourceAccountIds: sourceAccountIds, 
+            sourceOrganizationUnitIds: sourceOrganizationUnitIds
+        )
+        return try await self.listTelemetryRulesForOrganization(input, logger: logger)
+    }
+
+    ///  Enables the resource tags for telemetry feature for your account, which enhances telemetry data with additional resource metadata from Amazon Web Services Resource Explorer to provide richer context for monitoring and observability.
+    @Sendable
+    @inlinable
+    public func startTelemetryEnrichment(logger: Logger = AWSClient.loggingDisabled) async throws -> StartTelemetryEnrichmentOutput {
+        try await self.client.execute(
+            operation: "StartTelemetryEnrichment", 
+            path: "/StartTelemetryEnrichment", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            logger: logger
+        )
+    }
+
+    ///  This action begins onboarding the caller Amazon Web Services account to the telemetry config feature.
     @Sendable
     @inlinable
     public func startTelemetryEvaluation(logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -221,7 +669,20 @@ public struct ObservabilityAdmin: AWSService {
         )
     }
 
-    ///  This action begins offboarding the caller AWS account from the telemetry config feature.
+    ///  Disables the resource tags for telemetry feature for your account, stopping the enhancement of telemetry data with additional resource metadata.
+    @Sendable
+    @inlinable
+    public func stopTelemetryEnrichment(logger: Logger = AWSClient.loggingDisabled) async throws -> StopTelemetryEnrichmentOutput {
+        try await self.client.execute(
+            operation: "StopTelemetryEnrichment", 
+            path: "/StopTelemetryEnrichment", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            logger: logger
+        )
+    }
+
+    ///  This action begins offboarding the caller Amazon Web Services account from the telemetry config feature.
     @Sendable
     @inlinable
     public func stopTelemetryEvaluation(logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -234,7 +695,7 @@ public struct ObservabilityAdmin: AWSService {
         )
     }
 
-    ///  This action offboards the Organization of the caller AWS account from thef telemetry config feature.
+    ///  This action offboards the Organization of the caller Amazon Web Services account from the telemetry config feature.
     @Sendable
     @inlinable
     public func stopTelemetryEvaluationForOrganization(logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -245,6 +706,166 @@ public struct ObservabilityAdmin: AWSService {
             serviceConfig: self.config, 
             logger: logger
         )
+    }
+
+    ///  Adds or updates tags for a telemetry rule resource.
+    @Sendable
+    @inlinable
+    public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "TagResource", 
+            path: "/TagResource", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Adds or updates tags for a telemetry rule resource.
+    ///
+    /// Parameters:
+    ///   - resourceARN:  The Amazon Resource Name (ARN) of the telemetry rule resource to tag.
+    ///   - tags:  The key-value pairs to add or update for the telemetry rule resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func tagResource(
+        resourceARN: String,
+        tags: [String: String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = TagResourceInput(
+            resourceARN: resourceARN, 
+            tags: tags
+        )
+        return try await self.tagResource(input, logger: logger)
+    }
+
+    ///  Removes tags from a telemetry rule resource.
+    @Sendable
+    @inlinable
+    public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/UntagResource", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Removes tags from a telemetry rule resource.
+    ///
+    /// Parameters:
+    ///   - resourceARN:  The Amazon Resource Name (ARN) of the telemetry rule resource to remove tags from.
+    ///   - tagKeys:  The list of tag keys to remove from the telemetry rule resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func untagResource(
+        resourceARN: String,
+        tagKeys: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = UntagResourceInput(
+            resourceARN: resourceARN, 
+            tagKeys: tagKeys
+        )
+        return try await self.untagResource(input, logger: logger)
+    }
+
+    /// Updates an existing centralization rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
+    @Sendable
+    @inlinable
+    public func updateCentralizationRuleForOrganization(_ input: UpdateCentralizationRuleForOrganizationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCentralizationRuleForOrganizationOutput {
+        try await self.client.execute(
+            operation: "UpdateCentralizationRuleForOrganization", 
+            path: "/UpdateCentralizationRuleForOrganization", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing centralization rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
+    ///
+    /// Parameters:
+    ///   - rule: The configuration details for the organization-wide centralization rule, including the source configuration and the destination configuration to centralize telemetry data across the organization.
+    ///   - ruleIdentifier: The identifier (name or ARN) of the organization centralization rule to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateCentralizationRuleForOrganization(
+        rule: CentralizationRule,
+        ruleIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateCentralizationRuleForOrganizationOutput {
+        let input = UpdateCentralizationRuleForOrganizationInput(
+            rule: rule, 
+            ruleIdentifier: ruleIdentifier
+        )
+        return try await self.updateCentralizationRuleForOrganization(input, logger: logger)
+    }
+
+    ///  Updates an existing telemetry rule in your account.
+    @Sendable
+    @inlinable
+    public func updateTelemetryRule(_ input: UpdateTelemetryRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTelemetryRuleOutput {
+        try await self.client.execute(
+            operation: "UpdateTelemetryRule", 
+            path: "/UpdateTelemetryRule", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Updates an existing telemetry rule in your account.
+    ///
+    /// Parameters:
+    ///   - rule:  The new configuration details for the telemetry rule.
+    ///   - ruleIdentifier:  The identifier (name or ARN) of the telemetry rule to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateTelemetryRule(
+        rule: TelemetryRule,
+        ruleIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateTelemetryRuleOutput {
+        let input = UpdateTelemetryRuleInput(
+            rule: rule, 
+            ruleIdentifier: ruleIdentifier
+        )
+        return try await self.updateTelemetryRule(input, logger: logger)
+    }
+
+    ///  Updates an existing telemetry rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
+    @Sendable
+    @inlinable
+    public func updateTelemetryRuleForOrganization(_ input: UpdateTelemetryRuleForOrganizationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTelemetryRuleForOrganizationOutput {
+        try await self.client.execute(
+            operation: "UpdateTelemetryRuleForOrganization", 
+            path: "/UpdateTelemetryRuleForOrganization", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Updates an existing telemetry rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
+    ///
+    /// Parameters:
+    ///   - rule:  The new configuration details for the organization telemetry rule, including resource type, telemetry type, and destination configuration.
+    ///   - ruleIdentifier:  The identifier (name or ARN) of the organization telemetry rule to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateTelemetryRuleForOrganization(
+        rule: TelemetryRule,
+        ruleIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateTelemetryRuleForOrganizationOutput {
+        let input = UpdateTelemetryRuleForOrganizationInput(
+            rule: rule, 
+            ruleIdentifier: ruleIdentifier
+        )
+        return try await self.updateTelemetryRuleForOrganization(input, logger: logger)
     }
 }
 
@@ -261,6 +882,46 @@ extension ObservabilityAdmin {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ObservabilityAdmin {
+    /// Return PaginatorSequence for operation ``listCentralizationRulesForOrganization(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCentralizationRulesForOrganizationPaginator(
+        _ input: ListCentralizationRulesForOrganizationInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCentralizationRulesForOrganizationInput, ListCentralizationRulesForOrganizationOutput> {
+        return .init(
+            input: input,
+            command: self.listCentralizationRulesForOrganization,
+            inputKey: \ListCentralizationRulesForOrganizationInput.nextToken,
+            outputKey: \ListCentralizationRulesForOrganizationOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCentralizationRulesForOrganization(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - allRegions: A flag determining whether to return organization centralization rules from all regions or only the current region.
+    ///   - maxResults: The maximum number of organization centralization rules to return in a single call.
+    ///   - ruleNamePrefix: A string to filter organization centralization rules whose names begin with the specified prefix.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCentralizationRulesForOrganizationPaginator(
+        allRegions: Bool? = nil,
+        maxResults: Int? = nil,
+        ruleNamePrefix: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCentralizationRulesForOrganizationInput, ListCentralizationRulesForOrganizationOutput> {
+        let input = ListCentralizationRulesForOrganizationInput(
+            allRegions: allRegions, 
+            maxResults: maxResults, 
+            ruleNamePrefix: ruleNamePrefix
+        )
+        return self.listCentralizationRulesForOrganizationPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listResourceTelemetry(_:logger:)``.
     ///
     /// - Parameters:
@@ -328,7 +989,7 @@ extension ObservabilityAdmin {
     /// Return PaginatorSequence for operation ``listResourceTelemetryForOrganization(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - accountIdentifiers:  A list of AWS account IDs used to filter the resources to those associated with the specified accounts.
+    ///   - accountIdentifiers:  A list of Amazon Web Services accounts used to filter the resources to those associated with the specified accounts.
     ///   - maxResults:  A number field used to limit the number of results within the returned list.
     ///   - resourceIdentifierPrefix:  A string used to filter resources in the organization which have a ResourceIdentifier starting with the ResourceIdentifierPrefix.
     ///   - resourceTags:  A key-value pair to filter resources in the organization based on tags associated with the resource. Fore more information about tags, see What are tags?
@@ -354,6 +1015,98 @@ extension ObservabilityAdmin {
             telemetryConfigurationState: telemetryConfigurationState
         )
         return self.listResourceTelemetryForOrganizationPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listTelemetryRules(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTelemetryRulesPaginator(
+        _ input: ListTelemetryRulesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTelemetryRulesInput, ListTelemetryRulesOutput> {
+        return .init(
+            input: input,
+            command: self.listTelemetryRules,
+            inputKey: \ListTelemetryRulesInput.nextToken,
+            outputKey: \ListTelemetryRulesOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listTelemetryRules(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults:  The maximum number of telemetry rules to return in a single call.
+    ///   - ruleNamePrefix:  A string to filter telemetry rules whose names begin with the specified prefix.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTelemetryRulesPaginator(
+        maxResults: Int? = nil,
+        ruleNamePrefix: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListTelemetryRulesInput, ListTelemetryRulesOutput> {
+        let input = ListTelemetryRulesInput(
+            maxResults: maxResults, 
+            ruleNamePrefix: ruleNamePrefix
+        )
+        return self.listTelemetryRulesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listTelemetryRulesForOrganization(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTelemetryRulesForOrganizationPaginator(
+        _ input: ListTelemetryRulesForOrganizationInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTelemetryRulesForOrganizationInput, ListTelemetryRulesForOrganizationOutput> {
+        return .init(
+            input: input,
+            command: self.listTelemetryRulesForOrganization,
+            inputKey: \ListTelemetryRulesForOrganizationInput.nextToken,
+            outputKey: \ListTelemetryRulesForOrganizationOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listTelemetryRulesForOrganization(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults:  The maximum number of organization telemetry rules to return in a single call.
+    ///   - ruleNamePrefix:  A string to filter organization telemetry rules whose names begin with the specified prefix.
+    ///   - sourceAccountIds:  The list of account IDs to filter organization telemetry rules by their source accounts.
+    ///   - sourceOrganizationUnitIds:  The list of organizational unit IDs to filter organization telemetry rules by their source organizational units.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTelemetryRulesForOrganizationPaginator(
+        maxResults: Int? = nil,
+        ruleNamePrefix: String? = nil,
+        sourceAccountIds: [String]? = nil,
+        sourceOrganizationUnitIds: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListTelemetryRulesForOrganizationInput, ListTelemetryRulesForOrganizationOutput> {
+        let input = ListTelemetryRulesForOrganizationInput(
+            maxResults: maxResults, 
+            ruleNamePrefix: ruleNamePrefix, 
+            sourceAccountIds: sourceAccountIds, 
+            sourceOrganizationUnitIds: sourceOrganizationUnitIds
+        )
+        return self.listTelemetryRulesForOrganizationPaginator(input, logger: logger)
+    }
+}
+
+extension ObservabilityAdmin.ListCentralizationRulesForOrganizationInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ObservabilityAdmin.ListCentralizationRulesForOrganizationInput {
+        return .init(
+            allRegions: self.allRegions,
+            maxResults: self.maxResults,
+            nextToken: token,
+            ruleNamePrefix: self.ruleNamePrefix
+        )
     }
 }
 
@@ -382,6 +1135,30 @@ extension ObservabilityAdmin.ListResourceTelemetryInput: AWSPaginateToken {
             resourceTags: self.resourceTags,
             resourceTypes: self.resourceTypes,
             telemetryConfigurationState: self.telemetryConfigurationState
+        )
+    }
+}
+
+extension ObservabilityAdmin.ListTelemetryRulesForOrganizationInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ObservabilityAdmin.ListTelemetryRulesForOrganizationInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            ruleNamePrefix: self.ruleNamePrefix,
+            sourceAccountIds: self.sourceAccountIds,
+            sourceOrganizationUnitIds: self.sourceOrganizationUnitIds
+        )
+    }
+}
+
+extension ObservabilityAdmin.ListTelemetryRulesInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ObservabilityAdmin.ListTelemetryRulesInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            ruleNamePrefix: self.ruleNamePrefix
         )
     }
 }

@@ -582,7 +582,7 @@ public struct Location: AWSService {
     /// Creates a place index resource in your Amazon Web Services account. Use a place index resource to geocode addresses and other text queries by using the SearchPlaceIndexForText operation, and reverse geocode coordinates by using the SearchPlaceIndexForPosition operation, and enable autosuggestions by using the SearchPlaceIndexForSuggestions operation.  If your application is tracking or routing assets you use in your business, such  as delivery vehicles or employees, you must not use Esri as your geolocation  provider. See section 82 of the Amazon Web Services service terms for more details.
     ///
     /// Parameters:
-    ///   - dataSource: Specifies the geospatial data provider for the new place index.  This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error.  Valid values include:    Esri – For additional information about Esri's coverage in your region of interest, see Esri details on geocoding coverage.    Grab – Grab provides place index functionality for Southeast  Asia. For additional information about GrabMaps' coverage, see GrabMaps countries and areas covered.    Here – For additional information about HERE Technologies' coverage in your region of interest, see HERE details on goecoding coverage.  If you specify HERE Technologies (Here) as the data provider, you may not store results for locations in Japan. For more information, see the Amazon Web Services Service Terms for Amazon Location Service.    For additional information , see Data providers on the Amazon Location Service Developer Guide.
+    ///   - dataSource: Specifies the geospatial data provider for the new place index.  This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error.  Valid values include:    Esri – For additional information about Esri's coverage in your region of interest, see Esri details on geocoding coverage.    Grab – Grab provides place index functionality for Southeast  Asia. For additional information about GrabMaps' coverage, see GrabMaps countries and areas covered.    Here – For additional information about HERE Technologies' coverage in your region of interest, see HERE details on goecoding coverage.  If you specify HERE Technologies (Here) as the data provider, you may not store results for locations in Japan. For more information, see the Amazon Web Services service terms for Amazon Location Service.    For additional information , see Data providers on the Amazon Location Service developer guide.
     ///   - dataSourceConfiguration: Specifies the data storage option requesting Places.
     ///   - description: The optional description for the place index resource.
     ///   - indexName: The name of the place index resource.  Requirements:   Contain only alphanumeric characters (A–Z, a–z, 0–9), hyphens (-), periods (.), and underscores (_).   Must be a unique place index resource name.   No spaces allowed. For example, ExamplePlaceIndex.
@@ -1090,7 +1090,7 @@ public struct Location: AWSService {
         return try await self.disassociateTrackerConsumer(input, logger: logger)
     }
 
-    /// Evaluates device positions against geofence geometries from a given geofence collection. The event forecasts three states for which a device can be in relative to a geofence:  ENTER: If a device is outside of a geofence, but would breach the fence if the device is moving at its current speed within time horizon window.  EXIT: If a device is inside of a geofence, but would breach the fence if the device is moving at its current speed within time horizon window.  IDLE: If a device is inside of a geofence, and the device is not moving.
+    /// This action forecasts future geofence events that are likely to occur within a specified time horizon if a device continues moving at its current speed. Each forecasted event is associated with a geofence from a provided geofence collection. A forecast event can have one of the following states:  ENTER: The device position is outside the referenced geofence, but the device may cross into the geofence during the forecasting time horizon if it maintains its current speed.  EXIT: The device position is inside the referenced geofence, but the device may leave the geofence during the forecasted time horizon if the device maintains it's current speed.  IDLE:The device is inside the geofence, and it will remain inside the geofence through the end of the time horizon if the device maintains it's current speed.  Heading direction is not considered in the current version. The API takes a conservative approach and includes events that can occur for any heading.
     @Sendable
     @inlinable
     public func forecastGeofenceEvents(_ input: ForecastGeofenceEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ForecastGeofenceEventsResponse {
@@ -1104,16 +1104,16 @@ public struct Location: AWSService {
             logger: logger
         )
     }
-    /// Evaluates device positions against geofence geometries from a given geofence collection. The event forecasts three states for which a device can be in relative to a geofence:  ENTER: If a device is outside of a geofence, but would breach the fence if the device is moving at its current speed within time horizon window.  EXIT: If a device is inside of a geofence, but would breach the fence if the device is moving at its current speed within time horizon window.  IDLE: If a device is inside of a geofence, and the device is not moving.
+    /// This action forecasts future geofence events that are likely to occur within a specified time horizon if a device continues moving at its current speed. Each forecasted event is associated with a geofence from a provided geofence collection. A forecast event can have one of the following states:  ENTER: The device position is outside the referenced geofence, but the device may cross into the geofence during the forecasting time horizon if it maintains its current speed.  EXIT: The device position is inside the referenced geofence, but the device may leave the geofence during the forecasted time horizon if the device maintains it's current speed.  IDLE:The device is inside the geofence, and it will remain inside the geofence through the end of the time horizon if the device maintains it's current speed.  Heading direction is not considered in the current version. The API takes a conservative approach and includes events that can occur for any heading.
     ///
     /// Parameters:
     ///   - collectionName: The name of the geofence collection.
-    ///   - deviceState: The device's state, including current position and speed.
+    ///   - deviceState: Represents the device's state, including its current position and speed. When speed is omitted, this API performs a containment check. The containment check operation returns IDLE events for geofences where the device is currently inside of, but no other events.
     ///   - distanceUnit: The distance unit used for the NearestDistance property returned in a forecasted event. The measurement system must match for DistanceUnit and SpeedUnit; if Kilometers is specified for DistanceUnit, then SpeedUnit must be KilometersPerHour.  Default Value: Kilometers
     ///   - maxResults: An optional limit for the number of resources returned in a single call. Default value: 20
     ///   - nextToken: The pagination token specifying which page of results to return in the response. If no token is provided, the default page is the first page. Default value: null
     ///   - speedUnit: The speed unit for the device captured by the device state. The measurement system must match for DistanceUnit and SpeedUnit; if Kilometers is specified for DistanceUnit, then SpeedUnit must be KilometersPerHour. Default Value: KilometersPerHour.
-    ///   - timeHorizonMinutes: Specifies the time horizon in minutes for the forecasted events.
+    ///   - timeHorizonMinutes: The forward-looking time window for forecasting, specified in minutes. The API only returns events that are predicted to occur within this time horizon. When no value is specified, this API performs a containment check. The containment check operation returns IDLE events for geofences where the device is currently inside of, but no other events.
     ///   - logger: Logger use during operation
     @inlinable
     public func forecastGeofenceEvents(
@@ -1399,7 +1399,7 @@ public struct Location: AWSService {
         return try await self.getMapTile(input, logger: logger)
     }
 
-    /// Finds a place by its unique ID. A PlaceId is returned by other search operations.  A PlaceId is valid only if all of the following are the same in the original search request and the call to GetPlace.   Customer Amazon Web Services account   Amazon Web Services Region   Data provider specified in the place index resource
+    /// Finds a place by its unique ID. A PlaceId is returned by other search operations.  A PlaceId is valid only if all of the following are the same in the original search request and the call to GetPlace.   Customer Amazon Web Services account   Amazon Web Services Region   Data provider specified in the place index resource     If your Place index resource is configured with Grab as your geolocation  provider and Storage as Intended use, the GetPlace operation is unavailable. For  more information, see AWS service  terms.
     @Sendable
     @inlinable
     public func getPlace(_ input: GetPlaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPlaceResponse {
@@ -1413,7 +1413,7 @@ public struct Location: AWSService {
             logger: logger
         )
     }
-    /// Finds a place by its unique ID. A PlaceId is returned by other search operations.  A PlaceId is valid only if all of the following are the same in the original search request and the call to GetPlace.   Customer Amazon Web Services account   Amazon Web Services Region   Data provider specified in the place index resource
+    /// Finds a place by its unique ID. A PlaceId is returned by other search operations.  A PlaceId is valid only if all of the following are the same in the original search request and the call to GetPlace.   Customer Amazon Web Services account   Amazon Web Services Region   Data provider specified in the place index resource     If your Place index resource is configured with Grab as your geolocation  provider and Storage as Intended use, the GetPlace operation is unavailable. For  more information, see AWS service  terms.
     ///
     /// Parameters:
     ///   - indexName: The name of the place index resource that you want to use for the search.
@@ -1800,7 +1800,7 @@ public struct Location: AWSService {
     ///   - collectionName: The geofence collection to store the geofence in.
     ///   - geofenceId: An identifier for the geofence. For example, ExampleGeofence-1.
     ///   - geofenceProperties: Associates one of more properties with the geofence. A property is a key-value pair stored with the geofence and added to any geofence event triggered with that geofence. Format: "key" : "value"
-    ///   - geometry: Contains the details to specify the position of the geofence. Can be a polygon, a circle or a polygon encoded in Geobuf format. Including multiple selections will return a validation error.  The  geofence polygon format supports a maximum of 1,000 vertices. The Geofence Geobuf format supports a maximum of 100,000 vertices.
+    ///   - geometry: Contains the details to specify the position of the geofence. Can be a circle, a polygon, or a multipolygon. Polygon and MultiPolygon geometries can be defined using their respective parameters, or encoded in Geobuf format using the Geobuf parameter. Including multiple geometry types in the same request will return a validation error.  The geofence Polygon and MultiPolygon formats support a maximum of 1,000 total vertices. The Geobuf format supports a maximum of 100,000 vertices.
     ///   - logger: Logger use during operation
     @inlinable
     public func putGeofence(
@@ -1880,7 +1880,7 @@ public struct Location: AWSService {
     /// Parameters:
     ///   - biasPosition: An optional parameter that indicates a preference for place suggestions that are closer to a specified position. If provided, this parameter must contain a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents the position with longitude -123.1174 and latitude 49.2847.   BiasPosition and FilterBBox are mutually exclusive. Specifying both options results in an error.
     ///   - filterBBox: An optional parameter that limits the search results by returning only suggestions within a specified bounding box. If provided, this parameter must contain a total of four consecutive numbers in two pairs. The first pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the southwest corner of the bounding box; the second pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the northeast corner of the bounding box. For example, [-12.7935, -37.4835, -12.0684, -36.9542] represents a bounding box where the southwest corner has longitude -12.7935 and latitude -37.4835, and the northeast corner has longitude -12.0684 and latitude -36.9542.   FilterBBox and BiasPosition are mutually exclusive. Specifying both options results in an error.
-    ///   - filterCategories: A list of one or more Amazon Location categories to filter the returned places. If you  include more than one category, the results will include results that match  any of the categories listed. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering, in the Amazon Location Service Developer  Guide.
+    ///   - filterCategories: A list of one or more Amazon Location categories to filter the returned places. If you  include more than one category, the results will include results that match  any of the categories listed. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering, in the Amazon Location Service developer  guide.
     ///   - filterCountries: An optional parameter that limits the search results by returning only suggestions within the provided list of countries.   Use the ISO 3166 3-digit country code. For example, Australia uses three upper-case characters: AUS.
     ///   - indexName: The name of the place index resource you want to use for the search.
     ///   - key: The optional API key to authorize  the request.
@@ -1934,7 +1934,7 @@ public struct Location: AWSService {
     /// Parameters:
     ///   - biasPosition: An optional parameter that indicates a preference for places that are closer to a specified position. If provided, this parameter must contain a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents the position with longitude -123.1174 and latitude 49.2847.   BiasPosition and FilterBBox are mutually exclusive. Specifying both options results in an error.
     ///   - filterBBox: An optional parameter that limits the search results by returning only places that are within the provided bounding box. If provided, this parameter must contain a total of four consecutive numbers in two pairs. The first pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the southwest corner of the bounding box; the second pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the northeast corner of the bounding box. For example, [-12.7935, -37.4835, -12.0684, -36.9542] represents a bounding box where the southwest corner has longitude -12.7935 and latitude -37.4835, and the northeast corner has longitude -12.0684 and latitude -36.9542.   FilterBBox and BiasPosition are mutually exclusive. Specifying both options results in an error.
-    ///   - filterCategories: A list of one or more Amazon Location categories to filter the returned places. If you  include more than one category, the results will include results that match  any of the categories listed. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering, in the Amazon Location Service Developer  Guide.
+    ///   - filterCategories: A list of one or more Amazon Location categories to filter the returned places. If you  include more than one category, the results will include results that match  any of the categories listed. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering, in the Amazon Location Service developer  guide.
     ///   - filterCountries: An optional parameter that limits the search results by returning only places that are in a specified list of countries.   Valid values include ISO 3166 3-digit country codes. For example, Australia uses three upper-case characters: AUS.
     ///   - indexName: The name of the place index resource you want to use for the search.
     ///   - key: The optional API key to authorize  the request.
@@ -2260,7 +2260,7 @@ public struct Location: AWSService {
         return try await self.updateTracker(input, logger: logger)
     }
 
-    /// Verifies the integrity of the device's position by determining if it was reported behind a proxy, and by comparing it to an inferred position estimated based on the device's state.
+    /// Verifies the integrity of the device's position by determining if it was reported behind a proxy, and by comparing it to an inferred position estimated based on the device's state.  The Location Integrity SDK provides enhanced  features related to device verification, and it is available for use by request.  To get access to the SDK, contact Sales Support.
     @Sendable
     @inlinable
     public func verifyDevicePosition(_ input: VerifyDevicePositionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> VerifyDevicePositionResponse {
@@ -2274,7 +2274,7 @@ public struct Location: AWSService {
             logger: logger
         )
     }
-    /// Verifies the integrity of the device's position by determining if it was reported behind a proxy, and by comparing it to an inferred position estimated based on the device's state.
+    /// Verifies the integrity of the device's position by determining if it was reported behind a proxy, and by comparing it to an inferred position estimated based on the device's state.  The Location Integrity SDK provides enhanced  features related to device verification, and it is available for use by request.  To get access to the SDK, contact Sales Support.
     ///
     /// Parameters:
     ///   - deviceState: The device's state, including position, IP address, cell signals and Wi-Fi access points.
@@ -2332,11 +2332,11 @@ extension Location {
     ///
     /// - Parameters:
     ///   - collectionName: The name of the geofence collection.
-    ///   - deviceState: The device's state, including current position and speed.
+    ///   - deviceState: Represents the device's state, including its current position and speed. When speed is omitted, this API performs a containment check. The containment check operation returns IDLE events for geofences where the device is currently inside of, but no other events.
     ///   - distanceUnit: The distance unit used for the NearestDistance property returned in a forecasted event. The measurement system must match for DistanceUnit and SpeedUnit; if Kilometers is specified for DistanceUnit, then SpeedUnit must be KilometersPerHour.  Default Value: Kilometers
     ///   - maxResults: An optional limit for the number of resources returned in a single call. Default value: 20
     ///   - speedUnit: The speed unit for the device captured by the device state. The measurement system must match for DistanceUnit and SpeedUnit; if Kilometers is specified for DistanceUnit, then SpeedUnit must be KilometersPerHour. Default Value: KilometersPerHour.
-    ///   - timeHorizonMinutes: Specifies the time horizon in minutes for the forecasted events.
+    ///   - timeHorizonMinutes: The forward-looking time window for forecasting, specified in minutes. The API only returns events that are predicted to occur within this time horizon. When no value is specified, this API performs a containment check. The containment check operation returns IDLE events for geofences where the device is currently inside of, but no other events.
     ///   - logger: Logger used for logging
     @inlinable
     public func forecastGeofenceEventsPaginator(

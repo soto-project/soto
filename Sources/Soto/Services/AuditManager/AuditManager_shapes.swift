@@ -876,7 +876,7 @@ extension AuditManager {
         public func validate(name: String) throws {
             try self.validate(self.destination, name: "destination", parent: name, max: 1024)
             try self.validate(self.destination, name: "destination", parent: name, min: 1)
-            try self.validate(self.destination, name: "destination", parent: name, pattern: "^(S|s)3:\\/\\/[a-zA-Z0-9\\-\\.\\(\\)\\'\\*\\_\\!\\/]+$")
+            try self.validate(self.destination, name: "destination", parent: name, pattern: "^(S|s)3:\\/\\/[a-zA-Z0-9\\-\\.\\(\\)\\'\\*\\_\\!\\=\\+\\@\\:\\s\\,\\?\\/]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1656,7 +1656,7 @@ extension AuditManager {
     public struct CreateAssessmentFrameworkRequest: AWSEncodableShape {
         ///  The compliance type that the new custom framework supports, such as CIS or HIPAA.
         public let complianceType: String?
-        ///  The control sets that are associated with the framework.
+        ///  The control sets that are associated with the framework.   The Controls object returns a partial response when called through Framework APIs. For a complete Controls object, use GetControl.
         public let controlSets: [CreateAssessmentFrameworkControlSet]
         ///  An optional description for the new custom framework.
         public let description: String?
@@ -1707,7 +1707,7 @@ extension AuditManager {
     }
 
     public struct CreateAssessmentFrameworkResponse: AWSDecodableShape {
-        ///  The name of the new framework that the CreateAssessmentFramework API returned.
+        ///  The new framework object that the CreateAssessmentFramework API returned.
         public let framework: Framework?
 
         @inlinable
@@ -2033,7 +2033,7 @@ extension AuditManager {
         public func validate(name: String) throws {
             try self.validate(self.destination, name: "destination", parent: name, max: 1024)
             try self.validate(self.destination, name: "destination", parent: name, min: 1)
-            try self.validate(self.destination, name: "destination", parent: name, pattern: "^(S|s)3:\\/\\/[a-zA-Z0-9\\-\\.\\(\\)\\'\\*\\_\\!\\/]+$")
+            try self.validate(self.destination, name: "destination", parent: name, pattern: "^(S|s)3:\\/\\/[a-zA-Z0-9\\-\\.\\(\\)\\'\\*\\_\\!\\=\\+\\@\\:\\s\\,\\?\\/]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2501,9 +2501,9 @@ extension AuditManager {
         public let arn: String?
         ///  The compliance type that the framework supports, such as CIS or HIPAA.
         public let complianceType: String?
-        ///  The control sets that are associated with the framework.
+        ///  The control sets that are associated with the framework.   The Controls object returns a partial response when called through Framework APIs. For a complete Controls object, use GetControl.
         public let controlSets: [ControlSet]?
-        ///  The control data sources where Audit Manager collects evidence from.
+        ///  The control data sources where Audit Manager collects evidence from.  This API parameter is no longer supported.
         public let controlSources: String?
         ///  The time when the framework was created.
         public let createdAt: Date?
@@ -2526,6 +2526,25 @@ extension AuditManager {
         ///  Specifies whether the framework is a standard framework or a custom framework.
         public let type: FrameworkType?
 
+        @inlinable
+        public init(arn: String? = nil, complianceType: String? = nil, controlSets: [ControlSet]? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, lastUpdatedBy: String? = nil, logo: String? = nil, name: String? = nil, tags: [String: String]? = nil, type: FrameworkType? = nil) {
+            self.arn = arn
+            self.complianceType = complianceType
+            self.controlSets = controlSets
+            self.controlSources = nil
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.id = id
+            self.lastUpdatedAt = lastUpdatedAt
+            self.lastUpdatedBy = lastUpdatedBy
+            self.logo = logo
+            self.name = name
+            self.tags = tags
+            self.type = type
+        }
+
+        @available(*, deprecated, message: "Members controlSources have been deprecated")
         @inlinable
         public init(arn: String? = nil, complianceType: String? = nil, controlSets: [ControlSet]? = nil, controlSources: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, lastUpdatedBy: String? = nil, logo: String? = nil, name: String? = nil, tags: [String: String]? = nil, type: FrameworkType? = nil) {
             self.arn = arn
@@ -2631,7 +2650,7 @@ extension AuditManager {
     }
 
     public struct GetAssessmentFrameworkResponse: AWSDecodableShape {
-        ///  The framework that the GetAssessmentFramework API returned.
+        ///  The framework that the GetAssessmentFramework API returned.   The Controls object returns a partial response when called through Framework APIs. For a complete Controls object, use GetControl.
         public let framework: Framework?
 
         @inlinable
@@ -4071,7 +4090,7 @@ extension AuditManager {
             try self.validate(self.evidenceFileName, name: "evidenceFileName", parent: name, pattern: "^[^\\/]*$")
             try self.validate(self.s3ResourcePath, name: "s3ResourcePath", parent: name, max: 1024)
             try self.validate(self.s3ResourcePath, name: "s3ResourcePath", parent: name, min: 1)
-            try self.validate(self.s3ResourcePath, name: "s3ResourcePath", parent: name, pattern: "^(S|s)3:\\/\\/[a-zA-Z0-9\\-\\.\\(\\)\\'\\*\\_\\!\\/]+$")
+            try self.validate(self.s3ResourcePath, name: "s3ResourcePath", parent: name, pattern: "^(S|s)3:\\/\\/[a-zA-Z0-9\\-\\.\\(\\)\\'\\*\\_\\!\\=\\+\\@\\:\\s\\,\\?\\/]+$")
             try self.validate(self.textResponse, name: "textResponse", parent: name, max: 1000)
             try self.validate(self.textResponse, name: "textResponse", parent: name, min: 1)
             try self.validate(self.textResponse, name: "textResponse", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
@@ -4719,7 +4738,7 @@ extension AuditManager {
     public struct UpdateAssessmentFrameworkRequest: AWSEncodableShape {
         ///  The compliance type that the new custom framework supports, such as CIS or HIPAA.
         public let complianceType: String?
-        ///  The control sets that are associated with the framework.
+        ///  The control sets that are associated with the framework.   The Controls object returns a partial response when called through Framework APIs. For a complete Controls object, use GetControl.
         public let controlSets: [UpdateAssessmentFrameworkControlSet]
         ///  The description of the updated framework.
         public let description: String?
@@ -4774,7 +4793,7 @@ extension AuditManager {
     }
 
     public struct UpdateAssessmentFrameworkResponse: AWSDecodableShape {
-        ///  The name of the framework.
+        ///  The framework object.
         public let framework: Framework?
 
         @inlinable
@@ -5116,7 +5135,7 @@ extension AuditManager {
         public func validate(name: String) throws {
             try self.validate(self.s3RelativePath, name: "s3RelativePath", parent: name, max: 1024)
             try self.validate(self.s3RelativePath, name: "s3RelativePath", parent: name, min: 1)
-            try self.validate(self.s3RelativePath, name: "s3RelativePath", parent: name, pattern: "^(S|s)3:\\/\\/[a-zA-Z0-9\\-\\.\\(\\)\\'\\*\\_\\!\\/]+$")
+            try self.validate(self.s3RelativePath, name: "s3RelativePath", parent: name, pattern: "^(S|s)3:\\/\\/[a-zA-Z0-9\\-\\.\\(\\)\\'\\*\\_\\!\\=\\+\\@\\:\\s\\,\\?\\/]+$")
         }
 
         private enum CodingKeys: String, CodingKey {

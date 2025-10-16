@@ -76,9 +76,9 @@ extension BackupSearch {
     }
 
     public enum ResultItem: AWSDecodableShape, Sendable {
-        /// These are items returned in the search results  of an Amazon EBS search.
+        /// These are items returned in the search results of an Amazon EBS search.
         case ebsResultItem(EBSResultItem)
-        /// These are items returned in the search results  of an Amazon S3 search.
+        /// These are items returned in the search results of an Amazon S3 search.
         case s3ResultItem(S3ResultItem)
 
         public init(from decoder: Decoder) throws {
@@ -109,9 +109,9 @@ extension BackupSearch {
     // MARK: Shapes
 
     public struct BackupCreationTimeFilter: AWSEncodableShape & AWSDecodableShape {
-        /// This timestamp includes recovery points only  created after the specified time.
+        /// This timestamp includes recovery points only created after the specified time.
         public let createdAfter: Date?
-        /// This timestamp includes recovery points only  created before the specified time.
+        /// This timestamp includes recovery points only created before the specified time.
         public let createdBefore: Date?
 
         @inlinable
@@ -149,11 +149,11 @@ extension BackupSearch {
     }
 
     public struct CurrentSearchProgress: AWSDecodableShape {
-        /// This number is the sum of all items that match  the item filters in a search job in progress.
+        /// This number is the sum of all items that match the item filters in a search job in progress.
         public let itemsMatchedCount: Int64?
-        /// This number is the sum of all items that  have been scanned so far during a search job.
+        /// This number is the sum of all items that have been scanned so far during a search job.
         public let itemsScannedCount: Int64?
-        /// This number is the sum of all backups that  have been scanned so far during a search job.
+        /// This number is the sum of all backups that have been scanned so far during a search job.
         public let recoveryPointsScannedCount: Int?
 
         @inlinable
@@ -171,13 +171,13 @@ extension BackupSearch {
     }
 
     public struct EBSItemFilter: AWSEncodableShape & AWSDecodableShape {
-        /// You can include 1 to 10 values. If one is included, the results will  return only items that match. If more than one is included, the  results will return all items that match any of  the included values.
+        /// You can include 1 to 10 values. If one is included, the results will return only items that match. If more than one is included, the results will return all items that match any of the included values.
         public let creationTimes: [TimeCondition]?
-        /// You can include 1 to 10 values. If one file path is included, the results will  return only items that match the file path. If more than one file path is included, the  results will return all items that match any of the  file paths.
+        /// You can include 1 to 10 values. If one file path is included, the results will return only items that match the file path. If more than one file path is included, the results will return all items that match any of the file paths.
         public let filePaths: [StringCondition]?
-        /// You can include 1 to 10 values. If one is included, the results will  return only items that match. If more than one is included, the  results will return all items that match any of  the included values.
+        /// You can include 1 to 10 values. If one is included, the results will return only items that match. If more than one is included, the results will return all items that match any of the included values.
         public let lastModificationTimes: [TimeCondition]?
-        /// You can include 1 to 10 values. If one is included, the results will  return only items that match. If more than one is included, the  results will return all items that match any of  the included values.
+        /// You can include 1 to 10 values. If one is included, the results will return only items that match. If more than one is included, the results will return all items that match any of the included values.
         public let sizes: [LongCondition]?
 
         @inlinable
@@ -208,21 +208,21 @@ extension BackupSearch {
     }
 
     public struct EBSResultItem: AWSDecodableShape {
-        /// These are one or more items in the   results that match values for the Amazon Resource  Name (ARN) of recovery points returned in a search  of Amazon EBS backup metadata.
+        /// These are one or more items in the results that match values for the Amazon Resource Name (ARN) of recovery points returned in a search of Amazon EBS backup metadata.
         public let backupResourceArn: String?
         /// The name of the backup vault.
         public let backupVaultName: String?
-        /// These are one or more items in the   results that match values for creation times returned  in a search of Amazon EBS backup metadata.
+        /// These are one or more items in the results that match values for creation times returned in a search of Amazon EBS backup metadata.
         public let creationTime: Date?
-        /// These are one or more items in the   results that match values for file paths returned  in a search of Amazon EBS backup metadata.
+        /// These are one or more items in the results that match values for file paths returned in a search of Amazon EBS backup metadata.
         public let filePath: String?
-        /// These are one or more items in the   results that match values for file sizes returned  in a search of Amazon EBS backup metadata.
+        /// These are one or more items in the results that match values for file sizes returned in a search of Amazon EBS backup metadata.
         public let fileSize: Int64?
-        /// These are one or more items in the   results that match values for file systems returned  in a search of Amazon EBS backup metadata.
+        /// These are one or more items in the results that match values for file systems returned in a search of Amazon EBS backup metadata.
         public let fileSystemIdentifier: String?
-        /// These are one or more items in the   results that match values for Last Modified Time returned  in a search of Amazon EBS backup metadata.
+        /// These are one or more items in the results that match values for Last Modified Time returned in a search of Amazon EBS backup metadata.
         public let lastModifiedTime: Date?
-        /// These are one or more items in the   results that match values for the Amazon Resource  Name (ARN) of source resources returned in a search  of Amazon EBS backup metadata.
+        /// These are one or more items in the results that match values for the Amazon Resource Name (ARN) of source resources returned in a search of Amazon EBS backup metadata.
         public let sourceResourceArn: String?
 
         @inlinable
@@ -250,19 +250,19 @@ extension BackupSearch {
     }
 
     public struct ExportJobSummary: AWSDecodableShape {
-        /// This is a timestamp of the time the export job  compeleted.
+        /// This is a timestamp of the time the export job compeleted.
         public let completionTime: Date?
-        /// This is a timestamp of the time the export job  was created.
+        /// This is a timestamp of the time the export job was created.
         public let creationTime: Date?
-        /// This is the unique ARN (Amazon Resource Name) that  belongs to the new export job.
+        /// This is the unique ARN (Amazon Resource Name) that belongs to the new export job.
         public let exportJobArn: String?
-        /// This is the unique string that identifies a  specific export job.
+        /// This is the unique string that identifies a specific export job.
         public let exportJobIdentifier: String
-        /// The unique string that identifies the Amazon Resource  Name (ARN) of the specified search job.
+        /// The unique string that identifies the Amazon Resource Name (ARN) of the specified search job.
         public let searchJobArn: String?
-        /// The status of the export job is one of the  following:  CREATED; RUNNING;  FAILED; or COMPLETED.
+        /// The status of the export job is one of the following:  CREATED; RUNNING; FAILED; or COMPLETED.
         public let status: ExportJobStatus?
-        /// A status message is a string that is returned for an export job. A status message is included for any status other  than COMPLETED without issues.
+        /// A status message is a string that is returned for an export job. A status message is included for any status other than COMPLETED without issues.
         public let statusMessage: String?
 
         @inlinable
@@ -288,7 +288,7 @@ extension BackupSearch {
     }
 
     public struct GetSearchJobInput: AWSEncodableShape {
-        /// Required unique string that specifies the  search job.
+        /// Required unique string that specifies the search job.
         public let searchJobIdentifier: String
 
         @inlinable
@@ -310,25 +310,25 @@ extension BackupSearch {
         public let completionTime: Date?
         /// The date and time that a search job was created, in Unix format and Coordinated Universal Time (UTC). The value of CompletionTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let creationTime: Date
-        /// Returns numbers representing BackupsScannedCount,  ItemsScanned, and ItemsMatched.
+        /// Returns numbers representing BackupsScannedCount, ItemsScanned, and ItemsMatched.
         public let currentSearchProgress: CurrentSearchProgress?
-        /// The encryption key for the specified  search job. Example: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
+        /// The encryption key for the specified search job. Example: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
         public let encryptionKeyArn: String?
-        /// Item Filters represent all input item   properties specified when the search was  created.
+        /// Item Filters represent all input item properties specified when the search was created.
         public let itemFilters: ItemFilters
         /// Returned name of the specified search job.
         public let name: String?
-        /// The unique string that identifies the Amazon Resource  Name (ARN) of the specified search job.
+        /// The unique string that identifies the Amazon Resource Name (ARN) of the specified search job.
         public let searchJobArn: String
         /// The unique string that identifies the specified search job.
         public let searchJobIdentifier: String
-        /// The search scope is all backup  properties input into a search.
+        /// The search scope is all backup properties input into a search.
         public let searchScope: SearchScope
-        /// Returned summary of the specified search job scope,  including:    TotalBackupsToScanCount, the number of  recovery points returned by the search.   TotalItemsToScanCount, the number of  items returned by the search.
+        /// Returned summary of the specified search job scope, including:    TotalBackupsToScanCount, the number of recovery points returned by the search.   TotalItemsToScanCount, the number of items returned by the search.
         public let searchScopeSummary: SearchScopeSummary?
-        /// The current status of the specified search job. A search job may have one of the following statuses:  RUNNING; COMPLETED; STOPPED;  FAILED; TIMED_OUT; or EXPIRED .
+        /// The current status of the specified search job. A search job may have one of the following statuses: RUNNING; COMPLETED; STOPPED; FAILED; TIMED_OUT; or EXPIRED .
         public let status: SearchJobState
-        /// A status message will be returned for either a  earch job with a status of ERRORED or a status of  COMPLETED jobs with issues. For example, a message may say that a search  contained recovery points unable to be scanned because  of a permissions issue.
+        /// A status message will be returned for either a earch job with a status of ERRORED or a status of COMPLETED jobs with issues. For example, a message may say that a search contained recovery points unable to be scanned because of a permissions issue.
         public let statusMessage: String?
 
         @inlinable
@@ -364,7 +364,7 @@ extension BackupSearch {
     }
 
     public struct GetSearchResultExportJobInput: AWSEncodableShape {
-        /// This is the unique string that identifies a  specific export job. Required for this operation.
+        /// This is the unique string that identifies a specific export job. Required for this operation.
         public let exportJobIdentifier: String
 
         @inlinable
@@ -386,17 +386,17 @@ extension BackupSearch {
         public let completionTime: Date?
         /// The date and time that an export job was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let creationTime: Date?
-        /// The unique Amazon Resource Name (ARN) that uniquely identifies  the export job.
+        /// The unique Amazon Resource Name (ARN) that uniquely identifies the export job.
         public let exportJobArn: String?
-        /// This is the unique string that identifies the    specified export job.
+        /// This is the unique string that identifies the specified export job.
         public let exportJobIdentifier: String
-        /// The export specification consists of the destination  S3 bucket to which the search results were exported, along  with the destination prefix.
+        /// The export specification consists of the destination S3 bucket to which the search results were exported, along with the destination prefix.
         public let exportSpecification: ExportSpecification?
-        /// The unique string that identifies the Amazon Resource  Name (ARN) of the specified search job.
+        /// The unique string that identifies the Amazon Resource Name (ARN) of the specified search job.
         public let searchJobArn: String?
         /// This is the current status of the export job.
         public let status: ExportJobStatus?
-        /// A status message is a string that is returned for search job  with a status of FAILED, along with steps to remedy  and retry the operation.
+        /// A status message is a string that is returned for search job with a status of FAILED, along with steps to remedy and retry the operation.
         public let statusMessage: String?
 
         @inlinable
@@ -424,9 +424,9 @@ extension BackupSearch {
     }
 
     public struct ItemFilters: AWSEncodableShape & AWSDecodableShape {
-        /// This array can contain CreationTimes,  FilePaths, LastModificationTimes, or Sizes objects.
+        /// This array can contain CreationTimes, FilePaths, LastModificationTimes, or Sizes objects.
         public let ebsItemFilters: [EBSItemFilter]?
-        /// This array can contain CreationTimes, ETags,  ObjectKeys, Sizes, or VersionIds objects.
+        /// This array can contain CreationTimes, ETags, ObjectKeys, Sizes, or VersionIds objects.
         public let s3ItemFilters: [S3ItemFilter]?
 
         @inlinable
@@ -455,7 +455,7 @@ extension BackupSearch {
     public struct ListSearchJobBackupsInput: AWSEncodableShape {
         /// The maximum number of resource list items to be returned.
         public let maxResults: Int?
-        /// The next item following a partial list of returned backups  included in a search job. For example, if a request is made to return MaxResults number of backups, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+        /// The next item following a partial list of returned backups included in a search job. For example, if a request is made to return MaxResults number of backups, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
         /// The unique string that specifies the search job.
         public let searchJobIdentifier: String
@@ -479,9 +479,9 @@ extension BackupSearch {
     }
 
     public struct ListSearchJobBackupsOutput: AWSDecodableShape {
-        /// The next item following a partial list of returned backups  included in a search job. For example, if a request is made to return MaxResults number of backups, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+        /// The next item following a partial list of returned backups included in a search job. For example, if a request is made to return MaxResults number of backups, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
-        /// The recovery points returned the results of a  search job
+        /// The recovery points returned the results of a search job
         public let results: [SearchJobBackupsResult]
 
         @inlinable
@@ -499,7 +499,7 @@ extension BackupSearch {
     public struct ListSearchJobResultsInput: AWSEncodableShape {
         /// The maximum number of resource list items to be returned.
         public let maxResults: Int?
-        /// The next item following a partial list of returned  search job results. For example, if a request is made to return MaxResults number of  search job results, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+        /// The next item following a partial list of returned search job results. For example, if a request is made to return MaxResults number of search job results, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
         /// The unique string that specifies the search job.
         public let searchJobIdentifier: String
@@ -523,7 +523,7 @@ extension BackupSearch {
     }
 
     public struct ListSearchJobResultsOutput: AWSDecodableShape {
-        /// The next item following a partial list of  search job results. For example, if a request is made to return MaxResults number of backups, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+        /// The next item following a partial list of search job results. For example, if a request is made to return MaxResults number of backups, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
         /// The results consist of either EBSResultItem or S3ResultItem.
         public let results: [ResultItem]
@@ -541,11 +541,11 @@ extension BackupSearch {
     }
 
     public struct ListSearchJobsInput: AWSEncodableShape {
-        /// Include this parameter to filter list by search  job status.
+        /// Include this parameter to filter list by search job status.
         public let byStatus: SearchJobState?
         /// The maximum number of resource list items to be returned.
         public let maxResults: Int?
-        /// The next item following a partial list of returned  search jobs. For example, if a request is made to return MaxResults number of backups, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+        /// The next item following a partial list of returned search jobs. For example, if a request is made to return MaxResults number of backups, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
         @inlinable
@@ -567,9 +567,9 @@ extension BackupSearch {
     }
 
     public struct ListSearchJobsOutput: AWSDecodableShape {
-        /// The next item following a partial list of returned backups  included in a search job. For example, if a request is made to return MaxResults number of backups, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+        /// The next item following a partial list of returned backups included in a search job. For example, if a request is made to return MaxResults number of backups, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
-        /// The search jobs among the list, with details of  the returned search jobs.
+        /// The search jobs among the list, with details of the returned search jobs.
         public let searchJobs: [SearchJobSummary]
 
         @inlinable
@@ -587,11 +587,11 @@ extension BackupSearch {
     public struct ListSearchResultExportJobsInput: AWSEncodableShape {
         /// The maximum number of resource list items to be returned.
         public let maxResults: Int?
-        /// The next item following a partial list of returned backups  included in a search job. For example, if a request is made to return MaxResults number of backups, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+        /// The next item following a partial list of returned backups included in a search job. For example, if a request is made to return MaxResults number of backups, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
         /// The unique string that specifies the search job.
         public let searchJobIdentifier: String?
-        /// The search jobs to be included in the export job  can be filtered by including this parameter.
+        /// The search jobs to be included in the export job can be filtered by including this parameter.
         public let status: ExportJobStatus?
 
         @inlinable
@@ -617,7 +617,7 @@ extension BackupSearch {
     public struct ListSearchResultExportJobsOutput: AWSDecodableShape {
         /// The operation returns the included export jobs.
         public let exportJobs: [ExportJobSummary]
-        /// The next item following a partial list of returned backups  included in a search job. For example, if a request is made to return MaxResults number of backups, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+        /// The next item following a partial list of returned backups included in a search job. For example, if a request is made to return MaxResults number of backups, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
         @inlinable
@@ -633,7 +633,7 @@ extension BackupSearch {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) that uniquely identifies  the resource.&gt;
+        /// The Amazon Resource Name (ARN) that uniquely identifies the resource.&gt;
         public let resourceArn: String
 
         @inlinable
@@ -665,9 +665,9 @@ extension BackupSearch {
     }
 
     public struct LongCondition: AWSEncodableShape & AWSDecodableShape {
-        /// A string that defines what values will be  returned. If this is included, avoid combinations of  operators that will return all possible values.  For example, including both EQUALS_TO  and NOT_EQUALS_TO with a value of 4  will return all values.
+        /// A string that defines what values will be returned. If this is included, avoid combinations of operators that will return all possible values. For example, including both EQUALS_TO and NOT_EQUALS_TO with a value of 4 will return all values.
         public let `operator`: LongConditionOperator?
-        /// The value of an item included in one of the search  item filters.
+        /// The value of an item included in one of the search item filters.
         public let value: Int64
 
         @inlinable
@@ -705,9 +705,9 @@ extension BackupSearch {
     }
 
     public struct S3ExportSpecification: AWSEncodableShape & AWSDecodableShape {
-        /// This specifies the destination Amazon S3  bucket for the export job.
+        /// This specifies the destination Amazon S3 bucket for the export job.
         public let destinationBucket: String
-        /// This specifies the prefix for the destination  Amazon S3 bucket for the export job.
+        /// This specifies the prefix for the destination Amazon S3 bucket for the export job.
         public let destinationPrefix: String?
 
         @inlinable
@@ -723,15 +723,15 @@ extension BackupSearch {
     }
 
     public struct S3ItemFilter: AWSEncodableShape & AWSDecodableShape {
-        /// You can include 1 to 10 values. If one value is included, the results will  return only items that match the value. If more than one value is included, the  results will return all items that match any of the  values.
+        /// You can include 1 to 10 values. If one value is included, the results will return only items that match the value. If more than one value is included, the results will return all items that match any of the values.
         public let creationTimes: [TimeCondition]?
-        /// You can include 1 to 10 values. If one value is included, the results will  return only items that match the value. If more than one value is included, the  results will return all items that match any of the  values.
+        /// You can include 1 to 10 values. If one value is included, the results will return only items that match the value. If more than one value is included, the results will return all items that match any of the values.
         public let eTags: [StringCondition]?
-        /// You can include 1 to 10 values. If one value is included, the results will  return only items that match the value. If more than one value is included, the  results will return all items that match any of the  values.
+        /// You can include 1 to 10 values. If one value is included, the results will return only items that match the value. If more than one value is included, the results will return all items that match any of the values.
         public let objectKeys: [StringCondition]?
-        /// You can include 1 to 10 values. If one value is included, the results will  return only items that match the value. If more than one value is included, the  results will return all items that match any of the  values.
+        /// You can include 1 to 10 values. If one value is included, the results will return only items that match the value. If more than one value is included, the results will return all items that match any of the values.
         public let sizes: [LongCondition]?
-        /// You can include 1 to 10 values. If one value is included, the results will  return only items that match the value. If more than one value is included, the  results will return all items that match any of the  values.
+        /// You can include 1 to 10 values. If one value is included, the results will return only items that match the value. If more than one value is included, the results will return all items that match any of the values.
         public let versionIds: [StringCondition]?
 
         @inlinable
@@ -766,21 +766,21 @@ extension BackupSearch {
     }
 
     public struct S3ResultItem: AWSDecodableShape {
-        /// These are items in the returned results that match  recovery point Amazon Resource Names (ARN) input during  a search of Amazon S3 backup metadata.
+        /// These are items in the returned results that match recovery point Amazon Resource Names (ARN) input during a search of Amazon S3 backup metadata.
         public let backupResourceArn: String?
         /// The name of the backup vault.
         public let backupVaultName: String?
-        /// These are one or more items in the returned results  that match values for item creation time input during  a search of Amazon S3 backup metadata.
+        /// These are one or more items in the returned results that match values for item creation time input during a search of Amazon S3 backup metadata.
         public let creationTime: Date?
-        /// These are one or more items in the returned results  that match values for ETags input during  a search of Amazon S3 backup metadata.
+        /// These are one or more items in the returned results that match values for ETags input during a search of Amazon S3 backup metadata.
         public let eTag: String?
-        /// This is one or more items     returned in the results of a search of Amazon S3  backup metadata that match the values input for  object key.
+        /// This is one or more items returned in the results of a search of Amazon S3 backup metadata that match the values input for object key.
         public let objectKey: String?
-        /// These are items in the returned results that match  values for object size(s) input during a search of  Amazon S3 backup metadata.
+        /// These are items in the returned results that match values for object size(s) input during a search of Amazon S3 backup metadata.
         public let objectSize: Int64?
-        /// These are items in the returned results that match  source Amazon Resource Names (ARN) input during  a search of Amazon S3 backup metadata.
+        /// These are items in the returned results that match source Amazon Resource Names (ARN) input during a search of Amazon S3 backup metadata.
         public let sourceResourceArn: String?
-        /// These are one or more items in the returned results  that match values for version IDs input during  a search of Amazon S3 backup metadata.
+        /// These are one or more items in the returned results that match values for version IDs input during a search of Amazon S3 backup metadata.
         public let versionId: String?
 
         @inlinable
@@ -810,13 +810,13 @@ extension BackupSearch {
     public struct SearchJobBackupsResult: AWSDecodableShape {
         /// This is the creation time of the backup (recovery point).
         public let backupCreationTime: Date?
-        /// The Amazon Resource Name (ARN) that uniquely identifies  the backup resources.
+        /// The Amazon Resource Name (ARN) that uniquely identifies the backup resources.
         public let backupResourceArn: String?
         /// This is the creation time of the backup index.
         public let indexCreationTime: Date?
         /// This is the resource type of the search.
         public let resourceType: ResourceType?
-        /// The Amazon Resource Name (ARN) that uniquely identifies  the source resources.
+        /// The Amazon Resource Name (ARN) that uniquely identifies the source resources.
         public let sourceResourceArn: String?
         /// This is the status of the search job backup result.
         public let status: SearchJobState?
@@ -852,15 +852,15 @@ extension BackupSearch {
         public let creationTime: Date?
         /// This is the name of the search job.
         public let name: String?
-        /// The unique string that identifies the Amazon Resource  Name (ARN) of the specified search job.
+        /// The unique string that identifies the Amazon Resource Name (ARN) of the specified search job.
         public let searchJobArn: String?
         /// The unique string that specifies the search job.
         public let searchJobIdentifier: String?
-        /// Returned summary of the specified search job scope,  including:    TotalBackupsToScanCount, the number of  recovery points returned by the search.   TotalItemsToScanCount, the number of  items returned by the search.
+        /// Returned summary of the specified search job scope, including:    TotalBackupsToScanCount, the number of recovery points returned by the search.   TotalItemsToScanCount, the number of items returned by the search.
         public let searchScopeSummary: SearchScopeSummary?
         /// This is the status of the search job.
         public let status: SearchJobState?
-        /// A status message will be returned for either a  earch job with a status of ERRORED or a status of  COMPLETED jobs with issues. For example, a message may say that a search  contained recovery points unable to be scanned because  of a permissions issue.
+        /// A status message will be returned for either a earch job with a status of ERRORED or a status of COMPLETED jobs with issues. For example, a message may say that a search contained recovery points unable to be scanned because of a permissions issue.
         public let statusMessage: String?
 
         @inlinable
@@ -888,15 +888,15 @@ extension BackupSearch {
     }
 
     public struct SearchScope: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) that uniquely identifies  the backup resources.
+        /// The Amazon Resource Name (ARN) that uniquely identifies the backup resources.
         public let backupResourceArns: [String]?
         /// This is the time a backup resource was created.
         public let backupResourceCreationTime: BackupCreationTimeFilter?
-        /// These are one or more tags on the backup (recovery  point).
+        /// These are one or more tags on the backup (recovery point).
         public let backupResourceTags: [String: String]?
         /// The resource types included in a search. Eligible resource types include S3 and EBS.
         public let backupResourceTypes: [ResourceType]
-        /// The Amazon Resource Name (ARN) that uniquely identifies  the source resources.
+        /// The Amazon Resource Name (ARN) that uniquely identifies the source resources.
         public let sourceResourceArns: [String]?
 
         @inlinable
@@ -925,9 +925,9 @@ extension BackupSearch {
     }
 
     public struct SearchScopeSummary: AWSDecodableShape {
-        /// This is the count of the total number of items   that will be scanned in a search.
+        /// This is the count of the total number of items that will be scanned in a search.
         public let totalItemsToScanCount: Int64?
-        /// This is the count of the total number of backups  that will be scanned in a search.
+        /// This is the count of the total number of backups that will be scanned in a search.
         public let totalRecoveryPointsToScanCount: Int?
 
         @inlinable
@@ -973,15 +973,15 @@ extension BackupSearch {
     }
 
     public struct StartSearchJobInput: AWSEncodableShape {
-        /// Include this parameter to allow multiple identical  calls for idempotency. A client token is valid for 8 hours after the first  request that uses it is completed. After this time, any request with the same token is treated as a  new request.
+        /// Include this parameter to allow multiple identical calls for idempotency. A client token is valid for 8 hours after the first request that uses it is completed. After this time, any request with the same token is treated as a new request.
         public let clientToken: String?
-        /// The encryption key for the specified  search job.
+        /// The encryption key for the specified search job.
         public let encryptionKeyArn: String?
-        /// Item Filters represent all input item   properties specified when the search was  created. Contains either EBSItemFilters or  S3ItemFilters
+        /// Item Filters represent all input item properties specified when the search was created. Contains either EBSItemFilters or S3ItemFilters
         public let itemFilters: ItemFilters?
-        /// Include alphanumeric characters to create a  name for this search job.
+        /// Include alphanumeric characters to create a name for this search job.
         public let name: String?
-        /// This object can contain BackupResourceTypes,  BackupResourceArns, BackupResourceCreationTime,  BackupResourceTags, and SourceResourceArns to  filter the recovery points returned by the search  job.
+        /// This object can contain BackupResourceTypes, BackupResourceArns, BackupResourceCreationTime, BackupResourceTags, and SourceResourceArns to filter the recovery points returned by the search job.
         public let searchScope: SearchScope
         /// List of tags returned by the operation.
         public let tags: [String: String]?
@@ -1014,7 +1014,7 @@ extension BackupSearch {
     public struct StartSearchJobOutput: AWSDecodableShape {
         /// The date and time that a job was created, in Unix format and Coordinated Universal Time (UTC). The value of CompletionTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let creationTime: Date?
-        /// The unique string that identifies the Amazon Resource  Name (ARN) of the specified search job.
+        /// The unique string that identifies the Amazon Resource Name (ARN) of the specified search job.
         public let searchJobArn: String?
         /// The unique string that specifies the search job.
         public let searchJobIdentifier: String?
@@ -1034,15 +1034,15 @@ extension BackupSearch {
     }
 
     public struct StartSearchResultExportJobInput: AWSEncodableShape {
-        /// Include this parameter to allow multiple identical  calls for idempotency. A client token is valid for 8 hours after the first  request that uses it is completed. After this time, any request with the same token is treated as a  new request.
+        /// Include this parameter to allow multiple identical calls for idempotency. A client token is valid for 8 hours after the first request that uses it is completed. After this time, any request with the same token is treated as a new request.
         public let clientToken: String?
-        /// This specification contains a required string of the  destination bucket; optionally, you can include the  destination prefix.
+        /// This specification contains a required string of the destination bucket; optionally, you can include the destination prefix.
         public let exportSpecification: ExportSpecification
-        /// This parameter specifies the role ARN used to start  the search results export jobs.
+        /// This parameter specifies the role ARN used to start the search results export jobs.
         public let roleArn: String?
         /// The unique string that specifies the search job.
         public let searchJobIdentifier: String
-        /// Optional tags to include. A tag is a key-value pair you can use to manage,  filter, and search for your resources. Allowed characters include UTF-8 letters,  numbers, spaces, and the following characters: + - = . _ : /.
+        /// Optional tags to include. A tag is a key-value pair you can use to manage, filter, and search for your resources. Allowed characters include UTF-8 letters, numbers, spaces, and the following characters: + - = . _ : /.
         public let tags: [String: String]?
 
         @inlinable
@@ -1070,9 +1070,9 @@ extension BackupSearch {
     }
 
     public struct StartSearchResultExportJobOutput: AWSDecodableShape {
-        /// This is the unique ARN (Amazon Resource Name) that  belongs to the new export job.
+        /// This is the unique ARN (Amazon Resource Name) that belongs to the new export job.
         public let exportJobArn: String?
-        /// This is the unique identifier that  specifies the new export job.
+        /// This is the unique identifier that specifies the new export job.
         public let exportJobIdentifier: String
 
         @inlinable
@@ -1110,7 +1110,7 @@ extension BackupSearch {
     }
 
     public struct StringCondition: AWSEncodableShape & AWSDecodableShape {
-        /// A string that defines what values will be  returned. If this is included, avoid combinations of  operators that will return all possible values.  For example, including both EQUALS_TO  and NOT_EQUALS_TO with a value of 4  will return all values.
+        /// A string that defines what values will be returned. If this is included, avoid combinations of operators that will return all possible values. For example, including both EQUALS_TO and NOT_EQUALS_TO with a value of 4 will return all values.
         public let `operator`: StringConditionOperator?
         /// The value of the string.
         public let value: String
@@ -1128,9 +1128,9 @@ extension BackupSearch {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) that uniquely identifies  the resource. This is the resource that will have the indicated tags.
+        /// The Amazon Resource Name (ARN) that uniquely identifies the resource. This is the resource that will have the indicated tags.
         public let resourceArn: String
-        /// Required tags to include. A tag is a key-value pair you can use to manage,  filter, and search for your resources. Allowed characters include UTF-8 letters,  numbers, spaces, and the following characters: + - = . _ : /.
+        /// Required tags to include. A tag is a key-value pair you can use to manage, filter, and search for your resources. Allowed characters include UTF-8 letters, numbers, spaces, and the following characters: + - = . _ : /.
         public let tags: [String: String]
 
         @inlinable
@@ -1156,7 +1156,7 @@ extension BackupSearch {
     }
 
     public struct TimeCondition: AWSEncodableShape & AWSDecodableShape {
-        /// A string that defines what values will be  returned. If this is included, avoid combinations of  operators that will return all possible values.  For example, including both EQUALS_TO  and NOT_EQUALS_TO with a value of 4  will return all values.
+        /// A string that defines what values will be returned. If this is included, avoid combinations of operators that will return all possible values. For example, including both EQUALS_TO and NOT_EQUALS_TO with a value of 4 will return all values.
         public let `operator`: TimeConditionOperator?
         /// This is the timestamp value of the time condition.
         public let value: Date
@@ -1174,9 +1174,9 @@ extension BackupSearch {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) that uniquely identifies  the resource where you want to remove tags.
+        /// The Amazon Resource Name (ARN) that uniquely identifies the resource where you want to remove tags.
         public let resourceArn: String
-        /// This required parameter contains the tag keys you  want to remove from the source.
+        /// This required parameter contains the tag keys you want to remove from the source.
         public let tagKeys: [String]
 
         @inlinable
@@ -1200,7 +1200,7 @@ extension BackupSearch {
     }
 
     public struct ExportSpecification: AWSEncodableShape & AWSDecodableShape {
-        /// This specifies the destination Amazon S3  bucket for the export job. And, if included, it also  specifies the destination prefix.
+        /// This specifies the destination Amazon S3 bucket for the export job. And, if included, it also specifies the destination prefix.
         public let s3ExportSpecification: S3ExportSpecification?
 
         @inlinable
@@ -1248,11 +1248,11 @@ public struct BackupSearchErrorType: AWSErrorType {
 
     /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// This exception occurs when a conflict with a previous successful operation is detected. This generally occurs when the previous  operation did not have time to propagate to the host serving the  current request. A retry (with appropriate backoff logic) is the recommended  response to this exception.
+    /// This exception occurs when a conflict with a previous successful operation is detected. This generally occurs when the previous operation did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     public static var conflictException: Self { .init(.conflictException) }
     /// An internal server error occurred. Retry your request.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// The resource was not found for this request. Confirm the resource information, such as the ARN or type is correct  and exists, then retry the request.
+    /// The resource was not found for this request. Confirm the resource information, such as the ARN or type is correct and exists, then retry the request.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The request denied due to exceeding the quota limits permitted.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }

@@ -62,6 +62,12 @@ extension BedrockRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum GuardrailAutomatedReasoningLogicWarningType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case alwaysFalse = "ALWAYS_FALSE"
+        case alwaysTrue = "ALWAYS_TRUE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GuardrailContentFilterConfidence: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "HIGH"
         case low = "LOW"
@@ -251,6 +257,7 @@ extension BedrockRuntime {
         case endTurn = "end_turn"
         case guardrailIntervened = "guardrail_intervened"
         case maxTokens = "max_tokens"
+        case modelContextWindowExceeded = "model_context_window_exceeded"
         case stopSequence = "stop_sequence"
         case toolUse = "tool_use"
         public var description: String { return self.rawValue }
@@ -581,6 +588,37 @@ extension BedrockRuntime {
         }
     }
 
+    public enum CountTokensInput: AWSEncodableShape, Sendable {
+        /// A Converse request for which to count tokens. Use this field when you want to count tokens for a conversation-based input that would be sent to the Converse operation.
+        case converse(ConverseTokensRequest)
+        /// An InvokeModel request for which to count tokens. Use this field when you want to count tokens for a raw text input that would be sent to the InvokeModel operation.
+        case invokeModel(InvokeModelTokensRequest)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .converse(let value):
+                try container.encode(value, forKey: .converse)
+            case .invokeModel(let value):
+                try container.encode(value, forKey: .invokeModel)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .converse(let value):
+                try value.validate(name: "\(name).converse")
+            case .invokeModel(let value):
+                try value.validate(name: "\(name).invokeModel")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case converse = "converse"
+            case invokeModel = "invokeModel"
+        }
+    }
+
     public enum DocumentSource: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The raw bytes for the document. If you use an Amazon Web Services SDK, you don't need to encode the bytes in base64.
         case bytes(AWSBase64Data)
@@ -644,6 +682,67 @@ extension BedrockRuntime {
             case content = "content"
             case s3Location = "s3Location"
             case text = "text"
+        }
+    }
+
+    public enum GuardrailAutomatedReasoningFinding: AWSDecodableShape, Sendable {
+        /// Contains the result when the automated reasoning evaluation determines that no valid logical conclusions can be drawn due to contradictions in the premises or policy rules themselves.
+        case impossible(GuardrailAutomatedReasoningImpossibleFinding)
+        /// Contains the result when the automated reasoning evaluation determines that the claims in the input are logically invalid and contradict the established premises or policy rules.
+        case invalid(GuardrailAutomatedReasoningInvalidFinding)
+        /// Contains the result when the automated reasoning evaluation cannot extract any relevant logical information from the input that can be validated against the policy rules.
+        case noTranslations(GuardrailAutomatedReasoningNoTranslationsFinding)
+        /// Contains the result when the automated reasoning evaluation determines that the claims in the input could be either true or false depending on additional assumptions not provided in the input context.
+        case satisfiable(GuardrailAutomatedReasoningSatisfiableFinding)
+        /// Contains the result when the automated reasoning evaluation cannot process the input due to its complexity or volume exceeding the system's processing capacity for logical analysis.
+        case tooComplex(GuardrailAutomatedReasoningTooComplexFinding)
+        /// Contains the result when the automated reasoning evaluation detects that the input has multiple valid logical interpretations, requiring additional context or clarification to proceed with validation.
+        case translationAmbiguous(GuardrailAutomatedReasoningTranslationAmbiguousFinding)
+        /// Contains the result when the automated reasoning evaluation determines that the claims in the input are logically valid and definitively true based on the provided premises and policy rules.
+        case valid(GuardrailAutomatedReasoningValidFinding)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .impossible:
+                let value = try container.decode(GuardrailAutomatedReasoningImpossibleFinding.self, forKey: .impossible)
+                self = .impossible(value)
+            case .invalid:
+                let value = try container.decode(GuardrailAutomatedReasoningInvalidFinding.self, forKey: .invalid)
+                self = .invalid(value)
+            case .noTranslations:
+                let value = try container.decode(GuardrailAutomatedReasoningNoTranslationsFinding.self, forKey: .noTranslations)
+                self = .noTranslations(value)
+            case .satisfiable:
+                let value = try container.decode(GuardrailAutomatedReasoningSatisfiableFinding.self, forKey: .satisfiable)
+                self = .satisfiable(value)
+            case .tooComplex:
+                let value = try container.decode(GuardrailAutomatedReasoningTooComplexFinding.self, forKey: .tooComplex)
+                self = .tooComplex(value)
+            case .translationAmbiguous:
+                let value = try container.decode(GuardrailAutomatedReasoningTranslationAmbiguousFinding.self, forKey: .translationAmbiguous)
+                self = .translationAmbiguous(value)
+            case .valid:
+                let value = try container.decode(GuardrailAutomatedReasoningValidFinding.self, forKey: .valid)
+                self = .valid(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case impossible = "impossible"
+            case invalid = "invalid"
+            case noTranslations = "noTranslations"
+            case satisfiable = "satisfiable"
+            case tooComplex = "tooComplex"
+            case translationAmbiguous = "translationAmbiguous"
+            case valid = "valid"
         }
     }
 
@@ -1848,6 +1947,33 @@ extension BedrockRuntime {
         }
     }
 
+    public struct ConverseTokensRequest: AWSEncodableShape {
+        /// An array of messages to count tokens for.
+        public let messages: [Message]?
+        /// The system content blocks to count tokens for. System content provides instructions or context to the model about how it should behave or respond. The token count will include any system content provided.
+        public let system: [SystemContentBlock]?
+
+        @inlinable
+        public init(messages: [Message]? = nil, system: [SystemContentBlock]? = nil) {
+            self.messages = messages
+            self.system = system
+        }
+
+        public func validate(name: String) throws {
+            try self.messages?.forEach {
+                try $0.validate(name: "\(name).messages[]")
+            }
+            try self.system?.forEach {
+                try $0.validate(name: "\(name).system[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messages = "messages"
+            case system = "system"
+        }
+    }
+
     public struct ConverseTrace: AWSDecodableShape {
         /// The guardrail trace object.
         public let guardrail: GuardrailTraceAssessment?
@@ -1863,6 +1989,51 @@ extension BedrockRuntime {
         private enum CodingKeys: String, CodingKey {
             case guardrail = "guardrail"
             case promptRouter = "promptRouter"
+        }
+    }
+
+    public struct CountTokensRequest: AWSEncodableShape {
+        /// The input for which to count tokens. The structure of this parameter depends on whether you're counting tokens for an InvokeModel or Converse request:   For InvokeModel requests, provide the request body in the invokeModel field   For Converse requests, provide the messages and system content in the converse field   The input format must be compatible with the model specified in the modelId parameter.
+        public let input: CountTokensInput
+        /// The unique identifier or ARN of the foundation model to use for token counting. Each model processes tokens differently, so the token count is specific to the model you specify.
+        public let modelId: String
+
+        @inlinable
+        public init(input: CountTokensInput, modelId: String) {
+            self.input = input
+            self.modelId = modelId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.input, forKey: .input)
+            request.encodePath(self.modelId, key: "modelId")
+        }
+
+        public func validate(name: String) throws {
+            try self.input.validate(name: "\(name).input")
+            try self.validate(self.modelId, name: "modelId", parent: name, max: 256)
+            try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^[a-zA-Z_\\.\\-/0-9:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case input = "input"
+        }
+    }
+
+    public struct CountTokensResponse: AWSDecodableShape {
+        /// The number of tokens in the provided input according to the specified model's tokenization rules. This count represents the number of input tokens that would be processed if the same input were sent to the model in an inference request. Use this value to estimate costs and ensure your inputs stay within model token limits.
+        public let inputTokens: Int
+
+        @inlinable
+        public init(inputTokens: Int) {
+            self.inputTokens = inputTokens
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputTokens = "inputTokens"
         }
     }
 
@@ -2040,6 +2211,8 @@ extension BedrockRuntime {
     }
 
     public struct GuardrailAssessment: AWSDecodableShape {
+        /// The automated reasoning policy assessment results, including logical validation findings for the input content.
+        public let automatedReasoningPolicy: GuardrailAutomatedReasoningPolicyAssessment?
         /// The content policy.
         public let contentPolicy: GuardrailContentPolicyAssessment?
         /// The contextual grounding policy used for the guardrail assessment.
@@ -2054,7 +2227,8 @@ extension BedrockRuntime {
         public let wordPolicy: GuardrailWordPolicyAssessment?
 
         @inlinable
-        public init(contentPolicy: GuardrailContentPolicyAssessment? = nil, contextualGroundingPolicy: GuardrailContextualGroundingPolicyAssessment? = nil, invocationMetrics: GuardrailInvocationMetrics? = nil, sensitiveInformationPolicy: GuardrailSensitiveInformationPolicyAssessment? = nil, topicPolicy: GuardrailTopicPolicyAssessment? = nil, wordPolicy: GuardrailWordPolicyAssessment? = nil) {
+        public init(automatedReasoningPolicy: GuardrailAutomatedReasoningPolicyAssessment? = nil, contentPolicy: GuardrailContentPolicyAssessment? = nil, contextualGroundingPolicy: GuardrailContextualGroundingPolicyAssessment? = nil, invocationMetrics: GuardrailInvocationMetrics? = nil, sensitiveInformationPolicy: GuardrailSensitiveInformationPolicyAssessment? = nil, topicPolicy: GuardrailTopicPolicyAssessment? = nil, wordPolicy: GuardrailWordPolicyAssessment? = nil) {
+            self.automatedReasoningPolicy = automatedReasoningPolicy
             self.contentPolicy = contentPolicy
             self.contextualGroundingPolicy = contextualGroundingPolicy
             self.invocationMetrics = invocationMetrics
@@ -2064,12 +2238,279 @@ extension BedrockRuntime {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case automatedReasoningPolicy = "automatedReasoningPolicy"
             case contentPolicy = "contentPolicy"
             case contextualGroundingPolicy = "contextualGroundingPolicy"
             case invocationMetrics = "invocationMetrics"
             case sensitiveInformationPolicy = "sensitiveInformationPolicy"
             case topicPolicy = "topicPolicy"
             case wordPolicy = "wordPolicy"
+        }
+    }
+
+    public struct GuardrailAutomatedReasoningImpossibleFinding: AWSDecodableShape {
+        /// The automated reasoning policy rules that contradict the claims and/or premises in the input.
+        public let contradictingRules: [GuardrailAutomatedReasoningRule]?
+        /// Indication of a logic issue with the translation without needing to consider the automated reasoning policy rules.
+        public let logicWarning: GuardrailAutomatedReasoningLogicWarning?
+        /// The logical translation of the input that this finding evaluates.
+        public let translation: GuardrailAutomatedReasoningTranslation?
+
+        @inlinable
+        public init(contradictingRules: [GuardrailAutomatedReasoningRule]? = nil, logicWarning: GuardrailAutomatedReasoningLogicWarning? = nil, translation: GuardrailAutomatedReasoningTranslation? = nil) {
+            self.contradictingRules = contradictingRules
+            self.logicWarning = logicWarning
+            self.translation = translation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contradictingRules = "contradictingRules"
+            case logicWarning = "logicWarning"
+            case translation = "translation"
+        }
+    }
+
+    public struct GuardrailAutomatedReasoningInputTextReference: AWSDecodableShape {
+        /// The specific text from the original input that this reference points to.
+        public let text: String?
+
+        @inlinable
+        public init(text: String? = nil) {
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
+        }
+    }
+
+    public struct GuardrailAutomatedReasoningInvalidFinding: AWSDecodableShape {
+        /// The automated reasoning policy rules that contradict the claims in the input.
+        public let contradictingRules: [GuardrailAutomatedReasoningRule]?
+        /// Indication of a logic issue with the translation without needing to consider the automated reasoning policy rules.
+        public let logicWarning: GuardrailAutomatedReasoningLogicWarning?
+        /// The logical translation of the input that this finding invalidates.
+        public let translation: GuardrailAutomatedReasoningTranslation?
+
+        @inlinable
+        public init(contradictingRules: [GuardrailAutomatedReasoningRule]? = nil, logicWarning: GuardrailAutomatedReasoningLogicWarning? = nil, translation: GuardrailAutomatedReasoningTranslation? = nil) {
+            self.contradictingRules = contradictingRules
+            self.logicWarning = logicWarning
+            self.translation = translation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contradictingRules = "contradictingRules"
+            case logicWarning = "logicWarning"
+            case translation = "translation"
+        }
+    }
+
+    public struct GuardrailAutomatedReasoningLogicWarning: AWSDecodableShape {
+        /// The logical statements that are validated while assuming the policy and premises.
+        public let claims: [GuardrailAutomatedReasoningStatement]?
+        /// The logical statements that serve as premises under which the claims are validated.
+        public let premises: [GuardrailAutomatedReasoningStatement]?
+        /// The category of the detected logical issue, such as statements that are always true or always false.
+        public let type: GuardrailAutomatedReasoningLogicWarningType?
+
+        @inlinable
+        public init(claims: [GuardrailAutomatedReasoningStatement]? = nil, premises: [GuardrailAutomatedReasoningStatement]? = nil, type: GuardrailAutomatedReasoningLogicWarningType? = nil) {
+            self.claims = claims
+            self.premises = premises
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case claims = "claims"
+            case premises = "premises"
+            case type = "type"
+        }
+    }
+
+    public struct GuardrailAutomatedReasoningNoTranslationsFinding: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct GuardrailAutomatedReasoningPolicyAssessment: AWSDecodableShape {
+        /// List of logical validation results produced by evaluating the input content against automated reasoning policies.
+        public let findings: [GuardrailAutomatedReasoningFinding]?
+
+        @inlinable
+        public init(findings: [GuardrailAutomatedReasoningFinding]? = nil) {
+            self.findings = findings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findings = "findings"
+        }
+    }
+
+    public struct GuardrailAutomatedReasoningRule: AWSDecodableShape {
+        /// The unique identifier of the automated reasoning rule.
+        public let identifier: String?
+        /// The ARN of the automated reasoning policy version that contains this rule.
+        public let policyVersionArn: String?
+
+        @inlinable
+        public init(identifier: String? = nil, policyVersionArn: String? = nil) {
+            self.identifier = identifier
+            self.policyVersionArn = policyVersionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier = "identifier"
+            case policyVersionArn = "policyVersionArn"
+        }
+    }
+
+    public struct GuardrailAutomatedReasoningSatisfiableFinding: AWSDecodableShape {
+        /// An example scenario demonstrating how the claims could be logically false.
+        public let claimsFalseScenario: GuardrailAutomatedReasoningScenario?
+        /// An example scenario demonstrating how the claims could be logically true.
+        public let claimsTrueScenario: GuardrailAutomatedReasoningScenario?
+        /// Indication of a logic issue with the translation without needing to consider the automated reasoning policy rules.
+        public let logicWarning: GuardrailAutomatedReasoningLogicWarning?
+        /// The logical translation of the input that this finding evaluates.
+        public let translation: GuardrailAutomatedReasoningTranslation?
+
+        @inlinable
+        public init(claimsFalseScenario: GuardrailAutomatedReasoningScenario? = nil, claimsTrueScenario: GuardrailAutomatedReasoningScenario? = nil, logicWarning: GuardrailAutomatedReasoningLogicWarning? = nil, translation: GuardrailAutomatedReasoningTranslation? = nil) {
+            self.claimsFalseScenario = claimsFalseScenario
+            self.claimsTrueScenario = claimsTrueScenario
+            self.logicWarning = logicWarning
+            self.translation = translation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case claimsFalseScenario = "claimsFalseScenario"
+            case claimsTrueScenario = "claimsTrueScenario"
+            case logicWarning = "logicWarning"
+            case translation = "translation"
+        }
+    }
+
+    public struct GuardrailAutomatedReasoningScenario: AWSDecodableShape {
+        /// List of logical assignments and statements that define this scenario.
+        public let statements: [GuardrailAutomatedReasoningStatement]?
+
+        @inlinable
+        public init(statements: [GuardrailAutomatedReasoningStatement]? = nil) {
+            self.statements = statements
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statements = "statements"
+        }
+    }
+
+    public struct GuardrailAutomatedReasoningStatement: AWSDecodableShape {
+        /// The formal logical representation of the statement.
+        public let logic: String?
+        /// The natural language explanation of the logical statement.
+        public let naturalLanguage: String?
+
+        @inlinable
+        public init(logic: String? = nil, naturalLanguage: String? = nil) {
+            self.logic = logic
+            self.naturalLanguage = naturalLanguage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logic = "logic"
+            case naturalLanguage = "naturalLanguage"
+        }
+    }
+
+    public struct GuardrailAutomatedReasoningTooComplexFinding: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct GuardrailAutomatedReasoningTranslation: AWSDecodableShape {
+        /// The logical statements that are being validated against the premises and policy rules.
+        public let claims: [GuardrailAutomatedReasoningStatement]?
+        /// A confidence score between 0 and 1 indicating how certain the system is about the logical translation.
+        public let confidence: Double?
+        /// The logical statements that serve as the foundation or assumptions for the claims.
+        public let premises: [GuardrailAutomatedReasoningStatement]?
+        /// References to portions of the original input text that correspond to the claims but could not be fully translated.
+        public let untranslatedClaims: [GuardrailAutomatedReasoningInputTextReference]?
+        /// References to portions of the original input text that correspond to the premises but could not be fully translated.
+        public let untranslatedPremises: [GuardrailAutomatedReasoningInputTextReference]?
+
+        @inlinable
+        public init(claims: [GuardrailAutomatedReasoningStatement]? = nil, confidence: Double? = nil, premises: [GuardrailAutomatedReasoningStatement]? = nil, untranslatedClaims: [GuardrailAutomatedReasoningInputTextReference]? = nil, untranslatedPremises: [GuardrailAutomatedReasoningInputTextReference]? = nil) {
+            self.claims = claims
+            self.confidence = confidence
+            self.premises = premises
+            self.untranslatedClaims = untranslatedClaims
+            self.untranslatedPremises = untranslatedPremises
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case claims = "claims"
+            case confidence = "confidence"
+            case premises = "premises"
+            case untranslatedClaims = "untranslatedClaims"
+            case untranslatedPremises = "untranslatedPremises"
+        }
+    }
+
+    public struct GuardrailAutomatedReasoningTranslationAmbiguousFinding: AWSDecodableShape {
+        /// Scenarios showing how the different translation options differ in meaning.
+        public let differenceScenarios: [GuardrailAutomatedReasoningScenario]?
+        /// Different logical interpretations that were detected during translation of the input.
+        public let options: [GuardrailAutomatedReasoningTranslationOption]?
+
+        @inlinable
+        public init(differenceScenarios: [GuardrailAutomatedReasoningScenario]? = nil, options: [GuardrailAutomatedReasoningTranslationOption]? = nil) {
+            self.differenceScenarios = differenceScenarios
+            self.options = options
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case differenceScenarios = "differenceScenarios"
+            case options = "options"
+        }
+    }
+
+    public struct GuardrailAutomatedReasoningTranslationOption: AWSDecodableShape {
+        /// Example translations that provide this possible interpretation of the input.
+        public let translations: [GuardrailAutomatedReasoningTranslation]?
+
+        @inlinable
+        public init(translations: [GuardrailAutomatedReasoningTranslation]? = nil) {
+            self.translations = translations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case translations = "translations"
+        }
+    }
+
+    public struct GuardrailAutomatedReasoningValidFinding: AWSDecodableShape {
+        /// An example scenario demonstrating how the claims are logically true.
+        public let claimsTrueScenario: GuardrailAutomatedReasoningScenario?
+        /// Indication of a logic issue with the translation without needing to consider the automated reasoning policy rules.
+        public let logicWarning: GuardrailAutomatedReasoningLogicWarning?
+        /// The automated reasoning policy rules that support why this result is considered valid.
+        public let supportingRules: [GuardrailAutomatedReasoningRule]?
+        /// The logical translation of the input that this finding validates.
+        public let translation: GuardrailAutomatedReasoningTranslation?
+
+        @inlinable
+        public init(claimsTrueScenario: GuardrailAutomatedReasoningScenario? = nil, logicWarning: GuardrailAutomatedReasoningLogicWarning? = nil, supportingRules: [GuardrailAutomatedReasoningRule]? = nil, translation: GuardrailAutomatedReasoningTranslation? = nil) {
+            self.claimsTrueScenario = claimsTrueScenario
+            self.logicWarning = logicWarning
+            self.supportingRules = supportingRules
+            self.translation = translation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case claimsTrueScenario = "claimsTrueScenario"
+            case logicWarning = "logicWarning"
+            case supportingRules = "supportingRules"
+            case translation = "translation"
         }
     }
 
@@ -2572,6 +3013,10 @@ extension BedrockRuntime {
     }
 
     public struct GuardrailUsage: AWSDecodableShape {
+        /// The number of automated reasoning policies that were processed during the guardrail evaluation.
+        public let automatedReasoningPolicies: Int?
+        /// The number of text units processed by the automated reasoning policy.
+        public let automatedReasoningPolicyUnits: Int?
         /// The content policy image units processed by the guardrail.
         public let contentPolicyImageUnits: Int?
         /// The content policy units processed by the guardrail.
@@ -2588,7 +3033,9 @@ extension BedrockRuntime {
         public let wordPolicyUnits: Int
 
         @inlinable
-        public init(contentPolicyImageUnits: Int? = nil, contentPolicyUnits: Int, contextualGroundingPolicyUnits: Int, sensitiveInformationPolicyFreeUnits: Int, sensitiveInformationPolicyUnits: Int, topicPolicyUnits: Int, wordPolicyUnits: Int) {
+        public init(automatedReasoningPolicies: Int? = nil, automatedReasoningPolicyUnits: Int? = nil, contentPolicyImageUnits: Int? = nil, contentPolicyUnits: Int, contextualGroundingPolicyUnits: Int, sensitiveInformationPolicyFreeUnits: Int, sensitiveInformationPolicyUnits: Int, topicPolicyUnits: Int, wordPolicyUnits: Int) {
+            self.automatedReasoningPolicies = automatedReasoningPolicies
+            self.automatedReasoningPolicyUnits = automatedReasoningPolicyUnits
             self.contentPolicyImageUnits = contentPolicyImageUnits
             self.contentPolicyUnits = contentPolicyUnits
             self.contextualGroundingPolicyUnits = contextualGroundingPolicyUnits
@@ -2599,6 +3046,8 @@ extension BedrockRuntime {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case automatedReasoningPolicies = "automatedReasoningPolicies"
+            case automatedReasoningPolicyUnits = "automatedReasoningPolicyUnits"
             case contentPolicyImageUnits = "contentPolicyImageUnits"
             case contentPolicyUnits = "contentPolicyUnits"
             case contextualGroundingPolicyUnits = "contextualGroundingPolicyUnits"
@@ -2775,6 +3224,24 @@ extension BedrockRuntime {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct InvokeModelTokensRequest: AWSEncodableShape {
+        /// The request body to count tokens for, formatted according to the model's expected input format. To learn about the input format for different models, see Model inference parameters and responses.
+        public let body: AWSBase64Data
+
+        @inlinable
+        public init(body: AWSBase64Data) {
+            self.body = body
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.body, name: "body", parent: name, max: 25000000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case body = "body"
+        }
     }
 
     public struct InvokeModelWithBidirectionalStreamRequest: AWSEncodableShape {

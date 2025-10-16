@@ -279,6 +279,7 @@ public struct DirectoryService: AWSService {
     ///   - connectSettings: A DirectoryConnectSettings object that contains additional information for the operation.
     ///   - description: A description for the directory.
     ///   - name: The fully qualified name of your self-managed directory, such as corp.example.com.
+    ///   - networkType: The network type for your directory. The default value is IPv4 or IPv6 based on the provided subnet capabilities.
     ///   - password: The password for your self-managed user account.
     ///   - shortName: The NetBIOS name of your self-managed directory, such as CORP.
     ///   - size: The size of the directory.
@@ -289,6 +290,7 @@ public struct DirectoryService: AWSService {
         connectSettings: DirectoryConnectSettings,
         description: String? = nil,
         name: String,
+        networkType: NetworkType? = nil,
         password: String,
         shortName: String? = nil,
         size: DirectorySize,
@@ -299,6 +301,7 @@ public struct DirectoryService: AWSService {
             connectSettings: connectSettings, 
             description: description, 
             name: name, 
+            networkType: networkType, 
             password: password, 
             shortName: shortName, 
             size: size, 
@@ -398,18 +401,21 @@ public struct DirectoryService: AWSService {
     /// Parameters:
     ///   - directoryId: The directory ID of the Amazon Web Services directory for which you are creating the conditional forwarder.
     ///   - dnsIpAddrs: The IP addresses of the remote DNS server associated with RemoteDomainName.
+    ///   - dnsIpv6Addrs: The IPv6 addresses of the remote DNS server associated with RemoteDomainName.
     ///   - remoteDomainName: The fully qualified domain name (FQDN) of the remote domain with which you will set up a trust relationship.
     ///   - logger: Logger use during operation
     @inlinable
     public func createConditionalForwarder(
         directoryId: String,
-        dnsIpAddrs: [String],
+        dnsIpAddrs: [String]? = nil,
+        dnsIpv6Addrs: [String]? = nil,
         remoteDomainName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateConditionalForwarderResult {
         let input = CreateConditionalForwarderRequest(
             directoryId: directoryId, 
             dnsIpAddrs: dnsIpAddrs, 
+            dnsIpv6Addrs: dnsIpv6Addrs, 
             remoteDomainName: remoteDomainName
         )
         return try await self.createConditionalForwarder(input, logger: logger)
@@ -433,6 +439,7 @@ public struct DirectoryService: AWSService {
     /// Parameters:
     ///   - description: A description for the directory.
     ///   - name: The fully qualified name for the directory, such as corp.example.com.
+    ///   - networkType: The network type for your directory. Simple AD supports IPv4 and Dual-stack only.
     ///   - password: The password for the directory administrator. The directory creation process creates a directory administrator account with the user name Administrator and this password. If you need to change the password for the administrator account, you can use the ResetUserPassword API call. The regex pattern for this string is made up of the following conditions:   Length (?=^.{8,64}$) – Must be between 8 and 64 characters   AND any 3 of the following password complexity rules required by Active Directory:   Numbers and upper case and lowercase (?=.*\d)(?=.*[A-Z])(?=.*[a-z])   Numbers and special characters and lower case (?=.*\d)(?=.*[^A-Za-z0-9\s])(?=.*[a-z])   Special characters and upper case and lower case (?=.*[^A-Za-z0-9\s])(?=.*[A-Z])(?=.*[a-z])   Numbers and upper case and special characters (?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9\s])   For additional information about how Active Directory passwords are enforced, see Password must meet complexity requirements on the Microsoft website.
     ///   - shortName: The NetBIOS name of the directory, such as CORP.
     ///   - size: The size of the directory.
@@ -443,6 +450,7 @@ public struct DirectoryService: AWSService {
     public func createDirectory(
         description: String? = nil,
         name: String,
+        networkType: NetworkType? = nil,
         password: String,
         shortName: String? = nil,
         size: DirectorySize,
@@ -453,6 +461,7 @@ public struct DirectoryService: AWSService {
         let input = CreateDirectoryRequest(
             description: description, 
             name: name, 
+            networkType: networkType, 
             password: password, 
             shortName: shortName, 
             size: size, 
@@ -460,6 +469,41 @@ public struct DirectoryService: AWSService {
             vpcSettings: vpcSettings
         )
         return try await self.createDirectory(input, logger: logger)
+    }
+
+    /// Creates a hybrid directory that connects your self-managed Active Directory (AD) infrastructure and Amazon Web Services. You must have a successful directory assessment using StartADAssessment to validate your environment compatibility before you use this operation. Updates are applied asynchronously. Use DescribeDirectories to monitor the progress of directory creation.
+    @Sendable
+    @inlinable
+    public func createHybridAD(_ input: CreateHybridADRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateHybridADResult {
+        try await self.client.execute(
+            operation: "CreateHybridAD", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a hybrid directory that connects your self-managed Active Directory (AD) infrastructure and Amazon Web Services. You must have a successful directory assessment using StartADAssessment to validate your environment compatibility before you use this operation. Updates are applied asynchronously. Use DescribeDirectories to monitor the progress of directory creation.
+    ///
+    /// Parameters:
+    ///   - assessmentId: The unique identifier of the successful directory assessment that validates your self-managed AD environment. You must have a successful directory assessment before you create a hybrid directory.
+    ///   - secretArn: The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the credentials for the service account used to join hybrid domain controllers to your self-managed AD domain. This secret is used once and not stored. The secret must contain key-value pairs with keys matching customerAdAdminDomainUsername and customerAdAdminDomainPassword. For example: {"customerAdAdminDomainUsername":"carlos_salazar","customerAdAdminDomainPassword":"ExamplePassword123!"}.
+    ///   - tags: The tags to be assigned to the directory. Each tag consists of a key and value pair. You can specify multiple tags as a list.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createHybridAD(
+        assessmentId: String,
+        secretArn: String,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateHybridADResult {
+        let input = CreateHybridADRequest(
+            assessmentId: assessmentId, 
+            secretArn: secretArn, 
+            tags: tags
+        )
+        return try await self.createHybridAD(input, logger: logger)
     }
 
     /// Creates a subscription to forward real-time Directory Service domain controller security logs to the specified Amazon CloudWatch log group in your Amazon Web Services account.
@@ -513,6 +557,7 @@ public struct DirectoryService: AWSService {
     ///   - description: A description for the directory. This label will appear on the Amazon Web Services console Directory Details page after the directory is created.
     ///   - edition: Managed Microsoft AD is available in two editions: Standard and Enterprise. Enterprise is the default.
     ///   - name: The fully qualified domain name for the Managed Microsoft AD directory, such as corp.example.com. This name will resolve inside your VPC only. It does not need to be publicly resolvable.
+    ///   - networkType:  The network type for your domain. The default value is IPv4 or IPv6 based on the provided subnet capabilities.
     ///   - password: The password for the default administrative user named Admin. If you need to change the password for the administrator account, you can use the ResetUserPassword API call.
     ///   - shortName: The NetBIOS name for your domain, such as CORP. If you don't specify a NetBIOS name, it will default to the first part of your directory DNS. For example, CORP for the directory DNS corp.example.com.
     ///   - tags: The tags to be assigned to the Managed Microsoft AD directory.
@@ -523,6 +568,7 @@ public struct DirectoryService: AWSService {
         description: String? = nil,
         edition: DirectoryEdition? = nil,
         name: String,
+        networkType: NetworkType? = nil,
         password: String,
         shortName: String? = nil,
         tags: [Tag]? = nil,
@@ -533,6 +579,7 @@ public struct DirectoryService: AWSService {
             description: description, 
             edition: edition, 
             name: name, 
+            networkType: networkType, 
             password: password, 
             shortName: shortName, 
             tags: tags, 
@@ -590,6 +637,7 @@ public struct DirectoryService: AWSService {
     ///
     /// Parameters:
     ///   - conditionalForwarderIpAddrs: The IP addresses of the remote DNS server associated with RemoteDomainName.
+    ///   - conditionalForwarderIpv6Addrs: The IPv6 addresses of the remote DNS server associated with RemoteDomainName.
     ///   - directoryId: The Directory ID of the Managed Microsoft AD directory for which to establish the trust relationship.
     ///   - remoteDomainName: The Fully Qualified Domain Name (FQDN) of the external domain for which to create the trust relationship.
     ///   - selectiveAuth: Optional parameter to enable selective authentication for the trust.
@@ -600,6 +648,7 @@ public struct DirectoryService: AWSService {
     @inlinable
     public func createTrust(
         conditionalForwarderIpAddrs: [String]? = nil,
+        conditionalForwarderIpv6Addrs: [String]? = nil,
         directoryId: String,
         remoteDomainName: String,
         selectiveAuth: SelectiveAuth? = nil,
@@ -610,6 +659,7 @@ public struct DirectoryService: AWSService {
     ) async throws -> CreateTrustResult {
         let input = CreateTrustRequest(
             conditionalForwarderIpAddrs: conditionalForwarderIpAddrs, 
+            conditionalForwarderIpv6Addrs: conditionalForwarderIpv6Addrs, 
             directoryId: directoryId, 
             remoteDomainName: remoteDomainName, 
             selectiveAuth: selectiveAuth, 
@@ -618,6 +668,35 @@ public struct DirectoryService: AWSService {
             trustType: trustType
         )
         return try await self.createTrust(input, logger: logger)
+    }
+
+    /// Deletes a directory assessment and all associated data. This operation permanently removes the assessment results, validation reports, and configuration information. You cannot delete system-initiated assessments. You can delete customer-created assessments even if they are in progress.
+    @Sendable
+    @inlinable
+    public func deleteADAssessment(_ input: DeleteADAssessmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteADAssessmentResult {
+        try await self.client.execute(
+            operation: "DeleteADAssessment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a directory assessment and all associated data. This operation permanently removes the assessment results, validation reports, and configuration information. You cannot delete system-initiated assessments. You can delete customer-created assessments even if they are in progress.
+    ///
+    /// Parameters:
+    ///   - assessmentId: The unique identifier of the directory assessment to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteADAssessment(
+        assessmentId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteADAssessmentResult {
+        let input = DeleteADAssessmentRequest(
+            assessmentId: assessmentId
+        )
+        return try await self.deleteADAssessment(input, logger: logger)
     }
 
     /// Deletes a conditional forwarder that has been set up for your Amazon Web Services directory.
@@ -833,6 +912,64 @@ public struct DirectoryService: AWSService {
             topicName: topicName
         )
         return try await self.deregisterEventTopic(input, logger: logger)
+    }
+
+    /// Retrieves detailed information about a directory assessment, including its current status, validation results, and configuration details. Use this operation to monitor assessment progress and review results.
+    @Sendable
+    @inlinable
+    public func describeADAssessment(_ input: DescribeADAssessmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeADAssessmentResult {
+        try await self.client.execute(
+            operation: "DescribeADAssessment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about a directory assessment, including its current status, validation results, and configuration details. Use this operation to monitor assessment progress and review results.
+    ///
+    /// Parameters:
+    ///   - assessmentId: The identifier of the directory assessment to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeADAssessment(
+        assessmentId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeADAssessmentResult {
+        let input = DescribeADAssessmentRequest(
+            assessmentId: assessmentId
+        )
+        return try await self.describeADAssessment(input, logger: logger)
+    }
+
+    /// Retrieves detailed information about the certificate authority (CA) enrollment policy for the specified directory. This policy determines how client certificates are automatically enrolled and managed through Amazon Web Services Private Certificate Authority.
+    @Sendable
+    @inlinable
+    public func describeCAEnrollmentPolicy(_ input: DescribeCAEnrollmentPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCAEnrollmentPolicyResult {
+        try await self.client.execute(
+            operation: "DescribeCAEnrollmentPolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about the certificate authority (CA) enrollment policy for the specified directory. This policy determines how client certificates are automatically enrolled and managed through Amazon Web Services Private Certificate Authority.
+    ///
+    /// Parameters:
+    ///   - directoryId: The identifier of the directory for which to retrieve the CA enrollment policy information.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeCAEnrollmentPolicy(
+        directoryId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeCAEnrollmentPolicyResult {
+        let input = DescribeCAEnrollmentPolicyRequest(
+            directoryId: directoryId
+        )
+        return try await self.describeCAEnrollmentPolicy(input, logger: logger)
     }
 
     /// Displays information about the certificate registered for secure LDAP or client certificate authentication.
@@ -1069,6 +1206,41 @@ public struct DirectoryService: AWSService {
             topicNames: topicNames
         )
         return try await self.describeEventTopics(input, logger: logger)
+    }
+
+    /// Retrieves information about update activities for a hybrid directory. This operation provides details about configuration changes, administrator account updates, and self-managed instance settings (IDs and DNS IPs).
+    @Sendable
+    @inlinable
+    public func describeHybridADUpdate(_ input: DescribeHybridADUpdateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeHybridADUpdateResult {
+        try await self.client.execute(
+            operation: "DescribeHybridADUpdate", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about update activities for a hybrid directory. This operation provides details about configuration changes, administrator account updates, and self-managed instance settings (IDs and DNS IPs).
+    ///
+    /// Parameters:
+    ///   - directoryId: The identifier of the hybrid directory for which to retrieve update information.
+    ///   - nextToken: The pagination token from a previous request to DescribeHybridADUpdate. Pass null if this is the first request.
+    ///   - updateType: The type of update activities to retrieve. Valid values include SelfManagedInstances and HybridAdministratorAccount.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeHybridADUpdate(
+        directoryId: String,
+        nextToken: String? = nil,
+        updateType: HybridUpdateType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeHybridADUpdateResult {
+        let input = DescribeHybridADUpdateRequest(
+            directoryId: directoryId, 
+            nextToken: nextToken, 
+            updateType: updateType
+        )
+        return try await self.describeHybridADUpdate(input, logger: logger)
     }
 
     /// Describes the status of LDAP security for the specified directory.
@@ -1331,6 +1503,35 @@ public struct DirectoryService: AWSService {
         return try await self.describeUpdateDirectory(input, logger: logger)
     }
 
+    /// Disables the certificate authority (CA) enrollment policy for the specified directory. This stops automatic certificate enrollment and management for domain-joined clients, but does not affect existing certificates.  Disabling the CA enrollment policy prevents new certificates from being automatically enrolled, but existing certificates remain valid and functional until they expire.
+    @Sendable
+    @inlinable
+    public func disableCAEnrollmentPolicy(_ input: DisableCAEnrollmentPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableCAEnrollmentPolicyResult {
+        try await self.client.execute(
+            operation: "DisableCAEnrollmentPolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disables the certificate authority (CA) enrollment policy for the specified directory. This stops automatic certificate enrollment and management for domain-joined clients, but does not affect existing certificates.  Disabling the CA enrollment policy prevents new certificates from being automatically enrolled, but existing certificates remain valid and functional until they expire.
+    ///
+    /// Parameters:
+    ///   - directoryId: The identifier of the directory for which to disable the CA enrollment policy.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disableCAEnrollmentPolicy(
+        directoryId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisableCAEnrollmentPolicyResult {
+        let input = DisableCAEnrollmentPolicyRequest(
+            directoryId: directoryId
+        )
+        return try await self.disableCAEnrollmentPolicy(input, logger: logger)
+    }
+
     /// Disables alternative client authentication methods for the specified directory.
     @Sendable
     @inlinable
@@ -1486,6 +1687,38 @@ public struct DirectoryService: AWSService {
             userName: userName
         )
         return try await self.disableSso(input, logger: logger)
+    }
+
+    /// Enables certificate authority (CA) enrollment policy for the specified directory. This allows domain-joined clients to automatically request and receive certificates from the specified Amazon Web Services Private Certificate Authority.  Before enabling CA enrollment, ensure that the PCA connector is properly configured and accessible from the directory. The connector must be in an active state and have the necessary permissions.
+    @Sendable
+    @inlinable
+    public func enableCAEnrollmentPolicy(_ input: EnableCAEnrollmentPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableCAEnrollmentPolicyResult {
+        try await self.client.execute(
+            operation: "EnableCAEnrollmentPolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Enables certificate authority (CA) enrollment policy for the specified directory. This allows domain-joined clients to automatically request and receive certificates from the specified Amazon Web Services Private Certificate Authority.  Before enabling CA enrollment, ensure that the PCA connector is properly configured and accessible from the directory. The connector must be in an active state and have the necessary permissions.
+    ///
+    /// Parameters:
+    ///   - directoryId: The identifier of the directory for which to enable the CA enrollment policy.
+    ///   - pcaConnectorArn: The Amazon Resource Name (ARN) of the Private Certificate Authority (PCA) connector to use for automatic certificate enrollment. This connector must be properly configured and accessible from the directory. The ARN format is: arn:aws:pca-connector-ad:region:account-id:connector/connector-id
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func enableCAEnrollmentPolicy(
+        directoryId: String,
+        pcaConnectorArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> EnableCAEnrollmentPolicyResult {
+        let input = EnableCAEnrollmentPolicyRequest(
+            directoryId: directoryId, 
+            pcaConnectorArn: pcaConnectorArn
+        )
+        return try await self.enableCAEnrollmentPolicy(input, logger: logger)
     }
 
     /// Enables alternative client authentication methods for the specified directory.
@@ -1701,6 +1934,41 @@ public struct DirectoryService: AWSService {
             directoryId: directoryId
         )
         return try await self.getSnapshotLimits(input, logger: logger)
+    }
+
+    /// Retrieves a list of directory assessments for the specified directory or all assessments in your account. Use this operation to monitor assessment status and manage multiple assessments.
+    @Sendable
+    @inlinable
+    public func listADAssessments(_ input: ListADAssessmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListADAssessmentsResult {
+        try await self.client.execute(
+            operation: "ListADAssessments", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a list of directory assessments for the specified directory or all assessments in your account. Use this operation to monitor assessment status and manage multiple assessments.
+    ///
+    /// Parameters:
+    ///   - directoryId: The identifier of the directory for which to list assessments. If not specified, all assessments in your account are returned.
+    ///   - limit: The maximum number of assessment summaries to return.
+    ///   - nextToken: The pagination token from a previous request to ListADAssessments. Pass null if this is the first request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listADAssessments(
+        directoryId: String? = nil,
+        limit: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListADAssessmentsResult {
+        let input = ListADAssessmentsRequest(
+            directoryId: directoryId, 
+            limit: limit, 
+            nextToken: nextToken
+        )
+        return try await self.listADAssessments(input, logger: logger)
     }
 
     /// For the specified directory, lists all the certificates registered for a secure LDAP or client certificate authentication.
@@ -1994,16 +2262,19 @@ public struct DirectoryService: AWSService {
     ///
     /// Parameters:
     ///   - cidrIps: IP address blocks that you want to remove.
+    ///   - cidrIpv6s: IPv6 address blocks that you want to remove.
     ///   - directoryId: Identifier (ID) of the directory from which you want to remove the IP addresses.
     ///   - logger: Logger use during operation
     @inlinable
     public func removeIpRoutes(
-        cidrIps: [String],
+        cidrIps: [String]? = nil,
+        cidrIpv6s: [String]? = nil,
         directoryId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> RemoveIpRoutesResult {
         let input = RemoveIpRoutesRequest(
             cidrIps: cidrIps, 
+            cidrIpv6s: cidrIpv6s, 
             directoryId: directoryId
         )
         return try await self.removeIpRoutes(input, logger: logger)
@@ -2172,6 +2443,38 @@ public struct DirectoryService: AWSService {
         return try await self.shareDirectory(input, logger: logger)
     }
 
+    /// Initiates a directory assessment to validate your self-managed AD environment for hybrid domain join. The assessment checks compatibility and connectivity of the self-managed AD environment. A directory assessment is automatically created when you create a hybrid directory. There are two types of assessments: CUSTOMER and SYSTEM. Your Amazon Web Services account has a limit of 100 CUSTOMER directory assessments. The assessment process typically takes 30 minutes or more to complete. The assessment process is asynchronous and you can monitor it with DescribeADAssessment. The InstanceIds must have a one-to-one correspondence with CustomerDnsIps, meaning that if the IP address for instance i-10243410 is 10.24.34.100 and the IP address for instance i-10243420 is 10.24.34.200, then the input arrays must maintain the same order relationship, either [10.24.34.100, 10.24.34.200] paired with [i-10243410, i-10243420] or [10.24.34.200, 10.24.34.100] paired with [i-10243420, i-10243410]. Note: You must provide exactly one DirectoryId or AssessmentConfiguration.
+    @Sendable
+    @inlinable
+    public func startADAssessment(_ input: StartADAssessmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartADAssessmentResult {
+        try await self.client.execute(
+            operation: "StartADAssessment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Initiates a directory assessment to validate your self-managed AD environment for hybrid domain join. The assessment checks compatibility and connectivity of the self-managed AD environment. A directory assessment is automatically created when you create a hybrid directory. There are two types of assessments: CUSTOMER and SYSTEM. Your Amazon Web Services account has a limit of 100 CUSTOMER directory assessments. The assessment process typically takes 30 minutes or more to complete. The assessment process is asynchronous and you can monitor it with DescribeADAssessment. The InstanceIds must have a one-to-one correspondence with CustomerDnsIps, meaning that if the IP address for instance i-10243410 is 10.24.34.100 and the IP address for instance i-10243420 is 10.24.34.200, then the input arrays must maintain the same order relationship, either [10.24.34.100, 10.24.34.200] paired with [i-10243410, i-10243420] or [10.24.34.200, 10.24.34.100] paired with [i-10243420, i-10243410]. Note: You must provide exactly one DirectoryId or AssessmentConfiguration.
+    ///
+    /// Parameters:
+    ///   - assessmentConfiguration: Configuration parameters for the directory assessment, including DNS server information, domain name, Amazon VPC subnet, and Amazon Web Services System Manager managed node details.
+    ///   - directoryId: The identifier of the directory for which to perform the assessment. This should be an existing directory. If the assessment is not for an existing directory, this parameter should be omitted.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startADAssessment(
+        assessmentConfiguration: AssessmentConfiguration? = nil,
+        directoryId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartADAssessmentResult {
+        let input = StartADAssessmentRequest(
+            assessmentConfiguration: assessmentConfiguration, 
+            directoryId: directoryId
+        )
+        return try await self.startADAssessment(input, logger: logger)
+    }
+
     /// Applies a schema extension to a Microsoft AD directory.
     @Sendable
     @inlinable
@@ -2260,24 +2563,27 @@ public struct DirectoryService: AWSService {
     /// Parameters:
     ///   - directoryId: The directory ID of the Amazon Web Services directory for which to update the conditional forwarder.
     ///   - dnsIpAddrs: The updated IP addresses of the remote DNS server associated with the conditional forwarder.
+    ///   - dnsIpv6Addrs: The updated IPv6 addresses of the remote DNS server associated with the conditional forwarder.
     ///   - remoteDomainName: The fully qualified domain name (FQDN) of the remote domain with which you will set up a trust relationship.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateConditionalForwarder(
         directoryId: String,
-        dnsIpAddrs: [String],
+        dnsIpAddrs: [String]? = nil,
+        dnsIpv6Addrs: [String]? = nil,
         remoteDomainName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateConditionalForwarderResult {
         let input = UpdateConditionalForwarderRequest(
             directoryId: directoryId, 
             dnsIpAddrs: dnsIpAddrs, 
+            dnsIpv6Addrs: dnsIpv6Addrs, 
             remoteDomainName: remoteDomainName
         )
         return try await self.updateConditionalForwarder(input, logger: logger)
     }
 
-    ///  Updates the directory for a particular update type.
+    /// Updates directory configuration for the specified update type.
     @Sendable
     @inlinable
     public func updateDirectorySetup(_ input: UpdateDirectorySetupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDirectorySetupResult {
@@ -2290,18 +2596,22 @@ public struct DirectoryService: AWSService {
             logger: logger
         )
     }
-    ///  Updates the directory for a particular update type.
+    /// Updates directory configuration for the specified update type.
     ///
     /// Parameters:
-    ///   - createSnapshotBeforeUpdate:  The boolean that specifies if a snapshot for the directory needs to be taken before updating the directory.
-    ///   - directoryId:  The identifier of the directory on which you want to perform the update.
-    ///   - osUpdateSettings:  The settings for the OS update that needs to be performed on the directory.
-    ///   - updateType:  The type of update that needs to be performed on the directory. For example, OS.
+    ///   - createSnapshotBeforeUpdate: Specifies whether to create a directory snapshot before performing the update.
+    ///   - directoryId: The identifier of the directory to update.
+    ///   - directorySizeUpdateSettings: Directory size configuration to apply during the update operation.
+    ///   - networkUpdateSettings: Network configuration to apply during the directory update operation.
+    ///   - osUpdateSettings: Operating system configuration to apply during the directory update operation.
+    ///   - updateType: The type of update to perform on the directory.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateDirectorySetup(
         createSnapshotBeforeUpdate: Bool? = nil,
         directoryId: String,
+        directorySizeUpdateSettings: DirectorySizeUpdateSettings? = nil,
+        networkUpdateSettings: NetworkUpdateSettings? = nil,
         osUpdateSettings: OSUpdateSettings? = nil,
         updateType: UpdateType,
         logger: Logger = AWSClient.loggingDisabled        
@@ -2309,10 +2619,47 @@ public struct DirectoryService: AWSService {
         let input = UpdateDirectorySetupRequest(
             createSnapshotBeforeUpdate: createSnapshotBeforeUpdate, 
             directoryId: directoryId, 
+            directorySizeUpdateSettings: directorySizeUpdateSettings, 
+            networkUpdateSettings: networkUpdateSettings, 
             osUpdateSettings: osUpdateSettings, 
             updateType: updateType
         )
         return try await self.updateDirectorySetup(input, logger: logger)
+    }
+
+    /// Updates the configuration of an existing hybrid directory. You can recover hybrid directory administrator account or modify self-managed instance settings. Updates are applied asynchronously. Use DescribeHybridADUpdate to monitor the progress of configuration changes. The InstanceIds must have a one-to-one correspondence with CustomerDnsIps, meaning that if the IP address for instance i-10243410 is 10.24.34.100 and the IP address for instance i-10243420 is 10.24.34.200, then the input arrays must maintain the same order relationship, either [10.24.34.100, 10.24.34.200] paired with [i-10243410, i-10243420] or [10.24.34.200, 10.24.34.100] paired with [i-10243420, i-10243410].  You must provide at least one update to UpdateHybridADRequest$HybridAdministratorAccountUpdate or UpdateHybridADRequest$SelfManagedInstancesSettings.
+    @Sendable
+    @inlinable
+    public func updateHybridAD(_ input: UpdateHybridADRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateHybridADResult {
+        try await self.client.execute(
+            operation: "UpdateHybridAD", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the configuration of an existing hybrid directory. You can recover hybrid directory administrator account or modify self-managed instance settings. Updates are applied asynchronously. Use DescribeHybridADUpdate to monitor the progress of configuration changes. The InstanceIds must have a one-to-one correspondence with CustomerDnsIps, meaning that if the IP address for instance i-10243410 is 10.24.34.100 and the IP address for instance i-10243420 is 10.24.34.200, then the input arrays must maintain the same order relationship, either [10.24.34.100, 10.24.34.200] paired with [i-10243410, i-10243420] or [10.24.34.200, 10.24.34.100] paired with [i-10243420, i-10243410].  You must provide at least one update to UpdateHybridADRequest$HybridAdministratorAccountUpdate or UpdateHybridADRequest$SelfManagedInstancesSettings.
+    ///
+    /// Parameters:
+    ///   - directoryId: The identifier of the hybrid directory to update.
+    ///   - hybridAdministratorAccountUpdate: We create a hybrid directory administrator account when we create a hybrid directory. Use HybridAdministratorAccountUpdate to recover the hybrid directory administrator account if you have deleted it. To recover your hybrid directory administrator account, we need temporary access to a user in your self-managed AD with administrator permissions in the form of a secret from Amazon Web Services Secrets Manager. We use these credentials once during recovery and don't store them. If your hybrid directory administrator account exists, then you don’t need to use HybridAdministratorAccountUpdate, even if you have updated your self-managed AD administrator user.
+    ///   - selfManagedInstancesSettings: Updates to the self-managed AD configuration, including DNS server IP addresses and Amazon Web Services System Manager managed node identifiers.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateHybridAD(
+        directoryId: String,
+        hybridAdministratorAccountUpdate: HybridAdministratorAccountUpdate? = nil,
+        selfManagedInstancesSettings: HybridCustomerInstancesSettings? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateHybridADResult {
+        let input = UpdateHybridADRequest(
+            directoryId: directoryId, 
+            hybridAdministratorAccountUpdate: hybridAdministratorAccountUpdate, 
+            selfManagedInstancesSettings: selfManagedInstancesSettings
+        )
+        return try await self.updateHybridAD(input, logger: logger)
     }
 
     /// Adds or removes domain controllers to or from the directory. Based on the difference between current value and new value (provided through this API call), domain controllers will be added or removed. It may take up to 45 minutes for any new domain controllers to become fully active once the requested number of domain controllers is updated. During this time, you cannot make another update request.
@@ -2840,6 +3187,43 @@ extension DirectoryService {
         return self.describeUpdateDirectoryPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listADAssessments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listADAssessmentsPaginator(
+        _ input: ListADAssessmentsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListADAssessmentsRequest, ListADAssessmentsResult> {
+        return .init(
+            input: input,
+            command: self.listADAssessments,
+            inputKey: \ListADAssessmentsRequest.nextToken,
+            outputKey: \ListADAssessmentsResult.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listADAssessments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - directoryId: The identifier of the directory for which to list assessments. If not specified, all assessments in your account are returned.
+    ///   - limit: The maximum number of assessment summaries to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listADAssessmentsPaginator(
+        directoryId: String? = nil,
+        limit: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListADAssessmentsRequest, ListADAssessmentsResult> {
+        let input = ListADAssessmentsRequest(
+            directoryId: directoryId, 
+            limit: limit
+        )
+        return self.listADAssessmentsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listCertificates(_:logger:)``.
     ///
     /// - Parameters:
@@ -3132,6 +3516,17 @@ extension DirectoryService.DescribeUpdateDirectoryRequest: AWSPaginateToken {
     }
 }
 
+extension DirectoryService.ListADAssessmentsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> DirectoryService.ListADAssessmentsRequest {
+        return .init(
+            directoryId: self.directoryId,
+            limit: self.limit,
+            nextToken: token
+        )
+    }
+}
+
 extension DirectoryService.ListCertificatesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> DirectoryService.ListCertificatesRequest {
@@ -3184,5 +3579,53 @@ extension DirectoryService.ListTagsForResourceRequest: AWSPaginateToken {
             nextToken: token,
             resourceId: self.resourceId
         )
+    }
+}
+
+// MARK: Waiters
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension DirectoryService {
+    /// Waiter for operation ``describeHybridADUpdate(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilHybridADUpdated(
+        _ input: DescribeHybridADUpdateRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeHybridADUpdateRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESAllPathMatcher("updateActivities.selfManagedInstances[].status", expected: "Updated")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("updateActivities.selfManagedInstances[].status", expected: "UpdateFailed")),
+            ],
+            minDelayTime: .seconds(120),
+            command: self.describeHybridADUpdate
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeHybridADUpdate(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - directoryId: The identifier of the hybrid directory for which to retrieve update information.
+    ///   - nextToken: The pagination token from a previous request to DescribeHybridADUpdate. Pass null if this is the first request.
+    ///   - updateType: The type of update activities to retrieve. Valid values include SelfManagedInstances and HybridAdministratorAccount.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilHybridADUpdated(
+        directoryId: String,
+        nextToken: String? = nil,
+        updateType: HybridUpdateType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeHybridADUpdateRequest(
+            directoryId: directoryId, 
+            nextToken: nextToken, 
+            updateType: updateType
+        )
+        try await self.waitUntilHybridADUpdated(input, logger: logger)
     }
 }

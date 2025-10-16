@@ -342,7 +342,7 @@ extension CodeGuruSecurity {
     }
 
     public struct CreateUploadUrlRequest: AWSEncodableShape {
-        /// The name of the scan that will use the uploaded resource. CodeGuru Security uses the unique scan name to track revisions across multiple scans of the same resource. Use this  scanName when you call CreateScan on the code resource you upload to this URL.
+        /// The name of the scan that will use the uploaded resource. CodeGuru Security uses the unique scan name to track revisions across multiple scans of the same resource. Use this scanName when you call CreateScan on the code resource you upload to this URL.
         public let scanName: String
 
         @inlinable
@@ -454,7 +454,7 @@ extension CodeGuruSecurity {
         public let resource: Resource?
         /// The identifier for the rule that generated the finding.
         public let ruleId: String?
-        /// The severity of the finding. Severity can be critical, high, medium, low, or informational. For information on severity levels, see  Finding severity in the  Amazon CodeGuru Security User Guide.
+        /// The severity of the finding. Severity can be critical, high, medium, low, or informational. For information on severity levels, see Finding severity in the Amazon CodeGuru Security User Guide.
         public let severity: Severity?
         /// The status of the finding. A finding status can be open or closed.
         public let status: Status?
@@ -1030,7 +1030,7 @@ extension CodeGuruSecurity {
         public let scanName: String
         /// The ARN for the scan name.
         public let scanNameArn: String?
-        /// The state of the scan. A scan can be In Progress,  Complete, or Failed.
+        /// The state of the scan. A scan can be In Progress, Complete, or Failed.
         public let scanState: ScanState
         /// The time the scan was last updated. A scan is updated when it is re-run.
         public let updatedAt: Date?

@@ -25,10 +25,47 @@ import Foundation
 extension ObservabilityAdmin {
     // MARK: Enums
 
+    public enum CentralizationFailureReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case destinationAccountNotInOrganization = "DESTINATION_ACCOUNT_NOT_IN_ORGANIZATION"
+        case internalServerError = "INTERNAL_SERVER_ERROR"
+        case trustedAccessNotEnabled = "TRUSTED_ACCESS_NOT_ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DestinationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cloudwatchLogs = "cloud-watch-logs"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncryptedLogGroupStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allow = "ALLOW"
+        case skip = "SKIP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncryptionConflictResolutionStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allow = "ALLOW"
+        case skip = "SKIP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncryptionStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsOwned = "AWS_OWNED"
+        case customerManaged = "CUSTOMER_MANAGED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsEc2Instance = "AWS::EC2::Instance"
         case awsEc2Vpc = "AWS::EC2::VPC"
         case awsLamdbaFunction = "AWS::Lambda::Function"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleHealth: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case healthy = "Healthy"
+        case provisioning = "Provisioning"
+        case unhealthy = "Unhealthy"
         public var description: String { return self.rawValue }
     }
 
@@ -40,6 +77,13 @@ extension ObservabilityAdmin {
         case starting = "STARTING"
         case stopped = "STOPPED"
         case stopping = "STOPPING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TelemetryEnrichmentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case impaired = "Impaired"
+        case running = "Running"
+        case stopped = "Stopped"
         public var description: String { return self.rawValue }
     }
 
@@ -82,6 +126,460 @@ extension ObservabilityAdmin {
         }
     }
 
+    public struct CentralizationRule: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration determining where the telemetry data should be centralized, backed up, as well as encryption configuration for the primary and backup destinations.
+        public let destination: CentralizationRuleDestination
+        /// Configuration determining the source of the telemetry data to be centralized.
+        public let source: CentralizationRuleSource
+
+        @inlinable
+        public init(destination: CentralizationRuleDestination, source: CentralizationRuleSource) {
+            self.destination = destination
+            self.source = source
+        }
+
+        public func validate(name: String) throws {
+            try self.destination.validate(name: "\(name).destination")
+            try self.source.validate(name: "\(name).source")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "Destination"
+            case source = "Source"
+        }
+    }
+
+    public struct CentralizationRuleDestination: AWSEncodableShape & AWSDecodableShape {
+        /// The destination account (within the organization) to which the telemetry data should be centralized.
+        public let account: String?
+        /// Log specific configuration for centralization destination log groups.
+        public let destinationLogsConfiguration: DestinationLogsConfiguration?
+        /// The primary destination region to which telemetry data should be centralized.
+        public let region: String
+
+        @inlinable
+        public init(account: String? = nil, destinationLogsConfiguration: DestinationLogsConfiguration? = nil, region: String) {
+            self.account = account
+            self.destinationLogsConfiguration = destinationLogsConfiguration
+            self.region = region
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.account, name: "account", parent: name, max: 12)
+            try self.validate(self.account, name: "account", parent: name, min: 12)
+            try self.validate(self.account, name: "account", parent: name, pattern: "^[0-9]{12}$")
+            try self.destinationLogsConfiguration?.validate(name: "\(name).destinationLogsConfiguration")
+            try self.validate(self.region, name: "region", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case account = "Account"
+            case destinationLogsConfiguration = "DestinationLogsConfiguration"
+            case region = "Region"
+        }
+    }
+
+    public struct CentralizationRuleSource: AWSEncodableShape & AWSDecodableShape {
+        /// The list of source regions from which telemetry data should be centralized.
+        public let regions: [String]
+        /// The organizational scope from which telemetry data should be centralized, specified using organization id, accounts or organizational unit ids.
+        public let scope: String?
+        /// Log specific configuration for centralization source log groups.
+        public let sourceLogsConfiguration: SourceLogsConfiguration?
+
+        @inlinable
+        public init(regions: [String], scope: String? = nil, sourceLogsConfiguration: SourceLogsConfiguration? = nil) {
+            self.regions = regions
+            self.scope = scope
+            self.sourceLogsConfiguration = sourceLogsConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.regions.forEach {
+                try validate($0, name: "regions[]", parent: name, min: 1)
+            }
+            try self.validate(self.regions, name: "regions", parent: name, min: 1)
+            try self.validate(self.scope, name: "scope", parent: name, max: 2000)
+            try self.validate(self.scope, name: "scope", parent: name, min: 1)
+            try self.sourceLogsConfiguration?.validate(name: "\(name).sourceLogsConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case regions = "Regions"
+            case scope = "Scope"
+            case sourceLogsConfiguration = "SourceLogsConfiguration"
+        }
+    }
+
+    public struct CentralizationRuleSummary: AWSDecodableShape {
+        /// The Amazon Web Services region where the organization centralization rule was created.
+        public let createdRegion: String?
+        /// The timestamp when the organization centralization rule was created.
+        public let createdTimeStamp: Int64?
+        /// The Amazon Web Services Account that created the organization centralization rule.
+        public let creatorAccountId: String?
+        /// The primary destination account of the organization centralization rule.
+        public let destinationAccountId: String?
+        /// The primary destination region of the organization centralization rule.
+        public let destinationRegion: String?
+        /// The reason why an organization centralization rule is marked UNHEALTHY.
+        public let failureReason: CentralizationFailureReason?
+        /// The timestamp when the organization centralization rule was last updated.
+        public let lastUpdateTimeStamp: Int64?
+        /// The Amazon Resource Name (ARN) of the organization centralization rule.
+        public let ruleArn: String?
+        /// The health status of the organization centralization rule.
+        public let ruleHealth: RuleHealth?
+        /// The name of the organization centralization rule.
+        public let ruleName: String?
+
+        @inlinable
+        public init(createdRegion: String? = nil, createdTimeStamp: Int64? = nil, creatorAccountId: String? = nil, destinationAccountId: String? = nil, destinationRegion: String? = nil, failureReason: CentralizationFailureReason? = nil, lastUpdateTimeStamp: Int64? = nil, ruleArn: String? = nil, ruleHealth: RuleHealth? = nil, ruleName: String? = nil) {
+            self.createdRegion = createdRegion
+            self.createdTimeStamp = createdTimeStamp
+            self.creatorAccountId = creatorAccountId
+            self.destinationAccountId = destinationAccountId
+            self.destinationRegion = destinationRegion
+            self.failureReason = failureReason
+            self.lastUpdateTimeStamp = lastUpdateTimeStamp
+            self.ruleArn = ruleArn
+            self.ruleHealth = ruleHealth
+            self.ruleName = ruleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdRegion = "CreatedRegion"
+            case createdTimeStamp = "CreatedTimeStamp"
+            case creatorAccountId = "CreatorAccountId"
+            case destinationAccountId = "DestinationAccountId"
+            case destinationRegion = "DestinationRegion"
+            case failureReason = "FailureReason"
+            case lastUpdateTimeStamp = "LastUpdateTimeStamp"
+            case ruleArn = "RuleArn"
+            case ruleHealth = "RuleHealth"
+            case ruleName = "RuleName"
+        }
+    }
+
+    public struct CreateCentralizationRuleForOrganizationInput: AWSEncodableShape {
+        /// The configuration details for the organization-wide centralization rule, including the source configuration and the destination configuration to centralize telemetry data across the organization.
+        public let rule: CentralizationRule
+        /// A unique name for the organization-wide centralization rule being created.
+        public let ruleName: String
+        /// The key-value pairs to associate with the organization telemetry rule resource for categorization and management purposes.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(rule: CentralizationRule, ruleName: String, tags: [String: String]? = nil) {
+            self.rule = rule
+            self.ruleName = ruleName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.rule.validate(name: "\(name).rule")
+            try self.validate(self.ruleName, name: "ruleName", parent: name, max: 100)
+            try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
+            try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[0-9A-Za-z-_.#/]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rule = "Rule"
+            case ruleName = "RuleName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateCentralizationRuleForOrganizationOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the created organization centralization rule.
+        public let ruleArn: String?
+
+        @inlinable
+        public init(ruleArn: String? = nil) {
+            self.ruleArn = ruleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleArn = "RuleArn"
+        }
+    }
+
+    public struct CreateTelemetryRuleForOrganizationInput: AWSEncodableShape {
+        ///  The configuration details for the organization-wide telemetry rule, including the resource type, telemetry type, destination configuration, and selection criteria for which resources the rule applies to across the organization.
+        public let rule: TelemetryRule
+        ///  A unique name for the organization-wide telemetry rule being created.
+        public let ruleName: String
+        ///  The key-value pairs to associate with the organization telemetry rule resource for categorization and management purposes.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(rule: TelemetryRule, ruleName: String, tags: [String: String]? = nil) {
+            self.rule = rule
+            self.ruleName = ruleName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.rule.validate(name: "\(name).rule")
+            try self.validate(self.ruleName, name: "ruleName", parent: name, max: 100)
+            try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
+            try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[0-9A-Za-z-_.#/]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rule = "Rule"
+            case ruleName = "RuleName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateTelemetryRuleForOrganizationOutput: AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the created organization telemetry rule.
+        public let ruleArn: String?
+
+        @inlinable
+        public init(ruleArn: String? = nil) {
+            self.ruleArn = ruleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleArn = "RuleArn"
+        }
+    }
+
+    public struct CreateTelemetryRuleInput: AWSEncodableShape {
+        ///  The configuration details for the telemetry rule, including the resource type, telemetry type, destination configuration, and selection criteria for which resources the rule applies to.
+        public let rule: TelemetryRule
+        ///  A unique name for the telemetry rule being created.
+        public let ruleName: String
+        ///  The key-value pairs to associate with the telemetry rule resource for categorization and management purposes.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(rule: TelemetryRule, ruleName: String, tags: [String: String]? = nil) {
+            self.rule = rule
+            self.ruleName = ruleName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.rule.validate(name: "\(name).rule")
+            try self.validate(self.ruleName, name: "ruleName", parent: name, max: 100)
+            try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
+            try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[0-9A-Za-z-_.#/]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rule = "Rule"
+            case ruleName = "RuleName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateTelemetryRuleOutput: AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the created telemetry rule.
+        public let ruleArn: String?
+
+        @inlinable
+        public init(ruleArn: String? = nil) {
+            self.ruleArn = ruleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleArn = "RuleArn"
+        }
+    }
+
+    public struct DeleteCentralizationRuleForOrganizationInput: AWSEncodableShape {
+        /// The identifier (name or ARN) of the organization centralization rule to delete.
+        public let ruleIdentifier: String
+
+        @inlinable
+        public init(ruleIdentifier: String) {
+            self.ruleIdentifier = ruleIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ruleIdentifier, name: "ruleIdentifier", parent: name, max: 1011)
+            try self.validate(self.ruleIdentifier, name: "ruleIdentifier", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleIdentifier = "RuleIdentifier"
+        }
+    }
+
+    public struct DeleteTelemetryRuleForOrganizationInput: AWSEncodableShape {
+        ///  The identifier (name or ARN) of the organization telemetry rule to delete.
+        public let ruleIdentifier: String
+
+        @inlinable
+        public init(ruleIdentifier: String) {
+            self.ruleIdentifier = ruleIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ruleIdentifier, name: "ruleIdentifier", parent: name, max: 1011)
+            try self.validate(self.ruleIdentifier, name: "ruleIdentifier", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleIdentifier = "RuleIdentifier"
+        }
+    }
+
+    public struct DeleteTelemetryRuleInput: AWSEncodableShape {
+        ///  The identifier (name or ARN) of the telemetry rule to delete.
+        public let ruleIdentifier: String
+
+        @inlinable
+        public init(ruleIdentifier: String) {
+            self.ruleIdentifier = ruleIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ruleIdentifier, name: "ruleIdentifier", parent: name, max: 1011)
+            try self.validate(self.ruleIdentifier, name: "ruleIdentifier", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleIdentifier = "RuleIdentifier"
+        }
+    }
+
+    public struct DestinationLogsConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration defining the backup region and an optional KMS key for the backup destination.
+        public let backupConfiguration: LogsBackupConfiguration?
+        /// The encryption configuration for centralization destination log groups.
+        public let logsEncryptionConfiguration: LogsEncryptionConfiguration?
+
+        @inlinable
+        public init(backupConfiguration: LogsBackupConfiguration? = nil, logsEncryptionConfiguration: LogsEncryptionConfiguration? = nil) {
+            self.backupConfiguration = backupConfiguration
+            self.logsEncryptionConfiguration = logsEncryptionConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.backupConfiguration?.validate(name: "\(name).backupConfiguration")
+            try self.logsEncryptionConfiguration?.validate(name: "\(name).logsEncryptionConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupConfiguration = "BackupConfiguration"
+            case logsEncryptionConfiguration = "LogsEncryptionConfiguration"
+        }
+    }
+
+    public struct GetCentralizationRuleForOrganizationInput: AWSEncodableShape {
+        /// The identifier (name or ARN) of the organization centralization rule to retrieve.
+        public let ruleIdentifier: String
+
+        @inlinable
+        public init(ruleIdentifier: String) {
+            self.ruleIdentifier = ruleIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ruleIdentifier, name: "ruleIdentifier", parent: name, max: 1011)
+            try self.validate(self.ruleIdentifier, name: "ruleIdentifier", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleIdentifier = "RuleIdentifier"
+        }
+    }
+
+    public struct GetCentralizationRuleForOrganizationOutput: AWSDecodableShape {
+        /// The configuration details for the organization centralization rule.
+        public let centralizationRule: CentralizationRule?
+        /// The Amazon Web Services region where the organization centralization rule was created.
+        public let createdRegion: String?
+        /// The timestamp when the organization centralization rule was created.
+        public let createdTimeStamp: Int64?
+        /// The Amazon Web Services Account that created the organization centralization rule.
+        public let creatorAccountId: String?
+        /// The reason why an organization centralization rule is marked UNHEALTHY.
+        public let failureReason: CentralizationFailureReason?
+        /// The timestamp when the organization centralization rule was last updated.
+        public let lastUpdateTimeStamp: Int64?
+        /// The Amazon Resource Name (ARN) of the organization centralization rule.
+        public let ruleArn: String?
+        /// The health status of the organization centralization rule.
+        public let ruleHealth: RuleHealth?
+        /// The name of the organization centralization rule.
+        public let ruleName: String?
+
+        @inlinable
+        public init(centralizationRule: CentralizationRule? = nil, createdRegion: String? = nil, createdTimeStamp: Int64? = nil, creatorAccountId: String? = nil, failureReason: CentralizationFailureReason? = nil, lastUpdateTimeStamp: Int64? = nil, ruleArn: String? = nil, ruleHealth: RuleHealth? = nil, ruleName: String? = nil) {
+            self.centralizationRule = centralizationRule
+            self.createdRegion = createdRegion
+            self.createdTimeStamp = createdTimeStamp
+            self.creatorAccountId = creatorAccountId
+            self.failureReason = failureReason
+            self.lastUpdateTimeStamp = lastUpdateTimeStamp
+            self.ruleArn = ruleArn
+            self.ruleHealth = ruleHealth
+            self.ruleName = ruleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case centralizationRule = "CentralizationRule"
+            case createdRegion = "CreatedRegion"
+            case createdTimeStamp = "CreatedTimeStamp"
+            case creatorAccountId = "CreatorAccountId"
+            case failureReason = "FailureReason"
+            case lastUpdateTimeStamp = "LastUpdateTimeStamp"
+            case ruleArn = "RuleArn"
+            case ruleHealth = "RuleHealth"
+            case ruleName = "RuleName"
+        }
+    }
+
+    public struct GetTelemetryEnrichmentStatusOutput: AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the Amazon Web Services Resource Explorer managed view used for resource tags for telemetry, if the feature is enabled.
+        public let awsResourceExplorerManagedViewArn: String?
+        ///  The current status of the resource tags for telemetry feature (Running, Stopped, or Impaired).
+        public let status: TelemetryEnrichmentStatus?
+
+        @inlinable
+        public init(awsResourceExplorerManagedViewArn: String? = nil, status: TelemetryEnrichmentStatus? = nil) {
+            self.awsResourceExplorerManagedViewArn = awsResourceExplorerManagedViewArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsResourceExplorerManagedViewArn = "AwsResourceExplorerManagedViewArn"
+            case status = "Status"
+        }
+    }
+
     public struct GetTelemetryEvaluationStatusForOrganizationOutput: AWSDecodableShape {
         ///  This field describes the reason for the failure status. The field will only be populated if Status is FAILED_START or FAILED_STOP.
         public let failureReason: String?
@@ -118,6 +616,104 @@ extension ObservabilityAdmin {
         }
     }
 
+    public struct GetTelemetryRuleForOrganizationInput: AWSEncodableShape {
+        ///  The identifier (name or ARN) of the organization telemetry rule to retrieve.
+        public let ruleIdentifier: String
+
+        @inlinable
+        public init(ruleIdentifier: String) {
+            self.ruleIdentifier = ruleIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ruleIdentifier, name: "ruleIdentifier", parent: name, max: 1011)
+            try self.validate(self.ruleIdentifier, name: "ruleIdentifier", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleIdentifier = "RuleIdentifier"
+        }
+    }
+
+    public struct GetTelemetryRuleForOrganizationOutput: AWSDecodableShape {
+        ///  The timestamp when the organization telemetry rule was created.
+        public let createdTimeStamp: Int64?
+        ///  The timestamp when the organization telemetry rule was last updated.
+        public let lastUpdateTimeStamp: Int64?
+        ///  The Amazon Resource Name (ARN) of the organization telemetry rule.
+        public let ruleArn: String?
+        ///  The name of the organization telemetry rule.
+        public let ruleName: String?
+        ///  The configuration details of the organization telemetry rule.
+        public let telemetryRule: TelemetryRule?
+
+        @inlinable
+        public init(createdTimeStamp: Int64? = nil, lastUpdateTimeStamp: Int64? = nil, ruleArn: String? = nil, ruleName: String? = nil, telemetryRule: TelemetryRule? = nil) {
+            self.createdTimeStamp = createdTimeStamp
+            self.lastUpdateTimeStamp = lastUpdateTimeStamp
+            self.ruleArn = ruleArn
+            self.ruleName = ruleName
+            self.telemetryRule = telemetryRule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimeStamp = "CreatedTimeStamp"
+            case lastUpdateTimeStamp = "LastUpdateTimeStamp"
+            case ruleArn = "RuleArn"
+            case ruleName = "RuleName"
+            case telemetryRule = "TelemetryRule"
+        }
+    }
+
+    public struct GetTelemetryRuleInput: AWSEncodableShape {
+        ///  The identifier (name or ARN) of the telemetry rule to retrieve.
+        public let ruleIdentifier: String
+
+        @inlinable
+        public init(ruleIdentifier: String) {
+            self.ruleIdentifier = ruleIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ruleIdentifier, name: "ruleIdentifier", parent: name, max: 1011)
+            try self.validate(self.ruleIdentifier, name: "ruleIdentifier", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleIdentifier = "RuleIdentifier"
+        }
+    }
+
+    public struct GetTelemetryRuleOutput: AWSDecodableShape {
+        ///  The timestamp when the telemetry rule was created.
+        public let createdTimeStamp: Int64?
+        ///  The timestamp when the telemetry rule was last updated.
+        public let lastUpdateTimeStamp: Int64?
+        ///  The Amazon Resource Name (ARN) of the telemetry rule.
+        public let ruleArn: String?
+        ///  The name of the telemetry rule.
+        public let ruleName: String?
+        ///  The configuration details of the telemetry rule.
+        public let telemetryRule: TelemetryRule?
+
+        @inlinable
+        public init(createdTimeStamp: Int64? = nil, lastUpdateTimeStamp: Int64? = nil, ruleArn: String? = nil, ruleName: String? = nil, telemetryRule: TelemetryRule? = nil) {
+            self.createdTimeStamp = createdTimeStamp
+            self.lastUpdateTimeStamp = lastUpdateTimeStamp
+            self.ruleArn = ruleArn
+            self.ruleName = ruleName
+            self.telemetryRule = telemetryRule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimeStamp = "CreatedTimeStamp"
+            case lastUpdateTimeStamp = "LastUpdateTimeStamp"
+            case ruleArn = "RuleArn"
+            case ruleName = "RuleName"
+            case telemetryRule = "TelemetryRule"
+        }
+    }
+
     public struct InternalServerException: AWSErrorShape {
         ///  The name of the exception.
         public let amznErrorType: String?
@@ -141,8 +737,57 @@ extension ObservabilityAdmin {
         }
     }
 
+    public struct ListCentralizationRulesForOrganizationInput: AWSEncodableShape {
+        /// A flag determining whether to return organization centralization rules from all regions or only the current region.
+        public let allRegions: Bool?
+        /// The maximum number of organization centralization rules to return in a single call.
+        public let maxResults: Int?
+        /// The token for the next set of results. A previous call generates this token.
+        public let nextToken: String?
+        /// A string to filter organization centralization rules whose names begin with the specified prefix.
+        public let ruleNamePrefix: String?
+
+        @inlinable
+        public init(allRegions: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, ruleNamePrefix: String? = nil) {
+            self.allRegions = allRegions
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.ruleNamePrefix = ruleNamePrefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allRegions = "AllRegions"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case ruleNamePrefix = "RuleNamePrefix"
+        }
+    }
+
+    public struct ListCentralizationRulesForOrganizationOutput: AWSDecodableShape {
+        /// A list of centralization rule summaries.
+        public let centralizationRuleSummaries: [CentralizationRuleSummary]?
+        /// A token to resume pagination of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(centralizationRuleSummaries: [CentralizationRuleSummary]? = nil, nextToken: String? = nil) {
+            self.centralizationRuleSummaries = centralizationRuleSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case centralizationRuleSummaries = "CentralizationRuleSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListResourceTelemetryForOrganizationInput: AWSEncodableShape {
-        ///  A list of AWS account IDs used to filter the resources to those associated with the specified accounts.
+        ///  A list of Amazon Web Services accounts used to filter the resources to those associated with the specified accounts.
         public let accountIdentifiers: [String]?
         ///  A number field used to limit the number of results within the returned list.
         public let maxResults: Int?
@@ -175,6 +820,7 @@ extension ObservabilityAdmin {
                 try validate($0, name: "accountIdentifiers[]", parent: name, pattern: "^[0-9]{12}$")
             }
             try self.validate(self.accountIdentifiers, name: "accountIdentifiers", parent: name, max: 10)
+            try self.validate(self.accountIdentifiers, name: "accountIdentifiers", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.resourceIdentifierPrefix, name: "resourceIdentifierPrefix", parent: name, max: 768)
@@ -187,7 +833,8 @@ extension ObservabilityAdmin {
                 try validate($0.value, name: "resourceTags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
             try self.validate(self.resourceTags, name: "resourceTags", parent: name, max: 50)
-            try self.validate(self.resourceTypes, name: "resourceTypes", parent: name, max: 5)
+            try self.validate(self.resourceTags, name: "resourceTags", parent: name, min: 1)
+            try self.validate(self.resourceTypes, name: "resourceTypes", parent: name, max: 9)
             try self.validate(self.resourceTypes, name: "resourceTypes", parent: name, min: 1)
         }
 
@@ -205,7 +852,7 @@ extension ObservabilityAdmin {
     public struct ListResourceTelemetryForOrganizationOutput: AWSDecodableShape {
         ///  The token for the next set of items to return. A previous call provides this token.
         public let nextToken: String?
-        ///  A list of telemetry configurations for AWS resources supported by telemetry config in the organization.
+        ///  A list of telemetry configurations for Amazon Web Services resources supported by telemetry config in the organization.
         public let telemetryConfigurations: [TelemetryConfiguration]?
 
         @inlinable
@@ -257,7 +904,8 @@ extension ObservabilityAdmin {
                 try validate($0.value, name: "resourceTags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
             try self.validate(self.resourceTags, name: "resourceTags", parent: name, max: 50)
-            try self.validate(self.resourceTypes, name: "resourceTypes", parent: name, max: 5)
+            try self.validate(self.resourceTags, name: "resourceTags", parent: name, min: 1)
+            try self.validate(self.resourceTypes, name: "resourceTypes", parent: name, max: 9)
             try self.validate(self.resourceTypes, name: "resourceTypes", parent: name, min: 1)
         }
 
@@ -274,7 +922,7 @@ extension ObservabilityAdmin {
     public struct ListResourceTelemetryOutput: AWSDecodableShape {
         ///  The token for the next set of items to return. A previous call generates this token.
         public let nextToken: String?
-        ///  A list of telemetry configurations for AWS resources supported by telemetry config in the caller's account.
+        ///  A list of telemetry configurations for Amazon Web Services resources supported by telemetry config in the caller's account.
         public let telemetryConfigurations: [TelemetryConfiguration]?
 
         @inlinable
@@ -289,16 +937,323 @@ extension ObservabilityAdmin {
         }
     }
 
+    public struct ListTagsForResourceInput: AWSEncodableShape {
+        ///  The Amazon Resource Name (ARN) of the telemetry rule resource whose tags you want to list.
+        public let resourceARN: String
+
+        @inlinable
+        public init(resourceARN: String) {
+            self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws([a-z0-9\\-]+)?:([a-zA-Z0-9\\-]+):([a-z0-9\\-]+)?:([0-9]{12})?:(.+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+        }
+    }
+
+    public struct ListTagsForResourceOutput: AWSDecodableShape {
+        ///  The list of tags associated with the telemetry rule resource.
+        public let tags: [String: String]
+
+        @inlinable
+        public init(tags: [String: String]) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
+    public struct ListTelemetryRulesForOrganizationInput: AWSEncodableShape {
+        ///  The maximum number of organization telemetry rules to return in a single call.
+        public let maxResults: Int?
+        ///  The token for the next set of results. A previous call generates this token.
+        public let nextToken: String?
+        ///  A string to filter organization telemetry rules whose names begin with the specified prefix.
+        public let ruleNamePrefix: String?
+        ///  The list of account IDs to filter organization telemetry rules by their source accounts.
+        public let sourceAccountIds: [String]?
+        ///  The list of organizational unit IDs to filter organization telemetry rules by their source organizational units.
+        public let sourceOrganizationUnitIds: [String]?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, ruleNamePrefix: String? = nil, sourceAccountIds: [String]? = nil, sourceOrganizationUnitIds: [String]? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.ruleNamePrefix = ruleNamePrefix
+            self.sourceAccountIds = sourceAccountIds
+            self.sourceOrganizationUnitIds = sourceOrganizationUnitIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.sourceAccountIds?.forEach {
+                try validate($0, name: "sourceAccountIds[]", parent: name, max: 12)
+                try validate($0, name: "sourceAccountIds[]", parent: name, min: 12)
+                try validate($0, name: "sourceAccountIds[]", parent: name, pattern: "^[0-9]{12}$")
+            }
+            try self.validate(self.sourceAccountIds, name: "sourceAccountIds", parent: name, max: 10)
+            try self.validate(self.sourceAccountIds, name: "sourceAccountIds", parent: name, min: 1)
+            try self.sourceOrganizationUnitIds?.forEach {
+                try validate($0, name: "sourceOrganizationUnitIds[]", parent: name, pattern: "^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$")
+            }
+            try self.validate(self.sourceOrganizationUnitIds, name: "sourceOrganizationUnitIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case ruleNamePrefix = "RuleNamePrefix"
+            case sourceAccountIds = "SourceAccountIds"
+            case sourceOrganizationUnitIds = "SourceOrganizationUnitIds"
+        }
+    }
+
+    public struct ListTelemetryRulesForOrganizationOutput: AWSDecodableShape {
+        ///  A token to resume pagination of results.
+        public let nextToken: String?
+        ///  A list of organization telemetry rule summaries.
+        public let telemetryRuleSummaries: [TelemetryRuleSummary]?
+
+        @inlinable
+        public init(nextToken: String? = nil, telemetryRuleSummaries: [TelemetryRuleSummary]? = nil) {
+            self.nextToken = nextToken
+            self.telemetryRuleSummaries = telemetryRuleSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case telemetryRuleSummaries = "TelemetryRuleSummaries"
+        }
+    }
+
+    public struct ListTelemetryRulesInput: AWSEncodableShape {
+        ///  The maximum number of telemetry rules to return in a single call.
+        public let maxResults: Int?
+        ///  The token for the next set of results. A previous call generates this token.
+        public let nextToken: String?
+        ///  A string to filter telemetry rules whose names begin with the specified prefix.
+        public let ruleNamePrefix: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, ruleNamePrefix: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.ruleNamePrefix = ruleNamePrefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case ruleNamePrefix = "RuleNamePrefix"
+        }
+    }
+
+    public struct ListTelemetryRulesOutput: AWSDecodableShape {
+        ///  A token to resume pagination of results.
+        public let nextToken: String?
+        ///  A list of telemetry rule summaries.
+        public let telemetryRuleSummaries: [TelemetryRuleSummary]?
+
+        @inlinable
+        public init(nextToken: String? = nil, telemetryRuleSummaries: [TelemetryRuleSummary]? = nil) {
+            self.nextToken = nextToken
+            self.telemetryRuleSummaries = telemetryRuleSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case telemetryRuleSummaries = "TelemetryRuleSummaries"
+        }
+    }
+
+    public struct LogsBackupConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// KMS Key arn belonging to the primary destination account and backup region, to encrypt newly created central log groups in the backup destination.
+        public let kmsKeyArn: String?
+        /// Logs specific backup destination region within the primary destination account to which log data should be centralized.
+        public let region: String
+
+        @inlinable
+        public init(kmsKeyArn: String? = nil, region: String) {
+            self.kmsKeyArn = kmsKeyArn
+            self.region = region
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 1011)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 1)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws([a-z0-9\\-]+)?:([a-zA-Z0-9\\-]+):([a-z0-9\\-]+)?:([0-9]{12})?:(.+)$")
+            try self.validate(self.region, name: "region", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyArn = "KmsKeyArn"
+            case region = "Region"
+        }
+    }
+
+    public struct LogsEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Conflict resolution strategy for centralization if the encryption strategy is set to CUSTOMER_MANAGED and the destination log group is encrypted with an AWS_OWNED KMS Key. ALLOW lets centralization go through while SKIP prevents centralization into the destination log group.
+        public let encryptionConflictResolutionStrategy: EncryptionConflictResolutionStrategy?
+        /// Configuration that determines the encryption strategy of the destination log groups. CUSTOMER_MANAGED uses the configured KmsKeyArn to encrypt newly created destination log groups.
+        public let encryptionStrategy: EncryptionStrategy
+        /// KMS Key arn belonging to the primary destination account and region, to encrypt newly created central log groups in the primary destination.
+        public let kmsKeyArn: String?
+
+        @inlinable
+        public init(encryptionConflictResolutionStrategy: EncryptionConflictResolutionStrategy? = nil, encryptionStrategy: EncryptionStrategy, kmsKeyArn: String? = nil) {
+            self.encryptionConflictResolutionStrategy = encryptionConflictResolutionStrategy
+            self.encryptionStrategy = encryptionStrategy
+            self.kmsKeyArn = kmsKeyArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 1011)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 1)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws([a-z0-9\\-]+)?:([a-zA-Z0-9\\-]+):([a-z0-9\\-]+)?:([0-9]{12})?:(.+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionConflictResolutionStrategy = "EncryptionConflictResolutionStrategy"
+            case encryptionStrategy = "EncryptionStrategy"
+            case kmsKeyArn = "KmsKeyArn"
+        }
+    }
+
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        ///  The name of the exception.
+        public let amznErrorType: String?
+        public let message: String?
+
+        @inlinable
+        public init(amznErrorType: String? = nil, message: String? = nil) {
+            self.amznErrorType = amznErrorType
+            self.message = message
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.amznErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
+            self.message = try container.decodeIfPresent(String.self, forKey: .message)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+        }
+    }
+
+    public struct SourceLogsConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A strategy determining whether to centralize source log groups that are encrypted with customer managed KMS keys (CMK). ALLOW will consider CMK encrypted source log groups for centralization while SKIP will skip CMK encrypted source log groups from centralization.
+        public let encryptedLogGroupStrategy: EncryptedLogGroupStrategy
+        /// The selection criteria that specifies which source log groups to centralize. The selection criteria uses the same format as OAM link filters.
+        public let logGroupSelectionCriteria: String
+
+        @inlinable
+        public init(encryptedLogGroupStrategy: EncryptedLogGroupStrategy, logGroupSelectionCriteria: String) {
+            self.encryptedLogGroupStrategy = encryptedLogGroupStrategy
+            self.logGroupSelectionCriteria = logGroupSelectionCriteria
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.logGroupSelectionCriteria, name: "logGroupSelectionCriteria", parent: name, max: 2000)
+            try self.validate(self.logGroupSelectionCriteria, name: "logGroupSelectionCriteria", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptedLogGroupStrategy = "EncryptedLogGroupStrategy"
+            case logGroupSelectionCriteria = "LogGroupSelectionCriteria"
+        }
+    }
+
+    public struct StartTelemetryEnrichmentOutput: AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the Amazon Web Services Resource Explorer managed view created for resource tags for telemetry.
+        public let awsResourceExplorerManagedViewArn: String?
+        ///  The status of the resource tags for telemetry feature after the start operation (Running, Stopped, or Impaired).
+        public let status: TelemetryEnrichmentStatus?
+
+        @inlinable
+        public init(awsResourceExplorerManagedViewArn: String? = nil, status: TelemetryEnrichmentStatus? = nil) {
+            self.awsResourceExplorerManagedViewArn = awsResourceExplorerManagedViewArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsResourceExplorerManagedViewArn = "AwsResourceExplorerManagedViewArn"
+            case status = "Status"
+        }
+    }
+
+    public struct StopTelemetryEnrichmentOutput: AWSDecodableShape {
+        ///  The status of the resource tags for telemetry feature after the stop operation (Running, Stopped, or Impaired).
+        public let status: TelemetryEnrichmentStatus?
+
+        @inlinable
+        public init(status: TelemetryEnrichmentStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
+    }
+
+    public struct TagResourceInput: AWSEncodableShape {
+        ///  The Amazon Resource Name (ARN) of the telemetry rule resource to tag.
+        public let resourceARN: String
+        ///  The key-value pairs to add or update for the telemetry rule resource.
+        public let tags: [String: String]
+
+        @inlinable
+        public init(resourceARN: String, tags: [String: String]) {
+            self.resourceARN = resourceARN
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws([a-z0-9\\-]+)?:([a-zA-Z0-9\\-]+):([a-z0-9\\-]+)?:([0-9]{12})?:(.+)$")
+            try self.tags.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
+        }
+    }
+
     public struct TelemetryConfiguration: AWSDecodableShape {
         ///  The account ID which contains the resource managed in telemetry configuration. An example of a valid account ID is 012345678901.
         public let accountIdentifier: String?
-        ///  The timestamp of the last change to the telemetry configuration for the resource.  For example, 1728679196318.
+        ///  The timestamp of the last change to the telemetry configuration for the resource. For example, 1728679196318.
         public let lastUpdateTimeStamp: Int64?
         ///  The identifier of the resource, for example i-0b22a22eec53b9321.
         public let resourceIdentifier: String?
         ///  Tags associated with the resource, for example { Name: "ExampleInstance", Environment: "Development" }.
         public let resourceTags: [String: String]?
-        ///  The type of resource, for example AWS::EC2::Instance.
+        ///  The type of resource, for example Amazon Web Services::EC2::Instance.
         public let resourceType: ResourceType?
         ///  The configuration state for the resource, for example { Logs: NotApplicable; Metrics: Enabled; Traces: NotApplicable; }.
         public let telemetryConfigurationState: [TelemetryType: TelemetryState]?
@@ -322,6 +1277,272 @@ extension ObservabilityAdmin {
             case telemetryConfigurationState = "TelemetryConfigurationState"
         }
     }
+
+    public struct TelemetryDestinationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///  The pattern used to generate the destination path or name, supporting macros like &lt;resourceId&gt; and &lt;accountId&gt;.
+        public let destinationPattern: String?
+        ///  The type of destination for the telemetry data (e.g., "Amazon CloudWatch Logs", "S3").
+        public let destinationType: DestinationType?
+        ///  The number of days to retain the telemetry data in the destination.
+        public let retentionInDays: Int?
+        ///  Configuration parameters specific to VPC Flow Logs when VPC is the resource type.
+        public let vpcFlowLogParameters: VPCFlowLogParameters?
+
+        @inlinable
+        public init(destinationPattern: String? = nil, destinationType: DestinationType? = nil, retentionInDays: Int? = nil, vpcFlowLogParameters: VPCFlowLogParameters? = nil) {
+            self.destinationPattern = destinationPattern
+            self.destinationType = destinationType
+            self.retentionInDays = retentionInDays
+            self.vpcFlowLogParameters = vpcFlowLogParameters
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.retentionInDays, name: "retentionInDays", parent: name, max: 3653)
+            try self.validate(self.retentionInDays, name: "retentionInDays", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationPattern = "DestinationPattern"
+            case destinationType = "DestinationType"
+            case retentionInDays = "RetentionInDays"
+            case vpcFlowLogParameters = "VPCFlowLogParameters"
+        }
+    }
+
+    public struct TelemetryRule: AWSEncodableShape & AWSDecodableShape {
+        ///  Configuration specifying where and how the telemetry data should be delivered.
+        public let destinationConfiguration: TelemetryDestinationConfiguration?
+        ///  The type of Amazon Web Services resource to configure telemetry for (e.g., "AWS::EC2::VPC").
+        public let resourceType: ResourceType?
+        ///  The organizational scope to which the rule applies, specified using accounts or organizational units.
+        public let scope: String?
+        ///  Criteria for selecting which resources the rule applies to, such as resource tags.
+        public let selectionCriteria: String?
+        ///  The type of telemetry to collect (Logs, Metrics, or Traces).
+        public let telemetryType: TelemetryType
+
+        @inlinable
+        public init(destinationConfiguration: TelemetryDestinationConfiguration? = nil, resourceType: ResourceType? = nil, scope: String? = nil, selectionCriteria: String? = nil, telemetryType: TelemetryType) {
+            self.destinationConfiguration = destinationConfiguration
+            self.resourceType = resourceType
+            self.scope = scope
+            self.selectionCriteria = selectionCriteria
+            self.telemetryType = telemetryType
+        }
+
+        public func validate(name: String) throws {
+            try self.destinationConfiguration?.validate(name: "\(name).destinationConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationConfiguration = "DestinationConfiguration"
+            case resourceType = "ResourceType"
+            case scope = "Scope"
+            case selectionCriteria = "SelectionCriteria"
+            case telemetryType = "TelemetryType"
+        }
+    }
+
+    public struct TelemetryRuleSummary: AWSDecodableShape {
+        ///  The timestamp when the telemetry rule was created.
+        public let createdTimeStamp: Int64?
+        ///  The timestamp when the telemetry rule was last modified.
+        public let lastUpdateTimeStamp: Int64?
+        ///  The type of Amazon Web Services resource the rule applies to.
+        public let resourceType: ResourceType?
+        ///  The Amazon Resource Name (ARN) of the telemetry rule.
+        public let ruleArn: String?
+        ///  The name of the telemetry rule.
+        public let ruleName: String?
+        ///  The type of telemetry (Logs, Metrics, or Traces) the rule configures.
+        public let telemetryType: TelemetryType?
+
+        @inlinable
+        public init(createdTimeStamp: Int64? = nil, lastUpdateTimeStamp: Int64? = nil, resourceType: ResourceType? = nil, ruleArn: String? = nil, ruleName: String? = nil, telemetryType: TelemetryType? = nil) {
+            self.createdTimeStamp = createdTimeStamp
+            self.lastUpdateTimeStamp = lastUpdateTimeStamp
+            self.resourceType = resourceType
+            self.ruleArn = ruleArn
+            self.ruleName = ruleName
+            self.telemetryType = telemetryType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimeStamp = "CreatedTimeStamp"
+            case lastUpdateTimeStamp = "LastUpdateTimeStamp"
+            case resourceType = "ResourceType"
+            case ruleArn = "RuleArn"
+            case ruleName = "RuleName"
+            case telemetryType = "TelemetryType"
+        }
+    }
+
+    public struct UntagResourceInput: AWSEncodableShape {
+        ///  The Amazon Resource Name (ARN) of the telemetry rule resource to remove tags from.
+        public let resourceARN: String
+        ///  The list of tag keys to remove from the telemetry rule resource.
+        public let tagKeys: [String]
+
+        @inlinable
+        public init(resourceARN: String, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws([a-z0-9\\-]+)?:([a-zA-Z0-9\\-]+):([a-z0-9\\-]+)?:([0-9]{12})?:(.+)$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UpdateCentralizationRuleForOrganizationInput: AWSEncodableShape {
+        /// The configuration details for the organization-wide centralization rule, including the source configuration and the destination configuration to centralize telemetry data across the organization.
+        public let rule: CentralizationRule
+        /// The identifier (name or ARN) of the organization centralization rule to update.
+        public let ruleIdentifier: String
+
+        @inlinable
+        public init(rule: CentralizationRule, ruleIdentifier: String) {
+            self.rule = rule
+            self.ruleIdentifier = ruleIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.rule.validate(name: "\(name).rule")
+            try self.validate(self.ruleIdentifier, name: "ruleIdentifier", parent: name, max: 1011)
+            try self.validate(self.ruleIdentifier, name: "ruleIdentifier", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rule = "Rule"
+            case ruleIdentifier = "RuleIdentifier"
+        }
+    }
+
+    public struct UpdateCentralizationRuleForOrganizationOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the updated organization centralization rule.
+        public let ruleArn: String?
+
+        @inlinable
+        public init(ruleArn: String? = nil) {
+            self.ruleArn = ruleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleArn = "RuleArn"
+        }
+    }
+
+    public struct UpdateTelemetryRuleForOrganizationInput: AWSEncodableShape {
+        ///  The new configuration details for the organization telemetry rule, including resource type, telemetry type, and destination configuration.
+        public let rule: TelemetryRule
+        ///  The identifier (name or ARN) of the organization telemetry rule to update.
+        public let ruleIdentifier: String
+
+        @inlinable
+        public init(rule: TelemetryRule, ruleIdentifier: String) {
+            self.rule = rule
+            self.ruleIdentifier = ruleIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.rule.validate(name: "\(name).rule")
+            try self.validate(self.ruleIdentifier, name: "ruleIdentifier", parent: name, max: 1011)
+            try self.validate(self.ruleIdentifier, name: "ruleIdentifier", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rule = "Rule"
+            case ruleIdentifier = "RuleIdentifier"
+        }
+    }
+
+    public struct UpdateTelemetryRuleForOrganizationOutput: AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the updated organization telemetry rule.
+        public let ruleArn: String?
+
+        @inlinable
+        public init(ruleArn: String? = nil) {
+            self.ruleArn = ruleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleArn = "RuleArn"
+        }
+    }
+
+    public struct UpdateTelemetryRuleInput: AWSEncodableShape {
+        ///  The new configuration details for the telemetry rule.
+        public let rule: TelemetryRule
+        ///  The identifier (name or ARN) of the telemetry rule to update.
+        public let ruleIdentifier: String
+
+        @inlinable
+        public init(rule: TelemetryRule, ruleIdentifier: String) {
+            self.rule = rule
+            self.ruleIdentifier = ruleIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.rule.validate(name: "\(name).rule")
+            try self.validate(self.ruleIdentifier, name: "ruleIdentifier", parent: name, max: 1011)
+            try self.validate(self.ruleIdentifier, name: "ruleIdentifier", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rule = "Rule"
+            case ruleIdentifier = "RuleIdentifier"
+        }
+    }
+
+    public struct UpdateTelemetryRuleOutput: AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the updated telemetry rule.
+        public let ruleArn: String?
+
+        @inlinable
+        public init(ruleArn: String? = nil) {
+            self.ruleArn = ruleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleArn = "RuleArn"
+        }
+    }
+
+    public struct VPCFlowLogParameters: AWSEncodableShape & AWSDecodableShape {
+        ///  The format in which VPC Flow Log entries should be logged.
+        public let logFormat: String?
+        ///  The maximum interval in seconds between the capture of flow log records.
+        public let maxAggregationInterval: Int?
+        ///  The type of traffic to log (ACCEPT, REJECT, or ALL).
+        public let trafficType: String?
+
+        @inlinable
+        public init(logFormat: String? = nil, maxAggregationInterval: Int? = nil, trafficType: String? = nil) {
+            self.logFormat = logFormat
+            self.maxAggregationInterval = maxAggregationInterval
+            self.trafficType = trafficType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logFormat = "LogFormat"
+            case maxAggregationInterval = "MaxAggregationInterval"
+            case trafficType = "TrafficType"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -330,7 +1551,11 @@ extension ObservabilityAdmin {
 public struct ObservabilityAdminErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
+        case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
+        case tooManyRequestsException = "TooManyRequestsException"
         case validationException = "ValidationException"
     }
 
@@ -352,10 +1577,18 @@ public struct ObservabilityAdminErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    ///  Indicates you don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access management for AWS resources in the IAM user guide.
+    ///  Indicates you don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access management for Amazon Web Services resources in the IAM user guide.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    ///  The requested operation conflicts with the current state of the specified resource or with another request.
+    public static var conflictException: Self { .init(.conflictException) }
     ///  Indicates the request has failed to process because of an unknown server error, exception, or failure.
     public static var internalServerException: Self { .init(.internalServerException) }
+    ///  The specified resource (such as a telemetry rule) could not be found.
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    ///  The requested operation would exceed the allowed quota for the specified resource type.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    ///  The request throughput limit was exceeded.
+    public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
     ///  Indicates input validation failed. Check your request parameters and retry the request.
     public static var validationException: Self { .init(.validationException) }
 }
@@ -363,7 +1596,8 @@ public struct ObservabilityAdminErrorType: AWSErrorType {
 extension ObservabilityAdminErrorType: AWSServiceErrorType {
     public static let errorCodeMap: [String: AWSErrorShape.Type] = [
         "AccessDeniedException": ObservabilityAdmin.AccessDeniedException.self,
-        "InternalServerException": ObservabilityAdmin.InternalServerException.self
+        "InternalServerException": ObservabilityAdmin.InternalServerException.self,
+        "ServiceQuotaExceededException": ObservabilityAdmin.ServiceQuotaExceededException.self
     ]
 }
 

@@ -24,10 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS Notifications service.
 ///
-/// The Amazon Web Services User Notifications API Reference provides descriptions, API request parameters, and the JSON response for each of the User Notification API actions. User Notification control plane APIs are currently available in US East (Virginia) - us-east-1.  GetNotificationEvent
-/// 	 and ListNotificationEvents APIs are currently available in
-/// 	 commercial partition Regions and only return notifications stored in the same Region in which they're called. The User Notifications console can only be used in US East (Virginia). Your data however, is stored in each Region chosen as a
-/// 	 notification hub in addition to US East (Virginia).
+/// The User Notifications API Reference provides descriptions, API request parameters, and the JSON response for each of the User Notifications API actions. User Notification control plane APIs are currently available in US East (Virginia) - us-east-1.  GetNotificationEvent and ListNotificationEvents APIs are currently available in commercial partition Regions and only return notifications stored in the same Region in which they're called. The User Notifications console can only be used in US East (Virginia). Your data however, is stored in each Region chosen as a notification hub in addition to US East (Virginia).  For information about descriptions, API request parameters, and the JSON response for email contact related API actions, see the User Notifications Contacts API Reference Guide.
 public struct Notifications: AWSService {
     // MARK: Member variables
 
@@ -135,6 +132,7 @@ public struct Notifications: AWSService {
             "ap-southeast-3": "notifications-fips.ap-southeast-3.api.aws",
             "ap-southeast-4": "notifications-fips.ap-southeast-4.api.aws",
             "ap-southeast-5": "notifications-fips.ap-southeast-5.api.aws",
+            "ap-southeast-6": "notifications-fips.ap-southeast-6.api.aws",
             "ap-southeast-7": "notifications-fips.ap-southeast-7.api.aws",
             "ca-central-1": "notifications-fips.ca-central-1.api.aws",
             "ca-west-1": "notifications-fips.ca-west-1.api.aws",
@@ -164,8 +162,7 @@ public struct Notifications: AWSService {
 
     // MARK: API Calls
 
-    /// Associates a delivery Channel with a particular NotificationConfiguration. Supported Channels include Chatbot,
-    /// the Console Mobile Application, and emails (notifications-contacts).
+    /// Associates a delivery Channel with a particular NotificationConfiguration. Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
     @Sendable
     @inlinable
     public func associateChannel(_ input: AssociateChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateChannelResponse {
@@ -178,11 +175,10 @@ public struct Notifications: AWSService {
             logger: logger
         )
     }
-    /// Associates a delivery Channel with a particular NotificationConfiguration. Supported Channels include Chatbot,
-    /// the Console Mobile Application, and emails (notifications-contacts).
+    /// Associates a delivery Channel with a particular NotificationConfiguration. Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
     ///
     /// Parameters:
-    ///   - arn: The Amazon Resource Name (ARN) of the Channel to associate with the NotificationConfiguration. Supported ARNs include Chatbot, the Console Mobile Application, and notifications-contacts.
+    ///   - arn: The Amazon Resource Name (ARN) of the Channel to associate with the NotificationConfiguration. Supported ARNs include Amazon Q Developer in chat applications, the Console Mobile Application, and notifications-contacts.
     ///   - notificationConfigurationArn: The ARN of the NotificationConfiguration to associate with the Channel.
     ///   - logger: Logger use during operation
     @inlinable
@@ -230,7 +226,7 @@ public struct Notifications: AWSService {
         return try await self.associateManagedNotificationAccountContact(input, logger: logger)
     }
 
-    /// Associates an additional Channel with a particular ManagedNotificationConfiguration. Supported Channels include Chatbot, the Console Mobile Application, and emails (notifications-contacts).
+    /// Associates an additional Channel with a particular ManagedNotificationConfiguration. Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
     @Sendable
     @inlinable
     public func associateManagedNotificationAdditionalChannel(_ input: AssociateManagedNotificationAdditionalChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateManagedNotificationAdditionalChannelResponse {
@@ -243,10 +239,10 @@ public struct Notifications: AWSService {
             logger: logger
         )
     }
-    /// Associates an additional Channel with a particular ManagedNotificationConfiguration. Supported Channels include Chatbot, the Console Mobile Application, and emails (notifications-contacts).
+    /// Associates an additional Channel with a particular ManagedNotificationConfiguration. Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
     ///
     /// Parameters:
-    ///   - channelArn: The Amazon Resource Name (ARN) of the Channel to associate with the ManagedNotificationConfiguration. Supported ARNs include Chatbot, the Console Mobile Application, and email (notifications-contacts).
+    ///   - channelArn: The Amazon Resource Name (ARN) of the Channel to associate with the ManagedNotificationConfiguration. Supported ARNs include Amazon Q Developer in chat applications, the Console Mobile Application, and email (notifications-contacts).
     ///   - managedNotificationConfigurationArn: The Amazon Resource Name (ARN) of the ManagedNotificationConfiguration to associate with the additional Channel.
     ///   - logger: Logger use during operation
     @inlinable
@@ -262,7 +258,39 @@ public struct Notifications: AWSService {
         return try await self.associateManagedNotificationAdditionalChannel(input, logger: logger)
     }
 
-    /// Creates an  EventRule that is associated with a specified NotificationConfiguration.
+    /// Associates an organizational unit with a notification configuration.
+    @Sendable
+    @inlinable
+    public func associateOrganizationalUnit(_ input: AssociateOrganizationalUnitRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateOrganizationalUnitResponse {
+        try await self.client.execute(
+            operation: "AssociateOrganizationalUnit", 
+            path: "/organizational-units/associate/{organizationalUnitId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates an organizational unit with a notification configuration.
+    ///
+    /// Parameters:
+    ///   - notificationConfigurationArn: The Amazon Resource Name (ARN) of the notification configuration to associate with the organizational unit.
+    ///   - organizationalUnitId: The unique identifier of the organizational unit to associate.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateOrganizationalUnit(
+        notificationConfigurationArn: String,
+        organizationalUnitId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AssociateOrganizationalUnitResponse {
+        let input = AssociateOrganizationalUnitRequest(
+            notificationConfigurationArn: notificationConfigurationArn, 
+            organizationalUnitId: organizationalUnitId
+        )
+        return try await self.associateOrganizationalUnit(input, logger: logger)
+    }
+
+    /// Creates an  EventRule  that is associated with a specified NotificationConfiguration.
     @Sendable
     @inlinable
     public func createEventRule(_ input: CreateEventRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEventRuleResponse {
@@ -275,7 +303,7 @@ public struct Notifications: AWSService {
             logger: logger
         )
     }
-    /// Creates an  EventRule that is associated with a specified NotificationConfiguration.
+    /// Creates an  EventRule  that is associated with a specified NotificationConfiguration.
     ///
     /// Parameters:
     ///   - eventPattern: An additional event pattern used to further filter the events this EventRule receives. For more information, see Amazon EventBridge event patterns in the Amazon EventBridge User Guide.
@@ -454,7 +482,7 @@ public struct Notifications: AWSService {
         return try await self.disableNotificationsAccessForOrganization(input, logger: logger)
     }
 
-    /// Disassociates a Channel from a specified NotificationConfiguration. Supported Channels include Chatbot, the Console Mobile Application, and emails (notifications-contacts).
+    /// Disassociates a Channel from a specified NotificationConfiguration. Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
     @Sendable
     @inlinable
     public func disassociateChannel(_ input: DisassociateChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateChannelResponse {
@@ -467,7 +495,7 @@ public struct Notifications: AWSService {
             logger: logger
         )
     }
-    /// Disassociates a Channel from a specified NotificationConfiguration. Supported Channels include Chatbot, the Console Mobile Application, and emails (notifications-contacts).
+    /// Disassociates a Channel from a specified NotificationConfiguration. Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
     ///
     /// Parameters:
     ///   - arn: The Amazon Resource Name (ARN) of the Channel to disassociate.
@@ -518,7 +546,7 @@ public struct Notifications: AWSService {
         return try await self.disassociateManagedNotificationAccountContact(input, logger: logger)
     }
 
-    /// Disassociates an additional Channel from a particular ManagedNotificationConfiguration. Supported Channels include Chatbot, the Console Mobile Application, and emails (notifications-contacts).
+    /// Disassociates an additional Channel from a particular ManagedNotificationConfiguration. Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
     @Sendable
     @inlinable
     public func disassociateManagedNotificationAdditionalChannel(_ input: DisassociateManagedNotificationAdditionalChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateManagedNotificationAdditionalChannelResponse {
@@ -531,7 +559,7 @@ public struct Notifications: AWSService {
             logger: logger
         )
     }
-    /// Disassociates an additional Channel from a particular ManagedNotificationConfiguration. Supported Channels include Chatbot, the Console Mobile Application, and emails (notifications-contacts).
+    /// Disassociates an additional Channel from a particular ManagedNotificationConfiguration. Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
     ///
     /// Parameters:
     ///   - channelArn: The Amazon Resource Name (ARN) of the Channel to associate with the ManagedNotificationConfiguration.
@@ -548,6 +576,38 @@ public struct Notifications: AWSService {
             managedNotificationConfigurationArn: managedNotificationConfigurationArn
         )
         return try await self.disassociateManagedNotificationAdditionalChannel(input, logger: logger)
+    }
+
+    /// Removes the association between an organizational unit and a notification configuration.
+    @Sendable
+    @inlinable
+    public func disassociateOrganizationalUnit(_ input: DisassociateOrganizationalUnitRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateOrganizationalUnitResponse {
+        try await self.client.execute(
+            operation: "DisassociateOrganizationalUnit", 
+            path: "/organizational-units/disassociate/{organizationalUnitId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes the association between an organizational unit and a notification configuration.
+    ///
+    /// Parameters:
+    ///   - notificationConfigurationArn: The Amazon Resource Name (ARN) of the notification configuration to disassociate from the organizational unit.
+    ///   - organizationalUnitId: The unique identifier of the organizational unit to disassociate.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateOrganizationalUnit(
+        notificationConfigurationArn: String,
+        organizationalUnitId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisassociateOrganizationalUnitResponse {
+        let input = DisassociateOrganizationalUnitRequest(
+            notificationConfigurationArn: notificationConfigurationArn, 
+            organizationalUnitId: organizationalUnitId
+        )
+        return try await self.disassociateOrganizationalUnit(input, logger: logger)
     }
 
     /// Enables service trust between User Notifications and Amazon Web Services Organizations.
@@ -727,9 +787,7 @@ public struct Notifications: AWSService {
         return try await self.getNotificationConfiguration(input, logger: logger)
     }
 
-    /// Returns a specified NotificationEvent.  User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. GetNotificationEvent only returns notifications stored in the same Region in which the action is called.
-    /// 	  User Notifications doesn't backfill notifications to new Regions selected as notification hubs. For this reason, we recommend that you make calls in your oldest registered notification hub.
-    /// 	  For more information, see Notification hubs in the Amazon Web Services User Notifications User Guide.
+    /// Returns a specified NotificationEvent.  User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. GetNotificationEvent only returns notifications stored in the same Region in which the action is called. User Notifications doesn't backfill notifications to new Regions selected as notification hubs. For this reason, we recommend that you make calls in your oldest registered notification hub. For more information, see Notification hubs in the Amazon Web Services User Notifications User Guide.
     @Sendable
     @inlinable
     public func getNotificationEvent(_ input: GetNotificationEventRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNotificationEventResponse {
@@ -742,9 +800,7 @@ public struct Notifications: AWSService {
             logger: logger
         )
     }
-    /// Returns a specified NotificationEvent.  User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. GetNotificationEvent only returns notifications stored in the same Region in which the action is called.
-    /// 	  User Notifications doesn't backfill notifications to new Regions selected as notification hubs. For this reason, we recommend that you make calls in your oldest registered notification hub.
-    /// 	  For more information, see Notification hubs in the Amazon Web Services User Notifications User Guide.
+    /// Returns a specified NotificationEvent.  User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. GetNotificationEvent only returns notifications stored in the same Region in which the action is called. User Notifications doesn't backfill notifications to new Regions selected as notification hubs. For this reason, we recommend that you make calls in your oldest registered notification hub. For more information, see Notification hubs in the Amazon Web Services User Notifications User Guide.
     ///
     /// Parameters:
     ///   - arn: The Amazon Resource Name (ARN) of the NotificationEvent to return.
@@ -1029,6 +1085,50 @@ public struct Notifications: AWSService {
         return try await self.listManagedNotificationEvents(input, logger: logger)
     }
 
+    /// Returns a list of member accounts associated with a notification configuration.
+    @Sendable
+    @inlinable
+    public func listMemberAccounts(_ input: ListMemberAccountsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMemberAccountsResponse {
+        try await self.client.execute(
+            operation: "ListMemberAccounts", 
+            path: "/list-member-accounts", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of member accounts associated with a notification configuration.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in a single call. Valid values are 1-100.
+    ///   - memberAccount: The member account identifier used to filter the results.
+    ///   - nextToken: The token for the next page of results. Use the value returned in the previous response.
+    ///   - notificationConfigurationArn: The Amazon Resource Name (ARN) of the notification configuration used to filter the member accounts.
+    ///   - organizationalUnitId: The organizational unit ID used to filter the member accounts.
+    ///   - status: The status used to filter the member accounts.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listMemberAccounts(
+        maxResults: Int? = nil,
+        memberAccount: String? = nil,
+        nextToken: String? = nil,
+        notificationConfigurationArn: String,
+        organizationalUnitId: String? = nil,
+        status: MemberAccountNotificationConfigurationStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListMemberAccountsResponse {
+        let input = ListMemberAccountsRequest(
+            maxResults: maxResults, 
+            memberAccount: memberAccount, 
+            nextToken: nextToken, 
+            notificationConfigurationArn: notificationConfigurationArn, 
+            organizationalUnitId: organizationalUnitId, 
+            status: status
+        )
+        return try await self.listMemberAccounts(input, logger: logger)
+    }
+
     /// Returns a list of abbreviated NotificationConfigurations according to specified filters, in reverse chronological order (newest first).
     @Sendable
     @inlinable
@@ -1050,6 +1150,7 @@ public struct Notifications: AWSService {
     ///   - maxResults: The maximum number of results to be returned in this call. Defaults to 20.
     ///   - nextToken: The start token for paginated calls. Retrieved from the response of a previous ListEventRules call. Next token uses Base64 encoding.
     ///   - status: The NotificationConfiguration status to match.   Values:    ACTIVE    All EventRules are ACTIVE and any call can be run.      PARTIALLY_ACTIVE    Some EventRules are ACTIVE and some are INACTIVE. Any call can be run.   Any call can be run.      INACTIVE    All EventRules are INACTIVE and any call can be run.      DELETING    This NotificationConfiguration is being deleted.   Only GET and LIST calls can be run.
+    ///   - subtype: The subtype used to filter the notification configurations in the request.
     ///   - logger: Logger use during operation
     @inlinable
     public func listNotificationConfigurations(
@@ -1058,6 +1159,7 @@ public struct Notifications: AWSService {
         maxResults: Int? = nil,
         nextToken: String? = nil,
         status: NotificationConfigurationStatus? = nil,
+        subtype: NotificationConfigurationSubtype? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListNotificationConfigurationsResponse {
         let input = ListNotificationConfigurationsRequest(
@@ -1065,14 +1167,13 @@ public struct Notifications: AWSService {
             eventRuleSource: eventRuleSource, 
             maxResults: maxResults, 
             nextToken: nextToken, 
-            status: status
+            status: status, 
+            subtype: subtype
         )
         return try await self.listNotificationConfigurations(input, logger: logger)
     }
 
-    /// Returns a list of NotificationEvents according to specified filters, in reverse chronological order (newest first).  User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. ListNotificationEvents only returns notifications stored in the same Region in which the action is called.
-    /// 	  User Notifications doesn't backfill notifications to new Regions selected as notification hubs. For this reason, we recommend that you make calls in your oldest registered notification hub.
-    /// 	  For more information, see Notification hubs in the Amazon Web Services User Notifications User Guide.
+    /// Returns a list of NotificationEvents according to specified filters, in reverse chronological order (newest first).  User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. ListNotificationEvents only returns notifications stored in the same Region in which the action is called. User Notifications doesn't backfill notifications to new Regions selected as notification hubs. For this reason, we recommend that you make calls in your oldest registered notification hub. For more information, see Notification hubs in the Amazon Web Services User Notifications User Guide.
     @Sendable
     @inlinable
     public func listNotificationEvents(_ input: ListNotificationEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNotificationEventsResponse {
@@ -1085,9 +1186,7 @@ public struct Notifications: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of NotificationEvents according to specified filters, in reverse chronological order (newest first).  User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. ListNotificationEvents only returns notifications stored in the same Region in which the action is called.
-    /// 	  User Notifications doesn't backfill notifications to new Regions selected as notification hubs. For this reason, we recommend that you make calls in your oldest registered notification hub.
-    /// 	  For more information, see Notification hubs in the Amazon Web Services User Notifications User Guide.
+    /// Returns a list of NotificationEvents according to specified filters, in reverse chronological order (newest first).  User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. ListNotificationEvents only returns notifications stored in the same Region in which the action is called. User Notifications doesn't backfill notifications to new Regions selected as notification hubs. For this reason, we recommend that you make calls in your oldest registered notification hub. For more information, see Notification hubs in the Amazon Web Services User Notifications User Guide.
     ///
     /// Parameters:
     ///   - aggregateNotificationEventArn: The Amazon Resource Name (ARN) of the aggregatedNotificationEventArn to match.
@@ -1096,6 +1195,7 @@ public struct Notifications: AWSService {
     ///   - locale: The locale code of the language used for the retrieved NotificationEvent. The default locale is English (en_US).
     ///   - maxResults: The maximum number of results to be returned in this call. Defaults to 20.
     ///   - nextToken: The start token for paginated calls. Retrieved from the response of a previous ListEventRules call. Next token uses Base64 encoding.
+    ///   - organizationalUnitId: The unique identifier of the organizational unit used to filter notification events.
     ///   - source: The matched event source. Must match one of the valid EventBridge sources. Only Amazon Web Services service sourced events are supported. For example, aws.ec2 and aws.cloudwatch. For more information, see Event delivery from Amazon Web Services services in the Amazon EventBridge User Guide.
     ///   - startTime: The earliest time of events to return from this call.
     ///   - logger: Logger use during operation
@@ -1107,6 +1207,7 @@ public struct Notifications: AWSService {
         locale: LocaleCode? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
+        organizationalUnitId: String? = nil,
         source: String? = nil,
         startTime: Date? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -1118,6 +1219,7 @@ public struct Notifications: AWSService {
             locale: locale, 
             maxResults: maxResults, 
             nextToken: nextToken, 
+            organizationalUnitId: organizationalUnitId, 
             source: source, 
             startTime: startTime
         )
@@ -1154,6 +1256,41 @@ public struct Notifications: AWSService {
             nextToken: nextToken
         )
         return try await self.listNotificationHubs(input, logger: logger)
+    }
+
+    /// Returns a list of organizational units associated with a notification configuration.
+    @Sendable
+    @inlinable
+    public func listOrganizationalUnits(_ input: ListOrganizationalUnitsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOrganizationalUnitsResponse {
+        try await self.client.execute(
+            operation: "ListOrganizationalUnits", 
+            path: "/organizational-units", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of organizational units associated with a notification configuration.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of organizational units to return in a single call. Valid values are 1-100.
+    ///   - nextToken: The token for the next page of results. Use the value returned in the previous response.
+    ///   - notificationConfigurationArn: The Amazon Resource Name (ARN) of the notification configuration used to filter the organizational units.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listOrganizationalUnits(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        notificationConfigurationArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListOrganizationalUnitsResponse {
+        let input = ListOrganizationalUnitsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            notificationConfigurationArn: notificationConfigurationArn
+        )
+        return try await self.listOrganizationalUnits(input, logger: logger)
     }
 
     /// Returns a list of tags for a specified Amazon Resource Name (ARN). For more information, see Tagging your Amazon Web Services resources in the Tagging Amazon Web Services Resources User Guide.  This is only supported for NotificationConfigurations.
@@ -1617,6 +1754,52 @@ extension Notifications {
         return self.listManagedNotificationEventsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listMemberAccounts(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMemberAccountsPaginator(
+        _ input: ListMemberAccountsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMemberAccountsRequest, ListMemberAccountsResponse> {
+        return .init(
+            input: input,
+            command: self.listMemberAccounts,
+            inputKey: \ListMemberAccountsRequest.nextToken,
+            outputKey: \ListMemberAccountsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listMemberAccounts(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in a single call. Valid values are 1-100.
+    ///   - memberAccount: The member account identifier used to filter the results.
+    ///   - notificationConfigurationArn: The Amazon Resource Name (ARN) of the notification configuration used to filter the member accounts.
+    ///   - organizationalUnitId: The organizational unit ID used to filter the member accounts.
+    ///   - status: The status used to filter the member accounts.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMemberAccountsPaginator(
+        maxResults: Int? = nil,
+        memberAccount: String? = nil,
+        notificationConfigurationArn: String,
+        organizationalUnitId: String? = nil,
+        status: MemberAccountNotificationConfigurationStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListMemberAccountsRequest, ListMemberAccountsResponse> {
+        let input = ListMemberAccountsRequest(
+            maxResults: maxResults, 
+            memberAccount: memberAccount, 
+            notificationConfigurationArn: notificationConfigurationArn, 
+            organizationalUnitId: organizationalUnitId, 
+            status: status
+        )
+        return self.listMemberAccountsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listNotificationConfigurations(_:logger:)``.
     ///
     /// - Parameters:
@@ -1642,6 +1825,7 @@ extension Notifications {
     ///   - eventRuleSource: The matched event source. Must match one of the valid EventBridge sources. Only Amazon Web Services service sourced events are supported. For example, aws.ec2 and aws.cloudwatch. For more information, see Event delivery from Amazon Web Services services in the Amazon EventBridge User Guide.
     ///   - maxResults: The maximum number of results to be returned in this call. Defaults to 20.
     ///   - status: The NotificationConfiguration status to match.   Values:    ACTIVE    All EventRules are ACTIVE and any call can be run.      PARTIALLY_ACTIVE    Some EventRules are ACTIVE and some are INACTIVE. Any call can be run.   Any call can be run.      INACTIVE    All EventRules are INACTIVE and any call can be run.      DELETING    This NotificationConfiguration is being deleted.   Only GET and LIST calls can be run.
+    ///   - subtype: The subtype used to filter the notification configurations in the request.
     ///   - logger: Logger used for logging
     @inlinable
     public func listNotificationConfigurationsPaginator(
@@ -1649,13 +1833,15 @@ extension Notifications {
         eventRuleSource: String? = nil,
         maxResults: Int? = nil,
         status: NotificationConfigurationStatus? = nil,
+        subtype: NotificationConfigurationSubtype? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListNotificationConfigurationsRequest, ListNotificationConfigurationsResponse> {
         let input = ListNotificationConfigurationsRequest(
             channelArn: channelArn, 
             eventRuleSource: eventRuleSource, 
             maxResults: maxResults, 
-            status: status
+            status: status, 
+            subtype: subtype
         )
         return self.listNotificationConfigurationsPaginator(input, logger: logger)
     }
@@ -1686,6 +1872,7 @@ extension Notifications {
     ///   - includeChildEvents: Include aggregated child events in the result.
     ///   - locale: The locale code of the language used for the retrieved NotificationEvent. The default locale is English (en_US).
     ///   - maxResults: The maximum number of results to be returned in this call. Defaults to 20.
+    ///   - organizationalUnitId: The unique identifier of the organizational unit used to filter notification events.
     ///   - source: The matched event source. Must match one of the valid EventBridge sources. Only Amazon Web Services service sourced events are supported. For example, aws.ec2 and aws.cloudwatch. For more information, see Event delivery from Amazon Web Services services in the Amazon EventBridge User Guide.
     ///   - startTime: The earliest time of events to return from this call.
     ///   - logger: Logger used for logging
@@ -1696,6 +1883,7 @@ extension Notifications {
         includeChildEvents: Bool? = nil,
         locale: LocaleCode? = nil,
         maxResults: Int? = nil,
+        organizationalUnitId: String? = nil,
         source: String? = nil,
         startTime: Date? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -1706,6 +1894,7 @@ extension Notifications {
             includeChildEvents: includeChildEvents, 
             locale: locale, 
             maxResults: maxResults, 
+            organizationalUnitId: organizationalUnitId, 
             source: source, 
             startTime: startTime
         )
@@ -1744,6 +1933,43 @@ extension Notifications {
             maxResults: maxResults
         )
         return self.listNotificationHubsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listOrganizationalUnits(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listOrganizationalUnitsPaginator(
+        _ input: ListOrganizationalUnitsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListOrganizationalUnitsRequest, ListOrganizationalUnitsResponse> {
+        return .init(
+            input: input,
+            command: self.listOrganizationalUnits,
+            inputKey: \ListOrganizationalUnitsRequest.nextToken,
+            outputKey: \ListOrganizationalUnitsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listOrganizationalUnits(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of organizational units to return in a single call. Valid values are 1-100.
+    ///   - notificationConfigurationArn: The Amazon Resource Name (ARN) of the notification configuration used to filter the organizational units.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listOrganizationalUnitsPaginator(
+        maxResults: Int? = nil,
+        notificationConfigurationArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListOrganizationalUnitsRequest, ListOrganizationalUnitsResponse> {
+        let input = ListOrganizationalUnitsRequest(
+            maxResults: maxResults, 
+            notificationConfigurationArn: notificationConfigurationArn
+        )
+        return self.listOrganizationalUnitsPaginator(input, logger: logger)
     }
 }
 
@@ -1823,6 +2049,20 @@ extension Notifications.ListManagedNotificationEventsRequest: AWSPaginateToken {
     }
 }
 
+extension Notifications.ListMemberAccountsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Notifications.ListMemberAccountsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            memberAccount: self.memberAccount,
+            nextToken: token,
+            notificationConfigurationArn: self.notificationConfigurationArn,
+            organizationalUnitId: self.organizationalUnitId,
+            status: self.status
+        )
+    }
+}
+
 extension Notifications.ListNotificationConfigurationsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Notifications.ListNotificationConfigurationsRequest {
@@ -1831,7 +2071,8 @@ extension Notifications.ListNotificationConfigurationsRequest: AWSPaginateToken 
             eventRuleSource: self.eventRuleSource,
             maxResults: self.maxResults,
             nextToken: token,
-            status: self.status
+            status: self.status,
+            subtype: self.subtype
         )
     }
 }
@@ -1846,6 +2087,7 @@ extension Notifications.ListNotificationEventsRequest: AWSPaginateToken {
             locale: self.locale,
             maxResults: self.maxResults,
             nextToken: token,
+            organizationalUnitId: self.organizationalUnitId,
             source: self.source,
             startTime: self.startTime
         )
@@ -1858,6 +2100,17 @@ extension Notifications.ListNotificationHubsRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension Notifications.ListOrganizationalUnitsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Notifications.ListOrganizationalUnitsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            notificationConfigurationArn: self.notificationConfigurationArn
         )
     }
 }

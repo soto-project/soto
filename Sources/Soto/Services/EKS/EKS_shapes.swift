@@ -226,6 +226,13 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
+    public enum InsightsRefreshStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IpFamily: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ipv4 = "ipv4"
         case ipv6 = "ipv6"
@@ -298,6 +305,13 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
+    public enum RepairAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case noAction = "NoAction"
+        case reboot = "Reboot"
+        case replace = "Replace"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResolveConflicts: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case overwrite = "OVERWRITE"
@@ -324,6 +338,7 @@ extension EKS {
         case clusterLogging = "ClusterLogging"
         case computeConfig = "ComputeConfig"
         case configurationValues = "ConfigurationValues"
+        case deletionProtection = "DeletionProtection"
         case desiredSize = "DesiredSize"
         case encryptionConfig = "EncryptionConfig"
         case endpointPrivateAccess = "EndpointPrivateAccess"
@@ -338,6 +353,7 @@ extension EKS {
         case maxUnavailable = "MaxUnavailable"
         case maxUnavailablePercentage = "MaxUnavailablePercentage"
         case minSize = "MinSize"
+        case nodeRepairConfig = "NodeRepairConfig"
         case nodeRepairEnabled = "NodeRepairEnabled"
         case platformVersion = "PlatformVersion"
         case podIdentityAssociations = "PodIdentityAssociations"
@@ -373,6 +389,7 @@ extension EKS {
         case associateIdentityProviderConfig = "AssociateIdentityProviderConfig"
         case autoModeUpdate = "AutoModeUpdate"
         case configUpdate = "ConfigUpdate"
+        case deletionProtectionUpdate = "DeletionProtectionUpdate"
         case disassociateIdentityProviderConfig = "DisassociateIdentityProviderConfig"
         case endpointAccessUpdate = "EndpointAccessUpdate"
         case loggingUpdate = "LoggingUpdate"
@@ -512,6 +529,8 @@ extension EKS {
         public let marketplaceInformation: MarketplaceInformation?
         /// The Unix epoch timestamp for the last modification to the object.
         public let modifiedAt: Date?
+        /// The namespace configuration for the addon. This specifies the Kubernetes namespace where the addon is installed.
+        public let namespaceConfig: AddonNamespaceConfigResponse?
         /// The owner of the add-on.
         public let owner: String?
         /// An array of EKS Pod Identity associations owned by the add-on. Each association maps a role to a service account in a namespace in the cluster. For more information, see Attach an IAM Role to an Amazon EKS add-on using EKS Pod Identity in the Amazon EKS User Guide.
@@ -526,7 +545,7 @@ extension EKS {
         public let tags: [String: String]?
 
         @inlinable
-        public init(addonArn: String? = nil, addonName: String? = nil, addonVersion: String? = nil, clusterName: String? = nil, configurationValues: String? = nil, createdAt: Date? = nil, health: AddonHealth? = nil, marketplaceInformation: MarketplaceInformation? = nil, modifiedAt: Date? = nil, owner: String? = nil, podIdentityAssociations: [String]? = nil, publisher: String? = nil, serviceAccountRoleArn: String? = nil, status: AddonStatus? = nil, tags: [String: String]? = nil) {
+        public init(addonArn: String? = nil, addonName: String? = nil, addonVersion: String? = nil, clusterName: String? = nil, configurationValues: String? = nil, createdAt: Date? = nil, health: AddonHealth? = nil, marketplaceInformation: MarketplaceInformation? = nil, modifiedAt: Date? = nil, namespaceConfig: AddonNamespaceConfigResponse? = nil, owner: String? = nil, podIdentityAssociations: [String]? = nil, publisher: String? = nil, serviceAccountRoleArn: String? = nil, status: AddonStatus? = nil, tags: [String: String]? = nil) {
             self.addonArn = addonArn
             self.addonName = addonName
             self.addonVersion = addonVersion
@@ -536,6 +555,7 @@ extension EKS {
             self.health = health
             self.marketplaceInformation = marketplaceInformation
             self.modifiedAt = modifiedAt
+            self.namespaceConfig = namespaceConfig
             self.owner = owner
             self.podIdentityAssociations = podIdentityAssociations
             self.publisher = publisher
@@ -554,6 +574,7 @@ extension EKS {
             case health = "health"
             case marketplaceInformation = "marketplaceInformation"
             case modifiedAt = "modifiedAt"
+            case namespaceConfig = "namespaceConfig"
             case owner = "owner"
             case podIdentityAssociations = "podIdentityAssociations"
             case publisher = "publisher"
@@ -600,6 +621,8 @@ extension EKS {
         public let addonName: String?
         /// An object representing information about available add-on versions and compatible Kubernetes versions.
         public let addonVersions: [AddonVersionInfo]?
+        /// The default Kubernetes namespace where this addon is typically installed if no custom namespace is specified.
+        public let defaultNamespace: String?
         /// Information about the add-on from the Amazon Web Services Marketplace.
         public let marketplaceInformation: MarketplaceInformation?
         /// The owner of the add-on.
@@ -610,9 +633,10 @@ extension EKS {
         public let type: String?
 
         @inlinable
-        public init(addonName: String? = nil, addonVersions: [AddonVersionInfo]? = nil, marketplaceInformation: MarketplaceInformation? = nil, owner: String? = nil, publisher: String? = nil, type: String? = nil) {
+        public init(addonName: String? = nil, addonVersions: [AddonVersionInfo]? = nil, defaultNamespace: String? = nil, marketplaceInformation: MarketplaceInformation? = nil, owner: String? = nil, publisher: String? = nil, type: String? = nil) {
             self.addonName = addonName
             self.addonVersions = addonVersions
+            self.defaultNamespace = defaultNamespace
             self.marketplaceInformation = marketplaceInformation
             self.owner = owner
             self.publisher = publisher
@@ -622,6 +646,7 @@ extension EKS {
         private enum CodingKeys: String, CodingKey {
             case addonName = "addonName"
             case addonVersions = "addonVersions"
+            case defaultNamespace = "defaultNamespace"
             case marketplaceInformation = "marketplaceInformation"
             case owner = "owner"
             case publisher = "publisher"
@@ -648,6 +673,39 @@ extension EKS {
             case code = "code"
             case message = "message"
             case resourceIds = "resourceIds"
+        }
+    }
+
+    public struct AddonNamespaceConfigRequest: AWSEncodableShape {
+        /// The name of the Kubernetes namespace to install the addon in. Must be a valid RFC 1123 DNS label.
+        public let namespace: String?
+
+        @inlinable
+        public init(namespace: String? = nil) {
+            self.namespace = namespace
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 63)
+            try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namespace = "namespace"
+        }
+    }
+
+    public struct AddonNamespaceConfigResponse: AWSDecodableShape {
+        /// The name of the Kubernetes namespace where the addon is installed.
+        public let namespace: String?
+
+        @inlinable
+        public init(namespace: String? = nil) {
+            self.namespace = namespace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namespace = "namespace"
         }
     }
 
@@ -1022,6 +1080,8 @@ extension EKS {
         public let connectorConfig: ConnectorConfigResponse?
         /// The Unix epoch timestamp at object creation.
         public let createdAt: Date?
+        /// The current deletion protection setting for the cluster. When true,  deletion protection is enabled and the cluster cannot be deleted until protection is  disabled. When false, the cluster can be deleted normally. This setting  only applies to clusters in an active state.
+        public let deletionProtection: Bool?
         /// The encryption configuration for the cluster.
         public let encryptionConfig: [EncryptionConfig]?
         /// The endpoint for your Kubernetes API server.
@@ -1062,7 +1122,7 @@ extension EKS {
         public let zonalShiftConfig: ZonalShiftConfigResponse?
 
         @inlinable
-        public init(accessConfig: AccessConfigResponse? = nil, arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, computeConfig: ComputeConfigResponse? = nil, connectorConfig: ConnectorConfigResponse? = nil, createdAt: Date? = nil, encryptionConfig: [EncryptionConfig]? = nil, endpoint: String? = nil, health: ClusterHealth? = nil, id: String? = nil, identity: Identity? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigResponse? = nil, logging: Logging? = nil, name: String? = nil, outpostConfig: OutpostConfigResponse? = nil, platformVersion: String? = nil, remoteNetworkConfig: RemoteNetworkConfigResponse? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, storageConfig: StorageConfigResponse? = nil, tags: [String: String]? = nil, upgradePolicy: UpgradePolicyResponse? = nil, version: String? = nil, zonalShiftConfig: ZonalShiftConfigResponse? = nil) {
+        public init(accessConfig: AccessConfigResponse? = nil, arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, computeConfig: ComputeConfigResponse? = nil, connectorConfig: ConnectorConfigResponse? = nil, createdAt: Date? = nil, deletionProtection: Bool? = nil, encryptionConfig: [EncryptionConfig]? = nil, endpoint: String? = nil, health: ClusterHealth? = nil, id: String? = nil, identity: Identity? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigResponse? = nil, logging: Logging? = nil, name: String? = nil, outpostConfig: OutpostConfigResponse? = nil, platformVersion: String? = nil, remoteNetworkConfig: RemoteNetworkConfigResponse? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, storageConfig: StorageConfigResponse? = nil, tags: [String: String]? = nil, upgradePolicy: UpgradePolicyResponse? = nil, version: String? = nil, zonalShiftConfig: ZonalShiftConfigResponse? = nil) {
             self.accessConfig = accessConfig
             self.arn = arn
             self.certificateAuthority = certificateAuthority
@@ -1070,6 +1130,7 @@ extension EKS {
             self.computeConfig = computeConfig
             self.connectorConfig = connectorConfig
             self.createdAt = createdAt
+            self.deletionProtection = deletionProtection
             self.encryptionConfig = encryptionConfig
             self.endpoint = endpoint
             self.health = health
@@ -1099,6 +1160,7 @@ extension EKS {
             case computeConfig = "computeConfig"
             case connectorConfig = "connectorConfig"
             case createdAt = "createdAt"
+            case deletionProtection = "deletionProtection"
             case encryptionConfig = "encryptionConfig"
             case endpoint = "endpoint"
             case health = "health"
@@ -1452,6 +1514,8 @@ extension EKS {
         public let clusterName: String
         /// The set of configuration values for the add-on that's created. The values that you provide are validated against the schema returned by DescribeAddonConfiguration.
         public let configurationValues: String?
+        /// The namespace configuration for the addon. If specified, this will override the default namespace for the addon.
+        public let namespaceConfig: AddonNamespaceConfigRequest?
         /// An array of EKS Pod Identity associations to be created. Each association maps a Kubernetes service account to an IAM role. For more information, see Attach an IAM Role to an Amazon EKS add-on using EKS Pod Identity in the Amazon EKS User Guide.
         public let podIdentityAssociations: [AddonPodIdentityAssociations]?
         /// How to resolve field value conflicts for an Amazon EKS add-on. Conflicts are handled based on the value you choose:    None – If the self-managed version of the add-on is installed on your cluster, Amazon EKS doesn't change the value. Creation of the add-on might fail.    Overwrite – If the self-managed version of the add-on is installed on your cluster and the Amazon EKS default value is different than the existing value, Amazon EKS changes the value to the Amazon EKS default value.    Preserve – This is similar to the NONE option. If the self-managed version of the add-on is installed on your cluster Amazon EKS doesn't change the add-on resource properties. Creation of the add-on might fail if conflicts are detected. This option works differently during the update operation. For more information, see  UpdateAddon .   If you don't currently have the self-managed version of the add-on installed on your cluster, the Amazon EKS add-on is installed. Amazon EKS sets all values to default values, regardless of the option that you specify.
@@ -1462,12 +1526,13 @@ extension EKS {
         public let tags: [String: String]?
 
         @inlinable
-        public init(addonName: String, addonVersion: String? = nil, clientRequestToken: String? = CreateAddonRequest.idempotencyToken(), clusterName: String, configurationValues: String? = nil, podIdentityAssociations: [AddonPodIdentityAssociations]? = nil, resolveConflicts: ResolveConflicts? = nil, serviceAccountRoleArn: String? = nil, tags: [String: String]? = nil) {
+        public init(addonName: String, addonVersion: String? = nil, clientRequestToken: String? = CreateAddonRequest.idempotencyToken(), clusterName: String, configurationValues: String? = nil, namespaceConfig: AddonNamespaceConfigRequest? = nil, podIdentityAssociations: [AddonPodIdentityAssociations]? = nil, resolveConflicts: ResolveConflicts? = nil, serviceAccountRoleArn: String? = nil, tags: [String: String]? = nil) {
             self.addonName = addonName
             self.addonVersion = addonVersion
             self.clientRequestToken = clientRequestToken
             self.clusterName = clusterName
             self.configurationValues = configurationValues
+            self.namespaceConfig = namespaceConfig
             self.podIdentityAssociations = podIdentityAssociations
             self.resolveConflicts = resolveConflicts
             self.serviceAccountRoleArn = serviceAccountRoleArn
@@ -1482,6 +1547,7 @@ extension EKS {
             try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
             request.encodePath(self.clusterName, key: "clusterName")
             try container.encodeIfPresent(self.configurationValues, forKey: .configurationValues)
+            try container.encodeIfPresent(self.namespaceConfig, forKey: .namespaceConfig)
             try container.encodeIfPresent(self.podIdentityAssociations, forKey: .podIdentityAssociations)
             try container.encodeIfPresent(self.resolveConflicts, forKey: .resolveConflicts)
             try container.encodeIfPresent(self.serviceAccountRoleArn, forKey: .serviceAccountRoleArn)
@@ -1492,6 +1558,7 @@ extension EKS {
             try self.validate(self.clusterName, name: "clusterName", parent: name, max: 100)
             try self.validate(self.clusterName, name: "clusterName", parent: name, min: 1)
             try self.validate(self.clusterName, name: "clusterName", parent: name, pattern: "^[0-9A-Za-z][A-Za-z0-9\\-_]*$")
+            try self.namespaceConfig?.validate(name: "\(name).namespaceConfig")
             try self.validate(self.serviceAccountRoleArn, name: "serviceAccountRoleArn", parent: name, max: 255)
             try self.validate(self.serviceAccountRoleArn, name: "serviceAccountRoleArn", parent: name, min: 1)
             try self.tags?.forEach {
@@ -1508,6 +1575,7 @@ extension EKS {
             case addonVersion = "addonVersion"
             case clientRequestToken = "clientRequestToken"
             case configurationValues = "configurationValues"
+            case namespaceConfig = "namespaceConfig"
             case podIdentityAssociations = "podIdentityAssociations"
             case resolveConflicts = "resolveConflicts"
             case serviceAccountRoleArn = "serviceAccountRoleArn"
@@ -1538,6 +1606,8 @@ extension EKS {
         public let clientRequestToken: String?
         /// Enable or disable the compute capability of EKS Auto Mode when creating your EKS Auto Mode cluster. If the compute capability is enabled, EKS Auto Mode will create and delete EC2 Managed Instances in your Amazon Web Services account
         public let computeConfig: ComputeConfigRequest?
+        /// Indicates whether to enable deletion protection for the cluster. When enabled, the cluster  cannot be deleted unless deletion protection is first disabled. This helps prevent  accidental cluster deletion. Default value is false.
+        public let deletionProtection: Bool?
         /// The encryption configuration for the cluster.
         public let encryptionConfig: [EncryptionConfig]?
         /// The Kubernetes network configuration for the cluster.
@@ -1569,11 +1639,12 @@ extension EKS {
         public let zonalShiftConfig: ZonalShiftConfigRequest?
 
         @inlinable
-        public init(accessConfig: CreateAccessConfigRequest? = nil, bootstrapSelfManagedAddons: Bool? = nil, clientRequestToken: String? = CreateClusterRequest.idempotencyToken(), computeConfig: ComputeConfigRequest? = nil, encryptionConfig: [EncryptionConfig]? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil, logging: Logging? = nil, name: String, outpostConfig: OutpostConfigRequest? = nil, remoteNetworkConfig: RemoteNetworkConfigRequest? = nil, resourcesVpcConfig: VpcConfigRequest, roleArn: String, storageConfig: StorageConfigRequest? = nil, tags: [String: String]? = nil, upgradePolicy: UpgradePolicyRequest? = nil, version: String? = nil, zonalShiftConfig: ZonalShiftConfigRequest? = nil) {
+        public init(accessConfig: CreateAccessConfigRequest? = nil, bootstrapSelfManagedAddons: Bool? = nil, clientRequestToken: String? = CreateClusterRequest.idempotencyToken(), computeConfig: ComputeConfigRequest? = nil, deletionProtection: Bool? = nil, encryptionConfig: [EncryptionConfig]? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil, logging: Logging? = nil, name: String, outpostConfig: OutpostConfigRequest? = nil, remoteNetworkConfig: RemoteNetworkConfigRequest? = nil, resourcesVpcConfig: VpcConfigRequest, roleArn: String, storageConfig: StorageConfigRequest? = nil, tags: [String: String]? = nil, upgradePolicy: UpgradePolicyRequest? = nil, version: String? = nil, zonalShiftConfig: ZonalShiftConfigRequest? = nil) {
             self.accessConfig = accessConfig
             self.bootstrapSelfManagedAddons = bootstrapSelfManagedAddons
             self.clientRequestToken = clientRequestToken
             self.computeConfig = computeConfig
+            self.deletionProtection = deletionProtection
             self.encryptionConfig = encryptionConfig
             self.kubernetesNetworkConfig = kubernetesNetworkConfig
             self.logging = logging
@@ -1609,6 +1680,7 @@ extension EKS {
             case bootstrapSelfManagedAddons = "bootstrapSelfManagedAddons"
             case clientRequestToken = "clientRequestToken"
             case computeConfig = "computeConfig"
+            case deletionProtection = "deletionProtection"
             case encryptionConfig = "encryptionConfig"
             case kubernetesNetworkConfig = "kubernetesNetworkConfig"
             case logging = "logging"
@@ -1874,6 +1946,7 @@ extension EKS {
                 try validate($0.value, name: "labels[\"\($0.key)\"]", parent: name, max: 63)
                 try validate($0.value, name: "labels[\"\($0.key)\"]", parent: name, min: 1)
             }
+            try self.nodeRepairConfig?.validate(name: "\(name).nodeRepairConfig")
             try self.scalingConfig?.validate(name: "\(name).scalingConfig")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -2750,6 +2823,50 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case insight = "insight"
+        }
+    }
+
+    public struct DescribeInsightsRefreshRequest: AWSEncodableShape {
+        /// The name of the cluster associated with the insights refresh operation.
+        public let clusterName: String
+
+        @inlinable
+        public init(clusterName: String) {
+            self.clusterName = clusterName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterName, key: "clusterName")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeInsightsRefreshResponse: AWSDecodableShape {
+        /// The date and time when the insights refresh operation ended.
+        public let endedAt: Date?
+        /// The message associated with the insights refresh operation.
+        public let message: String?
+        /// The date and time when the insights refresh operation started.
+        public let startedAt: Date?
+        /// The current status of the insights refresh operation.
+        public let status: InsightsRefreshStatus?
+
+        @inlinable
+        public init(endedAt: Date? = nil, message: String? = nil, startedAt: Date? = nil, status: InsightsRefreshStatus? = nil) {
+            self.endedAt = endedAt
+            self.message = message
+            self.startedAt = startedAt
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endedAt = "endedAt"
+            case message = "message"
+            case startedAt = "startedAt"
+            case status = "status"
         }
     }
 
@@ -4309,14 +4426,76 @@ extension EKS {
     public struct NodeRepairConfig: AWSEncodableShape & AWSDecodableShape {
         /// Specifies whether to enable node auto repair for the node group. Node auto repair is disabled by default.
         public let enabled: Bool?
+        /// Specify the maximum number of nodes that can be repaired concurrently or in parallel,  expressed as a count of unhealthy nodes. This gives you finer-grained control over the  pace of node replacements. When using this, you cannot also set  maxParallelNodesRepairedPercentage at the same time.
+        public let maxParallelNodesRepairedCount: Int?
+        /// Specify the maximum number of nodes that can be repaired concurrently or in parallel,  expressed as a percentage of unhealthy nodes. This gives you finer-grained control over the  pace of node replacements. When using this, you cannot also set  maxParallelNodesRepairedCount at the same time.
+        public let maxParallelNodesRepairedPercentage: Int?
+        /// Specify a count threshold of unhealthy nodes, above which node auto  repair actions will stop. When using this, you cannot also set  maxUnhealthyNodeThresholdPercentage at the same time.
+        public let maxUnhealthyNodeThresholdCount: Int?
+        /// Specify a percentage threshold of unhealthy nodes, above which node auto  repair actions will stop. When using this, you cannot also set  maxUnhealthyNodeThresholdCount at the same time.
+        public let maxUnhealthyNodeThresholdPercentage: Int?
+        /// Specify granular overrides for specific repair actions. These overrides control the  repair action and the repair delay time before a node is considered eligible for repair. If you use this, you must specify all the values.
+        public let nodeRepairConfigOverrides: [NodeRepairConfigOverrides]?
 
         @inlinable
-        public init(enabled: Bool? = nil) {
+        public init(enabled: Bool? = nil, maxParallelNodesRepairedCount: Int? = nil, maxParallelNodesRepairedPercentage: Int? = nil, maxUnhealthyNodeThresholdCount: Int? = nil, maxUnhealthyNodeThresholdPercentage: Int? = nil, nodeRepairConfigOverrides: [NodeRepairConfigOverrides]? = nil) {
             self.enabled = enabled
+            self.maxParallelNodesRepairedCount = maxParallelNodesRepairedCount
+            self.maxParallelNodesRepairedPercentage = maxParallelNodesRepairedPercentage
+            self.maxUnhealthyNodeThresholdCount = maxUnhealthyNodeThresholdCount
+            self.maxUnhealthyNodeThresholdPercentage = maxUnhealthyNodeThresholdPercentage
+            self.nodeRepairConfigOverrides = nodeRepairConfigOverrides
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxParallelNodesRepairedCount, name: "maxParallelNodesRepairedCount", parent: name, min: 1)
+            try self.validate(self.maxParallelNodesRepairedPercentage, name: "maxParallelNodesRepairedPercentage", parent: name, max: 100)
+            try self.validate(self.maxParallelNodesRepairedPercentage, name: "maxParallelNodesRepairedPercentage", parent: name, min: 1)
+            try self.validate(self.maxUnhealthyNodeThresholdCount, name: "maxUnhealthyNodeThresholdCount", parent: name, min: 1)
+            try self.validate(self.maxUnhealthyNodeThresholdPercentage, name: "maxUnhealthyNodeThresholdPercentage", parent: name, max: 100)
+            try self.validate(self.maxUnhealthyNodeThresholdPercentage, name: "maxUnhealthyNodeThresholdPercentage", parent: name, min: 1)
+            try self.nodeRepairConfigOverrides?.forEach {
+                try $0.validate(name: "\(name).nodeRepairConfigOverrides[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case enabled = "enabled"
+            case maxParallelNodesRepairedCount = "maxParallelNodesRepairedCount"
+            case maxParallelNodesRepairedPercentage = "maxParallelNodesRepairedPercentage"
+            case maxUnhealthyNodeThresholdCount = "maxUnhealthyNodeThresholdCount"
+            case maxUnhealthyNodeThresholdPercentage = "maxUnhealthyNodeThresholdPercentage"
+            case nodeRepairConfigOverrides = "nodeRepairConfigOverrides"
+        }
+    }
+
+    public struct NodeRepairConfigOverrides: AWSEncodableShape & AWSDecodableShape {
+        /// Specify the minimum time in minutes to wait before attempting to repair a node  with this specific nodeMonitoringCondition and nodeUnhealthyReason.
+        public let minRepairWaitTimeMins: Int?
+        /// Specify an unhealthy condition reported by the node monitoring agent that this override would apply to.
+        public let nodeMonitoringCondition: String?
+        /// Specify a reason reported by the node monitoring agent that this override would apply to.
+        public let nodeUnhealthyReason: String?
+        /// Specify the repair action to take for nodes when all of the specified conditions are met.
+        public let repairAction: RepairAction?
+
+        @inlinable
+        public init(minRepairWaitTimeMins: Int? = nil, nodeMonitoringCondition: String? = nil, nodeUnhealthyReason: String? = nil, repairAction: RepairAction? = nil) {
+            self.minRepairWaitTimeMins = minRepairWaitTimeMins
+            self.nodeMonitoringCondition = nodeMonitoringCondition
+            self.nodeUnhealthyReason = nodeUnhealthyReason
+            self.repairAction = repairAction
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.minRepairWaitTimeMins, name: "minRepairWaitTimeMins", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case minRepairWaitTimeMins = "minRepairWaitTimeMins"
+            case nodeMonitoringCondition = "nodeMonitoringCondition"
+            case nodeUnhealthyReason = "nodeUnhealthyReason"
+            case repairAction = "repairAction"
         }
     }
 
@@ -5047,6 +5226,42 @@ extension EKS {
         }
     }
 
+    public struct StartInsightsRefreshRequest: AWSEncodableShape {
+        /// The name of the cluster for the refresh insights operation.
+        public let clusterName: String
+
+        @inlinable
+        public init(clusterName: String) {
+            self.clusterName = clusterName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterName, key: "clusterName")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StartInsightsRefreshResponse: AWSDecodableShape {
+        /// The message associated with the insights refresh operation.
+        public let message: String?
+        /// The current status of the insights refresh operation.
+        public let status: InsightsRefreshStatus?
+
+        @inlinable
+        public init(message: String? = nil, status: InsightsRefreshStatus? = nil) {
+            self.message = message
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case status = "status"
+        }
+    }
+
     public struct StorageConfigRequest: AWSEncodableShape {
         /// Request to configure EBS Block Storage settings for your EKS Auto Mode cluster.
         public let blockStorage: BlockStorage?
@@ -5403,6 +5618,8 @@ extension EKS {
         public let clientRequestToken: String?
         /// Update the configuration of the compute capability of your EKS Auto Mode cluster. For example, enable the capability.
         public let computeConfig: ComputeConfigRequest?
+        /// Specifies whether to enable or disable deletion protection for the cluster. When  enabled (true), the cluster cannot be deleted until deletion protection is  explicitly disabled. When disabled (false), the cluster can be deleted  normally.
+        public let deletionProtection: Bool?
         public let kubernetesNetworkConfig: KubernetesNetworkConfigRequest?
         /// Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs . By default, cluster control plane logs aren't exported to CloudWatch Logs . For more information, see Amazon EKS cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
         public let logging: Logging?
@@ -5418,10 +5635,11 @@ extension EKS {
         public let zonalShiftConfig: ZonalShiftConfigRequest?
 
         @inlinable
-        public init(accessConfig: UpdateAccessConfigRequest? = nil, clientRequestToken: String? = UpdateClusterConfigRequest.idempotencyToken(), computeConfig: ComputeConfigRequest? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil, logging: Logging? = nil, name: String, remoteNetworkConfig: RemoteNetworkConfigRequest? = nil, resourcesVpcConfig: VpcConfigRequest? = nil, storageConfig: StorageConfigRequest? = nil, upgradePolicy: UpgradePolicyRequest? = nil, zonalShiftConfig: ZonalShiftConfigRequest? = nil) {
+        public init(accessConfig: UpdateAccessConfigRequest? = nil, clientRequestToken: String? = UpdateClusterConfigRequest.idempotencyToken(), computeConfig: ComputeConfigRequest? = nil, deletionProtection: Bool? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil, logging: Logging? = nil, name: String, remoteNetworkConfig: RemoteNetworkConfigRequest? = nil, resourcesVpcConfig: VpcConfigRequest? = nil, storageConfig: StorageConfigRequest? = nil, upgradePolicy: UpgradePolicyRequest? = nil, zonalShiftConfig: ZonalShiftConfigRequest? = nil) {
             self.accessConfig = accessConfig
             self.clientRequestToken = clientRequestToken
             self.computeConfig = computeConfig
+            self.deletionProtection = deletionProtection
             self.kubernetesNetworkConfig = kubernetesNetworkConfig
             self.logging = logging
             self.name = name
@@ -5438,6 +5656,7 @@ extension EKS {
             try container.encodeIfPresent(self.accessConfig, forKey: .accessConfig)
             try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
             try container.encodeIfPresent(self.computeConfig, forKey: .computeConfig)
+            try container.encodeIfPresent(self.deletionProtection, forKey: .deletionProtection)
             try container.encodeIfPresent(self.kubernetesNetworkConfig, forKey: .kubernetesNetworkConfig)
             try container.encodeIfPresent(self.logging, forKey: .logging)
             request.encodePath(self.name, key: "name")
@@ -5456,6 +5675,7 @@ extension EKS {
             case accessConfig = "accessConfig"
             case clientRequestToken = "clientRequestToken"
             case computeConfig = "computeConfig"
+            case deletionProtection = "deletionProtection"
             case kubernetesNetworkConfig = "kubernetesNetworkConfig"
             case logging = "logging"
             case remoteNetworkConfig = "remoteNetworkConfig"
@@ -5644,6 +5864,7 @@ extension EKS {
 
         public func validate(name: String) throws {
             try self.labels?.validate(name: "\(name).labels")
+            try self.nodeRepairConfig?.validate(name: "\(name).nodeRepairConfig")
             try self.scalingConfig?.validate(name: "\(name).scalingConfig")
             try self.taints?.validate(name: "\(name).taints")
             try self.updateConfig?.validate(name: "\(name).updateConfig")

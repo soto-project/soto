@@ -336,6 +336,7 @@ public struct MediaConnect: AWSService {
     ///   - availabilityZone:  The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current Amazon Web Services Region.
     ///   - entitlements:  The entitlements that you want to grant on a flow.
     ///   - flowSize:  Determines the processing capacity and feature set of the flow. Set this optional parameter to LARGE if you want to enable NDI outputs on the flow.
+    ///   - flowTags:  The key-value pairs that can be used to tag and organize the flow.
     ///   - maintenance:  The maintenance settings you want to use for the flow.
     ///   - mediaStreams:  The media streams that you want to add to the flow. You can associate these media streams with sources and outputs on the flow.
     ///   - name:  The name of the flow.
@@ -352,6 +353,7 @@ public struct MediaConnect: AWSService {
         availabilityZone: String? = nil,
         entitlements: [GrantEntitlementRequest]? = nil,
         flowSize: FlowSize? = nil,
+        flowTags: [String: String]? = nil,
         maintenance: AddMaintenance? = nil,
         mediaStreams: [AddMediaStreamRequest]? = nil,
         name: String? = nil,
@@ -368,6 +370,7 @@ public struct MediaConnect: AWSService {
             availabilityZone: availabilityZone, 
             entitlements: entitlements, 
             flowSize: flowSize, 
+            flowTags: flowTags, 
             maintenance: maintenance, 
             mediaStreams: mediaStreams, 
             name: name, 
@@ -1600,6 +1603,7 @@ public struct MediaConnect: AWSService {
     ///
     /// Parameters:
     ///   - flowArn:  The Amazon Resource Name (ARN) of the flow that you want to update.
+    ///   - flowSize:  Determines the processing capacity and feature set of the flow.
     ///   - maintenance:  The maintenance setting of the flow.
     ///   - ndiConfig:  Specifies the configuration settings for NDI outputs. Required when the flow includes NDI outputs.
     ///   - sourceFailoverConfig:  The settings for source failover.
@@ -1608,6 +1612,7 @@ public struct MediaConnect: AWSService {
     @inlinable
     public func updateFlow(
         flowArn: String,
+        flowSize: FlowSize? = nil,
         maintenance: UpdateMaintenance? = nil,
         ndiConfig: NdiConfig? = nil,
         sourceFailoverConfig: UpdateFailoverConfig? = nil,
@@ -1616,6 +1621,7 @@ public struct MediaConnect: AWSService {
     ) async throws -> UpdateFlowResponse {
         let input = UpdateFlowRequest(
             flowArn: flowArn, 
+            flowSize: flowSize, 
             maintenance: maintenance, 
             ndiConfig: ndiConfig, 
             sourceFailoverConfig: sourceFailoverConfig, 

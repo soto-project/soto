@@ -252,7 +252,7 @@ public struct NetworkFirewall: AWSService {
     ///
     /// Parameters:
     ///   - availabilityZoneChangeProtection: Optional. A setting indicating whether the firewall is protected against changes to its Availability Zone configuration. When set to TRUE, you cannot add or remove Availability Zones without first disabling this protection using UpdateAvailabilityZoneChangeProtection. Default value: FALSE
-    ///   - availabilityZoneMappings: Required. The Availability Zones where you want to create firewall endpoints for a transit gateway-attached firewall. You must specify at least one Availability Zone. Consider enabling the firewall in every Availability Zone where you have workloads to maintain Availability Zone independence. You can modify Availability Zones later using AssociateAvailabilityZones or DisassociateAvailabilityZones, but this may briefly disrupt traffic. The AvailabilityZoneChangeProtection setting controls whether you can make these modifications.
+    ///   - availabilityZoneMappings: Required. The Availability Zones where you want to create firewall endpoints for a transit gateway-attached firewall. You must specify at least one Availability Zone. Consider enabling the firewall in every Availability Zone where you have workloads to maintain Availability Zone isolation. You can modify Availability Zones later using AssociateAvailabilityZones or DisassociateAvailabilityZones, but this may briefly disrupt traffic. The AvailabilityZoneChangeProtection setting controls whether you can make these modifications.
     ///   - deleteProtection: A flag indicating whether it is possible to delete the firewall. A setting of TRUE indicates that the firewall is protected against deletion. Use this setting to protect against accidentally deleting a firewall that is in use. When you create a firewall, the operation initializes this flag to TRUE.
     ///   - description: A description of the firewall.
     ///   - enabledAnalysisTypes: An optional setting indicating the specific traffic analysis types to enable on the firewall.
@@ -557,7 +557,7 @@ public struct NetworkFirewall: AWSService {
         return try await self.deleteFirewallPolicy(input, logger: logger)
     }
 
-    /// Deletes a transit gateway attachment from a Network Firewall. Either the firewall owner or the transit gateway owner can delete the attachment.  After you delete a transit gateway attachment, raffic will no longer flow through the firewall endpoints.  After you initiate the delete operation, use DescribeFirewall to monitor the deletion status.
+    /// Deletes a transit gateway attachment from a Network Firewall. Either the firewall owner or the transit gateway owner can delete the attachment.  After you delete a transit gateway attachment, traffic will no longer flow through the firewall endpoints.  After you initiate the delete operation, use DescribeFirewall to monitor the deletion status.
     @Sendable
     @inlinable
     public func deleteNetworkFirewallTransitGatewayAttachment(_ input: DeleteNetworkFirewallTransitGatewayAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNetworkFirewallTransitGatewayAttachmentResponse {
@@ -570,7 +570,7 @@ public struct NetworkFirewall: AWSService {
             logger: logger
         )
     }
-    /// Deletes a transit gateway attachment from a Network Firewall. Either the firewall owner or the transit gateway owner can delete the attachment.  After you delete a transit gateway attachment, raffic will no longer flow through the firewall endpoints.  After you initiate the delete operation, use DescribeFirewall to monitor the deletion status.
+    /// Deletes a transit gateway attachment from a Network Firewall. Either the firewall owner or the transit gateway owner can delete the attachment.  After you delete a transit gateway attachment, traffic will no longer flow through the firewall endpoints.  After you initiate the delete operation, use DescribeFirewall to monitor the deletion status.
     ///
     /// Parameters:
     ///   - transitGatewayAttachmentId: Required. The unique identifier of the transit gateway attachment to delete.
@@ -1570,7 +1570,7 @@ public struct NetworkFirewall: AWSService {
         return try await self.putResourcePolicy(input, logger: logger)
     }
 
-    /// Rejects a transit gateway attachment request for Network Firewall. When you reject the attachment request, Network Firewall cancels the creation of routing components between the transit gateway and firewall endpoints. Only the firewall owner can reject the attachment. After rejection, no traffic will flow through the firewall endpoints for this attachment. Use DescribeFirewall to monitor the rejection status. To accept the attachment instead of rejecting it, use AcceptNetworkFirewallTransitGatewayAttachment.  Once rejected, you cannot reverse this action. To establish connectivity, you must create a new transit gateway-attached firewall.
+    /// Rejects a transit gateway attachment request for Network Firewall. When you reject the attachment request, Network Firewall cancels the creation of routing components between the transit gateway and firewall endpoints. Only the transit gateway owner can reject the attachment. After rejection, no traffic will flow through the firewall endpoints for this attachment. Use DescribeFirewall to monitor the rejection status. To accept the attachment instead of rejecting it, use AcceptNetworkFirewallTransitGatewayAttachment.  Once rejected, you cannot reverse this action. To establish connectivity, you must create a new transit gateway-attached firewall.
     @Sendable
     @inlinable
     public func rejectNetworkFirewallTransitGatewayAttachment(_ input: RejectNetworkFirewallTransitGatewayAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RejectNetworkFirewallTransitGatewayAttachmentResponse {
@@ -1583,7 +1583,7 @@ public struct NetworkFirewall: AWSService {
             logger: logger
         )
     }
-    /// Rejects a transit gateway attachment request for Network Firewall. When you reject the attachment request, Network Firewall cancels the creation of routing components between the transit gateway and firewall endpoints. Only the firewall owner can reject the attachment. After rejection, no traffic will flow through the firewall endpoints for this attachment. Use DescribeFirewall to monitor the rejection status. To accept the attachment instead of rejecting it, use AcceptNetworkFirewallTransitGatewayAttachment.  Once rejected, you cannot reverse this action. To establish connectivity, you must create a new transit gateway-attached firewall.
+    /// Rejects a transit gateway attachment request for Network Firewall. When you reject the attachment request, Network Firewall cancels the creation of routing components between the transit gateway and firewall endpoints. Only the transit gateway owner can reject the attachment. After rejection, no traffic will flow through the firewall endpoints for this attachment. Use DescribeFirewall to monitor the rejection status. To accept the attachment instead of rejecting it, use AcceptNetworkFirewallTransitGatewayAttachment.  Once rejected, you cannot reverse this action. To establish connectivity, you must create a new transit gateway-attached firewall.
     ///
     /// Parameters:
     ///   - transitGatewayAttachmentId: Required. The unique identifier of the transit gateway attachment to reject. This ID is returned in the response when creating a transit gateway-attached firewall.

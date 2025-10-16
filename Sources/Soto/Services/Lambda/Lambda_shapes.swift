@@ -492,6 +492,8 @@ extension Lambda {
         public let functionName: String
         /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
         public let functionUrlAuthType: FunctionUrlAuthType?
+        /// Restricts the lambda:InvokeFunction action to calls coming from a function URL. When set to true, this prevents the principal from invoking the function by any means other than the function URL. For more information, see Security and auth model for Lambda function URLs.
+        public let invokedViaFunctionUrl: Bool?
         /// The Amazon Web Services service, Amazon Web Services account, IAM user, or IAM role that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service.
         public let principal: String
         /// The identifier for your organization in Organizations. Use this to grant permissions to all the Amazon Web Services accounts under this organization.
@@ -508,11 +510,12 @@ extension Lambda {
         public let statementId: String
 
         @inlinable
-        public init(action: String, eventSourceToken: String? = nil, functionName: String, functionUrlAuthType: FunctionUrlAuthType? = nil, principal: String, principalOrgID: String? = nil, qualifier: String? = nil, revisionId: String? = nil, sourceAccount: String? = nil, sourceArn: String? = nil, statementId: String) {
+        public init(action: String, eventSourceToken: String? = nil, functionName: String, functionUrlAuthType: FunctionUrlAuthType? = nil, invokedViaFunctionUrl: Bool? = nil, principal: String, principalOrgID: String? = nil, qualifier: String? = nil, revisionId: String? = nil, sourceAccount: String? = nil, sourceArn: String? = nil, statementId: String) {
             self.action = action
             self.eventSourceToken = eventSourceToken
             self.functionName = functionName
             self.functionUrlAuthType = functionUrlAuthType
+            self.invokedViaFunctionUrl = invokedViaFunctionUrl
             self.principal = principal
             self.principalOrgID = principalOrgID
             self.qualifier = qualifier
@@ -529,6 +532,7 @@ extension Lambda {
             try container.encodeIfPresent(self.eventSourceToken, forKey: .eventSourceToken)
             request.encodePath(self.functionName, key: "FunctionName")
             try container.encodeIfPresent(self.functionUrlAuthType, forKey: .functionUrlAuthType)
+            try container.encodeIfPresent(self.invokedViaFunctionUrl, forKey: .invokedViaFunctionUrl)
             try container.encode(self.principal, forKey: .principal)
             try container.encodeIfPresent(self.principalOrgID, forKey: .principalOrgID)
             request.encodeQuery(self.qualifier, key: "Qualifier")
@@ -564,6 +568,7 @@ extension Lambda {
             case action = "Action"
             case eventSourceToken = "EventSourceToken"
             case functionUrlAuthType = "FunctionUrlAuthType"
+            case invokedViaFunctionUrl = "InvokedViaFunctionUrl"
             case principal = "Principal"
             case principalOrgID = "PrincipalOrgID"
             case revisionId = "RevisionId"
@@ -743,7 +748,7 @@ extension Lambda {
     }
 
     public struct CodeSigningPolicies: AWSEncodableShape & AWSDecodableShape {
-        /// Code signing configuration policy for deployment validation failure. If you set the policy to Enforce, Lambda blocks the deployment request if signature validation checks fail. If you set the policy to Warn, Lambda allows the deployment and creates a CloudWatch log.  Default value: Warn
+        /// Code signing configuration policy for deployment validation failure. If you set the policy to Enforce, Lambda blocks the deployment request if signature validation checks fail. If you set the policy to Warn, Lambda allows the deployment and issues a new Amazon CloudWatch metric (SignatureValidationErrors) and also stores the warning in the CloudTrail log. Default value: Warn
         public let untrustedArtifactOnDeployment: CodeSigningPolicy?
 
         @inlinable
@@ -1132,8 +1137,7 @@ extension Lambda {
         public let architectures: [Architecture]?
         /// The code for the function.
         public let code: FunctionCode
-        /// To enable code signing for this function, specify the ARN of a code-signing configuration. A code-signing configuration
-        /// includes a set of signing profiles, which define the trusted publishers for this function.
+        /// To enable code signing for this function, specify the ARN of a code-signing configuration. A code-signing configuration includes a set of signing profiles, which define the trusted publishers for this function.
         public let codeSigningConfigArn: String?
         /// A dead-letter queue configuration that specifies the queue or topic where Lambda sends asynchronous events when they fail processing. For more information, see Dead-letter queues.
         public let deadLetterConfig: DeadLetterConfig?
@@ -1147,13 +1151,11 @@ extension Lambda {
         public let fileSystemConfigs: [FileSystemConfig]?
         /// The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
-        /// The name of the method within your code that Lambda calls to run your function.
-        /// Handler is required if the deployment package is a .zip file archive. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Lambda programming model.
+        /// The name of the method within your code that Lambda calls to run your function. Handler is required if the deployment package is a .zip file archive. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Lambda programming model.
         public let handler: String?
         /// Container image configuration values that override the values in the container image Dockerfile.
         public let imageConfig: ImageConfig?
-        /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt the following resources:   The function's environment variables.   The function's Lambda SnapStart snapshots.   When used with SourceKMSKeyArn, the unzipped version of the .zip deployment package that's used for function invocations. For more information, see
-        /// Specifying a customer managed key for Lambda.   The optimized version of the container image that's used for function invocations. Note that this is not the same key that's used to protect your container image in the Amazon Elastic Container Registry (Amazon ECR). For more information, see Function lifecycle.   If you don't provide a customer managed key, Lambda uses an Amazon Web Services owned key or an Amazon Web Services managed key.
+        /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt the following resources:   The function's environment variables.   The function's Lambda SnapStart snapshots.   When used with SourceKMSKeyArn, the unzipped version of the .zip deployment package that's used for function invocations. For more information, see  Specifying a customer managed key for Lambda.   The optimized version of the container image that's used for function invocations. Note that this is not the same key that's used to protect your container image in the Amazon Elastic Container Registry (Amazon ECR). For more information, see Function lifecycle.   If you don't provide a customer managed key, Lambda uses an Amazon Web Services owned key or an Amazon Web Services managed key.
         public let kmsKeyArn: String?
         /// A list of function layers to add to the function's execution environment. Specify each layer by its ARN, including the version.
         public let layers: [String]?
@@ -1175,8 +1177,7 @@ extension Lambda {
         public let tags: [String: String]?
         /// The amount of time (in seconds) that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds. For more information, see Lambda execution environment.
         public let timeout: Int?
-        /// Set Mode to Active to sample and trace a subset of incoming requests with
-        /// X-Ray.
+        /// Set Mode to Active to sample and trace a subset of incoming requests with X-Ray.
         public let tracingConfig: TracingConfig?
         /// For network connectivity to Amazon Web Services resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can access resources and the internet only through that VPC. For more information, see Configuring a Lambda function to access resources in a VPC.
         public let vpcConfig: VpcConfig?
@@ -1278,7 +1279,7 @@ extension Lambda {
         public let cors: Cors?
         /// The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
-        /// Use one of the following options:    BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results  are available when the payload is complete. The maximum payload size is 6 MB.    RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using  the InvokeWithResponseStream API operation. The maximum response payload size is 20 MB, however, you can request a quota increase.
+        /// Use one of the following options:    BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results are available when the payload is complete. The maximum payload size is 6 MB.    RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using the InvokeWithResponseStream API operation. The maximum response payload size is 200 MB.
         public let invokeMode: InvokeMode?
         /// The alias name.
         public let qualifier: String?
@@ -1330,7 +1331,7 @@ extension Lambda {
         public let functionArn: String
         /// The HTTP URL endpoint for your function.
         public let functionUrl: String
-        /// Use one of the following options:    BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results  are available when the payload is complete. The maximum payload size is 6 MB.    RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using  the InvokeWithResponseStream API operation. The maximum response payload size is 20 MB, however, you can request a quota increase.
+        /// Use one of the following options:    BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results are available when the payload is complete. The maximum payload size is 6 MB.    RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using the InvokeWithResponseStream API operation. The maximum response payload size is 200 MB.
         public let invokeMode: InvokeMode?
 
         @inlinable
@@ -1938,11 +1939,9 @@ extension Lambda {
         public let lastProcessingResult: String?
         /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
         public let maximumBatchingWindowInSeconds: Int?
-        /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is -1,
-        /// which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records.  The minimum valid value for maximum record age is 60s. Although values less than 60 and greater than -1 fall within the parameter's absolute range, they are not allowed
+        /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records.  The minimum valid value for maximum record age is 60s. Although values less than 60 and greater than -1 fall within the parameter's absolute range, they are not allowed
         public let maximumRecordAgeInSeconds: Int?
-        /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1,
-        /// which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
+        /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
         public let maximumRetryAttempts: Int?
         /// The metrics configuration for your event source. For more information, see Event source mapping metrics.
         public let metricsConfig: EventSourceMappingMetricsConfig?
@@ -2156,8 +2155,7 @@ extension Lambda {
         public let s3Key: String?
         /// For versioned objects, the version of the deployment package object to use.
         public let s3ObjectVersion: String?
-        /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's
-        /// .zip deployment package. If you don't provide a customer managed key, Lambda uses an Amazon Web Services owned key.
+        /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's .zip deployment package. If you don't provide a customer managed key, Lambda uses an Amazon Web Services owned key.
         public let sourceKMSKeyArn: String?
         /// The base64-encoded contents of the deployment package. Amazon Web Services SDK and CLI clients handle the encoding for you.
         public let zipFile: AWSBase64Data?
@@ -2202,8 +2200,7 @@ extension Lambda {
         public let repositoryType: String?
         /// The resolved URI for the image.
         public let resolvedImageUri: String?
-        /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's
-        /// .zip deployment package. If you don't provide a customer managed key, Lambda uses an Amazon Web Services owned key.
+        /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's .zip deployment package. If you don't provide a customer managed key, Lambda uses an Amazon Web Services owned key.
         public let sourceKMSKeyArn: String?
 
         @inlinable
@@ -2225,7 +2222,7 @@ extension Lambda {
     }
 
     public struct FunctionConfiguration: AWSDecodableShape {
-        /// The instruction set architecture that the function supports. Architecture is a string array with one of the  valid values. The default architecture value is x86_64.
+        /// The instruction set architecture that the function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
         public let architectures: [Architecture]?
         /// The SHA256 hash of the function's deployment package.
         public let codeSha256: String?
@@ -2419,7 +2416,7 @@ extension Lambda {
         public let functionArn: String
         /// The HTTP URL endpoint for your function.
         public let functionUrl: String
-        /// Use one of the following options:    BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results are available when the payload is complete. The maximum payload size is 6 MB.    RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using the InvokeWithResponseStream API operation. The maximum response payload size is 20 MB, however, you can request a quota increase.
+        /// Use one of the following options:    BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results are available when the payload is complete. The maximum payload size is 6 MB.    RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using the InvokeWithResponseStream API operation. The maximum response payload size is 200 MB.
         public let invokeMode: InvokeMode?
         /// When the function URL configuration was last updated, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
         public let lastModifiedTime: String
@@ -2720,7 +2717,7 @@ extension Lambda {
     }
 
     public struct GetFunctionRecursionConfigResponse: AWSDecodableShape {
-        /// If your function's recursive loop detection configuration is Allow, Lambda doesn't take any action when it  detects your function being invoked as part of a recursive loop. If your function's recursive loop detection configuration is Terminate, Lambda stops your function being  invoked and notifies you when it detects your function being invoked as part of a recursive loop. By default, Lambda sets your function's configuration to Terminate. You can update this  configuration using the PutFunctionRecursionConfig action.
+        /// If your function's recursive loop detection configuration is Allow, Lambda doesn't take any action when it detects your function being invoked as part of a recursive loop. If your function's recursive loop detection configuration is Terminate, Lambda stops your function being invoked and notifies you when it detects your function being invoked as part of a recursive loop. By default, Lambda sets your function's configuration to Terminate. You can update this configuration using the PutFunctionRecursionConfig action.
         public let recursiveLoop: RecursiveLoop?
 
         @inlinable
@@ -2836,7 +2833,7 @@ extension Lambda {
         public let functionArn: String
         /// The HTTP URL endpoint for your function.
         public let functionUrl: String
-        /// Use one of the following options:    BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results  are available when the payload is complete. The maximum payload size is 6 MB.    RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using  the InvokeWithResponseStream API operation. The maximum response payload size is 20 MB, however, you can request a quota increase.
+        /// Use one of the following options:    BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results are available when the payload is complete. The maximum payload size is 6 MB.    RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using the InvokeWithResponseStream API operation. The maximum response payload size is 200 MB.
         public let invokeMode: InvokeMode?
         /// When the function URL configuration was last updated, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
         public let lastModifiedTime: String
@@ -2962,8 +2959,7 @@ extension Lambda {
     }
 
     public struct GetLayerVersionResponse: AWSDecodableShape {
-        /// A list of compatible
-        /// instruction set architectures.
+        /// A list of compatible instruction set architectures.
         public let compatibleArchitectures: [Architecture]?
         /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see Runtime use after deprecation. For a list of all currently supported runtimes, see Supported runtimes.
         public let compatibleRuntimes: [Runtime]?
@@ -3125,7 +3121,7 @@ extension Lambda {
     public struct GetRuntimeManagementConfigRequest: AWSEncodableShape {
         /// The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
-        /// Specify a version of the function. This can be $LATEST or a published version number. If no value is specified, the configuration for the  $LATEST version is returned.
+        /// Specify a version of the function. This can be $LATEST or a published version number. If no value is specified, the configuration for the $LATEST version is returned.
         public let qualifier: String?
 
         @inlinable
@@ -3156,7 +3152,7 @@ extension Lambda {
     public struct GetRuntimeManagementConfigResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of your function.
         public let functionArn: String?
-        /// The ARN of the runtime the function is configured to use. If the runtime update mode is Manual, the ARN is returned, otherwise null  is returned.
+        /// The ARN of the runtime the function is configured to use. If the runtime update mode is Manual, the ARN is returned, otherwise null is returned.
         public let runtimeVersionArn: String?
         /// The current runtime update mode of the function.
         public let updateRuntimeOn: UpdateRuntimeOn?
@@ -3740,7 +3736,7 @@ extension Lambda {
         public let arn: String?
         /// The size of the layer archive in bytes.
         public let codeSize: Int64?
-        /// The Amazon Resource Name (ARN)  of a signing job.
+        /// The Amazon Resource Name (ARN) of a signing job.
         public let signingJobArn: String?
         /// The Amazon Resource Name (ARN) for a signing profile version.
         public let signingProfileVersionArn: String?
@@ -3804,7 +3800,7 @@ extension Lambda {
         public let codeSize: Int64?
         /// A link to the layer archive in Amazon S3 that is valid for 10 minutes.
         public let location: String?
-        /// The Amazon Resource Name (ARN)  of a signing job.
+        /// The Amazon Resource Name (ARN) of a signing job.
         public let signingJobArn: String?
         /// The Amazon Resource Name (ARN) for a signing profile version.
         public let signingProfileVersionArn: String?
@@ -3828,7 +3824,7 @@ extension Lambda {
     }
 
     public struct LayerVersionsListItem: AWSDecodableShape {
-        /// A list of compatible   instruction set architectures.
+        /// A list of compatible instruction set architectures.
         public let compatibleArchitectures: [Architecture]?
         /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see Runtime use after deprecation. For a list of all currently supported runtimes, see Supported runtimes.
         public let compatibleRuntimes: [Runtime]?
@@ -4257,8 +4253,7 @@ extension Lambda {
     }
 
     public struct ListLayerVersionsRequest: AWSEncodableShape {
-        /// The compatible
-        /// instruction set architecture.
+        /// The compatible instruction set architecture.
         public let compatibleArchitecture: Architecture?
         /// A runtime identifier. The following list includes deprecated runtimes. For more information, see Runtime use after deprecation. For a list of all currently supported runtimes, see Supported runtimes.
         public let compatibleRuntime: Runtime?
@@ -4318,8 +4313,7 @@ extension Lambda {
     }
 
     public struct ListLayersRequest: AWSEncodableShape {
-        /// The compatible
-        /// instruction set architecture.
+        /// The compatible instruction set architecture.
         public let compatibleArchitecture: Architecture?
         /// A runtime identifier. The following list includes deprecated runtimes. For more information, see Runtime use after deprecation. For a list of all currently supported runtimes, see Supported runtimes.
         public let compatibleRuntime: Runtime?
@@ -4424,7 +4418,7 @@ extension Lambda {
     }
 
     public struct ListTagsRequest: AWSEncodableShape {
-        /// The resource's Amazon Resource Name (ARN).  Note: Lambda does not support adding tags to function aliases or versions.
+        /// The resource's Amazon Resource Name (ARN). Note: Lambda does not support adding tags to function aliases or versions.
         public let resource: String
 
         @inlinable
@@ -4466,7 +4460,7 @@ extension Lambda {
         public let functionName: String
         /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
         public let marker: String?
-        /// The maximum number of versions to return. Note that ListVersionsByFunction returns a maximum of 50 items in each response,  even if you set the number higher.
+        /// The maximum number of versions to return. Note that ListVersionsByFunction returns a maximum of 50 items in each response, even if you set the number higher.
         public let maxItems: Int?
 
         @inlinable
@@ -4514,13 +4508,13 @@ extension Lambda {
     }
 
     public struct LoggingConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Set this property to filter the application logs for your function that Lambda sends to CloudWatch. Lambda only sends application logs at the  selected level of detail and lower, where TRACE is the highest level and FATAL is the lowest.
+        /// Set this property to filter the application logs for your function that Lambda sends to CloudWatch. Lambda only sends application logs at the selected level of detail and lower, where TRACE is the highest level and FATAL is the lowest.
         public let applicationLogLevel: ApplicationLogLevel?
-        /// The format in which Lambda sends your function's application and system logs to CloudWatch. Select between  plain text and structured JSON.
+        /// The format in which Lambda sends your function's application and system logs to CloudWatch. Select between plain text and structured JSON.
         public let logFormat: LogFormat?
-        /// The name of the Amazon CloudWatch log group the function sends logs to. By default, Lambda functions send logs to a default  log group named /aws/lambda/. To use a different log group, enter an existing log group or enter a new log group name.
+        /// The name of the Amazon CloudWatch log group the function sends logs to. By default, Lambda functions send logs to a default log group named /aws/lambda/&lt;function name&gt;. To use a different log group, enter an existing log group or enter a new log group name.
         public let logGroup: String?
-        /// Set this property to filter the system logs for your function that Lambda sends to CloudWatch. Lambda only sends system logs at the  selected level of detail and lower, where DEBUG is the highest level and WARN is the lowest.
+        /// Set this property to filter the system logs for your function that Lambda sends to CloudWatch. Lambda only sends system logs at the selected level of detail and lower, where DEBUG is the highest level and WARN is the lowest.
         public let systemLogLevel: SystemLogLevel?
 
         @inlinable
@@ -4546,7 +4540,7 @@ extension Lambda {
     }
 
     public struct OnFailure: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the destination resource. To retain records of unsuccessful asynchronous invocations, you can configure an Amazon SNS topic, Amazon SQS queue, Amazon S3 bucket, Lambda function, or Amazon EventBridge event bus as the destination. To retain records of failed invocations from Kinesis,  DynamoDB, self-managed Kafka or Amazon MSK, you can configure an Amazon SNS topic, Amazon SQS queue, or Amazon S3 bucket as the destination.
+        /// The Amazon Resource Name (ARN) of the destination resource. To retain records of unsuccessful asynchronous invocations, you can configure an Amazon SNS topic, Amazon SQS queue, Amazon S3 bucket, Lambda function, or Amazon EventBridge event bus as the destination. To retain records of failed invocations from Kinesis, DynamoDB, self-managed Kafka or Amazon MSK, you can configure an Amazon SNS topic, Amazon SQS queue, or Amazon S3 bucket as the destination.
         public let destination: String?
 
         @inlinable
@@ -4697,8 +4691,7 @@ extension Lambda {
     }
 
     public struct PublishLayerVersionRequest: AWSEncodableShape {
-        /// A list of compatible
-        /// instruction set architectures.
+        /// A list of compatible instruction set architectures.
         public let compatibleArchitectures: [Architecture]?
         /// A list of compatible function runtimes. Used for filtering with ListLayers and ListLayerVersions. The following list includes deprecated runtimes. For more information, see Runtime deprecation policy.
         public let compatibleRuntimes: [Runtime]?
@@ -4753,8 +4746,7 @@ extension Lambda {
     }
 
     public struct PublishLayerVersionResponse: AWSDecodableShape {
-        /// A list of compatible
-        /// instruction set architectures.
+        /// A list of compatible instruction set architectures.
         public let compatibleArchitectures: [Architecture]?
         /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see Runtime use after deprecation. For a list of all currently supported runtimes, see Supported runtimes.
         public let compatibleRuntimes: [Runtime]?
@@ -4976,7 +4968,7 @@ extension Lambda {
     public struct PutFunctionRecursionConfigRequest: AWSEncodableShape {
         /// The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
-        /// If you set your function's recursive loop detection configuration to Allow, Lambda doesn't take any action when it  detects your function being invoked as part of a recursive loop. We recommend that you only use this setting if your design intentionally uses a  Lambda function to write data back to the same Amazon Web Services resource that invokes it. If you set your function's recursive loop detection configuration to Terminate, Lambda stops your function being  invoked and notifies you when it detects your function being invoked as part of a recursive loop. By default, Lambda sets your function's configuration to Terminate.  If your design intentionally uses a Lambda function to write data back to the same Amazon Web Services resource that invokes the function, then use caution and implement suitable guard rails to prevent unexpected charges being billed to your Amazon Web Services account. To learn more about best practices for using recursive invocation patterns, see Recursive patterns that cause run-away Lambda functions in Serverless Land.
+        /// If you set your function's recursive loop detection configuration to Allow, Lambda doesn't take any action when it detects your function being invoked as part of a recursive loop. We recommend that you only use this setting if your design intentionally uses a Lambda function to write data back to the same Amazon Web Services resource that invokes it. If you set your function's recursive loop detection configuration to Terminate, Lambda stops your function being invoked and notifies you when it detects your function being invoked as part of a recursive loop. By default, Lambda sets your function's configuration to Terminate.  If your design intentionally uses a Lambda function to write data back to the same Amazon Web Services resource that invokes the function, then use caution and implement suitable guard rails to prevent unexpected charges being billed to your Amazon Web Services account. To learn more about best practices for using recursive invocation patterns, see Recursive patterns that cause run-away Lambda functions in Serverless Land.
         public let recursiveLoop: RecursiveLoop
 
         @inlinable
@@ -5004,7 +4996,7 @@ extension Lambda {
     }
 
     public struct PutFunctionRecursionConfigResponse: AWSDecodableShape {
-        /// The status of your function's recursive loop detection configuration. When this value is set to Allowand Lambda detects your function being invoked as part of a recursive  loop, it doesn't take any action. When this value is set to Terminate and Lambda detects your function being invoked as part of a recursive  loop, it stops your function being invoked and notifies you.
+        /// The status of your function's recursive loop detection configuration. When this value is set to Allowand Lambda detects your function being invoked as part of a recursive loop, it doesn't take any action. When this value is set to Terminate and Lambda detects your function being invoked as part of a recursive loop, it stops your function being invoked and notifies you.
         public let recursiveLoop: RecursiveLoop?
 
         @inlinable
@@ -5092,11 +5084,11 @@ extension Lambda {
     public struct PutRuntimeManagementConfigRequest: AWSEncodableShape {
         /// The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
-        /// Specify a version of the function. This can be $LATEST or a published version number. If no value is specified, the configuration for the  $LATEST version is returned.
+        /// Specify a version of the function. This can be $LATEST or a published version number. If no value is specified, the configuration for the $LATEST version is returned.
         public let qualifier: String?
         /// The ARN of the runtime version you want the function to use.  This is only required if you're using the Manual runtime update mode.
         public let runtimeVersionArn: String?
-        /// Specify the runtime update mode.    Auto (default) - Automatically update to the most recent and secure runtime version using a Two-phase runtime version rollout. This is the best  choice for most customers to ensure they always benefit from runtime updates.    Function update - Lambda updates the runtime of your function  to the most recent and secure runtime version when you update your  function. This approach synchronizes runtime updates with function deployments, giving you control over when runtime updates are applied and allowing you to detect and  mitigate rare runtime update incompatibilities early. When using this setting, you need to regularly update your functions to keep their runtime up-to-date.    Manual - You specify a runtime version in your function configuration. The function will use this runtime version indefinitely.  In the rare case where a new runtime version is incompatible with an existing function, this allows you to roll back your function to an earlier runtime version. For more information,  see Roll back a runtime version.
+        /// Specify the runtime update mode.    Auto (default) - Automatically update to the most recent and secure runtime version using a Two-phase runtime version rollout. This is the best choice for most customers to ensure they always benefit from runtime updates.    Function update - Lambda updates the runtime of your function to the most recent and secure runtime version when you update your function. This approach synchronizes runtime updates with function deployments, giving you control over when runtime updates are applied and allowing you to detect and mitigate rare runtime update incompatibilities early. When using this setting, you need to regularly update your functions to keep their runtime up-to-date.    Manual - You specify a runtime version in your function configuration. The function will use this runtime version indefinitely. In the rare case where a new runtime version is incompatible with an existing function, this allows you to roll back your function to an earlier runtime version. For more information, see Roll back a runtime version.
         public let updateRuntimeOn: UpdateRuntimeOn
 
         @inlinable
@@ -5137,7 +5129,7 @@ extension Lambda {
     public struct PutRuntimeManagementConfigResponse: AWSDecodableShape {
         /// The ARN of the function
         public let functionArn: String
-        /// The ARN of the runtime the function is configured to use. If the runtime update mode is manual, the ARN is returned, otherwise null  is returned.
+        /// The ARN of the runtime the function is configured to use. If the runtime update mode is manual, the ARN is returned, otherwise null is returned.
         public let runtimeVersionArn: String?
         /// The runtime update mode.
         public let updateRuntimeOn: UpdateRuntimeOn
@@ -5539,7 +5531,7 @@ extension Lambda {
     }
 
     public struct SourceAccessConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The type of authentication protocol, VPC components, or virtual host for your event source. For example: "Type":"SASL_SCRAM_512_AUTH".    BASIC_AUTH – (Amazon MQ) The Secrets Manager secret that stores your broker credentials.    BASIC_AUTH – (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL/PLAIN authentication of your Apache Kafka brokers.    VPC_SUBNET – (Self-managed Apache Kafka) The subnets associated with your VPC. Lambda connects to these subnets to fetch data from your self-managed Apache Kafka cluster.    VPC_SECURITY_GROUP – (Self-managed Apache Kafka) The VPC security group used to manage access to your self-managed Apache Kafka brokers.    SASL_SCRAM_256_AUTH – (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL SCRAM-256 authentication of your self-managed Apache Kafka brokers.    SASL_SCRAM_512_AUTH – (Amazon MSK, Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL SCRAM-512 authentication of your self-managed Apache Kafka brokers.    VIRTUAL_HOST –- (RabbitMQ) The name of the virtual host in your RabbitMQ broker. Lambda uses this RabbitMQ host as the event source.  This property cannot be specified in an UpdateEventSourceMapping API call.    CLIENT_CERTIFICATE_TLS_AUTH – (Amazon MSK, self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the certificate chain (X.509 PEM),  private key (PKCS#8 PEM), and private key password (optional) used for mutual TLS authentication of your MSK/Apache Kafka brokers.    SERVER_ROOT_CA_CERTIFICATE – (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the root CA certificate (X.509 PEM) used for TLS encryption of your Apache Kafka brokers.
+        /// The type of authentication protocol, VPC components, or virtual host for your event source. For example: "Type":"SASL_SCRAM_512_AUTH".    BASIC_AUTH – (Amazon MQ) The Secrets Manager secret that stores your broker credentials.    BASIC_AUTH – (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL/PLAIN authentication of your Apache Kafka brokers.    VPC_SUBNET – (Self-managed Apache Kafka) The subnets associated with your VPC. Lambda connects to these subnets to fetch data from your self-managed Apache Kafka cluster.    VPC_SECURITY_GROUP – (Self-managed Apache Kafka) The VPC security group used to manage access to your self-managed Apache Kafka brokers.    SASL_SCRAM_256_AUTH – (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL SCRAM-256 authentication of your self-managed Apache Kafka brokers.    SASL_SCRAM_512_AUTH – (Amazon MSK, Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL SCRAM-512 authentication of your self-managed Apache Kafka brokers.    VIRTUAL_HOST –- (RabbitMQ) The name of the virtual host in your RabbitMQ broker. Lambda uses this RabbitMQ host as the event source. This property cannot be specified in an UpdateEventSourceMapping API call.    CLIENT_CERTIFICATE_TLS_AUTH – (Amazon MSK, self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the certificate chain (X.509 PEM), private key (PKCS#8 PEM), and private key password (optional) used for mutual TLS authentication of your MSK/Apache Kafka brokers.    SERVER_ROOT_CA_CERTIFICATE – (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the root CA certificate (X.509 PEM) used for TLS encryption of your Apache Kafka brokers.
         public let type: SourceAccessType?
         /// The value for your chosen configuration in Type. For example: "URI": "arn:aws:secretsmanager:us-east-1:01234567890:secret:MyBrokerSecretName".
         public let uri: String?
@@ -6003,17 +5995,15 @@ extension Lambda {
         public let publish: Bool?
         /// Update the function only if the revision ID matches the ID that's specified. Use this option to avoid modifying a function that has changed since you last read it.
         public let revisionId: String?
-        /// An Amazon S3 bucket in the same Amazon Web Services Region as your function. The bucket can be in a different
-        /// Amazon Web Services account. Use only with a function defined with a .zip file archive deployment package.
+        /// An Amazon S3 bucket in the same Amazon Web Services Region as your function. The bucket can be in a different Amazon Web Services account. Use only with a function defined with a .zip file archive deployment package.
         public let s3Bucket: String?
         /// The Amazon S3 key of the deployment package. Use only with a function defined with a .zip file archive deployment package.
         public let s3Key: String?
         /// For versioned objects, the version of the deployment package object to use.
         public let s3ObjectVersion: String?
-        /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's  .zip deployment package. If you don't provide a customer managed key, Lambda uses an Amazon Web Services managed key.
+        /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's .zip deployment package. If you don't provide a customer managed key, Lambda uses an Amazon Web Services managed key.
         public let sourceKMSKeyArn: String?
-        /// The base64-encoded contents of the deployment package. Amazon Web Services SDK and CLI clients
-        /// handle the encoding for you. Use only with a function defined with a .zip file archive deployment package.
+        /// The base64-encoded contents of the deployment package. Amazon Web Services SDK and CLI clients handle the encoding for you. Use only with a function defined with a .zip file archive deployment package.
         public let zipFile: AWSBase64Data?
 
         @inlinable
@@ -6090,13 +6080,11 @@ extension Lambda {
         public let fileSystemConfigs: [FileSystemConfig]?
         /// The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
-        /// The name of the method within your code that Lambda calls to run your function.
-        /// Handler is required if the deployment package is a .zip file archive. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Lambda programming model.
+        /// The name of the method within your code that Lambda calls to run your function. Handler is required if the deployment package is a .zip file archive. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Lambda programming model.
         public let handler: String?
         ///  Container image configuration values that override the values in the container image Docker file.
         public let imageConfig: ImageConfig?
-        /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt the following resources:   The function's environment variables.   The function's Lambda SnapStart snapshots.   When used with SourceKMSKeyArn, the unzipped version of the .zip deployment package that's used for function invocations. For more information, see
-        /// Specifying a customer managed key for Lambda.   The optimized version of the container image that's used for function invocations. Note that this is not the same key that's used to protect your container image in the Amazon Elastic Container Registry (Amazon ECR). For more information, see Function lifecycle.   If you don't provide a customer managed key, Lambda uses an Amazon Web Services owned key or an Amazon Web Services managed key.
+        /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt the following resources:   The function's environment variables.   The function's Lambda SnapStart snapshots.   When used with SourceKMSKeyArn, the unzipped version of the .zip deployment package that's used for function invocations. For more information, see  Specifying a customer managed key for Lambda.   The optimized version of the container image that's used for function invocations. Note that this is not the same key that's used to protect your container image in the Amazon Elastic Container Registry (Amazon ECR). For more information, see Function lifecycle.   If you don't provide a customer managed key, Lambda uses an Amazon Web Services owned key or an Amazon Web Services managed key.
         public let kmsKeyArn: String?
         /// A list of function layers to add to the function's execution environment. Specify each layer by its ARN, including the version.
         public let layers: [String]?
@@ -6114,8 +6102,7 @@ extension Lambda {
         public let snapStart: SnapStart?
         /// The amount of time (in seconds) that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds. For more information, see Lambda execution environment.
         public let timeout: Int?
-        /// Set Mode to Active to sample and trace a subset of incoming requests with
-        /// X-Ray.
+        /// Set Mode to Active to sample and trace a subset of incoming requests with X-Ray.
         public let tracingConfig: TracingConfig?
         /// For network connectivity to Amazon Web Services resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can access resources and the internet only through that VPC. For more information, see Configuring a Lambda function to access resources in a VPC.
         public let vpcConfig: VpcConfig?
@@ -6277,7 +6264,7 @@ extension Lambda {
         public let cors: Cors?
         /// The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
-        /// Use one of the following options:    BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results  are available when the payload is complete. The maximum payload size is 6 MB.    RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using  the InvokeWithResponseStream API operation. The maximum response payload size is 20 MB, however, you can request a quota increase.
+        /// Use one of the following options:    BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results are available when the payload is complete. The maximum payload size is 6 MB.    RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using the InvokeWithResponseStream API operation. The maximum response payload size is 200 MB.
         public let invokeMode: InvokeMode?
         /// The alias name.
         public let qualifier: String?
@@ -6329,7 +6316,7 @@ extension Lambda {
         public let functionArn: String
         /// The HTTP URL endpoint for your function.
         public let functionUrl: String
-        /// Use one of the following options:    BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results  are available when the payload is complete. The maximum payload size is 6 MB.    RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using  the InvokeWithResponseStream API operation. The maximum response payload size is 20 MB, however, you can request a quota increase.
+        /// Use one of the following options:    BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results are available when the payload is complete. The maximum payload size is 6 MB.    RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using the InvokeWithResponseStream API operation. The maximum response payload size is 200 MB.
         public let invokeMode: InvokeMode?
         /// When the function URL configuration was last updated, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
         public let lastModifiedTime: String

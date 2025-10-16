@@ -1090,7 +1090,7 @@ public struct Lightsail: AWSService {
         return try await self.createKeyPair(input, logger: logger)
     }
 
-    /// Creates a Lightsail load balancer. To learn more about deciding whether to load balance your application, see Configure your Lightsail instances for load balancing. You can create up to 5 load balancers per AWS Region in your account. When you create a load balancer, you can specify a unique name and port settings. To change additional load balancer settings, use the UpdateLoadBalancerAttribute operation. The create load balancer operation supports tag-based access control via request tags. For more information, see the Amazon Lightsail Developer Guide.
+    /// Creates a Lightsail load balancer. To learn more about deciding whether to load balance your application, see Configure your Lightsail instances for load balancing. You can create up to 10 load balancers per AWS Region in your account. When you create a load balancer, you can specify a unique name and port settings. To change additional load balancer settings, use the UpdateLoadBalancerAttribute operation. The create load balancer operation supports tag-based access control via request tags. For more information, see the Amazon Lightsail Developer Guide.
     @Sendable
     @inlinable
     public func createLoadBalancer(_ input: CreateLoadBalancerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLoadBalancerResult {
@@ -1103,7 +1103,7 @@ public struct Lightsail: AWSService {
             logger: logger
         )
     }
-    /// Creates a Lightsail load balancer. To learn more about deciding whether to load balance your application, see Configure your Lightsail instances for load balancing. You can create up to 5 load balancers per AWS Region in your account. When you create a load balancer, you can specify a unique name and port settings. To change additional load balancer settings, use the UpdateLoadBalancerAttribute operation. The create load balancer operation supports tag-based access control via request tags. For more information, see the Amazon Lightsail Developer Guide.
+    /// Creates a Lightsail load balancer. To learn more about deciding whether to load balance your application, see Configure your Lightsail instances for load balancing. You can create up to 10 load balancers per AWS Region in your account. When you create a load balancer, you can specify a unique name and port settings. To change additional load balancer settings, use the UpdateLoadBalancerAttribute operation. The create load balancer operation supports tag-based access control via request tags. For more information, see the Amazon Lightsail Developer Guide.
     ///
     /// Parameters:
     ///   - certificateAlternativeNames: The optional alternative domains and subdomains to use with your SSL/TLS certificate (www.example.com, example.com, m.example.com, blog.example.com).
@@ -1337,7 +1337,7 @@ public struct Lightsail: AWSService {
     public func deleteAlarm(_ input: DeleteAlarmRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAlarmResult {
         try await self.client.execute(
             operation: "DeleteAlarm", 
-            path: "/ls/api/2016-11-28/DeleteAlarm", 
+            path: "/ls/api/2016-11-28/DeleteAlarm/{alarmName}", 
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
@@ -2465,18 +2465,21 @@ public struct Lightsail: AWSService {
     /// Parameters:
     ///   - bucketName: The name of the bucket for which to return information. When omitted, the response includes all of your buckets in the Amazon Web Services Region where the request is made.
     ///   - includeConnectedResources: A Boolean value that indicates whether to include Lightsail instances that were given access to the bucket using the SetResourceAccessForBucket action.
+    ///   - includeCors: A Boolean value that indicates whether to include Lightsail bucket CORS configuration in the response. For more information, see Configuring cross-origin resource sharing (CORS).  This parameter is only supported when getting a single bucket with bucketName specified. The default value for this parameter is False.
     ///   - pageToken: The token to advance to the next page of results from your request. To get a page token, perform an initial GetBuckets request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
     ///   - logger: Logger use during operation
     @inlinable
     public func getBuckets(
         bucketName: String? = nil,
         includeConnectedResources: Bool? = nil,
+        includeCors: Bool? = nil,
         pageToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetBucketsResult {
         let input = GetBucketsRequest(
             bucketName: bucketName, 
             includeConnectedResources: includeConnectedResources, 
+            includeCors: includeCors, 
             pageToken: pageToken
         )
         return try await self.getBuckets(input, logger: logger)
@@ -5016,7 +5019,7 @@ public struct Lightsail: AWSService {
     public func testAlarm(_ input: TestAlarmRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TestAlarmResult {
         try await self.client.execute(
             operation: "TestAlarm", 
-            path: "/ls/api/2016-11-28/TestAlarm", 
+            path: "/ls/api/2016-11-28/TestAlarm/{alarmName}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -5122,6 +5125,7 @@ public struct Lightsail: AWSService {
     ///   - accessLogConfig: An object that describes the access log configuration for the bucket.
     ///   - accessRules: An object that sets the public accessibility of objects in the specified bucket.
     ///   - bucketName: The name of the bucket to update.
+    ///   - cors: Sets the cross-origin resource sharing (CORS) configuration for your bucket. If a CORS configuration exists, it is replaced with the specified configuration. For AWS CLI operations, this parameter can also be passed as a file. For more information, see Configuring cross-origin resource sharing (CORS).  CORS information is only returned in a response when you update the CORS policy.
     ///   - readonlyAccessAccounts: An array of strings to specify the Amazon Web Services account IDs that can access the bucket. You can give a maximum of 10 Amazon Web Services accounts access to a bucket.
     ///   - versioning: Specifies whether to enable or suspend versioning of objects in the bucket. The following options can be specified:    Enabled - Enables versioning of objects in the specified bucket.    Suspended - Suspends versioning of objects in the specified bucket. Existing object versions are retained.
     ///   - logger: Logger use during operation
@@ -5130,6 +5134,7 @@ public struct Lightsail: AWSService {
         accessLogConfig: BucketAccessLogConfig? = nil,
         accessRules: AccessRules? = nil,
         bucketName: String,
+        cors: BucketCorsConfig? = nil,
         readonlyAccessAccounts: [String]? = nil,
         versioning: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -5138,6 +5143,7 @@ public struct Lightsail: AWSService {
             accessLogConfig: accessLogConfig, 
             accessRules: accessRules, 
             bucketName: bucketName, 
+            cors: cors, 
             readonlyAccessAccounts: readonlyAccessAccounts, 
             versioning: versioning
         )

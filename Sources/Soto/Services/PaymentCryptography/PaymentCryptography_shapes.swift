@@ -71,6 +71,7 @@ extension PaymentCryptography {
         case ansiX924 = "ANSI_X9_24"
         case cmac = "CMAC"
         case hmac = "HMAC"
+        case sha1 = "SHA_1"
         public var description: String { return self.rawValue }
     }
 
@@ -117,6 +118,14 @@ extension PaymentCryptography {
         public var description: String { return self.rawValue }
     }
 
+    public enum KeyReplicationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case synchronized = "SYNCHRONIZED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum KeyState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createComplete = "CREATE_COMPLETE"
         case createInProgress = "CREATE_IN_PROGRESS"
@@ -149,6 +158,20 @@ extension PaymentCryptography {
         case tr31S0AsymmetricKeyForDigitalSignature = "TR31_S0_ASYMMETRIC_KEY_FOR_DIGITAL_SIGNATURE"
         case tr31V1Ibm3624PinVerificationKey = "TR31_V1_IBM3624_PIN_VERIFICATION_KEY"
         case tr31V2VisaPinVerificationKey = "TR31_V2_VISA_PIN_VERIFICATION_KEY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MultiRegionKeyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case primary = "PRIMARY"
+        case replica = "REPLICA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SigningAlgorithmType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case sha224 = "SHA224"
+        case sha256 = "SHA256"
+        case sha384 = "SHA384"
+        case sha512 = "SHA512"
         public var description: String { return self.rawValue }
     }
 
@@ -289,6 +312,47 @@ extension PaymentCryptography {
 
     // MARK: Shapes
 
+    public struct AddKeyReplicationRegionsInput: AWSEncodableShape {
+        /// The key identifier (ARN or alias) of the key for which to add replication regions. This key must exist and be in a valid state for replication operations.
+        public let keyIdentifier: String
+        /// The list of Amazon Web Services Regions to add to the key's replication configuration. Each region must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available. The key will be replicated to these regions, allowing cryptographic operations to be performed closer to your applications.
+        public let replicationRegions: [String]
+
+        @inlinable
+        public init(keyIdentifier: String, replicationRegions: [String]) {
+            self.keyIdentifier = keyIdentifier
+            self.replicationRegions = replicationRegions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, max: 322)
+            try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, min: 7)
+            try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
+            try self.replicationRegions.forEach {
+                try validate($0, name: "replicationRegions[]", parent: name, pattern: "^[a-z]{2}-[a-z]{1,16}-[0-9]+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyIdentifier = "KeyIdentifier"
+            case replicationRegions = "ReplicationRegions"
+        }
+    }
+
+    public struct AddKeyReplicationRegionsOutput: AWSDecodableShape {
+        /// The updated key metadata after adding the replication regions. This includes the current state of the key and its replication configuration.
+        public let key: Key
+
+        @inlinable
+        public init(key: Key) {
+            self.key = key
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+        }
+    }
+
     public struct Alias: AWSDecodableShape {
         /// A friendly name that you can use to refer to a key. The value must begin with alias/.  Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.
         public let aliasName: String
@@ -304,6 +368,44 @@ extension PaymentCryptography {
         private enum CodingKeys: String, CodingKey {
             case aliasName = "AliasName"
             case keyArn = "KeyArn"
+        }
+    }
+
+    public struct CertificateSubjectType: AWSEncodableShape {
+        /// City to be used in the certificate signing request
+        public let city: String?
+        /// Common Name to be used in the certificate signing request
+        public let commonName: String
+        /// Country to be used in the certificate signing request
+        public let country: String?
+        /// Email to be used in the certificate signing request
+        public let emailAddress: String?
+        /// Organization to be used in the certificate signing request
+        public let organization: String?
+        /// Organization Unit to be used in the certificate signing request
+        public let organizationUnit: String?
+        /// State Or Province to be used in the certificate signing request
+        public let stateOrProvince: String?
+
+        @inlinable
+        public init(city: String? = nil, commonName: String, country: String? = nil, emailAddress: String? = nil, organization: String? = nil, organizationUnit: String? = nil, stateOrProvince: String? = nil) {
+            self.city = city
+            self.commonName = commonName
+            self.country = country
+            self.emailAddress = emailAddress
+            self.organization = organization
+            self.organizationUnit = organizationUnit
+            self.stateOrProvince = stateOrProvince
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case city = "City"
+            case commonName = "CommonName"
+            case country = "Country"
+            case emailAddress = "EmailAddress"
+            case organization = "Organization"
+            case organizationUnit = "OrganizationUnit"
+            case stateOrProvince = "StateOrProvince"
         }
     }
 
@@ -359,20 +461,25 @@ extension PaymentCryptography {
         public let keyAttributes: KeyAttributes
         /// The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV). It is used to validate the key integrity. For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of zero and retaining the 3 highest order bytes of the encrypted result.
         public let keyCheckValueAlgorithm: KeyCheckValueAlgorithm?
+        public let replicationRegions: [String]?
         /// Assigns one or more tags to the Amazon Web Services Payment Cryptography key. Use this parameter to tag a key when it is created. To tag an existing Amazon Web Services Payment Cryptography key, use the TagResource operation. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You can't have more than one tag on an Amazon Web Services Payment Cryptography key with the same tag key.   Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.   Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key.
         public let tags: [Tag]?
 
         @inlinable
-        public init(deriveKeyUsage: DeriveKeyUsage? = nil, enabled: Bool? = nil, exportable: Bool, keyAttributes: KeyAttributes, keyCheckValueAlgorithm: KeyCheckValueAlgorithm? = nil, tags: [Tag]? = nil) {
+        public init(deriveKeyUsage: DeriveKeyUsage? = nil, enabled: Bool? = nil, exportable: Bool, keyAttributes: KeyAttributes, keyCheckValueAlgorithm: KeyCheckValueAlgorithm? = nil, replicationRegions: [String]? = nil, tags: [Tag]? = nil) {
             self.deriveKeyUsage = deriveKeyUsage
             self.enabled = enabled
             self.exportable = exportable
             self.keyAttributes = keyAttributes
             self.keyCheckValueAlgorithm = keyCheckValueAlgorithm
+            self.replicationRegions = replicationRegions
             self.tags = tags
         }
 
         public func validate(name: String) throws {
+            try self.replicationRegions?.forEach {
+                try validate($0, name: "replicationRegions[]", parent: name, pattern: "^[a-z]{2}-[a-z]{1,16}-[0-9]+$")
+            }
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -385,6 +492,7 @@ extension PaymentCryptography {
             case exportable = "Exportable"
             case keyAttributes = "KeyAttributes"
             case keyCheckValueAlgorithm = "KeyCheckValueAlgorithm"
+            case replicationRegions = "ReplicationRegions"
             case tags = "Tags"
         }
     }
@@ -462,6 +570,74 @@ extension PaymentCryptography {
 
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
+        }
+    }
+
+    public struct DisableDefaultKeyReplicationRegionsInput: AWSEncodableShape {
+        /// The list of Amazon Web Services Regions to remove from the account's default replication regions. New keys created after this operation will not automatically be replicated to these regions, though existing keys with replication to these regions will be unaffected.
+        public let replicationRegions: [String]
+
+        @inlinable
+        public init(replicationRegions: [String]) {
+            self.replicationRegions = replicationRegions
+        }
+
+        public func validate(name: String) throws {
+            try self.replicationRegions.forEach {
+                try validate($0, name: "replicationRegions[]", parent: name, pattern: "^[a-z]{2}-[a-z]{1,16}-[0-9]+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationRegions = "ReplicationRegions"
+        }
+    }
+
+    public struct DisableDefaultKeyReplicationRegionsOutput: AWSDecodableShape {
+        /// The remaining list of regions where default key replication is still enabled for the account. This reflects the account's default replication configuration after removing the specified regions.
+        public let enabledReplicationRegions: [String]
+
+        @inlinable
+        public init(enabledReplicationRegions: [String]) {
+            self.enabledReplicationRegions = enabledReplicationRegions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabledReplicationRegions = "EnabledReplicationRegions"
+        }
+    }
+
+    public struct EnableDefaultKeyReplicationRegionsInput: AWSEncodableShape {
+        /// The list of Amazon Web Services Regions to enable as default replication regions for the account. New keys created in this account will automatically be replicated to these regions unless explicitly overridden during key creation.
+        public let replicationRegions: [String]
+
+        @inlinable
+        public init(replicationRegions: [String]) {
+            self.replicationRegions = replicationRegions
+        }
+
+        public func validate(name: String) throws {
+            try self.replicationRegions.forEach {
+                try validate($0, name: "replicationRegions[]", parent: name, pattern: "^[a-z]{2}-[a-z]{1,16}-[0-9]+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationRegions = "ReplicationRegions"
+        }
+    }
+
+    public struct EnableDefaultKeyReplicationRegionsOutput: AWSDecodableShape {
+        /// The complete list of regions where default key replication is now enabled for the account. This includes both previously enabled regions and the newly added regions from this operation.
+        public let enabledReplicationRegions: [String]
+
+        @inlinable
+        public init(enabledReplicationRegions: [String]) {
+            self.enabledReplicationRegions = enabledReplicationRegions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabledReplicationRegions = "EnabledReplicationRegions"
         }
     }
 
@@ -666,23 +842,29 @@ extension PaymentCryptography {
         /// The KeyARN of the certificate chain that signs the wrapping key certificate during TR-34 key export.
         public let certificateAuthorityPublicKeyIdentifier: String
         /// The export token to initiate key export from Amazon Web Services Payment Cryptography. It also contains the signing key certificate that will sign the wrapped key during TR-34 key block generation. Call GetParametersForExport to receive an export token. It expires after 30 days. You can use the same export token to export multiple keys from the same service account.
-        public let exportToken: String
+        public let exportToken: String?
         /// The format of key block that Amazon Web Services Payment Cryptography will use during key export.
         public let keyBlockFormat: Tr34KeyBlockFormat
         /// Optional metadata for export associated with the key material. This data is signed but transmitted in clear text.
         public let keyBlockHeaders: KeyBlockHeaders?
         /// A random number value that is unique to the TR-34 key block generated using 2 pass. The operation will fail, if a random nonce value is not provided for a TR-34 key block generated using 2 pass.
         public let randomNonce: String?
+        /// Certificate used for signing the export key
+        public let signingKeyCertificate: String?
+        /// Key Identifier used for signing the export key
+        public let signingKeyIdentifier: String?
         /// The KeyARN of the wrapping key certificate. Amazon Web Services Payment Cryptography uses this certificate to wrap the key under export.
         public let wrappingKeyCertificate: String
 
         @inlinable
-        public init(certificateAuthorityPublicKeyIdentifier: String, exportToken: String, keyBlockFormat: Tr34KeyBlockFormat, keyBlockHeaders: KeyBlockHeaders? = nil, randomNonce: String? = nil, wrappingKeyCertificate: String) {
+        public init(certificateAuthorityPublicKeyIdentifier: String, exportToken: String? = nil, keyBlockFormat: Tr34KeyBlockFormat, keyBlockHeaders: KeyBlockHeaders? = nil, randomNonce: String? = nil, signingKeyCertificate: String? = nil, signingKeyIdentifier: String? = nil, wrappingKeyCertificate: String) {
             self.certificateAuthorityPublicKeyIdentifier = certificateAuthorityPublicKeyIdentifier
             self.exportToken = exportToken
             self.keyBlockFormat = keyBlockFormat
             self.keyBlockHeaders = keyBlockHeaders
             self.randomNonce = randomNonce
+            self.signingKeyCertificate = signingKeyCertificate
+            self.signingKeyIdentifier = signingKeyIdentifier
             self.wrappingKeyCertificate = wrappingKeyCertificate
         }
 
@@ -690,11 +872,17 @@ extension PaymentCryptography {
             try self.validate(self.certificateAuthorityPublicKeyIdentifier, name: "certificateAuthorityPublicKeyIdentifier", parent: name, max: 322)
             try self.validate(self.certificateAuthorityPublicKeyIdentifier, name: "certificateAuthorityPublicKeyIdentifier", parent: name, min: 7)
             try self.validate(self.certificateAuthorityPublicKeyIdentifier, name: "certificateAuthorityPublicKeyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
-            try self.validate(self.exportToken, name: "exportToken", parent: name, pattern: "^export-token-[0-9a-zA-Z]{16,64}$")
+            try self.validate(self.exportToken, name: "exportToken", parent: name, pattern: "^(export-token-[0-9a-zA-Z]{16,64})?$")
             try self.keyBlockHeaders?.validate(name: "\(name).keyBlockHeaders")
             try self.validate(self.randomNonce, name: "randomNonce", parent: name, max: 32)
             try self.validate(self.randomNonce, name: "randomNonce", parent: name, min: 16)
             try self.validate(self.randomNonce, name: "randomNonce", parent: name, pattern: "^(?:[0-9a-fA-F][0-9a-fA-F])+$")
+            try self.validate(self.signingKeyCertificate, name: "signingKeyCertificate", parent: name, max: 32768)
+            try self.validate(self.signingKeyCertificate, name: "signingKeyCertificate", parent: name, min: 1)
+            try self.validate(self.signingKeyCertificate, name: "signingKeyCertificate", parent: name, pattern: "^[^\\[;\\]<>]+$")
+            try self.validate(self.signingKeyIdentifier, name: "signingKeyIdentifier", parent: name, max: 322)
+            try self.validate(self.signingKeyIdentifier, name: "signingKeyIdentifier", parent: name, min: 7)
+            try self.validate(self.signingKeyIdentifier, name: "signingKeyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
             try self.validate(self.wrappingKeyCertificate, name: "wrappingKeyCertificate", parent: name, max: 32768)
             try self.validate(self.wrappingKeyCertificate, name: "wrappingKeyCertificate", parent: name, min: 1)
             try self.validate(self.wrappingKeyCertificate, name: "wrappingKeyCertificate", parent: name, pattern: "^[^\\[;\\]<>]+$")
@@ -706,6 +894,8 @@ extension PaymentCryptography {
             case keyBlockFormat = "KeyBlockFormat"
             case keyBlockHeaders = "KeyBlockHeaders"
             case randomNonce = "RandomNonce"
+            case signingKeyCertificate = "SigningKeyCertificate"
+            case signingKeyIdentifier = "SigningKeyIdentifier"
             case wrappingKeyCertificate = "WrappingKeyCertificate"
         }
     }
@@ -744,6 +934,66 @@ extension PaymentCryptography {
         }
     }
 
+    public struct GetCertificateSigningRequestInput: AWSEncodableShape {
+        /// Certificate subject data
+        public let certificateSubject: CertificateSubjectType
+        /// Asymmetric key used for generating the certificate signing request
+        public let keyIdentifier: String
+        /// Algorithm used to generate the certificate signing request
+        public let signingAlgorithm: SigningAlgorithmType
+
+        @inlinable
+        public init(certificateSubject: CertificateSubjectType, keyIdentifier: String, signingAlgorithm: SigningAlgorithmType) {
+            self.certificateSubject = certificateSubject
+            self.keyIdentifier = keyIdentifier
+            self.signingAlgorithm = signingAlgorithm
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, max: 322)
+            try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, min: 7)
+            try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateSubject = "CertificateSubject"
+            case keyIdentifier = "KeyIdentifier"
+            case signingAlgorithm = "SigningAlgorithm"
+        }
+    }
+
+    public struct GetCertificateSigningRequestOutput: AWSDecodableShape {
+        /// Certificate signing request
+        public let certificateSigningRequest: String
+
+        @inlinable
+        public init(certificateSigningRequest: String) {
+            self.certificateSigningRequest = certificateSigningRequest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateSigningRequest = "CertificateSigningRequest"
+        }
+    }
+
+    public struct GetDefaultKeyReplicationRegionsInput: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetDefaultKeyReplicationRegionsOutput: AWSDecodableShape {
+        /// The list of regions where default key replication is currently enabled for the account. New keys created in this account will automatically be replicated to these regions unless explicitly configured otherwise during key creation.
+        public let enabledReplicationRegions: [String]
+
+        @inlinable
+        public init(enabledReplicationRegions: [String]) {
+            self.enabledReplicationRegions = enabledReplicationRegions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabledReplicationRegions = "EnabledReplicationRegions"
+        }
+    }
+
     public struct GetKeyInput: AWSEncodableShape {
         /// The KeyARN of the Amazon Web Services Payment Cryptography key.
         public let keyIdentifier: String
@@ -765,7 +1015,7 @@ extension PaymentCryptography {
     }
 
     public struct GetKeyOutput: AWSDecodableShape {
-        /// The key material, including the immutable and mutable data for the key.
+        /// Contains the key metadata, including both immutable and mutable attributes for the key, but does not include actual cryptographic key material.
         public let key: Key
 
         @inlinable
@@ -955,7 +1205,7 @@ extension PaymentCryptography {
             try self.validate(self.publicKeyCertificate, name: "publicKeyCertificate", parent: name, pattern: "^[^\\[;\\]<>]+$")
             try self.validate(self.wrappedKeyBlock, name: "wrappedKeyBlock", parent: name, max: 9984)
             try self.validate(self.wrappedKeyBlock, name: "wrappedKeyBlock", parent: name, min: 56)
-            try self.validate(self.wrappedKeyBlock, name: "wrappedKeyBlock", parent: name, pattern: "^[0-9A-Z]+$")
+            try self.validate(self.wrappedKeyBlock, name: "wrappedKeyBlock", parent: name, pattern: "^[0-9a-zA-Z]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -991,7 +1241,7 @@ extension PaymentCryptography {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.importToken, name: "importToken", parent: name, pattern: "^import-token-[0-9a-zA-Z]{16,64}$")
+            try self.validate(self.importToken, name: "importToken", parent: name, pattern: "^(import-token-[0-9a-zA-Z]{16,64})?$")
             try self.validate(self.wrappedKeyCryptogram, name: "wrappedKeyCryptogram", parent: name, max: 4096)
             try self.validate(self.wrappedKeyCryptogram, name: "wrappedKeyCryptogram", parent: name, min: 16)
             try self.validate(self.wrappedKeyCryptogram, name: "wrappedKeyCryptogram", parent: name, pattern: "^[0-9A-F]+$")
@@ -1013,19 +1263,24 @@ extension PaymentCryptography {
         public let keyCheckValueAlgorithm: KeyCheckValueAlgorithm?
         /// The key or public key certificate type to use during key material import, for example TR-34 or RootCertificatePublicKey.
         public let keyMaterial: ImportKeyMaterial
+        public let replicationRegions: [String]?
         /// Assigns one or more tags to the Amazon Web Services Payment Cryptography key. Use this parameter to tag a key when it is imported. To tag an existing Amazon Web Services Payment Cryptography key, use the TagResource operation. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You can't have more than one tag on an Amazon Web Services Payment Cryptography key with the same tag key. If you specify an existing tag key with a different tag value, Amazon Web Services Payment Cryptography replaces the current tag value with the specified one.  Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.   Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key.
         public let tags: [Tag]?
 
         @inlinable
-        public init(enabled: Bool? = nil, keyCheckValueAlgorithm: KeyCheckValueAlgorithm? = nil, keyMaterial: ImportKeyMaterial, tags: [Tag]? = nil) {
+        public init(enabled: Bool? = nil, keyCheckValueAlgorithm: KeyCheckValueAlgorithm? = nil, keyMaterial: ImportKeyMaterial, replicationRegions: [String]? = nil, tags: [Tag]? = nil) {
             self.enabled = enabled
             self.keyCheckValueAlgorithm = keyCheckValueAlgorithm
             self.keyMaterial = keyMaterial
+            self.replicationRegions = replicationRegions
             self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.keyMaterial.validate(name: "\(name).keyMaterial")
+            try self.replicationRegions?.forEach {
+                try validate($0, name: "replicationRegions[]", parent: name, pattern: "^[a-z]{2}-[a-z]{1,16}-[0-9]+$")
+            }
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1036,6 +1291,7 @@ extension PaymentCryptography {
             case enabled = "Enabled"
             case keyCheckValueAlgorithm = "KeyCheckValueAlgorithm"
             case keyMaterial = "KeyMaterial"
+            case replicationRegions = "ReplicationRegions"
             case tags = "Tags"
         }
     }
@@ -1069,7 +1325,7 @@ extension PaymentCryptography {
         public func validate(name: String) throws {
             try self.validate(self.wrappedKeyBlock, name: "wrappedKeyBlock", parent: name, max: 9984)
             try self.validate(self.wrappedKeyBlock, name: "wrappedKeyBlock", parent: name, min: 56)
-            try self.validate(self.wrappedKeyBlock, name: "wrappedKeyBlock", parent: name, pattern: "^[0-9A-Z]+$")
+            try self.validate(self.wrappedKeyBlock, name: "wrappedKeyBlock", parent: name, pattern: "^[0-9a-zA-Z]+$")
             try self.validate(self.wrappingKeyIdentifier, name: "wrappingKeyIdentifier", parent: name, max: 322)
             try self.validate(self.wrappingKeyIdentifier, name: "wrappingKeyIdentifier", parent: name, min: 7)
             try self.validate(self.wrappingKeyIdentifier, name: "wrappingKeyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
@@ -1085,7 +1341,7 @@ extension PaymentCryptography {
         /// The KeyARN of the certificate chain that signs the signing key certificate during TR-34 key import.
         public let certificateAuthorityPublicKeyIdentifier: String
         /// The import token that initiates key import using the asymmetric TR-34 key exchange method into Amazon Web Services Payment Cryptography. It expires after 30 days. You can use the same import token to import multiple keys to the same service account.
-        public let importToken: String
+        public let importToken: String?
         /// The key block format to use during key import. The only value allowed is X9_TR34_2012.
         public let keyBlockFormat: Tr34KeyBlockFormat
         /// A random number value that is unique to the TR-34 key block generated using 2 pass. The operation will fail, if a random nonce value is not provided for a TR-34 key block generated using 2 pass.
@@ -1094,22 +1350,28 @@ extension PaymentCryptography {
         public let signingKeyCertificate: String
         /// The TR-34 wrapped key block to import.
         public let wrappedKeyBlock: String
+        /// Key Identifier used for unwrapping the import key
+        public let wrappingKeyCertificate: String?
+        /// Key Identifier used for unwrapping the import key
+        public let wrappingKeyIdentifier: String?
 
         @inlinable
-        public init(certificateAuthorityPublicKeyIdentifier: String, importToken: String, keyBlockFormat: Tr34KeyBlockFormat, randomNonce: String? = nil, signingKeyCertificate: String, wrappedKeyBlock: String) {
+        public init(certificateAuthorityPublicKeyIdentifier: String, importToken: String? = nil, keyBlockFormat: Tr34KeyBlockFormat, randomNonce: String? = nil, signingKeyCertificate: String, wrappedKeyBlock: String, wrappingKeyCertificate: String? = nil, wrappingKeyIdentifier: String? = nil) {
             self.certificateAuthorityPublicKeyIdentifier = certificateAuthorityPublicKeyIdentifier
             self.importToken = importToken
             self.keyBlockFormat = keyBlockFormat
             self.randomNonce = randomNonce
             self.signingKeyCertificate = signingKeyCertificate
             self.wrappedKeyBlock = wrappedKeyBlock
+            self.wrappingKeyCertificate = wrappingKeyCertificate
+            self.wrappingKeyIdentifier = wrappingKeyIdentifier
         }
 
         public func validate(name: String) throws {
             try self.validate(self.certificateAuthorityPublicKeyIdentifier, name: "certificateAuthorityPublicKeyIdentifier", parent: name, max: 322)
             try self.validate(self.certificateAuthorityPublicKeyIdentifier, name: "certificateAuthorityPublicKeyIdentifier", parent: name, min: 7)
             try self.validate(self.certificateAuthorityPublicKeyIdentifier, name: "certificateAuthorityPublicKeyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
-            try self.validate(self.importToken, name: "importToken", parent: name, pattern: "^import-token-[0-9a-zA-Z]{16,64}$")
+            try self.validate(self.importToken, name: "importToken", parent: name, pattern: "^(import-token-[0-9a-zA-Z]{16,64})?$")
             try self.validate(self.randomNonce, name: "randomNonce", parent: name, max: 32)
             try self.validate(self.randomNonce, name: "randomNonce", parent: name, min: 16)
             try self.validate(self.randomNonce, name: "randomNonce", parent: name, pattern: "^(?:[0-9a-fA-F][0-9a-fA-F])+$")
@@ -1119,6 +1381,12 @@ extension PaymentCryptography {
             try self.validate(self.wrappedKeyBlock, name: "wrappedKeyBlock", parent: name, max: 4096)
             try self.validate(self.wrappedKeyBlock, name: "wrappedKeyBlock", parent: name, min: 2)
             try self.validate(self.wrappedKeyBlock, name: "wrappedKeyBlock", parent: name, pattern: "^[0-9A-F]+$")
+            try self.validate(self.wrappingKeyCertificate, name: "wrappingKeyCertificate", parent: name, max: 32768)
+            try self.validate(self.wrappingKeyCertificate, name: "wrappingKeyCertificate", parent: name, min: 1)
+            try self.validate(self.wrappingKeyCertificate, name: "wrappingKeyCertificate", parent: name, pattern: "^[^\\[;\\]<>]+$")
+            try self.validate(self.wrappingKeyIdentifier, name: "wrappingKeyIdentifier", parent: name, max: 322)
+            try self.validate(self.wrappingKeyIdentifier, name: "wrappingKeyIdentifier", parent: name, min: 7)
+            try self.validate(self.wrappingKeyIdentifier, name: "wrappingKeyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1128,6 +1396,8 @@ extension PaymentCryptography {
             case randomNonce = "RandomNonce"
             case signingKeyCertificate = "SigningKeyCertificate"
             case wrappedKeyBlock = "WrappedKeyBlock"
+            case wrappingKeyCertificate = "WrappingKeyCertificate"
+            case wrappingKeyIdentifier = "WrappingKeyIdentifier"
         }
     }
 
@@ -1156,13 +1426,20 @@ extension PaymentCryptography {
         public let keyOrigin: KeyOrigin
         /// The state of key that is being created or deleted.
         public let keyState: KeyState
+        /// Indicates whether this key is a multi-region key and its role in the multi-region key hierarchy. Multi-region keys allow the same key material to be used across multiple Amazon Web Services Regions. This field specifies whether the key is a primary key (which can be replicated to other regions) or a replica key (which is a copy of a primary key in another region).
+        public let multiRegionKeyType: MultiRegionKeyType?
+        public let primaryRegion: String?
+        /// Information about the replication status of the key across different regions. This field provides details about the current state of key replication, including any status messages or operational information. It helps track the progress and health of key replication operations.
+        public let replicationStatus: [String: ReplicationStatusType]?
         /// The date and time after which Amazon Web Services Payment Cryptography will start using the key material for cryptographic operations.
         public let usageStartTimestamp: Date?
         /// The date and time after which Amazon Web Services Payment Cryptography will stop using the key material for cryptographic operations.
         public let usageStopTimestamp: Date?
+        /// Indicates whether this key is using the account's default replication regions configuration. When set to true, the key automatically replicates to the regions specified in the account's default replication settings. When set to false, the key has a custom replication configuration that overrides the account defaults.
+        public let usingDefaultReplicationRegions: Bool?
 
         @inlinable
-        public init(createTimestamp: Date, deletePendingTimestamp: Date? = nil, deleteTimestamp: Date? = nil, deriveKeyUsage: DeriveKeyUsage? = nil, enabled: Bool, exportable: Bool, keyArn: String, keyAttributes: KeyAttributes, keyCheckValue: String, keyCheckValueAlgorithm: KeyCheckValueAlgorithm, keyOrigin: KeyOrigin, keyState: KeyState, usageStartTimestamp: Date? = nil, usageStopTimestamp: Date? = nil) {
+        public init(createTimestamp: Date, deletePendingTimestamp: Date? = nil, deleteTimestamp: Date? = nil, deriveKeyUsage: DeriveKeyUsage? = nil, enabled: Bool, exportable: Bool, keyArn: String, keyAttributes: KeyAttributes, keyCheckValue: String, keyCheckValueAlgorithm: KeyCheckValueAlgorithm, keyOrigin: KeyOrigin, keyState: KeyState, multiRegionKeyType: MultiRegionKeyType? = nil, primaryRegion: String? = nil, replicationStatus: [String: ReplicationStatusType]? = nil, usageStartTimestamp: Date? = nil, usageStopTimestamp: Date? = nil, usingDefaultReplicationRegions: Bool? = nil) {
             self.createTimestamp = createTimestamp
             self.deletePendingTimestamp = deletePendingTimestamp
             self.deleteTimestamp = deleteTimestamp
@@ -1175,8 +1452,12 @@ extension PaymentCryptography {
             self.keyCheckValueAlgorithm = keyCheckValueAlgorithm
             self.keyOrigin = keyOrigin
             self.keyState = keyState
+            self.multiRegionKeyType = multiRegionKeyType
+            self.primaryRegion = primaryRegion
+            self.replicationStatus = replicationStatus
             self.usageStartTimestamp = usageStartTimestamp
             self.usageStopTimestamp = usageStopTimestamp
+            self.usingDefaultReplicationRegions = usingDefaultReplicationRegions
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1192,8 +1473,12 @@ extension PaymentCryptography {
             case keyCheckValueAlgorithm = "KeyCheckValueAlgorithm"
             case keyOrigin = "KeyOrigin"
             case keyState = "KeyState"
+            case multiRegionKeyType = "MultiRegionKeyType"
+            case primaryRegion = "PrimaryRegion"
+            case replicationStatus = "ReplicationStatus"
             case usageStartTimestamp = "UsageStartTimestamp"
             case usageStopTimestamp = "UsageStopTimestamp"
+            case usingDefaultReplicationRegions = "UsingDefaultReplicationRegions"
         }
     }
 
@@ -1250,7 +1535,7 @@ extension PaymentCryptography {
                 try validate($0.key, name: "optionalBlocks.key", parent: name, pattern: "^[0-9A-Z]{2}+$")
                 try validate($0.value, name: "optionalBlocks[\"\($0.key)\"]", parent: name, max: 108)
                 try validate($0.value, name: "optionalBlocks[\"\($0.key)\"]", parent: name, min: 1)
-                try validate($0.value, name: "optionalBlocks[\"\($0.key)\"]", parent: name, pattern: "^[0-9A-Z]+$")
+                try validate($0.value, name: "optionalBlocks[\"\($0.key)\"]", parent: name, pattern: "^[0-9a-zA-Z]+$")
             }
         }
 
@@ -1321,15 +1606,20 @@ extension PaymentCryptography {
         public let keyCheckValue: String
         /// The state of an Amazon Web Services Payment Cryptography that is being created or deleted.
         public let keyState: KeyState
+        /// Indicates whether this key is a multi-region key and its role in the multi-region key hierarchy. Multi-region keys allow the same key material to be used across multiple Amazon Web Services Regions. This field specifies whether the key is a primary key (which can be replicated to other regions) or a replica key (which is a copy of a primary key in another region).
+        public let multiRegionKeyType: MultiRegionKeyType?
+        public let primaryRegion: String?
 
         @inlinable
-        public init(enabled: Bool, exportable: Bool, keyArn: String, keyAttributes: KeyAttributes, keyCheckValue: String, keyState: KeyState) {
+        public init(enabled: Bool, exportable: Bool, keyArn: String, keyAttributes: KeyAttributes, keyCheckValue: String, keyState: KeyState, multiRegionKeyType: MultiRegionKeyType? = nil, primaryRegion: String? = nil) {
             self.enabled = enabled
             self.exportable = exportable
             self.keyArn = keyArn
             self.keyAttributes = keyAttributes
             self.keyCheckValue = keyCheckValue
             self.keyState = keyState
+            self.multiRegionKeyType = multiRegionKeyType
+            self.primaryRegion = primaryRegion
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1339,6 +1629,8 @@ extension PaymentCryptography {
             case keyAttributes = "KeyAttributes"
             case keyCheckValue = "KeyCheckValue"
             case keyState = "KeyState"
+            case multiRegionKeyType = "MultiRegionKeyType"
+            case primaryRegion = "PrimaryRegion"
         }
     }
 
@@ -1489,8 +1781,67 @@ extension PaymentCryptography {
         }
     }
 
+    public struct RemoveKeyReplicationRegionsInput: AWSEncodableShape {
+        /// The key identifier (ARN or alias) of the key from which to remove replication regions. This key must exist and have replication enabled in the specified regions.
+        public let keyIdentifier: String
+        /// The list of Amazon Web Services Regions to remove from the key's replication configuration. The key will no longer be available for cryptographic operations in these regions after removal. Ensure no active operations depend on the key in these regions before removal.
+        public let replicationRegions: [String]
+
+        @inlinable
+        public init(keyIdentifier: String, replicationRegions: [String]) {
+            self.keyIdentifier = keyIdentifier
+            self.replicationRegions = replicationRegions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, max: 322)
+            try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, min: 7)
+            try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
+            try self.replicationRegions.forEach {
+                try validate($0, name: "replicationRegions[]", parent: name, pattern: "^[a-z]{2}-[a-z]{1,16}-[0-9]+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyIdentifier = "KeyIdentifier"
+            case replicationRegions = "ReplicationRegions"
+        }
+    }
+
+    public struct RemoveKeyReplicationRegionsOutput: AWSDecodableShape {
+        /// The updated key metadata after removing the replication regions. This reflects the current state of the key and its updated replication configuration.
+        public let key: Key
+
+        @inlinable
+        public init(key: Key) {
+            self.key = key
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+        }
+    }
+
+    public struct ReplicationStatusType: AWSDecodableShape {
+        /// The current status of key replication in this region. This field indicates whether the key replication is in progress, completed successfully, or has encountered an error. Possible values include states such as SYNCRHONIZED, IN_PROGRESS, DELETE_IN_PROGRESS, or FAILED. This provides visibility into the replication process for monitoring and troubleshooting purposes.
+        public let status: KeyReplicationState
+        /// A message that provides additional information about the current replication status of the key. This field contains details about any issues or progress updates related to key replication operations. It may include information about replication failures, synchronization status, or other operational details.
+        public let statusMessage: String?
+
+        @inlinable
+        public init(status: KeyReplicationState, statusMessage: String? = nil) {
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
     public struct ResourceNotFoundException: AWSErrorShape {
-        /// The string for the exception.
+        /// The identifier of the resource that was not found. This field contains the specific resource identifier (such as a key ARN or alias name) that could not be located.
         public let resourceId: String?
 
         @inlinable
@@ -1875,21 +2226,21 @@ public struct PaymentCryptographyErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You do not have sufficient access to perform this action.
+    /// You do not have sufficient access to perform this action. This exception is thrown when the caller lacks the necessary IAM permissions to perform the requested operation. Verify that your IAM policy includes the required permissions for the specific Amazon Web Services Payment Cryptography action you're attempting.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// This request can cause an inconsistent state for the resource.
+    /// This request can cause an inconsistent state for the resource. The requested operation conflicts with the current state of the resource. For example, attempting to delete a key that is currently being used, or trying to create a resource that already exists.
     public static var conflictException: Self { .init(.conflictException) }
-    /// The request processing has failed because of an unknown error, exception, or failure.
+    /// The request processing has failed because of an unknown error, exception, or failure. This indicates a server-side error within the Amazon Web Services Payment Cryptography service. If this error persists, contact support for assistance.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// The request was denied due to an invalid resource error.
+    /// The request was denied due to resource not found. The specified key, alias, or other resource does not exist in your account or region. Verify that the resource identifier is correct and that the resource exists in the expected region.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// This request would cause a service quota to be exceeded.
+    /// This request would cause a service quota to be exceeded. You have reached the maximum number of keys, aliases, or other resources allowed in your account. Review your current usage and consider deleting unused resources or requesting a quota increase.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
-    /// The service cannot complete the request.
+    /// The service cannot complete the request. The Amazon Web Services Payment Cryptography service is temporarily unavailable. This is typically a temporary condition - retry your request after a brief delay.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
-    /// The request was denied due to request throttling.
+    /// The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The request was denied due to an invalid request error.
+    /// The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public static var validationException: Self { .init(.validationException) }
 }
 

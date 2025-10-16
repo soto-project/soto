@@ -3654,6 +3654,32 @@ public struct IoT: AWSService {
         return try await self.describeDomainConfiguration(input, logger: logger)
     }
 
+    /// Retrieves the encryption configuration for resources and data of your Amazon Web Services account in Amazon Web Services IoT Core. For more information, see Key management in IoT from the Amazon Web Services IoT Core Developer Guide.
+    @Sendable
+    @inlinable
+    public func describeEncryptionConfiguration(_ input: DescribeEncryptionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEncryptionConfigurationResponse {
+        try await self.client.execute(
+            operation: "DescribeEncryptionConfiguration", 
+            path: "/encryption-configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the encryption configuration for resources and data of your Amazon Web Services account in Amazon Web Services IoT Core. For more information, see Key management in IoT from the Amazon Web Services IoT Core Developer Guide.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeEncryptionConfiguration(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeEncryptionConfigurationResponse {
+        let input = DescribeEncryptionConfigurationRequest(
+        )
+        return try await self.describeEncryptionConfiguration(input, logger: logger)
+    }
+
     /// Returns or creates a unique endpoint specific to the Amazon Web Services account making the call.  The first time DescribeEndpoint is called, an endpoint is created. All subsequent calls to DescribeEndpoint return the same endpoint.  Requires permission to access the DescribeEndpoint action.
     @Sendable
     @inlinable
@@ -8441,7 +8467,7 @@ public struct IoT: AWSService {
         return try await self.testInvokeAuthorizer(input, logger: logger)
     }
 
-    /// Transfers the specified certificate to the specified Amazon Web Services account. Requires permission to access the TransferCertificate action. You can cancel the transfer until it is acknowledged by the recipient. No notification is sent to the transfer destination's account. It is up to the caller to notify the transfer target. The certificate being transferred must not be in the ACTIVE state. You can use the UpdateCertificate action to deactivate it. The certificate must not have any policies attached to it. You can use the DetachPolicy action to detach them.
+    /// Transfers the specified certificate to the specified Amazon Web Services account. Requires permission to access the TransferCertificate action. You can cancel the transfer until it is acknowledged by the recipient. No notification is sent to the transfer destination's account. It's up to the caller to notify the transfer target. The certificate being transferred must not be in the ACTIVE state. You can use the UpdateCertificate action to deactivate it. The certificate must not have any policies attached to it. You can use the DetachPolicy action to detach them.  Customer managed key behavior: When you use a customer managed key to secure your data and then transfer the key to a customer in a different account using the TransferCertificate operation, the certificates will no longer be protected by their  customer managed key configuration. During the transfer process, certificates are encrypted using IoT owned keys. While a certificate is in the PENDING_TRANSFER state, it's always protected by IoT owned keys, regardless of the customer managed key configuration of either the source or destination account.  Once the transfer is completed through AcceptCertificateTransfer, RejectCertificateTransfer, or CancelCertificateTransfer, the certificate will be protected by the customer managed key configuration of the account that owns the certificate after the transfer operation:   If the transfer is accepted: The certificate is protected by the destination account's customer managed key configuration.   If the transfer is rejected or cancelled: The certificate is protected by the source account's customer managed key configuration.
     @Sendable
     @inlinable
     public func transferCertificate(_ input: TransferCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TransferCertificateResponse {
@@ -8454,7 +8480,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    /// Transfers the specified certificate to the specified Amazon Web Services account. Requires permission to access the TransferCertificate action. You can cancel the transfer until it is acknowledged by the recipient. No notification is sent to the transfer destination's account. It is up to the caller to notify the transfer target. The certificate being transferred must not be in the ACTIVE state. You can use the UpdateCertificate action to deactivate it. The certificate must not have any policies attached to it. You can use the DetachPolicy action to detach them.
+    /// Transfers the specified certificate to the specified Amazon Web Services account. Requires permission to access the TransferCertificate action. You can cancel the transfer until it is acknowledged by the recipient. No notification is sent to the transfer destination's account. It's up to the caller to notify the transfer target. The certificate being transferred must not be in the ACTIVE state. You can use the UpdateCertificate action to deactivate it. The certificate must not have any policies attached to it. You can use the DetachPolicy action to detach them.  Customer managed key behavior: When you use a customer managed key to secure your data and then transfer the key to a customer in a different account using the TransferCertificate operation, the certificates will no longer be protected by their  customer managed key configuration. During the transfer process, certificates are encrypted using IoT owned keys. While a certificate is in the PENDING_TRANSFER state, it's always protected by IoT owned keys, regardless of the customer managed key configuration of either the source or destination account.  Once the transfer is completed through AcceptCertificateTransfer, RejectCertificateTransfer, or CancelCertificateTransfer, the certificate will be protected by the customer managed key configuration of the account that owns the certificate after the transfer operation:   If the transfer is accepted: The certificate is protected by the destination account's customer managed key configuration.   If the transfer is rejected or cancelled: The certificate is protected by the source account's customer managed key configuration.
     ///
     /// Parameters:
     ///   - certificateId: The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
@@ -8968,6 +8994,41 @@ public struct IoT: AWSService {
             thingGroupProperties: thingGroupProperties
         )
         return try await self.updateDynamicThingGroup(input, logger: logger)
+    }
+
+    /// Updates the encryption configuration. By default, all Amazon Web Services IoT Core data at rest is encrypted using Amazon Web Services owned keys. Amazon Web Services IoT Core also supports symmetric customer managed keys from Amazon Web Services Key Management Service (KMS). With customer managed keys, you create, own, and manage the KMS keys in your Amazon Web Services account. For more information, see Data encryption in the Amazon Web Services IoT Core Developer Guide.
+    @Sendable
+    @inlinable
+    public func updateEncryptionConfiguration(_ input: UpdateEncryptionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEncryptionConfigurationResponse {
+        try await self.client.execute(
+            operation: "UpdateEncryptionConfiguration", 
+            path: "/encryption-configuration", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the encryption configuration. By default, all Amazon Web Services IoT Core data at rest is encrypted using Amazon Web Services owned keys. Amazon Web Services IoT Core also supports symmetric customer managed keys from Amazon Web Services Key Management Service (KMS). With customer managed keys, you create, own, and manage the KMS keys in your Amazon Web Services account. For more information, see Data encryption in the Amazon Web Services IoT Core Developer Guide.
+    ///
+    /// Parameters:
+    ///   - encryptionType: The type of the Amazon Web Services Key Management Service (KMS) key.
+    ///   - kmsAccessRoleArn: The Amazon Resource Name (ARN) of the IAM role assumed by Amazon Web Services IoT Core to call KMS on behalf of the customer.
+    ///   - kmsKeyArn: The ARN of the customer-managed KMS key.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateEncryptionConfiguration(
+        encryptionType: EncryptionType,
+        kmsAccessRoleArn: String? = nil,
+        kmsKeyArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateEncryptionConfigurationResponse {
+        let input = UpdateEncryptionConfigurationRequest(
+            encryptionType: encryptionType, 
+            kmsAccessRoleArn: kmsAccessRoleArn, 
+            kmsKeyArn: kmsKeyArn
+        )
+        return try await self.updateEncryptionConfiguration(input, logger: logger)
     }
 
     /// Updates the event configurations. Requires permission to access the UpdateEventConfigurations action.

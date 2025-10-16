@@ -356,7 +356,7 @@ public struct AuditManager: AWSService {
     ///
     /// Parameters:
     ///   - complianceType:  The compliance type that the new custom framework supports, such as CIS or HIPAA.
-    ///   - controlSets:  The control sets that are associated with the framework.
+    ///   - controlSets:  The control sets that are associated with the framework.   The Controls object returns a partial response when called through Framework APIs. For a complete Controls object, use GetControl.
     ///   - description:  An optional description for the new custom framework.
     ///   - name:  The name of the new custom framework.
     ///   - tags:  The tags that are associated with the framework.
@@ -1990,7 +1990,7 @@ public struct AuditManager: AWSService {
     ///
     /// Parameters:
     ///   - complianceType:  The compliance type that the new custom framework supports, such as CIS or HIPAA.
-    ///   - controlSets:  The control sets that are associated with the framework.
+    ///   - controlSets:  The control sets that are associated with the framework.   The Controls object returns a partial response when called through Framework APIs. For a complete Controls object, use GetControl.
     ///   - description:  The description of the updated framework.
     ///   - frameworkId:  The unique identifier for the framework.
     ///   - name:  The name of the framework to be updated.

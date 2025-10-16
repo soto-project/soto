@@ -79,7 +79,39 @@ public struct Billing: AWSService {
 
     // MARK: API Calls
 
-    /// Creates a billing view with the specified billing view attributes.
+    ///  Associates one or more source billing views with an existing billing view. This allows creating aggregate billing views that combine data from multiple sources.
+    @Sendable
+    @inlinable
+    public func associateSourceViews(_ input: AssociateSourceViewsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateSourceViewsResponse {
+        try await self.client.execute(
+            operation: "AssociateSourceViews", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Associates one or more source billing views with an existing billing view. This allows creating aggregate billing views that combine data from multiple sources.
+    ///
+    /// Parameters:
+    ///   - arn:  The Amazon Resource Name (ARN) of the billing view to associate source views with.
+    ///   - sourceViews:  A list of ARNs of the source billing views to associate.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateSourceViews(
+        arn: String,
+        sourceViews: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AssociateSourceViewsResponse {
+        let input = AssociateSourceViewsRequest(
+            arn: arn, 
+            sourceViews: sourceViews
+        )
+        return try await self.associateSourceViews(input, logger: logger)
+    }
+
+    ///  Creates a billing view with the specified billing view attributes.
     @Sendable
     @inlinable
     public func createBillingView(_ input: CreateBillingViewRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBillingViewResponse {
@@ -92,7 +124,7 @@ public struct Billing: AWSService {
             logger: logger
         )
     }
-    /// Creates a billing view with the specified billing view attributes.
+    ///  Creates a billing view with the specified billing view attributes.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier you specify to ensure idempotency of the request. Idempotency ensures that an API request completes no more than one time. If the original request completes successfully, any subsequent retries complete successfully without performing any further actions with an idempotent request.
@@ -140,16 +172,51 @@ public struct Billing: AWSService {
     ///
     /// Parameters:
     ///   - arn:  The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
+    ///   - force:  If set to true, forces deletion of the billing view even if it has derived resources (e.g. other billing views or budgets). Use with caution as this may break dependent resources.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteBillingView(
         arn: String,
+        force: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DeleteBillingViewResponse {
         let input = DeleteBillingViewRequest(
-            arn: arn
+            arn: arn, 
+            force: force
         )
         return try await self.deleteBillingView(input, logger: logger)
+    }
+
+    ///  Removes the association between one or more source billing views and an existing billing view. This allows modifying the composition of aggregate billing views.
+    @Sendable
+    @inlinable
+    public func disassociateSourceViews(_ input: DisassociateSourceViewsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateSourceViewsResponse {
+        try await self.client.execute(
+            operation: "DisassociateSourceViews", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Removes the association between one or more source billing views and an existing billing view. This allows modifying the composition of aggregate billing views.
+    ///
+    /// Parameters:
+    ///   - arn:  The Amazon Resource Name (ARN) of the billing view to disassociate source views from.
+    ///   - sourceViews:  A list of ARNs of the source billing views to disassociate.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateSourceViews(
+        arn: String,
+        sourceViews: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisassociateSourceViewsResponse {
+        let input = DisassociateSourceViewsRequest(
+            arn: arn, 
+            sourceViews: sourceViews
+        )
+        return try await self.disassociateSourceViews(input, logger: logger)
     }
 
     /// Returns the metadata associated to the specified billing view ARN.
@@ -232,6 +299,7 @@ public struct Billing: AWSService {
     ///   - maxResults: The maximum number of billing views to retrieve. Default is 100.
     ///   - nextToken: The pagination token that is used on subsequent calls to list billing views.
     ///   - ownerAccountId:  The list of owners of the billing view.
+    ///   - sourceAccountId:  Filters the results to include only billing views that use the specified account as a source.
     ///   - logger: Logger use during operation
     @inlinable
     public func listBillingViews(
@@ -241,6 +309,7 @@ public struct Billing: AWSService {
         maxResults: Int? = nil,
         nextToken: String? = nil,
         ownerAccountId: String? = nil,
+        sourceAccountId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListBillingViewsResponse {
         let input = ListBillingViewsRequest(
@@ -249,7 +318,8 @@ public struct Billing: AWSService {
             billingViewTypes: billingViewTypes, 
             maxResults: maxResults, 
             nextToken: nextToken, 
-            ownerAccountId: ownerAccountId
+            ownerAccountId: ownerAccountId, 
+            sourceAccountId: sourceAccountId
         )
         return try await self.listBillingViews(input, logger: logger)
     }
@@ -460,6 +530,7 @@ extension Billing {
     ///   - billingViewTypes: The type of billing view.
     ///   - maxResults: The maximum number of billing views to retrieve. Default is 100.
     ///   - ownerAccountId:  The list of owners of the billing view.
+    ///   - sourceAccountId:  Filters the results to include only billing views that use the specified account as a source.
     ///   - logger: Logger used for logging
     @inlinable
     public func listBillingViewsPaginator(
@@ -468,6 +539,7 @@ extension Billing {
         billingViewTypes: [BillingViewType]? = nil,
         maxResults: Int? = nil,
         ownerAccountId: String? = nil,
+        sourceAccountId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListBillingViewsRequest, ListBillingViewsResponse> {
         let input = ListBillingViewsRequest(
@@ -475,7 +547,8 @@ extension Billing {
             arns: arns, 
             billingViewTypes: billingViewTypes, 
             maxResults: maxResults, 
-            ownerAccountId: ownerAccountId
+            ownerAccountId: ownerAccountId, 
+            sourceAccountId: sourceAccountId
         )
         return self.listBillingViewsPaginator(input, logger: logger)
     }
@@ -527,7 +600,8 @@ extension Billing.ListBillingViewsRequest: AWSPaginateToken {
             billingViewTypes: self.billingViewTypes,
             maxResults: self.maxResults,
             nextToken: token,
-            ownerAccountId: self.ownerAccountId
+            ownerAccountId: self.ownerAccountId,
+            sourceAccountId: self.sourceAccountId
         )
     }
 }

@@ -304,7 +304,7 @@ extension Neptune {
         public let kmsKeyId: String?
         /// Not currently supported.
         public let preSignedUrl: String?
-        /// The identifier of the DB cluster snapshot to copy. This parameter is not case-sensitive. Constraints:   Must specify a valid system snapshot in the "available" state.   Specify a valid DB snapshot identifier.   Example: my-cluster-snapshot1
+        /// The identifier of the DB cluster snapshot to copy. This parameter is not case-sensitive. If the source DB cluster snapshot is in a different region or  owned by another account, specify the snapshot ARN. Constraints:   Must specify a valid system snapshot in the "available" state.   Specify a valid DB snapshot identifier.   Example: my-cluster-snapshot1
         public let sourceDBClusterSnapshotIdentifier: String?
         /// The tags to assign to the new DB cluster snapshot copy.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -784,7 +784,7 @@ extension Neptune {
         public let preferredMaintenanceWindow: String?
         /// A value that specifies the order in which an Read Replica is promoted to the primary instance after a failure of the existing primary instance.  Default: 1 Valid Values: 0 - 15
         public let promotionTier: Int?
-        /// This flag should no longer be used.
+        /// Indicates whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private  cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within  the same VPC as the DB instance, the endpoint resolves to the private IP address. Access to the DB instance is  ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned  to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a  private IP address.
         public let publiclyAccessible: Bool?
         /// Specifies whether the DB instance is encrypted. Not applicable. The encryption for DB instances is managed by the DB cluster. For more information, see CreateDBCluster. Default: false
         public let storageEncrypted: Bool?
@@ -803,54 +803,6 @@ extension Neptune {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        @inlinable
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSecurityGroups: [String]? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, timezone: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
-            self.allocatedStorage = allocatedStorage
-            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
-            self.availabilityZone = availabilityZone
-            self.backupRetentionPeriod = backupRetentionPeriod
-            self.characterSetName = characterSetName
-            self.copyTagsToSnapshot = copyTagsToSnapshot
-            self.dbClusterIdentifier = dbClusterIdentifier
-            self.dbInstanceClass = dbInstanceClass
-            self.dbInstanceIdentifier = dbInstanceIdentifier
-            self.dbName = dbName
-            self.dbParameterGroupName = dbParameterGroupName
-            self.dbSecurityGroups = dbSecurityGroups
-            self.dbSubnetGroupName = dbSubnetGroupName
-            self.deletionProtection = deletionProtection
-            self.domain = domain
-            self.domainIAMRoleName = domainIAMRoleName
-            self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
-            self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
-            self.enablePerformanceInsights = enablePerformanceInsights
-            self.engine = engine
-            self.engineVersion = engineVersion
-            self.iops = iops
-            self.kmsKeyId = kmsKeyId
-            self.licenseModel = licenseModel
-            self.masterUsername = masterUsername
-            self.masterUserPassword = masterUserPassword
-            self.monitoringInterval = monitoringInterval
-            self.monitoringRoleArn = monitoringRoleArn
-            self.multiAZ = multiAZ
-            self.optionGroupName = optionGroupName
-            self.performanceInsightsKMSKeyId = performanceInsightsKMSKeyId
-            self.port = port
-            self.preferredBackupWindow = preferredBackupWindow
-            self.preferredMaintenanceWindow = preferredMaintenanceWindow
-            self.promotionTier = promotionTier
-            self.publiclyAccessible = nil
-            self.storageEncrypted = storageEncrypted
-            self.storageType = storageType
-            self.tags = tags
-            self.tdeCredentialArn = tdeCredentialArn
-            self.tdeCredentialPassword = tdeCredentialPassword
-            self.timezone = timezone
-            self.vpcSecurityGroupIds = vpcSecurityGroupIds
-        }
-
-        @available(*, deprecated, message: "Members publiclyAccessible have been deprecated")
         @inlinable
         public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSecurityGroups: [String]? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, timezone: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
@@ -1951,7 +1903,7 @@ extension Neptune {
         public let preferredMaintenanceWindow: String?
         /// A value that specifies the order in which a Read Replica is promoted to the primary instance after a failure of the existing primary instance.
         public let promotionTier: Int?
-        /// This flag should no longer be used.
+        /// Indicates whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private  cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within  the same VPC as the DB instance, the endpoint resolves to the private IP address. Access to the DB instance is  ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned  to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a  private IP address.
         public let publiclyAccessible: Bool?
         /// Contains one or more identifiers of DB clusters that are Read Replicas of this DB instance.
         @OptionalCustomCoding<ArrayCoder<_ReadReplicaDBClusterIdentifiersEncoding, String>>
@@ -1978,64 +1930,6 @@ extension Neptune {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        @inlinable
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String? = nil, dbInstanceArn: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbInstancePort: Int? = nil, dbInstanceStatus: String? = nil, dbiResourceId: String? = nil, dbName: String? = nil, dbParameterGroups: [DBParameterGroupStatus]? = nil, dbSecurityGroups: [DBSecurityGroupMembership]? = nil, dbSubnetGroup: DBSubnetGroup? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, licenseModel: String? = nil, masterUsername: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
-            self.allocatedStorage = allocatedStorage
-            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
-            self.availabilityZone = availabilityZone
-            self.backupRetentionPeriod = backupRetentionPeriod
-            self.caCertificateIdentifier = caCertificateIdentifier
-            self.characterSetName = characterSetName
-            self.copyTagsToSnapshot = copyTagsToSnapshot
-            self.dbClusterIdentifier = dbClusterIdentifier
-            self.dbInstanceArn = dbInstanceArn
-            self.dbInstanceClass = dbInstanceClass
-            self.dbInstanceIdentifier = dbInstanceIdentifier
-            self.dbInstancePort = dbInstancePort
-            self.dbInstanceStatus = dbInstanceStatus
-            self.dbiResourceId = dbiResourceId
-            self.dbName = dbName
-            self.dbParameterGroups = dbParameterGroups
-            self.dbSecurityGroups = dbSecurityGroups
-            self.dbSubnetGroup = dbSubnetGroup
-            self.deletionProtection = deletionProtection
-            self.domainMemberships = domainMemberships
-            self.enabledCloudwatchLogsExports = enabledCloudwatchLogsExports
-            self.endpoint = endpoint
-            self.engine = engine
-            self.engineVersion = engineVersion
-            self.enhancedMonitoringResourceArn = enhancedMonitoringResourceArn
-            self.iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled
-            self.instanceCreateTime = instanceCreateTime
-            self.iops = iops
-            self.kmsKeyId = kmsKeyId
-            self.latestRestorableTime = latestRestorableTime
-            self.licenseModel = licenseModel
-            self.masterUsername = masterUsername
-            self.monitoringInterval = monitoringInterval
-            self.monitoringRoleArn = monitoringRoleArn
-            self.multiAZ = multiAZ
-            self.optionGroupMemberships = optionGroupMemberships
-            self.pendingModifiedValues = pendingModifiedValues
-            self.performanceInsightsEnabled = performanceInsightsEnabled
-            self.performanceInsightsKMSKeyId = performanceInsightsKMSKeyId
-            self.preferredBackupWindow = preferredBackupWindow
-            self.preferredMaintenanceWindow = preferredMaintenanceWindow
-            self.promotionTier = promotionTier
-            self.publiclyAccessible = nil
-            self.readReplicaDBClusterIdentifiers = readReplicaDBClusterIdentifiers
-            self.readReplicaDBInstanceIdentifiers = readReplicaDBInstanceIdentifiers
-            self.readReplicaSourceDBInstanceIdentifier = readReplicaSourceDBInstanceIdentifier
-            self.secondaryAvailabilityZone = secondaryAvailabilityZone
-            self.statusInfos = statusInfos
-            self.storageEncrypted = storageEncrypted
-            self.storageType = storageType
-            self.tdeCredentialArn = tdeCredentialArn
-            self.timezone = timezone
-            self.vpcSecurityGroups = vpcSecurityGroups
-        }
-
-        @available(*, deprecated, message: "Members publiclyAccessible have been deprecated")
         @inlinable
         public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String? = nil, dbInstanceArn: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbInstancePort: Int? = nil, dbInstanceStatus: String? = nil, dbiResourceId: String? = nil, dbName: String? = nil, dbParameterGroups: [DBParameterGroupStatus]? = nil, dbSecurityGroups: [DBSecurityGroupMembership]? = nil, dbSubnetGroup: DBSubnetGroup? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, licenseModel: String? = nil, masterUsername: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allocatedStorage = allocatedStorage
@@ -4141,7 +4035,7 @@ extension Neptune {
         public let preferredMaintenanceWindow: String?
         /// A value that specifies the order in which a Read Replica is promoted to the primary instance after a failure of the existing primary instance. Default: 1 Valid Values: 0 - 15
         public let promotionTier: Int?
-        /// This flag should no longer be used.
+        /// Indicates whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private  cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within  the same VPC as the DB instance, the endpoint resolves to the private IP address. Access to the DB instance is  ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned  to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a  private IP address.
         public let publiclyAccessible: Bool?
         /// Not applicable. In Neptune the storage type is managed at the DB Cluster level.
         public let storageType: String?
@@ -4153,48 +4047,6 @@ extension Neptune {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        @inlinable
-        public init(allocatedStorage: Int? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbParameterGroupName: String? = nil, dbPortNumber: Int? = nil, dbSecurityGroups: [String]? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engineVersion: String? = nil, iops: Int? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, newDBInstanceIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
-            self.allocatedStorage = allocatedStorage
-            self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
-            self.applyImmediately = applyImmediately
-            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
-            self.backupRetentionPeriod = backupRetentionPeriod
-            self.caCertificateIdentifier = caCertificateIdentifier
-            self.cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfiguration
-            self.copyTagsToSnapshot = copyTagsToSnapshot
-            self.dbInstanceClass = dbInstanceClass
-            self.dbInstanceIdentifier = dbInstanceIdentifier
-            self.dbParameterGroupName = dbParameterGroupName
-            self.dbPortNumber = dbPortNumber
-            self.dbSecurityGroups = dbSecurityGroups
-            self.dbSubnetGroupName = dbSubnetGroupName
-            self.deletionProtection = deletionProtection
-            self.domain = domain
-            self.domainIAMRoleName = domainIAMRoleName
-            self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
-            self.enablePerformanceInsights = enablePerformanceInsights
-            self.engineVersion = engineVersion
-            self.iops = iops
-            self.licenseModel = licenseModel
-            self.masterUserPassword = masterUserPassword
-            self.monitoringInterval = monitoringInterval
-            self.monitoringRoleArn = monitoringRoleArn
-            self.multiAZ = multiAZ
-            self.newDBInstanceIdentifier = newDBInstanceIdentifier
-            self.optionGroupName = optionGroupName
-            self.performanceInsightsKMSKeyId = performanceInsightsKMSKeyId
-            self.preferredBackupWindow = preferredBackupWindow
-            self.preferredMaintenanceWindow = preferredMaintenanceWindow
-            self.promotionTier = promotionTier
-            self.publiclyAccessible = nil
-            self.storageType = storageType
-            self.tdeCredentialArn = tdeCredentialArn
-            self.tdeCredentialPassword = tdeCredentialPassword
-            self.vpcSecurityGroupIds = vpcSecurityGroupIds
-        }
-
-        @available(*, deprecated, message: "Members publiclyAccessible have been deprecated")
         @inlinable
         public init(allocatedStorage: Int? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbParameterGroupName: String? = nil, dbPortNumber: Int? = nil, dbSecurityGroups: [String]? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engineVersion: String? = nil, iops: Int? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, newDBInstanceIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage

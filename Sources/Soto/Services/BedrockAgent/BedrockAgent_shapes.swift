@@ -1935,7 +1935,7 @@ extension BedrockAgent {
 
         public func validate(name: String) throws {
             try self.validate(self.agentAliasArn, name: "agentAliasArn", parent: name, max: 2048)
-            try self.validate(self.agentAliasArn, name: "agentAliasArn", parent: name, pattern: "^arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:agent-alias/[0-9a-zA-Z]{10}/[0-9a-zA-Z]{10}$")
+            try self.validate(self.agentAliasArn, name: "agentAliasArn", parent: name, pattern: "^$|^arn:aws(-cn|-us-gov|-eusc|-iso(-[b-f])?)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:agent-alias/[0-9a-zA-Z]{10}/[0-9a-zA-Z]{10}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6288,7 +6288,6 @@ extension BedrockAgent {
 
         public func validate(name: String) throws {
             try self.validate(self.code, name: "code", parent: name, max: 5000000)
-            try self.validate(self.code, name: "code", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6570,7 +6569,7 @@ extension BedrockAgent {
             try self.guardrailConfiguration?.validate(name: "\(name).guardrailConfiguration")
             try self.inferenceConfiguration?.validate(name: "\(name).inferenceConfiguration")
             try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, max: 10)
-            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^$|^[0-9a-zA-Z]+$")
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
             try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]{1,12})?:(bedrock|sagemaker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-zA-Z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
@@ -6687,7 +6686,7 @@ extension BedrockAgent {
 
         public func validate(name: String) throws {
             try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, max: 2048)
-            try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_\\.]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, pattern: "^$|^arn:aws(-cn|-us-gov|-eusc|-iso(-[b-f])?)?:lambda:([a-z]{2,}-){2,}\\d:\\d{12}:function:[a-zA-Z0-9-_\\.]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6709,9 +6708,8 @@ extension BedrockAgent {
 
         public func validate(name: String) throws {
             try self.validate(self.botAliasArn, name: "botAliasArn", parent: name, max: 78)
-            try self.validate(self.botAliasArn, name: "botAliasArn", parent: name, pattern: "^arn:aws(|-us-gov):lex:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:bot-alias/[0-9a-zA-Z]+/[0-9a-zA-Z]+$")
+            try self.validate(self.botAliasArn, name: "botAliasArn", parent: name, pattern: "^$|^arn:aws(-cn|-us-gov|-eusc|-iso(-[b-f])?)?:lex:([a-z]{2,}-){2,}\\d:\\d{12}:bot-alias/[0-9a-zA-Z]+/[0-9a-zA-Z]+$")
             try self.validate(self.localeId, name: "localeId", parent: name, max: 10)
-            try self.validate(self.localeId, name: "localeId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8681,8 +8679,7 @@ extension BedrockAgent {
         public func validate(name: String) throws {
             try self.inferenceConfiguration?.validate(name: "\(name).inferenceConfiguration")
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
-            try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
-            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]{1,12})?:(bedrock|sagemaker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-zA-Z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^$|^(arn:aws(-cn|-us-gov|-eusc|-iso(-[b-f])?)?:(bedrock|sagemaker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-zA-Z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
             try self.templateConfiguration.validate(name: "\(name).templateConfiguration")
         }
 
@@ -8705,7 +8702,7 @@ extension BedrockAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.promptArn, name: "promptArn", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10}(?::[0-9]{1,5})?)$")
+            try self.validate(self.promptArn, name: "promptArn", parent: name, pattern: "^$|^(arn:aws(-cn|-us-gov|-eusc|-iso(-[b-f])?)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10}(?::[0-9]{1,5})?)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9434,8 +9431,7 @@ extension BedrockAgent {
 
         public func validate(name: String) throws {
             try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
-            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
-            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^$|^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10038,8 +10034,7 @@ extension BedrockAgent {
 
         public func validate(name: String) throws {
             try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
-            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
-            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^$|^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {

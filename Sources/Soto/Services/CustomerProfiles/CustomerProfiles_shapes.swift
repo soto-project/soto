@@ -25,6 +25,19 @@ import Foundation
 extension CustomerProfiles {
     // MARK: Enums
 
+    public enum ActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case addedProfileKey = "ADDED_PROFILE_KEY"
+        case created = "CREATED"
+        case deletedByCustomer = "DELETED_BY_CUSTOMER"
+        case deletedByMerge = "DELETED_BY_MERGE"
+        case deletedProfileKey = "DELETED_PROFILE_KEY"
+        case expired = "EXPIRED"
+        case ingested = "INGESTED"
+        case merged = "MERGED"
+        case updated = "UPDATED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AttributeDimensionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case after = "AFTER"
         case before = "BEFORE"
@@ -72,6 +85,17 @@ extension CustomerProfiles {
     public enum ConflictResolvingModel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case recency = "RECENCY"
         case source = "SOURCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContactType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case businessEmailAddress = "BusinessEmailAddress"
+        case businessPhoneNumber = "BusinessPhoneNumber"
+        case emailAddress = "EmailAddress"
+        case homePhoneNumber = "HomePhoneNumber"
+        case mobilePhoneNumber = "MobilePhoneNumber"
+        case personalEmailAddress = "PersonalEmailAddress"
+        case phoneNumber = "PhoneNumber"
         public var description: String { return self.rawValue }
     }
 
@@ -269,6 +293,18 @@ extension CustomerProfiles {
         case hours = "HOURS"
         case months = "MONTHS"
         case weeks = "WEEKS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProfileType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accountProfile = "ACCOUNT_PROFILE"
+        case profile = "PROFILE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProfileTypeDimensionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case exclusive = "EXCLUSIVE"
+        case inclusive = "INCLUSIVE"
         public var description: String { return self.rawValue }
     }
 
@@ -1421,6 +1457,41 @@ extension CustomerProfiles {
         }
     }
 
+    public struct ContactPreference: AWSEncodableShape & AWSDecodableShape {
+        /// The contact type used for engagement. For example: HomePhoneNumber, PersonalEmailAddress.
+        public let contactType: ContactType?
+        /// A searchable, unique identifier of a customer profile.
+        public let keyName: String?
+        /// The key value used to look up profile based off the keyName.
+        public let keyValue: String?
+        /// The unique identifier of a customer profile.
+        public let profileId: String?
+
+        @inlinable
+        public init(contactType: ContactType? = nil, keyName: String? = nil, keyValue: String? = nil, profileId: String? = nil) {
+            self.contactType = contactType
+            self.keyName = keyName
+            self.keyValue = keyValue
+            self.profileId = profileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyName, name: "keyName", parent: name, max: 64)
+            try self.validate(self.keyName, name: "keyName", parent: name, min: 1)
+            try self.validate(self.keyName, name: "keyName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.keyValue, name: "keyValue", parent: name, max: 255)
+            try self.validate(self.keyValue, name: "keyValue", parent: name, min: 1)
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^[a-f0-9]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactType = "ContactType"
+            case keyName = "KeyName"
+            case keyValue = "KeyValue"
+            case profileId = "ProfileId"
+        }
+    }
+
     public struct CreateCalculatedAttributeDefinitionRequest: AWSEncodableShape {
         /// Mathematical expression and a list of attribute items specified in that expression.
         public let attributeDetails: AttributeDetails
@@ -2128,6 +2199,8 @@ extension CustomerProfiles {
         public let domainName: String
         /// The customer’s email address, which has not been specified as a personal or business address.
         public let emailAddress: String?
+        /// Object that defines the preferred methods of engagement, per channel.
+        public let engagementPreferences: EngagementPreferences?
         /// The customer’s first name.
         public let firstName: String?
         /// The gender with which the customer identifies.
@@ -2152,11 +2225,13 @@ extension CustomerProfiles {
         public let personalEmailAddress: String?
         /// The customer’s phone number, which has not been specified as a mobile, home, or business number.
         public let phoneNumber: String?
+        /// The type of the profile.
+        public let profileType: ProfileType?
         /// The customer’s shipping address.
         public let shippingAddress: Address?
 
         @inlinable
-        public init(accountNumber: String? = nil, additionalInformation: String? = nil, address: Address? = nil, attributes: [String: String]? = nil, billingAddress: Address? = nil, birthDate: String? = nil, businessEmailAddress: String? = nil, businessName: String? = nil, businessPhoneNumber: String? = nil, domainName: String, emailAddress: String? = nil, firstName: String? = nil, gender: Gender? = nil, genderString: String? = nil, homePhoneNumber: String? = nil, lastName: String? = nil, mailingAddress: Address? = nil, middleName: String? = nil, mobilePhoneNumber: String? = nil, partyType: PartyType? = nil, partyTypeString: String? = nil, personalEmailAddress: String? = nil, phoneNumber: String? = nil, shippingAddress: Address? = nil) {
+        public init(accountNumber: String? = nil, additionalInformation: String? = nil, address: Address? = nil, attributes: [String: String]? = nil, billingAddress: Address? = nil, birthDate: String? = nil, businessEmailAddress: String? = nil, businessName: String? = nil, businessPhoneNumber: String? = nil, domainName: String, emailAddress: String? = nil, engagementPreferences: EngagementPreferences? = nil, firstName: String? = nil, gender: Gender? = nil, genderString: String? = nil, homePhoneNumber: String? = nil, lastName: String? = nil, mailingAddress: Address? = nil, middleName: String? = nil, mobilePhoneNumber: String? = nil, partyType: PartyType? = nil, partyTypeString: String? = nil, personalEmailAddress: String? = nil, phoneNumber: String? = nil, profileType: ProfileType? = nil, shippingAddress: Address? = nil) {
             self.accountNumber = accountNumber
             self.additionalInformation = additionalInformation
             self.address = address
@@ -2168,6 +2243,7 @@ extension CustomerProfiles {
             self.businessPhoneNumber = businessPhoneNumber
             self.domainName = domainName
             self.emailAddress = emailAddress
+            self.engagementPreferences = engagementPreferences
             self.firstName = firstName
             self.gender = gender
             self.genderString = genderString
@@ -2180,6 +2256,7 @@ extension CustomerProfiles {
             self.partyTypeString = partyTypeString
             self.personalEmailAddress = personalEmailAddress
             self.phoneNumber = phoneNumber
+            self.profileType = profileType
             self.shippingAddress = shippingAddress
         }
 
@@ -2197,6 +2274,7 @@ extension CustomerProfiles {
             try container.encodeIfPresent(self.businessPhoneNumber, forKey: .businessPhoneNumber)
             request.encodePath(self.domainName, key: "DomainName")
             try container.encodeIfPresent(self.emailAddress, forKey: .emailAddress)
+            try container.encodeIfPresent(self.engagementPreferences, forKey: .engagementPreferences)
             try container.encodeIfPresent(self.firstName, forKey: .firstName)
             try container.encodeIfPresent(self.gender, forKey: .gender)
             try container.encodeIfPresent(self.genderString, forKey: .genderString)
@@ -2209,6 +2287,7 @@ extension CustomerProfiles {
             try container.encodeIfPresent(self.partyTypeString, forKey: .partyTypeString)
             try container.encodeIfPresent(self.personalEmailAddress, forKey: .personalEmailAddress)
             try container.encodeIfPresent(self.phoneNumber, forKey: .phoneNumber)
+            try container.encodeIfPresent(self.profileType, forKey: .profileType)
             try container.encodeIfPresent(self.shippingAddress, forKey: .shippingAddress)
         }
 
@@ -2238,6 +2317,7 @@ extension CustomerProfiles {
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, max: 255)
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, min: 1)
+            try self.engagementPreferences?.validate(name: "\(name).engagementPreferences")
             try self.validate(self.firstName, name: "firstName", parent: name, max: 255)
             try self.validate(self.firstName, name: "firstName", parent: name, min: 1)
             try self.validate(self.genderString, name: "genderString", parent: name, max: 255)
@@ -2271,6 +2351,7 @@ extension CustomerProfiles {
             case businessName = "BusinessName"
             case businessPhoneNumber = "BusinessPhoneNumber"
             case emailAddress = "EmailAddress"
+            case engagementPreferences = "EngagementPreferences"
             case firstName = "FirstName"
             case gender = "Gender"
             case genderString = "GenderString"
@@ -2283,6 +2364,7 @@ extension CustomerProfiles {
             case partyTypeString = "PartyTypeString"
             case personalEmailAddress = "PersonalEmailAddress"
             case phoneNumber = "PhoneNumber"
+            case profileType = "ProfileType"
             case shippingAddress = "ShippingAddress"
         }
     }
@@ -3280,6 +3362,33 @@ extension CustomerProfiles {
         }
     }
 
+    public struct EngagementPreferences: AWSEncodableShape & AWSDecodableShape {
+        /// A list of email-related contact preferences
+        public let email: [ContactPreference]?
+        /// A list of phone-related contact preferences
+        public let phone: [ContactPreference]?
+
+        @inlinable
+        public init(email: [ContactPreference]? = nil, phone: [ContactPreference]? = nil) {
+            self.email = email
+            self.phone = phone
+        }
+
+        public func validate(name: String) throws {
+            try self.email?.forEach {
+                try $0.validate(name: "\(name).email[]")
+            }
+            try self.phone?.forEach {
+                try $0.validate(name: "\(name).phone[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case email = "Email"
+            case phone = "Phone"
+        }
+    }
+
     public struct EventStreamDestinationDetails: AWSDecodableShape {
         /// The human-readable string that corresponds to the error or success while enabling the streaming destination.
         public let message: String?
@@ -3532,6 +3641,8 @@ extension CustomerProfiles {
         public let businessPhoneNumber: String?
         /// A unique identifier for the email address field to be merged.
         public let emailAddress: String?
+        /// A unique identifier for the engagement preferences field to be merged.
+        public let engagementPreferences: String?
         /// A unique identifier for the first name field to be merged.
         public let firstName: String?
         /// A unique identifier for the gender field to be merged.
@@ -3552,11 +3663,13 @@ extension CustomerProfiles {
         public let personalEmailAddress: String?
         /// A unique identifier for the phone number field to be merged.
         public let phoneNumber: String?
+        /// A unique identifier for the profile type field to be merged.
+        public let profileType: String?
         /// A unique identifier for the shipping address field to be merged.
         public let shippingAddress: String?
 
         @inlinable
-        public init(accountNumber: String? = nil, additionalInformation: String? = nil, address: String? = nil, attributes: [String: String]? = nil, billingAddress: String? = nil, birthDate: String? = nil, businessEmailAddress: String? = nil, businessName: String? = nil, businessPhoneNumber: String? = nil, emailAddress: String? = nil, firstName: String? = nil, gender: String? = nil, homePhoneNumber: String? = nil, lastName: String? = nil, mailingAddress: String? = nil, middleName: String? = nil, mobilePhoneNumber: String? = nil, partyType: String? = nil, personalEmailAddress: String? = nil, phoneNumber: String? = nil, shippingAddress: String? = nil) {
+        public init(accountNumber: String? = nil, additionalInformation: String? = nil, address: String? = nil, attributes: [String: String]? = nil, billingAddress: String? = nil, birthDate: String? = nil, businessEmailAddress: String? = nil, businessName: String? = nil, businessPhoneNumber: String? = nil, emailAddress: String? = nil, engagementPreferences: String? = nil, firstName: String? = nil, gender: String? = nil, homePhoneNumber: String? = nil, lastName: String? = nil, mailingAddress: String? = nil, middleName: String? = nil, mobilePhoneNumber: String? = nil, partyType: String? = nil, personalEmailAddress: String? = nil, phoneNumber: String? = nil, profileType: String? = nil, shippingAddress: String? = nil) {
             self.accountNumber = accountNumber
             self.additionalInformation = additionalInformation
             self.address = address
@@ -3567,6 +3680,7 @@ extension CustomerProfiles {
             self.businessName = businessName
             self.businessPhoneNumber = businessPhoneNumber
             self.emailAddress = emailAddress
+            self.engagementPreferences = engagementPreferences
             self.firstName = firstName
             self.gender = gender
             self.homePhoneNumber = homePhoneNumber
@@ -3577,6 +3691,7 @@ extension CustomerProfiles {
             self.partyType = partyType
             self.personalEmailAddress = personalEmailAddress
             self.phoneNumber = phoneNumber
+            self.profileType = profileType
             self.shippingAddress = shippingAddress
         }
 
@@ -3595,6 +3710,7 @@ extension CustomerProfiles {
             try self.validate(self.businessName, name: "businessName", parent: name, pattern: "^[a-f0-9]{32}$")
             try self.validate(self.businessPhoneNumber, name: "businessPhoneNumber", parent: name, pattern: "^[a-f0-9]{32}$")
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, pattern: "^[a-f0-9]{32}$")
+            try self.validate(self.engagementPreferences, name: "engagementPreferences", parent: name, pattern: "^[a-f0-9]{32}$")
             try self.validate(self.firstName, name: "firstName", parent: name, pattern: "^[a-f0-9]{32}$")
             try self.validate(self.gender, name: "gender", parent: name, pattern: "^[a-f0-9]{32}$")
             try self.validate(self.homePhoneNumber, name: "homePhoneNumber", parent: name, pattern: "^[a-f0-9]{32}$")
@@ -3605,6 +3721,7 @@ extension CustomerProfiles {
             try self.validate(self.partyType, name: "partyType", parent: name, pattern: "^[a-f0-9]{32}$")
             try self.validate(self.personalEmailAddress, name: "personalEmailAddress", parent: name, pattern: "^[a-f0-9]{32}$")
             try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, pattern: "^[a-f0-9]{32}$")
+            try self.validate(self.profileType, name: "profileType", parent: name, pattern: "^[a-f0-9]{32}$")
             try self.validate(self.shippingAddress, name: "shippingAddress", parent: name, pattern: "^[a-f0-9]{32}$")
         }
 
@@ -3619,6 +3736,7 @@ extension CustomerProfiles {
             case businessName = "BusinessName"
             case businessPhoneNumber = "BusinessPhoneNumber"
             case emailAddress = "EmailAddress"
+            case engagementPreferences = "EngagementPreferences"
             case firstName = "FirstName"
             case gender = "Gender"
             case homePhoneNumber = "HomePhoneNumber"
@@ -3629,6 +3747,7 @@ extension CustomerProfiles {
             case partyType = "PartyType"
             case personalEmailAddress = "PersonalEmailAddress"
             case phoneNumber = "PhoneNumber"
+            case profileType = "ProfileType"
             case shippingAddress = "ShippingAddress"
         }
     }
@@ -4568,6 +4687,82 @@ extension CustomerProfiles {
             case matchGenerationDate = "MatchGenerationDate"
             case nextToken = "NextToken"
             case potentialMatches = "PotentialMatches"
+        }
+    }
+
+    public struct GetProfileHistoryRecordRequest: AWSEncodableShape {
+        /// The unique name of the domain for which to return a profile history record.
+        public let domainName: String
+        /// The unique identifier of the profile history record to return.
+        public let id: String
+        /// The unique identifier of the profile for which to return a history record.
+        public let profileId: String
+
+        @inlinable
+        public init(domainName: String, id: String, profileId: String) {
+            self.domainName = domainName
+            self.id = id
+            self.profileId = profileId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.id, key: "Id")
+            request.encodePath(self.profileId, key: "ProfileId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-f0-9]{32}$")
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^[a-f0-9]{32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetProfileHistoryRecordResponse: AWSDecodableShape {
+        /// The action type of the profile history record.
+        public let actionType: ActionType
+        /// A string containing the customer profile, profile object, or profile key content.
+        public let content: String?
+        /// The timestamp of when the profile history record was created.
+        public let createdAt: Date
+        /// The unique identifier of the profile history record.
+        public let id: String
+        /// The timestamp of when the profile history record was last updated.
+        public let lastUpdatedAt: Date?
+        /// The name of the profile object type.
+        public let objectTypeName: String
+        /// The Amazon Resource Name (ARN) of the person or service principal who performed the action.
+        public let performedBy: String?
+        /// The unique identifier of the profile object generated by the service.
+        public let profileObjectUniqueKey: String?
+
+        @inlinable
+        public init(actionType: ActionType, content: String? = nil, createdAt: Date, id: String, lastUpdatedAt: Date? = nil, objectTypeName: String, performedBy: String? = nil, profileObjectUniqueKey: String? = nil) {
+            self.actionType = actionType
+            self.content = content
+            self.createdAt = createdAt
+            self.id = id
+            self.lastUpdatedAt = lastUpdatedAt
+            self.objectTypeName = objectTypeName
+            self.performedBy = performedBy
+            self.profileObjectUniqueKey = profileObjectUniqueKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionType = "ActionType"
+            case content = "Content"
+            case createdAt = "CreatedAt"
+            case id = "Id"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case objectTypeName = "ObjectTypeName"
+            case performedBy = "PerformedBy"
+            case profileObjectUniqueKey = "ProfileObjectUniqueKey"
         }
     }
 
@@ -6301,6 +6496,88 @@ extension CustomerProfiles {
         }
     }
 
+    public struct ListProfileHistoryRecordsRequest: AWSEncodableShape {
+        /// Applies a filter to include profile history records only with the specified ActionType value in the response.
+        public let actionType: ActionType?
+        /// The unique name of the domain for which to return profile history records.
+        public let domainName: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// Applies a filter to include profile history records only with the specified ObjectTypeName value in the response.
+        public let objectTypeName: String?
+        /// Applies a filter to include profile history records only with the specified PerformedBy value in the response. The PerformedBy value can be the Amazon Resource Name (ARN) of the person or service principal who performed the action.
+        public let performedBy: String?
+        /// The identifier of the profile to be taken.
+        public let profileId: String
+
+        @inlinable
+        public init(actionType: ActionType? = nil, domainName: String, maxResults: Int? = nil, nextToken: String? = nil, objectTypeName: String? = nil, performedBy: String? = nil, profileId: String) {
+            self.actionType = actionType
+            self.domainName = domainName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.objectTypeName = objectTypeName
+            self.performedBy = performedBy
+            self.profileId = profileId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.actionType, forKey: .actionType)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            try container.encodeIfPresent(self.objectTypeName, forKey: .objectTypeName)
+            try container.encodeIfPresent(self.performedBy, forKey: .performedBy)
+            try container.encode(self.profileId, forKey: .profileId)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, max: 255)
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, min: 1)
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
+            try self.validate(self.performedBy, name: "performedBy", parent: name, max: 255)
+            try self.validate(self.performedBy, name: "performedBy", parent: name, min: 1)
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^[a-f0-9]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionType = "ActionType"
+            case objectTypeName = "ObjectTypeName"
+            case performedBy = "PerformedBy"
+            case profileId = "ProfileId"
+        }
+    }
+
+    public struct ListProfileHistoryRecordsResponse: AWSDecodableShape {
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// The list of profile history records.
+        public let profileHistoryRecords: [ProfileHistoryRecord]?
+
+        @inlinable
+        public init(nextToken: String? = nil, profileHistoryRecords: [ProfileHistoryRecord]? = nil) {
+            self.nextToken = nextToken
+            self.profileHistoryRecords = profileHistoryRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case profileHistoryRecords = "ProfileHistoryRecords"
+        }
+    }
+
     public struct ListProfileObjectTypeItem: AWSDecodableShape {
         /// The timestamp of when the domain was created.
         public let createdAt: Date?
@@ -7228,6 +7505,8 @@ extension CustomerProfiles {
         public let businessPhoneNumber: String?
         /// The customer’s email address, which has not been specified as a personal or business address.
         public let emailAddress: String?
+        /// The customer or account’s engagement preferences.
+        public let engagementPreferences: EngagementPreferences?
         /// The customer’s first name.
         public let firstName: String?
         /// A list of items used to find a profile returned in a SearchProfiles response. An item is a key-value(s) pair that matches an attribute in the profile. If the optional AdditionalSearchKeys parameter was included in the SearchProfiles request, the FoundByItems list should be interpreted based on the LogicalOperator used in the request:    AND - The profile included in the response matched all of the search keys specified in the request. The FoundByItems will include all of the key-value(s) pairs that were specified in the request (as this is a requirement of AND search logic).    OR - The profile included in the response matched at least one of the search keys specified in the request. The FoundByItems will include each of the key-value(s) pairs that the profile was found by.   The OR relationship is the default behavior if the LogicalOperator parameter is not included in the SearchProfiles request.
@@ -7256,11 +7535,13 @@ extension CustomerProfiles {
         public let phoneNumber: String?
         /// The unique identifier of a customer profile.
         public let profileId: String?
+        /// The type of the profile.
+        public let profileType: ProfileType?
         /// The customer’s shipping address.
         public let shippingAddress: Address?
 
         @inlinable
-        public init(accountNumber: String? = nil, additionalInformation: String? = nil, address: Address? = nil, attributes: [String: String]? = nil, billingAddress: Address? = nil, birthDate: String? = nil, businessEmailAddress: String? = nil, businessName: String? = nil, businessPhoneNumber: String? = nil, emailAddress: String? = nil, firstName: String? = nil, foundByItems: [FoundByKeyValue]? = nil, gender: Gender? = nil, genderString: String? = nil, homePhoneNumber: String? = nil, lastName: String? = nil, mailingAddress: Address? = nil, middleName: String? = nil, mobilePhoneNumber: String? = nil, partyType: PartyType? = nil, partyTypeString: String? = nil, personalEmailAddress: String? = nil, phoneNumber: String? = nil, profileId: String? = nil, shippingAddress: Address? = nil) {
+        public init(accountNumber: String? = nil, additionalInformation: String? = nil, address: Address? = nil, attributes: [String: String]? = nil, billingAddress: Address? = nil, birthDate: String? = nil, businessEmailAddress: String? = nil, businessName: String? = nil, businessPhoneNumber: String? = nil, emailAddress: String? = nil, engagementPreferences: EngagementPreferences? = nil, firstName: String? = nil, foundByItems: [FoundByKeyValue]? = nil, gender: Gender? = nil, genderString: String? = nil, homePhoneNumber: String? = nil, lastName: String? = nil, mailingAddress: Address? = nil, middleName: String? = nil, mobilePhoneNumber: String? = nil, partyType: PartyType? = nil, partyTypeString: String? = nil, personalEmailAddress: String? = nil, phoneNumber: String? = nil, profileId: String? = nil, profileType: ProfileType? = nil, shippingAddress: Address? = nil) {
             self.accountNumber = accountNumber
             self.additionalInformation = additionalInformation
             self.address = address
@@ -7271,6 +7552,7 @@ extension CustomerProfiles {
             self.businessName = businessName
             self.businessPhoneNumber = businessPhoneNumber
             self.emailAddress = emailAddress
+            self.engagementPreferences = engagementPreferences
             self.firstName = firstName
             self.foundByItems = foundByItems
             self.gender = gender
@@ -7285,6 +7567,7 @@ extension CustomerProfiles {
             self.personalEmailAddress = personalEmailAddress
             self.phoneNumber = phoneNumber
             self.profileId = profileId
+            self.profileType = profileType
             self.shippingAddress = shippingAddress
         }
 
@@ -7299,6 +7582,7 @@ extension CustomerProfiles {
             case businessName = "BusinessName"
             case businessPhoneNumber = "BusinessPhoneNumber"
             case emailAddress = "EmailAddress"
+            case engagementPreferences = "EngagementPreferences"
             case firstName = "FirstName"
             case foundByItems = "FoundByItems"
             case gender = "Gender"
@@ -7313,6 +7597,7 @@ extension CustomerProfiles {
             case personalEmailAddress = "PersonalEmailAddress"
             case phoneNumber = "PhoneNumber"
             case profileId = "ProfileId"
+            case profileType = "ProfileType"
             case shippingAddress = "ShippingAddress"
         }
     }
@@ -7422,11 +7707,13 @@ extension CustomerProfiles {
         public let personalEmailAddress: ProfileDimension?
         /// A field to describe values to segment on within phone number.
         public let phoneNumber: ProfileDimension?
+        /// A field to describe values to segment on within profile type.
+        public let profileType: ProfileTypeDimension?
         /// A field to describe values to segment on within shipping address.
         public let shippingAddress: AddressDimension?
 
         @inlinable
-        public init(accountNumber: ProfileDimension? = nil, additionalInformation: ExtraLengthValueProfileDimension? = nil, address: AddressDimension? = nil, attributes: [String: AttributeDimension]? = nil, billingAddress: AddressDimension? = nil, birthDate: DateDimension? = nil, businessEmailAddress: ProfileDimension? = nil, businessName: ProfileDimension? = nil, businessPhoneNumber: ProfileDimension? = nil, emailAddress: ProfileDimension? = nil, firstName: ProfileDimension? = nil, genderString: ProfileDimension? = nil, homePhoneNumber: ProfileDimension? = nil, lastName: ProfileDimension? = nil, mailingAddress: AddressDimension? = nil, middleName: ProfileDimension? = nil, mobilePhoneNumber: ProfileDimension? = nil, partyTypeString: ProfileDimension? = nil, personalEmailAddress: ProfileDimension? = nil, phoneNumber: ProfileDimension? = nil, shippingAddress: AddressDimension? = nil) {
+        public init(accountNumber: ProfileDimension? = nil, additionalInformation: ExtraLengthValueProfileDimension? = nil, address: AddressDimension? = nil, attributes: [String: AttributeDimension]? = nil, billingAddress: AddressDimension? = nil, birthDate: DateDimension? = nil, businessEmailAddress: ProfileDimension? = nil, businessName: ProfileDimension? = nil, businessPhoneNumber: ProfileDimension? = nil, emailAddress: ProfileDimension? = nil, firstName: ProfileDimension? = nil, genderString: ProfileDimension? = nil, homePhoneNumber: ProfileDimension? = nil, lastName: ProfileDimension? = nil, mailingAddress: AddressDimension? = nil, middleName: ProfileDimension? = nil, mobilePhoneNumber: ProfileDimension? = nil, partyTypeString: ProfileDimension? = nil, personalEmailAddress: ProfileDimension? = nil, phoneNumber: ProfileDimension? = nil, profileType: ProfileTypeDimension? = nil, shippingAddress: AddressDimension? = nil) {
             self.accountNumber = accountNumber
             self.additionalInformation = additionalInformation
             self.address = address
@@ -7447,6 +7734,7 @@ extension CustomerProfiles {
             self.partyTypeString = partyTypeString
             self.personalEmailAddress = personalEmailAddress
             self.phoneNumber = phoneNumber
+            self.profileType = profileType
             self.shippingAddress = shippingAddress
         }
 
@@ -7476,6 +7764,7 @@ extension CustomerProfiles {
             try self.partyTypeString?.validate(name: "\(name).partyTypeString")
             try self.personalEmailAddress?.validate(name: "\(name).personalEmailAddress")
             try self.phoneNumber?.validate(name: "\(name).phoneNumber")
+            try self.profileType?.validate(name: "\(name).profileType")
             try self.shippingAddress?.validate(name: "\(name).shippingAddress")
         }
 
@@ -7500,6 +7789,7 @@ extension CustomerProfiles {
             case partyTypeString = "PartyTypeString"
             case personalEmailAddress = "PersonalEmailAddress"
             case phoneNumber = "PhoneNumber"
+            case profileType = "ProfileType"
             case shippingAddress = "ShippingAddress"
         }
     }
@@ -7528,6 +7818,44 @@ extension CustomerProfiles {
         private enum CodingKeys: String, CodingKey {
             case dimensionType = "DimensionType"
             case values = "Values"
+        }
+    }
+
+    public struct ProfileHistoryRecord: AWSDecodableShape {
+        /// The action type of the profile history record.
+        public let actionType: ActionType
+        /// The timestamp of when the profile history record was created.
+        public let createdAt: Date
+        /// The unique identifier of the profile history record.
+        public let id: String
+        /// The timestamp of when the profile history record was last updated.
+        public let lastUpdatedAt: Date?
+        /// The name of the profile object type.
+        public let objectTypeName: String
+        /// The Amazon Resource Name (ARN) of the person or service principal who performed the action.
+        public let performedBy: String?
+        /// The unique identifier of the profile object generated by the service.
+        public let profileObjectUniqueKey: String?
+
+        @inlinable
+        public init(actionType: ActionType, createdAt: Date, id: String, lastUpdatedAt: Date? = nil, objectTypeName: String, performedBy: String? = nil, profileObjectUniqueKey: String? = nil) {
+            self.actionType = actionType
+            self.createdAt = createdAt
+            self.id = id
+            self.lastUpdatedAt = lastUpdatedAt
+            self.objectTypeName = objectTypeName
+            self.performedBy = performedBy
+            self.profileObjectUniqueKey = profileObjectUniqueKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionType = "ActionType"
+            case createdAt = "CreatedAt"
+            case id = "Id"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case objectTypeName = "ObjectTypeName"
+            case performedBy = "PerformedBy"
+            case profileObjectUniqueKey = "ProfileObjectUniqueKey"
         }
     }
 
@@ -7571,6 +7899,29 @@ extension CustomerProfiles {
             case profile = "Profile"
             case profileId = "ProfileId"
             case queryResult = "QueryResult"
+        }
+    }
+
+    public struct ProfileTypeDimension: AWSEncodableShape & AWSDecodableShape {
+        /// The action to segment on.
+        public let dimensionType: ProfileTypeDimensionType
+        /// The values to apply the DimensionType on.
+        public let values: [ProfileType]
+
+        @inlinable
+        public init(dimensionType: ProfileTypeDimensionType, values: [ProfileType]) {
+            self.dimensionType = dimensionType
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.values, name: "values", parent: name, max: 1)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensionType = "DimensionType"
+            case values = "Values"
         }
     }
 
@@ -9378,6 +9729,8 @@ extension CustomerProfiles {
         public let domainName: String
         /// The customer’s email address, which has not been specified as a personal or business address.
         public let emailAddress: String?
+        /// Object that defines users preferred methods of engagement.
+        public let engagementPreferences: EngagementPreferences?
         /// The customer’s first name.
         public let firstName: String?
         /// The gender with which the customer identifies.
@@ -9404,11 +9757,13 @@ extension CustomerProfiles {
         public let phoneNumber: String?
         /// The unique identifier of a customer profile.
         public let profileId: String
+        /// Determines the type of the profile.
+        public let profileType: ProfileType?
         /// The customer’s shipping address.
         public let shippingAddress: UpdateAddress?
 
         @inlinable
-        public init(accountNumber: String? = nil, additionalInformation: String? = nil, address: UpdateAddress? = nil, attributes: [String: String]? = nil, billingAddress: UpdateAddress? = nil, birthDate: String? = nil, businessEmailAddress: String? = nil, businessName: String? = nil, businessPhoneNumber: String? = nil, domainName: String, emailAddress: String? = nil, firstName: String? = nil, gender: Gender? = nil, genderString: String? = nil, homePhoneNumber: String? = nil, lastName: String? = nil, mailingAddress: UpdateAddress? = nil, middleName: String? = nil, mobilePhoneNumber: String? = nil, partyType: PartyType? = nil, partyTypeString: String? = nil, personalEmailAddress: String? = nil, phoneNumber: String? = nil, profileId: String, shippingAddress: UpdateAddress? = nil) {
+        public init(accountNumber: String? = nil, additionalInformation: String? = nil, address: UpdateAddress? = nil, attributes: [String: String]? = nil, billingAddress: UpdateAddress? = nil, birthDate: String? = nil, businessEmailAddress: String? = nil, businessName: String? = nil, businessPhoneNumber: String? = nil, domainName: String, emailAddress: String? = nil, engagementPreferences: EngagementPreferences? = nil, firstName: String? = nil, gender: Gender? = nil, genderString: String? = nil, homePhoneNumber: String? = nil, lastName: String? = nil, mailingAddress: UpdateAddress? = nil, middleName: String? = nil, mobilePhoneNumber: String? = nil, partyType: PartyType? = nil, partyTypeString: String? = nil, personalEmailAddress: String? = nil, phoneNumber: String? = nil, profileId: String, profileType: ProfileType? = nil, shippingAddress: UpdateAddress? = nil) {
             self.accountNumber = accountNumber
             self.additionalInformation = additionalInformation
             self.address = address
@@ -9420,6 +9775,7 @@ extension CustomerProfiles {
             self.businessPhoneNumber = businessPhoneNumber
             self.domainName = domainName
             self.emailAddress = emailAddress
+            self.engagementPreferences = engagementPreferences
             self.firstName = firstName
             self.gender = gender
             self.genderString = genderString
@@ -9433,6 +9789,7 @@ extension CustomerProfiles {
             self.personalEmailAddress = personalEmailAddress
             self.phoneNumber = phoneNumber
             self.profileId = profileId
+            self.profileType = profileType
             self.shippingAddress = shippingAddress
         }
 
@@ -9450,6 +9807,7 @@ extension CustomerProfiles {
             try container.encodeIfPresent(self.businessPhoneNumber, forKey: .businessPhoneNumber)
             request.encodePath(self.domainName, key: "DomainName")
             try container.encodeIfPresent(self.emailAddress, forKey: .emailAddress)
+            try container.encodeIfPresent(self.engagementPreferences, forKey: .engagementPreferences)
             try container.encodeIfPresent(self.firstName, forKey: .firstName)
             try container.encodeIfPresent(self.gender, forKey: .gender)
             try container.encodeIfPresent(self.genderString, forKey: .genderString)
@@ -9463,6 +9821,7 @@ extension CustomerProfiles {
             try container.encodeIfPresent(self.personalEmailAddress, forKey: .personalEmailAddress)
             try container.encodeIfPresent(self.phoneNumber, forKey: .phoneNumber)
             try container.encode(self.profileId, forKey: .profileId)
+            try container.encodeIfPresent(self.profileType, forKey: .profileType)
             try container.encodeIfPresent(self.shippingAddress, forKey: .shippingAddress)
         }
 
@@ -9484,6 +9843,7 @@ extension CustomerProfiles {
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, max: 255)
+            try self.engagementPreferences?.validate(name: "\(name).engagementPreferences")
             try self.validate(self.firstName, name: "firstName", parent: name, max: 255)
             try self.validate(self.genderString, name: "genderString", parent: name, max: 255)
             try self.validate(self.homePhoneNumber, name: "homePhoneNumber", parent: name, max: 255)
@@ -9509,6 +9869,7 @@ extension CustomerProfiles {
             case businessName = "BusinessName"
             case businessPhoneNumber = "BusinessPhoneNumber"
             case emailAddress = "EmailAddress"
+            case engagementPreferences = "EngagementPreferences"
             case firstName = "FirstName"
             case gender = "Gender"
             case genderString = "GenderString"
@@ -9522,6 +9883,7 @@ extension CustomerProfiles {
             case personalEmailAddress = "PersonalEmailAddress"
             case phoneNumber = "PhoneNumber"
             case profileId = "ProfileId"
+            case profileType = "ProfileType"
             case shippingAddress = "ShippingAddress"
         }
     }

@@ -53,6 +53,83 @@ extension Bedrock {
         public var description: String { return self.rawValue }
     }
 
+    public enum AutomatedReasoningCheckLogicWarningType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case alwaysFalse = "ALWAYS_FALSE"
+        case alwaysTrue = "ALWAYS_TRUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutomatedReasoningCheckResult: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case impossible = "IMPOSSIBLE"
+        case invalid = "INVALID"
+        case noTranslation = "NO_TRANSLATION"
+        case satisfiable = "SATISFIABLE"
+        case tooComplex = "TOO_COMPLEX"
+        case translationAmbiguous = "TRANSLATION_AMBIGUOUS"
+        case valid = "VALID"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutomatedReasoningPolicyAnnotationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case applied = "APPLIED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutomatedReasoningPolicyBuildDocumentContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case pdf = "pdf"
+        case text = "txt"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutomatedReasoningPolicyBuildMessageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case error = "ERROR"
+        case info = "INFO"
+        case warning = "WARNING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutomatedReasoningPolicyBuildResultAssetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case buildLog = "BUILD_LOG"
+        case policyDefinition = "POLICY_DEFINITION"
+        case qualityReport = "QUALITY_REPORT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutomatedReasoningPolicyBuildWorkflowStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case building = "BUILDING"
+        case cancelRequested = "CANCEL_REQUESTED"
+        case cancelled = "CANCELLED"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case preprocessing = "PREPROCESSING"
+        case scheduled = "SCHEDULED"
+        case testing = "TESTING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutomatedReasoningPolicyBuildWorkflowType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case importPolicy = "IMPORT_POLICY"
+        case ingestContent = "INGEST_CONTENT"
+        case refinePolicy = "REFINE_POLICY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutomatedReasoningPolicyTestRunResult: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case passed = "PASSED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutomatedReasoningPolicyTestRunStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case notStarted = "NOT_STARTED"
+        case scheduled = "SCHEDULED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CommitmentDuration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case oneMonth = "OneMonth"
         case sixMonths = "SixMonths"
@@ -434,6 +511,500 @@ extension Bedrock {
     public enum VectorSearchRerankingConfigurationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bedrockRerankingModel = "BEDROCK_RERANKING_MODEL"
         public var description: String { return self.rawValue }
+    }
+
+    public enum AutomatedReasoningCheckFinding: AWSDecodableShape, Sendable {
+        /// Indicates that Automated Reasoning cannot make a statement about the claims. This can happen if the premises are logically incorrect, or if there is a conflict within the Automated Reasoning policy itself.
+        case impossible(AutomatedReasoningCheckImpossibleFinding)
+        /// Indicates that the claims are false. The claims are not implied by the premises and Automated Reasoning policy. Furthermore, there exist different claims that are consistent with the premises and Automated Reasoning policy.
+        case invalid(AutomatedReasoningCheckInvalidFinding)
+        /// Identifies that some or all of the input prompt wasn't translated into logic. This can happen if the input isn't relevant to the Automated Reasoning policy, or if the policy doesn't have variables to model relevant input.
+        case noTranslations(AutomatedReasoningCheckNoTranslationsFinding)
+        /// Indicates that the claims can be true or false. It depends on what assumptions are made for the claim to be implied from the premises and Automated Reasoning policy rules. In this situation, different assumptions can make input claims false and alternative claims true.
+        case satisfiable(AutomatedReasoningCheckSatisfiableFinding)
+        /// Indicates that the input contains too much information for Automated Reasoning to process within its latency limits.
+        case tooComplex(AutomatedReasoningCheckTooComplexFinding)
+        /// Indicates that an ambiguity was detected in the translation, making it unsound to continue with validity checking. Additional context or follow-up questions might be needed to get translation to succeed.
+        case translationAmbiguous(AutomatedReasoningCheckTranslationAmbiguousFinding)
+        /// Indicates that the claims are true. The claims are implied by the premises and the Automated Reasoning policy. Given the Automated Reasoning policy and premises, it is not possible for these claims to be false.
+        case valid(AutomatedReasoningCheckValidFinding)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .impossible:
+                let value = try container.decode(AutomatedReasoningCheckImpossibleFinding.self, forKey: .impossible)
+                self = .impossible(value)
+            case .invalid:
+                let value = try container.decode(AutomatedReasoningCheckInvalidFinding.self, forKey: .invalid)
+                self = .invalid(value)
+            case .noTranslations:
+                let value = try container.decode(AutomatedReasoningCheckNoTranslationsFinding.self, forKey: .noTranslations)
+                self = .noTranslations(value)
+            case .satisfiable:
+                let value = try container.decode(AutomatedReasoningCheckSatisfiableFinding.self, forKey: .satisfiable)
+                self = .satisfiable(value)
+            case .tooComplex:
+                let value = try container.decode(AutomatedReasoningCheckTooComplexFinding.self, forKey: .tooComplex)
+                self = .tooComplex(value)
+            case .translationAmbiguous:
+                let value = try container.decode(AutomatedReasoningCheckTranslationAmbiguousFinding.self, forKey: .translationAmbiguous)
+                self = .translationAmbiguous(value)
+            case .valid:
+                let value = try container.decode(AutomatedReasoningCheckValidFinding.self, forKey: .valid)
+                self = .valid(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case impossible = "impossible"
+            case invalid = "invalid"
+            case noTranslations = "noTranslations"
+            case satisfiable = "satisfiable"
+            case tooComplex = "tooComplex"
+            case translationAmbiguous = "translationAmbiguous"
+            case valid = "valid"
+        }
+    }
+
+    public enum AutomatedReasoningPolicyAnnotation: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// An operation to add a new logical rule to the policy using formal mathematical expressions.
+        case addRule(AutomatedReasoningPolicyAddRuleAnnotation)
+        /// An operation to add a new rule by converting natural language descriptions into formal logical expressions.
+        case addRuleFromNaturalLanguage(AutomatedReasoningPolicyAddRuleFromNaturalLanguageAnnotation)
+        /// An operation to add a new custom type to the policy, defining a set of possible values for policy variables.
+        case addType(AutomatedReasoningPolicyAddTypeAnnotation)
+        /// An operation to add a new variable to the policy, which can be used in rule expressions to represent dynamic values.
+        case addVariable(AutomatedReasoningPolicyAddVariableAnnotation)
+        /// An operation to remove a rule from the policy.
+        case deleteRule(AutomatedReasoningPolicyDeleteRuleAnnotation)
+        /// An operation to remove a custom type from the policy. The type must not be referenced by any variables or rules.
+        case deleteType(AutomatedReasoningPolicyDeleteTypeAnnotation)
+        /// An operation to remove a variable from the policy. The variable must not be referenced by any rules.
+        case deleteVariable(AutomatedReasoningPolicyDeleteVariableAnnotation)
+        /// An operation to process and incorporate new content into the policy, extracting additional rules and concepts.
+        case ingestContent(AutomatedReasoningPolicyIngestContentAnnotation)
+        /// An operation to update the policy based on feedback about how specific rules performed during testing or validation.
+        case updateFromRulesFeedback(AutomatedReasoningPolicyUpdateFromRuleFeedbackAnnotation)
+        /// An operation to update the policy based on feedback about how it performed on specific test scenarios.
+        case updateFromScenarioFeedback(AutomatedReasoningPolicyUpdateFromScenarioFeedbackAnnotation)
+        /// An operation to modify an existing rule in the policy, such as changing its logical expression or conditions.
+        case updateRule(AutomatedReasoningPolicyUpdateRuleAnnotation)
+        /// An operation to modify an existing custom type in the policy, such as changing its name, description, or allowed values.
+        case updateType(AutomatedReasoningPolicyUpdateTypeAnnotation)
+        /// An operation to modify an existing variable in the policy, such as changing its name, type, or description.
+        case updateVariable(AutomatedReasoningPolicyUpdateVariableAnnotation)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .addRule:
+                let value = try container.decode(AutomatedReasoningPolicyAddRuleAnnotation.self, forKey: .addRule)
+                self = .addRule(value)
+            case .addRuleFromNaturalLanguage:
+                let value = try container.decode(AutomatedReasoningPolicyAddRuleFromNaturalLanguageAnnotation.self, forKey: .addRuleFromNaturalLanguage)
+                self = .addRuleFromNaturalLanguage(value)
+            case .addType:
+                let value = try container.decode(AutomatedReasoningPolicyAddTypeAnnotation.self, forKey: .addType)
+                self = .addType(value)
+            case .addVariable:
+                let value = try container.decode(AutomatedReasoningPolicyAddVariableAnnotation.self, forKey: .addVariable)
+                self = .addVariable(value)
+            case .deleteRule:
+                let value = try container.decode(AutomatedReasoningPolicyDeleteRuleAnnotation.self, forKey: .deleteRule)
+                self = .deleteRule(value)
+            case .deleteType:
+                let value = try container.decode(AutomatedReasoningPolicyDeleteTypeAnnotation.self, forKey: .deleteType)
+                self = .deleteType(value)
+            case .deleteVariable:
+                let value = try container.decode(AutomatedReasoningPolicyDeleteVariableAnnotation.self, forKey: .deleteVariable)
+                self = .deleteVariable(value)
+            case .ingestContent:
+                let value = try container.decode(AutomatedReasoningPolicyIngestContentAnnotation.self, forKey: .ingestContent)
+                self = .ingestContent(value)
+            case .updateFromRulesFeedback:
+                let value = try container.decode(AutomatedReasoningPolicyUpdateFromRuleFeedbackAnnotation.self, forKey: .updateFromRulesFeedback)
+                self = .updateFromRulesFeedback(value)
+            case .updateFromScenarioFeedback:
+                let value = try container.decode(AutomatedReasoningPolicyUpdateFromScenarioFeedbackAnnotation.self, forKey: .updateFromScenarioFeedback)
+                self = .updateFromScenarioFeedback(value)
+            case .updateRule:
+                let value = try container.decode(AutomatedReasoningPolicyUpdateRuleAnnotation.self, forKey: .updateRule)
+                self = .updateRule(value)
+            case .updateType:
+                let value = try container.decode(AutomatedReasoningPolicyUpdateTypeAnnotation.self, forKey: .updateType)
+                self = .updateType(value)
+            case .updateVariable:
+                let value = try container.decode(AutomatedReasoningPolicyUpdateVariableAnnotation.self, forKey: .updateVariable)
+                self = .updateVariable(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .addRule(let value):
+                try container.encode(value, forKey: .addRule)
+            case .addRuleFromNaturalLanguage(let value):
+                try container.encode(value, forKey: .addRuleFromNaturalLanguage)
+            case .addType(let value):
+                try container.encode(value, forKey: .addType)
+            case .addVariable(let value):
+                try container.encode(value, forKey: .addVariable)
+            case .deleteRule(let value):
+                try container.encode(value, forKey: .deleteRule)
+            case .deleteType(let value):
+                try container.encode(value, forKey: .deleteType)
+            case .deleteVariable(let value):
+                try container.encode(value, forKey: .deleteVariable)
+            case .ingestContent(let value):
+                try container.encode(value, forKey: .ingestContent)
+            case .updateFromRulesFeedback(let value):
+                try container.encode(value, forKey: .updateFromRulesFeedback)
+            case .updateFromScenarioFeedback(let value):
+                try container.encode(value, forKey: .updateFromScenarioFeedback)
+            case .updateRule(let value):
+                try container.encode(value, forKey: .updateRule)
+            case .updateType(let value):
+                try container.encode(value, forKey: .updateType)
+            case .updateVariable(let value):
+                try container.encode(value, forKey: .updateVariable)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .addRule(let value):
+                try value.validate(name: "\(name).addRule")
+            case .addRuleFromNaturalLanguage(let value):
+                try value.validate(name: "\(name).addRuleFromNaturalLanguage")
+            case .addType(let value):
+                try value.validate(name: "\(name).addType")
+            case .addVariable(let value):
+                try value.validate(name: "\(name).addVariable")
+            case .deleteRule(let value):
+                try value.validate(name: "\(name).deleteRule")
+            case .deleteType(let value):
+                try value.validate(name: "\(name).deleteType")
+            case .deleteVariable(let value):
+                try value.validate(name: "\(name).deleteVariable")
+            case .ingestContent(let value):
+                try value.validate(name: "\(name).ingestContent")
+            case .updateFromRulesFeedback(let value):
+                try value.validate(name: "\(name).updateFromRulesFeedback")
+            case .updateFromScenarioFeedback(let value):
+                try value.validate(name: "\(name).updateFromScenarioFeedback")
+            case .updateRule(let value):
+                try value.validate(name: "\(name).updateRule")
+            case .updateType(let value):
+                try value.validate(name: "\(name).updateType")
+            case .updateVariable(let value):
+                try value.validate(name: "\(name).updateVariable")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addRule = "addRule"
+            case addRuleFromNaturalLanguage = "addRuleFromNaturalLanguage"
+            case addType = "addType"
+            case addVariable = "addVariable"
+            case deleteRule = "deleteRule"
+            case deleteType = "deleteType"
+            case deleteVariable = "deleteVariable"
+            case ingestContent = "ingestContent"
+            case updateFromRulesFeedback = "updateFromRulesFeedback"
+            case updateFromScenarioFeedback = "updateFromScenarioFeedback"
+            case updateRule = "updateRule"
+            case updateType = "updateType"
+            case updateVariable = "updateVariable"
+        }
+    }
+
+    public enum AutomatedReasoningPolicyBuildResultAssets: AWSDecodableShape, Sendable {
+        /// The complete build log containing detailed information about each step in the policy generation process.
+        case buildLog(AutomatedReasoningPolicyBuildLog)
+        /// The complete policy definition generated by the build workflow, containing all rules, variables, and custom types extracted from the source documents.
+        case policyDefinition(AutomatedReasoningPolicyDefinition)
+        /// A comprehensive report analyzing the quality of the generated policy, including metrics about rule coverage, potential conflicts, and unused elements.
+        case qualityReport(AutomatedReasoningPolicyDefinitionQualityReport)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .buildLog:
+                let value = try container.decode(AutomatedReasoningPolicyBuildLog.self, forKey: .buildLog)
+                self = .buildLog(value)
+            case .policyDefinition:
+                let value = try container.decode(AutomatedReasoningPolicyDefinition.self, forKey: .policyDefinition)
+                self = .policyDefinition(value)
+            case .qualityReport:
+                let value = try container.decode(AutomatedReasoningPolicyDefinitionQualityReport.self, forKey: .qualityReport)
+                self = .qualityReport(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case buildLog = "buildLog"
+            case policyDefinition = "policyDefinition"
+            case qualityReport = "qualityReport"
+        }
+    }
+
+    public enum AutomatedReasoningPolicyBuildStepContext: AWSDecodableShape, Sendable {
+        /// Indicates that this build step involved modifying the policy structure, such as adding or updating rules, variables, or types.
+        case mutation(AutomatedReasoningPolicyMutation)
+        /// Indicates that this build step was part of the planning phase, where the system determines what operations to perform.
+        case planning(AutomatedReasoningPolicyPlanning)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .mutation:
+                let value = try container.decode(AutomatedReasoningPolicyMutation.self, forKey: .mutation)
+                self = .mutation(value)
+            case .planning:
+                let value = try container.decode(AutomatedReasoningPolicyPlanning.self, forKey: .planning)
+                self = .planning(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mutation = "mutation"
+            case planning = "planning"
+        }
+    }
+
+    public enum AutomatedReasoningPolicyDefinitionElement: AWSDecodableShape, Sendable {
+        /// A rule element within the policy definition that contains a formal logical expression used for validation.
+        case policyDefinitionRule(AutomatedReasoningPolicyDefinitionRule)
+        /// A custom type element within the policy definition that defines a set of possible values for variables.
+        case policyDefinitionType(AutomatedReasoningPolicyDefinitionType)
+        /// A variable element within the policy definition that represents a concept used in logical expressions and rules.
+        case policyDefinitionVariable(AutomatedReasoningPolicyDefinitionVariable)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .policyDefinitionRule:
+                let value = try container.decode(AutomatedReasoningPolicyDefinitionRule.self, forKey: .policyDefinitionRule)
+                self = .policyDefinitionRule(value)
+            case .policyDefinitionType:
+                let value = try container.decode(AutomatedReasoningPolicyDefinitionType.self, forKey: .policyDefinitionType)
+                self = .policyDefinitionType(value)
+            case .policyDefinitionVariable:
+                let value = try container.decode(AutomatedReasoningPolicyDefinitionVariable.self, forKey: .policyDefinitionVariable)
+                self = .policyDefinitionVariable(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyDefinitionRule = "policyDefinitionRule"
+            case policyDefinitionType = "policyDefinitionType"
+            case policyDefinitionVariable = "policyDefinitionVariable"
+        }
+    }
+
+    public enum AutomatedReasoningPolicyMutation: AWSDecodableShape, Sendable {
+        /// A mutation to add a new rule to the policy.
+        case addRule(AutomatedReasoningPolicyAddRuleMutation)
+        /// A mutation to add a new custom type to the policy.
+        case addType(AutomatedReasoningPolicyAddTypeMutation)
+        /// A mutation to add a new variable to the policy.
+        case addVariable(AutomatedReasoningPolicyAddVariableMutation)
+        /// A mutation to remove a rule from the policy.
+        case deleteRule(AutomatedReasoningPolicyDeleteRuleMutation)
+        /// A mutation to remove a custom type from the policy.
+        case deleteType(AutomatedReasoningPolicyDeleteTypeMutation)
+        /// A mutation to remove a variable from the policy.
+        case deleteVariable(AutomatedReasoningPolicyDeleteVariableMutation)
+        /// A mutation to modify an existing rule in the policy.
+        case updateRule(AutomatedReasoningPolicyUpdateRuleMutation)
+        /// A mutation to modify an existing custom type in the policy.
+        case updateType(AutomatedReasoningPolicyUpdateTypeMutation)
+        /// A mutation to modify an existing variable in the policy.
+        case updateVariable(AutomatedReasoningPolicyUpdateVariableMutation)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .addRule:
+                let value = try container.decode(AutomatedReasoningPolicyAddRuleMutation.self, forKey: .addRule)
+                self = .addRule(value)
+            case .addType:
+                let value = try container.decode(AutomatedReasoningPolicyAddTypeMutation.self, forKey: .addType)
+                self = .addType(value)
+            case .addVariable:
+                let value = try container.decode(AutomatedReasoningPolicyAddVariableMutation.self, forKey: .addVariable)
+                self = .addVariable(value)
+            case .deleteRule:
+                let value = try container.decode(AutomatedReasoningPolicyDeleteRuleMutation.self, forKey: .deleteRule)
+                self = .deleteRule(value)
+            case .deleteType:
+                let value = try container.decode(AutomatedReasoningPolicyDeleteTypeMutation.self, forKey: .deleteType)
+                self = .deleteType(value)
+            case .deleteVariable:
+                let value = try container.decode(AutomatedReasoningPolicyDeleteVariableMutation.self, forKey: .deleteVariable)
+                self = .deleteVariable(value)
+            case .updateRule:
+                let value = try container.decode(AutomatedReasoningPolicyUpdateRuleMutation.self, forKey: .updateRule)
+                self = .updateRule(value)
+            case .updateType:
+                let value = try container.decode(AutomatedReasoningPolicyUpdateTypeMutation.self, forKey: .updateType)
+                self = .updateType(value)
+            case .updateVariable:
+                let value = try container.decode(AutomatedReasoningPolicyUpdateVariableMutation.self, forKey: .updateVariable)
+                self = .updateVariable(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addRule = "addRule"
+            case addType = "addType"
+            case addVariable = "addVariable"
+            case deleteRule = "deleteRule"
+            case deleteType = "deleteType"
+            case deleteVariable = "deleteVariable"
+            case updateRule = "updateRule"
+            case updateType = "updateType"
+            case updateVariable = "updateVariable"
+        }
+    }
+
+    public enum AutomatedReasoningPolicyTypeValueAnnotation: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// An operation to add a new value to an existing custom type.
+        case addTypeValue(AutomatedReasoningPolicyAddTypeValue)
+        /// An operation to remove a value from an existing custom type.
+        case deleteTypeValue(AutomatedReasoningPolicyDeleteTypeValue)
+        /// An operation to modify an existing value within a custom type.
+        case updateTypeValue(AutomatedReasoningPolicyUpdateTypeValue)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .addTypeValue:
+                let value = try container.decode(AutomatedReasoningPolicyAddTypeValue.self, forKey: .addTypeValue)
+                self = .addTypeValue(value)
+            case .deleteTypeValue:
+                let value = try container.decode(AutomatedReasoningPolicyDeleteTypeValue.self, forKey: .deleteTypeValue)
+                self = .deleteTypeValue(value)
+            case .updateTypeValue:
+                let value = try container.decode(AutomatedReasoningPolicyUpdateTypeValue.self, forKey: .updateTypeValue)
+                self = .updateTypeValue(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .addTypeValue(let value):
+                try container.encode(value, forKey: .addTypeValue)
+            case .deleteTypeValue(let value):
+                try container.encode(value, forKey: .deleteTypeValue)
+            case .updateTypeValue(let value):
+                try container.encode(value, forKey: .updateTypeValue)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .addTypeValue(let value):
+                try value.validate(name: "\(name).addTypeValue")
+            case .deleteTypeValue(let value):
+                try value.validate(name: "\(name).deleteTypeValue")
+            case .updateTypeValue(let value):
+                try value.validate(name: "\(name).updateTypeValue")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addTypeValue = "addTypeValue"
+            case deleteTypeValue = "deleteTypeValue"
+            case updateTypeValue = "updateTypeValue"
+        }
+    }
+
+    public enum AutomatedReasoningPolicyWorkflowTypeContent: AWSEncodableShape, Sendable {
+        /// The list of documents to be processed in a document ingestion workflow.
+        case documents([AutomatedReasoningPolicyBuildWorkflowDocument])
+        /// The assets and instructions needed for a policy repair workflow, including repair annotations and guidance.
+        case policyRepairAssets(AutomatedReasoningPolicyBuildWorkflowRepairContent)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .documents(let value):
+                try container.encode(value, forKey: .documents)
+            case .policyRepairAssets(let value):
+                try container.encode(value, forKey: .policyRepairAssets)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .documents(let value):
+                try value.forEach {
+                    try $0.validate(name: "\(name).documents[]")
+                }
+                try self.validate(value, name: "documents", parent: name, max: 1)
+                try self.validate(value, name: "documents", parent: name, min: 1)
+            case .policyRepairAssets(let value):
+                try value.validate(name: "\(name).policyRepairAssets")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documents = "documents"
+            case policyRepairAssets = "policyRepairAssets"
+        }
     }
 
     public enum EvaluationConfig: AWSEncodableShape & AWSDecodableShape, Sendable {
@@ -1162,6 +1733,1394 @@ extension Bedrock {
         }
     }
 
+    public struct AutomatedReasoningCheckImpossibleFinding: AWSDecodableShape {
+        /// The automated reasoning policy rules that contradict the claims and/or premises in the input.
+        public let contradictingRules: [AutomatedReasoningCheckRule]?
+        /// Indication of a logic issue with the translation without needing to consider the automated reasoning policy rules.
+        public let logicWarning: AutomatedReasoningCheckLogicWarning?
+        /// The logical translation of the input that this finding evaluates.
+        public let translation: AutomatedReasoningCheckTranslation?
+
+        @inlinable
+        public init(contradictingRules: [AutomatedReasoningCheckRule]? = nil, logicWarning: AutomatedReasoningCheckLogicWarning? = nil, translation: AutomatedReasoningCheckTranslation? = nil) {
+            self.contradictingRules = contradictingRules
+            self.logicWarning = logicWarning
+            self.translation = translation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contradictingRules = "contradictingRules"
+            case logicWarning = "logicWarning"
+            case translation = "translation"
+        }
+    }
+
+    public struct AutomatedReasoningCheckInputTextReference: AWSDecodableShape {
+        /// The specific text from the original input that this reference points to.
+        public let text: String?
+
+        @inlinable
+        public init(text: String? = nil) {
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
+        }
+    }
+
+    public struct AutomatedReasoningCheckInvalidFinding: AWSDecodableShape {
+        /// The automated reasoning policy rules that contradict the claims in the input.
+        public let contradictingRules: [AutomatedReasoningCheckRule]?
+        /// Indication of a logic issue with the translation without needing to consider the automated reasoning policy rules.
+        public let logicWarning: AutomatedReasoningCheckLogicWarning?
+        /// The logical translation of the input that this finding invalidates.
+        public let translation: AutomatedReasoningCheckTranslation?
+
+        @inlinable
+        public init(contradictingRules: [AutomatedReasoningCheckRule]? = nil, logicWarning: AutomatedReasoningCheckLogicWarning? = nil, translation: AutomatedReasoningCheckTranslation? = nil) {
+            self.contradictingRules = contradictingRules
+            self.logicWarning = logicWarning
+            self.translation = translation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contradictingRules = "contradictingRules"
+            case logicWarning = "logicWarning"
+            case translation = "translation"
+        }
+    }
+
+    public struct AutomatedReasoningCheckLogicWarning: AWSDecodableShape {
+        /// The logical statements that are validated while assuming the policy and premises.
+        public let claims: [AutomatedReasoningLogicStatement]?
+        /// The logical statements that serve as premises under which the claims are validated.
+        public let premises: [AutomatedReasoningLogicStatement]?
+        /// The category of the detected logical issue, such as statements that are always true or always false.
+        public let type: AutomatedReasoningCheckLogicWarningType?
+
+        @inlinable
+        public init(claims: [AutomatedReasoningLogicStatement]? = nil, premises: [AutomatedReasoningLogicStatement]? = nil, type: AutomatedReasoningCheckLogicWarningType? = nil) {
+            self.claims = claims
+            self.premises = premises
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case claims = "claims"
+            case premises = "premises"
+            case type = "type"
+        }
+    }
+
+    public struct AutomatedReasoningCheckNoTranslationsFinding: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct AutomatedReasoningCheckRule: AWSDecodableShape {
+        /// The unique identifier of the automated reasoning rule.
+        public let id: String?
+        /// The ARN of the automated reasoning policy version that contains this rule.
+        public let policyVersionArn: String?
+
+        @inlinable
+        public init(id: String? = nil, policyVersionArn: String? = nil) {
+            self.id = id
+            self.policyVersionArn = policyVersionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case policyVersionArn = "policyVersionArn"
+        }
+    }
+
+    public struct AutomatedReasoningCheckSatisfiableFinding: AWSDecodableShape {
+        /// An example scenario demonstrating how the claims could be logically false.
+        public let claimsFalseScenario: AutomatedReasoningCheckScenario?
+        /// An example scenario demonstrating how the claims could be logically true.
+        public let claimsTrueScenario: AutomatedReasoningCheckScenario?
+        /// Indication of a logic issue with the translation without needing to consider the automated reasoning policy rules.
+        public let logicWarning: AutomatedReasoningCheckLogicWarning?
+        /// The logical translation of the input that this finding evaluates.
+        public let translation: AutomatedReasoningCheckTranslation?
+
+        @inlinable
+        public init(claimsFalseScenario: AutomatedReasoningCheckScenario? = nil, claimsTrueScenario: AutomatedReasoningCheckScenario? = nil, logicWarning: AutomatedReasoningCheckLogicWarning? = nil, translation: AutomatedReasoningCheckTranslation? = nil) {
+            self.claimsFalseScenario = claimsFalseScenario
+            self.claimsTrueScenario = claimsTrueScenario
+            self.logicWarning = logicWarning
+            self.translation = translation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case claimsFalseScenario = "claimsFalseScenario"
+            case claimsTrueScenario = "claimsTrueScenario"
+            case logicWarning = "logicWarning"
+            case translation = "translation"
+        }
+    }
+
+    public struct AutomatedReasoningCheckScenario: AWSDecodableShape {
+        /// List of logical assignments and statements that define this scenario.
+        public let statements: [AutomatedReasoningLogicStatement]?
+
+        @inlinable
+        public init(statements: [AutomatedReasoningLogicStatement]? = nil) {
+            self.statements = statements
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statements = "statements"
+        }
+    }
+
+    public struct AutomatedReasoningCheckTooComplexFinding: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct AutomatedReasoningCheckTranslation: AWSDecodableShape {
+        /// The logical statements that are being validated against the premises and policy rules.
+        public let claims: [AutomatedReasoningLogicStatement]
+        /// A confidence score between 0 and 1 indicating how certain the system is about the logical translation.
+        public let confidence: Double
+        /// The logical statements that serve as the foundation or assumptions for the claims.
+        public let premises: [AutomatedReasoningLogicStatement]?
+        /// References to portions of the original input text that correspond to the claims but could not be fully translated.
+        public let untranslatedClaims: [AutomatedReasoningCheckInputTextReference]?
+        /// References to portions of the original input text that correspond to the premises but could not be fully translated.
+        public let untranslatedPremises: [AutomatedReasoningCheckInputTextReference]?
+
+        @inlinable
+        public init(claims: [AutomatedReasoningLogicStatement], confidence: Double, premises: [AutomatedReasoningLogicStatement]? = nil, untranslatedClaims: [AutomatedReasoningCheckInputTextReference]? = nil, untranslatedPremises: [AutomatedReasoningCheckInputTextReference]? = nil) {
+            self.claims = claims
+            self.confidence = confidence
+            self.premises = premises
+            self.untranslatedClaims = untranslatedClaims
+            self.untranslatedPremises = untranslatedPremises
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case claims = "claims"
+            case confidence = "confidence"
+            case premises = "premises"
+            case untranslatedClaims = "untranslatedClaims"
+            case untranslatedPremises = "untranslatedPremises"
+        }
+    }
+
+    public struct AutomatedReasoningCheckTranslationAmbiguousFinding: AWSDecodableShape {
+        /// Scenarios showing how the different translation options differ in meaning.
+        public let differenceScenarios: [AutomatedReasoningCheckScenario]?
+        /// Different logical interpretations that were detected during translation of the input.
+        public let options: [AutomatedReasoningCheckTranslationOption]?
+
+        @inlinable
+        public init(differenceScenarios: [AutomatedReasoningCheckScenario]? = nil, options: [AutomatedReasoningCheckTranslationOption]? = nil) {
+            self.differenceScenarios = differenceScenarios
+            self.options = options
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case differenceScenarios = "differenceScenarios"
+            case options = "options"
+        }
+    }
+
+    public struct AutomatedReasoningCheckTranslationOption: AWSDecodableShape {
+        /// Different logical interpretations that were detected during translation of the input.
+        public let translations: [AutomatedReasoningCheckTranslation]?
+
+        @inlinable
+        public init(translations: [AutomatedReasoningCheckTranslation]? = nil) {
+            self.translations = translations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case translations = "translations"
+        }
+    }
+
+    public struct AutomatedReasoningCheckValidFinding: AWSDecodableShape {
+        /// An example scenario demonstrating how the claims are logically true.
+        public let claimsTrueScenario: AutomatedReasoningCheckScenario?
+        /// Indication of a logic issue with the translation without needing to consider the automated reasoning policy rules.
+        public let logicWarning: AutomatedReasoningCheckLogicWarning?
+        /// The automated reasoning policy rules that support why this result is considered valid.
+        public let supportingRules: [AutomatedReasoningCheckRule]?
+        /// The logical translation of the input that this finding validates.
+        public let translation: AutomatedReasoningCheckTranslation?
+
+        @inlinable
+        public init(claimsTrueScenario: AutomatedReasoningCheckScenario? = nil, logicWarning: AutomatedReasoningCheckLogicWarning? = nil, supportingRules: [AutomatedReasoningCheckRule]? = nil, translation: AutomatedReasoningCheckTranslation? = nil) {
+            self.claimsTrueScenario = claimsTrueScenario
+            self.logicWarning = logicWarning
+            self.supportingRules = supportingRules
+            self.translation = translation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case claimsTrueScenario = "claimsTrueScenario"
+            case logicWarning = "logicWarning"
+            case supportingRules = "supportingRules"
+            case translation = "translation"
+        }
+    }
+
+    public struct AutomatedReasoningLogicStatement: AWSDecodableShape {
+        /// The formal logic representation of the statement using mathematical notation and logical operators.
+        public let logic: String
+        /// The natural language representation of the logical statement, providing a human-readable interpretation of the formal logic.
+        public let naturalLanguage: String?
+
+        @inlinable
+        public init(logic: String, naturalLanguage: String? = nil) {
+            self.logic = logic
+            self.naturalLanguage = naturalLanguage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logic = "logic"
+            case naturalLanguage = "naturalLanguage"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyAddRuleAnnotation: AWSEncodableShape & AWSDecodableShape {
+        /// The formal logical expression that defines the rule, using mathematical notation and referencing policy variables and types.
+        public let expression: String
+
+        @inlinable
+        public init(expression: String) {
+            self.expression = expression
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expression, name: "expression", parent: name, max: 2048)
+            try self.validate(self.expression, name: "expression", parent: name, pattern: "^[\\s\\S]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expression = "expression"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyAddRuleFromNaturalLanguageAnnotation: AWSEncodableShape & AWSDecodableShape {
+        /// The natural language description of the rule that should be converted into a formal logical expression.
+        public let naturalLanguage: String
+
+        @inlinable
+        public init(naturalLanguage: String) {
+            self.naturalLanguage = naturalLanguage
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.naturalLanguage, name: "naturalLanguage", parent: name, max: 1024)
+            try self.validate(self.naturalLanguage, name: "naturalLanguage", parent: name, pattern: "^[\\s\\S]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case naturalLanguage = "naturalLanguage"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyAddRuleMutation: AWSDecodableShape {
+        /// The rule definition that specifies the formal logical expression and metadata for the new rule being added to the policy.
+        public let rule: AutomatedReasoningPolicyDefinitionRule
+
+        @inlinable
+        public init(rule: AutomatedReasoningPolicyDefinitionRule) {
+            self.rule = rule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rule = "rule"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyAddTypeAnnotation: AWSEncodableShape & AWSDecodableShape {
+        /// A description of what the custom type represents and how it should be used in the policy.
+        public let description: String
+        /// The name of the new custom type. This name will be used to reference the type in variable definitions and rules.
+        public let name: String
+        /// The list of possible values that variables of this type can take, each with its own description and identifier.
+        public let values: [AutomatedReasoningPolicyDefinitionTypeValue]
+
+        @inlinable
+        public init(description: String, name: String, values: [AutomatedReasoningPolicyDefinitionTypeValue]) {
+            self.description = description
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.values.forEach {
+                try $0.validate(name: "\(name).values[]")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 150)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case values = "values"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyAddTypeMutation: AWSDecodableShape {
+        /// The type definition that specifies the name, description, and possible values for the new custom type being added to the policy.
+        public let type: AutomatedReasoningPolicyDefinitionType
+
+        @inlinable
+        public init(type: AutomatedReasoningPolicyDefinitionType) {
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "type"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyAddTypeValue: AWSEncodableShape & AWSDecodableShape {
+        /// A description of what this new type value represents and when it should be used.
+        public let description: String?
+        /// The identifier or name of the new value to add to the type.
+        public let value: String
+
+        @inlinable
+        public init(description: String? = nil, value: String) {
+            self.description = description
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
+            try self.validate(self.value, name: "value", parent: name, max: 64)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case value = "value"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyAddVariableAnnotation: AWSEncodableShape & AWSDecodableShape {
+        /// A description of what the variable represents and how it should be used in rules.
+        public let description: String
+        /// The name of the new variable. This name will be used to reference the variable in rule expressions.
+        public let name: String
+        /// The type of the variable, which can be a built-in type (like string or number) or a custom type defined in the policy.
+        public let type: String
+
+        @inlinable
+        public init(description: String, name: String, type: String) {
+            self.description = description
+            self.name = name
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.type, name: "type", parent: name, max: 64)
+            try self.validate(self.type, name: "type", parent: name, min: 1)
+            try self.validate(self.type, name: "type", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case type = "type"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyAddVariableMutation: AWSDecodableShape {
+        /// The variable definition that specifies the name, type, and description for the new variable being added to the policy.
+        public let variable: AutomatedReasoningPolicyDefinitionVariable
+
+        @inlinable
+        public init(variable: AutomatedReasoningPolicyDefinitionVariable) {
+            self.variable = variable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case variable = "variable"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyBuildLog: AWSDecodableShape {
+        /// A list of log entries documenting each step in the policy build process, including timestamps, status, and detailed messages.
+        public let entries: [AutomatedReasoningPolicyBuildLogEntry]
+
+        @inlinable
+        public init(entries: [AutomatedReasoningPolicyBuildLogEntry]) {
+            self.entries = entries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entries = "entries"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyBuildLogEntry: AWSDecodableShape {
+        /// The annotation or operation that was being processed when this log entry was created.
+        public let annotation: AutomatedReasoningPolicyAnnotation
+        /// Detailed information about the specific build steps that were executed, including any sub-operations or transformations.
+        public let buildSteps: [AutomatedReasoningPolicyBuildStep]
+        /// The status of the build step (e.g., SUCCESS, FAILED, IN_PROGRESS).
+        public let status: AutomatedReasoningPolicyAnnotationStatus
+
+        @inlinable
+        public init(annotation: AutomatedReasoningPolicyAnnotation, buildSteps: [AutomatedReasoningPolicyBuildStep], status: AutomatedReasoningPolicyAnnotationStatus) {
+            self.annotation = annotation
+            self.buildSteps = buildSteps
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case annotation = "annotation"
+            case buildSteps = "buildSteps"
+            case status = "status"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyBuildStep: AWSDecodableShape {
+        /// Contextual information about what was being processed during this build step, such as the type of operation or the source material being analyzed.
+        public let context: AutomatedReasoningPolicyBuildStepContext
+        /// A list of messages generated during this build step, including informational messages, warnings, and error details.
+        public let messages: [AutomatedReasoningPolicyBuildStepMessage]
+        /// Reference to the previous element or step in the build process, helping to trace the sequence of operations.
+        public let priorElement: AutomatedReasoningPolicyDefinitionElement?
+
+        @inlinable
+        public init(context: AutomatedReasoningPolicyBuildStepContext, messages: [AutomatedReasoningPolicyBuildStepMessage], priorElement: AutomatedReasoningPolicyDefinitionElement? = nil) {
+            self.context = context
+            self.messages = messages
+            self.priorElement = priorElement
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case context = "context"
+            case messages = "messages"
+            case priorElement = "priorElement"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyBuildStepMessage: AWSDecodableShape {
+        /// The content of the message, describing what occurred during the build step.
+        public let message: String
+        /// The type of message (e.g., INFO, WARNING, ERROR) indicating its severity and purpose.
+        public let messageType: AutomatedReasoningPolicyBuildMessageType
+
+        @inlinable
+        public init(message: String, messageType: AutomatedReasoningPolicyBuildMessageType) {
+            self.message = message
+            self.messageType = messageType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case messageType = "messageType"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyBuildWorkflowDocument: AWSEncodableShape {
+        /// The actual content of the source document that will be analyzed to extract policy rules and concepts.
+        public let document: AWSBase64Data
+        /// The MIME type of the document content (e.g., text/plain, application/pdf, text/markdown).
+        public let documentContentType: AutomatedReasoningPolicyBuildDocumentContentType
+        /// A detailed description of the document's content and how it should be used in the policy generation process.
+        public let documentDescription: String?
+        /// A descriptive name for the document that helps identify its purpose and content.
+        public let documentName: String
+
+        @inlinable
+        public init(document: AWSBase64Data, documentContentType: AutomatedReasoningPolicyBuildDocumentContentType, documentDescription: String? = nil, documentName: String) {
+            self.document = document
+            self.documentContentType = documentContentType
+            self.documentDescription = documentDescription
+            self.documentName = documentName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.document, name: "document", parent: name, max: 5000000)
+            try self.validate(self.document, name: "document", parent: name, min: 1)
+            try self.validate(self.documentDescription, name: "documentDescription", parent: name, max: 2000)
+            try self.validate(self.documentName, name: "documentName", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case document = "document"
+            case documentContentType = "documentContentType"
+            case documentDescription = "documentDescription"
+            case documentName = "documentName"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyBuildWorkflowRepairContent: AWSEncodableShape {
+        /// Specific annotations or modifications to apply during the policy repair process, such as rule corrections or variable updates.
+        public let annotations: [AutomatedReasoningPolicyAnnotation]
+
+        @inlinable
+        public init(annotations: [AutomatedReasoningPolicyAnnotation]) {
+            self.annotations = annotations
+        }
+
+        public func validate(name: String) throws {
+            try self.annotations.forEach {
+                try $0.validate(name: "\(name).annotations[]")
+            }
+            try self.validate(self.annotations, name: "annotations", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case annotations = "annotations"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyBuildWorkflowSource: AWSEncodableShape {
+        /// An existing policy definition that serves as the starting point for the build workflow, typically used in policy repair or update scenarios.
+        public let policyDefinition: AutomatedReasoningPolicyDefinition?
+        /// The actual content to be processed in the build workflow, such as documents to analyze or repair instructions to apply.
+        public let workflowContent: AutomatedReasoningPolicyWorkflowTypeContent?
+
+        @inlinable
+        public init(policyDefinition: AutomatedReasoningPolicyDefinition? = nil, workflowContent: AutomatedReasoningPolicyWorkflowTypeContent? = nil) {
+            self.policyDefinition = policyDefinition
+            self.workflowContent = workflowContent
+        }
+
+        public func validate(name: String) throws {
+            try self.policyDefinition?.validate(name: "\(name).policyDefinition")
+            try self.workflowContent?.validate(name: "\(name).workflowContent")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyDefinition = "policyDefinition"
+            case workflowContent = "workflowContent"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyBuildWorkflowSummary: AWSDecodableShape {
+        /// The unique identifier of the build workflow.
+        public let buildWorkflowId: String
+        /// The type of build workflow (e.g., DOCUMENT_INGESTION, POLICY_REPAIR).
+        public let buildWorkflowType: AutomatedReasoningPolicyBuildWorkflowType
+        /// The timestamp when the build workflow was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy associated with this build workflow.
+        public let policyArn: String
+        /// The current status of the build workflow (e.g., RUNNING, COMPLETED, FAILED, CANCELLED).
+        public let status: AutomatedReasoningPolicyBuildWorkflowStatus
+        /// The timestamp when the build workflow was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+
+        @inlinable
+        public init(buildWorkflowId: String, buildWorkflowType: AutomatedReasoningPolicyBuildWorkflowType, createdAt: Date, policyArn: String, status: AutomatedReasoningPolicyBuildWorkflowStatus, updatedAt: Date) {
+            self.buildWorkflowId = buildWorkflowId
+            self.buildWorkflowType = buildWorkflowType
+            self.createdAt = createdAt
+            self.policyArn = policyArn
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case buildWorkflowId = "buildWorkflowId"
+            case buildWorkflowType = "buildWorkflowType"
+            case createdAt = "createdAt"
+            case policyArn = "policyArn"
+            case status = "status"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyDefinition: AWSEncodableShape & AWSDecodableShape {
+        /// The formal logic rules extracted from the source document. Rules define the logical constraints that determine whether model responses are valid, invalid, or satisfiable.
+        public let rules: [AutomatedReasoningPolicyDefinitionRule]?
+        /// The custom user-defined vairable types used in the policy. Types are enum-based variable types that provide additional context beyond the predefined variable types.
+        public let types: [AutomatedReasoningPolicyDefinitionType]?
+        /// The variables that represent concepts in the policy. Variables can have values assigned when translating natural language into formal logic. Their descriptions are crucial for accurate translation.
+        public let variables: [AutomatedReasoningPolicyDefinitionVariable]?
+        /// The version of the policy definition format.
+        public let version: String?
+
+        @inlinable
+        public init(rules: [AutomatedReasoningPolicyDefinitionRule]? = nil, types: [AutomatedReasoningPolicyDefinitionType]? = nil, variables: [AutomatedReasoningPolicyDefinitionVariable]? = nil, version: String? = nil) {
+            self.rules = rules
+            self.types = types
+            self.variables = variables
+            self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try self.rules?.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
+            try self.validate(self.rules, name: "rules", parent: name, max: 1500)
+            try self.types?.forEach {
+                try $0.validate(name: "\(name).types[]")
+            }
+            try self.validate(self.types, name: "types", parent: name, max: 150)
+            try self.variables?.forEach {
+                try $0.validate(name: "\(name).variables[]")
+            }
+            try self.validate(self.variables, name: "variables", parent: name, max: 600)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rules = "rules"
+            case types = "types"
+            case variables = "variables"
+            case version = "version"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyDefinitionQualityReport: AWSDecodableShape {
+        /// A list of rules that may conflict with each other, potentially leading to inconsistent policy behavior.
+        public let conflictingRules: [String]
+        /// Groups of rules that operate on completely separate sets of variables, indicating the policy may be addressing multiple unrelated concerns.
+        public let disjointRuleSets: [AutomatedReasoningPolicyDisjointRuleSet]
+        /// The total number of rules defined in the policy.
+        public let ruleCount: Int
+        /// The total number of custom types defined in the policy.
+        public let typeCount: Int
+        /// A list of custom types that are defined but not referenced by any variables or rules, suggesting they may be unnecessary.
+        public let unusedTypes: [String]
+        /// A list of type values that are defined but never used in any rules, indicating potential cleanup opportunities.
+        public let unusedTypeValues: [AutomatedReasoningPolicyDefinitionTypeValuePair]
+        /// A list of variables that are defined but not referenced by any rules, suggesting they may be unnecessary.
+        public let unusedVariables: [String]
+        /// The total number of variables defined in the policy.
+        public let variableCount: Int
+
+        @inlinable
+        public init(conflictingRules: [String], disjointRuleSets: [AutomatedReasoningPolicyDisjointRuleSet], ruleCount: Int, typeCount: Int, unusedTypes: [String], unusedTypeValues: [AutomatedReasoningPolicyDefinitionTypeValuePair], unusedVariables: [String], variableCount: Int) {
+            self.conflictingRules = conflictingRules
+            self.disjointRuleSets = disjointRuleSets
+            self.ruleCount = ruleCount
+            self.typeCount = typeCount
+            self.unusedTypes = unusedTypes
+            self.unusedTypeValues = unusedTypeValues
+            self.unusedVariables = unusedVariables
+            self.variableCount = variableCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conflictingRules = "conflictingRules"
+            case disjointRuleSets = "disjointRuleSets"
+            case ruleCount = "ruleCount"
+            case typeCount = "typeCount"
+            case unusedTypes = "unusedTypes"
+            case unusedTypeValues = "unusedTypeValues"
+            case unusedVariables = "unusedVariables"
+            case variableCount = "variableCount"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyDefinitionRule: AWSEncodableShape & AWSDecodableShape {
+        /// The human-readable form of the rule expression, often in natural language or simplified notation.
+        public let alternateExpression: String?
+        /// The formal logic expression of the rule.
+        public let expression: String
+        /// The unique identifier of the rule within the policy.
+        public let id: String
+
+        @inlinable
+        public init(alternateExpression: String? = nil, expression: String, id: String) {
+            self.alternateExpression = alternateExpression
+            self.expression = expression
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alternateExpression, name: "alternateExpression", parent: name, max: 2048)
+            try self.validate(self.alternateExpression, name: "alternateExpression", parent: name, pattern: "^[\\s\\S]+$")
+            try self.validate(self.expression, name: "expression", parent: name, max: 2048)
+            try self.validate(self.expression, name: "expression", parent: name, pattern: "^[\\s\\S]+$")
+            try self.validate(self.id, name: "id", parent: name, max: 12)
+            try self.validate(self.id, name: "id", parent: name, min: 12)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[A-Z][0-9A-Z]{11}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alternateExpression = "alternateExpression"
+            case expression = "expression"
+            case id = "id"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyDefinitionType: AWSEncodableShape & AWSDecodableShape {
+        /// The description of what the custom type represents.
+        public let description: String?
+        /// The name of the custom type.
+        public let name: String
+        /// The possible values for this enum-based type, each with its own description.
+        public let values: [AutomatedReasoningPolicyDefinitionTypeValue]
+
+        @inlinable
+        public init(description: String? = nil, name: String, values: [AutomatedReasoningPolicyDefinitionTypeValue]) {
+            self.description = description
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.values.forEach {
+                try $0.validate(name: "\(name).values[]")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 150)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case values = "values"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyDefinitionTypeValue: AWSEncodableShape & AWSDecodableShape {
+        /// A human-readable description explaining what this type value represents and when it should be used.
+        public let description: String?
+        /// The actual value or identifier for this type value.
+        public let value: String
+
+        @inlinable
+        public init(description: String? = nil, value: String) {
+            self.description = description
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
+            try self.validate(self.value, name: "value", parent: name, max: 64)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case value = "value"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyDefinitionTypeValuePair: AWSDecodableShape {
+        /// The name of the custom type that contains the referenced value.
+        public let typeName: String
+        /// The name of the specific value within the type.
+        public let valueName: String
+
+        @inlinable
+        public init(typeName: String, valueName: String) {
+            self.typeName = typeName
+            self.valueName = valueName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case typeName = "typeName"
+            case valueName = "valueName"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyDefinitionVariable: AWSEncodableShape & AWSDecodableShape {
+        /// The description of the variable that explains what it represents and how users might refer to it. Clear and comprehensive descriptions are essential for accurate natural language translation.
+        public let description: String
+        /// The name of the variable. Use descriptive names that clearly indicate the concept being represented.
+        public let name: String
+        /// The data type of the variable. Valid types include bool, int, real, enum, and custom types that you can provide.
+        public let type: String
+
+        @inlinable
+        public init(description: String, name: String, type: String) {
+            self.description = description
+            self.name = name
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.type, name: "type", parent: name, max: 64)
+            try self.validate(self.type, name: "type", parent: name, min: 1)
+            try self.validate(self.type, name: "type", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case type = "type"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyDeleteRuleAnnotation: AWSEncodableShape & AWSDecodableShape {
+        /// The unique identifier of the rule to delete from the policy.
+        public let ruleId: String
+
+        @inlinable
+        public init(ruleId: String) {
+            self.ruleId = ruleId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ruleId, name: "ruleId", parent: name, max: 12)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, min: 12)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "^[A-Z][0-9A-Z]{11}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleId = "ruleId"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyDeleteRuleMutation: AWSDecodableShape {
+        /// The unique identifier of the rule to delete.
+        public let id: String
+
+        @inlinable
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyDeleteTypeAnnotation: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the custom type to delete from the policy. The type must not be referenced by any variables or rules.
+        public let name: String
+
+        @inlinable
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyDeleteTypeMutation: AWSDecodableShape {
+        /// The name of the custom type to delete.
+        public let name: String
+
+        @inlinable
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyDeleteTypeValue: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier or name of the value to remove from the type.
+        public let value: String
+
+        @inlinable
+        public init(value: String) {
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 64)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "value"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyDeleteVariableAnnotation: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the variable to delete from the policy. The variable must not be referenced by any rules.
+        public let name: String
+
+        @inlinable
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyDeleteVariableMutation: AWSDecodableShape {
+        /// The name of the variable to delete.
+        public let name: String
+
+        @inlinable
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyDisjointRuleSet: AWSDecodableShape {
+        /// The list of rules that form this disjoint set, all operating on the same set of variables.
+        public let rules: [String]
+        /// The set of variables that are used by the rules in this disjoint set.
+        public let variables: [String]
+
+        @inlinable
+        public init(rules: [String], variables: [String]) {
+            self.rules = rules
+            self.variables = variables
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rules = "rules"
+            case variables = "variables"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyIngestContentAnnotation: AWSEncodableShape & AWSDecodableShape {
+        /// The new content to be analyzed and incorporated into the policy, such as additional documents or rule descriptions.
+        public let content: String
+
+        @inlinable
+        public init(content: String) {
+            self.content = content
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.content, name: "content", parent: name, max: 4096)
+            try self.validate(self.content, name: "content", parent: name, pattern: "^[\\s\\S]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyPlanning: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct AutomatedReasoningPolicyScenario: AWSDecodableShape {
+        /// An alternative way to express the same test scenario, used for validation and comparison purposes.
+        public let alternateExpression: String
+        /// The expected outcome when this scenario is evaluated against the policy (e.g., PASS, FAIL, VIOLATION).
+        public let expectedResult: AutomatedReasoningCheckResult
+        /// The logical expression or condition that defines this test scenario.
+        public let expression: String
+        /// The list of rule identifiers that are expected to be triggered or evaluated by this test scenario.
+        public let ruleIds: [String]
+
+        @inlinable
+        public init(alternateExpression: String, expectedResult: AutomatedReasoningCheckResult, expression: String, ruleIds: [String]) {
+            self.alternateExpression = alternateExpression
+            self.expectedResult = expectedResult
+            self.expression = expression
+            self.ruleIds = ruleIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alternateExpression = "alternateExpression"
+            case expectedResult = "expectedResult"
+            case expression = "expression"
+            case ruleIds = "ruleIds"
+        }
+    }
+
+    public struct AutomatedReasoningPolicySummary: AWSDecodableShape {
+        /// The timestamp when the policy was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The description of the policy.
+        public let description: String?
+        /// The name of the policy.
+        public let name: String
+        /// The Amazon Resource Name (ARN) of the policy.
+        public let policyArn: String
+        /// The unique identifier of the policy.
+        public let policyId: String
+        /// The timestamp when the policy was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+        /// The version of the policy.
+        public let version: String
+
+        @inlinable
+        public init(createdAt: Date, description: String? = nil, name: String, policyArn: String, policyId: String, updatedAt: Date, version: String) {
+            self.createdAt = createdAt
+            self.description = description
+            self.name = name
+            self.policyArn = policyArn
+            self.policyId = policyId
+            self.updatedAt = updatedAt
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case description = "description"
+            case name = "name"
+            case policyArn = "policyArn"
+            case policyId = "policyId"
+            case updatedAt = "updatedAt"
+            case version = "version"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyTestCase: AWSDecodableShape {
+        /// The minimum confidence level for logic validation. Content meeting this threshold is considered high-confidence and can be validated.
+        public let confidenceThreshold: Double?
+        /// The timestamp when the test was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The expected result of the Automated Reasoning check for this test.
+        public let expectedAggregatedFindingsResult: AutomatedReasoningCheckResult?
+        /// The output content to be validated by the policy, typically representing a foundation model response.
+        public let guardContent: String
+        /// The input query or prompt that generated the content. This provides context for the validation.
+        public let queryContent: String?
+        /// The unique identifier of the test.
+        public let testCaseId: String
+        /// The timestamp when the test was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+
+        @inlinable
+        public init(confidenceThreshold: Double? = nil, createdAt: Date, expectedAggregatedFindingsResult: AutomatedReasoningCheckResult? = nil, guardContent: String, queryContent: String? = nil, testCaseId: String, updatedAt: Date) {
+            self.confidenceThreshold = confidenceThreshold
+            self.createdAt = createdAt
+            self.expectedAggregatedFindingsResult = expectedAggregatedFindingsResult
+            self.guardContent = guardContent
+            self.queryContent = queryContent
+            self.testCaseId = testCaseId
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidenceThreshold = "confidenceThreshold"
+            case createdAt = "createdAt"
+            case expectedAggregatedFindingsResult = "expectedAggregatedFindingsResult"
+            case guardContent = "guardContent"
+            case queryContent = "queryContent"
+            case testCaseId = "testCaseId"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyTestResult: AWSDecodableShape {
+        /// A summary of all test findings, aggregated to provide an overall assessment of policy quality and correctness.
+        public let aggregatedTestFindingsResult: AutomatedReasoningCheckResult?
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy that was tested.
+        public let policyArn: String
+        /// The test case that was executed, including the input content, expected results, and configuration parameters used during validation.
+        public let testCase: AutomatedReasoningPolicyTestCase
+        /// Detailed findings from the test run, including any issues, violations, or unexpected behaviors discovered.
+        public let testFindings: [AutomatedReasoningCheckFinding]?
+        /// The overall result of the test run, indicating whether the policy passed or failed validation.
+        public let testRunResult: AutomatedReasoningPolicyTestRunResult?
+        /// The overall status of the test run (e.g., COMPLETED, FAILED, IN_PROGRESS).
+        public let testRunStatus: AutomatedReasoningPolicyTestRunStatus
+        /// The timestamp when the test results were last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+
+        @inlinable
+        public init(aggregatedTestFindingsResult: AutomatedReasoningCheckResult? = nil, policyArn: String, testCase: AutomatedReasoningPolicyTestCase, testFindings: [AutomatedReasoningCheckFinding]? = nil, testRunResult: AutomatedReasoningPolicyTestRunResult? = nil, testRunStatus: AutomatedReasoningPolicyTestRunStatus, updatedAt: Date) {
+            self.aggregatedTestFindingsResult = aggregatedTestFindingsResult
+            self.policyArn = policyArn
+            self.testCase = testCase
+            self.testFindings = testFindings
+            self.testRunResult = testRunResult
+            self.testRunStatus = testRunStatus
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregatedTestFindingsResult = "aggregatedTestFindingsResult"
+            case policyArn = "policyArn"
+            case testCase = "testCase"
+            case testFindings = "testFindings"
+            case testRunResult = "testRunResult"
+            case testRunStatus = "testRunStatus"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyUpdateFromRuleFeedbackAnnotation: AWSEncodableShape & AWSDecodableShape {
+        /// The feedback information about rule performance, including suggestions for improvements or corrections.
+        public let feedback: String
+        /// The list of rule identifiers that the feedback applies to.
+        public let ruleIds: [String]?
+
+        @inlinable
+        public init(feedback: String, ruleIds: [String]? = nil) {
+            self.feedback = feedback
+            self.ruleIds = ruleIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.feedback, name: "feedback", parent: name, max: 1024)
+            try self.validate(self.feedback, name: "feedback", parent: name, pattern: "^[\\s\\S]+$")
+            try self.ruleIds?.forEach {
+                try validate($0, name: "ruleIds[]", parent: name, max: 12)
+                try validate($0, name: "ruleIds[]", parent: name, min: 12)
+                try validate($0, name: "ruleIds[]", parent: name, pattern: "^[A-Z][0-9A-Z]{11}$")
+            }
+            try self.validate(self.ruleIds, name: "ruleIds", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case feedback = "feedback"
+            case ruleIds = "ruleIds"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyUpdateFromScenarioFeedbackAnnotation: AWSEncodableShape & AWSDecodableShape {
+        /// The feedback information about scenario performance, including any issues or improvements identified.
+        public let feedback: String?
+        /// The list of rule identifiers that were involved in the scenario being evaluated.
+        public let ruleIds: [String]?
+        /// The logical expression that defines the test scenario that generated this feedback.
+        public let scenarioExpression: String
+
+        @inlinable
+        public init(feedback: String? = nil, ruleIds: [String]? = nil, scenarioExpression: String) {
+            self.feedback = feedback
+            self.ruleIds = ruleIds
+            self.scenarioExpression = scenarioExpression
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.feedback, name: "feedback", parent: name, max: 1024)
+            try self.validate(self.feedback, name: "feedback", parent: name, pattern: "^[\\s\\S]+$")
+            try self.ruleIds?.forEach {
+                try validate($0, name: "ruleIds[]", parent: name, max: 12)
+                try validate($0, name: "ruleIds[]", parent: name, min: 12)
+                try validate($0, name: "ruleIds[]", parent: name, pattern: "^[A-Z][0-9A-Z]{11}$")
+            }
+            try self.validate(self.ruleIds, name: "ruleIds", parent: name, max: 100)
+            try self.validate(self.scenarioExpression, name: "scenarioExpression", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case feedback = "feedback"
+            case ruleIds = "ruleIds"
+            case scenarioExpression = "scenarioExpression"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyUpdateRuleAnnotation: AWSEncodableShape & AWSDecodableShape {
+        /// The new formal logical expression for the rule, replacing the previous expression.
+        public let expression: String
+        /// The unique identifier of the rule to update.
+        public let ruleId: String
+
+        @inlinable
+        public init(expression: String, ruleId: String) {
+            self.expression = expression
+            self.ruleId = ruleId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expression, name: "expression", parent: name, max: 2048)
+            try self.validate(self.expression, name: "expression", parent: name, pattern: "^[\\s\\S]+$")
+            try self.validate(self.ruleId, name: "ruleId", parent: name, max: 12)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, min: 12)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "^[A-Z][0-9A-Z]{11}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expression = "expression"
+            case ruleId = "ruleId"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyUpdateRuleMutation: AWSDecodableShape {
+        /// The updated rule definition containing the modified formal logical expression and any changed metadata for the existing rule.
+        public let rule: AutomatedReasoningPolicyDefinitionRule
+
+        @inlinable
+        public init(rule: AutomatedReasoningPolicyDefinitionRule) {
+            self.rule = rule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rule = "rule"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyUpdateTypeAnnotation: AWSEncodableShape & AWSDecodableShape {
+        /// The new description for the custom type, replacing the previous description.
+        public let description: String?
+        /// The current name of the custom type to update.
+        public let name: String
+        /// The new name for the custom type, if you want to rename it. If not provided, the name remains unchanged.
+        public let newName: String?
+        /// The updated list of values for the custom type, which can include additions, modifications, or removals.
+        public let values: [AutomatedReasoningPolicyTypeValueAnnotation]
+
+        @inlinable
+        public init(description: String? = nil, name: String, newName: String? = nil, values: [AutomatedReasoningPolicyTypeValueAnnotation]) {
+            self.description = description
+            self.name = name
+            self.newName = newName
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.newName, name: "newName", parent: name, max: 64)
+            try self.validate(self.newName, name: "newName", parent: name, min: 1)
+            try self.validate(self.newName, name: "newName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.values.forEach {
+                try $0.validate(name: "\(name).values[]")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case newName = "newName"
+            case values = "values"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyUpdateTypeMutation: AWSDecodableShape {
+        /// The updated type definition containing the modified name, description, or values for the existing custom type.
+        public let type: AutomatedReasoningPolicyDefinitionType
+
+        @inlinable
+        public init(type: AutomatedReasoningPolicyDefinitionType) {
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "type"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyUpdateTypeValue: AWSEncodableShape & AWSDecodableShape {
+        /// The new description for the type value, replacing the previous description.
+        public let description: String?
+        /// The new identifier or name for the type value, if you want to rename it.
+        public let newValue: String?
+        /// The current identifier or name of the type value to update.
+        public let value: String
+
+        @inlinable
+        public init(description: String? = nil, newValue: String? = nil, value: String) {
+            self.description = description
+            self.newValue = newValue
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
+            try self.validate(self.newValue, name: "newValue", parent: name, max: 64)
+            try self.validate(self.newValue, name: "newValue", parent: name, min: 1)
+            try self.validate(self.newValue, name: "newValue", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.value, name: "value", parent: name, max: 64)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case newValue = "newValue"
+            case value = "value"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyUpdateVariableAnnotation: AWSEncodableShape & AWSDecodableShape {
+        /// The new description for the variable, replacing the previous description.
+        public let description: String?
+        /// The current name of the variable to update.
+        public let name: String
+        /// The new name for the variable, if you want to rename it. If not provided, the name remains unchanged.
+        public let newName: String?
+
+        @inlinable
+        public init(description: String? = nil, name: String, newName: String? = nil) {
+            self.description = description
+            self.name = name
+            self.newName = newName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.newName, name: "newName", parent: name, max: 64)
+            try self.validate(self.newName, name: "newName", parent: name, min: 1)
+            try self.validate(self.newName, name: "newName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case newName = "newName"
+        }
+    }
+
+    public struct AutomatedReasoningPolicyUpdateVariableMutation: AWSDecodableShape {
+        /// The updated variable definition containing the modified name, type, or description for the existing variable.
+        public let variable: AutomatedReasoningPolicyDefinitionVariable
+
+        @inlinable
+        public init(variable: AutomatedReasoningPolicyDefinitionVariable) {
+            self.variable = variable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case variable = "variable"
+        }
+    }
+
     public struct BatchDeleteEvaluationJobError: AWSDecodableShape {
         /// A HTTP status code of the evaluation job being deleted.
         public let code: String
@@ -1293,6 +3252,40 @@ extension Bedrock {
         }
     }
 
+    public struct CancelAutomatedReasoningPolicyBuildWorkflowRequest: AWSEncodableShape {
+        /// The unique identifier of the build workflow to cancel. You can get this ID from the StartAutomatedReasoningPolicyBuildWorkflow response or by listing build workflows.
+        public let buildWorkflowId: String
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy whose build workflow you want to cancel.
+        public let policyArn: String
+
+        @inlinable
+        public init(buildWorkflowId: String, policyArn: String) {
+            self.buildWorkflowId = buildWorkflowId
+            self.policyArn = policyArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.buildWorkflowId, key: "buildWorkflowId")
+            request.encodePath(self.policyArn, key: "policyArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.buildWorkflowId, name: "buildWorkflowId", parent: name, max: 36)
+            try self.validate(self.buildWorkflowId, name: "buildWorkflowId", parent: name, pattern: "^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}$")
+            try self.validate(self.policyArn, name: "policyArn", parent: name, max: 2048)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, min: 1)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CancelAutomatedReasoningPolicyBuildWorkflowResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct CloudWatchConfig: AWSEncodableShape & AWSDecodableShape {
         /// S3 configuration for delivering a large amount of data.
         public let largeDataDeliveryS3Config: S3Config?
@@ -1323,6 +3316,259 @@ extension Bedrock {
         }
     }
 
+    public struct CreateAutomatedReasoningPolicyRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the operation completes no more than once. If this token matches a previous request, Amazon Bedrock ignores the request but doesn't return an error.
+        public let clientRequestToken: String?
+        /// A description of the Automated Reasoning policy. Use this to provide context about the policy's purpose and the types of validations it performs.
+        public let description: String?
+        /// The identifier of the KMS key to use for encrypting the automated reasoning policy and its associated artifacts. If you don't specify a KMS key, Amazon Bedrock uses an KMS managed key for encryption. For enhanced security and control, you can specify a customer managed KMS key.
+        public let kmsKeyId: String?
+        /// A unique name for the Automated Reasoning policy. The name must be between 1 and 63 characters and can contain letters, numbers, hyphens, and underscores.
+        public let name: String
+        /// The policy definition that contains the formal logic rules, variables, and custom variable types used to validate foundation model responses in your application.
+        public let policyDefinition: AutomatedReasoningPolicyDefinition?
+        /// A list of tags to associate with the Automated Reasoning policy. Tags help you organize and manage your policies.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(clientRequestToken: String? = CreateAutomatedReasoningPolicyRequest.idempotencyToken(), description: String? = nil, kmsKeyId: String? = nil, name: String, policyDefinition: AutomatedReasoningPolicyDefinition? = nil, tags: [Tag]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.description = description
+            self.kmsKeyId = kmsKeyId
+            self.name = name
+            self.policyDefinition = policyDefinition
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?$")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^(arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)$")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-zA-Z-_ ]+$")
+            try self.policyDefinition?.validate(name: "\(name).policyDefinition")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case description = "description"
+            case kmsKeyId = "kmsKeyId"
+            case name = "name"
+            case policyDefinition = "policyDefinition"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateAutomatedReasoningPolicyResponse: AWSDecodableShape {
+        /// The timestamp when the policy was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The hash of the policy definition. This is used as a concurrency token for creating policy versions that you can use in your application.
+        public let definitionHash: String?
+        /// The description of the Automated Reasoning policy.
+        public let description: String?
+        /// The name of the Automated Reasoning policy.
+        public let name: String
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy that you created.
+        public let policyArn: String
+        /// The timestamp when the policy was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+        /// The version number of the newly created Automated Reasoning policy. The initial version is always DRAFT.
+        public let version: String
+
+        @inlinable
+        public init(createdAt: Date, definitionHash: String? = nil, description: String? = nil, name: String, policyArn: String, updatedAt: Date, version: String) {
+            self.createdAt = createdAt
+            self.definitionHash = definitionHash
+            self.description = description
+            self.name = name
+            self.policyArn = policyArn
+            self.updatedAt = updatedAt
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case definitionHash = "definitionHash"
+            case description = "description"
+            case name = "name"
+            case policyArn = "policyArn"
+            case updatedAt = "updatedAt"
+            case version = "version"
+        }
+    }
+
+    public struct CreateAutomatedReasoningPolicyTestCaseRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error.
+        public let clientRequestToken: String?
+        /// The minimum confidence level for logic validation. Content that meets the threshold is considered a high-confidence finding that can be validated.
+        public let confidenceThreshold: Double?
+        /// The expected result of the Automated Reasoning check. Valid values include: , TOO_COMPLEX, and NO_TRANSLATIONS.    VALID - The claims are true. The claims are implied by the premises and the Automated Reasoning policy. Given the Automated Reasoning policy and premises, it is not possible for these claims to be false. In other words, there are no alternative answers that are true that contradict the claims.    INVALID - The claims are false. The claims are not implied by the premises and Automated Reasoning policy. Furthermore, there exists different claims that are consistent with the premises and Automated Reasoning policy.    SATISFIABLE - The claims can be true or false. It depends on what assumptions are made for the claim to be implied from the premises and Automated Reasoning policy rules. In this situation, different assumptions can make input claims false and alternative claims true.    IMPOSSIBLE - Automated Reasoning can’t make a statement about the claims. This can happen if the premises are logically incorrect, or if there is a conflict within the Automated Reasoning policy itself.    TRANSLATION_AMBIGUOUS - Detected an ambiguity in the translation meant it would be unsound to continue with validity checking. Additional context or follow-up questions might be needed to get translation to succeed.    TOO_COMPLEX - The input contains too much information for Automated Reasoning to process within its latency limits.    NO_TRANSLATIONS - Identifies that some or all of the input prompt wasn't translated into logic. This can happen if the input isn't relevant to the Automated Reasoning policy, or if the policy doesn't have variables to model relevant input. If Automated Reasoning can't translate anything, you get a single NO_TRANSLATIONS finding. You might also see a NO_TRANSLATIONS (along with other findings) if some part of the validation isn't translated.
+        public let expectedAggregatedFindingsResult: AutomatedReasoningCheckResult
+        /// The output content that's validated by the Automated Reasoning policy. This represents the foundation model response that will be checked for accuracy.
+        public let guardContent: String
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy for which to create the test.
+        public let policyArn: String
+        /// The input query or prompt that generated the content. This provides context for the validation.
+        public let queryContent: String?
+
+        @inlinable
+        public init(clientRequestToken: String? = CreateAutomatedReasoningPolicyTestCaseRequest.idempotencyToken(), confidenceThreshold: Double? = nil, expectedAggregatedFindingsResult: AutomatedReasoningCheckResult, guardContent: String, policyArn: String, queryContent: String? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.confidenceThreshold = confidenceThreshold
+            self.expectedAggregatedFindingsResult = expectedAggregatedFindingsResult
+            self.guardContent = guardContent
+            self.policyArn = policyArn
+            self.queryContent = queryContent
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encodeIfPresent(self.confidenceThreshold, forKey: .confidenceThreshold)
+            try container.encode(self.expectedAggregatedFindingsResult, forKey: .expectedAggregatedFindingsResult)
+            try container.encode(self.guardContent, forKey: .guardContent)
+            request.encodePath(self.policyArn, key: "policyArn")
+            try container.encodeIfPresent(self.queryContent, forKey: .queryContent)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?$")
+            try self.validate(self.confidenceThreshold, name: "confidenceThreshold", parent: name, max: 1.0)
+            try self.validate(self.confidenceThreshold, name: "confidenceThreshold", parent: name, min: 0.0)
+            try self.validate(self.guardContent, name: "guardContent", parent: name, max: 1024)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, max: 2048)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, min: 1)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?$")
+            try self.validate(self.queryContent, name: "queryContent", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case confidenceThreshold = "confidenceThreshold"
+            case expectedAggregatedFindingsResult = "expectedAggregatedFindingsResult"
+            case guardContent = "guardContent"
+            case queryContent = "queryContent"
+        }
+    }
+
+    public struct CreateAutomatedReasoningPolicyTestCaseResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the policy for which the test was created.
+        public let policyArn: String
+        /// The unique identifier of the created test.
+        public let testCaseId: String
+
+        @inlinable
+        public init(policyArn: String, testCaseId: String) {
+            self.policyArn = policyArn
+            self.testCaseId = testCaseId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyArn = "policyArn"
+            case testCaseId = "testCaseId"
+        }
+    }
+
+    public struct CreateAutomatedReasoningPolicyVersionRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error.
+        public let clientRequestToken: String?
+        /// The hash of the current policy definition used as a concurrency token to ensure the policy hasn't been modified since you last retrieved it.
+        public let lastUpdatedDefinitionHash: String
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy for which to create a version.
+        public let policyArn: String
+        /// A list of tags to associate with the policy version.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(clientRequestToken: String? = CreateAutomatedReasoningPolicyVersionRequest.idempotencyToken(), lastUpdatedDefinitionHash: String, policyArn: String, tags: [Tag]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.lastUpdatedDefinitionHash = lastUpdatedDefinitionHash
+            self.policyArn = policyArn
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encode(self.lastUpdatedDefinitionHash, forKey: .lastUpdatedDefinitionHash)
+            request.encodePath(self.policyArn, key: "policyArn")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?$")
+            try self.validate(self.lastUpdatedDefinitionHash, name: "lastUpdatedDefinitionHash", parent: name, max: 128)
+            try self.validate(self.lastUpdatedDefinitionHash, name: "lastUpdatedDefinitionHash", parent: name, min: 128)
+            try self.validate(self.lastUpdatedDefinitionHash, name: "lastUpdatedDefinitionHash", parent: name, pattern: "^[0-9a-z]{128}$")
+            try self.validate(self.policyArn, name: "policyArn", parent: name, max: 2048)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, min: 1)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case lastUpdatedDefinitionHash = "lastUpdatedDefinitionHash"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateAutomatedReasoningPolicyVersionResponse: AWSDecodableShape {
+        /// The timestamp when the policy version was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The hash of the policy definition for this version.
+        public let definitionHash: String
+        /// The description of the policy version.
+        public let description: String?
+        /// The name of the policy version.
+        public let name: String
+        /// The versioned Amazon Resource Name (ARN) of the policy version.
+        public let policyArn: String
+        /// The version number of the policy version.
+        public let version: String
+
+        @inlinable
+        public init(createdAt: Date, definitionHash: String, description: String? = nil, name: String, policyArn: String, version: String) {
+            self.createdAt = createdAt
+            self.definitionHash = definitionHash
+            self.description = description
+            self.name = name
+            self.policyArn = policyArn
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case definitionHash = "definitionHash"
+            case description = "description"
+            case name = "name"
+            case policyArn = "policyArn"
+            case version = "version"
+        }
+    }
+
     public struct CreateCustomModelDeploymentRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
         public let clientRequestToken: String?
@@ -1347,13 +3593,13 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
-            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?$")
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
             try self.validate(self.modelArn, name: "modelArn", parent: name, max: 1011)
             try self.validate(self.modelArn, name: "modelArn", parent: name, min: 20)
-            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:custom-model/(imported|[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2})/[a-z0-9]{12}$")
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:custom-model/(imported|[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2})/[a-z0-9]{12}$")
             try self.validate(self.modelDeploymentName, name: "modelDeploymentName", parent: name, max: 63)
             try self.validate(self.modelDeploymentName, name: "modelDeploymentName", parent: name, min: 1)
             try self.validate(self.modelDeploymentName, name: "modelDeploymentName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,63}$")
@@ -1413,7 +3659,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
-            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?$")
             try self.validate(self.modelKmsKeyArn, name: "modelKmsKeyArn", parent: name, max: 2048)
             try self.validate(self.modelKmsKeyArn, name: "modelKmsKeyArn", parent: name, min: 1)
             try self.validate(self.modelKmsKeyArn, name: "modelKmsKeyArn", parent: name, pattern: "^arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}$")
@@ -1492,7 +3738,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
-            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?$")
             try self.validate(self.customerEncryptionKeyId, name: "customerEncryptionKeyId", parent: name, max: 2048)
             try self.validate(self.customerEncryptionKeyId, name: "customerEncryptionKeyId", parent: name, min: 1)
             try self.validate(self.customerEncryptionKeyId, name: "customerEncryptionKeyId", parent: name, pattern: "^(arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)$")
@@ -1579,6 +3825,8 @@ extension Bedrock {
     }
 
     public struct CreateGuardrailRequest: AWSEncodableShape {
+        /// Optional configuration for integrating Automated Reasoning policies with the new guardrail.
+        public let automatedReasoningPolicyConfig: GuardrailAutomatedReasoningPolicyConfig?
         /// The message to return when the guardrail blocks a prompt.
         public let blockedInputMessaging: String
         /// The message to return when the guardrail blocks a model response.
@@ -1607,7 +3855,8 @@ extension Bedrock {
         public let wordPolicyConfig: GuardrailWordPolicyConfig?
 
         @inlinable
-        public init(blockedInputMessaging: String, blockedOutputsMessaging: String, clientRequestToken: String? = CreateGuardrailRequest.idempotencyToken(), contentPolicyConfig: GuardrailContentPolicyConfig? = nil, contextualGroundingPolicyConfig: GuardrailContextualGroundingPolicyConfig? = nil, crossRegionConfig: GuardrailCrossRegionConfig? = nil, description: String? = nil, kmsKeyId: String? = nil, name: String, sensitiveInformationPolicyConfig: GuardrailSensitiveInformationPolicyConfig? = nil, tags: [Tag]? = nil, topicPolicyConfig: GuardrailTopicPolicyConfig? = nil, wordPolicyConfig: GuardrailWordPolicyConfig? = nil) {
+        public init(automatedReasoningPolicyConfig: GuardrailAutomatedReasoningPolicyConfig? = nil, blockedInputMessaging: String, blockedOutputsMessaging: String, clientRequestToken: String? = CreateGuardrailRequest.idempotencyToken(), contentPolicyConfig: GuardrailContentPolicyConfig? = nil, contextualGroundingPolicyConfig: GuardrailContextualGroundingPolicyConfig? = nil, crossRegionConfig: GuardrailCrossRegionConfig? = nil, description: String? = nil, kmsKeyId: String? = nil, name: String, sensitiveInformationPolicyConfig: GuardrailSensitiveInformationPolicyConfig? = nil, tags: [Tag]? = nil, topicPolicyConfig: GuardrailTopicPolicyConfig? = nil, wordPolicyConfig: GuardrailWordPolicyConfig? = nil) {
+            self.automatedReasoningPolicyConfig = automatedReasoningPolicyConfig
             self.blockedInputMessaging = blockedInputMessaging
             self.blockedOutputsMessaging = blockedOutputsMessaging
             self.clientRequestToken = clientRequestToken
@@ -1624,13 +3873,14 @@ extension Bedrock {
         }
 
         public func validate(name: String) throws {
+            try self.automatedReasoningPolicyConfig?.validate(name: "\(name).automatedReasoningPolicyConfig")
             try self.validate(self.blockedInputMessaging, name: "blockedInputMessaging", parent: name, max: 500)
             try self.validate(self.blockedInputMessaging, name: "blockedInputMessaging", parent: name, min: 1)
             try self.validate(self.blockedOutputsMessaging, name: "blockedOutputsMessaging", parent: name, max: 500)
             try self.validate(self.blockedOutputsMessaging, name: "blockedOutputsMessaging", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
-            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?$")
             try self.contentPolicyConfig?.validate(name: "\(name).contentPolicyConfig")
             try self.contextualGroundingPolicyConfig?.validate(name: "\(name).contextualGroundingPolicyConfig")
             try self.crossRegionConfig?.validate(name: "\(name).crossRegionConfig")
@@ -1652,6 +3902,7 @@ extension Bedrock {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case automatedReasoningPolicyConfig = "automatedReasoningPolicyConfig"
             case blockedInputMessaging = "blockedInputMessaging"
             case blockedOutputsMessaging = "blockedOutputsMessaging"
             case clientRequestToken = "clientRequestToken"
@@ -1721,7 +3972,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
-            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?$")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, max: 2048)
@@ -1776,7 +4027,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
-            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?$")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^([0-9a-zA-Z:.][ _-]?)+$")
@@ -1844,7 +4095,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
-            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?$")
             try self.endpointConfig.validate(name: "\(name).endpointConfig")
             try self.validate(self.endpointName, name: "endpointName", parent: name, max: 30)
             try self.validate(self.endpointName, name: "endpointName", parent: name, min: 1)
@@ -1904,7 +4155,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
-            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?$")
             try self.validate(self.modelKmsKeyId, name: "modelKmsKeyId", parent: name, max: 2048)
             try self.validate(self.modelKmsKeyId, name: "modelKmsKeyId", parent: name, min: 1)
             try self.validate(self.modelKmsKeyId, name: "modelKmsKeyId", parent: name, pattern: "^(arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)$")
@@ -2000,7 +4251,7 @@ extension Bedrock {
             try self.validate(self.baseModelIdentifier, name: "baseModelIdentifier", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})|(([0-9a-zA-Z][_-]?)+)$")
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
-            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?$")
             try self.customizationConfig?.validate(name: "\(name).customizationConfig")
             try self.validate(self.customModelKmsKeyId, name: "customModelKmsKeyId", parent: name, max: 2048)
             try self.validate(self.customModelKmsKeyId, name: "customModelKmsKeyId", parent: name, min: 1)
@@ -2096,7 +4347,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
-            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?$")
             try self.validate(self.importedModelKmsKeyId, name: "importedModelKmsKeyId", parent: name, max: 2048)
             try self.validate(self.importedModelKmsKeyId, name: "importedModelKmsKeyId", parent: name, min: 1)
             try self.validate(self.importedModelKmsKeyId, name: "importedModelKmsKeyId", parent: name, pattern: "^(arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)$")
@@ -2260,7 +4511,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
-            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?$")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^([0-9a-zA-Z:.][ _-]?)+$")
@@ -2329,7 +4580,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
-            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?$")
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
             try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/((imported)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}))(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+)$")
@@ -2567,6 +4818,116 @@ extension Bedrock {
             case lastModifiedTime = "lastModifiedTime"
             case status = "status"
         }
+    }
+
+    public struct DeleteAutomatedReasoningPolicyBuildWorkflowRequest: AWSEncodableShape {
+        /// The unique identifier of the build workflow to delete.
+        public let buildWorkflowId: String
+        /// The timestamp when the build workflow was last updated. This is used for optimistic concurrency control to prevent accidental deletion of workflows that have been modified.
+        @CustomCoding<ISO8601DateCoder>
+        public var lastUpdatedAt: Date
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy whose build workflow you want to delete.
+        public let policyArn: String
+
+        @inlinable
+        public init(buildWorkflowId: String, lastUpdatedAt: Date, policyArn: String) {
+            self.buildWorkflowId = buildWorkflowId
+            self.lastUpdatedAt = lastUpdatedAt
+            self.policyArn = policyArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.buildWorkflowId, key: "buildWorkflowId")
+            request.encodeQuery(self._lastUpdatedAt, key: "updatedAt")
+            request.encodePath(self.policyArn, key: "policyArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.buildWorkflowId, name: "buildWorkflowId", parent: name, max: 36)
+            try self.validate(self.buildWorkflowId, name: "buildWorkflowId", parent: name, pattern: "^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}$")
+            try self.validate(self.policyArn, name: "policyArn", parent: name, max: 2048)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, min: 1)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAutomatedReasoningPolicyBuildWorkflowResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteAutomatedReasoningPolicyRequest: AWSEncodableShape {
+        /// Specifies whether to force delete the automated reasoning policy even if it has active resources. When false, Amazon Bedrock validates if all artifacts have been deleted (e.g. policy version, test case, test result) for a policy before deletion. When true, Amazon Bedrock will delete the policy and all its artifacts without validation. Default is false.
+        public let force: Bool?
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy to delete.
+        public let policyArn: String
+
+        @inlinable
+        public init(force: Bool? = nil, policyArn: String) {
+            self.force = force
+            self.policyArn = policyArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.force, key: "force")
+            request.encodePath(self.policyArn, key: "policyArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.policyArn, name: "policyArn", parent: name, max: 2048)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, min: 1)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAutomatedReasoningPolicyResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteAutomatedReasoningPolicyTestCaseRequest: AWSEncodableShape {
+        /// The timestamp when the test was last updated. This is used as a concurrency token to prevent conflicting modifications.
+        @CustomCoding<ISO8601DateCoder>
+        public var lastUpdatedAt: Date
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy that contains the test.
+        public let policyArn: String
+        /// The unique identifier of the test to delete.
+        public let testCaseId: String
+
+        @inlinable
+        public init(lastUpdatedAt: Date, policyArn: String, testCaseId: String) {
+            self.lastUpdatedAt = lastUpdatedAt
+            self.policyArn = policyArn
+            self.testCaseId = testCaseId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self._lastUpdatedAt, key: "updatedAt")
+            request.encodePath(self.policyArn, key: "policyArn")
+            request.encodePath(self.testCaseId, key: "testCaseId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.policyArn, name: "policyArn", parent: name, max: 2048)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, min: 1)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?$")
+            try self.validate(self.testCaseId, name: "testCaseId", parent: name, max: 12)
+            try self.validate(self.testCaseId, name: "testCaseId", parent: name, pattern: "^[0-9A-Z]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAutomatedReasoningPolicyTestCaseResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteCustomModelDeploymentRequest: AWSEncodableShape {
@@ -3192,6 +5553,47 @@ extension Bedrock {
         }
     }
 
+    public struct ExportAutomatedReasoningPolicyVersionRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy to export. Can be either the unversioned ARN for the draft policy or a versioned ARN for a specific policy version.
+        public let policyArn: String
+
+        @inlinable
+        public init(policyArn: String) {
+            self.policyArn = policyArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.policyArn, key: "policyArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.policyArn, name: "policyArn", parent: name, max: 2048)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, min: 1)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ExportAutomatedReasoningPolicyVersionResponse: AWSDecodableShape {
+        /// The exported policy definition containing the formal logic rules, variables, and custom variable types.
+        public let policyDefinition: AutomatedReasoningPolicyDefinition
+
+        @inlinable
+        public init(policyDefinition: AutomatedReasoningPolicyDefinition) {
+            self.policyDefinition = policyDefinition
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            self.policyDefinition = try container.decode(AutomatedReasoningPolicyDefinition.self)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct ExternalSource: AWSEncodableShape & AWSDecodableShape {
         /// The identifier, content type, and data of the external source wrapper object.
         public let byteContent: ByteContentDoc?
@@ -3471,6 +5873,423 @@ extension Bedrock {
             case guardrailConfiguration = "guardrailConfiguration"
             case kbInferenceConfig = "kbInferenceConfig"
             case promptTemplate = "promptTemplate"
+        }
+    }
+
+    public struct GetAutomatedReasoningPolicyAnnotationsRequest: AWSEncodableShape {
+        /// The unique identifier of the build workflow whose annotations you want to retrieve.
+        public let buildWorkflowId: String
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy whose annotations you want to retrieve.
+        public let policyArn: String
+
+        @inlinable
+        public init(buildWorkflowId: String, policyArn: String) {
+            self.buildWorkflowId = buildWorkflowId
+            self.policyArn = policyArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.buildWorkflowId, key: "buildWorkflowId")
+            request.encodePath(self.policyArn, key: "policyArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.buildWorkflowId, name: "buildWorkflowId", parent: name, max: 36)
+            try self.validate(self.buildWorkflowId, name: "buildWorkflowId", parent: name, pattern: "^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}$")
+            try self.validate(self.policyArn, name: "policyArn", parent: name, max: 2048)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, min: 1)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAutomatedReasoningPolicyAnnotationsResponse: AWSDecodableShape {
+        /// The current set of annotations containing rules, variables, and types extracted from the source documents. These can be modified before finalizing the policy.
+        public let annotations: [AutomatedReasoningPolicyAnnotation]
+        /// A hash value representing the current state of the annotations. This is used for optimistic concurrency control when updating annotations.
+        public let annotationSetHash: String
+        /// The unique identifier of the build workflow.
+        public let buildWorkflowId: String
+        /// The name of the Automated Reasoning policy.
+        public let name: String
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy.
+        public let policyArn: String
+        /// The timestamp when the annotations were last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+
+        @inlinable
+        public init(annotations: [AutomatedReasoningPolicyAnnotation], annotationSetHash: String, buildWorkflowId: String, name: String, policyArn: String, updatedAt: Date) {
+            self.annotations = annotations
+            self.annotationSetHash = annotationSetHash
+            self.buildWorkflowId = buildWorkflowId
+            self.name = name
+            self.policyArn = policyArn
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case annotations = "annotations"
+            case annotationSetHash = "annotationSetHash"
+            case buildWorkflowId = "buildWorkflowId"
+            case name = "name"
+            case policyArn = "policyArn"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct GetAutomatedReasoningPolicyBuildWorkflowRequest: AWSEncodableShape {
+        /// The unique identifier of the build workflow to retrieve.
+        public let buildWorkflowId: String
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy whose build workflow you want to retrieve.
+        public let policyArn: String
+
+        @inlinable
+        public init(buildWorkflowId: String, policyArn: String) {
+            self.buildWorkflowId = buildWorkflowId
+            self.policyArn = policyArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.buildWorkflowId, key: "buildWorkflowId")
+            request.encodePath(self.policyArn, key: "policyArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.buildWorkflowId, name: "buildWorkflowId", parent: name, max: 36)
+            try self.validate(self.buildWorkflowId, name: "buildWorkflowId", parent: name, pattern: "^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}$")
+            try self.validate(self.policyArn, name: "policyArn", parent: name, max: 2048)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, min: 1)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAutomatedReasoningPolicyBuildWorkflowResponse: AWSDecodableShape {
+        /// The unique identifier of the build workflow.
+        public let buildWorkflowId: String
+        /// The type of build workflow being executed (e.g., DOCUMENT_INGESTION, POLICY_REPAIR).
+        public let buildWorkflowType: AutomatedReasoningPolicyBuildWorkflowType
+        /// The timestamp when the build workflow was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The content type of the source document (e.g., text/plain, application/pdf).
+        public let documentContentType: AutomatedReasoningPolicyBuildDocumentContentType?
+        /// A detailed description of the document's content and how it should be used in the policy generation process.
+        public let documentDescription: String?
+        /// The name of the source document used in the build workflow.
+        public let documentName: String?
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy.
+        public let policyArn: String
+        /// The current status of the build workflow (e.g., RUNNING, COMPLETED, FAILED, CANCELLED).
+        public let status: AutomatedReasoningPolicyBuildWorkflowStatus
+        /// The timestamp when the build workflow was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+
+        @inlinable
+        public init(buildWorkflowId: String, buildWorkflowType: AutomatedReasoningPolicyBuildWorkflowType, createdAt: Date, documentContentType: AutomatedReasoningPolicyBuildDocumentContentType? = nil, documentDescription: String? = nil, documentName: String? = nil, policyArn: String, status: AutomatedReasoningPolicyBuildWorkflowStatus, updatedAt: Date) {
+            self.buildWorkflowId = buildWorkflowId
+            self.buildWorkflowType = buildWorkflowType
+            self.createdAt = createdAt
+            self.documentContentType = documentContentType
+            self.documentDescription = documentDescription
+            self.documentName = documentName
+            self.policyArn = policyArn
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case buildWorkflowId = "buildWorkflowId"
+            case buildWorkflowType = "buildWorkflowType"
+            case createdAt = "createdAt"
+            case documentContentType = "documentContentType"
+            case documentDescription = "documentDescription"
+            case documentName = "documentName"
+            case policyArn = "policyArn"
+            case status = "status"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest: AWSEncodableShape {
+        /// The type of asset to retrieve (e.g., BUILD_LOG, QUALITY_REPORT, POLICY_DEFINITION).
+        public let assetType: AutomatedReasoningPolicyBuildResultAssetType
+        /// The unique identifier of the build workflow whose result assets you want to retrieve.
+        public let buildWorkflowId: String
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy whose build workflow assets you want to retrieve.
+        public let policyArn: String
+
+        @inlinable
+        public init(assetType: AutomatedReasoningPolicyBuildResultAssetType, buildWorkflowId: String, policyArn: String) {
+            self.assetType = assetType
+            self.buildWorkflowId = buildWorkflowId
+            self.policyArn = policyArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.assetType, key: "assetType")
+            request.encodePath(self.buildWorkflowId, key: "buildWorkflowId")
+            request.encodePath(self.policyArn, key: "policyArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.buildWorkflowId, name: "buildWorkflowId", parent: name, max: 36)
+            try self.validate(self.buildWorkflowId, name: "buildWorkflowId", parent: name, pattern: "^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}$")
+            try self.validate(self.policyArn, name: "policyArn", parent: name, max: 2048)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, min: 1)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAutomatedReasoningPolicyBuildWorkflowResultAssetsResponse: AWSDecodableShape {
+        /// The requested build workflow asset. This is a union type that returns only one of the available asset types (logs, reports, or generated artifacts) based on the specific asset type requested in the API call.
+        public let buildWorkflowAssets: AutomatedReasoningPolicyBuildResultAssets?
+        /// The unique identifier of the build workflow.
+        public let buildWorkflowId: String
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy.
+        public let policyArn: String
+
+        @inlinable
+        public init(buildWorkflowAssets: AutomatedReasoningPolicyBuildResultAssets? = nil, buildWorkflowId: String, policyArn: String) {
+            self.buildWorkflowAssets = buildWorkflowAssets
+            self.buildWorkflowId = buildWorkflowId
+            self.policyArn = policyArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case buildWorkflowAssets = "buildWorkflowAssets"
+            case buildWorkflowId = "buildWorkflowId"
+            case policyArn = "policyArn"
+        }
+    }
+
+    public struct GetAutomatedReasoningPolicyNextScenarioRequest: AWSEncodableShape {
+        /// The unique identifier of the build workflow associated with the test scenarios.
+        public let buildWorkflowId: String
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy for which you want to get the next test scenario.
+        public let policyArn: String
+
+        @inlinable
+        public init(buildWorkflowId: String, policyArn: String) {
+            self.buildWorkflowId = buildWorkflowId
+            self.policyArn = policyArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.buildWorkflowId, key: "buildWorkflowId")
+            request.encodePath(self.policyArn, key: "policyArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.buildWorkflowId, name: "buildWorkflowId", parent: name, max: 36)
+            try self.validate(self.buildWorkflowId, name: "buildWorkflowId", parent: name, pattern: "^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}$")
+            try self.validate(self.policyArn, name: "policyArn", parent: name, max: 2048)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, min: 1)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAutomatedReasoningPolicyNextScenarioResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy.
+        public let policyArn: String
+        /// The next test scenario to validate, including the test expression and expected results.
+        public let scenario: AutomatedReasoningPolicyScenario?
+
+        @inlinable
+        public init(policyArn: String, scenario: AutomatedReasoningPolicyScenario? = nil) {
+            self.policyArn = policyArn
+            self.scenario = scenario
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyArn = "policyArn"
+            case scenario = "scenario"
+        }
+    }
+
+    public struct GetAutomatedReasoningPolicyRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy to retrieve. Can be either the unversioned ARN for the draft policy or an ARN for a specific policy version.
+        public let policyArn: String
+
+        @inlinable
+        public init(policyArn: String) {
+            self.policyArn = policyArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.policyArn, key: "policyArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.policyArn, name: "policyArn", parent: name, max: 2048)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, min: 1)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAutomatedReasoningPolicyResponse: AWSDecodableShape {
+        /// The timestamp when the policy was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// The hash of the policy definition used as a concurrency token.
+        public let definitionHash: String
+        /// The description of the policy.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the automated reasoning policy and its associated artifacts. If a KMS key is not provided during the initial CreateAutomatedReasoningPolicyRequest, the kmsKeyArn won't be included in the GetAutomatedReasoningPolicyResponse.
+        public let kmsKeyArn: String?
+        /// The name of the policy.
+        public let name: String
+        /// The Amazon Resource Name (ARN) of the policy.
+        public let policyArn: String
+        /// The unique identifier of the policy.
+        public let policyId: String
+        /// The timestamp when the policy was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+        /// The version of the policy.
+        public let version: String
+
+        @inlinable
+        public init(createdAt: Date? = nil, definitionHash: String, description: String? = nil, kmsKeyArn: String? = nil, name: String, policyArn: String, policyId: String, updatedAt: Date, version: String) {
+            self.createdAt = createdAt
+            self.definitionHash = definitionHash
+            self.description = description
+            self.kmsKeyArn = kmsKeyArn
+            self.name = name
+            self.policyArn = policyArn
+            self.policyId = policyId
+            self.updatedAt = updatedAt
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case definitionHash = "definitionHash"
+            case description = "description"
+            case kmsKeyArn = "kmsKeyArn"
+            case name = "name"
+            case policyArn = "policyArn"
+            case policyId = "policyId"
+            case updatedAt = "updatedAt"
+            case version = "version"
+        }
+    }
+
+    public struct GetAutomatedReasoningPolicyTestCaseRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy that contains the test.
+        public let policyArn: String
+        /// The unique identifier of the test to retrieve.
+        public let testCaseId: String
+
+        @inlinable
+        public init(policyArn: String, testCaseId: String) {
+            self.policyArn = policyArn
+            self.testCaseId = testCaseId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.policyArn, key: "policyArn")
+            request.encodePath(self.testCaseId, key: "testCaseId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.policyArn, name: "policyArn", parent: name, max: 2048)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, min: 1)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?$")
+            try self.validate(self.testCaseId, name: "testCaseId", parent: name, max: 12)
+            try self.validate(self.testCaseId, name: "testCaseId", parent: name, pattern: "^[0-9A-Z]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAutomatedReasoningPolicyTestCaseResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the policy that contains the test.
+        public let policyArn: String
+        /// The test details including the content, query, expected result, and metadata.
+        public let testCase: AutomatedReasoningPolicyTestCase
+
+        @inlinable
+        public init(policyArn: String, testCase: AutomatedReasoningPolicyTestCase) {
+            self.policyArn = policyArn
+            self.testCase = testCase
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyArn = "policyArn"
+            case testCase = "testCase"
+        }
+    }
+
+    public struct GetAutomatedReasoningPolicyTestResultRequest: AWSEncodableShape {
+        /// The build workflow identifier. The build workflow must display a COMPLETED status to get results.
+        public let buildWorkflowId: String
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy.
+        public let policyArn: String
+        /// The unique identifier of the test for which to retrieve results.
+        public let testCaseId: String
+
+        @inlinable
+        public init(buildWorkflowId: String, policyArn: String, testCaseId: String) {
+            self.buildWorkflowId = buildWorkflowId
+            self.policyArn = policyArn
+            self.testCaseId = testCaseId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.buildWorkflowId, key: "buildWorkflowId")
+            request.encodePath(self.policyArn, key: "policyArn")
+            request.encodePath(self.testCaseId, key: "testCaseId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.buildWorkflowId, name: "buildWorkflowId", parent: name, max: 36)
+            try self.validate(self.buildWorkflowId, name: "buildWorkflowId", parent: name, pattern: "^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}$")
+            try self.validate(self.policyArn, name: "policyArn", parent: name, max: 2048)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, min: 1)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?$")
+            try self.validate(self.testCaseId, name: "testCaseId", parent: name, max: 12)
+            try self.validate(self.testCaseId, name: "testCaseId", parent: name, pattern: "^[0-9A-Z]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAutomatedReasoningPolicyTestResultResponse: AWSDecodableShape {
+        /// The test result containing validation findings, execution status, and detailed analysis.
+        public let testResult: AutomatedReasoningPolicyTestResult
+
+        @inlinable
+        public init(testResult: AutomatedReasoningPolicyTestResult) {
+            self.testResult = testResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case testResult = "testResult"
         }
     }
 
@@ -3807,7 +6626,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, max: 2048)
             try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, min: 1)
-            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/((imported)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}))(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+)$")
+            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2})|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3856,6 +6675,8 @@ extension Bedrock {
     }
 
     public struct GetGuardrailResponse: AWSDecodableShape {
+        /// The current Automated Reasoning policy configuration for the guardrail, if any is configured.
+        public let automatedReasoningPolicy: GuardrailAutomatedReasoningPolicy?
         /// The message that the guardrail returns when it blocks a prompt.
         public let blockedInputMessaging: String
         /// The message that the guardrail returns when it blocks a model response.
@@ -3898,7 +6719,8 @@ extension Bedrock {
         public let wordPolicy: GuardrailWordPolicy?
 
         @inlinable
-        public init(blockedInputMessaging: String, blockedOutputsMessaging: String, contentPolicy: GuardrailContentPolicy? = nil, contextualGroundingPolicy: GuardrailContextualGroundingPolicy? = nil, createdAt: Date, crossRegionDetails: GuardrailCrossRegionDetails? = nil, description: String? = nil, failureRecommendations: [String]? = nil, guardrailArn: String, guardrailId: String, kmsKeyArn: String? = nil, name: String, sensitiveInformationPolicy: GuardrailSensitiveInformationPolicy? = nil, status: GuardrailStatus, statusReasons: [String]? = nil, topicPolicy: GuardrailTopicPolicy? = nil, updatedAt: Date, version: String, wordPolicy: GuardrailWordPolicy? = nil) {
+        public init(automatedReasoningPolicy: GuardrailAutomatedReasoningPolicy? = nil, blockedInputMessaging: String, blockedOutputsMessaging: String, contentPolicy: GuardrailContentPolicy? = nil, contextualGroundingPolicy: GuardrailContextualGroundingPolicy? = nil, createdAt: Date, crossRegionDetails: GuardrailCrossRegionDetails? = nil, description: String? = nil, failureRecommendations: [String]? = nil, guardrailArn: String, guardrailId: String, kmsKeyArn: String? = nil, name: String, sensitiveInformationPolicy: GuardrailSensitiveInformationPolicy? = nil, status: GuardrailStatus, statusReasons: [String]? = nil, topicPolicy: GuardrailTopicPolicy? = nil, updatedAt: Date, version: String, wordPolicy: GuardrailWordPolicy? = nil) {
+            self.automatedReasoningPolicy = automatedReasoningPolicy
             self.blockedInputMessaging = blockedInputMessaging
             self.blockedOutputsMessaging = blockedOutputsMessaging
             self.contentPolicy = contentPolicy
@@ -3921,6 +6743,7 @@ extension Bedrock {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case automatedReasoningPolicy = "automatedReasoningPolicy"
             case blockedInputMessaging = "blockedInputMessaging"
             case blockedOutputsMessaging = "blockedOutputsMessaging"
             case contentPolicy = "contentPolicy"
@@ -4713,6 +7536,52 @@ extension Bedrock {
 
         private enum CodingKeys: String, CodingKey {
             case formData = "formData"
+        }
+    }
+
+    public struct GuardrailAutomatedReasoningPolicy: AWSDecodableShape {
+        /// The minimum confidence level required for Automated Reasoning policy violations to trigger guardrail actions. Values range from 0.0 to 1.0.
+        public let confidenceThreshold: Double?
+        /// The list of Automated Reasoning policy ARNs that should be applied as part of this guardrail configuration.
+        public let policies: [String]
+
+        @inlinable
+        public init(confidenceThreshold: Double? = nil, policies: [String]) {
+            self.confidenceThreshold = confidenceThreshold
+            self.policies = policies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidenceThreshold = "confidenceThreshold"
+            case policies = "policies"
+        }
+    }
+
+    public struct GuardrailAutomatedReasoningPolicyConfig: AWSEncodableShape {
+        /// The confidence threshold for triggering guardrail actions based on Automated Reasoning policy violations.
+        public let confidenceThreshold: Double?
+        /// The list of Automated Reasoning policy ARNs to include in the guardrail configuration.
+        public let policies: [String]
+
+        @inlinable
+        public init(confidenceThreshold: Double? = nil, policies: [String]) {
+            self.confidenceThreshold = confidenceThreshold
+            self.policies = policies
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.confidenceThreshold, name: "confidenceThreshold", parent: name, max: 1.0)
+            try self.validate(self.confidenceThreshold, name: "confidenceThreshold", parent: name, min: 0.0)
+            try self.policies.forEach {
+                try validate($0, name: "policies[]", parent: name, max: 2048)
+                try validate($0, name: "policies[]", parent: name, min: 1)
+                try validate($0, name: "policies[]", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidenceThreshold = "confidenceThreshold"
+            case policies = "policies"
         }
     }
 
@@ -5967,6 +8836,232 @@ extension Bedrock {
         }
     }
 
+    public struct ListAutomatedReasoningPoliciesRequest: AWSEncodableShape {
+        /// The maximum number of policies to return in a single call.
+        public let maxResults: Int?
+        /// The pagination token from a previous request to retrieve the next page of results.
+        public let nextToken: String?
+        /// Optional filter to list only the policy versions with the specified Amazon Resource Name (ARN). If not provided, the DRAFT versions for all policies are listed.
+        public let policyArn: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, policyArn: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.policyArn = policyArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.policyArn, key: "policyArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+            try self.validate(self.policyArn, name: "policyArn", parent: name, max: 2048)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, min: 1)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAutomatedReasoningPoliciesResponse: AWSDecodableShape {
+        /// A list of Automated Reasoning policy summaries.
+        public let automatedReasoningPolicySummaries: [AutomatedReasoningPolicySummary]
+        /// The pagination token to use in a subsequent request to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(automatedReasoningPolicySummaries: [AutomatedReasoningPolicySummary], nextToken: String? = nil) {
+            self.automatedReasoningPolicySummaries = automatedReasoningPolicySummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case automatedReasoningPolicySummaries = "automatedReasoningPolicySummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAutomatedReasoningPolicyBuildWorkflowsRequest: AWSEncodableShape {
+        /// The maximum number of build workflows to return in a single response. Valid range is 1-100.
+        public let maxResults: Int?
+        /// A pagination token from a previous request to continue listing build workflows from where the previous request left off.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy whose build workflows you want to list.
+        public let policyArn: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, policyArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.policyArn = policyArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.policyArn, key: "policyArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+            try self.validate(self.policyArn, name: "policyArn", parent: name, max: 2048)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, min: 1)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAutomatedReasoningPolicyBuildWorkflowsResponse: AWSDecodableShape {
+        /// A list of build workflow summaries, each containing key information about a build workflow including its status and timestamps.
+        public let automatedReasoningPolicyBuildWorkflowSummaries: [AutomatedReasoningPolicyBuildWorkflowSummary]
+        /// A pagination token to use in subsequent requests to retrieve additional build workflows.
+        public let nextToken: String?
+
+        @inlinable
+        public init(automatedReasoningPolicyBuildWorkflowSummaries: [AutomatedReasoningPolicyBuildWorkflowSummary], nextToken: String? = nil) {
+            self.automatedReasoningPolicyBuildWorkflowSummaries = automatedReasoningPolicyBuildWorkflowSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case automatedReasoningPolicyBuildWorkflowSummaries = "automatedReasoningPolicyBuildWorkflowSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAutomatedReasoningPolicyTestCasesRequest: AWSEncodableShape {
+        /// The maximum number of tests to return in a single call.
+        public let maxResults: Int?
+        /// The pagination token from a previous request to retrieve the next page of results.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy for which to list tests.
+        public let policyArn: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, policyArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.policyArn = policyArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.policyArn, key: "policyArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+            try self.validate(self.policyArn, name: "policyArn", parent: name, max: 2048)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, min: 1)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAutomatedReasoningPolicyTestCasesResponse: AWSDecodableShape {
+        /// The pagination token to use in a subsequent request to retrieve the next page of results.
+        public let nextToken: String?
+        /// A list of tests for the specified policy.
+        public let testCases: [AutomatedReasoningPolicyTestCase]
+
+        @inlinable
+        public init(nextToken: String? = nil, testCases: [AutomatedReasoningPolicyTestCase]) {
+            self.nextToken = nextToken
+            self.testCases = testCases
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case testCases = "testCases"
+        }
+    }
+
+    public struct ListAutomatedReasoningPolicyTestResultsRequest: AWSEncodableShape {
+        /// The unique identifier of the build workflow whose test results you want to list.
+        public let buildWorkflowId: String
+        /// The maximum number of test results to return in a single response. Valid range is 1-100.
+        public let maxResults: Int?
+        /// A pagination token from a previous request to continue listing test results from where the previous request left off.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy whose test results you want to list.
+        public let policyArn: String
+
+        @inlinable
+        public init(buildWorkflowId: String, maxResults: Int? = nil, nextToken: String? = nil, policyArn: String) {
+            self.buildWorkflowId = buildWorkflowId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.policyArn = policyArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.buildWorkflowId, key: "buildWorkflowId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.policyArn, key: "policyArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.buildWorkflowId, name: "buildWorkflowId", parent: name, max: 36)
+            try self.validate(self.buildWorkflowId, name: "buildWorkflowId", parent: name, pattern: "^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+            try self.validate(self.policyArn, name: "policyArn", parent: name, max: 2048)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, min: 1)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAutomatedReasoningPolicyTestResultsResponse: AWSDecodableShape {
+        /// A pagination token to use in subsequent requests to retrieve additional test results.
+        public let nextToken: String?
+        /// A list of test results, each containing information about how the policy performed on specific test scenarios.
+        public let testResults: [AutomatedReasoningPolicyTestResult]
+
+        @inlinable
+        public init(nextToken: String? = nil, testResults: [AutomatedReasoningPolicyTestResult]) {
+            self.nextToken = nextToken
+            self.testResults = testResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case testResults = "testResults"
+        }
+    }
+
     public struct ListCustomModelDeploymentsRequest: AWSEncodableShape {
         /// Filters deployments created after the specified date and time.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -6021,7 +9116,7 @@ extension Bedrock {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.modelArnEquals, name: "modelArnEquals", parent: name, max: 1011)
             try self.validate(self.modelArnEquals, name: "modelArnEquals", parent: name, min: 20)
-            try self.validate(self.modelArnEquals, name: "modelArnEquals", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:custom-model/(imported|[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2})/[a-z0-9]{12}$")
+            try self.validate(self.modelArnEquals, name: "modelArnEquals", parent: name, pattern: "^arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:custom-model/(imported|[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2})/[a-z0-9]{12}$")
             try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
             try self.validate(self.nameContains, name: "nameContains", parent: name, min: 1)
             try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,63}$")
@@ -8058,6 +11153,128 @@ extension Bedrock {
         }
     }
 
+    public struct StartAutomatedReasoningPolicyBuildWorkflowRequest: AWSEncodableShape {
+        /// The type of build workflow to start (e.g., DOCUMENT_INGESTION for processing new documents, POLICY_REPAIR for fixing existing policies).
+        public let buildWorkflowType: AutomatedReasoningPolicyBuildWorkflowType
+        /// A unique, case-sensitive identifier to ensure that the operation completes no more than once. If this token matches a previous request, Amazon Bedrock ignores the request but doesn't return an error.
+        public let clientRequestToken: String?
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy for which to start the build workflow.
+        public let policyArn: String
+        /// The source content for the build workflow, such as documents to analyze or repair instructions for existing policies.
+        public let sourceContent: AutomatedReasoningPolicyBuildWorkflowSource
+
+        @inlinable
+        public init(buildWorkflowType: AutomatedReasoningPolicyBuildWorkflowType, clientRequestToken: String? = StartAutomatedReasoningPolicyBuildWorkflowRequest.idempotencyToken(), policyArn: String, sourceContent: AutomatedReasoningPolicyBuildWorkflowSource) {
+            self.buildWorkflowType = buildWorkflowType
+            self.clientRequestToken = clientRequestToken
+            self.policyArn = policyArn
+            self.sourceContent = sourceContent
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.buildWorkflowType, key: "buildWorkflowType")
+            request.encodeHeader(self.clientRequestToken, key: "x-amz-client-token")
+            request.encodePath(self.policyArn, key: "policyArn")
+            try container.encode(self.sourceContent)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?$")
+            try self.validate(self.policyArn, name: "policyArn", parent: name, max: 2048)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, min: 1)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?$")
+            try self.sourceContent.validate(name: "\(name).sourceContent")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StartAutomatedReasoningPolicyBuildWorkflowResponse: AWSDecodableShape {
+        /// The unique identifier of the newly started build workflow. Use this ID to track the workflow's progress and retrieve its results.
+        public let buildWorkflowId: String
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy.
+        public let policyArn: String
+
+        @inlinable
+        public init(buildWorkflowId: String, policyArn: String) {
+            self.buildWorkflowId = buildWorkflowId
+            self.policyArn = policyArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case buildWorkflowId = "buildWorkflowId"
+            case policyArn = "policyArn"
+        }
+    }
+
+    public struct StartAutomatedReasoningPolicyTestWorkflowRequest: AWSEncodableShape {
+        /// The build workflow identifier. The build workflow must show a COMPLETED status before running tests.
+        public let buildWorkflowId: String
+        /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request but doesn't return an error.
+        public let clientRequestToken: String?
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy to test.
+        public let policyArn: String
+        /// The list of test identifiers to run. If not provided, all tests for the policy are run.
+        public let testCaseIds: [String]?
+
+        @inlinable
+        public init(buildWorkflowId: String, clientRequestToken: String? = StartAutomatedReasoningPolicyTestWorkflowRequest.idempotencyToken(), policyArn: String, testCaseIds: [String]? = nil) {
+            self.buildWorkflowId = buildWorkflowId
+            self.clientRequestToken = clientRequestToken
+            self.policyArn = policyArn
+            self.testCaseIds = testCaseIds
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.buildWorkflowId, key: "buildWorkflowId")
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            request.encodePath(self.policyArn, key: "policyArn")
+            try container.encodeIfPresent(self.testCaseIds, forKey: .testCaseIds)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.buildWorkflowId, name: "buildWorkflowId", parent: name, max: 36)
+            try self.validate(self.buildWorkflowId, name: "buildWorkflowId", parent: name, pattern: "^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}$")
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?$")
+            try self.validate(self.policyArn, name: "policyArn", parent: name, max: 2048)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, min: 1)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?$")
+            try self.testCaseIds?.forEach {
+                try validate($0, name: "testCaseIds[]", parent: name, max: 12)
+                try validate($0, name: "testCaseIds[]", parent: name, pattern: "^[0-9A-Z]{12}$")
+            }
+            try self.validate(self.testCaseIds, name: "testCaseIds", parent: name, max: 1)
+            try self.validate(self.testCaseIds, name: "testCaseIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case testCaseIds = "testCaseIds"
+        }
+    }
+
+    public struct StartAutomatedReasoningPolicyTestWorkflowResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the policy for which the test workflow was started.
+        public let policyArn: String
+
+        @inlinable
+        public init(policyArn: String) {
+            self.policyArn = policyArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyArn = "policyArn"
+        }
+    }
+
     public struct StatusDetails: AWSDecodableShape {
         /// The status details for the data processing sub-task of the job.
         public let dataProcessingDetails: DataProcessingDetails?
@@ -8430,7 +11647,244 @@ extension Bedrock {
         public init() {}
     }
 
+    public struct UpdateAutomatedReasoningPolicyAnnotationsRequest: AWSEncodableShape {
+        /// The updated annotations containing modified rules, variables, and types for the policy.
+        public let annotations: [AutomatedReasoningPolicyAnnotation]
+        /// The unique identifier of the build workflow whose annotations you want to update.
+        public let buildWorkflowId: String
+        /// The hash value of the annotation set that you're updating. This is used for optimistic concurrency control to prevent conflicting updates.
+        public let lastUpdatedAnnotationSetHash: String
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy whose annotations you want to update.
+        public let policyArn: String
+
+        @inlinable
+        public init(annotations: [AutomatedReasoningPolicyAnnotation], buildWorkflowId: String, lastUpdatedAnnotationSetHash: String, policyArn: String) {
+            self.annotations = annotations
+            self.buildWorkflowId = buildWorkflowId
+            self.lastUpdatedAnnotationSetHash = lastUpdatedAnnotationSetHash
+            self.policyArn = policyArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.annotations, forKey: .annotations)
+            request.encodePath(self.buildWorkflowId, key: "buildWorkflowId")
+            try container.encode(self.lastUpdatedAnnotationSetHash, forKey: .lastUpdatedAnnotationSetHash)
+            request.encodePath(self.policyArn, key: "policyArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.annotations.forEach {
+                try $0.validate(name: "\(name).annotations[]")
+            }
+            try self.validate(self.annotations, name: "annotations", parent: name, max: 10)
+            try self.validate(self.buildWorkflowId, name: "buildWorkflowId", parent: name, max: 36)
+            try self.validate(self.buildWorkflowId, name: "buildWorkflowId", parent: name, pattern: "^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}$")
+            try self.validate(self.lastUpdatedAnnotationSetHash, name: "lastUpdatedAnnotationSetHash", parent: name, max: 128)
+            try self.validate(self.lastUpdatedAnnotationSetHash, name: "lastUpdatedAnnotationSetHash", parent: name, min: 128)
+            try self.validate(self.lastUpdatedAnnotationSetHash, name: "lastUpdatedAnnotationSetHash", parent: name, pattern: "^[0-9a-z]{128}$")
+            try self.validate(self.policyArn, name: "policyArn", parent: name, max: 2048)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, min: 1)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case annotations = "annotations"
+            case lastUpdatedAnnotationSetHash = "lastUpdatedAnnotationSetHash"
+        }
+    }
+
+    public struct UpdateAutomatedReasoningPolicyAnnotationsResponse: AWSDecodableShape {
+        /// The new hash value representing the updated state of the annotations.
+        public let annotationSetHash: String
+        /// The unique identifier of the build workflow.
+        public let buildWorkflowId: String
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy.
+        public let policyArn: String
+        /// The timestamp when the annotations were updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+
+        @inlinable
+        public init(annotationSetHash: String, buildWorkflowId: String, policyArn: String, updatedAt: Date) {
+            self.annotationSetHash = annotationSetHash
+            self.buildWorkflowId = buildWorkflowId
+            self.policyArn = policyArn
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case annotationSetHash = "annotationSetHash"
+            case buildWorkflowId = "buildWorkflowId"
+            case policyArn = "policyArn"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct UpdateAutomatedReasoningPolicyRequest: AWSEncodableShape {
+        /// The updated description for the Automated Reasoning policy.
+        public let description: String?
+        /// The updated name for the Automated Reasoning policy.
+        public let name: String?
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy to update. This must be the ARN of a draft policy.
+        public let policyArn: String
+        /// The updated policy definition containing the formal logic rules, variables, and types.
+        public let policyDefinition: AutomatedReasoningPolicyDefinition
+
+        @inlinable
+        public init(description: String? = nil, name: String? = nil, policyArn: String, policyDefinition: AutomatedReasoningPolicyDefinition) {
+            self.description = description
+            self.name = name
+            self.policyArn = policyArn
+            self.policyDefinition = policyDefinition
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            request.encodePath(self.policyArn, key: "policyArn")
+            try container.encode(self.policyDefinition, forKey: .policyDefinition)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-zA-Z-_ ]+$")
+            try self.validate(self.policyArn, name: "policyArn", parent: name, max: 2048)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, min: 1)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?$")
+            try self.policyDefinition.validate(name: "\(name).policyDefinition")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case policyDefinition = "policyDefinition"
+        }
+    }
+
+    public struct UpdateAutomatedReasoningPolicyResponse: AWSDecodableShape {
+        /// The hash of the updated policy definition.
+        public let definitionHash: String
+        /// The updated name of the policy.
+        public let name: String
+        /// The Amazon Resource Name (ARN) of the updated policy.
+        public let policyArn: String
+        /// The timestamp when the policy was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+
+        @inlinable
+        public init(definitionHash: String, name: String, policyArn: String, updatedAt: Date) {
+            self.definitionHash = definitionHash
+            self.name = name
+            self.policyArn = policyArn
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case definitionHash = "definitionHash"
+            case name = "name"
+            case policyArn = "policyArn"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct UpdateAutomatedReasoningPolicyTestCaseRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error.
+        public let clientRequestToken: String?
+        /// The updated minimum confidence level for logic validation. If null is provided, the threshold will be removed.
+        public let confidenceThreshold: Double?
+        /// The updated expected result of the Automated Reasoning check.
+        public let expectedAggregatedFindingsResult: AutomatedReasoningCheckResult
+        /// The updated content to be validated by the Automated Reasoning policy.
+        public let guardContent: String
+        /// The timestamp when the test was last updated. This is used as a concurrency token to prevent conflicting modifications.
+        @CustomCoding<ISO8601DateCoder>
+        public var lastUpdatedAt: Date
+        /// The Amazon Resource Name (ARN) of the Automated Reasoning policy that contains the test.
+        public let policyArn: String
+        /// The updated input query or prompt that generated the content.
+        public let queryContent: String?
+        /// The unique identifier of the test to update.
+        public let testCaseId: String
+
+        @inlinable
+        public init(clientRequestToken: String? = UpdateAutomatedReasoningPolicyTestCaseRequest.idempotencyToken(), confidenceThreshold: Double? = nil, expectedAggregatedFindingsResult: AutomatedReasoningCheckResult, guardContent: String, lastUpdatedAt: Date, policyArn: String, queryContent: String? = nil, testCaseId: String) {
+            self.clientRequestToken = clientRequestToken
+            self.confidenceThreshold = confidenceThreshold
+            self.expectedAggregatedFindingsResult = expectedAggregatedFindingsResult
+            self.guardContent = guardContent
+            self.lastUpdatedAt = lastUpdatedAt
+            self.policyArn = policyArn
+            self.queryContent = queryContent
+            self.testCaseId = testCaseId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encodeIfPresent(self.confidenceThreshold, forKey: .confidenceThreshold)
+            try container.encode(self.expectedAggregatedFindingsResult, forKey: .expectedAggregatedFindingsResult)
+            try container.encode(self.guardContent, forKey: .guardContent)
+            try container.encode(self.lastUpdatedAt, forKey: .lastUpdatedAt)
+            request.encodePath(self.policyArn, key: "policyArn")
+            try container.encodeIfPresent(self.queryContent, forKey: .queryContent)
+            request.encodePath(self.testCaseId, key: "testCaseId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?$")
+            try self.validate(self.confidenceThreshold, name: "confidenceThreshold", parent: name, max: 1.0)
+            try self.validate(self.confidenceThreshold, name: "confidenceThreshold", parent: name, min: 0.0)
+            try self.validate(self.guardContent, name: "guardContent", parent: name, max: 1024)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, max: 2048)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, min: 1)
+            try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?$")
+            try self.validate(self.queryContent, name: "queryContent", parent: name, max: 1024)
+            try self.validate(self.testCaseId, name: "testCaseId", parent: name, max: 12)
+            try self.validate(self.testCaseId, name: "testCaseId", parent: name, pattern: "^[0-9A-Z]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case confidenceThreshold = "confidenceThreshold"
+            case expectedAggregatedFindingsResult = "expectedAggregatedFindingsResult"
+            case guardContent = "guardContent"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case queryContent = "queryContent"
+        }
+    }
+
+    public struct UpdateAutomatedReasoningPolicyTestCaseResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the policy that contains the updated test.
+        public let policyArn: String
+        /// The unique identifier of the updated test.
+        public let testCaseId: String
+
+        @inlinable
+        public init(policyArn: String, testCaseId: String) {
+            self.policyArn = policyArn
+            self.testCaseId = testCaseId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyArn = "policyArn"
+            case testCaseId = "testCaseId"
+        }
+    }
+
     public struct UpdateGuardrailRequest: AWSEncodableShape {
+        /// Updated configuration for Automated Reasoning policies associated with the guardrail.
+        public let automatedReasoningPolicyConfig: GuardrailAutomatedReasoningPolicyConfig?
         /// The message to return when the guardrail blocks a prompt.
         public let blockedInputMessaging: String
         /// The message to return when the guardrail blocks a model response.
@@ -8457,7 +11911,8 @@ extension Bedrock {
         public let wordPolicyConfig: GuardrailWordPolicyConfig?
 
         @inlinable
-        public init(blockedInputMessaging: String, blockedOutputsMessaging: String, contentPolicyConfig: GuardrailContentPolicyConfig? = nil, contextualGroundingPolicyConfig: GuardrailContextualGroundingPolicyConfig? = nil, crossRegionConfig: GuardrailCrossRegionConfig? = nil, description: String? = nil, guardrailIdentifier: String, kmsKeyId: String? = nil, name: String, sensitiveInformationPolicyConfig: GuardrailSensitiveInformationPolicyConfig? = nil, topicPolicyConfig: GuardrailTopicPolicyConfig? = nil, wordPolicyConfig: GuardrailWordPolicyConfig? = nil) {
+        public init(automatedReasoningPolicyConfig: GuardrailAutomatedReasoningPolicyConfig? = nil, blockedInputMessaging: String, blockedOutputsMessaging: String, contentPolicyConfig: GuardrailContentPolicyConfig? = nil, contextualGroundingPolicyConfig: GuardrailContextualGroundingPolicyConfig? = nil, crossRegionConfig: GuardrailCrossRegionConfig? = nil, description: String? = nil, guardrailIdentifier: String, kmsKeyId: String? = nil, name: String, sensitiveInformationPolicyConfig: GuardrailSensitiveInformationPolicyConfig? = nil, topicPolicyConfig: GuardrailTopicPolicyConfig? = nil, wordPolicyConfig: GuardrailWordPolicyConfig? = nil) {
+            self.automatedReasoningPolicyConfig = automatedReasoningPolicyConfig
             self.blockedInputMessaging = blockedInputMessaging
             self.blockedOutputsMessaging = blockedOutputsMessaging
             self.contentPolicyConfig = contentPolicyConfig
@@ -8475,6 +11930,7 @@ extension Bedrock {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.automatedReasoningPolicyConfig, forKey: .automatedReasoningPolicyConfig)
             try container.encode(self.blockedInputMessaging, forKey: .blockedInputMessaging)
             try container.encode(self.blockedOutputsMessaging, forKey: .blockedOutputsMessaging)
             try container.encodeIfPresent(self.contentPolicyConfig, forKey: .contentPolicyConfig)
@@ -8490,6 +11946,7 @@ extension Bedrock {
         }
 
         public func validate(name: String) throws {
+            try self.automatedReasoningPolicyConfig?.validate(name: "\(name).automatedReasoningPolicyConfig")
             try self.validate(self.blockedInputMessaging, name: "blockedInputMessaging", parent: name, max: 500)
             try self.validate(self.blockedInputMessaging, name: "blockedInputMessaging", parent: name, min: 1)
             try self.validate(self.blockedOutputsMessaging, name: "blockedOutputsMessaging", parent: name, max: 500)
@@ -8513,6 +11970,7 @@ extension Bedrock {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case automatedReasoningPolicyConfig = "automatedReasoningPolicyConfig"
             case blockedInputMessaging = "blockedInputMessaging"
             case blockedOutputsMessaging = "blockedOutputsMessaging"
             case contentPolicyConfig = "contentPolicyConfig"
@@ -8580,7 +12038,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
-            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?$")
             try self.validate(self.endpointArn, name: "endpointArn", parent: name, max: 2048)
             try self.endpointConfig.validate(name: "\(name).endpointConfig")
         }
@@ -9050,6 +12508,7 @@ public struct BedrockErrorType: AWSErrorType {
         case accessDeniedException = "AccessDeniedException"
         case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
+        case resourceInUseException = "ResourceInUseException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case serviceUnavailableException = "ServiceUnavailableException"
@@ -9082,6 +12541,8 @@ public struct BedrockErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// An internal server error occurred. Retry your request.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// Thrown when attempting to delete or modify a resource that is currently being used by other resources or operations. For example, trying to delete an Automated Reasoning policy that is referenced by an active guardrail.
+    public static var resourceInUseException: Self { .init(.resourceInUseException) }
     /// The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The number of requests exceeds the service quota. Resubmit your request later.

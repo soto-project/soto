@@ -109,6 +109,12 @@ extension BedrockAgentRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum FlowControlNodeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case iterator = "Iterator"
+        case loop = "Loop"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FlowErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case internalServer = "INTERNAL_SERVER"
         case nodeExecutionFailed = "NODE_EXECUTION_FAILED"
@@ -133,6 +139,22 @@ extension BedrockAgentRuntime {
         case running = "Running"
         case succeeded = "Succeeded"
         case timedOut = "TimedOut"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FlowNodeIODataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case array = "Array"
+        case boolean = "Boolean"
+        case number = "Number"
+        case object = "Object"
+        case string = "String"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FlowNodeInputCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case exitLoop = "ExitLoop"
+        case loopCondition = "LoopCondition"
+        case returnValueToLoopStart = "ReturnValueToLoopStart"
         public var description: String { return self.rawValue }
     }
 
@@ -585,6 +607,10 @@ extension BedrockAgentRuntime {
         case flowInputEvent(FlowExecutionInputEvent)
         /// Contains information about the outputs produced by the flow at the end of execution.
         case flowOutputEvent(FlowExecutionOutputEvent)
+        /// Contains information about an action (operation) called by a node during execution.
+        case nodeActionEvent(NodeActionEvent)
+        /// Contains information about an internal trace of a specific node during execution.
+        case nodeDependencyEvent(NodeDependencyEvent)
         /// Contains information about a failure that occurred at a specific node during execution.
         case nodeFailureEvent(NodeFailureEvent)
         /// Contains information about the inputs provided to a specific node during execution.
@@ -614,6 +640,12 @@ extension BedrockAgentRuntime {
             case .flowOutputEvent:
                 let value = try container.decode(FlowExecutionOutputEvent.self, forKey: .flowOutputEvent)
                 self = .flowOutputEvent(value)
+            case .nodeActionEvent:
+                let value = try container.decode(NodeActionEvent.self, forKey: .nodeActionEvent)
+                self = .nodeActionEvent(value)
+            case .nodeDependencyEvent:
+                let value = try container.decode(NodeDependencyEvent.self, forKey: .nodeDependencyEvent)
+                self = .nodeDependencyEvent(value)
             case .nodeFailureEvent:
                 let value = try container.decode(NodeFailureEvent.self, forKey: .nodeFailureEvent)
                 self = .nodeFailureEvent(value)
@@ -631,6 +663,8 @@ extension BedrockAgentRuntime {
             case flowFailureEvent = "flowFailureEvent"
             case flowInputEvent = "flowInputEvent"
             case flowOutputEvent = "flowOutputEvent"
+            case nodeActionEvent = "nodeActionEvent"
+            case nodeDependencyEvent = "nodeDependencyEvent"
             case nodeFailureEvent = "nodeFailureEvent"
             case nodeInputEvent = "nodeInputEvent"
             case nodeOutputEvent = "nodeOutputEvent"
@@ -737,8 +771,10 @@ extension BedrockAgentRuntime {
     public enum FlowTrace: AWSDecodableShape, Sendable {
         /// Contains information about an output from a condition node.
         case conditionNodeResultTrace(FlowTraceConditionNodeResultEvent)
-        /// Contains information about an action (operation) called by a node. For more information, see Track each step in your prompt flow by viewing its trace in Amazon Bedrock.
+        /// Contains information about an action (operation) called by a node.
         case nodeActionTrace(FlowTraceNodeActionEvent)
+        /// Contains information about an internal trace of a node.
+        case nodeDependencyTrace(FlowTraceDependencyEvent)
         /// Contains information about the input into a node.
         case nodeInputTrace(FlowTraceNodeInputEvent)
         /// Contains information about the output from a node.
@@ -760,6 +796,9 @@ extension BedrockAgentRuntime {
             case .nodeActionTrace:
                 let value = try container.decode(FlowTraceNodeActionEvent.self, forKey: .nodeActionTrace)
                 self = .nodeActionTrace(value)
+            case .nodeDependencyTrace:
+                let value = try container.decode(FlowTraceDependencyEvent.self, forKey: .nodeDependencyTrace)
+                self = .nodeDependencyTrace(value)
             case .nodeInputTrace:
                 let value = try container.decode(FlowTraceNodeInputEvent.self, forKey: .nodeInputTrace)
                 self = .nodeInputTrace(value)
@@ -772,6 +811,7 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case conditionNodeResultTrace = "conditionNodeResultTrace"
             case nodeActionTrace = "nodeActionTrace"
+            case nodeDependencyTrace = "nodeDependencyTrace"
             case nodeInputTrace = "nodeInputTrace"
             case nodeOutputTrace = "nodeOutputTrace"
         }
@@ -3247,6 +3287,29 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct FlowTraceDependencyEvent: AWSDecodableShape {
+        /// The name of the node that generated the dependency trace.
+        public let nodeName: String
+        /// The date and time that the dependency trace was generated.
+        @CustomCoding<ISO8601DateCoder>
+        public var timestamp: Date
+        /// The trace elements containing detailed information about the dependency.
+        public let traceElements: TraceElements
+
+        @inlinable
+        public init(nodeName: String, timestamp: Date, traceElements: TraceElements) {
+            self.nodeName = nodeName
+            self.timestamp = timestamp
+            self.traceElements = traceElements
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeName = "nodeName"
+            case timestamp = "timestamp"
+            case traceElements = "traceElements"
+        }
+    }
+
     public struct FlowTraceEvent: AWSDecodableShape {
         /// The trace object containing information about an input or output for a node in the flow.
         public let trace: FlowTrace
@@ -3266,6 +3329,10 @@ extension BedrockAgentRuntime {
         public let nodeName: String
         /// The name of the operation that the node called.
         public let operationName: String
+        /// The request payload sent to the downstream service.
+        public let operationRequest: AWSDocument?
+        /// The response payload received from the downstream service.
+        public let operationResponse: AWSDocument?
         /// The ID of the request that the node made to the operation.
         public let requestId: String
         /// The name of the service that the node called.
@@ -3275,9 +3342,11 @@ extension BedrockAgentRuntime {
         public var timestamp: Date
 
         @inlinable
-        public init(nodeName: String, operationName: String, requestId: String, serviceName: String, timestamp: Date) {
+        public init(nodeName: String, operationName: String, operationRequest: AWSDocument? = nil, operationResponse: AWSDocument? = nil, requestId: String, serviceName: String, timestamp: Date) {
             self.nodeName = nodeName
             self.operationName = operationName
+            self.operationRequest = operationRequest
+            self.operationResponse = operationResponse
             self.requestId = requestId
             self.serviceName = serviceName
             self.timestamp = timestamp
@@ -3286,6 +3355,8 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case nodeName = "nodeName"
             case operationName = "operationName"
+            case operationRequest = "operationRequest"
+            case operationResponse = "operationResponse"
             case requestId = "requestId"
             case serviceName = "serviceName"
             case timestamp = "timestamp"
@@ -3315,21 +3386,81 @@ extension BedrockAgentRuntime {
         }
     }
 
-    public struct FlowTraceNodeInputField: AWSDecodableShape {
-        /// The content of the node input.
-        public let content: FlowTraceNodeInputContent
-        /// The name of the node input.
-        public let nodeInputName: String
+    public struct FlowTraceNodeInputExecutionChainItem: AWSDecodableShape {
+        /// The index position of this item in the execution chain.
+        public let index: Int?
+        /// The name of the node in the execution chain.
+        public let nodeName: String
+        /// The type of execution chain item. Supported values are Iterator and Loop.
+        public let type: FlowControlNodeType
 
         @inlinable
-        public init(content: FlowTraceNodeInputContent, nodeInputName: String) {
-            self.content = content
-            self.nodeInputName = nodeInputName
+        public init(index: Int? = nil, nodeName: String, type: FlowControlNodeType) {
+            self.index = index
+            self.nodeName = nodeName
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case index = "index"
+            case nodeName = "nodeName"
+            case type = "type"
+        }
+    }
+
+    public struct FlowTraceNodeInputField: AWSDecodableShape {
+        /// The category of the input field.
+        public let category: FlowNodeInputCategory?
+        /// The content of the node input.
+        public let content: FlowTraceNodeInputContent
+        /// The execution path through nested nodes like iterators and loops.
+        public let executionChain: [FlowTraceNodeInputExecutionChainItem]?
+        /// The name of the node input.
+        public let nodeInputName: String
+        /// The source node that provides input data to this field.
+        public let source: FlowTraceNodeInputSource?
+        /// The data type of the input field for compatibility validation.
+        public let type: FlowNodeIODataType?
+
+        @inlinable
+        public init(category: FlowNodeInputCategory? = nil, content: FlowTraceNodeInputContent, executionChain: [FlowTraceNodeInputExecutionChainItem]? = nil, nodeInputName: String, source: FlowTraceNodeInputSource? = nil, type: FlowNodeIODataType? = nil) {
+            self.category = category
+            self.content = content
+            self.executionChain = executionChain
+            self.nodeInputName = nodeInputName
+            self.source = source
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "category"
             case content = "content"
+            case executionChain = "executionChain"
             case nodeInputName = "nodeInputName"
+            case source = "source"
+            case type = "type"
+        }
+    }
+
+    public struct FlowTraceNodeInputSource: AWSDecodableShape {
+        /// The expression used to extract data from the source.
+        public let expression: String
+        /// The name of the source node that provides the input data.
+        public let nodeName: String
+        /// The name of the output field from the source node.
+        public let outputFieldName: String
+
+        @inlinable
+        public init(expression: String, nodeName: String, outputFieldName: String) {
+            self.expression = expression
+            self.nodeName = nodeName
+            self.outputFieldName = outputFieldName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expression = "expression"
+            case nodeName = "nodeName"
+            case outputFieldName = "outputFieldName"
         }
     }
 
@@ -3359,18 +3490,44 @@ extension BedrockAgentRuntime {
     public struct FlowTraceNodeOutputField: AWSDecodableShape {
         /// The content of the node output.
         public let content: FlowTraceNodeOutputContent
+        /// The next node that receives output data from this field.
+        public let next: [FlowTraceNodeOutputNext]?
         /// The name of the node output.
         public let nodeOutputName: String
+        /// The data type of the output field for compatibility validation.
+        public let type: FlowNodeIODataType?
 
         @inlinable
-        public init(content: FlowTraceNodeOutputContent, nodeOutputName: String) {
+        public init(content: FlowTraceNodeOutputContent, next: [FlowTraceNodeOutputNext]? = nil, nodeOutputName: String, type: FlowNodeIODataType? = nil) {
             self.content = content
+            self.next = next
             self.nodeOutputName = nodeOutputName
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case content = "content"
+            case next = "next"
             case nodeOutputName = "nodeOutputName"
+            case type = "type"
+        }
+    }
+
+    public struct FlowTraceNodeOutputNext: AWSDecodableShape {
+        /// The name of the input field in the next node that receives the data.
+        public let inputFieldName: String
+        /// The name of the next node that receives the output data.
+        public let nodeName: String
+
+        @inlinable
+        public init(inputFieldName: String, nodeName: String) {
+            self.inputFieldName = inputFieldName
+            self.nodeName = nodeName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputFieldName = "inputFieldName"
+            case nodeName = "nodeName"
         }
     }
 
@@ -5803,6 +5960,68 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct NodeActionEvent: AWSDecodableShape {
+        /// The name of the node that called the operation.
+        public let nodeName: String
+        /// The name of the operation that the node called.
+        public let operationName: String
+        /// The request payload sent to the downstream service.
+        public let operationRequest: AWSDocument?
+        /// The response payload received from the downstream service.
+        public let operationResponse: AWSDocument?
+        /// The ID of the request that the node made to the operation.
+        public let requestId: String
+        /// The name of the service that the node called.
+        public let serviceName: String
+        /// The date and time that the operation was called.
+        @CustomCoding<ISO8601DateCoder>
+        public var timestamp: Date
+
+        @inlinable
+        public init(nodeName: String, operationName: String, operationRequest: AWSDocument? = nil, operationResponse: AWSDocument? = nil, requestId: String, serviceName: String, timestamp: Date) {
+            self.nodeName = nodeName
+            self.operationName = operationName
+            self.operationRequest = operationRequest
+            self.operationResponse = operationResponse
+            self.requestId = requestId
+            self.serviceName = serviceName
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeName = "nodeName"
+            case operationName = "operationName"
+            case operationRequest = "operationRequest"
+            case operationResponse = "operationResponse"
+            case requestId = "requestId"
+            case serviceName = "serviceName"
+            case timestamp = "timestamp"
+        }
+    }
+
+    public struct NodeDependencyEvent: AWSDecodableShape {
+        /// The name of the node that generated the dependency trace.
+        public let nodeName: String
+        /// The date and time that the dependency trace was generated.
+        @CustomCoding<ISO8601DateCoder>
+        public var timestamp: Date
+        /// The trace elements containing detailed information about the node execution.
+        public let traceElements: NodeTraceElements
+
+        @inlinable
+        public init(nodeName: String, timestamp: Date, traceElements: NodeTraceElements) {
+            self.nodeName = nodeName
+            self.timestamp = timestamp
+            self.traceElements = traceElements
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeName = "nodeName"
+            case timestamp = "timestamp"
+            case traceElements = "traceElements"
+        }
+    }
+
     public struct NodeFailureEvent: AWSDecodableShape {
         /// The error code that identifies the type of failure that occurred at the node.
         public let errorCode: NodeErrorCode
@@ -5853,21 +6072,81 @@ extension BedrockAgentRuntime {
         }
     }
 
-    public struct NodeInputField: AWSDecodableShape {
-        /// The content of the input field, which can contain text or structured data.
-        public let content: NodeExecutionContent
-        /// The name of the input field as defined in the node's input schema.
-        public let name: String
+    public struct NodeInputExecutionChainItem: AWSDecodableShape {
+        /// The index position of this item in the execution chain.
+        public let index: Int?
+        /// The name of the node in the execution chain.
+        public let nodeName: String
+        /// The type of execution chain item. Supported values are Iterator and Loop.
+        public let type: FlowControlNodeType
 
         @inlinable
-        public init(content: NodeExecutionContent, name: String) {
-            self.content = content
-            self.name = name
+        public init(index: Int? = nil, nodeName: String, type: FlowControlNodeType) {
+            self.index = index
+            self.nodeName = nodeName
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case index = "index"
+            case nodeName = "nodeName"
+            case type = "type"
+        }
+    }
+
+    public struct NodeInputField: AWSDecodableShape {
+        /// The category of the input field.
+        public let category: FlowNodeInputCategory?
+        /// The content of the input field, which can contain text or structured data.
+        public let content: NodeExecutionContent
+        /// The execution path through nested nodes like iterators and loops.
+        public let executionChain: [NodeInputExecutionChainItem]?
+        /// The name of the input field as defined in the node's input schema.
+        public let name: String
+        /// The source node that provides input data to this field.
+        public let source: NodeInputSource?
+        /// The data type of the input field for compatibility validation.
+        public let type: FlowNodeIODataType?
+
+        @inlinable
+        public init(category: FlowNodeInputCategory? = nil, content: NodeExecutionContent, executionChain: [NodeInputExecutionChainItem]? = nil, name: String, source: NodeInputSource? = nil, type: FlowNodeIODataType? = nil) {
+            self.category = category
+            self.content = content
+            self.executionChain = executionChain
+            self.name = name
+            self.source = source
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "category"
             case content = "content"
+            case executionChain = "executionChain"
             case name = "name"
+            case source = "source"
+            case type = "type"
+        }
+    }
+
+    public struct NodeInputSource: AWSDecodableShape {
+        /// The expression used to extract data from the source.
+        public let expression: String
+        /// The name of the source node that provides the input data.
+        public let nodeName: String
+        /// The name of the output field from the source node.
+        public let outputFieldName: String
+
+        @inlinable
+        public init(expression: String, nodeName: String, outputFieldName: String) {
+            self.expression = expression
+            self.nodeName = nodeName
+            self.outputFieldName = outputFieldName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expression = "expression"
+            case nodeName = "nodeName"
+            case outputFieldName = "outputFieldName"
         }
     }
 
@@ -5899,16 +6178,42 @@ extension BedrockAgentRuntime {
         public let content: NodeExecutionContent
         /// The name of the output field as defined in the node's output schema.
         public let name: String
+        /// The next node that receives output data from this field.
+        public let next: [NodeOutputNext]?
+        /// The data type of the output field for compatibility validation.
+        public let type: FlowNodeIODataType?
 
         @inlinable
-        public init(content: NodeExecutionContent, name: String) {
+        public init(content: NodeExecutionContent, name: String, next: [NodeOutputNext]? = nil, type: FlowNodeIODataType? = nil) {
             self.content = content
             self.name = name
+            self.next = next
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case content = "content"
             case name = "name"
+            case next = "next"
+            case type = "type"
+        }
+    }
+
+    public struct NodeOutputNext: AWSDecodableShape {
+        /// The name of the input field in the next node that receives the data.
+        public let inputFieldName: String
+        /// The name of the next node that receives the output data.
+        public let nodeName: String
+
+        @inlinable
+        public init(inputFieldName: String, nodeName: String) {
+            self.inputFieldName = inputFieldName
+            self.nodeName = nodeName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputFieldName = "inputFieldName"
+            case nodeName = "nodeName"
         }
     }
 
@@ -8317,6 +8622,20 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct NodeTraceElements: AWSDecodableShape {
+        /// Agent trace information for the node execution.
+        public let agentTraces: [TracePart]?
+
+        @inlinable
+        public init(agentTraces: [TracePart]? = nil) {
+            self.agentTraces = agentTraces
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentTraces = "agentTraces"
+        }
+    }
+
     public struct OptimizedPrompt: AWSDecodableShape {
         /// Contains information about the text in the prompt that was optimized.
         public let textPrompt: TextPrompt?
@@ -8342,6 +8661,20 @@ extension BedrockAgentRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case lambda = "lambda"
+        }
+    }
+
+    public struct TraceElements: AWSDecodableShape {
+        /// Agent trace information for the flow execution.
+        public let agentTraces: [TracePart]?
+
+        @inlinable
+        public init(agentTraces: [TracePart]? = nil) {
+            self.agentTraces = agentTraces
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentTraces = "agentTraces"
         }
     }
 }

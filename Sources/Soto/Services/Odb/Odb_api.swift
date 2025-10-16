@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS Odb service.
 ///
-/// Oracle Database@Amazon Web Services is an offering that enables you to access Oracle Exadata infrastructure managed by Oracle Cloud Infrastructure (OCI) inside Amazon Web Services data centers. You can migrate your Oracle Exadata workloads, establish low-latency connectivity with applications running on Amazon Web Services, and integrate with Amazon Web Services services. For example, you can run application servers in a virtual private cloud (VPC) and access an Oracle Exadata system running in Oracle Database@Amazon Web Services. You can get started with Oracle Database@Amazon Web Services by using the familiar Amazon Web Services Management Console, APIs, or CLI. This interface reference for Oracle Database@Amazon Web Services contains documentation for a programming or command line interface that you can use to manage Oracle Database@Amazon Web Services. Oracle Database@Amazon Web Services is asynchronous, which means that some interfaces might require techniques such as polling or callback functions to determine when a command has been applied. The reference structure is as follows.  In this preview release documentation, the links in the "See Also" sections do not work.   Oracle Database@Amazon Web Services API Reference    For the alphabetical list of API actions, see .   For the alphabetical list of data types, see .   For a list of common parameters, see CommonParameters.   For descriptions of the error codes, see CommonErrors.
+/// Oracle Database@Amazon Web Services is an offering that enables you to access Oracle Exadata infrastructure managed by Oracle Cloud Infrastructure (OCI) inside Amazon Web Services data centers. You can migrate your Oracle Exadata workloads, establish low-latency connectivity with applications running on Amazon Web Services, and integrate with Amazon Web Services services. For example, you can run application servers in a Virtual Private Cloud (VPC) and access an Oracle Exadata system running in Oracle Database@Amazon Web Services. You can get started with Oracle Database@Amazon Web Services by using the familiar Amazon Web Services Management Console, APIs, or CLI. This interface reference for Oracle Database@Amazon Web Services contains documentation for a programming or command line interface that you can use to manage Oracle Database@Amazon Web Services. Oracle Database@Amazon Web Services is asynchronous, which means that some interfaces might require techniques such as polling or callback functions to determine when a command has been applied. The reference structure is as follows.  Oracle Database@Amazon Web Services API Reference    For the alphabetical list of API actions, see API Actions.   For the alphabetical list of data types, see Data Types.   For a list of common query parameters, see Common Parameters.   For descriptions of the error codes, see Common Errors.
 public struct Odb: AWSService {
     // MARK: Member variables
 
@@ -398,7 +398,7 @@ public struct Odb: AWSService {
         return try await self.createOdbNetwork(input, logger: logger)
     }
 
-    /// Creates a peering connection between an ODB network and either another ODB network or a customer-owned VPC. A peering connection enables private connectivity between the networks for application-tier communication.
+    /// Creates a peering connection between an ODB network and a VPC. A peering connection enables private connectivity between the networks for application-tier communication.
     @Sendable
     @inlinable
     public func createOdbPeeringConnection(_ input: CreateOdbPeeringConnectionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateOdbPeeringConnectionOutput {
@@ -411,12 +411,13 @@ public struct Odb: AWSService {
             logger: logger
         )
     }
-    /// Creates a peering connection between an ODB network and either another ODB network or a customer-owned VPC. A peering connection enables private connectivity between the networks for application-tier communication.
+    /// Creates a peering connection between an ODB network and a VPC. A peering connection enables private connectivity between the networks for application-tier communication.
     ///
     /// Parameters:
     ///   - clientToken: The client token for the ODB peering connection request. Constraints:   Must be unique for each request.
     ///   - displayName: The display name for the ODB peering connection.
     ///   - odbNetworkId: The unique identifier of the ODB network that initiates the peering connection.
+    ///   - peerNetworkCidrsToBeAdded: A list of CIDR blocks to add to the peering connection. These CIDR blocks define the IP address ranges that can communicate through the peering connection.
     ///   - peerNetworkId: The unique identifier of the peer network. This can be either a VPC ID or another ODB network ID.
     ///   - tags: The tags to assign to the ODB peering connection.
     ///   - logger: Logger use during operation
@@ -425,6 +426,7 @@ public struct Odb: AWSService {
         clientToken: String? = CreateOdbPeeringConnectionInput.idempotencyToken(),
         displayName: String? = nil,
         odbNetworkId: String,
+        peerNetworkCidrsToBeAdded: [String]? = nil,
         peerNetworkId: String,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -433,6 +435,7 @@ public struct Odb: AWSService {
             clientToken: clientToken, 
             displayName: displayName, 
             odbNetworkId: odbNetworkId, 
+            peerNetworkCidrsToBeAdded: peerNetworkCidrsToBeAdded, 
             peerNetworkId: peerNetworkId, 
             tags: tags
         )
@@ -1531,6 +1534,44 @@ public struct Odb: AWSService {
             zeroEtlAccess: zeroEtlAccess
         )
         return try await self.updateOdbNetwork(input, logger: logger)
+    }
+
+    /// Modifies the settings of an Oracle Database@Amazon Web Services peering connection. You can update the display name and add or remove CIDR blocks from the peering connection.
+    @Sendable
+    @inlinable
+    public func updateOdbPeeringConnection(_ input: UpdateOdbPeeringConnectionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateOdbPeeringConnectionOutput {
+        try await self.client.execute(
+            operation: "UpdateOdbPeeringConnection", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies the settings of an Oracle Database@Amazon Web Services peering connection. You can update the display name and add or remove CIDR blocks from the peering connection.
+    ///
+    /// Parameters:
+    ///   - displayName: A new display name for the peering connection.
+    ///   - odbPeeringConnectionId: The identifier of the Oracle Database@Amazon Web Services peering connection to update.
+    ///   - peerNetworkCidrsToBeAdded: A list of CIDR blocks to add to the peering connection. These CIDR blocks define the IP address ranges that can communicate through the peering connection. The CIDR blocks must not overlap with existing CIDR blocks in the Oracle Database@Amazon Web Services network.
+    ///   - peerNetworkCidrsToBeRemoved: A list of CIDR blocks to remove from the peering connection. The CIDR blocks must currently exist in the peering connection.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateOdbPeeringConnection(
+        displayName: String? = nil,
+        odbPeeringConnectionId: String,
+        peerNetworkCidrsToBeAdded: [String]? = nil,
+        peerNetworkCidrsToBeRemoved: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateOdbPeeringConnectionOutput {
+        let input = UpdateOdbPeeringConnectionInput(
+            displayName: displayName, 
+            odbPeeringConnectionId: odbPeeringConnectionId, 
+            peerNetworkCidrsToBeAdded: peerNetworkCidrsToBeAdded, 
+            peerNetworkCidrsToBeRemoved: peerNetworkCidrsToBeRemoved
+        )
+        return try await self.updateOdbPeeringConnection(input, logger: logger)
     }
 }
 

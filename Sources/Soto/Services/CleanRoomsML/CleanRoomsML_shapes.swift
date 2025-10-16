@@ -25,6 +25,14 @@ import Foundation
 extension CleanRoomsML {
     // MARK: Enums
 
+    public enum AccessBudgetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case calendarDay = "CALENDAR_DAY"
+        case calendarMonth = "CALENDAR_MONTH"
+        case calendarWeek = "CALENDAR_WEEK"
+        case lifetime = "LIFETIME"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AudienceExportJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
@@ -61,6 +69,12 @@ extension CleanRoomsML {
         public var description: String { return self.rawValue }
     }
 
+    public enum AutoRefreshMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ColumnType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case categoricalFeature = "CATEGORICAL_FEATURE"
         case itemId = "ITEM_ID"
@@ -77,6 +91,13 @@ extension CleanRoomsML {
 
     public enum DatasetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case interactions = "INTERACTIONS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allPersonallyIdentifiableInformation = "ALL_PERSONALLY_IDENTIFIABLE_INFORMATION"
+        case custom = "CUSTOM"
+        case numbers = "NUMBERS"
         public var description: String { return self.rawValue }
     }
 
@@ -201,6 +222,15 @@ extension CleanRoomsML {
         case mlC6I4Xlarge = "ml.c6i.4xlarge"
         case mlC6I8Xlarge = "ml.c6i.8xlarge"
         case mlC6IXlarge = "ml.c6i.xlarge"
+        case mlC7I12Xlarge = "ml.c7i.12xlarge"
+        case mlC7I16Xlarge = "ml.c7i.16xlarge"
+        case mlC7I24Xlarge = "ml.c7i.24xlarge"
+        case mlC7I2Xlarge = "ml.c7i.2xlarge"
+        case mlC7I48Xlarge = "ml.c7i.48xlarge"
+        case mlC7I4Xlarge = "ml.c7i.4xlarge"
+        case mlC7I8Xlarge = "ml.c7i.8xlarge"
+        case mlC7ILarge = "ml.c7i.large"
+        case mlC7IXlarge = "ml.c7i.xlarge"
         case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
         case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
         case mlG4Dn2Xlarge = "ml.g4dn.2xlarge"
@@ -215,6 +245,22 @@ extension CleanRoomsML {
         case mlG54Xlarge = "ml.g5.4xlarge"
         case mlG58Xlarge = "ml.g5.8xlarge"
         case mlG5Xlarge = "ml.g5.xlarge"
+        case mlG612Xlarge = "ml.g6.12xlarge"
+        case mlG616Xlarge = "ml.g6.16xlarge"
+        case mlG624Xlarge = "ml.g6.24xlarge"
+        case mlG62Xlarge = "ml.g6.2xlarge"
+        case mlG648Xlarge = "ml.g6.48xlarge"
+        case mlG64Xlarge = "ml.g6.4xlarge"
+        case mlG68Xlarge = "ml.g6.8xlarge"
+        case mlG6E12Xlarge = "ml.g6e.12xlarge"
+        case mlG6E16Xlarge = "ml.g6e.16xlarge"
+        case mlG6E24Xlarge = "ml.g6e.24xlarge"
+        case mlG6E2Xlarge = "ml.g6e.2xlarge"
+        case mlG6E48Xlarge = "ml.g6e.48xlarge"
+        case mlG6E4Xlarge = "ml.g6e.4xlarge"
+        case mlG6E8Xlarge = "ml.g6e.8xlarge"
+        case mlG6EXlarge = "ml.g6e.xlarge"
+        case mlG6Xlarge = "ml.g6.xlarge"
         case mlM410Xlarge = "ml.m4.10xlarge"
         case mlM416Xlarge = "ml.m4.16xlarge"
         case mlM42Xlarge = "ml.m4.2xlarge"
@@ -235,6 +281,15 @@ extension CleanRoomsML {
         case mlM6I8Xlarge = "ml.m6i.8xlarge"
         case mlM6ILarge = "ml.m6i.large"
         case mlM6IXlarge = "ml.m6i.xlarge"
+        case mlM7I12Xlarge = "ml.m7i.12xlarge"
+        case mlM7I16Xlarge = "ml.m7i.16xlarge"
+        case mlM7I24Xlarge = "ml.m7i.24xlarge"
+        case mlM7I2Xlarge = "ml.m7i.2xlarge"
+        case mlM7I48Xlarge = "ml.m7i.48xlarge"
+        case mlM7I4Xlarge = "ml.m7i.4xlarge"
+        case mlM7I8Xlarge = "ml.m7i.8xlarge"
+        case mlM7ILarge = "ml.m7i.large"
+        case mlM7IXlarge = "ml.m7i.xlarge"
         case mlP216Xlarge = "ml.p2.16xlarge"
         case mlP28Xlarge = "ml.p2.8xlarge"
         case mlP2Xlarge = "ml.p2.xlarge"
@@ -245,6 +300,7 @@ extension CleanRoomsML {
         case mlP4D24Xlarge = "ml.p4d.24xlarge"
         case mlP4De24Xlarge = "ml.p4de.24xlarge"
         case mlP548Xlarge = "ml.p5.48xlarge"
+        case mlP5En48Xlarge = "ml.p5en.48xlarge"
         case mlR512Xlarge = "ml.r5.12xlarge"
         case mlR516Xlarge = "ml.r5.16xlarge"
         case mlR524Xlarge = "ml.r5.24xlarge"
@@ -261,6 +317,15 @@ extension CleanRoomsML {
         case mlR5DXlarge = "ml.r5d.xlarge"
         case mlR5Large = "ml.r5.large"
         case mlR5Xlarge = "ml.r5.xlarge"
+        case mlR7I12Xlarge = "ml.r7i.12xlarge"
+        case mlR7I16Xlarge = "ml.r7i.16xlarge"
+        case mlR7I24Xlarge = "ml.r7i.24xlarge"
+        case mlR7I2Xlarge = "ml.r7i.2xlarge"
+        case mlR7I48Xlarge = "ml.r7i.48xlarge"
+        case mlR7I4Xlarge = "ml.r7i.4xlarge"
+        case mlR7I8Xlarge = "ml.r7i.8xlarge"
+        case mlR7ILarge = "ml.r7i.large"
+        case mlR7IXlarge = "ml.r7i.xlarge"
         case mlT32Xlarge = "ml.t3.2xlarge"
         case mlT3Large = "ml.t3.large"
         case mlT3Medium = "ml.t3.medium"
@@ -268,6 +333,12 @@ extension CleanRoomsML {
         case mlTrn12Xlarge = "ml.trn1.2xlarge"
         case mlTrn132Xlarge = "ml.trn1.32xlarge"
         case mlTrn1N32Xlarge = "ml.trn1n.32xlarge"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LogType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        case errorSummary = "ERROR_SUMMARY"
         public var description: String { return self.rawValue }
     }
 
@@ -408,6 +479,62 @@ extension CleanRoomsML {
     }
 
     // MARK: Shapes
+
+    public struct AccessBudget: AWSDecodableShape {
+        /// The total remaining budget across all active budget periods for this resource.
+        public let aggregateRemainingBudget: Int
+        /// A list of budget details for this resource. Contains active budget periods that apply to the resource.
+        public let details: [AccessBudgetDetails]
+        /// The Amazon Resource Name (ARN) of the resource that this access budget applies to.
+        public let resourceArn: String
+
+        @inlinable
+        public init(aggregateRemainingBudget: Int, details: [AccessBudgetDetails], resourceArn: String) {
+            self.aggregateRemainingBudget = aggregateRemainingBudget
+            self.details = details
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregateRemainingBudget = "aggregateRemainingBudget"
+            case details = "details"
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct AccessBudgetDetails: AWSDecodableShape {
+        /// Specifies whether this budget automatically refreshes when the current period ends.
+        public let autoRefresh: AutoRefreshMode?
+        /// The total budget amount allocated for this period.
+        public let budget: Int
+        /// The type of budget period. Calendar-based types reset automatically at regular intervals, while LIFETIME budgets never reset.
+        public let budgetType: AccessBudgetType
+        /// The end time of this budget period. If not specified, the budget period continues indefinitely.
+        public let endTime: Date?
+        /// The amount of budget remaining in this period.
+        public let remainingBudget: Int
+        /// The start time of this budget period.
+        public let startTime: Date
+
+        @inlinable
+        public init(autoRefresh: AutoRefreshMode? = nil, budget: Int, budgetType: AccessBudgetType, endTime: Date? = nil, remainingBudget: Int, startTime: Date) {
+            self.autoRefresh = autoRefresh
+            self.budget = budget
+            self.budgetType = budgetType
+            self.endTime = endTime
+            self.remainingBudget = remainingBudget
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoRefresh = "autoRefresh"
+            case budget = "budget"
+            case budgetType = "budgetType"
+            case endTime = "endTime"
+            case remainingBudget = "remainingBudget"
+            case startTime = "startTime"
+        }
+    }
 
     public struct AudienceDestination: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon S3 bucket and path for the configured audience.
@@ -1825,6 +1952,30 @@ extension CleanRoomsML {
         }
     }
 
+    public struct CustomEntityConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Defines data identifiers for the custom entity configuration. Provide this only if CUSTOM redaction is configured.
+        public let customDataIdentifiers: [String]
+
+        @inlinable
+        public init(customDataIdentifiers: [String]) {
+            self.customDataIdentifiers = customDataIdentifiers
+        }
+
+        public func validate(name: String) throws {
+            try self.customDataIdentifiers.forEach {
+                try validate($0, name: "customDataIdentifiers[]", parent: name, max: 200)
+                try validate($0, name: "customDataIdentifiers[]", parent: name, min: 1)
+                try validate($0, name: "customDataIdentifiers[]", parent: name, pattern: "^[a-zA-Z0-9\\_\\#\\=\\@/\\;\\,\\-\\ \\^\\$\\?\\[\\]\\{\\}\\|\\\\\\*\\+\\.\\(\\)]+$")
+            }
+            try self.validate(self.customDataIdentifiers, name: "customDataIdentifiers", parent: name, max: 10)
+            try self.validate(self.customDataIdentifiers, name: "customDataIdentifiers", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customDataIdentifiers = "customDataIdentifiers"
+        }
+    }
+
     public struct DataSource: AWSEncodableShape & AWSDecodableShape {
         /// A GlueDataSource object that defines the catalog ID, database name, and table name for the training data.
         public let glueDataSource: GlueDataSource
@@ -2481,6 +2632,8 @@ extension CleanRoomsML {
         public let name: String
         /// The number of records in the ML input channel.
         public let numberOfRecords: Int64?
+        /// Returns the privacy budgets that control access to this Clean Rooms ML input channel. Use these budgets to monitor and limit resource consumption over specified time periods.
+        public let privacyBudgets: PrivacyBudgets?
         /// The number of days to retain the data for the ML input channel.
         public let retentionInDays: Int
         /// The status of the ML input channel.
@@ -2490,7 +2643,7 @@ extension CleanRoomsML {
         public let updateTime: Date
 
         @inlinable
-        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociations: [String], createTime: Date, creatorAccountId: String, description: String? = nil, membershipIdentifier: String, mlInputChannelArn: String, name: String, numberOfRecords: Int64? = nil, retentionInDays: Int, status: MLInputChannelStatus, statusDetails: StatusDetails? = nil, updateTime: Date) {
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociations: [String], createTime: Date, creatorAccountId: String, description: String? = nil, membershipIdentifier: String, mlInputChannelArn: String, name: String, numberOfRecords: Int64? = nil, privacyBudgets: PrivacyBudgets? = nil, retentionInDays: Int, status: MLInputChannelStatus, statusDetails: StatusDetails? = nil, updateTime: Date) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmAssociations = configuredModelAlgorithmAssociations
             self.createTime = createTime
@@ -2500,6 +2653,7 @@ extension CleanRoomsML {
             self.mlInputChannelArn = mlInputChannelArn
             self.name = name
             self.numberOfRecords = numberOfRecords
+            self.privacyBudgets = privacyBudgets
             self.retentionInDays = retentionInDays
             self.status = status
             self.statusDetails = statusDetails
@@ -2516,6 +2670,7 @@ extension CleanRoomsML {
             case mlInputChannelArn = "mlInputChannelArn"
             case name = "name"
             case numberOfRecords = "numberOfRecords"
+            case privacyBudgets = "privacyBudgets"
             case retentionInDays = "retentionInDays"
             case status = "status"
             case statusDetails = "statusDetails"
@@ -3045,6 +3200,8 @@ extension CleanRoomsML {
         public let numberOfFiles: Double?
         /// The number of records in the ML input channel.
         public let numberOfRecords: Int64?
+        /// Returns the privacy budgets that control access to this Clean Rooms ML input channel. Use these budgets to monitor and limit resource consumption over specified time periods.
+        public let privacyBudgets: PrivacyBudgets?
         /// The ID of the protected query that was used to create the ML input channel.
         public let protectedQueryIdentifier: String?
         /// The number of days to keep the data in the ML input channel.
@@ -3060,7 +3217,7 @@ extension CleanRoomsML {
         public let updateTime: Date
 
         @inlinable
-        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociations: [String], createTime: Date, description: String? = nil, inputChannel: InputChannel, kmsKeyArn: String? = nil, membershipIdentifier: String, mlInputChannelArn: String, name: String, numberOfFiles: Double? = nil, numberOfRecords: Int64? = nil, protectedQueryIdentifier: String? = nil, retentionInDays: Int, sizeInGb: Double? = nil, status: MLInputChannelStatus, statusDetails: StatusDetails? = nil, tags: [String: String]? = nil, updateTime: Date) {
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociations: [String], createTime: Date, description: String? = nil, inputChannel: InputChannel, kmsKeyArn: String? = nil, membershipIdentifier: String, mlInputChannelArn: String, name: String, numberOfFiles: Double? = nil, numberOfRecords: Int64? = nil, privacyBudgets: PrivacyBudgets? = nil, protectedQueryIdentifier: String? = nil, retentionInDays: Int, sizeInGb: Double? = nil, status: MLInputChannelStatus, statusDetails: StatusDetails? = nil, tags: [String: String]? = nil, updateTime: Date) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmAssociations = configuredModelAlgorithmAssociations
             self.createTime = createTime
@@ -3072,6 +3229,7 @@ extension CleanRoomsML {
             self.name = name
             self.numberOfFiles = numberOfFiles
             self.numberOfRecords = numberOfRecords
+            self.privacyBudgets = privacyBudgets
             self.protectedQueryIdentifier = protectedQueryIdentifier
             self.retentionInDays = retentionInDays
             self.sizeInGb = sizeInGb
@@ -3093,6 +3251,7 @@ extension CleanRoomsML {
             case name = "name"
             case numberOfFiles = "numberOfFiles"
             case numberOfRecords = "numberOfRecords"
+            case privacyBudgets = "privacyBudgets"
             case protectedQueryIdentifier = "protectedQueryIdentifier"
             case retentionInDays = "retentionInDays"
             case sizeInGb = "sizeInGb"
@@ -4599,26 +4758,58 @@ extension CleanRoomsML {
         }
     }
 
+    public struct LogRedactionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the configuration for custom entities in the context of log redaction.
+        public let customEntityConfig: CustomEntityConfig?
+        /// Specifies the entities to be redacted from logs. Entities to redact are "ALL_PERSONALLY_IDENTIFIABLE_INFORMATION", "NUMBERS","CUSTOM". If CUSTOM is supplied or configured, custom patterns (customDataIdentifiers) should be provided, and the patterns will be redacted in logs or error messages.
+        public let entitiesToRedact: [EntityType]
+
+        @inlinable
+        public init(customEntityConfig: CustomEntityConfig? = nil, entitiesToRedact: [EntityType]) {
+            self.customEntityConfig = customEntityConfig
+            self.entitiesToRedact = entitiesToRedact
+        }
+
+        public func validate(name: String) throws {
+            try self.customEntityConfig?.validate(name: "\(name).customEntityConfig")
+            try self.validate(self.entitiesToRedact, name: "entitiesToRedact", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customEntityConfig = "customEntityConfig"
+            case entitiesToRedact = "entitiesToRedact"
+        }
+    }
+
     public struct LogsConfigurationPolicy: AWSEncodableShape & AWSDecodableShape {
         /// A list of account IDs that are allowed to access the logs.
         public let allowedAccountIds: [String]
         /// A regular expression pattern that is used to parse the logs and return information that matches the pattern.
         public let filterPattern: String?
+        /// Specifies the log redaction configuration for this policy.
+        public let logRedactionConfiguration: LogRedactionConfiguration?
+        /// Specifies the type of log this policy applies to. The currently supported policies are ALL or ERROR_SUMMARY.
+        public let logType: LogType?
 
         @inlinable
-        public init(allowedAccountIds: [String], filterPattern: String? = nil) {
+        public init(allowedAccountIds: [String], filterPattern: String? = nil, logRedactionConfiguration: LogRedactionConfiguration? = nil, logType: LogType? = nil) {
             self.allowedAccountIds = allowedAccountIds
             self.filterPattern = filterPattern
+            self.logRedactionConfiguration = logRedactionConfiguration
+            self.logType = logType
         }
 
         public func validate(name: String) throws {
             try self.validate(self.allowedAccountIds, name: "allowedAccountIds", parent: name, max: 5)
             try self.validate(self.allowedAccountIds, name: "allowedAccountIds", parent: name, min: 1)
+            try self.logRedactionConfiguration?.validate(name: "\(name).logRedactionConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case allowedAccountIds = "allowedAccountIds"
             case filterPattern = "filterPattern"
+            case logRedactionConfiguration = "logRedactionConfiguration"
+            case logType = "logType"
         }
     }
 
@@ -5953,6 +6144,20 @@ extension CleanRoomsML {
 
         private enum CodingKeys: String, CodingKey {
             case protectedQueryInputParameters = "protectedQueryInputParameters"
+        }
+    }
+
+    public struct PrivacyBudgets: AWSDecodableShape {
+        /// A list of access budgets that apply to resources associated with this Clean Rooms ML input channel.
+        public let accessBudgets: [AccessBudget]?
+
+        @inlinable
+        public init(accessBudgets: [AccessBudget]? = nil) {
+            self.accessBudgets = accessBudgets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessBudgets = "accessBudgets"
         }
     }
 }

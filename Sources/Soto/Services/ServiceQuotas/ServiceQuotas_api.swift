@@ -261,6 +261,32 @@ public struct ServiceQuotas: AWSService {
         return try await self.getAssociationForServiceQuotaTemplate(input, logger: logger)
     }
 
+    /// Retrieves information about your Service Quotas Automatic Management configuration. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas.
+    @Sendable
+    @inlinable
+    public func getAutoManagementConfiguration(_ input: GetAutoManagementConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAutoManagementConfigurationResponse {
+        try await self.client.execute(
+            operation: "GetAutoManagementConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about your Service Quotas Automatic Management configuration. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAutoManagementConfiguration(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAutoManagementConfigurationResponse {
+        let input = GetAutoManagementConfigurationRequest(
+        )
+        return try await self.getAutoManagementConfiguration(input, logger: logger)
+    }
+
     /// Retrieves information about the specified quota increase request.
     @Sendable
     @inlinable
@@ -395,7 +421,7 @@ public struct ServiceQuotas: AWSService {
         return try await self.listAWSDefaultServiceQuotas(input, logger: logger)
     }
 
-    /// Retrieves the quota increase requests for the specified Amazon Web Services service. Filter responses to return quota requests at  either the account level, resource level, or all levels. Responses include any open or closed requests within 90 days.
+    /// Retrieves the quota increase requests for the specified Amazon Web Services service. Filter responses to return quota requests at either the account level, resource level, or all levels. Responses include any open or closed requests within 90 days.
     @Sendable
     @inlinable
     public func listRequestedServiceQuotaChangeHistory(_ input: ListRequestedServiceQuotaChangeHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRequestedServiceQuotaChangeHistoryResponse {
@@ -408,7 +434,7 @@ public struct ServiceQuotas: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the quota increase requests for the specified Amazon Web Services service. Filter responses to return quota requests at  either the account level, resource level, or all levels. Responses include any open or closed requests within 90 days.
+    /// Retrieves the quota increase requests for the specified Amazon Web Services service. Filter responses to return quota requests at either the account level, resource level, or all levels. Responses include any open or closed requests within 90 days.
     ///
     /// Parameters:
     ///   - maxResults: Specifies the maximum number of results that you want included on each  page of the response. If you do not include this parameter, it defaults to a value appropriate  to the operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
@@ -699,6 +725,70 @@ public struct ServiceQuotas: AWSService {
         return try await self.requestServiceQuotaIncrease(input, logger: logger)
     }
 
+    /// Starts Service Quotas Automatic Management for an Amazon Web Services account, including notification preferences and excluded quotas configurations. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas.
+    @Sendable
+    @inlinable
+    public func startAutoManagement(_ input: StartAutoManagementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAutoManagementResponse {
+        try await self.client.execute(
+            operation: "StartAutoManagement", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts Service Quotas Automatic Management for an Amazon Web Services account, including notification preferences and excluded quotas configurations. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas.
+    ///
+    /// Parameters:
+    ///   - exclusionList: List of Amazon Web Services services excluded from Automatic Management. You won't be notified of Service Quotas utilization for Amazon Web Services services added to the Automatic Management exclusion list.
+    ///   - notificationArn: The User Notifications Amazon Resource Name (ARN) for Automatic Management notifications.
+    ///   - optInLevel: Sets the opt-in level for Automatic Management. Only Amazon Web Services account level is supported.
+    ///   - optInType: Sets the opt-in type for Automatic Management. There are two modes: Notify only and Notify and Auto-Adjust. Currently, only NotifyOnly is available.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startAutoManagement(
+        exclusionList: [String: [String]]? = nil,
+        notificationArn: String? = nil,
+        optInLevel: OptInLevel,
+        optInType: OptInType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartAutoManagementResponse {
+        let input = StartAutoManagementRequest(
+            exclusionList: exclusionList, 
+            notificationArn: notificationArn, 
+            optInLevel: optInLevel, 
+            optInType: optInType
+        )
+        return try await self.startAutoManagement(input, logger: logger)
+    }
+
+    /// Stops Service Quotas Automatic Management for an Amazon Web Services account and removes all associated configurations. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas.
+    @Sendable
+    @inlinable
+    public func stopAutoManagement(_ input: StopAutoManagementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopAutoManagementResponse {
+        try await self.client.execute(
+            operation: "StopAutoManagement", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops Service Quotas Automatic Management for an Amazon Web Services account and removes all associated configurations. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopAutoManagement(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopAutoManagementResponse {
+        let input = StopAutoManagementRequest(
+        )
+        return try await self.stopAutoManagement(input, logger: logger)
+    }
+
     /// Adds tags to the specified applied quota. You can include one or more tags to add to the quota.
     @Sendable
     @inlinable
@@ -761,6 +851,41 @@ public struct ServiceQuotas: AWSService {
             tagKeys: tagKeys
         )
         return try await self.untagResource(input, logger: logger)
+    }
+
+    /// Updates your Service Quotas Automatic Management configuration, including notification preferences and excluded quotas. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas.
+    @Sendable
+    @inlinable
+    public func updateAutoManagement(_ input: UpdateAutoManagementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAutoManagementResponse {
+        try await self.client.execute(
+            operation: "UpdateAutoManagement", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates your Service Quotas Automatic Management configuration, including notification preferences and excluded quotas. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas.
+    ///
+    /// Parameters:
+    ///   - exclusionList: List of Amazon Web Services services you want to exclude from Automatic Management. You won't be notified of Service Quotas utilization for Amazon Web Services services added to the Automatic Management exclusion list.
+    ///   - notificationArn: The User Notifications Amazon Resource Name (ARN) for Automatic Management notifications you want to update.
+    ///   - optInType: Information on the opt-in type for your Automatic Management configuration. There are two modes: Notify only and Notify and Auto-Adjust. Currently, only NotifyOnly is available.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAutoManagement(
+        exclusionList: [String: [String]]? = nil,
+        notificationArn: String? = nil,
+        optInType: OptInType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateAutoManagementResponse {
+        let input = UpdateAutoManagementRequest(
+            exclusionList: exclusionList, 
+            notificationArn: notificationArn, 
+            optInType: optInType
+        )
+        return try await self.updateAutoManagement(input, logger: logger)
     }
 }
 

@@ -25,6 +25,38 @@ import Foundation
 extension ECS {
     // MARK: Enums
 
+    public enum AcceleratorManufacturer: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case amazonWebServices = "amazon-web-services"
+        case amd = "amd"
+        case habana = "habana"
+        case nvidia = "nvidia"
+        case xilinx = "xilinx"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AcceleratorName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case a100 = "a100"
+        case a10g = "a10g"
+        case h100 = "h100"
+        case inferentia = "inferentia"
+        case k520 = "k520"
+        case k80 = "k80"
+        case m60 = "m60"
+        case radeonProV520 = "radeon-pro-v520"
+        case t4 = "t4"
+        case t4g = "t4g"
+        case v100 = "v100"
+        case vu9p = "vu9p"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AcceleratorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fpga = "fpga"
+        case gpu = "gpu"
+        case inference = "inference"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AgentUpdateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case pending = "PENDING"
@@ -54,6 +86,20 @@ extension ECS {
         public var description: String { return self.rawValue }
     }
 
+    public enum BareMetal: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case excluded = "excluded"
+        case included = "included"
+        case required = "required"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BurstablePerformance: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case excluded = "excluded"
+        case included = "included"
+        case required = "required"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CPUArchitecture: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case arm64 = "ARM64"
         case x8664 = "X86_64"
@@ -67,11 +113,24 @@ extension ECS {
 
     public enum CapacityProviderStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
+        case deprovisioning = "DEPROVISIONING"
         case inactive = "INACTIVE"
+        case provisioning = "PROVISIONING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CapacityProviderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ec2Autoscaling = "EC2_AUTOSCALING"
+        case fargate = "FARGATE"
+        case fargateSpot = "FARGATE_SPOT"
+        case managedInstances = "MANAGED_INSTANCES"
         public var description: String { return self.rawValue }
     }
 
     public enum CapacityProviderUpdateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createComplete = "CREATE_COMPLETE"
+        case createFailed = "CREATE_FAILED"
+        case createInProgress = "CREATE_IN_PROGRESS"
         case deleteComplete = "DELETE_COMPLETE"
         case deleteFailed = "DELETE_FAILED"
         case deleteInProgress = "DELETE_IN_PROGRESS"
@@ -99,6 +158,7 @@ extension ECS {
         case ec2 = "EC2"
         case external = "EXTERNAL"
         case fargate = "FARGATE"
+        case managedInstances = "MANAGED_INSTANCES"
         public var description: String { return self.rawValue }
     }
 
@@ -128,6 +188,13 @@ extension ECS {
         case draining = "DRAINING"
         case registering = "REGISTERING"
         case registrationFailed = "REGISTRATION_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CpuManufacturer: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case amazonWebServices = "amazon-web-services"
+        case amd = "amd"
+        case intel = "intel"
         public var description: String { return self.rawValue }
     }
 
@@ -218,6 +285,12 @@ extension ECS {
         public var description: String { return self.rawValue }
     }
 
+    public enum InstanceGeneration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case current = "current"
+        case previous = "previous"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InstanceHealthCheckState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case impaired = "IMPAIRED"
         case initializing = "INITIALIZING"
@@ -242,6 +315,20 @@ extension ECS {
         case ec2 = "EC2"
         case external = "EXTERNAL"
         case fargate = "FARGATE"
+        case managedInstances = "MANAGED_INSTANCES"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LocalStorage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case excluded = "excluded"
+        case included = "included"
+        case required = "required"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LocalStorageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case hdd = "hdd"
+        case ssd = "ssd"
         public var description: String { return self.rawValue }
     }
 
@@ -265,6 +352,12 @@ extension ECS {
     public enum ManagedDraining: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ManagedInstancesMonitoringOptions: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case basic = "BASIC"
+        case detailed = "DETAILED"
         public var description: String { return self.rawValue }
     }
 
@@ -323,6 +416,12 @@ extension ECS {
 
     public enum PlatformDeviceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gpu = "GPU"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PropagateMITags: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case capacityProvider = "CAPACITY_PROVIDER"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
@@ -528,6 +627,42 @@ extension ECS {
     }
 
     // MARK: Shapes
+
+    public struct AcceleratorCountRequest: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of accelerators. Instance types with more accelerators are excluded from selection.
+        public let max: Int?
+        /// The minimum number of accelerators. Instance types with fewer accelerators are excluded from selection.
+        public let min: Int?
+
+        @inlinable
+        public init(max: Int? = nil, min: Int? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "max"
+            case min = "min"
+        }
+    }
+
+    public struct AcceleratorTotalMemoryMiBRequest: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum total accelerator memory in MiB. Instance types with more accelerator memory are excluded from selection.
+        public let max: Int?
+        /// The minimum total accelerator memory in MiB. Instance types with less accelerator memory are excluded from selection.
+        public let min: Int?
+
+        @inlinable
+        public init(max: Int? = nil, min: Int? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "max"
+            case min = "min"
+        }
+    }
 
     public struct AdvancedConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the alternate target group for Amazon ECS blue/green deployments.
@@ -740,11 +875,33 @@ extension ECS {
         }
     }
 
+    public struct BaselineEbsBandwidthMbpsRequest: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum baseline Amazon EBS bandwidth in Mbps. Instance types with higher Amazon EBS bandwidth are excluded from selection.
+        public let max: Int?
+        /// The minimum baseline Amazon EBS bandwidth in Mbps. Instance types with lower Amazon EBS bandwidth are excluded from selection.
+        public let min: Int?
+
+        @inlinable
+        public init(max: Int? = nil, min: Int? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "max"
+            case min = "min"
+        }
+    }
+
     public struct CapacityProvider: AWSDecodableShape {
         /// The Auto Scaling group settings for the capacity provider.
         public let autoScalingGroupProvider: AutoScalingGroupProvider?
         /// The Amazon Resource Name (ARN) that identifies the capacity provider.
         public let capacityProviderArn: String?
+        /// The cluster that this capacity provider is associated with. Managed instances capacity providers are cluster-scoped, meaning they can only be used within their associated cluster.
+        public let cluster: String?
+        /// The configuration for the Amazon ECS Managed Instances provider. This includes the infrastructure role, the launch template configuration, and tag propagation settings.
+        public let managedInstancesProvider: ManagedInstancesProvider?
         /// The name of the capacity provider.
         public let name: String?
         /// The current status of the capacity provider. Only capacity providers in an
@@ -754,6 +911,8 @@ extension ECS {
         /// The metadata that you apply to the capacity provider to help you categorize and
         /// 			organize it. Each tag consists of a key and an optional value. You define both. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
         public let tags: [Tag]?
+        /// The type of capacity provider. For Amazon ECS Managed Instances, this value is MANAGED_INSTANCES, indicating that Amazon ECS manages the underlying Amazon EC2 instances on your behalf.
+        public let type: CapacityProviderType?
         /// The update status of the capacity provider. The following are the possible states that
         /// 			is returned.  DELETE_IN_PROGRESS  The capacity provider is in the process of being deleted.  DELETE_COMPLETE  The capacity provider was successfully deleted and has an
         /// 							INACTIVE status.  DELETE_FAILED  The capacity provider can't be deleted. The update status reason provides
@@ -764,12 +923,15 @@ extension ECS {
         public let updateStatusReason: String?
 
         @inlinable
-        public init(autoScalingGroupProvider: AutoScalingGroupProvider? = nil, capacityProviderArn: String? = nil, name: String? = nil, status: CapacityProviderStatus? = nil, tags: [Tag]? = nil, updateStatus: CapacityProviderUpdateStatus? = nil, updateStatusReason: String? = nil) {
+        public init(autoScalingGroupProvider: AutoScalingGroupProvider? = nil, capacityProviderArn: String? = nil, cluster: String? = nil, managedInstancesProvider: ManagedInstancesProvider? = nil, name: String? = nil, status: CapacityProviderStatus? = nil, tags: [Tag]? = nil, type: CapacityProviderType? = nil, updateStatus: CapacityProviderUpdateStatus? = nil, updateStatusReason: String? = nil) {
             self.autoScalingGroupProvider = autoScalingGroupProvider
             self.capacityProviderArn = capacityProviderArn
+            self.cluster = cluster
+            self.managedInstancesProvider = managedInstancesProvider
             self.name = name
             self.status = status
             self.tags = tags
+            self.type = type
             self.updateStatus = updateStatus
             self.updateStatusReason = updateStatusReason
         }
@@ -777,9 +939,12 @@ extension ECS {
         private enum CodingKeys: String, CodingKey {
             case autoScalingGroupProvider = "autoScalingGroupProvider"
             case capacityProviderArn = "capacityProviderArn"
+            case cluster = "cluster"
+            case managedInstancesProvider = "managedInstancesProvider"
             case name = "name"
             case status = "status"
             case tags = "tags"
+            case type = "type"
             case updateStatus = "updateStatus"
             case updateStatusReason = "updateStatusReason"
         }
@@ -787,29 +952,22 @@ extension ECS {
 
     public struct CapacityProviderStrategyItem: AWSEncodableShape & AWSDecodableShape {
         /// The base value designates how many tasks, at a minimum, to run on
-        /// 			the specified capacity provider. Only one capacity provider in a capacity provider
+        /// 			the specified capacity provider for each service. Only one capacity provider in a capacity provider
         /// 			strategy can have a base defined. If no value is specified, the
-        /// 			default value of 0 is used.
+        /// 			default value of 0 is used. Base value characteristics:   Only one capacity provider in a strategy can have a base defined   Default value is 0 if not specified   Valid range: 0 to 100,000   Base requirements are satisfied first before weight distribution
         public let base: Int?
         /// The short name of the capacity provider.
         public let capacityProvider: String
         /// The weight value designates the relative percentage of the total
         /// 			number of tasks launched that should use the specified capacity provider. The
-        /// 				weight value is taken into consideration after the base
+        /// 			weight value is taken into consideration after the base
         /// 			value, if defined, is satisfied. If no weight value is specified, the default value of 0 is
         /// 			used. When multiple capacity providers are specified within a capacity provider
         /// 			strategy, at least one of the capacity providers must have a weight value greater than
         /// 			zero and any capacity providers with a weight of 0 can't be used to place
         /// 			tasks. If you specify multiple capacity providers in a strategy that all have a weight
         /// 			of 0, any RunTask or CreateService actions using
-        /// 			the capacity provider strategy will fail. An example scenario for using weights is defining a strategy that contains two
-        /// 			capacity providers and both have a weight of 1, then when the
-        /// 				base is satisfied, the tasks will be split evenly across the two
-        /// 			capacity providers. Using that same logic, if you specify a weight of 1 for
-        /// 				capacityProviderA and a weight of 4 for
-        /// 				capacityProviderB, then for every one task that's run using
-        /// 				capacityProviderA, four tasks would use
-        /// 				capacityProviderB.
+        /// 			the capacity provider strategy will fail. Weight value characteristics:   Weight is considered after the base value is satisfied   Default value is 0 if not specified   Valid range: 0 to 1,000   At least one capacity provider must have a weight greater than zero   Capacity providers with weight of 0 cannot place tasks   Task distribution logic:   Base satisfaction: The minimum number of tasks specified by the base value are placed on that capacity provider   Weight distribution: After base requirements are met, additional tasks are distributed according to weight ratios   Examples: Equal Distribution: Two capacity providers both with weight 1 will split tasks evenly after base requirements are met. Weighted Distribution: If capacityProviderA has weight 1 and capacityProviderB has weight 4, then for every 1 task on A, 4 tasks will run on B.
         public let weight: Int?
 
         @inlinable
@@ -835,7 +993,7 @@ extension ECS {
 
     public struct Cluster: AWSDecodableShape {
         /// The number of services that are running on the cluster in an ACTIVE
-        /// 			state. You can view these services with PListServices.
+        /// 			state. You can view these services with ListServices.
         public let activeServicesCount: Int?
         /// The resources attached to a cluster. When using a capacity provider with a cluster,
         /// 			the capacity provider and associated resources are returned as cluster
@@ -995,7 +1153,7 @@ extension ECS {
     }
 
     public struct ClusterSetting: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the cluster setting. The value is containerInsights .
+        /// The name of the cluster setting. The value is containerInsights.
         public let name: ClusterSettingName?
         /// The value to set for the cluster setting. The supported values are
         /// 				enhanced, enabled, and disabled.  To use Container Insights with enhanced observability, set the
@@ -1370,7 +1528,7 @@ extension ECS {
         /// 				containerPort. The hostPort can be left blank or it must
         /// 			be the same value as the containerPort. Port mappings on Windows use the NetNAT gateway address rather than
         /// 				localhost. There's no loopback for port mappings on Windows, so you
-        /// 			can't access a container's mapped port from the host itself.  This parameter maps to PortBindings in the the docker container create
+        /// 			can't access a container's mapped port from the host itself.  This parameter maps to PortBindings in the docker container create
         /// 			command and the --publish option to docker run. If the network mode of a
         /// 			task definition is set to none, then you can't specify port mappings. If
         /// 			the network mode of a task definition is set to host, then host ports must
@@ -1899,7 +2057,11 @@ extension ECS {
 
     public struct CreateCapacityProviderRequest: AWSEncodableShape {
         /// The details of the Auto Scaling group for the capacity provider.
-        public let autoScalingGroupProvider: AutoScalingGroupProvider
+        public let autoScalingGroupProvider: AutoScalingGroupProvider?
+        /// The name of the cluster to associate with the capacity provider. When you create a capacity provider with Amazon ECS Managed Instances, it becomes available only within the specified cluster.
+        public let cluster: String?
+        /// The configuration for the Amazon ECS Managed Instances provider. This configuration specifies how Amazon ECS manages Amazon EC2 instances on your behalf, including the infrastructure role, instance launch template, and tag propagation settings.
+        public let managedInstancesProvider: CreateManagedInstancesProviderConfiguration?
         /// The name of the capacity provider. Up to 255 characters are allowed. They include
         /// 			letters (both upper and lowercase letters), numbers, underscores (_), and hyphens (-).
         /// 			The name can't be prefixed with "aws", "ecs", or
@@ -1911,14 +2073,17 @@ extension ECS {
         public let tags: [Tag]?
 
         @inlinable
-        public init(autoScalingGroupProvider: AutoScalingGroupProvider, name: String, tags: [Tag]? = nil) {
+        public init(autoScalingGroupProvider: AutoScalingGroupProvider? = nil, cluster: String? = nil, managedInstancesProvider: CreateManagedInstancesProviderConfiguration? = nil, name: String, tags: [Tag]? = nil) {
             self.autoScalingGroupProvider = autoScalingGroupProvider
+            self.cluster = cluster
+            self.managedInstancesProvider = managedInstancesProvider
             self.name = name
             self.tags = tags
         }
 
         public func validate(name: String) throws {
-            try self.autoScalingGroupProvider.validate(name: "\(name).autoScalingGroupProvider")
+            try self.autoScalingGroupProvider?.validate(name: "\(name).autoScalingGroupProvider")
+            try self.managedInstancesProvider?.validate(name: "\(name).managedInstancesProvider")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1927,6 +2092,8 @@ extension ECS {
 
         private enum CodingKeys: String, CodingKey {
             case autoScalingGroupProvider = "autoScalingGroupProvider"
+            case cluster = "cluster"
+            case managedInstancesProvider = "managedInstancesProvider"
             case name = "name"
             case tags = "tags"
         }
@@ -2036,9 +2203,36 @@ extension ECS {
         }
     }
 
+    public struct CreateManagedInstancesProviderConfiguration: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the infrastructure role that Amazon ECS uses to manage instances on your behalf. This role must have permissions to launch, terminate, and manage Amazon EC2 instances, as well as access to other Amazon Web Services services required for Amazon ECS Managed Instances functionality. For more information, see Amazon ECS infrastructure IAM role in the Amazon ECS Developer Guide.
+        ///
+        public let infrastructureRoleArn: String
+        /// The launch template configuration that specifies how Amazon ECS should launch Amazon EC2 instances. This includes the instance profile, network configuration, storage settings, and instance requirements for attribute-based instance type selection. For more information, see Store instance launch parameters in Amazon EC2 launch templates in the Amazon EC2 User Guide.
+        public let instanceLaunchTemplate: InstanceLaunchTemplate
+        /// Specifies whether to propagate tags from the capacity provider to the Amazon ECS Managed Instances. When enabled, tags applied to the capacity provider are automatically applied to all instances launched by this provider.
+        public let propagateTags: PropagateMITags?
+
+        @inlinable
+        public init(infrastructureRoleArn: String, instanceLaunchTemplate: InstanceLaunchTemplate, propagateTags: PropagateMITags? = nil) {
+            self.infrastructureRoleArn = infrastructureRoleArn
+            self.instanceLaunchTemplate = instanceLaunchTemplate
+            self.propagateTags = propagateTags
+        }
+
+        public func validate(name: String) throws {
+            try self.instanceLaunchTemplate.validate(name: "\(name).instanceLaunchTemplate")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case infrastructureRoleArn = "infrastructureRoleArn"
+            case instanceLaunchTemplate = "instanceLaunchTemplate"
+            case propagateTags = "propagateTags"
+        }
+    }
+
     public struct CreateServiceRequest: AWSEncodableShape {
         /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see Balancing an Amazon ECS service across Availability Zones in
-        /// 			the  Amazon Elastic Container Service Developer Guide .
+        /// 			the  Amazon Elastic Container Service Developer Guide . The default behavior of AvailabilityZoneRebalancing differs between create and update requests:   For create service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults the value to ENABLED.   For update service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults to the existing service’s AvailabilityZoneRebalancing value. If the service never had an AvailabilityZoneRebalancing value set, Amazon ECS treats this as DISABLED.
         public let availabilityZoneRebalancing: AvailabilityZoneRebalancing?
         /// The capacity provider strategy to use for the service. If a capacityProviderStrategy is specified, the launchType
         /// 			parameter must be omitted. If no capacityProviderStrategy or
@@ -2071,15 +2265,7 @@ extension ECS {
         /// 				true, this enables execute command functionality on all containers in
         /// 			the service tasks.
         public let enableExecuteCommand: Bool?
-        /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy
-        /// 			Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If you don't
-        /// 			specify a health check grace period value, the default value of 0 is used.
-        /// 			If you don't use any of the health checks, then
-        /// 				healthCheckGracePeriodSeconds is unused. If your service's tasks take a while to start and respond to health checks, you can
-        /// 			specify a health check grace period of up to 2,147,483,647 seconds (about 69 years).
-        /// 			During that time, the Amazon ECS service scheduler ignores health check status. This grace
-        /// 			period can prevent the service scheduler from marking tasks as unhealthy and stopping
-        /// 			them before they have time to come up.
+        /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If you do not specify a health check grace period value, the default value of 0 is used. If you do not use any of the health checks, then healthCheckGracePeriodSeconds is unused. If your service has more running tasks than desired, unhealthy tasks in the grace period might be stopped to reach the desired count.
         public let healthCheckGracePeriodSeconds: Int?
         /// The infrastructure that you run your service on. For more information, see Amazon ECS
         /// 				launch types in the Amazon Elastic Container Service Developer Guide. The FARGATE launch type runs your tasks on Fargate On-Demand
@@ -2092,7 +2278,7 @@ extension ECS {
         /// 			parameter must be omitted.
         public let launchType: LaunchType?
         /// A load balancer object representing the load balancers to use with your service. For
-        /// 			more information, see Service load balancing in the Amazon Elastic Container Service Developer Guide. If the service uses the rolling update (ECS) deployment controller and
+        /// 			more information, see Service load balancing in the Amazon Elastic Container Service Developer Guide. If the service uses the ECS deployment controller and
         /// 			using either an Application Load Balancer or Network Load Balancer, you must specify one or more target group ARNs to attach
         /// 			to the service. The service-linked role is required for services that use multiple
         /// 			target groups. For more information, see Using service-linked roles for Amazon ECS in the
@@ -2525,14 +2711,18 @@ extension ECS {
     public struct DeleteCapacityProviderRequest: AWSEncodableShape {
         /// The short name or full Amazon Resource Name (ARN) of the capacity provider to delete.
         public let capacityProvider: String
+        /// The name of the cluster that contains the capacity provider to delete. Managed instances capacity providers are cluster-scoped and can only be deleted from their associated cluster.
+        public let cluster: String?
 
         @inlinable
-        public init(capacityProvider: String) {
+        public init(capacityProvider: String, cluster: String? = nil) {
             self.capacityProvider = capacityProvider
+            self.cluster = cluster
         }
 
         private enum CodingKeys: String, CodingKey {
             case capacityProvider = "capacityProvider"
+            case cluster = "cluster"
         }
     }
 
@@ -2921,7 +3111,7 @@ extension ECS {
         /// 			scheduler to start replacement tasks, the scheduler stops the unhealthy tasks one-by-one
         /// 			— using the minimumHealthyPercent as a constraint — to clear up capacity to
         /// 			launch replacement tasks. For more information about how the scheduler replaces
-        /// 			unhealthy tasks, see Amazon ECS services .  For services that do not use a load balancer, the following
+        /// 			unhealthy tasks, see Amazon ECS services.  For services that do not use a load balancer, the following
         /// 			should be noted:   A service is considered healthy if all essential containers within the tasks
         /// 					in the service pass their health checks.   If a task has no essential containers with a health check defined, the service
         /// 					scheduler will wait for 40 seconds after a task reaches a RUNNING
@@ -3047,6 +3237,8 @@ extension ECS {
     }
 
     public struct DeploymentLifecycleHook: AWSEncodableShape & AWSDecodableShape {
+        /// Use this field to specify custom parameters that Amazon ECS will pass to your hook target invocations (such as a Lambda function).
+        public let hookDetails: AWSDocument?
         /// The Amazon Resource Name (ARN) of the hook target. Currently, only Lambda function ARNs are supported. You must provide this parameter when configuring a deployment lifecycle hook.
         public let hookTargetArn: String?
         /// The lifecycle stages at which to run the hook. Choose from these valid values:   RECONCILE_SERVICE The reconciliation stage that only happens when you start a new service deployment with more than 1 service revision in an ACTIVE state. You can use a lifecycle hook for this stage.   PRE_SCALE_UP The green service revision has not started. The blue service revision is handling 100% of the production traffic. There is no test traffic. You can use a lifecycle hook for this stage.   POST_SCALE_UP The green service revision has started. The blue service revision is handling 100% of the production traffic. There is no test traffic. You can use a lifecycle hook for this stage.   TEST_TRAFFIC_SHIFT The blue and green service revisions are running. The blue service revision handles 100% of the production traffic. The green service revision is migrating from 0% to 100% of test traffic. You can use a lifecycle hook for this stage.   POST_TEST_TRAFFIC_SHIFT The test traffic shift is complete. The green service revision handles 100% of the test traffic. You can use a lifecycle hook for this stage.   PRODUCTION_TRAFFIC_SHIFT Production traffic is shifting to the green service revision. The green service revision is migrating from 0% to 100% of production traffic. You can use a lifecycle hook for this stage.   POST_PRODUCTION_TRAFFIC_SHIFT The production traffic shift is complete. You can use a lifecycle hook for this stage.   You must provide this parameter when configuring a deployment lifecycle hook.
@@ -3055,13 +3247,15 @@ extension ECS {
         public let roleArn: String?
 
         @inlinable
-        public init(hookTargetArn: String? = nil, lifecycleStages: [DeploymentLifecycleHookStage]? = nil, roleArn: String? = nil) {
+        public init(hookDetails: AWSDocument? = nil, hookTargetArn: String? = nil, lifecycleStages: [DeploymentLifecycleHookStage]? = nil, roleArn: String? = nil) {
+            self.hookDetails = hookDetails
             self.hookTargetArn = hookTargetArn
             self.lifecycleStages = lifecycleStages
             self.roleArn = roleArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case hookDetails = "hookDetails"
             case hookTargetArn = "hookTargetArn"
             case lifecycleStages = "lifecycleStages"
             case roleArn = "roleArn"
@@ -3148,6 +3342,8 @@ extension ECS {
         /// The short name or full Amazon Resource Name (ARN) of one or more capacity providers. Up to
         /// 				100 capacity providers can be described in an action.
         public let capacityProviders: [String]?
+        /// The name of the cluster to describe capacity providers for. When specified, only capacity providers associated with this cluster are returned, including Amazon ECS Managed Instances capacity providers.
+        public let cluster: String?
         /// Specifies whether or not you want to see the resource tags for the capacity provider.
         /// 			If TAGS is specified, the tags are included in the response. If this field
         /// 			is omitted, tags aren't included in the response.
@@ -3171,8 +3367,9 @@ extension ECS {
         public let nextToken: String?
 
         @inlinable
-        public init(capacityProviders: [String]? = nil, include: [CapacityProviderField]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(capacityProviders: [String]? = nil, cluster: String? = nil, include: [CapacityProviderField]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.capacityProviders = capacityProviders
+            self.cluster = cluster
             self.include = include
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3180,6 +3377,7 @@ extension ECS {
 
         private enum CodingKeys: String, CodingKey {
             case capacityProviders = "capacityProviders"
+            case cluster = "cluster"
             case include = "include"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
@@ -3505,8 +3703,7 @@ extension ECS {
 
     public struct DescribeTasksRequest: AWSEncodableShape {
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task or tasks to
-        /// 			describe. If you do not specify a cluster, the default cluster is assumed. If you do not specify a
-        /// 			value, the default cluster is used.
+        /// 			describe. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
         /// Specifies whether you want to see the resource tags for the task. If TAGS
         /// 			is specified, the tags are included in the response. If this field is omitted, tags
@@ -4209,6 +4406,199 @@ extension ECS {
             case lastUpdated = "lastUpdated"
             case status = "status"
             case type = "type"
+        }
+    }
+
+    public struct InstanceLaunchTemplate: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the instance profile that Amazon ECS applies to Amazon ECS Managed Instances. This instance profile must include the necessary permissions for your tasks to access Amazon Web Services services and resources. For more information, see Amazon ECS instance profile for Managed Instances in the Amazon ECS Developer Guide.
+        ///
+        public let ec2InstanceProfileArn: String
+        /// The instance requirements. You can specify:   The instance types   Instance requirements such as vCPU count, memory, network performance, and accelerator specifications   Amazon ECS automatically selects the instances that match the specified criteria.
+        public let instanceRequirements: InstanceRequirementsRequest?
+        /// CloudWatch provides two categories of monitoring: basic monitoring and detailed monitoring. By default, your managed instance is configured for basic monitoring. You can optionally enable detailed monitoring to help you more quickly identify and act on operational issues. You can enable or turn off detailed monitoring at launch or when the managed instance is running or stopped. For more information, see Detailed monitoring  for Amazon ECS Managed Instances in the Amazon ECS Developer Guide.
+        public let monitoring: ManagedInstancesMonitoringOptions?
+        /// The network configuration for Amazon ECS Managed Instances. This specifies the subnets and security groups that instances use for network connectivity.
+        public let networkConfiguration: ManagedInstancesNetworkConfiguration
+        /// The storage configuration for Amazon ECS Managed Instances. This defines the root volume size and type for the instances.
+        public let storageConfiguration: ManagedInstancesStorageConfiguration?
+
+        @inlinable
+        public init(ec2InstanceProfileArn: String, instanceRequirements: InstanceRequirementsRequest? = nil, monitoring: ManagedInstancesMonitoringOptions? = nil, networkConfiguration: ManagedInstancesNetworkConfiguration, storageConfiguration: ManagedInstancesStorageConfiguration? = nil) {
+            self.ec2InstanceProfileArn = ec2InstanceProfileArn
+            self.instanceRequirements = instanceRequirements
+            self.monitoring = monitoring
+            self.networkConfiguration = networkConfiguration
+            self.storageConfiguration = storageConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.instanceRequirements?.validate(name: "\(name).instanceRequirements")
+            try self.storageConfiguration?.validate(name: "\(name).storageConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ec2InstanceProfileArn = "ec2InstanceProfileArn"
+            case instanceRequirements = "instanceRequirements"
+            case monitoring = "monitoring"
+            case networkConfiguration = "networkConfiguration"
+            case storageConfiguration = "storageConfiguration"
+        }
+    }
+
+    public struct InstanceLaunchTemplateUpdate: AWSEncodableShape {
+        /// The updated Amazon Resource Name (ARN) of the instance profile. The new instance profile must have the necessary permissions for your tasks. For more information, see Amazon ECS instance profile for Managed Instances in the Amazon ECS Developer Guide.
+        ///
+        public let ec2InstanceProfileArn: String?
+        /// The updated instance requirements for attribute-based instance type selection. Changes to instance requirements affect which instance types Amazon ECS selects for new instances.
+        public let instanceRequirements: InstanceRequirementsRequest?
+        /// CloudWatch provides two categories of monitoring: basic monitoring and detailed monitoring. By default, your managed instance is configured for basic monitoring. You can optionally enable detailed monitoring to help you more quickly identify and act on operational issues. You can enable or turn off detailed monitoring at launch or when the managed instance is running or stopped. For more information, see Detailed monitoring  for Amazon ECS Managed Instances in the Amazon ECS Developer Guide.
+        public let monitoring: ManagedInstancesMonitoringOptions?
+        /// The updated network configuration for Amazon ECS Managed Instances. Changes to subnets and security groups affect new instances launched after the update.
+        public let networkConfiguration: ManagedInstancesNetworkConfiguration?
+        /// The updated storage configuration for Amazon ECS Managed Instances. Changes to storage settings apply to new instances launched after the update.
+        public let storageConfiguration: ManagedInstancesStorageConfiguration?
+
+        @inlinable
+        public init(ec2InstanceProfileArn: String? = nil, instanceRequirements: InstanceRequirementsRequest? = nil, monitoring: ManagedInstancesMonitoringOptions? = nil, networkConfiguration: ManagedInstancesNetworkConfiguration? = nil, storageConfiguration: ManagedInstancesStorageConfiguration? = nil) {
+            self.ec2InstanceProfileArn = ec2InstanceProfileArn
+            self.instanceRequirements = instanceRequirements
+            self.monitoring = monitoring
+            self.networkConfiguration = networkConfiguration
+            self.storageConfiguration = storageConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.instanceRequirements?.validate(name: "\(name).instanceRequirements")
+            try self.storageConfiguration?.validate(name: "\(name).storageConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ec2InstanceProfileArn = "ec2InstanceProfileArn"
+            case instanceRequirements = "instanceRequirements"
+            case monitoring = "monitoring"
+            case networkConfiguration = "networkConfiguration"
+            case storageConfiguration = "storageConfiguration"
+        }
+    }
+
+    public struct InstanceRequirementsRequest: AWSEncodableShape & AWSDecodableShape {
+        /// The minimum and maximum number of accelerators for the instance types. This is used when you need instances with specific numbers of GPUs or other accelerators.
+        public let acceleratorCount: AcceleratorCountRequest?
+        /// The accelerator manufacturers to include. You can specify nvidia, amd, amazon-web-services, or xilinx depending on your accelerator requirements.
+        public let acceleratorManufacturers: [AcceleratorManufacturer]?
+        /// The specific accelerator names to include. For example, you can specify a100, v100, k80, or other specific accelerator models.
+        public let acceleratorNames: [AcceleratorName]?
+        /// The minimum and maximum total accelerator memory in mebibytes (MiB). This is important for GPU workloads that require specific amounts of video memory.
+        public let acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiBRequest?
+        /// The accelerator types to include. You can specify gpu for graphics processing units, fpga for field programmable gate arrays, or inference for machine learning inference accelerators.
+        public let acceleratorTypes: [AcceleratorType]?
+        /// The instance types to include in the selection. When specified, Amazon ECS only considers these instance types, subject to the other requirements specified.
+        public let allowedInstanceTypes: [String]?
+        /// Indicates whether to include bare metal instance types. Set to included to allow bare metal instances, excluded to exclude them, or required to use only bare metal instances.
+        public let bareMetal: BareMetal?
+        /// The minimum and maximum baseline Amazon EBS bandwidth in megabits per second (Mbps). This is important for workloads with high storage I/O requirements.
+        public let baselineEbsBandwidthMbps: BaselineEbsBandwidthMbpsRequest?
+        /// Indicates whether to include burstable performance instance types (T2, T3, T3a, T4g). Set to included to allow burstable instances, excluded to exclude them, or required to use only burstable instances.
+        public let burstablePerformance: BurstablePerformance?
+        /// The CPU manufacturers to include or exclude. You can specify intel, amd, or amazon-web-services to control which CPU types are used for your workloads.
+        public let cpuManufacturers: [CpuManufacturer]?
+        /// The instance types to exclude from selection. Use this to prevent Amazon ECS from selecting specific instance types that may not be suitable for your workloads.
+        public let excludedInstanceTypes: [String]?
+        /// The instance generations to include. You can specify current to use the latest generation instances, or previous to include previous generation instances for cost optimization.
+        public let instanceGenerations: [InstanceGeneration]?
+        /// Indicates whether to include instance types with local storage. Set to included to allow local storage, excluded to exclude it, or required to use only instances with local storage.
+        public let localStorage: LocalStorage?
+        /// The local storage types to include. You can specify hdd for hard disk drives, ssd for solid state drives, or both.
+        public let localStorageTypes: [LocalStorageType]?
+        /// The maximum price for Spot instances as a percentage of the optimal On-Demand price. This provides more precise cost control for Spot instance selection.
+        public let maxSpotPriceAsPercentageOfOptimalOnDemandPrice: Int?
+        /// The minimum and maximum amount of memory per vCPU in gibibytes (GiB). This helps ensure that instance types have the appropriate memory-to-CPU ratio for your workloads.
+        public let memoryGiBPerVCpu: MemoryGiBPerVCpuRequest?
+        /// The minimum and maximum amount of memory in mebibytes (MiB) for the instance types. Amazon ECS selects instance types that have memory within this range.
+        public let memoryMiB: MemoryMiBRequest
+        /// The minimum and maximum network bandwidth in gigabits per second (Gbps). This is crucial for network-intensive workloads that require high throughput.
+        public let networkBandwidthGbps: NetworkBandwidthGbpsRequest?
+        /// The minimum and maximum number of network interfaces for the instance types. This is useful for workloads that require multiple network interfaces.
+        public let networkInterfaceCount: NetworkInterfaceCountRequest?
+        /// The price protection threshold for On-Demand Instances, as a percentage higher than an identified On-Demand price. The identified On-Demand price is the price of the lowest priced current generation C, M, or R instance type with your specified attributes. If no current generation C, M, or R instance type matches your attributes, then the identified price is from either the lowest priced current generation instance types or, failing that, the lowest priced previous generation instance types that match your attributes. When Amazon ECS selects instance types with your attributes, we will exclude instance types whose price exceeds your specified threshold.
+        public let onDemandMaxPricePercentageOverLowestPrice: Int?
+        /// Indicates whether the instance types must support hibernation. When set to true, only instance types that support hibernation are selected.
+        public let requireHibernateSupport: Bool?
+        /// The maximum price for Spot instances as a percentage over the lowest priced On-Demand instance. This helps control Spot instance costs while maintaining access to capacity.
+        public let spotMaxPricePercentageOverLowestPrice: Int?
+        /// The minimum and maximum total local storage in gigabytes (GB) for instance types with local storage.
+        public let totalLocalStorageGB: TotalLocalStorageGBRequest?
+        /// The minimum and maximum number of vCPUs for the instance types. Amazon ECS selects instance types that have vCPU counts within this range.
+        public let vCpuCount: VCpuCountRangeRequest
+
+        @inlinable
+        public init(acceleratorCount: AcceleratorCountRequest? = nil, acceleratorManufacturers: [AcceleratorManufacturer]? = nil, acceleratorNames: [AcceleratorName]? = nil, acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiBRequest? = nil, acceleratorTypes: [AcceleratorType]? = nil, allowedInstanceTypes: [String]? = nil, bareMetal: BareMetal? = nil, baselineEbsBandwidthMbps: BaselineEbsBandwidthMbpsRequest? = nil, burstablePerformance: BurstablePerformance? = nil, cpuManufacturers: [CpuManufacturer]? = nil, excludedInstanceTypes: [String]? = nil, instanceGenerations: [InstanceGeneration]? = nil, localStorage: LocalStorage? = nil, localStorageTypes: [LocalStorageType]? = nil, maxSpotPriceAsPercentageOfOptimalOnDemandPrice: Int? = nil, memoryGiBPerVCpu: MemoryGiBPerVCpuRequest? = nil, memoryMiB: MemoryMiBRequest, networkBandwidthGbps: NetworkBandwidthGbpsRequest? = nil, networkInterfaceCount: NetworkInterfaceCountRequest? = nil, onDemandMaxPricePercentageOverLowestPrice: Int? = nil, requireHibernateSupport: Bool? = nil, spotMaxPricePercentageOverLowestPrice: Int? = nil, totalLocalStorageGB: TotalLocalStorageGBRequest? = nil, vCpuCount: VCpuCountRangeRequest) {
+            self.acceleratorCount = acceleratorCount
+            self.acceleratorManufacturers = acceleratorManufacturers
+            self.acceleratorNames = acceleratorNames
+            self.acceleratorTotalMemoryMiB = acceleratorTotalMemoryMiB
+            self.acceleratorTypes = acceleratorTypes
+            self.allowedInstanceTypes = allowedInstanceTypes
+            self.bareMetal = bareMetal
+            self.baselineEbsBandwidthMbps = baselineEbsBandwidthMbps
+            self.burstablePerformance = burstablePerformance
+            self.cpuManufacturers = cpuManufacturers
+            self.excludedInstanceTypes = excludedInstanceTypes
+            self.instanceGenerations = instanceGenerations
+            self.localStorage = localStorage
+            self.localStorageTypes = localStorageTypes
+            self.maxSpotPriceAsPercentageOfOptimalOnDemandPrice = maxSpotPriceAsPercentageOfOptimalOnDemandPrice
+            self.memoryGiBPerVCpu = memoryGiBPerVCpu
+            self.memoryMiB = memoryMiB
+            self.networkBandwidthGbps = networkBandwidthGbps
+            self.networkInterfaceCount = networkInterfaceCount
+            self.onDemandMaxPricePercentageOverLowestPrice = onDemandMaxPricePercentageOverLowestPrice
+            self.requireHibernateSupport = requireHibernateSupport
+            self.spotMaxPricePercentageOverLowestPrice = spotMaxPricePercentageOverLowestPrice
+            self.totalLocalStorageGB = totalLocalStorageGB
+            self.vCpuCount = vCpuCount
+        }
+
+        public func validate(name: String) throws {
+            try self.allowedInstanceTypes?.forEach {
+                try validate($0, name: "allowedInstanceTypes[]", parent: name, max: 30)
+                try validate($0, name: "allowedInstanceTypes[]", parent: name, min: 1)
+                try validate($0, name: "allowedInstanceTypes[]", parent: name, pattern: "^[a-zA-Z0-9\\.\\*\\-]+$")
+            }
+            try self.validate(self.allowedInstanceTypes, name: "allowedInstanceTypes", parent: name, max: 400)
+            try self.excludedInstanceTypes?.forEach {
+                try validate($0, name: "excludedInstanceTypes[]", parent: name, max: 30)
+                try validate($0, name: "excludedInstanceTypes[]", parent: name, min: 1)
+                try validate($0, name: "excludedInstanceTypes[]", parent: name, pattern: "^[a-zA-Z0-9\\.\\*\\-]+$")
+            }
+            try self.validate(self.excludedInstanceTypes, name: "excludedInstanceTypes", parent: name, max: 400)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceleratorCount = "acceleratorCount"
+            case acceleratorManufacturers = "acceleratorManufacturers"
+            case acceleratorNames = "acceleratorNames"
+            case acceleratorTotalMemoryMiB = "acceleratorTotalMemoryMiB"
+            case acceleratorTypes = "acceleratorTypes"
+            case allowedInstanceTypes = "allowedInstanceTypes"
+            case bareMetal = "bareMetal"
+            case baselineEbsBandwidthMbps = "baselineEbsBandwidthMbps"
+            case burstablePerformance = "burstablePerformance"
+            case cpuManufacturers = "cpuManufacturers"
+            case excludedInstanceTypes = "excludedInstanceTypes"
+            case instanceGenerations = "instanceGenerations"
+            case localStorage = "localStorage"
+            case localStorageTypes = "localStorageTypes"
+            case maxSpotPriceAsPercentageOfOptimalOnDemandPrice = "maxSpotPriceAsPercentageOfOptimalOnDemandPrice"
+            case memoryGiBPerVCpu = "memoryGiBPerVCpu"
+            case memoryMiB = "memoryMiB"
+            case networkBandwidthGbps = "networkBandwidthGbps"
+            case networkInterfaceCount = "networkInterfaceCount"
+            case onDemandMaxPricePercentageOverLowestPrice = "onDemandMaxPricePercentageOverLowestPrice"
+            case requireHibernateSupport = "requireHibernateSupport"
+            case spotMaxPricePercentageOverLowestPrice = "spotMaxPricePercentageOverLowestPrice"
+            case totalLocalStorageGB = "totalLocalStorageGB"
+            case vCpuCount = "vCpuCount"
         }
     }
 
@@ -5200,7 +5590,7 @@ extension ECS {
         /// 						Amazon Web Services Region by using the defaultLogDriverMode account setting.
         /// 						If you don't specify the mode option or
         /// 						configure the account setting, Amazon ECS will default to the
-        /// 							non-blocking mode. For more information about the account setting, see Default log driver mode in the Amazon Elastic Container Service Developer Guide.  On June 25, 2025, Amazon ECS changed the default log driver mode from blocking to non-blocking to prioritize task availability over logging. To continue using the blocking mode after this change, do one of the following:   Set the mode option in your container definition's logConfiguration as blocking.   Set the defaultLogDriverMode account setting to blocking.     max-buffer-size  Required: No Default value: 1m  When non-blocking mode is used, the
+        /// 							non-blocking mode. For more information about the account setting, see Default log driver mode in the Amazon Elastic Container Service Developer Guide.  On June 25, 2025, Amazon ECS changed the default log driver mode from blocking to non-blocking to prioritize task availability over logging. To continue using the blocking mode after this change, do one of the following:   Set the mode option in your container definition's logConfiguration as blocking.   Set the defaultLogDriverMode account setting to blocking.     max-buffer-size  Required: No Default value: 10m  When non-blocking mode is used, the
         /// 							max-buffer-size log option controls the size of the buffer
         /// 						that's used for intermediate message storage. Make sure to specify an
         /// 						adequate buffer size based on your application. When the buffer fills up,
@@ -5294,6 +5684,64 @@ extension ECS {
         }
     }
 
+    public struct ManagedInstancesNetworkConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The list of security group IDs to apply to Amazon ECS Managed Instances. These security groups control the network traffic allowed to and from the instances.
+        public let securityGroups: [String]?
+        /// The list of subnet IDs where Amazon ECS can launch Amazon ECS Managed Instances. Instances are distributed across the specified subnets for high availability. All subnets must be in the same VPC.
+        public let subnets: [String]?
+
+        @inlinable
+        public init(securityGroups: [String]? = nil, subnets: [String]? = nil) {
+            self.securityGroups = securityGroups
+            self.subnets = subnets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroups = "securityGroups"
+            case subnets = "subnets"
+        }
+    }
+
+    public struct ManagedInstancesProvider: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the infrastructure role that Amazon ECS assumes to manage instances. This role must include permissions for Amazon EC2 instance lifecycle management, networking, and any additional Amazon Web Services services required for your workloads. For more information, see Amazon ECS infrastructure IAM role in the Amazon ECS Developer Guide.
+        public let infrastructureRoleArn: String?
+        /// The launch template that defines how Amazon ECS launches Amazon ECS Managed Instances. This includes the instance profile for your tasks, network and storage configuration, and instance requirements that determine which Amazon EC2 instance types can be used. For more information, see Store instance launch parameters in Amazon EC2 launch templates in the Amazon EC2 User Guide.
+        public let instanceLaunchTemplate: InstanceLaunchTemplate?
+        /// Determines whether tags from the capacity provider are automatically applied to Amazon ECS Managed Instances. This helps with cost allocation and resource management by ensuring consistent tagging across your infrastructure.
+        public let propagateTags: PropagateMITags?
+
+        @inlinable
+        public init(infrastructureRoleArn: String? = nil, instanceLaunchTemplate: InstanceLaunchTemplate? = nil, propagateTags: PropagateMITags? = nil) {
+            self.infrastructureRoleArn = infrastructureRoleArn
+            self.instanceLaunchTemplate = instanceLaunchTemplate
+            self.propagateTags = propagateTags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case infrastructureRoleArn = "infrastructureRoleArn"
+            case instanceLaunchTemplate = "instanceLaunchTemplate"
+            case propagateTags = "propagateTags"
+        }
+    }
+
+    public struct ManagedInstancesStorageConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The size of the tasks volume.
+        public let storageSizeGiB: Int?
+
+        @inlinable
+        public init(storageSizeGiB: Int? = nil) {
+            self.storageSizeGiB = storageSizeGiB
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.storageSizeGiB, name: "storageSizeGiB", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case storageSizeGiB = "storageSizeGiB"
+        }
+    }
+
     public struct ManagedScaling: AWSEncodableShape & AWSDecodableShape {
         /// The period of time, in seconds, after a newly launched Amazon EC2 instance can contribute
         /// 			to CloudWatch metrics for Auto Scaling group. If this parameter is omitted, the default value
@@ -5305,10 +5753,7 @@ extension ECS {
         /// The minimum number of Amazon EC2 instances that Amazon ECS will scale out at one time. The scale
         /// 			in process is not affected by this parameter If this parameter is omitted, the default
         /// 			value of 1 is used. When additional capacity is required, Amazon ECS will scale up the minimum scaling step
-        /// 			size even if the actual demand is less than the minimum scaling step size. If you use a capacity provider with an Auto Scaling group configured with more than
-        /// 			one Amazon EC2 instance type or Availability Zone, Amazon ECS will scale up by the exact minimum
-        /// 			scaling step size value and will ignore both the maximum scaling step size as well as
-        /// 			the capacity demand.
+        /// 			size even if the actual demand is less than the minimum scaling step size.
         public let minimumScalingStepSize: Int?
         /// Determines whether to use managed scaling for the capacity provider.
         public let status: ManagedScalingStatus?
@@ -5375,6 +5820,42 @@ extension ECS {
         }
     }
 
+    public struct MemoryGiBPerVCpuRequest: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum amount of memory per vCPU in GiB. Instance types with a higher memory-to-vCPU ratio are excluded from selection.
+        public let max: Double?
+        /// The minimum amount of memory per vCPU in GiB. Instance types with a lower memory-to-vCPU ratio are excluded from selection.
+        public let min: Double?
+
+        @inlinable
+        public init(max: Double? = nil, min: Double? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "max"
+            case min = "min"
+        }
+    }
+
+    public struct MemoryMiBRequest: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum amount of memory in MiB. Instance types with more memory than this value are excluded from selection.
+        public let max: Int?
+        /// The minimum amount of memory in MiB. Instance types with less memory than this value are excluded from selection.
+        public let min: Int
+
+        @inlinable
+        public init(max: Int? = nil, min: Int) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "max"
+            case min = "min"
+        }
+    }
+
     public struct MountPoint: AWSEncodableShape & AWSDecodableShape {
         /// The path on the container to mount the host volume at.
         public let containerPath: String?
@@ -5397,6 +5878,24 @@ extension ECS {
             case containerPath = "containerPath"
             case readOnly = "readOnly"
             case sourceVolume = "sourceVolume"
+        }
+    }
+
+    public struct NetworkBandwidthGbpsRequest: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum network bandwidth in Gbps. Instance types with higher network bandwidth are excluded from selection.
+        public let max: Double?
+        /// The minimum network bandwidth in Gbps. Instance types with lower network bandwidth are excluded from selection.
+        public let min: Double?
+
+        @inlinable
+        public init(max: Double? = nil, min: Double? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "max"
+            case min = "min"
         }
     }
 
@@ -5477,6 +5976,24 @@ extension ECS {
             case attachmentId = "attachmentId"
             case ipv6Address = "ipv6Address"
             case privateIpv4Address = "privateIpv4Address"
+        }
+    }
+
+    public struct NetworkInterfaceCountRequest: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of network interfaces. Instance types that support more network interfaces are excluded from selection.
+        public let max: Int?
+        /// The minimum number of network interfaces. Instance types that support fewer network interfaces are excluded from selection.
+        public let min: Int?
+
+        @inlinable
+        public init(max: Int? = nil, min: Int? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "max"
+            case min = "min"
         }
     }
 
@@ -6441,7 +6958,7 @@ extension ECS {
         /// 				arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName:*. For more information, see Policy Resources for Amazon ECS in the Amazon Elastic Container Service Developer Guide.
         public let taskDefinition: String
         /// The details of the volume that was configuredAtLaunch. You can configure
-        /// 			the size, volumeType, IOPS, throughput, snapshot and encryption in in TaskManagedEBSVolumeConfiguration. The name of the volume must
+        /// 			the size, volumeType, IOPS, throughput, snapshot and encryption in TaskManagedEBSVolumeConfiguration. The name of the volume must
         /// 			match the name from the task definition.
         public let volumeConfigurations: [TaskVolumeConfiguration]?
 
@@ -6590,7 +7107,7 @@ extension ECS {
 
     public struct Service: AWSDecodableShape {
         /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see Balancing an Amazon ECS service across Availability Zones in
-        /// 			the  Amazon Elastic Container Service Developer Guide .
+        /// 			the  Amazon Elastic Container Service Developer Guide . The default behavior of AvailabilityZoneRebalancing differs between create and update requests:   For create service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults the value to ENABLED.   For update service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults to the existing service’s AvailabilityZoneRebalancing value. If the service never had an AvailabilityZoneRebalancing value set, Amazon ECS treats this as DISABLED.
         public let availabilityZoneRebalancing: AvailabilityZoneRebalancing?
         /// The capacity provider strategy the service uses. When using the DescribeServices API,
         /// 			this field is omitted if the service was created using a launch type.
@@ -6623,7 +7140,7 @@ extension ECS {
         /// 			displayed.
         public let events: [ServiceEvent]?
         /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy
-        /// 			Elastic Load Balancing target health checks after a task has first started.
+        /// 			Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If your service has more running tasks than desired, unhealthy tasks in the grace period might be stopped to reach the desired count.
         public let healthCheckGracePeriodSeconds: Int?
         /// The launch type the service is using. When using the DescribeServices API, this field
         /// 			is omitted if the service was created using a capacity provider strategy.
@@ -8789,6 +9306,24 @@ extension ECS {
         }
     }
 
+    public struct TotalLocalStorageGBRequest: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum total local storage in GB. Instance types with more local storage are excluded from selection.
+        public let max: Double?
+        /// The minimum total local storage in GB. Instance types with less local storage are excluded from selection.
+        public let min: Double?
+
+        @inlinable
+        public init(max: Double? = nil, min: Double? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "max"
+            case min = "min"
+        }
+    }
+
     public struct Ulimit: AWSEncodableShape & AWSDecodableShape {
         /// The hard limit for the ulimit type. The value can be specified in bytes,
         /// 			seconds, or as a count, depending on the type of the
@@ -8850,22 +9385,31 @@ extension ECS {
     public struct UpdateCapacityProviderRequest: AWSEncodableShape {
         /// An object that represent the parameters to update for the Auto Scaling group capacity
         /// 			provider.
-        public let autoScalingGroupProvider: AutoScalingGroupProviderUpdate
+        public let autoScalingGroupProvider: AutoScalingGroupProviderUpdate?
+        /// The name of the cluster that contains the capacity provider to update. Managed instances capacity providers are cluster-scoped and can only be updated within their associated cluster.
+        public let cluster: String?
+        /// The updated configuration for the Amazon ECS Managed Instances provider. You can modify the infrastructure role, instance launch template, and tag propagation settings. Changes take effect for new instances launched after the update.
+        public let managedInstancesProvider: UpdateManagedInstancesProviderConfiguration?
         /// The name of the capacity provider to update.
         public let name: String
 
         @inlinable
-        public init(autoScalingGroupProvider: AutoScalingGroupProviderUpdate, name: String) {
+        public init(autoScalingGroupProvider: AutoScalingGroupProviderUpdate? = nil, cluster: String? = nil, managedInstancesProvider: UpdateManagedInstancesProviderConfiguration? = nil, name: String) {
             self.autoScalingGroupProvider = autoScalingGroupProvider
+            self.cluster = cluster
+            self.managedInstancesProvider = managedInstancesProvider
             self.name = name
         }
 
         public func validate(name: String) throws {
-            try self.autoScalingGroupProvider.validate(name: "\(name).autoScalingGroupProvider")
+            try self.autoScalingGroupProvider?.validate(name: "\(name).autoScalingGroupProvider")
+            try self.managedInstancesProvider?.validate(name: "\(name).managedInstancesProvider")
         }
 
         private enum CodingKeys: String, CodingKey {
             case autoScalingGroupProvider = "autoScalingGroupProvider"
+            case cluster = "cluster"
+            case managedInstancesProvider = "managedInstancesProvider"
             case name = "name"
         }
     }
@@ -9052,6 +9596,32 @@ extension ECS {
         }
     }
 
+    public struct UpdateManagedInstancesProviderConfiguration: AWSEncodableShape {
+        /// The updated Amazon Resource Name (ARN) of the infrastructure role. The new role must have the necessary permissions to manage instances and access required Amazon Web Services services. For more information, see Amazon ECS infrastructure IAM role in the Amazon ECS Developer Guide.
+        public let infrastructureRoleArn: String
+        /// The updated launch template configuration. Changes to the launch template affect new instances launched after the update, while existing instances continue to use their original configuration.
+        public let instanceLaunchTemplate: InstanceLaunchTemplateUpdate
+        /// The updated tag propagation setting. When changed, this affects only new instances launched after the update.
+        public let propagateTags: PropagateMITags?
+
+        @inlinable
+        public init(infrastructureRoleArn: String, instanceLaunchTemplate: InstanceLaunchTemplateUpdate, propagateTags: PropagateMITags? = nil) {
+            self.infrastructureRoleArn = infrastructureRoleArn
+            self.instanceLaunchTemplate = instanceLaunchTemplate
+            self.propagateTags = propagateTags
+        }
+
+        public func validate(name: String) throws {
+            try self.instanceLaunchTemplate.validate(name: "\(name).instanceLaunchTemplate")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case infrastructureRoleArn = "infrastructureRoleArn"
+            case instanceLaunchTemplate = "instanceLaunchTemplate"
+            case propagateTags = "propagateTags"
+        }
+    }
+
     public struct UpdateServicePrimaryTaskSetRequest: AWSEncodableShape {
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task
         /// 			set exists in.
@@ -9092,32 +9662,32 @@ extension ECS {
 
     public struct UpdateServiceRequest: AWSEncodableShape {
         /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see Balancing an Amazon ECS service across Availability Zones in
-        /// 			the  Amazon Elastic Container Service Developer Guide .
+        /// 			the  Amazon Elastic Container Service Developer Guide . The default behavior of AvailabilityZoneRebalancing differs between create and update requests:   For create service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults the value to ENABLED.   For update service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults to the existing service’s AvailabilityZoneRebalancing value. If the service never had an AvailabilityZoneRebalancing value set, Amazon ECS treats this as DISABLED.   This parameter doesn't trigger a new service deployment.
         public let availabilityZoneRebalancing: AvailabilityZoneRebalancing?
         /// The details of a capacity provider strategy. You can set a capacity provider when you
         /// 			create a cluster, run a task, or update a service. When you use Fargate, the capacity providers are FARGATE or
         /// 				FARGATE_SPOT. When you use Amazon EC2, the capacity providers are Auto Scaling groups. You can change capacity providers for rolling deployments and blue/green
-        /// 			deployments. The following list provides the valid transitions:   Update the Fargate launch type to an Auto Scaling group capacity provider.   Update the Amazon EC2 launch type to a Fargate capacity provider.   Update the Fargate capacity provider to an Auto Scaling group capacity provider.   Update the Amazon EC2 capacity provider to a Fargate capacity provider.    Update the Auto Scaling group or Fargate capacity provider back to the launch type. Pass an empty list in the capacityProviderStrategy parameter.   For information about Amazon Web Services CDK considerations, see Amazon Web Services CDK considerations.
+        /// 			deployments. The following list provides the valid transitions:   Update the Fargate launch type to an Auto Scaling group capacity provider.   Update the Amazon EC2 launch type to a Fargate capacity provider.   Update the Fargate capacity provider to an Auto Scaling group capacity provider.   Update the Amazon EC2 capacity provider to a Fargate capacity provider.    Update the Auto Scaling group or Fargate capacity provider back to the launch type. Pass an empty list in the capacityProviderStrategy parameter.   For information about Amazon Web Services CDK considerations, see Amazon Web Services CDK considerations. This parameter doesn't trigger a new service deployment.
         public let capacityProviderStrategy: [CapacityProviderStrategyItem]?
         /// The short name or full Amazon Resource Name (ARN) of the cluster that your service runs on.
         /// 			If you do not specify a cluster, the default cluster is assumed. You can't change the cluster name.
         public let cluster: String?
         /// Optional deployment parameters that control how many tasks run during the deployment
-        /// 			and the ordering of stopping and starting tasks.
+        /// 			and the ordering of stopping and starting tasks. This parameter doesn't trigger a new service deployment.
         public let deploymentConfiguration: DeploymentConfiguration?
         public let deploymentController: DeploymentController?
         /// The number of instantiations of the task to place and keep running in your
-        /// 			service.
+        /// 			service. This parameter doesn't trigger a new service deployment.
         public let desiredCount: Int?
         /// Determines whether to turn on Amazon ECS managed tags for the tasks in the service. For
         /// 			more information, see Tagging Your Amazon ECS
         /// 				Resources in the Amazon Elastic Container Service Developer Guide. Only tasks launched after the update will reflect the update. To update the tags on
         /// 			all tasks, set forceNewDeployment to true, so that Amazon ECS
-        /// 			starts new tasks with the updated tags.
+        /// 			starts new tasks with the updated tags. This parameter doesn't trigger a new service deployment.
         public let enableECSManagedTags: Bool?
         /// If true, this enables execute command functionality on all task
         /// 			containers. If you do not want to override the value that was set when the service was created,
-        /// 			you can set this to null when performing this action.
+        /// 			you can set this to null when performing this action. This parameter doesn't trigger a new service deployment.
         public let enableExecuteCommand: Bool?
         /// Determines whether to force a new deployment of the service. By default, deployments
         /// 			aren't forced. You can use this option to start a new deployment with no service
@@ -9133,7 +9703,7 @@ extension ECS {
         /// 			specify a health check grace period of up to 2,147,483,647 seconds (about 69 years).
         /// 			During that time, the Amazon ECS service scheduler ignores health check status. This grace
         /// 			period can prevent the service scheduler from marking tasks as unhealthy and stopping
-        /// 			them before they have time to come up.
+        /// 			them before they have time to come up. If your service has more running tasks than desired, unhealthy tasks in the grace period might be stopped to reach the desired count. This parameter doesn't trigger a new service deployment.
         public let healthCheckGracePeriodSeconds: Int?
         ///  You must have a service-linked role when you update this property  A list of Elastic Load Balancing load balancer objects. It contains the load balancer name, the
         /// 			container name, and the container port to access from the load balancer. The container
@@ -9148,32 +9718,32 @@ extension ECS {
         /// 			remove load balancers by using CreateTaskSet.
         /// 			Note that multiple target groups are not supported for external deployments. For more
         /// 			information see Register
-        /// 				multiple target groups with a service in the Amazon Elastic Container Service Developer Guide.  You can remove existing loadBalancers by passing an empty list.
+        /// 				multiple target groups with a service in the Amazon Elastic Container Service Developer Guide.  You can remove existing loadBalancers by passing an empty list. This parameter triggers a new service deployment.
         public let loadBalancers: [LoadBalancer]?
-        /// An object representing the network configuration for the service.
+        /// An object representing the network configuration for the service. This parameter triggers a new service deployment.
         public let networkConfiguration: NetworkConfiguration?
         /// An array of task placement constraint objects to update the service to use. If no
         /// 			value is specified, the existing placement constraints for the service will remain
         /// 			unchanged. If this value is specified, it will override any existing placement
         /// 			constraints defined for the service. To remove all existing placement constraints,
         /// 			specify an empty array. You can specify a maximum of 10 constraints for each task. This limit includes
-        /// 			constraints in the task definition and those specified at runtime.
+        /// 			constraints in the task definition and those specified at runtime. This parameter doesn't trigger a new service deployment.
         public let placementConstraints: [PlacementConstraint]?
         /// The task placement strategy objects to update the service to use. If no value is
         /// 			specified, the existing placement strategy for the service will remain unchanged. If
         /// 			this value is specified, it will override the existing placement strategy defined for
-        /// 			the service. To remove an existing placement strategy, specify an empty object. You can specify a maximum of five strategy rules for each service.
+        /// 			the service. To remove an existing placement strategy, specify an empty object. You can specify a maximum of five strategy rules for each service. This parameter doesn't trigger a new service deployment.
         public let placementStrategy: [PlacementStrategy]?
         /// The platform version that your tasks in the service run on. A platform version is only
         /// 			specified for tasks using the Fargate launch type. If a platform version
         /// 			is not specified, the LATEST platform version is used. For more
         /// 			information, see Fargate Platform
-        /// 				Versions in the Amazon Elastic Container Service Developer Guide.
+        /// 				Versions in the Amazon Elastic Container Service Developer Guide. This parameter triggers a new service deployment.
         public let platformVersion: String?
         /// Determines whether to propagate the tags from the task definition or the service to
         /// 			the task. If no value is specified, the tags aren't propagated. Only tasks launched after the update will reflect the update. To update the tags on
         /// 			all tasks, set forceNewDeployment to true, so that Amazon ECS
-        /// 			starts new tasks with the updated tags.
+        /// 			starts new tasks with the updated tags. This parameter doesn't trigger a new service deployment.
         public let propagateTags: PropagateTags?
         /// The name of the service to update.
         public let service: String
@@ -9183,7 +9753,7 @@ extension ECS {
         /// 	Tasks connect through a managed proxy container
         /// 	that collects logs and metrics for increased visibility.
         /// 	Only the tasks that Amazon ECS services create are supported with Service Connect.
-        /// 	For more information, see Service Connect in the Amazon Elastic Container Service Developer Guide.
+        /// 	For more information, see Service Connect in the Amazon Elastic Container Service Developer Guide. This parameter triggers a new service deployment.
         public let serviceConnectConfiguration: ServiceConnectConfiguration?
         ///  You must have a service-linked role when you update this property. For more information about the role see the CreateService request
         /// 				parameter  role .   The details for the service discovery registries to assign to this service. For more
@@ -9191,22 +9761,22 @@ extension ECS {
         /// 				Discovery. When you add, update, or remove the service registries configuration, Amazon ECS starts new
         /// 			tasks with the updated service registries configuration, and then stops the old tasks
         /// 			when the new tasks are running. You can remove existing serviceRegistries by passing an empty
-        /// 			list.
+        /// 			list. This parameter triggers a new service deployment.
         public let serviceRegistries: [ServiceRegistry]?
         /// The family and revision (family:revision) or
         /// 			full ARN of the task definition to run in your service. If a revision is
         /// 			not specified, the latest ACTIVE revision is used. If you modify the task
         /// 			definition with UpdateService, Amazon ECS spawns a task with the new version of
-        /// 			the task definition and then stops an old task after the new version is running.
+        /// 			the task definition and then stops an old task after the new version is running. This parameter triggers a new service deployment.
         public let taskDefinition: String?
         /// The details of the volume that was configuredAtLaunch. You can configure
         /// 			the size, volumeType, IOPS, throughput, snapshot and encryption in ServiceManagedEBSVolumeConfiguration. The name of the volume
         /// 			must match the name from the task definition. If set to null, no new
         /// 			deployment is triggered. Otherwise, if this configuration differs from the existing one,
-        /// 			it triggers a new deployment.
+        /// 			it triggers a new deployment. This parameter triggers a new service deployment.
         public let volumeConfigurations: [ServiceVolumeConfiguration]?
         /// An object representing the VPC Lattice configuration for the service being
-        /// 			updated.
+        /// 			updated. This parameter triggers a new service deployment.
         public let vpcLatticeConfigurations: [VpcLatticeConfiguration]?
 
         @inlinable
@@ -9381,6 +9951,24 @@ extension ECS {
         }
     }
 
+    public struct VCpuCountRangeRequest: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of vCPUs. Instance types with more vCPUs than this value are excluded from selection.
+        public let max: Int?
+        /// The minimum number of vCPUs. Instance types with fewer vCPUs than this value are excluded from selection.
+        public let min: Int
+
+        @inlinable
+        public init(max: Int? = nil, min: Int) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "max"
+            case min = "min"
+        }
+    }
+
     public struct VersionInfo: AWSEncodableShape & AWSDecodableShape {
         /// The Git commit hash for the Amazon ECS container agent build on the amazon-ecs-agent
         /// 			 GitHub repository.
@@ -9519,6 +10107,7 @@ public struct ECSErrorType: AWSErrorType {
         case attributeLimitExceededException = "AttributeLimitExceededException"
         case blockedException = "BlockedException"
         case clientException = "ClientException"
+        case clusterContainsCapacityProviderException = "ClusterContainsCapacityProviderException"
         case clusterContainsContainerInstancesException = "ClusterContainsContainerInstancesException"
         case clusterContainsServicesException = "ClusterContainsServicesException"
         case clusterContainsTasksException = "ClusterContainsTasksException"
@@ -9569,12 +10158,14 @@ public struct ECSErrorType: AWSErrorType {
     /// 			You can remove existing attributes on a resource with DeleteAttributes.
     public static var attributeLimitExceededException: Self { .init(.attributeLimitExceededException) }
     /// Your Amazon Web Services account was blocked. For more information, contact
-    /// 				Amazon Web ServicesSupport.
+    /// 				Amazon Web Services Support.
     public static var blockedException: Self { .init(.blockedException) }
     /// These errors are usually caused by a client action. This client action might be using
     /// 			an action or resource on behalf of a user that doesn't have permissions to use the
     /// 			action or resource. Or, it might be specifying an identifier that isn't valid.
     public static var clientException: Self { .init(.clientException) }
+    /// The cluster contains one or more capacity providers that prevent the requested operation. This exception occurs when you try to delete a cluster that still has active capacity providers, including Amazon ECS Managed Instances capacity providers. You must first delete all capacity providers from the cluster before you can delete the cluster itself.
+    public static var clusterContainsCapacityProviderException: Self { .init(.clusterContainsCapacityProviderException) }
     /// You can't delete a cluster that has registered container instances. First, deregister
     /// 			the container instances before you can delete the cluster. For more information, see
     /// 				DeregisterContainerInstance.

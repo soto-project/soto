@@ -25,6 +25,12 @@ import Foundation
 extension Synthetics {
     // MARK: Enums
 
+    public enum BrowserType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case chrome = "CHROME"
+        case firefox = "FIREFOX"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CanaryRunState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case passed = "PASSED"
@@ -199,16 +205,34 @@ extension Synthetics {
         }
     }
 
+    public struct BrowserConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The browser type associated with this browser configuration.
+        public let browserType: BrowserType?
+
+        @inlinable
+        public init(browserType: BrowserType? = nil) {
+            self.browserType = browserType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case browserType = "BrowserType"
+        }
+    }
+
     public struct Canary: AWSDecodableShape {
         /// A structure that contains the configuration for canary artifacts, including  the encryption-at-rest settings for artifacts that the canary uploads to Amazon S3.
         public let artifactConfig: ArtifactConfigOutput?
         /// The location in Amazon S3 where Synthetics stores artifacts from the runs of this canary. Artifacts include the log file, screenshots, and HAR files.
         public let artifactS3Location: String?
+        /// A structure that specifies the browser type to use for a canary run. CloudWatch Synthetics supports running canaries on both CHROME and FIREFOX browsers.  If not specified, browserConfigs defaults to Chrome.
+        public let browserConfigs: [BrowserConfig]?
         public let code: CanaryCodeOutput?
         /// Returns the dry run configurations for a canary.
         public let dryRunConfig: DryRunConfigOutput?
         /// The ARN of the Lambda function that is used as your canary's engine. For more information  about Lambda ARN format, see Resources and Conditions for Lambda Actions.
         public let engineArn: String?
+        /// A list of engine configurations for the canary, one for each browser type that the canary is configured to run on. All runtime versions syn-nodejs-puppeteer-11.0 and above, and syn-nodejs-playwright-3.0 and above, use engineConfigs only.  You can no longer use engineArn in these versions. Runtime versions older than syn-nodejs-puppeteer-11.0 and syn-nodejs-playwright-3.0 continue to support engineArn to ensure backward compatibility.
+        public let engineConfigs: [EngineConfig]?
         /// The ARN of the IAM role used to run the canary. This role must include lambda.amazonaws.com as a principal in the trust policy.
         public let executionRoleArn: String?
         /// The number of days to retain data about failed runs of this canary. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
@@ -234,15 +258,19 @@ extension Synthetics {
         public let timeline: CanaryTimeline?
         /// If this canary performs visual monitoring by comparing screenshots, this structure contains the ID of the canary run to use as the baseline for screenshots, and the coordinates of any parts of the screen to ignore during the visual monitoring comparison.
         public let visualReference: VisualReferenceOutput?
+        /// A list of visual reference configurations for the canary, one for each browser type that the canary is configured to run on. Visual references are used for visual monitoring comparisons.  syn-nodejs-puppeteer-11.0 and above, and syn-nodejs-playwright-3.0 and above, only supports visualReferences. visualReference field is not supported. Versions older than syn-nodejs-puppeteer-11.0 supports both visualReference and visualReferences for backward compatibility. It is recommended to use visualReferences for consistency and future compatibility.
+        public let visualReferences: [VisualReferenceOutput]?
         public let vpcConfig: VpcConfigOutput?
 
         @inlinable
-        public init(artifactConfig: ArtifactConfigOutput? = nil, artifactS3Location: String? = nil, code: CanaryCodeOutput? = nil, dryRunConfig: DryRunConfigOutput? = nil, engineArn: String? = nil, executionRoleArn: String? = nil, failureRetentionPeriodInDays: Int? = nil, id: String? = nil, name: String? = nil, provisionedResourceCleanup: ProvisionedResourceCleanupSetting? = nil, runConfig: CanaryRunConfigOutput? = nil, runtimeVersion: String? = nil, schedule: CanaryScheduleOutput? = nil, status: CanaryStatus? = nil, successRetentionPeriodInDays: Int? = nil, tags: [String: String]? = nil, timeline: CanaryTimeline? = nil, visualReference: VisualReferenceOutput? = nil, vpcConfig: VpcConfigOutput? = nil) {
+        public init(artifactConfig: ArtifactConfigOutput? = nil, artifactS3Location: String? = nil, browserConfigs: [BrowserConfig]? = nil, code: CanaryCodeOutput? = nil, dryRunConfig: DryRunConfigOutput? = nil, engineArn: String? = nil, engineConfigs: [EngineConfig]? = nil, executionRoleArn: String? = nil, failureRetentionPeriodInDays: Int? = nil, id: String? = nil, name: String? = nil, provisionedResourceCleanup: ProvisionedResourceCleanupSetting? = nil, runConfig: CanaryRunConfigOutput? = nil, runtimeVersion: String? = nil, schedule: CanaryScheduleOutput? = nil, status: CanaryStatus? = nil, successRetentionPeriodInDays: Int? = nil, tags: [String: String]? = nil, timeline: CanaryTimeline? = nil, visualReference: VisualReferenceOutput? = nil, visualReferences: [VisualReferenceOutput]? = nil, vpcConfig: VpcConfigOutput? = nil) {
             self.artifactConfig = artifactConfig
             self.artifactS3Location = artifactS3Location
+            self.browserConfigs = browserConfigs
             self.code = code
             self.dryRunConfig = dryRunConfig
             self.engineArn = engineArn
+            self.engineConfigs = engineConfigs
             self.executionRoleArn = executionRoleArn
             self.failureRetentionPeriodInDays = failureRetentionPeriodInDays
             self.id = id
@@ -256,15 +284,18 @@ extension Synthetics {
             self.tags = tags
             self.timeline = timeline
             self.visualReference = visualReference
+            self.visualReferences = visualReferences
             self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
             case artifactConfig = "ArtifactConfig"
             case artifactS3Location = "ArtifactS3Location"
+            case browserConfigs = "BrowserConfigs"
             case code = "Code"
             case dryRunConfig = "DryRunConfig"
             case engineArn = "EngineArn"
+            case engineConfigs = "EngineConfigs"
             case executionRoleArn = "ExecutionRoleArn"
             case failureRetentionPeriodInDays = "FailureRetentionPeriodInDays"
             case id = "Id"
@@ -278,16 +309,19 @@ extension Synthetics {
             case tags = "Tags"
             case timeline = "Timeline"
             case visualReference = "VisualReference"
+            case visualReferences = "VisualReferences"
             case vpcConfig = "VpcConfig"
         }
     }
 
     public struct CanaryCodeInput: AWSEncodableShape {
+        ///  BlueprintTypes is a list of templates that enable simplified canary creation. You can create canaries for common monitoring scenarios by providing only a JSON configuration file instead of writing custom scripts. The only supported value is multi-checks. Multi-checks monitors HTTP/DNS/SSL/TCP endpoints with built-in authentication schemes (Basic, API Key, OAuth, SigV4) and assertion capabilities. When you specify BlueprintTypes, the Handler field cannot be specified since the blueprint provides a pre-defined entry point.  BlueprintTypes is supported only on canaries for syn-nodejs-3.0 runtime or later.
+        public let blueprintTypes: [String]?
         /// A list of dependencies that should be used for running this canary. Specify the dependencies as a key-value pair, where the key is the type of dependency and the value is the dependency reference.
         public let dependencies: [Dependency]?
         /// The entry point to use for the source code when running the canary. For canaries that use the  syn-python-selenium-1.0 runtime or a syn-nodejs.puppeteer runtime earlier than syn-nodejs.puppeteer-3.4,  the handler must be specified as  fileName.handler. For  syn-python-selenium-1.1, syn-nodejs.puppeteer-3.4, and later runtimes, the handler can be specified as   fileName.functionName , or you can specify a folder where canary scripts reside as
-        ///  folder/fileName.functionName .
-        public let handler: String
+        ///  folder/fileName.functionName . This field is required when you don't specify BlueprintTypes and is not allowed when you specify BlueprintTypes.
+        public let handler: String?
         /// If your canary script is located in Amazon S3, specify the bucket name here. Do not include s3:// as the  start of the bucket name.
         public let s3Bucket: String?
         /// The Amazon S3 key of your script. For more information, see Working with Amazon S3 Objects.
@@ -298,7 +332,8 @@ extension Synthetics {
         public let zipFile: AWSBase64Data?
 
         @inlinable
-        public init(dependencies: [Dependency]? = nil, handler: String, s3Bucket: String? = nil, s3Key: String? = nil, s3Version: String? = nil, zipFile: AWSBase64Data? = nil) {
+        public init(blueprintTypes: [String]? = nil, dependencies: [Dependency]? = nil, handler: String? = nil, s3Bucket: String? = nil, s3Key: String? = nil, s3Version: String? = nil, zipFile: AWSBase64Data? = nil) {
+            self.blueprintTypes = blueprintTypes
             self.dependencies = dependencies
             self.handler = handler
             self.s3Bucket = s3Bucket
@@ -308,13 +343,18 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
+            try self.blueprintTypes?.forEach {
+                try validate($0, name: "blueprintTypes[]", parent: name, max: 128)
+                try validate($0, name: "blueprintTypes[]", parent: name, min: 1)
+                try validate($0, name: "blueprintTypes[]", parent: name, pattern: "^[0-9a-zA-Z_\\-\\.]+$")
+            }
+            try self.validate(self.blueprintTypes, name: "blueprintTypes", parent: name, max: 1)
             try self.dependencies?.forEach {
                 try $0.validate(name: "\(name).dependencies[]")
             }
             try self.validate(self.dependencies, name: "dependencies", parent: name, max: 1)
             try self.validate(self.handler, name: "handler", parent: name, max: 128)
-            try self.validate(self.handler, name: "handler", parent: name, min: 1)
-            try self.validate(self.handler, name: "handler", parent: name, pattern: "^([0-9a-zA-Z_-]+(\\/|\\.))*[0-9A-Za-z_\\\\-]+(\\.|::)[A-Za-z_][A-Za-z0-9_]*$")
+            try self.validate(self.handler, name: "handler", parent: name, pattern: "^(([0-9a-zA-Z_-]+(\\/|\\.))*[0-9A-Za-z_\\\\-]+(\\.|::)[A-Za-z_][A-Za-z0-9_]*)?$")
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 1024)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, min: 1)
             try self.validate(self.s3Key, name: "s3Key", parent: name, max: 1024)
@@ -326,6 +366,7 @@ extension Synthetics {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case blueprintTypes = "BlueprintTypes"
             case dependencies = "Dependencies"
             case handler = "Handler"
             case s3Bucket = "S3Bucket"
@@ -336,21 +377,25 @@ extension Synthetics {
     }
 
     public struct CanaryCodeOutput: AWSDecodableShape {
+        ///  BlueprintTypes is a list of templates that enable simplified canary creation. You can create canaries for common monitoring scenarios by providing only a JSON configuration file instead of writing custom scripts. The only supported value is multi-checks. Multi-checks monitors HTTP/DNS/SSL/TCP endpoints with built-in authentication schemes (Basic, API Key, OAuth, SigV4) and assertion capabilities. When you specify BlueprintTypes, the Handler field cannot be specified since the blueprint provides a pre-defined entry point.  BlueprintTypes is supported only on canaries for syn-nodejs-3.0 runtime or later.
+        public let blueprintTypes: [String]?
         /// A list of dependencies that are used for running this canary. The dependencies are specified as a key-value pair, where the key is the type of dependency and the value is the dependency reference.
         public let dependencies: [Dependency]?
-        /// The entry point to use for the source code when running the canary.
+        /// The entry point to use for the source code when running the canary. This field is required when you don't specify BlueprintTypes and is not allowed when you specify BlueprintTypes.
         public let handler: String?
         /// The ARN of the Lambda layer where Synthetics stores the canary script code.
         public let sourceLocationArn: String?
 
         @inlinable
-        public init(dependencies: [Dependency]? = nil, handler: String? = nil, sourceLocationArn: String? = nil) {
+        public init(blueprintTypes: [String]? = nil, dependencies: [Dependency]? = nil, handler: String? = nil, sourceLocationArn: String? = nil) {
+            self.blueprintTypes = blueprintTypes
             self.dependencies = dependencies
             self.handler = handler
             self.sourceLocationArn = sourceLocationArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case blueprintTypes = "BlueprintTypes"
             case dependencies = "Dependencies"
             case handler = "Handler"
             case sourceLocationArn = "SourceLocationArn"
@@ -392,6 +437,8 @@ extension Synthetics {
     public struct CanaryRun: AWSDecodableShape {
         /// The location where the canary stored artifacts from the run. Artifacts include  the log file, screenshots, and HAR files.
         public let artifactS3Location: String?
+        /// The browser type associated with this canary run.
+        public let browserType: BrowserType?
         /// Returns the dry run configurations for a canary.
         public let dryRunConfig: CanaryDryRunConfigOutput?
         /// A unique ID that identifies this canary run.
@@ -408,8 +455,9 @@ extension Synthetics {
         public let timeline: CanaryRunTimeline?
 
         @inlinable
-        public init(artifactS3Location: String? = nil, dryRunConfig: CanaryDryRunConfigOutput? = nil, id: String? = nil, name: String? = nil, retryAttempt: Int? = nil, scheduledRunId: String? = nil, status: CanaryRunStatus? = nil, timeline: CanaryRunTimeline? = nil) {
+        public init(artifactS3Location: String? = nil, browserType: BrowserType? = nil, dryRunConfig: CanaryDryRunConfigOutput? = nil, id: String? = nil, name: String? = nil, retryAttempt: Int? = nil, scheduledRunId: String? = nil, status: CanaryRunStatus? = nil, timeline: CanaryRunTimeline? = nil) {
             self.artifactS3Location = artifactS3Location
+            self.browserType = browserType
             self.dryRunConfig = dryRunConfig
             self.id = id
             self.name = name
@@ -421,6 +469,7 @@ extension Synthetics {
 
         private enum CodingKeys: String, CodingKey {
             case artifactS3Location = "ArtifactS3Location"
+            case browserType = "BrowserType"
             case dryRunConfig = "DryRunConfig"
             case id = "Id"
             case name = "Name"
@@ -456,7 +505,7 @@ extension Synthetics {
             try self.environmentVariables?.forEach {
                 try validate($0.key, name: "environmentVariables.key", parent: name, pattern: "^[a-zA-Z]([a-zA-Z0-9_])+$")
             }
-            try self.validate(self.ephemeralStorage, name: "ephemeralStorage", parent: name, max: 5120)
+            try self.validate(self.ephemeralStorage, name: "ephemeralStorage", parent: name, max: 10240)
             try self.validate(self.ephemeralStorage, name: "ephemeralStorage", parent: name, min: 1024)
             try self.validate(self.memoryInMB, name: "memoryInMB", parent: name, max: 3008)
             try self.validate(self.memoryInMB, name: "memoryInMB", parent: name, min: 960)
@@ -652,6 +701,8 @@ extension Synthetics {
         public let artifactConfig: ArtifactConfigInput?
         /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files.  The name of the  Amazon S3 bucket can't include a period (.).
         public let artifactS3Location: String
+        /// CloudWatch Synthetics now supports multibrowser canaries for syn-nodejs-puppeteer-11.0 and syn-nodejs-playwright-3.0 runtimes. This feature allows you to run your canaries on both  Firefox and Chrome browsers. To create a multibrowser canary, you need to specify the BrowserConfigs with a list of browsers you want to use.  If not specified, browserConfigs defaults to Chrome.
+        public let browserConfigs: [BrowserConfig]?
         /// A structure that includes the entry point from which the canary should start running your script. If the script is stored in  an Amazon S3 bucket, the bucket name, key, and version are also included.
         public let code: CanaryCodeInput
         /// The ARN of the IAM role to be used to run the canary. This role must already exist,  and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permissions:    s3:PutObject     s3:GetBucketLocation     s3:ListAllMyBuckets     cloudwatch:PutMetricData     logs:CreateLogGroup     logs:CreateLogStream     logs:PutLogEvents
@@ -678,9 +729,10 @@ extension Synthetics {
         public let vpcConfig: VpcConfigInput?
 
         @inlinable
-        public init(artifactConfig: ArtifactConfigInput? = nil, artifactS3Location: String, code: CanaryCodeInput, executionRoleArn: String, failureRetentionPeriodInDays: Int? = nil, name: String, provisionedResourceCleanup: ProvisionedResourceCleanupSetting? = nil, resourcesToReplicateTags: [ResourceToTag]? = nil, runConfig: CanaryRunConfigInput? = nil, runtimeVersion: String, schedule: CanaryScheduleInput, successRetentionPeriodInDays: Int? = nil, tags: [String: String]? = nil, vpcConfig: VpcConfigInput? = nil) {
+        public init(artifactConfig: ArtifactConfigInput? = nil, artifactS3Location: String, browserConfigs: [BrowserConfig]? = nil, code: CanaryCodeInput, executionRoleArn: String, failureRetentionPeriodInDays: Int? = nil, name: String, provisionedResourceCleanup: ProvisionedResourceCleanupSetting? = nil, resourcesToReplicateTags: [ResourceToTag]? = nil, runConfig: CanaryRunConfigInput? = nil, runtimeVersion: String, schedule: CanaryScheduleInput, successRetentionPeriodInDays: Int? = nil, tags: [String: String]? = nil, vpcConfig: VpcConfigInput? = nil) {
             self.artifactConfig = artifactConfig
             self.artifactS3Location = artifactS3Location
+            self.browserConfigs = browserConfigs
             self.code = code
             self.executionRoleArn = executionRoleArn
             self.failureRetentionPeriodInDays = failureRetentionPeriodInDays
@@ -699,6 +751,8 @@ extension Synthetics {
             try self.artifactConfig?.validate(name: "\(name).artifactConfig")
             try self.validate(self.artifactS3Location, name: "artifactS3Location", parent: name, max: 1024)
             try self.validate(self.artifactS3Location, name: "artifactS3Location", parent: name, min: 1)
+            try self.validate(self.browserConfigs, name: "browserConfigs", parent: name, max: 2)
+            try self.validate(self.browserConfigs, name: "browserConfigs", parent: name, min: 1)
             try self.code.validate(name: "\(name).code")
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 1)
@@ -730,6 +784,7 @@ extension Synthetics {
         private enum CodingKeys: String, CodingKey {
             case artifactConfig = "ArtifactConfig"
             case artifactS3Location = "ArtifactS3Location"
+            case browserConfigs = "BrowserConfigs"
             case code = "Code"
             case executionRoleArn = "ExecutionRoleArn"
             case failureRetentionPeriodInDays = "FailureRetentionPeriodInDays"
@@ -887,6 +942,8 @@ extension Synthetics {
     }
 
     public struct DescribeCanariesLastRunRequest: AWSEncodableShape {
+        /// The type of browser to use for the canary run.
+        public let browserType: BrowserType?
         /// Specify this parameter to limit how many runs are returned each time you use the DescribeLastRun operation. If you omit this parameter, the default of 100 is used.
         public let maxResults: Int?
         /// Use this parameter to return only canaries that match the names that you specify here. You can specify as many as five canary names. If you specify this parameter, the operation is successful only if you have authorization to view all the canaries that you specify in your request. If you do not have permission to view any of  the canaries, the request fails with a 403 response. You are required to use the Names parameter if you are logged on to a user or role that has an  IAM policy that restricts which canaries that you are allowed to view. For more information,  see  Limiting a user to viewing specific canaries.
@@ -895,7 +952,8 @@ extension Synthetics {
         public let nextToken: String?
 
         @inlinable
-        public init(maxResults: Int? = nil, names: [String]? = nil, nextToken: String? = nil) {
+        public init(browserType: BrowserType? = nil, maxResults: Int? = nil, names: [String]? = nil, nextToken: String? = nil) {
+            self.browserType = browserType
             self.maxResults = maxResults
             self.names = names
             self.nextToken = nextToken
@@ -916,6 +974,7 @@ extension Synthetics {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case browserType = "BrowserType"
             case maxResults = "MaxResults"
             case names = "Names"
             case nextToken = "NextToken"
@@ -1088,6 +1147,24 @@ extension Synthetics {
         private enum CodingKeys: String, CodingKey {
             case dryRunId = "DryRunId"
             case lastDryRunExecutionStatus = "LastDryRunExecutionStatus"
+        }
+    }
+
+    public struct EngineConfig: AWSDecodableShape {
+        /// The browser type associated with this engine configuration.
+        public let browserType: BrowserType?
+        /// Each engine configuration contains the ARN of the Lambda function that is used as the canary's engine for a specific browser type.
+        public let engineArn: String?
+
+        @inlinable
+        public init(browserType: BrowserType? = nil, engineArn: String? = nil) {
+            self.browserType = browserType
+            self.engineArn = engineArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case browserType = "BrowserType"
+            case engineArn = "EngineArn"
         }
     }
 
@@ -1580,6 +1657,8 @@ extension Synthetics {
         /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this
         ///  canary. Artifacts include the log file, screenshots, and HAR files.  The name of the  Amazon S3 bucket can't include a period (.).
         public let artifactS3Location: String?
+        /// A structure that specifies the browser type to use for a canary run. CloudWatch Synthetics supports running canaries on both CHROME and FIREFOX browsers.  If not specified, browserConfigs defaults to Chrome.
+        public let browserConfigs: [BrowserConfig]?
         public let code: CanaryCodeInput?
         /// The ARN of the IAM role to be used to run the canary. This role must already exist,  and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permissions:
         public let executionRoleArn: String?
@@ -1596,12 +1675,15 @@ extension Synthetics {
         /// The number of days to retain data about successful runs of this canary. If you omit  this field, the default of 31 days is used. The valid range is 1 to 455 days. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
         public let successRetentionPeriodInDays: Int?
         public let visualReference: VisualReferenceInput?
+        /// A list of visual reference configurations for the canary, one for each browser type that the canary is configured to run on. Visual references are used for visual monitoring comparisons.  syn-nodejs-puppeteer-11.0 and above, and syn-nodejs-playwright-3.0 and above, only supports visualReferences. visualReference field is not supported. Versions older than syn-nodejs-puppeteer-11.0 supports both visualReference and visualReferences for backward compatibility. It is recommended to use visualReferences for consistency and future compatibility.
+        public let visualReferences: [VisualReferenceInput]?
         public let vpcConfig: VpcConfigInput?
 
         @inlinable
-        public init(artifactConfig: ArtifactConfigInput? = nil, artifactS3Location: String? = nil, code: CanaryCodeInput? = nil, executionRoleArn: String? = nil, failureRetentionPeriodInDays: Int? = nil, name: String, provisionedResourceCleanup: ProvisionedResourceCleanupSetting? = nil, runConfig: CanaryRunConfigInput? = nil, runtimeVersion: String? = nil, successRetentionPeriodInDays: Int? = nil, visualReference: VisualReferenceInput? = nil, vpcConfig: VpcConfigInput? = nil) {
+        public init(artifactConfig: ArtifactConfigInput? = nil, artifactS3Location: String? = nil, browserConfigs: [BrowserConfig]? = nil, code: CanaryCodeInput? = nil, executionRoleArn: String? = nil, failureRetentionPeriodInDays: Int? = nil, name: String, provisionedResourceCleanup: ProvisionedResourceCleanupSetting? = nil, runConfig: CanaryRunConfigInput? = nil, runtimeVersion: String? = nil, successRetentionPeriodInDays: Int? = nil, visualReference: VisualReferenceInput? = nil, visualReferences: [VisualReferenceInput]? = nil, vpcConfig: VpcConfigInput? = nil) {
             self.artifactConfig = artifactConfig
             self.artifactS3Location = artifactS3Location
+            self.browserConfigs = browserConfigs
             self.code = code
             self.executionRoleArn = executionRoleArn
             self.failureRetentionPeriodInDays = failureRetentionPeriodInDays
@@ -1611,6 +1693,7 @@ extension Synthetics {
             self.runtimeVersion = runtimeVersion
             self.successRetentionPeriodInDays = successRetentionPeriodInDays
             self.visualReference = visualReference
+            self.visualReferences = visualReferences
             self.vpcConfig = vpcConfig
         }
 
@@ -1619,6 +1702,7 @@ extension Synthetics {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.artifactConfig, forKey: .artifactConfig)
             try container.encodeIfPresent(self.artifactS3Location, forKey: .artifactS3Location)
+            try container.encodeIfPresent(self.browserConfigs, forKey: .browserConfigs)
             try container.encodeIfPresent(self.code, forKey: .code)
             try container.encodeIfPresent(self.executionRoleArn, forKey: .executionRoleArn)
             try container.encodeIfPresent(self.failureRetentionPeriodInDays, forKey: .failureRetentionPeriodInDays)
@@ -1628,6 +1712,7 @@ extension Synthetics {
             try container.encodeIfPresent(self.runtimeVersion, forKey: .runtimeVersion)
             try container.encodeIfPresent(self.successRetentionPeriodInDays, forKey: .successRetentionPeriodInDays)
             try container.encodeIfPresent(self.visualReference, forKey: .visualReference)
+            try container.encodeIfPresent(self.visualReferences, forKey: .visualReferences)
             try container.encodeIfPresent(self.vpcConfig, forKey: .vpcConfig)
         }
 
@@ -1635,6 +1720,8 @@ extension Synthetics {
             try self.artifactConfig?.validate(name: "\(name).artifactConfig")
             try self.validate(self.artifactS3Location, name: "artifactS3Location", parent: name, max: 1024)
             try self.validate(self.artifactS3Location, name: "artifactS3Location", parent: name, min: 1)
+            try self.validate(self.browserConfigs, name: "browserConfigs", parent: name, max: 2)
+            try self.validate(self.browserConfigs, name: "browserConfigs", parent: name, min: 1)
             try self.code?.validate(name: "\(name).code")
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 1)
@@ -1650,12 +1737,18 @@ extension Synthetics {
             try self.validate(self.successRetentionPeriodInDays, name: "successRetentionPeriodInDays", parent: name, max: 1024)
             try self.validate(self.successRetentionPeriodInDays, name: "successRetentionPeriodInDays", parent: name, min: 1)
             try self.visualReference?.validate(name: "\(name).visualReference")
+            try self.visualReferences?.forEach {
+                try $0.validate(name: "\(name).visualReferences[]")
+            }
+            try self.validate(self.visualReferences, name: "visualReferences", parent: name, max: 2)
+            try self.validate(self.visualReferences, name: "visualReferences", parent: name, min: 1)
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
             case artifactConfig = "ArtifactConfig"
             case artifactS3Location = "ArtifactS3Location"
+            case browserConfigs = "BrowserConfigs"
             case code = "Code"
             case executionRoleArn = "ExecutionRoleArn"
             case failureRetentionPeriodInDays = "FailureRetentionPeriodInDays"
@@ -1664,6 +1757,7 @@ extension Synthetics {
             case runtimeVersion = "RuntimeVersion"
             case successRetentionPeriodInDays = "SuccessRetentionPeriodInDays"
             case visualReference = "VisualReference"
+            case visualReferences = "VisualReferences"
             case vpcConfig = "VpcConfig"
         }
     }
@@ -1825,6 +1919,8 @@ extension Synthetics {
         public let artifactConfig: ArtifactConfigInput?
         /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary.  Artifacts include the log file, screenshots, and HAR files. The name of the Amazon S3 bucket can't include a period (.).
         public let artifactS3Location: String?
+        /// A structure that specifies the browser type to use for a canary run. CloudWatch Synthetics supports running canaries on both CHROME and FIREFOX browsers.  If not specified, browserConfigs defaults to Chrome.
+        public let browserConfigs: [BrowserConfig]?
         /// A structure that includes the entry point from which the canary should start running your script. If the script is stored in  an Amazon S3 bucket, the bucket name, key, and version are also included.
         public let code: CanaryCodeInput?
         /// Update the existing canary using the updated configurations from the DryRun associated with the DryRunId.  When you use the dryRunId field when updating a canary, the only other field you can provide is the Schedule. Adding any other field will thrown an exception.
@@ -1847,13 +1943,16 @@ extension Synthetics {
         public let successRetentionPeriodInDays: Int?
         /// Defines the screenshots to use as the baseline for comparisons during visual monitoring comparisons during future runs of this canary. If you omit this  parameter, no changes are made to any baseline screenshots that the canary might be using already. Visual monitoring is supported only on canaries running the syn-puppeteer-node-3.2 runtime or later. For more information, see  Visual monitoring and  Visual monitoring blueprint
         public let visualReference: VisualReferenceInput?
+        /// A list of visual reference configurations for the canary, one for each browser type that the canary is configured to run on. Visual references are used for visual monitoring comparisons.  syn-nodejs-puppeteer-11.0 and above, and syn-nodejs-playwright-3.0 and above, only supports visualReferences. visualReference field is not supported. Versions older than syn-nodejs-puppeteer-11.0 supports both visualReference and visualReferences for backward compatibility. It is recommended to use visualReferences for consistency and future compatibility. For multibrowser visual monitoring,  you can update the baseline for all configured browsers in a single update call by specifying a list of VisualReference objects, one per browser.  Each VisualReference object maps to a specific browser configuration, allowing you to manage visual baselines for multiple browsers simultaneously. For single configuration canaries using Chrome browser (default browser), use visualReferences for syn-nodejs-puppeteer-11.0 and above, and syn-nodejs-playwright-3.0 and  above canaries. The browserType in the visualReference object is not mandatory.
+        public let visualReferences: [VisualReferenceInput]?
         /// If this canary is to test an endpoint in a VPC, this structure contains information about the subnet and security groups of the VPC endpoint.  For more information, see  Running a Canary in a VPC.
         public let vpcConfig: VpcConfigInput?
 
         @inlinable
-        public init(artifactConfig: ArtifactConfigInput? = nil, artifactS3Location: String? = nil, code: CanaryCodeInput? = nil, dryRunId: String? = nil, executionRoleArn: String? = nil, failureRetentionPeriodInDays: Int? = nil, name: String, provisionedResourceCleanup: ProvisionedResourceCleanupSetting? = nil, runConfig: CanaryRunConfigInput? = nil, runtimeVersion: String? = nil, schedule: CanaryScheduleInput? = nil, successRetentionPeriodInDays: Int? = nil, visualReference: VisualReferenceInput? = nil, vpcConfig: VpcConfigInput? = nil) {
+        public init(artifactConfig: ArtifactConfigInput? = nil, artifactS3Location: String? = nil, browserConfigs: [BrowserConfig]? = nil, code: CanaryCodeInput? = nil, dryRunId: String? = nil, executionRoleArn: String? = nil, failureRetentionPeriodInDays: Int? = nil, name: String, provisionedResourceCleanup: ProvisionedResourceCleanupSetting? = nil, runConfig: CanaryRunConfigInput? = nil, runtimeVersion: String? = nil, schedule: CanaryScheduleInput? = nil, successRetentionPeriodInDays: Int? = nil, visualReference: VisualReferenceInput? = nil, visualReferences: [VisualReferenceInput]? = nil, vpcConfig: VpcConfigInput? = nil) {
             self.artifactConfig = artifactConfig
             self.artifactS3Location = artifactS3Location
+            self.browserConfigs = browserConfigs
             self.code = code
             self.dryRunId = dryRunId
             self.executionRoleArn = executionRoleArn
@@ -1865,6 +1964,7 @@ extension Synthetics {
             self.schedule = schedule
             self.successRetentionPeriodInDays = successRetentionPeriodInDays
             self.visualReference = visualReference
+            self.visualReferences = visualReferences
             self.vpcConfig = vpcConfig
         }
 
@@ -1873,6 +1973,7 @@ extension Synthetics {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.artifactConfig, forKey: .artifactConfig)
             try container.encodeIfPresent(self.artifactS3Location, forKey: .artifactS3Location)
+            try container.encodeIfPresent(self.browserConfigs, forKey: .browserConfigs)
             try container.encodeIfPresent(self.code, forKey: .code)
             try container.encodeIfPresent(self.dryRunId, forKey: .dryRunId)
             try container.encodeIfPresent(self.executionRoleArn, forKey: .executionRoleArn)
@@ -1884,6 +1985,7 @@ extension Synthetics {
             try container.encodeIfPresent(self.schedule, forKey: .schedule)
             try container.encodeIfPresent(self.successRetentionPeriodInDays, forKey: .successRetentionPeriodInDays)
             try container.encodeIfPresent(self.visualReference, forKey: .visualReference)
+            try container.encodeIfPresent(self.visualReferences, forKey: .visualReferences)
             try container.encodeIfPresent(self.vpcConfig, forKey: .vpcConfig)
         }
 
@@ -1891,6 +1993,8 @@ extension Synthetics {
             try self.artifactConfig?.validate(name: "\(name).artifactConfig")
             try self.validate(self.artifactS3Location, name: "artifactS3Location", parent: name, max: 1024)
             try self.validate(self.artifactS3Location, name: "artifactS3Location", parent: name, min: 1)
+            try self.validate(self.browserConfigs, name: "browserConfigs", parent: name, max: 2)
+            try self.validate(self.browserConfigs, name: "browserConfigs", parent: name, min: 1)
             try self.code?.validate(name: "\(name).code")
             try self.validate(self.dryRunId, name: "dryRunId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
@@ -1908,12 +2012,18 @@ extension Synthetics {
             try self.validate(self.successRetentionPeriodInDays, name: "successRetentionPeriodInDays", parent: name, max: 1024)
             try self.validate(self.successRetentionPeriodInDays, name: "successRetentionPeriodInDays", parent: name, min: 1)
             try self.visualReference?.validate(name: "\(name).visualReference")
+            try self.visualReferences?.forEach {
+                try $0.validate(name: "\(name).visualReferences[]")
+            }
+            try self.validate(self.visualReferences, name: "visualReferences", parent: name, max: 2)
+            try self.validate(self.visualReferences, name: "visualReferences", parent: name, min: 1)
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
             case artifactConfig = "ArtifactConfig"
             case artifactS3Location = "ArtifactS3Location"
+            case browserConfigs = "BrowserConfigs"
             case code = "Code"
             case dryRunId = "DryRunId"
             case executionRoleArn = "ExecutionRoleArn"
@@ -1924,6 +2034,7 @@ extension Synthetics {
             case schedule = "Schedule"
             case successRetentionPeriodInDays = "SuccessRetentionPeriodInDays"
             case visualReference = "VisualReference"
+            case visualReferences = "VisualReferences"
             case vpcConfig = "VpcConfig"
         }
     }
@@ -1937,11 +2048,14 @@ extension Synthetics {
         public let baseCanaryRunId: String
         /// An array of screenshots that will be used as the baseline for visual monitoring in future runs of this canary. If there is a screenshot that you don't want to be used for visual monitoring, remove it from this array.
         public let baseScreenshots: [BaseScreenshot]?
+        /// The browser type associated with this visual reference.
+        public let browserType: BrowserType?
 
         @inlinable
-        public init(baseCanaryRunId: String, baseScreenshots: [BaseScreenshot]? = nil) {
+        public init(baseCanaryRunId: String, baseScreenshots: [BaseScreenshot]? = nil, browserType: BrowserType? = nil) {
             self.baseCanaryRunId = baseCanaryRunId
             self.baseScreenshots = baseScreenshots
+            self.browserType = browserType
         }
 
         public func validate(name: String) throws {
@@ -1955,6 +2069,7 @@ extension Synthetics {
         private enum CodingKeys: String, CodingKey {
             case baseCanaryRunId = "BaseCanaryRunId"
             case baseScreenshots = "BaseScreenshots"
+            case browserType = "BrowserType"
         }
     }
 
@@ -1963,16 +2078,20 @@ extension Synthetics {
         public let baseCanaryRunId: String?
         /// An array of screenshots that are used as the baseline for comparisons during visual monitoring.
         public let baseScreenshots: [BaseScreenshot]?
+        /// The browser type associated with this visual reference.
+        public let browserType: BrowserType?
 
         @inlinable
-        public init(baseCanaryRunId: String? = nil, baseScreenshots: [BaseScreenshot]? = nil) {
+        public init(baseCanaryRunId: String? = nil, baseScreenshots: [BaseScreenshot]? = nil, browserType: BrowserType? = nil) {
             self.baseCanaryRunId = baseCanaryRunId
             self.baseScreenshots = baseScreenshots
+            self.browserType = browserType
         }
 
         private enum CodingKeys: String, CodingKey {
             case baseCanaryRunId = "BaseCanaryRunId"
             case baseScreenshots = "BaseScreenshots"
+            case browserType = "BrowserType"
         }
     }
 

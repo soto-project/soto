@@ -107,7 +107,7 @@ public struct TimestreamInfluxDB: AWSService {
     ///   - networkType: Specifies whether the network type of the Timestream for InfluxDB cluster is IPv4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
     ///   - organization: The name of the initial organization for the initial admin user in InfluxDB. An InfluxDB organization is a workspace for a group of users.
     ///   - password: The password of the initial admin user created in InfluxDB. This password will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a secret created in Secrets Manager in your account.
-    ///   - port: The port number on which InfluxDB accepts connections. Valid Values: 1024-65535 Default: 8086 Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680
+    ///   - port: The port number on which InfluxDB accepts connections. Valid Values: 1024-65535 Default: 8086 for InfluxDB v2, 8181 for InfluxDB v3 Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680
     ///   - publiclyAccessible: Configures the Timestream for InfluxDB cluster with a public IP to facilitate access from outside the VPC.
     ///   - tags: A list of key-value pairs to associate with the DB instance.
     ///   - username: The username of the initial admin user created in InfluxDB. Must start with a letter and can't end with a hyphen or contain two consecutive hyphens. For example, my-user1. This username will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a secret created in Secrets Manager in your account.
@@ -116,18 +116,18 @@ public struct TimestreamInfluxDB: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createDbCluster(
-        allocatedStorage: Int,
+        allocatedStorage: Int? = nil,
         bucket: String? = nil,
         dbInstanceType: DbInstanceType,
         dbParameterGroupIdentifier: String? = nil,
         dbStorageType: DbStorageType? = nil,
-        deploymentType: ClusterDeploymentType,
+        deploymentType: ClusterDeploymentType? = nil,
         failoverMode: FailoverMode? = nil,
         logDeliveryConfiguration: LogDeliveryConfiguration? = nil,
         name: String,
         networkType: NetworkType? = nil,
         organization: String? = nil,
-        password: String,
+        password: String? = nil,
         port: Int? = nil,
         publiclyAccessible: Bool? = nil,
         tags: [String: String]? = nil,
@@ -185,7 +185,7 @@ public struct TimestreamInfluxDB: AWSService {
     ///   - name: The name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands. This name will also be a prefix included in the endpoint. DB instance names must be unique per customer and per region.
     ///   - networkType: Specifies whether the networkType of the Timestream for InfluxDB instance is IPV4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
     ///   - organization: The name of the initial organization for the initial admin user in InfluxDB. An InfluxDB organization is a workspace for a group of users.
-    ///   - password: The password of the initial admin user created in InfluxDB. This password will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a Secret created in Secrets Manager in your account.
+    ///   - password: The password of the initial admin user created in InfluxDB v2. This password will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a Secret created in Secrets Manager in your account.
     ///   - port: The port number on which InfluxDB accepts connections. Valid Values: 1024-65535 Default: 8086 Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680
     ///   - publiclyAccessible: Configures the DB instance with a public IP to facilitate access.
     ///   - tags: A list of key-value pairs to associate with the DB instance.

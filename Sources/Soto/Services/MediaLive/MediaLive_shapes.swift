@@ -292,6 +292,13 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum BurnInDestinationSubtitleRows: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case rows16 = "ROWS_16"
+        case rows20 = "ROWS_20"
+        case rows24 = "ROWS_24"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BurnInFontColor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case black = "BLACK"
         case blue = "BLUE"
@@ -587,6 +594,13 @@ extension MediaLive {
         case black = "BLACK"
         case none = "NONE"
         case white = "WHITE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DvbSubDestinationSubtitleRows: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case rows16 = "ROWS_16"
+        case rows20 = "ROWS_20"
+        case rows24 = "ROWS_24"
         public var description: String { return self.rawValue }
     }
 
@@ -1044,6 +1058,12 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum H265GopBReference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum H265GopSizeUnits: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case frames = "FRAMES"
         case seconds = "SECONDS"
@@ -1112,6 +1132,12 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum H265SubGopLength: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dynamic = "DYNAMIC"
+        case fixed = "FIXED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum H265Tier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "HIGH"
         case main = "MAIN"
@@ -1149,6 +1175,13 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum HlsAutoSelect: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case no = "NO"
+        case omit = "OMIT"
+        case yes = "YES"
+        public var description: String { return self.rawValue }
+    }
+
     public enum HlsCaptionLanguageSetting: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case insert = "INSERT"
         case none = "NONE"
@@ -1165,6 +1198,13 @@ extension MediaLive {
     public enum HlsCodecSpecification: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case rfc4281 = "RFC_4281"
         case rfc6381 = "RFC_6381"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsDefault: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case no = "NO"
+        case omit = "OMIT"
+        case yes = "YES"
         public var description: String { return self.rawValue }
     }
 
@@ -2473,6 +2513,20 @@ extension MediaLive {
         }
     }
 
+    public struct AdditionalDestinations: AWSEncodableShape & AWSDecodableShape {
+        /// The destination location
+        public let destination: OutputLocationRef?
+
+        @inlinable
+        public init(destination: OutputLocationRef? = nil) {
+            self.destination = destination
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "destination"
+        }
+    }
+
     public struct AncillarySourceSettings: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the number (1 to 4) of the captions channel you want to extract from the ancillary captions. If you plan to convert the ancillary captions to another format, complete this field. If you plan to choose Embedded as the captions destination in the output (to pass through all the channels in the ancillary captions), leave this field blank because MediaLive ignores the field.
         public let sourceAncillaryChannelNumber: Int?
@@ -2570,7 +2624,7 @@ extension MediaLive {
     }
 
     public struct ArchiveOutputSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Settings specific to the container type of the file.
+        /// Container for this output. Can be auto-detected from extension field.
         public let containerSettings: ArchiveContainerSettings?
         /// Output file extension. If excluded, this will be auto-selected from the container type.
         public let `extension`: String?
@@ -3089,7 +3143,7 @@ extension MediaLive {
         public let bitrate: Int?
         /// The size of the buffer (HRD buffer model) in bits.
         public let bufSize: Int?
-        /// Color Space settings
+        /// Specify the type of color space to apply or choose to pass through. The default is to pass through the color space that is in the source.
         public let colorSpaceSettings: Av1ColorSpaceSettings?
         /// Complete this property only if you set the afdSignaling property to FIXED. Choose the AFD value (4 bits) to write on all frames of the video encode.
         public let fixedAfd: FixedAfd?
@@ -3110,6 +3164,10 @@ extension MediaLive {
         /// The maximum bitrate to assign.
         /// For recommendations, see the description for qvbrQualityLevel.
         public let maxBitrate: Int?
+        /// Used for QVBR rate control mode only.
+        /// Optional.
+        /// Enter a minimum bitrate if you want to keep the output bitrate about a threshold, in order to prevent the downstream system from de-allocating network bandwidth for this output.
+        public let minBitrate: Int?
         /// Applies only if you enable SceneChangeDetect. Sets the interval between frames. This property ensures a minimum separation between repeated (cadence) I-frames and any I-frames inserted by scene change detection (SCD frames).
         /// Enter a number for the interval, measured in number of frames.
         /// If an SCD frame and a cadence frame are closer than the specified number of frames, MediaLive shrinks or stretches the GOP to include the SCD frame. Then normal cadence resumes in the next GOP. For GOP stretch to succeed, you must enable LookAheadRateControl.
@@ -3140,7 +3198,7 @@ extension MediaLive {
         public let timecodeBurninSettings: TimecodeBurninSettings?
 
         @inlinable
-        public init(afdSignaling: AfdSignaling? = nil, bitrate: Int? = nil, bufSize: Int? = nil, colorSpaceSettings: Av1ColorSpaceSettings? = nil, fixedAfd: FixedAfd? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopSize: Double? = nil, gopSizeUnits: Av1GopSizeUnits? = nil, level: Av1Level? = nil, lookAheadRateControl: Av1LookAheadRateControl? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: Av1RateControlMode? = nil, sceneChangeDetect: Av1SceneChangeDetect? = nil, timecodeBurninSettings: TimecodeBurninSettings? = nil) {
+        public init(afdSignaling: AfdSignaling? = nil, bitrate: Int? = nil, bufSize: Int? = nil, colorSpaceSettings: Av1ColorSpaceSettings? = nil, fixedAfd: FixedAfd? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopSize: Double? = nil, gopSizeUnits: Av1GopSizeUnits? = nil, level: Av1Level? = nil, lookAheadRateControl: Av1LookAheadRateControl? = nil, maxBitrate: Int? = nil, minBitrate: Int? = nil, minIInterval: Int? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: Av1RateControlMode? = nil, sceneChangeDetect: Av1SceneChangeDetect? = nil, timecodeBurninSettings: TimecodeBurninSettings? = nil) {
             self.afdSignaling = afdSignaling
             self.bitrate = bitrate
             self.bufSize = bufSize
@@ -3153,6 +3211,7 @@ extension MediaLive {
             self.level = level
             self.lookAheadRateControl = lookAheadRateControl
             self.maxBitrate = maxBitrate
+            self.minBitrate = minBitrate
             self.minIInterval = minIInterval
             self.parDenominator = parDenominator
             self.parNumerator = parNumerator
@@ -3163,16 +3222,18 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 8000000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 12000000)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 50000)
-            try self.validate(self.bufSize, name: "bufSize", parent: name, max: 16000000)
+            try self.validate(self.bufSize, name: "bufSize", parent: name, max: 24000000)
             try self.validate(self.bufSize, name: "bufSize", parent: name, min: 50000)
             try self.colorSpaceSettings?.validate(name: "\(name).colorSpaceSettings")
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 3003)
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
-            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 8000000)
+            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 12000000)
             try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, min: 50000)
+            try self.validate(self.minBitrate, name: "minBitrate", parent: name, max: 8000000)
+            try self.validate(self.minBitrate, name: "minBitrate", parent: name, min: 0)
             try self.validate(self.minIInterval, name: "minIInterval", parent: name, max: 30)
             try self.validate(self.minIInterval, name: "minIInterval", parent: name, min: 0)
             try self.validate(self.parDenominator, name: "parDenominator", parent: name, min: 1)
@@ -3195,6 +3256,7 @@ extension MediaLive {
             case level = "level"
             case lookAheadRateControl = "lookAheadRateControl"
             case maxBitrate = "maxBitrate"
+            case minBitrate = "minBitrate"
             case minIInterval = "minIInterval"
             case parDenominator = "parDenominator"
             case parNumerator = "parNumerator"
@@ -3641,6 +3703,8 @@ extension MediaLive {
         public let shadowXOffset: Int?
         /// Specifies the vertical offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels above the text.  All burn-in and DVB-Sub font settings must match.
         public let shadowYOffset: Int?
+        /// Applies only when the input captions are Teletext and the output captions are DVB-Sub or Burn-In. Choose the number of lines for the captions bitmap. The captions bitmap is 700 wide × 576 high and will be laid over the video. For example, a value of 16 divides the bitmap into 16 lines, with each line 36 pixels high (16 × 36 = 576). The default is 24 (24 pixels high). Enter the same number in every encode in every output that converts the same Teletext source to DVB-Sub or Burn-in.
+        public let subtitleRows: BurnInDestinationSubtitleRows?
         /// Controls whether a fixed grid size will be used to generate the output subtitles bitmap. Only applicable for Teletext inputs and DVB-Sub/Burn-in outputs.
         public let teletextGridControl: BurnInTeletextGridControl?
         /// Specifies the horizontal position of the caption relative to the left side of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the left of the output. If no explicit xPosition is provided, the horizontal caption position will be determined by the alignment parameter.  All burn-in and DVB-Sub font settings must match.
@@ -3649,7 +3713,7 @@ extension MediaLive {
         public let yPosition: Int?
 
         @inlinable
-        public init(alignment: BurnInAlignment? = nil, backgroundColor: BurnInBackgroundColor? = nil, backgroundOpacity: Int? = nil, font: InputLocation? = nil, fontColor: BurnInFontColor? = nil, fontOpacity: Int? = nil, fontResolution: Int? = nil, fontSize: String? = nil, outlineColor: BurnInOutlineColor? = nil, outlineSize: Int? = nil, shadowColor: BurnInShadowColor? = nil, shadowOpacity: Int? = nil, shadowXOffset: Int? = nil, shadowYOffset: Int? = nil, teletextGridControl: BurnInTeletextGridControl? = nil, xPosition: Int? = nil, yPosition: Int? = nil) {
+        public init(alignment: BurnInAlignment? = nil, backgroundColor: BurnInBackgroundColor? = nil, backgroundOpacity: Int? = nil, font: InputLocation? = nil, fontColor: BurnInFontColor? = nil, fontOpacity: Int? = nil, fontResolution: Int? = nil, fontSize: String? = nil, outlineColor: BurnInOutlineColor? = nil, outlineSize: Int? = nil, shadowColor: BurnInShadowColor? = nil, shadowOpacity: Int? = nil, shadowXOffset: Int? = nil, shadowYOffset: Int? = nil, subtitleRows: BurnInDestinationSubtitleRows? = nil, teletextGridControl: BurnInTeletextGridControl? = nil, xPosition: Int? = nil, yPosition: Int? = nil) {
             self.alignment = alignment
             self.backgroundColor = backgroundColor
             self.backgroundOpacity = backgroundOpacity
@@ -3664,6 +3728,7 @@ extension MediaLive {
             self.shadowOpacity = shadowOpacity
             self.shadowXOffset = shadowXOffset
             self.shadowYOffset = shadowYOffset
+            self.subtitleRows = subtitleRows
             self.teletextGridControl = teletextGridControl
             self.xPosition = xPosition
             self.yPosition = yPosition
@@ -3700,6 +3765,7 @@ extension MediaLive {
             case shadowOpacity = "shadowOpacity"
             case shadowXOffset = "shadowXOffset"
             case shadowYOffset = "shadowYOffset"
+            case subtitleRows = "subtitleRows"
             case teletextGridControl = "teletextGridControl"
             case xPosition = "xPosition"
             case yPosition = "yPosition"
@@ -4410,6 +4476,8 @@ extension MediaLive {
     }
 
     public struct CmafIngestGroupSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Optional an array of additional destinational HTTP destinations for the OutputGroup outputs
+        public let additionalDestinations: [AdditionalDestinations]?
         /// An array that identifies the languages in the four caption channels in the embedded captions.
         public let captionLanguageMappings: [CmafIngestCaptionLanguageMapping]?
         /// A HTTP destination for the tracks
@@ -4444,7 +4512,8 @@ extension MediaLive {
         public let timedMetadataPassthrough: CmafTimedMetadataPassthrough?
 
         @inlinable
-        public init(captionLanguageMappings: [CmafIngestCaptionLanguageMapping]? = nil, destination: OutputLocationRef? = nil, id3Behavior: CmafId3Behavior? = nil, id3NameModifier: String? = nil, klvBehavior: CmafKLVBehavior? = nil, klvNameModifier: String? = nil, nielsenId3Behavior: CmafNielsenId3Behavior? = nil, nielsenId3NameModifier: String? = nil, scte35NameModifier: String? = nil, scte35Type: Scte35Type? = nil, segmentLength: Int? = nil, segmentLengthUnits: CmafIngestSegmentLengthUnits? = nil, sendDelayMs: Int? = nil, timedMetadataId3Frame: CmafTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int? = nil, timedMetadataPassthrough: CmafTimedMetadataPassthrough? = nil) {
+        public init(additionalDestinations: [AdditionalDestinations]? = nil, captionLanguageMappings: [CmafIngestCaptionLanguageMapping]? = nil, destination: OutputLocationRef? = nil, id3Behavior: CmafId3Behavior? = nil, id3NameModifier: String? = nil, klvBehavior: CmafKLVBehavior? = nil, klvNameModifier: String? = nil, nielsenId3Behavior: CmafNielsenId3Behavior? = nil, nielsenId3NameModifier: String? = nil, scte35NameModifier: String? = nil, scte35Type: Scte35Type? = nil, segmentLength: Int? = nil, segmentLengthUnits: CmafIngestSegmentLengthUnits? = nil, sendDelayMs: Int? = nil, timedMetadataId3Frame: CmafTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int? = nil, timedMetadataPassthrough: CmafTimedMetadataPassthrough? = nil) {
+            self.additionalDestinations = additionalDestinations
             self.captionLanguageMappings = captionLanguageMappings
             self.destination = destination
             self.id3Behavior = id3Behavior
@@ -4479,6 +4548,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalDestinations = "additionalDestinations"
             case captionLanguageMappings = "captionLanguageMappings"
             case destination = "destination"
             case id3Behavior = "id3Behavior"
@@ -8084,6 +8154,8 @@ extension MediaLive {
         public let shadowXOffset: Int?
         /// Specifies the vertical offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels above the text.  All burn-in and DVB-Sub font settings must match.
         public let shadowYOffset: Int?
+        /// Applies only when the input captions are Teletext and the output captions are DVB-Sub or Burn-In. Choose the number of lines for the captions bitmap. The captions bitmap is 700 wide × 576 high and will be laid over the video. For example, a value of 16 divides the bitmap into 16 lines, with each line 36 pixels high (16 × 36 = 576). The default is 24 (24 pixels high). Enter the same number in every encode in every output that converts the same Teletext source to DVB-Sub or Burn-in.
+        public let subtitleRows: DvbSubDestinationSubtitleRows?
         /// Controls whether a fixed grid size will be used to generate the output subtitles bitmap. Only applicable for Teletext inputs and DVB-Sub/Burn-in outputs.
         public let teletextGridControl: DvbSubDestinationTeletextGridControl?
         /// Specifies the horizontal position of the caption relative to the left side of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the left of the output. If no explicit xPosition is provided, the horizontal caption position will be determined by the alignment parameter.  This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream.  All burn-in and DVB-Sub font settings must match.
@@ -8092,7 +8164,7 @@ extension MediaLive {
         public let yPosition: Int?
 
         @inlinable
-        public init(alignment: DvbSubDestinationAlignment? = nil, backgroundColor: DvbSubDestinationBackgroundColor? = nil, backgroundOpacity: Int? = nil, font: InputLocation? = nil, fontColor: DvbSubDestinationFontColor? = nil, fontOpacity: Int? = nil, fontResolution: Int? = nil, fontSize: String? = nil, outlineColor: DvbSubDestinationOutlineColor? = nil, outlineSize: Int? = nil, shadowColor: DvbSubDestinationShadowColor? = nil, shadowOpacity: Int? = nil, shadowXOffset: Int? = nil, shadowYOffset: Int? = nil, teletextGridControl: DvbSubDestinationTeletextGridControl? = nil, xPosition: Int? = nil, yPosition: Int? = nil) {
+        public init(alignment: DvbSubDestinationAlignment? = nil, backgroundColor: DvbSubDestinationBackgroundColor? = nil, backgroundOpacity: Int? = nil, font: InputLocation? = nil, fontColor: DvbSubDestinationFontColor? = nil, fontOpacity: Int? = nil, fontResolution: Int? = nil, fontSize: String? = nil, outlineColor: DvbSubDestinationOutlineColor? = nil, outlineSize: Int? = nil, shadowColor: DvbSubDestinationShadowColor? = nil, shadowOpacity: Int? = nil, shadowXOffset: Int? = nil, shadowYOffset: Int? = nil, subtitleRows: DvbSubDestinationSubtitleRows? = nil, teletextGridControl: DvbSubDestinationTeletextGridControl? = nil, xPosition: Int? = nil, yPosition: Int? = nil) {
             self.alignment = alignment
             self.backgroundColor = backgroundColor
             self.backgroundOpacity = backgroundOpacity
@@ -8107,6 +8179,7 @@ extension MediaLive {
             self.shadowOpacity = shadowOpacity
             self.shadowXOffset = shadowXOffset
             self.shadowYOffset = shadowYOffset
+            self.subtitleRows = subtitleRows
             self.teletextGridControl = teletextGridControl
             self.xPosition = xPosition
             self.yPosition = yPosition
@@ -8143,6 +8216,7 @@ extension MediaLive {
             case shadowOpacity = "shadowOpacity"
             case shadowXOffset = "shadowXOffset"
             case shadowYOffset = "shadowYOffset"
+            case subtitleRows = "subtitleRows"
             case teletextGridControl = "teletextGridControl"
             case xPosition = "xPosition"
             case yPosition = "yPosition"
@@ -9345,7 +9419,7 @@ extension MediaLive {
     }
 
     public struct H264Settings: AWSEncodableShape & AWSDecodableShape {
-        /// Enables or disables adaptive quantization, which is a technique MediaLive can apply to video on a frame-by-frame basis to produce more compression without losing quality. There are three types of adaptive quantization: flicker, spatial, and temporal. Set the field in one of these ways: Set to Auto. Recommended. For each type of AQ, MediaLive will determine if AQ is needed, and if so, the appropriate strength. Set a strength (a value other than Auto or Disable). This strength will apply to any of the AQ fields that you choose to enable. Set to Disabled to disable all types of adaptive quantization.
+        /// Enables or disables adaptive quantization (AQ), which is a technique MediaLive can apply to video on a frame-by-frame basis to produce more compression without losing quality. There are three types of adaptive quantization: spatial, temporal, and flicker. We recommend that you set the field to Auto. For more information about all the options, see the topic about video adaptive quantization in the MediaLive user guide.
         public let adaptiveQuantization: H264AdaptiveQuantization?
         /// Indicates that AFD values will be written into the output stream.  If afdSignaling is "auto", the system will try to preserve the input AFD value (in cases where multiple AFD values are valid). If set to "fixed", the AFD value will be the value configured in the fixedAfd parameter.
         public let afdSignaling: AfdSignaling?
@@ -9357,7 +9431,7 @@ extension MediaLive {
         public let bufSize: Int?
         /// Includes colorspace metadata in the output.
         public let colorMetadata: H264ColorMetadata?
-        /// Color Space settings
+        /// Specify the type of color space to apply or choose to pass through. The default is to pass through the color space that is in the source.
         public let colorSpaceSettings: H264ColorSpaceSettings?
         /// Entropy encoding mode.  Use cabac (must be in Main or High profile) or cavlc.
         public let entropyEncoding: H264EntropyEncoding?
@@ -9370,7 +9444,7 @@ extension MediaLive {
         public let filterSettings: H264FilterSettings?
         /// Four bit AFD value to write on all frames of video in the output stream. Only valid when afdSignaling is set to 'Fixed'.
         public let fixedAfd: FixedAfd?
-        /// Flicker AQ makes adjustments within each frame to reduce flicker or 'pop' on I-frames. The value to enter in this field depends on the value in the Adaptive quantization field: If you have set the Adaptive quantization field to Auto, MediaLive ignores any value in this field. MediaLive will determine if flicker AQ is appropriate and will apply the appropriate strength. If you have set the Adaptive quantization field to a strength, you can set this field to Enabled or Disabled. Enabled: MediaLive will apply flicker AQ using the specified strength. Disabled: MediaLive won't apply flicker AQ. If you have set the Adaptive quantization to Disabled, MediaLive ignores any value in this field and doesn't apply flicker AQ.
+        /// Flicker AQ makes adjustments within each frame to reduce flicker or 'pop' on I-frames. The value to enter in this field depends on the value in the Adaptive quantization field. For more information, see the topic about video adaptive quantization in the MediaLive user guide.
         public let flickerAq: H264FlickerAq?
         /// This setting applies only when scan type is "interlaced." It controls whether coding is performed on a field basis or on a frame basis. (When the video is progressive, the coding is always performed on a frame basis.)
         /// enabled: Force MediaLive to code on a field basis, so that odd and even sets of fields are coded separately.
@@ -9401,6 +9475,10 @@ extension MediaLive {
         /// For QVBR: See the tooltip for Quality level
         /// For VBR: Set the maximum bitrate in order to accommodate expected spikes in the complexity of the video.
         public let maxBitrate: Int?
+        /// Used for QVBR rate control mode only.
+        /// Optional.
+        /// Enter a minimum bitrate if you want to keep the output bitrate about a threshold, in order to prevent the downstream system from de-allocating network bandwidth for this output.
+        public let minBitrate: Int?
         /// Only meaningful if sceneChangeDetect is set to enabled.  Defaults to 5 if multiplex rate control is used.  Enforces separation between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection. If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The normal cadence resumes for the next GOP. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1
         public let minIInterval: Int?
         /// Sets the minimum QP. If you aren't familiar with quantization adjustment, leave the field empty. MediaLive will
@@ -9448,13 +9526,13 @@ extension MediaLive {
         public let slices: Int?
         /// Softness. Selects quantizer matrix, larger values reduce high-frequency content in the encoded image.  If not set to zero, must be greater than 15.
         public let softness: Int?
-        /// Spatial AQ makes adjustments within each frame based on spatial variation of content complexity. The value to enter in this field depends on the value in the Adaptive quantization field: If you have set the Adaptive quantization field to Auto, MediaLive ignores any value in this field. MediaLive will determine if spatial AQ is appropriate and will apply the appropriate strength. If you have set the Adaptive quantization field to a strength, you can set this field to Enabled or Disabled. Enabled: MediaLive will apply spatial AQ using the specified strength. Disabled: MediaLive won't apply spatial AQ. If you have set the Adaptive quantization to Disabled, MediaLive ignores any value in this field and doesn't apply spatial AQ.
+        /// Spatial AQ makes adjustments within each frame based on spatial variation of content complexity. The value to enter in this field depends on the value in the Adaptive quantization field. For more information, see the topic about video adaptive quantization in the MediaLive user guide.
         public let spatialAq: H264SpatialAq?
         /// If set to fixed, use gopNumBFrames B-frames per sub-GOP. If set to dynamic, optimize the number of B-frames used for each sub-GOP to improve visual quality.
         public let subgopLength: H264SubGopLength?
         /// Produces a bitstream compliant with SMPTE RP-2027.
         public let syntax: H264Syntax?
-        /// Temporal makes adjustments within each frame based on temporal variation of content complexity. The value to enter in this field depends on the value in the Adaptive quantization field: If you have set the Adaptive quantization field to Auto, MediaLive ignores any value in this field. MediaLive will determine if temporal AQ is appropriate and will apply the appropriate strength. If you have set the Adaptive quantization field to a strength, you can set this field to Enabled or Disabled. Enabled: MediaLive will apply temporal AQ using the specified strength. Disabled: MediaLive won't apply temporal AQ. If you have set the Adaptive quantization to Disabled, MediaLive ignores any value in this field and doesn't apply temporal AQ.
+        /// Temporal makes adjustments within each frame based on variations in content complexity over time. The value to enter in this field depends on the value in the Adaptive quantization field. For more information, see the topic about video adaptive quantization in the MediaLive user guide.
         public let temporalAq: H264TemporalAq?
         /// Timecode burn-in settings
         public let timecodeBurninSettings: TimecodeBurninSettings?
@@ -9464,7 +9542,7 @@ extension MediaLive {
         public let timecodeInsertion: H264TimecodeInsertionBehavior?
 
         @inlinable
-        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, bitrate: Int? = nil, bufFillPct: Int? = nil, bufSize: Int? = nil, colorMetadata: H264ColorMetadata? = nil, colorSpaceSettings: H264ColorSpaceSettings? = nil, entropyEncoding: H264EntropyEncoding? = nil, filterSettings: H264FilterSettings? = nil, fixedAfd: FixedAfd? = nil, flickerAq: H264FlickerAq? = nil, forceFieldPictures: H264ForceFieldPictures? = nil, framerateControl: H264FramerateControl? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int? = nil, gopNumBFrames: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, level: H264Level? = nil, lookAheadRateControl: H264LookAheadRateControl? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, minQp: Int? = nil, numRefFrames: Int? = nil, parControl: H264ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, profile: H264Profile? = nil, qualityLevel: H264QualityLevel? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: H264RateControlMode? = nil, scanType: H264ScanType? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int? = nil, softness: Int? = nil, spatialAq: H264SpatialAq? = nil, subgopLength: H264SubGopLength? = nil, syntax: H264Syntax? = nil, temporalAq: H264TemporalAq? = nil, timecodeBurninSettings: TimecodeBurninSettings? = nil, timecodeInsertion: H264TimecodeInsertionBehavior? = nil) {
+        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, bitrate: Int? = nil, bufFillPct: Int? = nil, bufSize: Int? = nil, colorMetadata: H264ColorMetadata? = nil, colorSpaceSettings: H264ColorSpaceSettings? = nil, entropyEncoding: H264EntropyEncoding? = nil, filterSettings: H264FilterSettings? = nil, fixedAfd: FixedAfd? = nil, flickerAq: H264FlickerAq? = nil, forceFieldPictures: H264ForceFieldPictures? = nil, framerateControl: H264FramerateControl? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int? = nil, gopNumBFrames: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, level: H264Level? = nil, lookAheadRateControl: H264LookAheadRateControl? = nil, maxBitrate: Int? = nil, minBitrate: Int? = nil, minIInterval: Int? = nil, minQp: Int? = nil, numRefFrames: Int? = nil, parControl: H264ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, profile: H264Profile? = nil, qualityLevel: H264QualityLevel? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: H264RateControlMode? = nil, scanType: H264ScanType? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int? = nil, softness: Int? = nil, spatialAq: H264SpatialAq? = nil, subgopLength: H264SubGopLength? = nil, syntax: H264Syntax? = nil, temporalAq: H264TemporalAq? = nil, timecodeBurninSettings: TimecodeBurninSettings? = nil, timecodeInsertion: H264TimecodeInsertionBehavior? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.afdSignaling = afdSignaling
             self.bitrate = bitrate
@@ -9488,6 +9566,7 @@ extension MediaLive {
             self.level = level
             self.lookAheadRateControl = lookAheadRateControl
             self.maxBitrate = maxBitrate
+            self.minBitrate = minBitrate
             self.minIInterval = minIInterval
             self.minQp = minQp
             self.numRefFrames = numRefFrames
@@ -9521,6 +9600,7 @@ extension MediaLive {
             try self.validate(self.gopNumBFrames, name: "gopNumBFrames", parent: name, max: 7)
             try self.validate(self.gopNumBFrames, name: "gopNumBFrames", parent: name, min: 0)
             try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, min: 1000)
+            try self.validate(self.minBitrate, name: "minBitrate", parent: name, min: 0)
             try self.validate(self.minIInterval, name: "minIInterval", parent: name, max: 30)
             try self.validate(self.minIInterval, name: "minIInterval", parent: name, min: 0)
             try self.validate(self.minQp, name: "minQp", parent: name, max: 51)
@@ -9562,6 +9642,7 @@ extension MediaLive {
             case level = "level"
             case lookAheadRateControl = "lookAheadRateControl"
             case maxBitrate = "maxBitrate"
+            case minBitrate = "minBitrate"
             case minIInterval = "minIInterval"
             case minQp = "minQp"
             case numRefFrames = "numRefFrames"
@@ -9631,7 +9712,7 @@ extension MediaLive {
     }
 
     public struct H265Settings: AWSEncodableShape & AWSDecodableShape {
-        /// Adaptive quantization. Allows intra-frame quantizers to vary to improve visual quality.
+        /// Enables or disables adaptive quantization (AQ), which is a technique MediaLive can apply to video on a frame-by-frame basis to produce more compression without losing quality. There are three types of adaptive quantization: spatial, temporal, and flicker. Flicker is the only type that you can customize. We recommend that you set the field to Auto. For more information about all the options, see the topic about video adaptive quantization in the MediaLive user guide.
         public let adaptiveQuantization: H265AdaptiveQuantization?
         /// Indicates that AFD values will be written into the output stream.  If afdSignaling is "auto", the system will try to preserve the input AFD value (in cases where multiple AFD values are valid). If set to "fixed", the AFD value will be the value configured in the fixedAfd parameter.
         public let afdSignaling: AfdSignaling?
@@ -9643,7 +9724,7 @@ extension MediaLive {
         public let bufSize: Int?
         /// Includes colorspace metadata in the output.
         public let colorMetadata: H265ColorMetadata?
-        /// Color Space settings
+        /// Specify the type of color space to apply or choose to pass through. The default is to pass through the color space that is in the source.
         public let colorSpaceSettings: H265ColorSpaceSettings?
         /// Enable or disable the deblocking filter for this codec. The filter reduces blocking artifacts at block boundaries,
         /// which improves overall video quality. If the filter is disabled, visible block edges might appear in the output,
@@ -9658,14 +9739,22 @@ extension MediaLive {
         public let filterSettings: H265FilterSettings?
         /// Four bit AFD value to write on all frames of video in the output stream. Only valid when afdSignaling is set to 'Fixed'.
         public let fixedAfd: FixedAfd?
-        /// If set to enabled, adjust quantization within each frame to reduce flicker or 'pop' on I-frames.
+        /// Flicker AQ makes adjustments within each frame to reduce flicker or 'pop' on I-frames. The value to enter in this field depends on the value in the Adaptive quantization field. For more information, see the topic about video adaptive quantization in the MediaLive user guide.
         public let flickerAq: H265FlickerAq?
         /// Framerate denominator.
         public let framerateDenominator: Int?
         /// Framerate numerator - framerate is a fraction, e.g. 24000 / 1001 = 23.976 fps.
         public let framerateNumerator: Int?
+        /// Allows the encoder to use a B-Frame as a reference frame as well.
+        /// ENABLED: B-frames will also serve as reference frames.
+        /// DISABLED: B-frames won't be reference frames.
+        /// Must be DISABLED if resolution is greater than 1080p or when using tiled hevc encoding.
+        public let gopBReference: H265GopBReference?
         /// Frequency of closed GOPs. In streaming applications, it is recommended that this be set to 1 so a decoder joining mid-stream will receive an IDR frame as quickly as possible. Setting this value to 0 will break output segmenting.
         public let gopClosedCadence: Int?
+        /// Sets the number of B-frames between reference frames.
+        /// Set to 2 if resolution is greater than 1080p or when using tiled hevc encoding.
+        public let gopNumBFrames: Int?
         /// GOP size (keyframe interval) in units of either frames or seconds per gopSizeUnits.
         /// If gopSizeUnits is frames, gopSize must be an integer and must be greater than or equal to 1.
         /// If gopSizeUnits is seconds, gopSize must be greater than 0, but need not be an integer.
@@ -9678,6 +9767,10 @@ extension MediaLive {
         public let lookAheadRateControl: H265LookAheadRateControl?
         /// For QVBR: See the tooltip for Quality level
         public let maxBitrate: Int?
+        /// Used for QVBR rate control mode only.
+        /// Optional.
+        /// Enter a minimum bitrate if you want to keep the output bitrate about a threshold, in order to prevent the downstream system from de-allocating network bandwidth for this output.
+        public let minBitrate: Int?
         /// Only meaningful if sceneChangeDetect is set to enabled.  Defaults to 5 if multiplex rate control is used.  Enforces separation between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection. If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The normal cadence resumes for the next GOP. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1
         public let minIInterval: Int?
         /// Sets the minimum QP. If you aren't familiar with quantization adjustment, leave the field empty. MediaLive will
@@ -9714,6 +9807,11 @@ extension MediaLive {
         /// Number of slices per picture. Must be less than or equal to the number of macroblock rows for progressive pictures, and less than or equal to half the number of macroblock rows for interlaced pictures.
         /// This field is optional; when no value is specified the encoder will choose the number of slices based on encode resolution.
         public let slices: Int?
+        /// Sets the number of B-frames in each sub-GOP.
+        /// FIXED: Use the value in Num B-frames.
+        /// DYNAMIC: Optimizes the number of B-frames in each sub-GOP to improve visual quality.
+        /// Must be FIXED if resolution is greater than 1080p or when using tiled hevc encoding.
+        public let subgopLength: H265SubGopLength?
         /// H.265 Tier.
         public let tier: H265Tier?
         /// Set this field to set up the picture as a tile. You must also set tileWidth.
@@ -9739,7 +9837,7 @@ extension MediaLive {
         public let treeblockSize: H265TreeblockSize?
 
         @inlinable
-        public init(adaptiveQuantization: H265AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, alternativeTransferFunction: H265AlternativeTransferFunction? = nil, bitrate: Int? = nil, bufSize: Int? = nil, colorMetadata: H265ColorMetadata? = nil, colorSpaceSettings: H265ColorSpaceSettings? = nil, deblocking: H265Deblocking? = nil, filterSettings: H265FilterSettings? = nil, fixedAfd: FixedAfd? = nil, flickerAq: H265FlickerAq? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H265GopSizeUnits? = nil, level: H265Level? = nil, lookAheadRateControl: H265LookAheadRateControl? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, minQp: Int? = nil, mvOverPictureBoundaries: H265MvOverPictureBoundaries? = nil, mvTemporalPredictor: H265MvTemporalPredictor? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, profile: H265Profile? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: H265RateControlMode? = nil, scanType: H265ScanType? = nil, sceneChangeDetect: H265SceneChangeDetect? = nil, slices: Int? = nil, tier: H265Tier? = nil, tileHeight: Int? = nil, tilePadding: H265TilePadding? = nil, tileWidth: Int? = nil, timecodeBurninSettings: TimecodeBurninSettings? = nil, timecodeInsertion: H265TimecodeInsertionBehavior? = nil, treeblockSize: H265TreeblockSize? = nil) {
+        public init(adaptiveQuantization: H265AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, alternativeTransferFunction: H265AlternativeTransferFunction? = nil, bitrate: Int? = nil, bufSize: Int? = nil, colorMetadata: H265ColorMetadata? = nil, colorSpaceSettings: H265ColorSpaceSettings? = nil, deblocking: H265Deblocking? = nil, filterSettings: H265FilterSettings? = nil, fixedAfd: FixedAfd? = nil, flickerAq: H265FlickerAq? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H265GopBReference? = nil, gopClosedCadence: Int? = nil, gopNumBFrames: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H265GopSizeUnits? = nil, level: H265Level? = nil, lookAheadRateControl: H265LookAheadRateControl? = nil, maxBitrate: Int? = nil, minBitrate: Int? = nil, minIInterval: Int? = nil, minQp: Int? = nil, mvOverPictureBoundaries: H265MvOverPictureBoundaries? = nil, mvTemporalPredictor: H265MvTemporalPredictor? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, profile: H265Profile? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: H265RateControlMode? = nil, scanType: H265ScanType? = nil, sceneChangeDetect: H265SceneChangeDetect? = nil, slices: Int? = nil, subgopLength: H265SubGopLength? = nil, tier: H265Tier? = nil, tileHeight: Int? = nil, tilePadding: H265TilePadding? = nil, tileWidth: Int? = nil, timecodeBurninSettings: TimecodeBurninSettings? = nil, timecodeInsertion: H265TimecodeInsertionBehavior? = nil, treeblockSize: H265TreeblockSize? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.afdSignaling = afdSignaling
             self.alternativeTransferFunction = alternativeTransferFunction
@@ -9753,12 +9851,15 @@ extension MediaLive {
             self.flickerAq = flickerAq
             self.framerateDenominator = framerateDenominator
             self.framerateNumerator = framerateNumerator
+            self.gopBReference = gopBReference
             self.gopClosedCadence = gopClosedCadence
+            self.gopNumBFrames = gopNumBFrames
             self.gopSize = gopSize
             self.gopSizeUnits = gopSizeUnits
             self.level = level
             self.lookAheadRateControl = lookAheadRateControl
             self.maxBitrate = maxBitrate
+            self.minBitrate = minBitrate
             self.minIInterval = minIInterval
             self.minQp = minQp
             self.mvOverPictureBoundaries = mvOverPictureBoundaries
@@ -9771,6 +9872,7 @@ extension MediaLive {
             self.scanType = scanType
             self.sceneChangeDetect = sceneChangeDetect
             self.slices = slices
+            self.subgopLength = subgopLength
             self.tier = tier
             self.tileHeight = tileHeight
             self.tilePadding = tilePadding
@@ -9790,8 +9892,12 @@ extension MediaLive {
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
             try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, min: 0)
+            try self.validate(self.gopNumBFrames, name: "gopNumBFrames", parent: name, max: 3)
+            try self.validate(self.gopNumBFrames, name: "gopNumBFrames", parent: name, min: 0)
             try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 40000000)
             try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, min: 100000)
+            try self.validate(self.minBitrate, name: "minBitrate", parent: name, max: 40000000)
+            try self.validate(self.minBitrate, name: "minBitrate", parent: name, min: 0)
             try self.validate(self.minIInterval, name: "minIInterval", parent: name, max: 30)
             try self.validate(self.minIInterval, name: "minIInterval", parent: name, min: 0)
             try self.validate(self.minQp, name: "minQp", parent: name, max: 51)
@@ -9823,12 +9929,15 @@ extension MediaLive {
             case flickerAq = "flickerAq"
             case framerateDenominator = "framerateDenominator"
             case framerateNumerator = "framerateNumerator"
+            case gopBReference = "gopBReference"
             case gopClosedCadence = "gopClosedCadence"
+            case gopNumBFrames = "gopNumBFrames"
             case gopSize = "gopSize"
             case gopSizeUnits = "gopSizeUnits"
             case level = "level"
             case lookAheadRateControl = "lookAheadRateControl"
             case maxBitrate = "maxBitrate"
+            case minBitrate = "minBitrate"
             case minIInterval = "minIInterval"
             case minQp = "minQp"
             case mvOverPictureBoundaries = "mvOverPictureBoundaries"
@@ -9841,6 +9950,7 @@ extension MediaLive {
             case scanType = "scanType"
             case sceneChangeDetect = "sceneChangeDetect"
             case slices = "slices"
+            case subgopLength = "subgopLength"
             case tier = "tier"
             case tileHeight = "tileHeight"
             case tilePadding = "tilePadding"
@@ -13034,14 +13144,22 @@ extension MediaLive {
     public struct MediaPackageGroupSettings: AWSEncodableShape & AWSDecodableShape {
         /// MediaPackage channel destination.
         public let destination: OutputLocationRef?
+        /// Parameters that apply only if the destination parameter (for the output group) specifies a channelGroup and channelName. Use of these two paramters indicates that the output group is for MediaPackage V2 (CMAF Ingest).
+        public let mediapackageV2GroupSettings: MediaPackageV2GroupSettings?
 
         @inlinable
-        public init(destination: OutputLocationRef? = nil) {
+        public init(destination: OutputLocationRef? = nil, mediapackageV2GroupSettings: MediaPackageV2GroupSettings? = nil) {
             self.destination = destination
+            self.mediapackageV2GroupSettings = mediapackageV2GroupSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.mediapackageV2GroupSettings?.validate(name: "\(name).mediapackageV2GroupSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
             case destination = "destination"
+            case mediapackageV2GroupSettings = "mediapackageV2GroupSettings"
         }
     }
 
@@ -13074,7 +13192,104 @@ extension MediaLive {
     }
 
     public struct MediaPackageOutputSettings: AWSEncodableShape & AWSDecodableShape {
-        public init() {}
+        /// Optional settings for MediaPackage V2 destinations
+        public let mediaPackageV2DestinationSettings: MediaPackageV2DestinationSettings?
+
+        @inlinable
+        public init(mediaPackageV2DestinationSettings: MediaPackageV2DestinationSettings? = nil) {
+            self.mediaPackageV2DestinationSettings = mediaPackageV2DestinationSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mediaPackageV2DestinationSettings = "mediaPackageV2DestinationSettings"
+        }
+    }
+
+    public struct MediaPackageV2DestinationSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Applies only to an output that contains audio. If you want to put several audio encodes into one audio rendition group, decide on a name (ID) for the group. Then in every audio output that you want to belong to that group, enter that ID in this field. Note that this information is part of the HLS specification (not the CMAF specification), but if you include it then MediaPackage will include it in the manifest it creates for the video player.
+        public let audioGroupId: String?
+        /// Applies only to an output that contains video, and only if you want to associate one or more audio groups to this video. In this field you assign the groups that you create (in the Group ID fields in the various audio outputs). Enter one group ID, or enter a comma-separated list of group IDs. Note that this information is part of the HLS specification (not the CMAF specification), but if you include it then MediaPackage will include it in the manifest it creates for the video player.
+        public let audioRenditionSets: String?
+        /// Specifies whether MediaPackage should set this output as the auto-select rendition in the HLS manifest. YES means this must be the auto-select. NO means this should never be the auto-select. OMIT means MediaPackage decides what to set on this rendition.
+        /// When you consider all the renditions, follow these guidelines. You can set zero or one renditions to YES. You can set zero or more renditions to NO, but you can't set all renditions to NO. You can set zero, some, or all to OMIT.
+        public let hlsAutoSelect: HlsAutoSelect?
+        /// Specifies whether MediaPackage should set this output as the default rendition in the HLS manifest. YES means this must be the default. NO means this should never be the default. OMIT means MediaPackage decides what to set on this rendition.
+        /// When you consider all the renditions, follow these guidelines. You can set zero or one renditions to YES. You can set zero or more renditions to NO, but you can't set all renditions to NO. You can set zero, some, or all to OMIT.
+        public let hlsDefault: HlsDefault?
+
+        @inlinable
+        public init(audioGroupId: String? = nil, audioRenditionSets: String? = nil, hlsAutoSelect: HlsAutoSelect? = nil, hlsDefault: HlsDefault? = nil) {
+            self.audioGroupId = audioGroupId
+            self.audioRenditionSets = audioRenditionSets
+            self.hlsAutoSelect = hlsAutoSelect
+            self.hlsDefault = hlsDefault
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioGroupId = "audioGroupId"
+            case audioRenditionSets = "audioRenditionSets"
+            case hlsAutoSelect = "hlsAutoSelect"
+            case hlsDefault = "hlsDefault"
+        }
+    }
+
+    public struct MediaPackageV2GroupSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Mapping of up to 4 caption channels to caption languages.
+        public let captionLanguageMappings: [CaptionLanguageMapping]?
+        /// Set to ENABLED to enable ID3 metadata insertion. To include metadata, you configure other parameters in the output group, or you add an ID3 action to the channel schedule.
+        public let id3Behavior: CmafId3Behavior?
+        /// If set to passthrough, passes any KLV data from the input source to this output.
+        public let klvBehavior: CmafKLVBehavior?
+        /// If set to passthrough, Nielsen inaudible tones for media tracking will be detected in the input audio and an equivalent ID3 tag will be inserted in the output.
+        public let nielsenId3Behavior: CmafNielsenId3Behavior?
+        /// Type of scte35 track to add. none or scte35WithoutSegmentation
+        public let scte35Type: Scte35Type?
+        /// The nominal duration of segments. The units are specified in SegmentLengthUnits. The segments will end on the next keyframe after the specified duration, so the actual segment length might be longer, and it might be a fraction of the units.
+        public let segmentLength: Int?
+        /// Time unit for segment length parameter.
+        public let segmentLengthUnits: CmafIngestSegmentLengthUnits?
+        /// Set to none if you don't want to insert a timecode in the output. Otherwise choose the frame type for the timecode.
+        public let timedMetadataId3Frame: CmafTimedMetadataId3Frame?
+        /// If you set up to insert a timecode in the output, specify the frequency for the frame, in seconds.
+        public let timedMetadataId3Period: Int?
+        /// Set to enabled to pass through ID3 metadata from the input sources.
+        public let timedMetadataPassthrough: CmafTimedMetadataPassthrough?
+
+        @inlinable
+        public init(captionLanguageMappings: [CaptionLanguageMapping]? = nil, id3Behavior: CmafId3Behavior? = nil, klvBehavior: CmafKLVBehavior? = nil, nielsenId3Behavior: CmafNielsenId3Behavior? = nil, scte35Type: Scte35Type? = nil, segmentLength: Int? = nil, segmentLengthUnits: CmafIngestSegmentLengthUnits? = nil, timedMetadataId3Frame: CmafTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int? = nil, timedMetadataPassthrough: CmafTimedMetadataPassthrough? = nil) {
+            self.captionLanguageMappings = captionLanguageMappings
+            self.id3Behavior = id3Behavior
+            self.klvBehavior = klvBehavior
+            self.nielsenId3Behavior = nielsenId3Behavior
+            self.scte35Type = scte35Type
+            self.segmentLength = segmentLength
+            self.segmentLengthUnits = segmentLengthUnits
+            self.timedMetadataId3Frame = timedMetadataId3Frame
+            self.timedMetadataId3Period = timedMetadataId3Period
+            self.timedMetadataPassthrough = timedMetadataPassthrough
+        }
+
+        public func validate(name: String) throws {
+            try self.captionLanguageMappings?.forEach {
+                try $0.validate(name: "\(name).captionLanguageMappings[]")
+            }
+            try self.validate(self.segmentLength, name: "segmentLength", parent: name, min: 1)
+            try self.validate(self.timedMetadataId3Period, name: "timedMetadataId3Period", parent: name, max: 10000)
+            try self.validate(self.timedMetadataId3Period, name: "timedMetadataId3Period", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case captionLanguageMappings = "captionLanguageMappings"
+            case id3Behavior = "id3Behavior"
+            case klvBehavior = "klvBehavior"
+            case nielsenId3Behavior = "nielsenId3Behavior"
+            case scte35Type = "scte35Type"
+            case segmentLength = "segmentLength"
+            case segmentLengthUnits = "segmentLengthUnits"
+            case timedMetadataId3Frame = "timedMetadataId3Frame"
+            case timedMetadataId3Period = "timedMetadataId3Period"
+            case timedMetadataPassthrough = "timedMetadataPassthrough"
+        }
     }
 
     public struct MediaResource: AWSDecodableShape {
@@ -14510,6 +14725,7 @@ extension MediaLive {
             try self.archiveGroupSettings?.validate(name: "\(name).archiveGroupSettings")
             try self.cmafIngestGroupSettings?.validate(name: "\(name).cmafIngestGroupSettings")
             try self.hlsGroupSettings?.validate(name: "\(name).hlsGroupSettings")
+            try self.mediaPackageGroupSettings?.validate(name: "\(name).mediaPackageGroupSettings")
             try self.msSmoothGroupSettings?.validate(name: "\(name).msSmoothGroupSettings")
             try self.rtmpGroupSettings?.validate(name: "\(name).rtmpGroupSettings")
             try self.udpGroupSettings?.validate(name: "\(name).udpGroupSettings")
@@ -18988,9 +19204,9 @@ extension MediaLive {
     }
 
     public struct VideoSelector: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the color space of an input. This setting works in tandem with colorSpaceUsage and a video description's colorSpaceSettingsChoice to determine if any conversion will be performed.
+        /// Controls how MediaLive will use the color space metadata from the source. Typically, choose FOLLOW, which means to use the color space metadata without changing it. Or choose another value (a standard). In this case, the handling is controlled by the colorspaceUsage property.
         public let colorSpace: VideoSelectorColorSpace?
-        /// Color space settings
+        /// Choose HDR10 only if the following situation applies. Firstly, you specified HDR10 in ColorSpace. Secondly, the attached input is for AWS Elemental Link. Thirdly, you plan to convert the content to another color space. You need to specify the color space metadata that is missing from the source sent from AWS Elemental Link.
         public let colorSpaceSettings: VideoSelectorColorSpaceSettings?
         /// Applies only if colorSpace is a value other than follow. This field controls how the value in the colorSpace field will be used. fallback means that when the input does include color space data, that data will be used, but when the input has no color space data, the value in colorSpace will be used. Choose fallback if your input is sometimes missing color space data, but when it does have color space data, that data is correct. force means to always use the value in colorSpace. Choose force if your input usually has no color space data or might have unreliable color space data.
         public let colorSpaceUsage: VideoSelectorColorSpaceUsage?

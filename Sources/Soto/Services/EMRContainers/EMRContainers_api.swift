@@ -231,6 +231,7 @@ public struct EMRContainers: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: The client idempotency token to use when creating the security configuration.
+    ///   - containerProvider: The container provider associated with the security configuration.
     ///   - name: The name of the security configuration.
     ///   - securityConfigurationData: Security configuration input for the request.
     ///   - tags: The tags to add to the security configuration.
@@ -238,6 +239,7 @@ public struct EMRContainers: AWSService {
     @inlinable
     public func createSecurityConfiguration(
         clientToken: String = CreateSecurityConfigurationRequest.idempotencyToken(),
+        containerProvider: ContainerProvider? = nil,
         name: String,
         securityConfigurationData: SecurityConfigurationData,
         tags: [String: String]? = nil,
@@ -245,6 +247,7 @@ public struct EMRContainers: AWSService {
     ) async throws -> CreateSecurityConfigurationResponse {
         let input = CreateSecurityConfigurationRequest(
             clientToken: clientToken, 
+            containerProvider: containerProvider, 
             name: name, 
             securityConfigurationData: securityConfigurationData, 
             tags: tags

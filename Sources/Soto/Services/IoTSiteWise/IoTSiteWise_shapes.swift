@@ -53,6 +53,7 @@ extension IoTSiteWise {
     public enum AssetModelType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case assetModel = "ASSET_MODEL"
         case componentModel = "COMPONENT_MODEL"
+        case interface = "INTERFACE"
         public var description: String { return self.rawValue }
     }
 
@@ -143,6 +144,20 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum ComputationModelState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComputationModelType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case anomalyDetection = "ANOMALY_DETECTION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ComputeLocation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cloud = "CLOUD"
         case edge = "EDGE"
@@ -203,6 +218,13 @@ extension IoTSiteWise {
     public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case internalFailure = "INTERNAL_FAILURE"
         case validationError = "VALIDATION_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExecutionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case running = "RUNNING"
         public var description: String { return self.rawValue }
     }
 
@@ -336,6 +358,11 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResolveToResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case asset = "ASSET"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case portal = "PORTAL"
         case project = "PROJECT"
@@ -359,6 +386,7 @@ extension IoTSiteWise {
 
     public enum TargetResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case asset = "ASSET"
+        case computationModel = "COMPUTATION_MODEL"
         public var description: String { return self.rawValue }
     }
 
@@ -545,19 +573,23 @@ extension IoTSiteWise {
         public let actionDefinitionId: String?
         /// The ID of the action.
         public let actionId: String?
+        /// The detailed resource this action resolves to.
+        public let resolveTo: ResolveTo?
         /// The resource the action will be taken on.
         public let targetResource: TargetResource?
 
         @inlinable
-        public init(actionDefinitionId: String? = nil, actionId: String? = nil, targetResource: TargetResource? = nil) {
+        public init(actionDefinitionId: String? = nil, actionId: String? = nil, resolveTo: ResolveTo? = nil, targetResource: TargetResource? = nil) {
             self.actionDefinitionId = actionDefinitionId
             self.actionId = actionId
+            self.resolveTo = resolveTo
             self.targetResource = targetResource
         }
 
         private enum CodingKeys: String, CodingKey {
             case actionDefinitionId = "actionDefinitionId"
             case actionId = "actionId"
+            case resolveTo = "resolveTo"
             case targetResource = "targetResource"
         }
     }
@@ -642,6 +674,26 @@ extension IoTSiteWise {
         private enum CodingKeys: String, CodingKey {
             case alarmRoleArn = "alarmRoleArn"
             case notificationLambdaArn = "notificationLambdaArn"
+        }
+    }
+
+    public struct AssetBindingValueFilter: AWSEncodableShape {
+        /// The ID of the asset to filter data bindings by. Only data bindings referencing this specific asset are matched.
+        public let assetId: String
+
+        @inlinable
+        public init(assetId: String) {
+            self.assetId = assetId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetId = "assetId"
         }
     }
 
@@ -793,6 +845,26 @@ extension IoTSiteWise {
         }
     }
 
+    public struct AssetModelBindingValueFilter: AWSEncodableShape {
+        /// The ID of the asset model to filter data bindings by. Only data bindings referemncing this specific asset model are matched.
+        public let assetModelId: String
+
+        @inlinable
+        public init(assetModelId: String) {
+            self.assetModelId = assetModelId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 36)
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 36)
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetModelId = "assetModelId"
+        }
+    }
+
     public struct AssetModelCompositeModel: AWSEncodableShape & AWSDecodableShape {
         /// The description of the composite model.
         public let description: String?
@@ -826,7 +898,7 @@ extension IoTSiteWise {
             try self.validate(self.externalId, name: "externalId", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.id, name: "id", parent: name, max: 139)
             try self.validate(self.id, name: "id", parent: name, min: 13)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
@@ -881,7 +953,7 @@ extension IoTSiteWise {
             try self.validate(self.externalId, name: "externalId", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 36)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
@@ -976,13 +1048,13 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.childAssetModelId, name: "childAssetModelId", parent: name, max: 139)
             try self.validate(self.childAssetModelId, name: "childAssetModelId", parent: name, min: 13)
-            try self.validate(self.childAssetModelId, name: "childAssetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.childAssetModelId, name: "childAssetModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.externalId, name: "externalId", parent: name, max: 128)
             try self.validate(self.externalId, name: "externalId", parent: name, min: 2)
             try self.validate(self.externalId, name: "externalId", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.id, name: "id", parent: name, max: 139)
             try self.validate(self.id, name: "id", parent: name, min: 13)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
@@ -1017,13 +1089,13 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.childAssetModelId, name: "childAssetModelId", parent: name, max: 139)
             try self.validate(self.childAssetModelId, name: "childAssetModelId", parent: name, min: 13)
-            try self.validate(self.childAssetModelId, name: "childAssetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.childAssetModelId, name: "childAssetModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.externalId, name: "externalId", parent: name, max: 128)
             try self.validate(self.externalId, name: "externalId", parent: name, min: 2)
             try self.validate(self.externalId, name: "externalId", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 36)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
@@ -1076,7 +1148,7 @@ extension IoTSiteWise {
             try self.validate(self.externalId, name: "externalId", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.id, name: "id", parent: name, max: 139)
             try self.validate(self.id, name: "id", parent: name, min: 13)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
@@ -1098,6 +1170,60 @@ extension IoTSiteWise {
             case path = "path"
             case type = "type"
             case unit = "unit"
+        }
+    }
+
+    public struct AssetModelPropertyBindingValue: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the asset model, in UUID format.
+        public let assetModelId: String
+        /// The ID of the asset model property used in data binding value.
+        public let propertyId: String
+
+        @inlinable
+        public init(assetModelId: String, propertyId: String) {
+            self.assetModelId = assetModelId
+            self.propertyId = propertyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 36)
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 36)
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.propertyId, name: "propertyId", parent: name, max: 36)
+            try self.validate(self.propertyId, name: "propertyId", parent: name, min: 36)
+            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetModelId = "assetModelId"
+            case propertyId = "propertyId"
+        }
+    }
+
+    public struct AssetModelPropertyBindingValueFilter: AWSEncodableShape {
+        /// The ID of the asset model containing the filter property. This identifies the specific asset model that contains the property of interest.
+        public let assetModelId: String
+        /// The ID of the property within the asset model to filter by. Only data bindings referencing this specific property of the specified asset model are matched.
+        public let propertyId: String
+
+        @inlinable
+        public init(assetModelId: String, propertyId: String) {
+            self.assetModelId = assetModelId
+            self.propertyId = propertyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 36)
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 36)
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.propertyId, name: "propertyId", parent: name, max: 36)
+            try self.validate(self.propertyId, name: "propertyId", parent: name, min: 36)
+            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetModelId = "assetModelId"
+            case propertyId = "propertyId"
         }
     }
 
@@ -1137,7 +1263,7 @@ extension IoTSiteWise {
             try self.validate(self.externalId, name: "externalId", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 36)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
@@ -1173,7 +1299,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 36)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
@@ -1196,6 +1322,8 @@ extension IoTSiteWise {
         public let externalId: String?
         /// The ID of the property.
         public let id: String?
+        /// A list of interface summaries that describe which interfaces this property belongs to, including the interface asset model ID and the corresponding property ID in the interface.
+        public let interfaceSummaries: [InterfaceSummary]?
         /// The name of the property.
         public let name: String
         /// The structured path to the property from the root of the asset model.
@@ -1205,12 +1333,13 @@ extension IoTSiteWise {
         public let unit: String?
 
         @inlinable
-        public init(assetModelCompositeModelId: String? = nil, dataType: PropertyDataType, dataTypeSpec: String? = nil, externalId: String? = nil, id: String? = nil, name: String, path: [AssetModelPropertyPathSegment]? = nil, type: PropertyType, unit: String? = nil) {
+        public init(assetModelCompositeModelId: String? = nil, dataType: PropertyDataType, dataTypeSpec: String? = nil, externalId: String? = nil, id: String? = nil, interfaceSummaries: [InterfaceSummary]? = nil, name: String, path: [AssetModelPropertyPathSegment]? = nil, type: PropertyType, unit: String? = nil) {
             self.assetModelCompositeModelId = assetModelCompositeModelId
             self.dataType = dataType
             self.dataTypeSpec = dataTypeSpec
             self.externalId = externalId
             self.id = id
+            self.interfaceSummaries = interfaceSummaries
             self.name = name
             self.path = path
             self.type = type
@@ -1223,6 +1352,7 @@ extension IoTSiteWise {
             case dataTypeSpec = "dataTypeSpec"
             case externalId = "externalId"
             case id = "id"
+            case interfaceSummaries = "interfaceSummaries"
             case name = "name"
             case path = "path"
             case type = "type"
@@ -1341,6 +1471,60 @@ extension IoTSiteWise {
             case notification = "notification"
             case path = "path"
             case unit = "unit"
+        }
+    }
+
+    public struct AssetPropertyBindingValue: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the asset containing the property. This identifies the specific asset instance's property value used in the computation model.
+        public let assetId: String
+        /// The ID of the property within the asset. This identifies the specific property's value used in the computation model.
+        public let propertyId: String
+
+        @inlinable
+        public init(assetId: String, propertyId: String) {
+            self.assetId = assetId
+            self.propertyId = propertyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.propertyId, name: "propertyId", parent: name, max: 36)
+            try self.validate(self.propertyId, name: "propertyId", parent: name, min: 36)
+            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetId = "assetId"
+            case propertyId = "propertyId"
+        }
+    }
+
+    public struct AssetPropertyBindingValueFilter: AWSEncodableShape {
+        /// The ID of the asset containing the property to filter by. This identifies the specific asset instance containing the property of interest.
+        public let assetId: String
+        /// The ID of the property within the asset to filter by. Only data bindings referencing this specific property of the specified asset are matched.
+        public let propertyId: String
+
+        @inlinable
+        public init(assetId: String, propertyId: String) {
+            self.assetId = assetId
+            self.propertyId = propertyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.propertyId, name: "propertyId", parent: name, max: 36)
+            try self.validate(self.propertyId, name: "propertyId", parent: name, min: 36)
+            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetId = "assetId"
+            case propertyId = "propertyId"
         }
     }
 
@@ -1541,16 +1725,16 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.assetId, name: "assetId", parent: name, max: 139)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 13)
-            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.childAssetId, name: "childAssetId", parent: name, max: 139)
             try self.validate(self.childAssetId, name: "childAssetId", parent: name, min: 13)
-            try self.validate(self.childAssetId, name: "childAssetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.childAssetId, name: "childAssetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
             try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, max: 139)
             try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, min: 13)
-            try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1592,13 +1776,13 @@ extension IoTSiteWise {
             try self.validate(self.alias, name: "alias", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
             try self.validate(self.assetId, name: "assetId", parent: name, max: 139)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 13)
-            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
             try self.validate(self.propertyId, name: "propertyId", parent: name, max: 139)
             try self.validate(self.propertyId, name: "propertyId", parent: name, min: 13)
-            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1701,7 +1885,7 @@ extension IoTSiteWise {
             try self.assetIds.forEach {
                 try validate($0, name: "assetIds[]", parent: name, max: 36)
                 try validate($0, name: "assetIds[]", parent: name, min: 36)
-                try validate($0, name: "assetIds[]", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+                try validate($0, name: "assetIds[]", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             }
             try self.validate(self.assetIds, name: "assetIds", parent: name, max: 100)
             try self.validate(self.assetIds, name: "assetIds", parent: name, min: 1)
@@ -1710,7 +1894,7 @@ extension IoTSiteWise {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
             try self.validate(self.projectId, name: "projectId", parent: name, max: 36)
             try self.validate(self.projectId, name: "projectId", parent: name, min: 36)
-            try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1760,7 +1944,7 @@ extension IoTSiteWise {
             try self.assetIds.forEach {
                 try validate($0, name: "assetIds[]", parent: name, max: 36)
                 try validate($0, name: "assetIds[]", parent: name, min: 36)
-                try validate($0, name: "assetIds[]", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+                try validate($0, name: "assetIds[]", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             }
             try self.validate(self.assetIds, name: "assetIds", parent: name, max: 100)
             try self.validate(self.assetIds, name: "assetIds", parent: name, min: 1)
@@ -1769,7 +1953,7 @@ extension IoTSiteWise {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
             try self.validate(self.projectId, name: "projectId", parent: name, max: 36)
             try self.validate(self.projectId, name: "projectId", parent: name, min: 36)
-            try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1832,7 +2016,7 @@ extension IoTSiteWise {
             try self.validate(self.aggregateTypes, name: "aggregateTypes", parent: name, min: 1)
             try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
-            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.entryId, name: "entryId", parent: name, max: 64)
             try self.validate(self.entryId, name: "entryId", parent: name, min: 1)
             try self.validate(self.entryId, name: "entryId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
@@ -1841,7 +2025,7 @@ extension IoTSiteWise {
             try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
             try self.validate(self.propertyId, name: "propertyId", parent: name, max: 36)
             try self.validate(self.propertyId, name: "propertyId", parent: name, min: 36)
-            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.qualities, name: "qualities", parent: name, max: 1)
             try self.validate(self.qualities, name: "qualities", parent: name, min: 1)
             try self.validate(self.resolution, name: "resolution", parent: name, max: 3)
@@ -2022,7 +2206,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
-            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.entryId, name: "entryId", parent: name, max: 64)
             try self.validate(self.entryId, name: "entryId", parent: name, min: 1)
             try self.validate(self.entryId, name: "entryId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
@@ -2031,7 +2215,7 @@ extension IoTSiteWise {
             try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
             try self.validate(self.propertyId, name: "propertyId", parent: name, max: 36)
             try self.validate(self.propertyId, name: "propertyId", parent: name, min: 36)
-            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2115,7 +2299,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
-            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.entryId, name: "entryId", parent: name, max: 64)
             try self.validate(self.entryId, name: "entryId", parent: name, min: 1)
             try self.validate(self.entryId, name: "entryId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
@@ -2124,7 +2308,7 @@ extension IoTSiteWise {
             try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
             try self.validate(self.propertyId, name: "propertyId", parent: name, max: 36)
             try self.validate(self.propertyId, name: "propertyId", parent: name, min: 36)
-            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.qualities, name: "qualities", parent: name, max: 1)
             try self.validate(self.qualities, name: "qualities", parent: name, min: 1)
         }
@@ -2412,7 +2596,7 @@ extension IoTSiteWise {
     }
 
     public struct BatchPutAssetPropertyValueRequest: AWSEncodableShape {
-        /// This setting enables partial ingestion at entry-level. If set to true, we ingest all TQVs not resulting in an error. If set to  false, an invalid TQV fails ingestion of the entire entry that contains it.
+        /// This setting enables partial ingestion at entry-level. If set to true, we ingest all TQVs not resulting in an error. If set to false, an invalid TQV fails ingestion of the entire entry that contains it.
         public let enablePartialEntryProcessing: Bool?
         /// The list of asset property value entries for the batch put request. You can specify up to 10 entries per request.
         public let entries: [PutAssetPropertyValueEntry]
@@ -2575,6 +2759,175 @@ extension IoTSiteWise {
             case assetModelCompositeModelId = "assetModelCompositeModelId"
             case assetModelCompositeModelType = "assetModelCompositeModelType"
             case assetModelId = "assetModelId"
+        }
+    }
+
+    public struct ComputationModelAnomalyDetectionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Define the variable name associated with input properties, with the following format ${VariableName}.
+        public let inputProperties: String
+        /// Define the variable name associated with the result property, and the following format ${VariableName}.
+        public let resultProperty: String
+
+        @inlinable
+        public init(inputProperties: String, resultProperty: String) {
+            self.inputProperties = inputProperties
+            self.resultProperty = resultProperty
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.inputProperties, name: "inputProperties", parent: name, max: 67)
+            try self.validate(self.inputProperties, name: "inputProperties", parent: name, min: 4)
+            try self.validate(self.inputProperties, name: "inputProperties", parent: name, pattern: "^\\$\\{[a-z][a-z0-9_]*\\}$")
+            try self.validate(self.resultProperty, name: "resultProperty", parent: name, max: 67)
+            try self.validate(self.resultProperty, name: "resultProperty", parent: name, min: 4)
+            try self.validate(self.resultProperty, name: "resultProperty", parent: name, pattern: "^\\$\\{[a-z][a-z0-9_]*\\}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputProperties = "inputProperties"
+            case resultProperty = "resultProperty"
+        }
+    }
+
+    public struct ComputationModelConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for the anomaly detection type of computation model.
+        public let anomalyDetection: ComputationModelAnomalyDetectionConfiguration?
+
+        @inlinable
+        public init(anomalyDetection: ComputationModelAnomalyDetectionConfiguration? = nil) {
+            self.anomalyDetection = anomalyDetection
+        }
+
+        public func validate(name: String) throws {
+            try self.anomalyDetection?.validate(name: "\(name).anomalyDetection")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyDetection = "anomalyDetection"
+        }
+    }
+
+    public struct ComputationModelDataBindingUsageSummary: AWSDecodableShape {
+        /// The list of computation model IDs that use this data binding. This allows identification of all computation models affected by changes to the referenced data source.
+        public let computationModelIds: [String]
+        /// The data binding matched by the filter criteria. Contains details about specific data binding values used by the computation models.
+        public let matchedDataBinding: MatchedDataBinding
+
+        @inlinable
+        public init(computationModelIds: [String], matchedDataBinding: MatchedDataBinding) {
+            self.computationModelIds = computationModelIds
+            self.matchedDataBinding = matchedDataBinding
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computationModelIds = "computationModelIds"
+            case matchedDataBinding = "matchedDataBinding"
+        }
+    }
+
+    public struct ComputationModelDataBindingValue: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies an asset model property data binding value.
+        public let assetModelProperty: AssetModelPropertyBindingValue?
+        /// The asset property value used for computation model data binding.
+        public let assetProperty: AssetPropertyBindingValue?
+        /// Specifies a list of data binding value.
+        public let list: [ComputationModelDataBindingValue]?
+
+        @inlinable
+        public init(assetModelProperty: AssetModelPropertyBindingValue? = nil, assetProperty: AssetPropertyBindingValue? = nil, list: [ComputationModelDataBindingValue]? = nil) {
+            self.assetModelProperty = assetModelProperty
+            self.assetProperty = assetProperty
+            self.list = list
+        }
+
+        public func validate(name: String) throws {
+            try self.assetModelProperty?.validate(name: "\(name).assetModelProperty")
+            try self.assetProperty?.validate(name: "\(name).assetProperty")
+            try self.list?.forEach {
+                try $0.validate(name: "\(name).list[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetModelProperty = "assetModelProperty"
+            case assetProperty = "assetProperty"
+            case list = "list"
+        }
+    }
+
+    public struct ComputationModelResolveToResourceSummary: AWSDecodableShape {
+        public let resolveTo: ResolveTo?
+
+        @inlinable
+        public init(resolveTo: ResolveTo? = nil) {
+            self.resolveTo = resolveTo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolveTo = "resolveTo"
+        }
+    }
+
+    public struct ComputationModelStatus: AWSDecodableShape {
+        public let error: ErrorDetails?
+        /// The current state of the computation model.
+        public let state: ComputationModelState
+
+        @inlinable
+        public init(error: ErrorDetails? = nil, state: ComputationModelState) {
+            self.error = error
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "error"
+            case state = "state"
+        }
+    }
+
+    public struct ComputationModelSummary: AWSDecodableShape {
+        /// The ARN of the computation model, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:computation-model/${ComputationModelId}
+        public let arn: String
+        /// The model creation date, in Unix epoch time.
+        public let creationDate: Date
+        /// The description of the computation model.
+        public let description: String?
+        /// The ID of the computation model.
+        public let id: String
+        /// The time the model was last updated, in Unix epoch time.
+        public let lastUpdateDate: Date
+        /// The name of the computation model.
+        public let name: String
+        /// The current status of the computation model.
+        public let status: ComputationModelStatus
+        /// The type of the computation model.
+        public let type: ComputationModelType
+        /// The version of the computation model.
+        public let version: String
+
+        @inlinable
+        public init(arn: String, creationDate: Date, description: String? = nil, id: String, lastUpdateDate: Date, name: String, status: ComputationModelStatus, type: ComputationModelType, version: String) {
+            self.arn = arn
+            self.creationDate = creationDate
+            self.description = description
+            self.id = id
+            self.lastUpdateDate = lastUpdateDate
+            self.name = name
+            self.status = status
+            self.type = type
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case creationDate = "creationDate"
+            case description = "description"
+            case id = "id"
+            case lastUpdateDate = "lastUpdateDate"
+            case name = "name"
+            case status = "status"
+            case type = "type"
+            case version = "version"
         }
     }
 
@@ -2784,7 +3137,7 @@ extension IoTSiteWise {
             try self.validate(self.assetModelCompositeModelExternalId, name: "assetModelCompositeModelExternalId", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.assetModelCompositeModelId, name: "assetModelCompositeModelId", parent: name, max: 36)
             try self.validate(self.assetModelCompositeModelId, name: "assetModelCompositeModelId", parent: name, min: 36)
-            try self.validate(self.assetModelCompositeModelId, name: "assetModelCompositeModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.assetModelCompositeModelId, name: "assetModelCompositeModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.assetModelCompositeModelName, name: "assetModelCompositeModelName", parent: name, max: 256)
             try self.validate(self.assetModelCompositeModelName, name: "assetModelCompositeModelName", parent: name, min: 1)
             try self.validate(self.assetModelCompositeModelName, name: "assetModelCompositeModelName", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
@@ -2796,18 +3149,18 @@ extension IoTSiteWise {
             try self.validate(self.assetModelCompositeModelType, name: "assetModelCompositeModelType", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 139)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 13)
-            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
             try self.validate(self.composedAssetModelId, name: "composedAssetModelId", parent: name, max: 139)
             try self.validate(self.composedAssetModelId, name: "composedAssetModelId", parent: name, min: 13)
-            try self.validate(self.composedAssetModelId, name: "composedAssetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.composedAssetModelId, name: "composedAssetModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.ifMatch, name: "ifMatch", parent: name, pattern: "^[\\w-]{43}$")
             try self.validate(self.ifNoneMatch, name: "ifNoneMatch", parent: name, pattern: "^\\*$")
             try self.validate(self.parentAssetModelCompositeModelId, name: "parentAssetModelCompositeModelId", parent: name, max: 139)
             try self.validate(self.parentAssetModelCompositeModelId, name: "parentAssetModelCompositeModelId", parent: name, min: 13)
-            try self.validate(self.parentAssetModelCompositeModelId, name: "parentAssetModelCompositeModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.parentAssetModelCompositeModelId, name: "parentAssetModelCompositeModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2895,7 +3248,7 @@ extension IoTSiteWise {
             }
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 36)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 36)
-            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.assetModelName, name: "assetModelName", parent: name, max: 256)
             try self.validate(self.assetModelName, name: "assetModelName", parent: name, min: 1)
             try self.validate(self.assetModelName, name: "assetModelName", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
@@ -2986,10 +3339,10 @@ extension IoTSiteWise {
             try self.validate(self.assetExternalId, name: "assetExternalId", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
-            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 139)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 13)
-            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.assetName, name: "assetName", parent: name, max: 256)
             try self.validate(self.assetName, name: "assetName", parent: name, min: 1)
             try self.validate(self.assetName, name: "assetName", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
@@ -3111,6 +3464,88 @@ extension IoTSiteWise {
         }
     }
 
+    public struct CreateComputationModelRequest: AWSEncodableShape {
+        /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+        public let clientToken: String?
+        /// The configuration for the computation model.
+        public let computationModelConfiguration: ComputationModelConfiguration
+        /// The data binding for the computation model. Key is a variable name defined in configuration.  Value is a ComputationModelDataBindingValue referenced by the variable.
+        public let computationModelDataBinding: [String: ComputationModelDataBindingValue]
+        /// The description of the computation model.
+        public let computationModelDescription: String?
+        /// The name of the computation model.
+        public let computationModelName: String
+        /// A list of key-value pairs that contain metadata for the asset. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(clientToken: String? = CreateComputationModelRequest.idempotencyToken(), computationModelConfiguration: ComputationModelConfiguration, computationModelDataBinding: [String: ComputationModelDataBindingValue], computationModelDescription: String? = nil, computationModelName: String, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.computationModelConfiguration = computationModelConfiguration
+            self.computationModelDataBinding = computationModelDataBinding
+            self.computationModelDescription = computationModelDescription
+            self.computationModelName = computationModelName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.computationModelConfiguration.validate(name: "\(name).computationModelConfiguration")
+            try self.computationModelDataBinding.forEach {
+                try validate($0.key, name: "computationModelDataBinding.key", parent: name, max: 64)
+                try validate($0.key, name: "computationModelDataBinding.key", parent: name, min: 1)
+                try validate($0.key, name: "computationModelDataBinding.key", parent: name, pattern: "^[a-z][a-z0-9_]*$")
+                try $0.value.validate(name: "\(name).computationModelDataBinding[\"\($0.key)\"]")
+            }
+            try self.validate(self.computationModelDescription, name: "computationModelDescription", parent: name, max: 2048)
+            try self.validate(self.computationModelDescription, name: "computationModelDescription", parent: name, min: 1)
+            try self.validate(self.computationModelDescription, name: "computationModelDescription", parent: name, pattern: "^[a-zA-Z0-9 _\\-#$*!@]+$")
+            try self.validate(self.computationModelName, name: "computationModelName", parent: name, max: 256)
+            try self.validate(self.computationModelName, name: "computationModelName", parent: name, min: 1)
+            try self.validate(self.computationModelName, name: "computationModelName", parent: name, pattern: "^[a-zA-Z0-9 _\\-#$*!@]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case computationModelConfiguration = "computationModelConfiguration"
+            case computationModelDataBinding = "computationModelDataBinding"
+            case computationModelDescription = "computationModelDescription"
+            case computationModelName = "computationModelName"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateComputationModelResponse: AWSDecodableShape {
+        /// The ARN of the computation model, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:computation-model/${ComputationModelId}
+        public let computationModelArn: String
+        /// The ID of the computation model.
+        public let computationModelId: String
+        /// The status of the computation model, containing a state (CREATING after successfully calling this operation) and any error messages.
+        public let computationModelStatus: ComputationModelStatus
+
+        @inlinable
+        public init(computationModelArn: String, computationModelId: String, computationModelStatus: ComputationModelStatus) {
+            self.computationModelArn = computationModelArn
+            self.computationModelId = computationModelId
+            self.computationModelStatus = computationModelStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computationModelArn = "computationModelArn"
+            case computationModelId = "computationModelId"
+            case computationModelStatus = "computationModelStatus"
+        }
+    }
+
     public struct CreateDashboardRequest: AWSEncodableShape {
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
@@ -3149,7 +3584,7 @@ extension IoTSiteWise {
             try self.validate(self.dashboardName, name: "dashboardName", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
             try self.validate(self.projectId, name: "projectId", parent: name, max: 36)
             try self.validate(self.projectId, name: "projectId", parent: name, min: 36)
-            try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -3220,7 +3655,7 @@ extension IoTSiteWise {
             try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, pattern: "^[a-zA-Z0-9 _\\-#$*!@]+$")
             try self.validate(self.datasetId, name: "datasetId", parent: name, max: 36)
             try self.validate(self.datasetId, name: "datasetId", parent: name, min: 36)
-            try self.validate(self.datasetId, name: "datasetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.datasetId, name: "datasetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.datasetName, name: "datasetName", parent: name, max: 256)
             try self.validate(self.datasetName, name: "datasetName", parent: name, min: 1)
             try self.validate(self.datasetName, name: "datasetName", parent: name, pattern: "^[a-zA-Z0-9 _\\-#$*!@]+$")
@@ -3271,7 +3706,7 @@ extension IoTSiteWise {
         public let gatewayName: String
         /// The gateway's platform. You can only specify one platform in a gateway.
         public let gatewayPlatform: GatewayPlatform
-        /// The version of the gateway to create. Specify 3 to create an MQTT-enabled, V3 gateway and 2 To create a Classic streams, V2 gateway. If the version isn't specified, a Classic streams, V2 gateway is created by default. We recommend creating an MQTT-enabled, V3 gateway for self-hosted gateways. SiteWise Edge gateways on Siemens Industrial Edge should use gateway version 2. For more information on gateway versions, see  Self-host a SiteWise Edge gateway with IoT Greengrass V2.
+        /// The version of the gateway to create. Specify 3 to create an MQTT-enabled, V3 gateway and 2 to create a Classic streams, V2 gateway. If not specified, the default is 2 (Classic streams, V2 gateway).  When creating a V3 gateway (gatewayVersion=3) with the GreengrassV2 platform, you must also specify the coreDeviceOperatingSystem parameter.  We recommend creating an MQTT-enabled gateway for self-hosted gateways and Siemens Industrial Edge gateways. For more information on gateway versions, see Use Amazon Web Services IoT SiteWise Edge Edge gateways.
         public let gatewayVersion: String?
         /// A list of key-value pairs that contain metadata for the gateway. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
         public let tags: [String: String]?
@@ -3477,7 +3912,7 @@ extension IoTSiteWise {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
             try self.validate(self.portalId, name: "portalId", parent: name, max: 36)
             try self.validate(self.portalId, name: "portalId", parent: name, min: 36)
-            try self.validate(self.portalId, name: "portalId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.portalId, name: "portalId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.projectDescription, name: "projectDescription", parent: name, max: 2048)
             try self.validate(self.projectDescription, name: "projectDescription", parent: name, min: 1)
             try self.validate(self.projectDescription, name: "projectDescription", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
@@ -3588,6 +4023,56 @@ extension IoTSiteWise {
             case id = "id"
             case lastUpdateDate = "lastUpdateDate"
             case name = "name"
+        }
+    }
+
+    public struct DataBindingValue: AWSDecodableShape {
+        public let assetModelProperty: AssetModelPropertyBindingValue?
+        /// The asset property value used in the data binding.
+        public let assetProperty: AssetPropertyBindingValue?
+
+        @inlinable
+        public init(assetModelProperty: AssetModelPropertyBindingValue? = nil, assetProperty: AssetPropertyBindingValue? = nil) {
+            self.assetModelProperty = assetModelProperty
+            self.assetProperty = assetProperty
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetModelProperty = "assetModelProperty"
+            case assetProperty = "assetProperty"
+        }
+    }
+
+    public struct DataBindingValueFilter: AWSEncodableShape {
+        /// Filter criteria for matching data bindings based on a specific asset. Used to list all data bindings referencing a particular asset or its properties.
+        public let asset: AssetBindingValueFilter?
+        /// Filter criteria for matching data bindings based on a specific asset model. Used to list all data bindings referencing a particular asset model or its properties.
+        public let assetModel: AssetModelBindingValueFilter?
+        /// Filter criteria for matching data bindings based on a specific asset model property. Used to list all data bindings referencing a particular property of an asset model.
+        public let assetModelProperty: AssetModelPropertyBindingValueFilter?
+        /// Filter criteria for matching data bindings based on a specific asset property. Used to list all data bindings referencing a particular property of an asset.
+        public let assetProperty: AssetPropertyBindingValueFilter?
+
+        @inlinable
+        public init(asset: AssetBindingValueFilter? = nil, assetModel: AssetModelBindingValueFilter? = nil, assetModelProperty: AssetModelPropertyBindingValueFilter? = nil, assetProperty: AssetPropertyBindingValueFilter? = nil) {
+            self.asset = asset
+            self.assetModel = assetModel
+            self.assetModelProperty = assetModelProperty
+            self.assetProperty = assetProperty
+        }
+
+        public func validate(name: String) throws {
+            try self.asset?.validate(name: "\(name).asset")
+            try self.assetModel?.validate(name: "\(name).assetModel")
+            try self.assetModelProperty?.validate(name: "\(name).assetModelProperty")
+            try self.assetProperty?.validate(name: "\(name).assetProperty")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case asset = "asset"
+            case assetModel = "assetModel"
+            case assetModelProperty = "assetModelProperty"
+            case assetProperty = "assetProperty"
         }
     }
 
@@ -3738,7 +4223,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.accessPolicyId, name: "accessPolicyId", parent: name, max: 36)
             try self.validate(self.accessPolicyId, name: "accessPolicyId", parent: name, min: 36)
-            try self.validate(self.accessPolicyId, name: "accessPolicyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.accessPolicyId, name: "accessPolicyId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
@@ -3789,10 +4274,10 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.assetModelCompositeModelId, name: "assetModelCompositeModelId", parent: name, max: 139)
             try self.validate(self.assetModelCompositeModelId, name: "assetModelCompositeModelId", parent: name, min: 13)
-            try self.validate(self.assetModelCompositeModelId, name: "assetModelCompositeModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetModelCompositeModelId, name: "assetModelCompositeModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 139)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 13)
-            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
@@ -3813,6 +4298,69 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case assetModelStatus = "assetModelStatus"
+        }
+    }
+
+    public struct DeleteAssetModelInterfaceRelationshipRequest: AWSEncodableShape {
+        /// The ID of the asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID.
+        public let assetModelId: String
+        /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+        public let clientToken: String?
+        /// The ID of the interface asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID.
+        public let interfaceAssetModelId: String
+
+        @inlinable
+        public init(assetModelId: String, clientToken: String? = DeleteAssetModelInterfaceRelationshipRequest.idempotencyToken(), interfaceAssetModelId: String) {
+            self.assetModelId = assetModelId
+            self.clientToken = clientToken
+            self.interfaceAssetModelId = interfaceAssetModelId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetModelId, key: "assetModelId")
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.interfaceAssetModelId, key: "interfaceAssetModelId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 139)
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 13)
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.interfaceAssetModelId, name: "interfaceAssetModelId", parent: name, max: 139)
+            try self.validate(self.interfaceAssetModelId, name: "interfaceAssetModelId", parent: name, min: 13)
+            try self.validate(self.interfaceAssetModelId, name: "interfaceAssetModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAssetModelInterfaceRelationshipResponse: AWSDecodableShape {
+        /// The ARN of the asset model, which has the following format. arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}
+        public let assetModelArn: String
+        /// The ID of the asset model.
+        public let assetModelId: String
+        public let assetModelStatus: AssetModelStatus
+        /// The ID of the interface asset model.
+        public let interfaceAssetModelId: String
+
+        @inlinable
+        public init(assetModelArn: String, assetModelId: String, assetModelStatus: AssetModelStatus, interfaceAssetModelId: String) {
+            self.assetModelArn = assetModelArn
+            self.assetModelId = assetModelId
+            self.assetModelStatus = assetModelStatus
+            self.interfaceAssetModelId = interfaceAssetModelId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetModelArn = "assetModelArn"
+            case assetModelId = "assetModelId"
+            case assetModelStatus = "assetModelStatus"
+            case interfaceAssetModelId = "interfaceAssetModelId"
         }
     }
 
@@ -3850,7 +4398,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 139)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 13)
-            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
@@ -3897,7 +4445,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.assetId, name: "assetId", parent: name, max: 139)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 13)
-            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
@@ -3917,6 +4465,51 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case assetStatus = "assetStatus"
+        }
+    }
+
+    public struct DeleteComputationModelRequest: AWSEncodableShape {
+        /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+        public let clientToken: String?
+        /// The ID of the computation model.
+        public let computationModelId: String
+
+        @inlinable
+        public init(clientToken: String? = DeleteComputationModelRequest.idempotencyToken(), computationModelId: String) {
+            self.clientToken = clientToken
+            self.computationModelId = computationModelId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.computationModelId, key: "computationModelId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.computationModelId, name: "computationModelId", parent: name, max: 36)
+            try self.validate(self.computationModelId, name: "computationModelId", parent: name, min: 36)
+            try self.validate(self.computationModelId, name: "computationModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteComputationModelResponse: AWSDecodableShape {
+        /// The status of the computation model. It contains a state (DELETING after successfully calling this operation) and any error messages.
+        public let computationModelStatus: ComputationModelStatus
+
+        @inlinable
+        public init(computationModelStatus: ComputationModelStatus) {
+            self.computationModelStatus = computationModelStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computationModelStatus = "computationModelStatus"
         }
     }
 
@@ -3945,7 +4538,7 @@ extension IoTSiteWise {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 36)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 36)
-            try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3978,9 +4571,9 @@ extension IoTSiteWise {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
-            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 139)
-            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 13)
-            try self.validate(self.datasetId, name: "datasetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 36)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 36)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4018,7 +4611,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 36)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 36)
-            try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4049,7 +4642,7 @@ extension IoTSiteWise {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
             try self.validate(self.portalId, name: "portalId", parent: name, max: 36)
             try self.validate(self.portalId, name: "portalId", parent: name, min: 36)
-            try self.validate(self.portalId, name: "portalId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.portalId, name: "portalId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4094,7 +4687,7 @@ extension IoTSiteWise {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
             try self.validate(self.projectId, name: "projectId", parent: name, max: 36)
             try self.validate(self.projectId, name: "projectId", parent: name, min: 36)
-            try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4136,13 +4729,13 @@ extension IoTSiteWise {
             try self.validate(self.alias, name: "alias", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
             try self.validate(self.assetId, name: "assetId", parent: name, max: 139)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 13)
-            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
             try self.validate(self.propertyId, name: "propertyId", parent: name, max: 139)
             try self.validate(self.propertyId, name: "propertyId", parent: name, min: 13)
-            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4168,7 +4761,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.accessPolicyId, name: "accessPolicyId", parent: name, max: 36)
             try self.validate(self.accessPolicyId, name: "accessPolicyId", parent: name, min: 36)
-            try self.validate(self.accessPolicyId, name: "accessPolicyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.accessPolicyId, name: "accessPolicyId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4230,7 +4823,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.actionId, name: "actionId", parent: name, max: 36)
             try self.validate(self.actionId, name: "actionId", parent: name, min: 36)
-            try self.validate(self.actionId, name: "actionId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.actionId, name: "actionId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4245,15 +4838,18 @@ extension IoTSiteWise {
         public let actionPayload: ActionPayload
         /// The time the action was executed.
         public let executionTime: Date
+        /// The detailed resource this action resolves to.
+        public let resolveTo: ResolveTo?
         /// The resource the action will be taken on.
         public let targetResource: TargetResource
 
         @inlinable
-        public init(actionDefinitionId: String, actionId: String, actionPayload: ActionPayload, executionTime: Date, targetResource: TargetResource) {
+        public init(actionDefinitionId: String, actionId: String, actionPayload: ActionPayload, executionTime: Date, resolveTo: ResolveTo? = nil, targetResource: TargetResource) {
             self.actionDefinitionId = actionDefinitionId
             self.actionId = actionId
             self.actionPayload = actionPayload
             self.executionTime = executionTime
+            self.resolveTo = resolveTo
             self.targetResource = targetResource
         }
 
@@ -4262,6 +4858,7 @@ extension IoTSiteWise {
             case actionId = "actionId"
             case actionPayload = "actionPayload"
             case executionTime = "executionTime"
+            case resolveTo = "resolveTo"
             case targetResource = "targetResource"
         }
     }
@@ -4288,10 +4885,10 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.assetCompositeModelId, name: "assetCompositeModelId", parent: name, max: 139)
             try self.validate(self.assetCompositeModelId, name: "assetCompositeModelId", parent: name, min: 13)
-            try self.validate(self.assetCompositeModelId, name: "assetCompositeModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetCompositeModelId, name: "assetCompositeModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.assetId, name: "assetId", parent: name, max: 139)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 13)
-            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4373,10 +4970,10 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.assetModelCompositeModelId, name: "assetModelCompositeModelId", parent: name, max: 139)
             try self.validate(self.assetModelCompositeModelId, name: "assetModelCompositeModelId", parent: name, min: 13)
-            try self.validate(self.assetModelCompositeModelId, name: "assetModelCompositeModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetModelCompositeModelId, name: "assetModelCompositeModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 139)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 13)
-            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.assetModelVersion, name: "assetModelVersion", parent: name, pattern: "^(LATEST|ACTIVE)$")
         }
 
@@ -4437,6 +5034,63 @@ extension IoTSiteWise {
         }
     }
 
+    public struct DescribeAssetModelInterfaceRelationshipRequest: AWSEncodableShape {
+        /// The ID of the asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID.
+        public let assetModelId: String
+        /// The ID of the interface asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID.
+        public let interfaceAssetModelId: String
+
+        @inlinable
+        public init(assetModelId: String, interfaceAssetModelId: String) {
+            self.assetModelId = assetModelId
+            self.interfaceAssetModelId = interfaceAssetModelId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetModelId, key: "assetModelId")
+            request.encodePath(self.interfaceAssetModelId, key: "interfaceAssetModelId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 139)
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 13)
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
+            try self.validate(self.interfaceAssetModelId, name: "interfaceAssetModelId", parent: name, max: 139)
+            try self.validate(self.interfaceAssetModelId, name: "interfaceAssetModelId", parent: name, min: 13)
+            try self.validate(self.interfaceAssetModelId, name: "interfaceAssetModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeAssetModelInterfaceRelationshipResponse: AWSDecodableShape {
+        /// The ID of the asset model.
+        public let assetModelId: String
+        /// A list of hierarchy mappings between the interface asset model and the asset model where the interface is applied.
+        public let hierarchyMappings: [HierarchyMapping]
+        /// The ID of the interface asset model.
+        public let interfaceAssetModelId: String
+        /// A list of property mappings between the interface asset model and the asset model where the interface is applied.
+        public let propertyMappings: [PropertyMapping]
+
+        @inlinable
+        public init(assetModelId: String, hierarchyMappings: [HierarchyMapping], interfaceAssetModelId: String, propertyMappings: [PropertyMapping]) {
+            self.assetModelId = assetModelId
+            self.hierarchyMappings = hierarchyMappings
+            self.interfaceAssetModelId = interfaceAssetModelId
+            self.propertyMappings = propertyMappings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetModelId = "assetModelId"
+            case hierarchyMappings = "hierarchyMappings"
+            case interfaceAssetModelId = "interfaceAssetModelId"
+            case propertyMappings = "propertyMappings"
+        }
+    }
+
     public struct DescribeAssetModelRequest: AWSEncodableShape {
         /// The ID of the asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.
         public let assetModelId: String
@@ -4463,7 +5117,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 139)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 13)
-            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.assetModelVersion, name: "assetModelVersion", parent: name, pattern: "^(LATEST|ACTIVE)$")
         }
 
@@ -4501,9 +5155,11 @@ extension IoTSiteWise {
         public let assetModelVersion: String?
         /// The entity tag (ETag) is a hash of the retrieved version of the asset model. It's used to make concurrent updates safely to the resource. See Optimistic locking for asset model writes in the IoT SiteWise User Guide.  See  Optimistic locking for asset model writes in the IoT SiteWise User Guide.
         public let eTag: String?
+        /// A list of interface details that describe the interfaces implemented by this asset model, including interface asset model IDs and property mappings.
+        public let interfaceDetails: [InterfaceRelationship]?
 
         @inlinable
-        public init(assetModelArn: String, assetModelCompositeModels: [AssetModelCompositeModel]? = nil, assetModelCompositeModelSummaries: [AssetModelCompositeModelSummary]? = nil, assetModelCreationDate: Date, assetModelDescription: String, assetModelExternalId: String? = nil, assetModelHierarchies: [AssetModelHierarchy], assetModelId: String, assetModelLastUpdateDate: Date, assetModelName: String, assetModelProperties: [AssetModelProperty], assetModelStatus: AssetModelStatus, assetModelType: AssetModelType? = nil, assetModelVersion: String? = nil, eTag: String? = nil) {
+        public init(assetModelArn: String, assetModelCompositeModels: [AssetModelCompositeModel]? = nil, assetModelCompositeModelSummaries: [AssetModelCompositeModelSummary]? = nil, assetModelCreationDate: Date, assetModelDescription: String, assetModelExternalId: String? = nil, assetModelHierarchies: [AssetModelHierarchy], assetModelId: String, assetModelLastUpdateDate: Date, assetModelName: String, assetModelProperties: [AssetModelProperty], assetModelStatus: AssetModelStatus, assetModelType: AssetModelType? = nil, assetModelVersion: String? = nil, eTag: String? = nil, interfaceDetails: [InterfaceRelationship]? = nil) {
             self.assetModelArn = assetModelArn
             self.assetModelCompositeModels = assetModelCompositeModels
             self.assetModelCompositeModelSummaries = assetModelCompositeModelSummaries
@@ -4519,6 +5175,7 @@ extension IoTSiteWise {
             self.assetModelType = assetModelType
             self.assetModelVersion = assetModelVersion
             self.eTag = eTag
+            self.interfaceDetails = interfaceDetails
         }
 
         public init(from decoder: Decoder) throws {
@@ -4539,6 +5196,7 @@ extension IoTSiteWise {
             self.assetModelType = try container.decodeIfPresent(AssetModelType.self, forKey: .assetModelType)
             self.assetModelVersion = try container.decodeIfPresent(String.self, forKey: .assetModelVersion)
             self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.interfaceDetails = try container.decodeIfPresent([InterfaceRelationship].self, forKey: .interfaceDetails)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4556,6 +5214,7 @@ extension IoTSiteWise {
             case assetModelStatus = "assetModelStatus"
             case assetModelType = "assetModelType"
             case assetModelVersion = "assetModelVersion"
+            case interfaceDetails = "interfaceDetails"
         }
     }
 
@@ -4581,10 +5240,10 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.assetId, name: "assetId", parent: name, max: 139)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 13)
-            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.propertyId, name: "propertyId", parent: name, max: 139)
             try self.validate(self.propertyId, name: "propertyId", parent: name, min: 13)
-            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4646,7 +5305,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.assetId, name: "assetId", parent: name, max: 139)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 13)
-            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4732,7 +5391,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.jobId, name: "jobId", parent: name, max: 36)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 36)
-            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4792,6 +5451,146 @@ extension IoTSiteWise {
         }
     }
 
+    public struct DescribeComputationModelExecutionSummaryRequest: AWSEncodableShape {
+        /// The ID of the computation model.
+        public let computationModelId: String
+        /// The ID of the resolved resource.
+        public let resolveToResourceId: String?
+        /// The type of the resolved resource.
+        public let resolveToResourceType: ResolveToResourceType?
+
+        @inlinable
+        public init(computationModelId: String, resolveToResourceId: String? = nil, resolveToResourceType: ResolveToResourceType? = nil) {
+            self.computationModelId = computationModelId
+            self.resolveToResourceId = resolveToResourceId
+            self.resolveToResourceType = resolveToResourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.computationModelId, key: "computationModelId")
+            request.encodeQuery(self.resolveToResourceId, key: "resolveToResourceId")
+            request.encodeQuery(self.resolveToResourceType, key: "resolveToResourceType")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.computationModelId, name: "computationModelId", parent: name, max: 36)
+            try self.validate(self.computationModelId, name: "computationModelId", parent: name, min: 36)
+            try self.validate(self.computationModelId, name: "computationModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.resolveToResourceId, name: "resolveToResourceId", parent: name, max: 36)
+            try self.validate(self.resolveToResourceId, name: "resolveToResourceId", parent: name, min: 36)
+            try self.validate(self.resolveToResourceId, name: "resolveToResourceId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeComputationModelExecutionSummaryResponse: AWSDecodableShape {
+        /// Contains the execution summary of the computation model.
+        public let computationModelExecutionSummary: [String: String]
+        /// The ID of the computation model.
+        public let computationModelId: String
+        /// The detailed resource this execution summary resolves to.
+        public let resolveTo: ResolveTo?
+
+        @inlinable
+        public init(computationModelExecutionSummary: [String: String], computationModelId: String, resolveTo: ResolveTo? = nil) {
+            self.computationModelExecutionSummary = computationModelExecutionSummary
+            self.computationModelId = computationModelId
+            self.resolveTo = resolveTo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computationModelExecutionSummary = "computationModelExecutionSummary"
+            case computationModelId = "computationModelId"
+            case resolveTo = "resolveTo"
+        }
+    }
+
+    public struct DescribeComputationModelRequest: AWSEncodableShape {
+        /// The ID of the computation model.
+        public let computationModelId: String
+        /// The version of the computation model.
+        public let computationModelVersion: String?
+
+        @inlinable
+        public init(computationModelId: String, computationModelVersion: String? = nil) {
+            self.computationModelId = computationModelId
+            self.computationModelVersion = computationModelVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.computationModelId, key: "computationModelId")
+            request.encodeQuery(self.computationModelVersion, key: "computationModelVersion")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.computationModelId, name: "computationModelId", parent: name, max: 36)
+            try self.validate(self.computationModelId, name: "computationModelId", parent: name, min: 36)
+            try self.validate(self.computationModelId, name: "computationModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.computationModelVersion, name: "computationModelVersion", parent: name, pattern: "^(LATEST|ACTIVE|[1-9]{1}\\d{0,9})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeComputationModelResponse: AWSDecodableShape {
+        /// The available actions for this computation model.
+        public let actionDefinitions: [ActionDefinition]
+        /// The ARN of the computation model, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:computation-model/${ComputationModelId}
+        public let computationModelArn: String
+        /// The configuration for the computation model.
+        public let computationModelConfiguration: ComputationModelConfiguration
+        /// The model creation date, in Unix epoch time.
+        public let computationModelCreationDate: Date
+        /// The data binding for the computation model. Key is a variable name defined in configuration.  Value is a ComputationModelDataBindingValue referenced by the variable.
+        public let computationModelDataBinding: [String: ComputationModelDataBindingValue]
+        /// The description of the computation model.
+        public let computationModelDescription: String?
+        /// The ID of the computation model.
+        public let computationModelId: String
+        /// The date the model was last updated, in Unix epoch time.
+        public let computationModelLastUpdateDate: Date
+        /// The name of the computation model.
+        public let computationModelName: String
+        /// The current status of the asset model, which contains a state and an error message if any.
+        public let computationModelStatus: ComputationModelStatus
+        /// The version of the computation model.
+        public let computationModelVersion: String
+
+        @inlinable
+        public init(actionDefinitions: [ActionDefinition], computationModelArn: String, computationModelConfiguration: ComputationModelConfiguration, computationModelCreationDate: Date, computationModelDataBinding: [String: ComputationModelDataBindingValue], computationModelDescription: String? = nil, computationModelId: String, computationModelLastUpdateDate: Date, computationModelName: String, computationModelStatus: ComputationModelStatus, computationModelVersion: String) {
+            self.actionDefinitions = actionDefinitions
+            self.computationModelArn = computationModelArn
+            self.computationModelConfiguration = computationModelConfiguration
+            self.computationModelCreationDate = computationModelCreationDate
+            self.computationModelDataBinding = computationModelDataBinding
+            self.computationModelDescription = computationModelDescription
+            self.computationModelId = computationModelId
+            self.computationModelLastUpdateDate = computationModelLastUpdateDate
+            self.computationModelName = computationModelName
+            self.computationModelStatus = computationModelStatus
+            self.computationModelVersion = computationModelVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionDefinitions = "actionDefinitions"
+            case computationModelArn = "computationModelArn"
+            case computationModelConfiguration = "computationModelConfiguration"
+            case computationModelCreationDate = "computationModelCreationDate"
+            case computationModelDataBinding = "computationModelDataBinding"
+            case computationModelDescription = "computationModelDescription"
+            case computationModelId = "computationModelId"
+            case computationModelLastUpdateDate = "computationModelLastUpdateDate"
+            case computationModelName = "computationModelName"
+            case computationModelStatus = "computationModelStatus"
+            case computationModelVersion = "computationModelVersion"
+        }
+    }
+
     public struct DescribeDashboardRequest: AWSEncodableShape {
         /// The ID of the dashboard.
         public let dashboardId: String
@@ -4810,7 +5609,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 36)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 36)
-            try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4874,9 +5673,9 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 139)
-            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 13)
-            try self.validate(self.datasetId, name: "datasetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 36)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 36)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4954,8 +5753,85 @@ extension IoTSiteWise {
         }
     }
 
+    public struct DescribeExecutionRequest: AWSEncodableShape {
+        /// The ID of the execution.
+        public let executionId: String
+
+        @inlinable
+        public init(executionId: String) {
+            self.executionId = executionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.executionId, key: "executionId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.executionId, name: "executionId", parent: name, max: 36)
+            try self.validate(self.executionId, name: "executionId", parent: name, min: 36)
+            try self.validate(self.executionId, name: "executionId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeExecutionResponse: AWSDecodableShape {
+        /// The type of action exectued.
+        public let actionType: String?
+        /// Provides detailed information about the execution of your anomaly detection models. This includes model metrics and training timestamps for both training and inference actions.   The training action (Amazon Web Services/ANOMALY_DETECTION_TRAINING), includes performance metrics that help you compare different versions of your anomaly detection models. These metrics provide insights into the model's performance during the training process.    The inference action (Amazon Web Services/ANOMALY_DETECTION_INFERENCE), includes information about the results of executing your anomaly detection models. This helps you understand the output of your models and assess their performance.
+        public let executionDetails: [String: String]?
+        /// The time the process ended.
+        public let executionEndTime: Date?
+        /// Entity version used for the execution.
+        public let executionEntityVersion: String?
+        /// The ID of the execution.
+        public let executionId: String
+        /// The result of the execution.
+        public let executionResult: [String: String]?
+        /// The time the process started.
+        public let executionStartTime: Date
+        /// The status of the execution process.
+        public let executionStatus: ExecutionStatus
+        /// The detailed resource this execution resolves to.
+        public let resolveTo: ResolveTo?
+        public let targetResource: TargetResource
+        /// The version of the target resource.
+        public let targetResourceVersion: String
+
+        @inlinable
+        public init(actionType: String? = nil, executionDetails: [String: String]? = nil, executionEndTime: Date? = nil, executionEntityVersion: String? = nil, executionId: String, executionResult: [String: String]? = nil, executionStartTime: Date, executionStatus: ExecutionStatus, resolveTo: ResolveTo? = nil, targetResource: TargetResource, targetResourceVersion: String) {
+            self.actionType = actionType
+            self.executionDetails = executionDetails
+            self.executionEndTime = executionEndTime
+            self.executionEntityVersion = executionEntityVersion
+            self.executionId = executionId
+            self.executionResult = executionResult
+            self.executionStartTime = executionStartTime
+            self.executionStatus = executionStatus
+            self.resolveTo = resolveTo
+            self.targetResource = targetResource
+            self.targetResourceVersion = targetResourceVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionType = "actionType"
+            case executionDetails = "executionDetails"
+            case executionEndTime = "executionEndTime"
+            case executionEntityVersion = "executionEntityVersion"
+            case executionId = "executionId"
+            case executionResult = "executionResult"
+            case executionStartTime = "executionStartTime"
+            case executionStatus = "executionStatus"
+            case resolveTo = "resolveTo"
+            case targetResource = "targetResource"
+            case targetResourceVersion = "targetResourceVersion"
+        }
+    }
+
     public struct DescribeGatewayCapabilityConfigurationRequest: AWSEncodableShape {
-        /// The namespace of the capability configuration. For example, if you configure OPC-UA sources from the IoT SiteWise console, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollector:version, where version is a number such as 1.
+        /// The namespace of the capability configuration. For example, if you configure OPC UA sources for an MQTT-enabled gateway, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollector:3.
         public let capabilityNamespace: String
         /// The ID of the gateway that defines the capability configuration.
         public let gatewayId: String
@@ -4979,7 +5855,7 @@ extension IoTSiteWise {
             try self.validate(self.capabilityNamespace, name: "capabilityNamespace", parent: name, pattern: "^[a-zA-Z]+:[a-zA-Z]+:[0-9]+$")
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 36)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 36)
-            try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4990,7 +5866,7 @@ extension IoTSiteWise {
         public let capabilityConfiguration: String
         /// The namespace of the gateway capability.
         public let capabilityNamespace: String
-        /// The synchronization status of the capability configuration. The sync status can be one of the following:    IN_SYNC – The gateway is running the capability configuration.    NOT_APPLICABLE – Synchronization is not required for this capability configuration. This is most common when integrating partner data sources, because the data integration is handled externally by the partner.    OUT_OF_SYNC – The gateway hasn't received the capability configuration.    SYNC_FAILED – The gateway rejected the capability configuration.    UNKNOWN – The synchronization status is currently unknown due to an undetermined or temporary error.
+        /// The synchronization status of the gateway capability configuration. The sync status can be one of the following:    IN_SYNC - The gateway is running with the latest configuration.    OUT_OF_SYNC - The gateway hasn't received the latest configuration.    SYNC_FAILED - The gateway rejected the latest configuration.    UNKNOWN - The gateway hasn't reported its sync status.    NOT_APPLICABLE - The gateway doesn't support this capability. This is most common when integrating partner data sources, because the data integration is handled externally by the partner.
         public let capabilitySyncStatus: CapabilitySyncStatus
         /// The ID of the gateway that defines the capability configuration.
         public let gatewayId: String
@@ -5029,7 +5905,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 36)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 36)
-            try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5113,7 +5989,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.portalId, name: "portalId", parent: name, max: 36)
             try self.validate(self.portalId, name: "portalId", parent: name, min: 36)
-            try self.validate(self.portalId, name: "portalId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.portalId, name: "portalId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5215,7 +6091,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.projectId, name: "projectId", parent: name, max: 36)
             try self.validate(self.projectId, name: "projectId", parent: name, min: 36)
-            try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5265,7 +6141,7 @@ extension IoTSiteWise {
 
     public struct DescribeStorageConfigurationResponse: AWSDecodableShape {
         public let configurationStatus: ConfigurationStatus
-        /// Describes the configuration for ingesting NULL and NaN data.  By default the feature is allowed. The feature is disallowed if the value is true.
+        /// Describes the configuration for ingesting NULL and NaN data. By default the feature is allowed. The feature is disallowed if the value is true.
         public let disallowIngestNullNaN: Bool?
         /// Contains the storage configuration for time series (data streams) that aren't associated with asset properties. The disassociatedDataStorage can be one of the following values:    ENABLED – IoT SiteWise accepts time series that aren't associated with asset properties.  After the disassociatedDataStorage is enabled, you can't disable it.     DISABLED – IoT SiteWise doesn't accept time series (data streams) that aren't associated with asset properties.   For more information, see Data streams in the IoT SiteWise User Guide.
         public let disassociatedDataStorage: DisassociatedDataStorageState?
@@ -5336,10 +6212,10 @@ extension IoTSiteWise {
             try self.validate(self.alias, name: "alias", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
             try self.validate(self.assetId, name: "assetId", parent: name, max: 139)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 13)
-            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.propertyId, name: "propertyId", parent: name, max: 139)
             try self.validate(self.propertyId, name: "propertyId", parent: name, min: 13)
-            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5439,16 +6315,16 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.assetId, name: "assetId", parent: name, max: 139)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 13)
-            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.childAssetId, name: "childAssetId", parent: name, max: 139)
             try self.validate(self.childAssetId, name: "childAssetId", parent: name, min: 13)
-            try self.validate(self.childAssetId, name: "childAssetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.childAssetId, name: "childAssetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
             try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, max: 139)
             try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, min: 13)
-            try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5490,13 +6366,13 @@ extension IoTSiteWise {
             try self.validate(self.alias, name: "alias", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
             try self.validate(self.assetId, name: "assetId", parent: name, max: 139)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 13)
-            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
             try self.validate(self.propertyId, name: "propertyId", parent: name, max: 139)
             try self.validate(self.propertyId, name: "propertyId", parent: name, min: 13)
-            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5556,25 +6432,29 @@ extension IoTSiteWise {
         public let actionPayload: ActionPayload
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
+        /// The detailed resource this action resolves to.
+        public let resolveTo: ResolveTo?
         /// The resource the action will be taken on.
         public let targetResource: TargetResource
 
         @inlinable
-        public init(actionDefinitionId: String, actionPayload: ActionPayload, clientToken: String? = nil, targetResource: TargetResource) {
+        public init(actionDefinitionId: String, actionPayload: ActionPayload, clientToken: String? = nil, resolveTo: ResolveTo? = nil, targetResource: TargetResource) {
             self.actionDefinitionId = actionDefinitionId
             self.actionPayload = actionPayload
             self.clientToken = clientToken
+            self.resolveTo = resolveTo
             self.targetResource = targetResource
         }
 
         public func validate(name: String) throws {
             try self.validate(self.actionDefinitionId, name: "actionDefinitionId", parent: name, max: 36)
             try self.validate(self.actionDefinitionId, name: "actionDefinitionId", parent: name, min: 36)
-            try self.validate(self.actionDefinitionId, name: "actionDefinitionId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.actionDefinitionId, name: "actionDefinitionId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.actionPayload.validate(name: "\(name).actionPayload")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.resolveTo?.validate(name: "\(name).resolveTo")
             try self.targetResource.validate(name: "\(name).targetResource")
         }
 
@@ -5582,6 +6462,7 @@ extension IoTSiteWise {
             case actionDefinitionId = "actionDefinitionId"
             case actionPayload = "actionPayload"
             case clientToken = "clientToken"
+            case resolveTo = "resolveTo"
             case targetResource = "targetResource"
         }
     }
@@ -5603,7 +6484,7 @@ extension IoTSiteWise {
     public struct ExecuteQueryRequest: AWSEncodableShape {
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
-        /// The maximum number of results to return at one time. The default is 25.
+        /// The maximum number of results to return at one time.   Minimum is 1   Maximum is 20000   Default is 20000
         public let maxResults: Int?
         /// The string that specifies the next page of results.
         public let nextToken: String?
@@ -5656,6 +6537,65 @@ extension IoTSiteWise {
             case columns = "columns"
             case nextToken = "nextToken"
             case rows = "rows"
+        }
+    }
+
+    public struct ExecutionStatus: AWSDecodableShape {
+        /// The current state of the computation model.
+        public let state: ExecutionState
+
+        @inlinable
+        public init(state: ExecutionState) {
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+        }
+    }
+
+    public struct ExecutionSummary: AWSDecodableShape {
+        /// The type of action exectued.
+        public let actionType: String?
+        /// The time the process ended.
+        public let executionEndTime: Date?
+        /// The execution entity version associated with the summary.
+        public let executionEntityVersion: String?
+        /// The ID of the execution.
+        public let executionId: String
+        /// The time the process started.
+        public let executionStartTime: Date
+        /// The status of the execution process.
+        public let executionStatus: ExecutionStatus
+        /// The detailed resource this execution resolves to.
+        public let resolveTo: ResolveTo?
+        public let targetResource: TargetResource
+        /// The version of the target resource.
+        public let targetResourceVersion: String
+
+        @inlinable
+        public init(actionType: String? = nil, executionEndTime: Date? = nil, executionEntityVersion: String? = nil, executionId: String, executionStartTime: Date, executionStatus: ExecutionStatus, resolveTo: ResolveTo? = nil, targetResource: TargetResource, targetResourceVersion: String) {
+            self.actionType = actionType
+            self.executionEndTime = executionEndTime
+            self.executionEntityVersion = executionEntityVersion
+            self.executionId = executionId
+            self.executionStartTime = executionStartTime
+            self.executionStatus = executionStatus
+            self.resolveTo = resolveTo
+            self.targetResource = targetResource
+            self.targetResourceVersion = targetResourceVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionType = "actionType"
+            case executionEndTime = "executionEndTime"
+            case executionEntityVersion = "executionEntityVersion"
+            case executionId = "executionId"
+            case executionStartTime = "executionStartTime"
+            case executionStatus = "executionStatus"
+            case resolveTo = "resolveTo"
+            case targetResource = "targetResource"
+            case targetResourceVersion = "targetResourceVersion"
         }
     }
 
@@ -5744,9 +6684,9 @@ extension IoTSiteWise {
     }
 
     public struct GatewayCapabilitySummary: AWSDecodableShape {
-        /// The namespace of the capability configuration. For example, if you configure OPC-UA sources from the IoT SiteWise console, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollector:version, where version is a number such as 1.
+        /// The namespace of the capability configuration. For example, if you configure OPC UA sources for an MQTT-enabled gateway, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollector:3.
         public let capabilityNamespace: String
-        /// The synchronization status of the capability configuration. The sync status can be one of the following:    IN_SYNC – The gateway is running the capability configuration.    NOT_APPLICABLE – Synchronization is not required for this capability configuration. This is most common when integrating partner data sources, because the data integration is handled externally by the partner.    OUT_OF_SYNC – The gateway hasn't received the capability configuration.    SYNC_FAILED – The gateway rejected the capability configuration.    UNKNOWN – The synchronization status is currently unknown due to an undetermined or temporary error.
+        /// The synchronization status of the gateway capability configuration. The sync status can be one of the following:    IN_SYNC - The gateway is running with the latest configuration.    OUT_OF_SYNC - The gateway hasn't received the latest configuration.    SYNC_FAILED - The gateway rejected the latest configuration.    UNKNOWN - The gateway hasn't reported its sync status.    NOT_APPLICABLE - The gateway doesn't support this capability. This is most common when integrating partner data sources, because the data integration is handled externally by the partner.
         public let capabilitySyncStatus: CapabilitySyncStatus
 
         @inlinable
@@ -5885,7 +6825,7 @@ extension IoTSiteWise {
             try self.validate(self.aggregateTypes, name: "aggregateTypes", parent: name, min: 1)
             try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
-            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -5895,7 +6835,7 @@ extension IoTSiteWise {
             try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
             try self.validate(self.propertyId, name: "propertyId", parent: name, max: 36)
             try self.validate(self.propertyId, name: "propertyId", parent: name, min: 36)
-            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.qualities, name: "qualities", parent: name, max: 1)
             try self.validate(self.qualities, name: "qualities", parent: name, min: 1)
             try self.validate(self.resolution, name: "resolution", parent: name, max: 3)
@@ -5974,7 +6914,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
-            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -5984,7 +6924,7 @@ extension IoTSiteWise {
             try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
             try self.validate(self.propertyId, name: "propertyId", parent: name, max: 36)
             try self.validate(self.propertyId, name: "propertyId", parent: name, min: 36)
-            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.qualities, name: "qualities", parent: name, max: 1)
             try self.validate(self.qualities, name: "qualities", parent: name, min: 1)
         }
@@ -6036,13 +6976,13 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
-            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, max: 2048)
             try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, min: 1)
             try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
             try self.validate(self.propertyId, name: "propertyId", parent: name, max: 36)
             try self.validate(self.propertyId, name: "propertyId", parent: name, min: 36)
-            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6128,7 +7068,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
-            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.endTimeInSeconds, name: "endTimeInSeconds", parent: name, max: 9223372036854774)
             try self.validate(self.endTimeInSeconds, name: "endTimeInSeconds", parent: name, min: 1)
             try self.validate(self.endTimeOffsetInNanos, name: "endTimeOffsetInNanos", parent: name, max: 999999999)
@@ -6146,7 +7086,7 @@ extension IoTSiteWise {
             try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
             try self.validate(self.propertyId, name: "propertyId", parent: name, max: 36)
             try self.validate(self.propertyId, name: "propertyId", parent: name, min: 36)
-            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.startTimeInSeconds, name: "startTimeInSeconds", parent: name, max: 9223372036854774)
             try self.validate(self.startTimeInSeconds, name: "startTimeInSeconds", parent: name, min: 1)
             try self.validate(self.startTimeOffsetInNanos, name: "startTimeOffsetInNanos", parent: name, max: 999999999)
@@ -6197,7 +7137,7 @@ extension IoTSiteWise {
     }
 
     public struct GreengrassV2: AWSEncodableShape & AWSDecodableShape {
-        /// The operating system of the core device in IoT Greengrass V2.
+        /// The operating system of the core device in IoT Greengrass V2. Specifying the operating system is required for MQTT-enabled, V3 gateways (gatewayVersion 3) and not applicable for Classic stream, V2 gateways (gatewayVersion 2).
         public let coreDeviceOperatingSystem: CoreDeviceOperatingSystem?
         /// The name of the IoT thing for your IoT Greengrass V2 core device.
         public let coreDeviceThingName: String
@@ -6237,6 +7177,24 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case id = "id"
+        }
+    }
+
+    public struct HierarchyMapping: AWSDecodableShape {
+        /// The ID of the hierarchy in the asset model where the interface is applied.
+        public let assetModelHierarchyId: String
+        /// The ID of the hierarchy in the interface asset model.
+        public let interfaceAssetModelHierarchyId: String
+
+        @inlinable
+        public init(assetModelHierarchyId: String, interfaceAssetModelHierarchyId: String) {
+            self.assetModelHierarchyId = assetModelHierarchyId
+            self.interfaceAssetModelHierarchyId = interfaceAssetModelHierarchyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetModelHierarchyId = "assetModelHierarchyId"
+            case interfaceAssetModelHierarchyId = "interfaceAssetModelHierarchyId"
         }
     }
 
@@ -6328,7 +7286,7 @@ extension IoTSiteWise {
             try self.file?.validate(name: "\(name).file")
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 36)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6375,6 +7333,52 @@ extension IoTSiteWise {
         private enum CodingKeys: String, CodingKey {
             case id = "id"
             case url = "url"
+        }
+    }
+
+    public struct InterfaceRelationship: AWSDecodableShape {
+        /// The ID of the asset model that has the interface applied to it.
+        public let id: String
+
+        @inlinable
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+        }
+    }
+
+    public struct InterfaceRelationshipSummary: AWSDecodableShape {
+        /// The ID of the asset model that has the interface applied to it.
+        public let id: String
+
+        @inlinable
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+        }
+    }
+
+    public struct InterfaceSummary: AWSDecodableShape {
+        /// The ID of the interface asset model that contains this property.
+        public let interfaceAssetModelId: String
+        /// The ID of the property in the interface asset model that corresponds to this property.
+        public let interfaceAssetModelPropertyId: String
+
+        @inlinable
+        public init(interfaceAssetModelId: String, interfaceAssetModelPropertyId: String) {
+            self.interfaceAssetModelId = interfaceAssetModelId
+            self.interfaceAssetModelPropertyId = interfaceAssetModelPropertyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case interfaceAssetModelId = "interfaceAssetModelId"
+            case interfaceAssetModelPropertyId = "interfaceAssetModelPropertyId"
         }
     }
 
@@ -6619,7 +7623,7 @@ extension IoTSiteWise {
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 36)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 36)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6648,15 +7652,21 @@ extension IoTSiteWise {
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
+        /// The ID of the resolved resource.
+        public let resolveToResourceId: String?
+        /// The type of the resolved resource.
+        public let resolveToResourceType: ResolveToResourceType?
         /// The ID of the target resource.
         public let targetResourceId: String
         /// The type of resource.
         public let targetResourceType: TargetResourceType
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil, targetResourceId: String, targetResourceType: TargetResourceType) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resolveToResourceId: String? = nil, resolveToResourceType: ResolveToResourceType? = nil, targetResourceId: String, targetResourceType: TargetResourceType) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.resolveToResourceId = resolveToResourceId
+            self.resolveToResourceType = resolveToResourceType
             self.targetResourceId = targetResourceId
             self.targetResourceType = targetResourceType
         }
@@ -6666,6 +7676,8 @@ extension IoTSiteWise {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.resolveToResourceId, key: "resolveToResourceId")
+            request.encodeQuery(self.resolveToResourceType, key: "resolveToResourceType")
             request.encodeQuery(self.targetResourceId, key: "targetResourceId")
             request.encodeQuery(self.targetResourceType, key: "targetResourceType")
         }
@@ -6676,9 +7688,12 @@ extension IoTSiteWise {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
-            try self.validate(self.targetResourceId, name: "targetResourceId", parent: name, max: 139)
-            try self.validate(self.targetResourceId, name: "targetResourceId", parent: name, min: 13)
-            try self.validate(self.targetResourceId, name: "targetResourceId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.resolveToResourceId, name: "resolveToResourceId", parent: name, max: 36)
+            try self.validate(self.resolveToResourceId, name: "resolveToResourceId", parent: name, min: 36)
+            try self.validate(self.resolveToResourceId, name: "resolveToResourceId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.targetResourceId, name: "targetResourceId", parent: name, max: 36)
+            try self.validate(self.targetResourceId, name: "targetResourceId", parent: name, min: 36)
+            try self.validate(self.targetResourceId, name: "targetResourceId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6732,7 +7747,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 139)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 13)
-            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.assetModelVersion, name: "assetModelVersion", parent: name, pattern: "^(LATEST|ACTIVE)$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -6796,7 +7811,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 139)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 13)
-            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.assetModelVersion, name: "assetModelVersion", parent: name, pattern: "^(LATEST|ACTIVE)$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -6827,7 +7842,7 @@ extension IoTSiteWise {
     }
 
     public struct ListAssetModelsRequest: AWSEncodableShape {
-        /// The type of asset model. If you don't provide an assetModelTypes, all types of asset models are returned.    ASSET_MODEL – An asset model that you can use to create assets. Can't be included as a component in another asset model.    COMPONENT_MODEL – A reusable component that you can include in the composite models of other asset models. You can't create assets directly from this type of asset model.
+        /// The type of asset model. If you don't provide an assetModelTypes, all types of asset models are returned.    ASSET_MODEL – An asset model that you can use to create assets. Can't be included as a component in another asset model.    COMPONENT_MODEL – A reusable component that you can include in the composite models of other asset models. You can't create assets directly from this type of asset model.     INTERFACE – An interface is a type of model that defines a standard structure that can be applied to different asset models.
         public let assetModelTypes: [AssetModelType]?
         /// The version alias that specifies the latest or active version of the asset model.  The details are returned in the response. The default value is LATEST. See  Asset model versions in the IoT SiteWise User Guide.
         public let assetModelVersion: String?
@@ -6913,7 +7928,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.assetId, name: "assetId", parent: name, max: 139)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 13)
-            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
@@ -6972,7 +7987,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.assetId, name: "assetId", parent: name, max: 139)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 13)
-            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
@@ -7031,7 +8046,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 139)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 13)
-            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
@@ -7094,10 +8109,10 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.assetId, name: "assetId", parent: name, max: 139)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 13)
-            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, max: 139)
             try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, min: 13)
-            try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
@@ -7204,7 +8219,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 36)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 36)
-            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
@@ -7229,6 +8244,162 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case compositionRelationshipSummaries = "compositionRelationshipSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListComputationModelDataBindingUsagesRequest: AWSEncodableShape {
+        /// A filter used to limit the returned data binding usages based on specific data binding values. You can filter by asset, asset model, asset property, or asset model property to find all computation models using these specific data sources.
+        public let dataBindingValueFilter: DataBindingValueFilter
+        /// The maximum number of results returned for each paginated request.
+        public let maxResults: Int?
+        /// The token used for the next set of paginated results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(dataBindingValueFilter: DataBindingValueFilter, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.dataBindingValueFilter = dataBindingValueFilter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.dataBindingValueFilter.validate(name: "\(name).dataBindingValueFilter")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataBindingValueFilter = "dataBindingValueFilter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListComputationModelDataBindingUsagesResponse: AWSDecodableShape {
+        /// A list of summaries describing the data binding usages across computation models. Each summary includes the computation model IDs and the matched data binding details.
+        public let dataBindingUsageSummaries: [ComputationModelDataBindingUsageSummary]
+        /// The token for the next set of paginated results, or null if there are no additional results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(dataBindingUsageSummaries: [ComputationModelDataBindingUsageSummary], nextToken: String? = nil) {
+            self.dataBindingUsageSummaries = dataBindingUsageSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataBindingUsageSummaries = "dataBindingUsageSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListComputationModelResolveToResourcesRequest: AWSEncodableShape {
+        /// The ID of the computation model for which to list resolved resources.
+        public let computationModelId: String
+        /// The maximum number of results returned for each paginated request.
+        public let maxResults: Int?
+        /// The token used for the next set of paginated results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(computationModelId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.computationModelId = computationModelId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.computationModelId, key: "computationModelId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.computationModelId, name: "computationModelId", parent: name, max: 36)
+            try self.validate(self.computationModelId, name: "computationModelId", parent: name, min: 36)
+            try self.validate(self.computationModelId, name: "computationModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListComputationModelResolveToResourcesResponse: AWSDecodableShape {
+        /// A list of summaries describing the distinct resources that this computation model resolves to when actions were executed.
+        public let computationModelResolveToResourceSummaries: [ComputationModelResolveToResourceSummary]
+        /// The token for the next set of paginated results, or null if there are no additional results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(computationModelResolveToResourceSummaries: [ComputationModelResolveToResourceSummary], nextToken: String? = nil) {
+            self.computationModelResolveToResourceSummaries = computationModelResolveToResourceSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computationModelResolveToResourceSummaries = "computationModelResolveToResourceSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListComputationModelsRequest: AWSEncodableShape {
+        /// The type of computation model. If a computationModelType is not provided, all types of computation models are returned.
+        public let computationModelType: ComputationModelType?
+        /// The maximum number of results to return for each paginated request.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(computationModelType: ComputationModelType? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.computationModelType = computationModelType
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.computationModelType, key: "computationModelType")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListComputationModelsResponse: AWSDecodableShape {
+        /// A list summarizing each computation model.
+        public let computationModelSummaries: [ComputationModelSummary]
+        /// The token for the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(computationModelSummaries: [ComputationModelSummary], nextToken: String? = nil) {
+            self.computationModelSummaries = computationModelSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computationModelSummaries = "computationModelSummaries"
             case nextToken = "nextToken"
         }
     }
@@ -7264,7 +8435,7 @@ extension IoTSiteWise {
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
             try self.validate(self.projectId, name: "projectId", parent: name, max: 36)
             try self.validate(self.projectId, name: "projectId", parent: name, min: 36)
-            try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -7340,6 +8511,83 @@ extension IoTSiteWise {
         }
     }
 
+    public struct ListExecutionsRequest: AWSEncodableShape {
+        /// The type of action exectued.
+        public let actionType: String?
+        /// The maximum number of results returned for each paginated request.
+        public let maxResults: Int?
+        /// The token used for the next set of paginated results.
+        public let nextToken: String?
+        /// The ID of the resolved resource.
+        public let resolveToResourceId: String?
+        /// The type of the resolved resource.
+        public let resolveToResourceType: ResolveToResourceType?
+        /// The ID of the target resource.
+        public let targetResourceId: String
+        /// The type of the target resource.
+        public let targetResourceType: TargetResourceType
+
+        @inlinable
+        public init(actionType: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resolveToResourceId: String? = nil, resolveToResourceType: ResolveToResourceType? = nil, targetResourceId: String, targetResourceType: TargetResourceType) {
+            self.actionType = actionType
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resolveToResourceId = resolveToResourceId
+            self.resolveToResourceType = resolveToResourceType
+            self.targetResourceId = targetResourceId
+            self.targetResourceType = targetResourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.actionType, key: "actionType")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.resolveToResourceId, key: "resolveToResourceId")
+            request.encodeQuery(self.resolveToResourceType, key: "resolveToResourceType")
+            request.encodeQuery(self.targetResourceId, key: "targetResourceId")
+            request.encodeQuery(self.targetResourceType, key: "targetResourceType")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.actionType, name: "actionType", parent: name, max: 256)
+            try self.validate(self.actionType, name: "actionType", parent: name, min: 1)
+            try self.validate(self.actionType, name: "actionType", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
+            try self.validate(self.resolveToResourceId, name: "resolveToResourceId", parent: name, max: 36)
+            try self.validate(self.resolveToResourceId, name: "resolveToResourceId", parent: name, min: 36)
+            try self.validate(self.resolveToResourceId, name: "resolveToResourceId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.targetResourceId, name: "targetResourceId", parent: name, max: 36)
+            try self.validate(self.targetResourceId, name: "targetResourceId", parent: name, min: 36)
+            try self.validate(self.targetResourceId, name: "targetResourceId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListExecutionsResponse: AWSDecodableShape {
+        /// Contains the list of execution summaries of the computation models.
+        public let executionSummaries: [ExecutionSummary]
+        /// The token for the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(executionSummaries: [ExecutionSummary], nextToken: String? = nil) {
+            self.executionSummaries = executionSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionSummaries = "executionSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListGatewaysRequest: AWSEncodableShape {
         /// The maximum number of results to return for each paginated request. Default: 50
         public let maxResults: Int?
@@ -7384,6 +8632,61 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case gatewaySummaries = "gatewaySummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListInterfaceRelationshipsRequest: AWSEncodableShape {
+        /// The ID of the interface asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID.
+        public let interfaceAssetModelId: String
+        /// The maximum number of results to return for each paginated request. Default: 50
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(interfaceAssetModelId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.interfaceAssetModelId = interfaceAssetModelId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.interfaceAssetModelId, key: "interfaceAssetModelId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.interfaceAssetModelId, name: "interfaceAssetModelId", parent: name, max: 139)
+            try self.validate(self.interfaceAssetModelId, name: "interfaceAssetModelId", parent: name, min: 13)
+            try self.validate(self.interfaceAssetModelId, name: "interfaceAssetModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListInterfaceRelationshipsResponse: AWSDecodableShape {
+        /// A list that summarizes each interface relationship.
+        public let interfaceRelationshipSummaries: [InterfaceRelationshipSummary]
+        /// The token for the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(interfaceRelationshipSummaries: [InterfaceRelationshipSummary], nextToken: String? = nil) {
+            self.interfaceRelationshipSummaries = interfaceRelationshipSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case interfaceRelationshipSummaries = "interfaceRelationshipSummaries"
             case nextToken = "nextToken"
         }
     }
@@ -7467,7 +8770,7 @@ extension IoTSiteWise {
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
             try self.validate(self.projectId, name: "projectId", parent: name, max: 36)
             try self.validate(self.projectId, name: "projectId", parent: name, min: 36)
-            try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -7522,7 +8825,7 @@ extension IoTSiteWise {
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
             try self.validate(self.portalId, name: "portalId", parent: name, max: 36)
             try self.validate(self.portalId, name: "portalId", parent: name, min: 36)
-            try self.validate(self.portalId, name: "portalId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.portalId, name: "portalId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -7619,7 +8922,7 @@ extension IoTSiteWise {
             try self.validate(self.aliasPrefix, name: "aliasPrefix", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
             try self.validate(self.assetId, name: "assetId", parent: name, max: 139)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 13)
-            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
@@ -7676,6 +8979,20 @@ extension IoTSiteWise {
         }
     }
 
+    public struct MatchedDataBinding: AWSDecodableShape {
+        /// The value of the matched data binding.
+        public let value: DataBindingValue
+
+        @inlinable
+        public init(value: DataBindingValue) {
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "value"
+        }
+    }
+
     public struct Measurement: AWSEncodableShape & AWSDecodableShape {
         /// The processing configuration for the given measurement property. You can configure measurements to be kept at the edge or forwarded to the Amazon Web Services Cloud. By default, measurements are forwarded to the cloud.
         public let processingConfig: MeasurementProcessingConfig?
@@ -7706,16 +9023,16 @@ extension IoTSiteWise {
 
     public struct Metric: AWSEncodableShape & AWSDecodableShape {
         /// The mathematical expression that defines the metric aggregation function. You can specify up to 10 variables per expression. You can specify up to 10 functions per expression.  For more information, see Quotas in the IoT SiteWise User Guide.
-        public let expression: String
+        public let expression: String?
         /// The processing configuration for the given metric property. You can configure metrics to be computed at the edge or in the Amazon Web Services Cloud. By default, metrics are forwarded to the cloud.
         public let processingConfig: MetricProcessingConfig?
         /// The list of variables used in the expression.
-        public let variables: [ExpressionVariable]
+        public let variables: [ExpressionVariable]?
         /// The window (time interval) over which IoT SiteWise computes the metric's aggregation expression. IoT SiteWise computes one data point per window.
         public let window: MetricWindow
 
         @inlinable
-        public init(expression: String, processingConfig: MetricProcessingConfig? = nil, variables: [ExpressionVariable], window: MetricWindow) {
+        public init(expression: String? = nil, processingConfig: MetricProcessingConfig? = nil, variables: [ExpressionVariable]? = nil, window: MetricWindow) {
             self.expression = expression
             self.processingConfig = processingConfig
             self.variables = variables
@@ -7724,8 +9041,7 @@ extension IoTSiteWise {
 
         public func validate(name: String) throws {
             try self.validate(self.expression, name: "expression", parent: name, max: 1024)
-            try self.validate(self.expression, name: "expression", parent: name, min: 1)
-            try self.variables.forEach {
+            try self.variables?.forEach {
                 try $0.validate(name: "\(name).variables[]")
             }
             try self.window.validate(name: "\(name).window")
@@ -7823,7 +9139,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 36)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7949,7 +9265,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 36)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8033,6 +9349,61 @@ extension IoTSiteWise {
         }
     }
 
+    public struct PropertyMapping: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the property in the asset model where the interface is applied.
+        public let assetModelPropertyId: String
+        /// The ID of the property in the interface asset model.
+        public let interfaceAssetModelPropertyId: String
+
+        @inlinable
+        public init(assetModelPropertyId: String, interfaceAssetModelPropertyId: String) {
+            self.assetModelPropertyId = assetModelPropertyId
+            self.interfaceAssetModelPropertyId = interfaceAssetModelPropertyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetModelPropertyId, name: "assetModelPropertyId", parent: name, max: 139)
+            try self.validate(self.assetModelPropertyId, name: "assetModelPropertyId", parent: name, min: 13)
+            try self.validate(self.assetModelPropertyId, name: "assetModelPropertyId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
+            try self.validate(self.interfaceAssetModelPropertyId, name: "interfaceAssetModelPropertyId", parent: name, max: 139)
+            try self.validate(self.interfaceAssetModelPropertyId, name: "interfaceAssetModelPropertyId", parent: name, min: 13)
+            try self.validate(self.interfaceAssetModelPropertyId, name: "interfaceAssetModelPropertyId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetModelPropertyId = "assetModelPropertyId"
+            case interfaceAssetModelPropertyId = "interfaceAssetModelPropertyId"
+        }
+    }
+
+    public struct PropertyMappingConfiguration: AWSEncodableShape {
+        /// If true, missing properties from the interface asset model are automatically created in the asset model where the interface is applied.
+        public let createMissingProperty: Bool?
+        /// If true, properties are matched by name between the interface asset model and the asset model where the interface is applied.
+        public let matchByPropertyName: Bool?
+        /// A list of specific property mappings that override the automatic mapping by name when an interface is applied to an asset model.
+        public let overrides: [PropertyMapping]?
+
+        @inlinable
+        public init(createMissingProperty: Bool? = nil, matchByPropertyName: Bool? = nil, overrides: [PropertyMapping]? = nil) {
+            self.createMissingProperty = createMissingProperty
+            self.matchByPropertyName = matchByPropertyName
+            self.overrides = overrides
+        }
+
+        public func validate(name: String) throws {
+            try self.overrides?.forEach {
+                try $0.validate(name: "\(name).overrides[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createMissingProperty = "createMissingProperty"
+            case matchByPropertyName = "matchByPropertyName"
+            case overrides = "overrides"
+        }
+    }
+
     public struct PropertyNotification: AWSDecodableShape {
         /// The current notification state.
         public let state: PropertyNotificationState
@@ -8097,6 +9468,77 @@ extension IoTSiteWise {
         }
     }
 
+    public struct PutAssetModelInterfaceRelationshipRequest: AWSEncodableShape {
+        /// The ID of the asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID.
+        public let assetModelId: String
+        /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+        public let clientToken: String?
+        /// The ID of the interface asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID.
+        public let interfaceAssetModelId: String
+        /// The configuration for mapping properties from the interface asset model to the asset model where the interface is applied. This configuration controls how properties are matched and created during the interface application process.
+        public let propertyMappingConfiguration: PropertyMappingConfiguration
+
+        @inlinable
+        public init(assetModelId: String, clientToken: String? = PutAssetModelInterfaceRelationshipRequest.idempotencyToken(), interfaceAssetModelId: String, propertyMappingConfiguration: PropertyMappingConfiguration) {
+            self.assetModelId = assetModelId
+            self.clientToken = clientToken
+            self.interfaceAssetModelId = interfaceAssetModelId
+            self.propertyMappingConfiguration = propertyMappingConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetModelId, key: "assetModelId")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.interfaceAssetModelId, key: "interfaceAssetModelId")
+            try container.encode(self.propertyMappingConfiguration, forKey: .propertyMappingConfiguration)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 139)
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 13)
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.interfaceAssetModelId, name: "interfaceAssetModelId", parent: name, max: 139)
+            try self.validate(self.interfaceAssetModelId, name: "interfaceAssetModelId", parent: name, min: 13)
+            try self.validate(self.interfaceAssetModelId, name: "interfaceAssetModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
+            try self.propertyMappingConfiguration.validate(name: "\(name).propertyMappingConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case propertyMappingConfiguration = "propertyMappingConfiguration"
+        }
+    }
+
+    public struct PutAssetModelInterfaceRelationshipResponse: AWSDecodableShape {
+        /// The ARN of the asset model, which has the following format. arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}
+        public let assetModelArn: String
+        /// The ID of the asset model.
+        public let assetModelId: String
+        public let assetModelStatus: AssetModelStatus
+        /// The ID of the interface asset model.
+        public let interfaceAssetModelId: String
+
+        @inlinable
+        public init(assetModelArn: String, assetModelId: String, assetModelStatus: AssetModelStatus, interfaceAssetModelId: String) {
+            self.assetModelArn = assetModelArn
+            self.assetModelId = assetModelId
+            self.assetModelStatus = assetModelStatus
+            self.interfaceAssetModelId = interfaceAssetModelId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetModelArn = "assetModelArn"
+            case assetModelId = "assetModelId"
+            case assetModelStatus = "assetModelStatus"
+            case interfaceAssetModelId = "interfaceAssetModelId"
+        }
+    }
+
     public struct PutAssetPropertyValueEntry: AWSEncodableShape {
         /// The ID of the asset to update.
         public let assetId: String?
@@ -8121,7 +9563,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
-            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.entryId, name: "entryId", parent: name, max: 64)
             try self.validate(self.entryId, name: "entryId", parent: name, min: 1)
             try self.validate(self.entryId, name: "entryId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
@@ -8130,7 +9572,7 @@ extension IoTSiteWise {
             try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
             try self.validate(self.propertyId, name: "propertyId", parent: name, max: 36)
             try self.validate(self.propertyId, name: "propertyId", parent: name, min: 36)
-            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.propertyValues.forEach {
                 try $0.validate(name: "\(name).propertyValues[]")
             }
@@ -8209,7 +9651,7 @@ extension IoTSiteWise {
     }
 
     public struct PutStorageConfigurationRequest: AWSEncodableShape {
-        /// Describes the configuration for ingesting NULL and NaN data.  By default the feature is allowed. The feature is disallowed if the value is true.
+        /// Describes the configuration for ingesting NULL and NaN data. By default the feature is allowed. The feature is disallowed if the value is true.
         public let disallowIngestNullNaN: Bool?
         /// Contains the storage configuration for time series (data streams) that aren't associated with asset properties. The disassociatedDataStorage can be one of the following values:    ENABLED – IoT SiteWise accepts time series that aren't associated with asset properties.  After the disassociatedDataStorage is enabled, you can't disable it.     DISABLED – IoT SiteWise doesn't accept time series (data streams) that aren't associated with asset properties.   For more information, see Data streams in the IoT SiteWise User Guide.
         public let disassociatedDataStorage: DisassociatedDataStorageState?
@@ -8251,7 +9693,7 @@ extension IoTSiteWise {
 
     public struct PutStorageConfigurationResponse: AWSDecodableShape {
         public let configurationStatus: ConfigurationStatus
-        /// Describes the configuration for ingesting NULL and NaN data.  By default the feature is allowed. The feature is disallowed if the value is true.
+        /// Describes the configuration for ingesting NULL and NaN data. By default the feature is allowed. The feature is disallowed if the value is true.
         public let disallowIngestNullNaN: Bool?
         /// Contains the storage configuration for time series (data streams) that aren't associated with asset properties. The disassociatedDataStorage can be one of the following values:    ENABLED – IoT SiteWise accepts time series that aren't associated with asset properties.  After the disassociatedDataStorage is enabled, you can't disable it.     DISABLED – IoT SiteWise doesn't accept time series (data streams) that aren't associated with asset properties.   For more information, see Data streams in the IoT SiteWise User Guide.
         public let disassociatedDataStorage: DisassociatedDataStorageState?
@@ -8300,6 +9742,26 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case dataset = "dataset"
+        }
+    }
+
+    public struct ResolveTo: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the asset that the resource resolves to.
+        public let assetId: String
+
+        @inlinable
+        public init(assetId: String) {
+            self.assetId = assetId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetId = "assetId"
         }
     }
 
@@ -8490,21 +9952,28 @@ extension IoTSiteWise {
 
     public struct TargetResource: AWSEncodableShape & AWSDecodableShape {
         /// The ID of the asset, in UUID format.
-        public let assetId: String
+        public let assetId: String?
+        /// The ID of the computation model.
+        public let computationModelId: String?
 
         @inlinable
-        public init(assetId: String) {
+        public init(assetId: String? = nil, computationModelId: String? = nil) {
             self.assetId = assetId
+            self.computationModelId = computationModelId
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.assetId, name: "assetId", parent: name, max: 139)
-            try self.validate(self.assetId, name: "assetId", parent: name, min: 13)
-            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.computationModelId, name: "computationModelId", parent: name, max: 36)
+            try self.validate(self.computationModelId, name: "computationModelId", parent: name, min: 36)
+            try self.validate(self.computationModelId, name: "computationModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case assetId = "assetId"
+            case computationModelId = "computationModelId"
         }
     }
 
@@ -8640,7 +10109,6 @@ extension IoTSiteWise {
 
         public func validate(name: String) throws {
             try self.validate(self.expression, name: "expression", parent: name, max: 1024)
-            try self.validate(self.expression, name: "expression", parent: name, min: 1)
             try self.variables.forEach {
                 try $0.validate(name: "\(name).variables[]")
             }
@@ -8765,7 +10233,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.accessPolicyId, name: "accessPolicyId", parent: name, max: 36)
             try self.validate(self.accessPolicyId, name: "accessPolicyId", parent: name, min: 36)
-            try self.validate(self.accessPolicyId, name: "accessPolicyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.accessPolicyId, name: "accessPolicyId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.accessPolicyIdentity.validate(name: "\(name).accessPolicyIdentity")
             try self.accessPolicyResource.validate(name: "\(name).accessPolicyResource")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
@@ -8845,7 +10313,7 @@ extension IoTSiteWise {
             try self.validate(self.assetModelCompositeModelExternalId, name: "assetModelCompositeModelExternalId", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.assetModelCompositeModelId, name: "assetModelCompositeModelId", parent: name, max: 139)
             try self.validate(self.assetModelCompositeModelId, name: "assetModelCompositeModelId", parent: name, min: 13)
-            try self.validate(self.assetModelCompositeModelId, name: "assetModelCompositeModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetModelCompositeModelId, name: "assetModelCompositeModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.assetModelCompositeModelName, name: "assetModelCompositeModelName", parent: name, max: 256)
             try self.validate(self.assetModelCompositeModelName, name: "assetModelCompositeModelName", parent: name, min: 1)
             try self.validate(self.assetModelCompositeModelName, name: "assetModelCompositeModelName", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
@@ -8854,7 +10322,7 @@ extension IoTSiteWise {
             }
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 139)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 13)
-            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
@@ -8958,7 +10426,7 @@ extension IoTSiteWise {
             }
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 139)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 13)
-            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.assetModelName, name: "assetModelName", parent: name, max: 256)
             try self.validate(self.assetModelName, name: "assetModelName", parent: name, min: 1)
             try self.validate(self.assetModelName, name: "assetModelName", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
@@ -9035,7 +10503,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.assetId, name: "assetId", parent: name, max: 139)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 13)
-            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
@@ -9043,7 +10511,7 @@ extension IoTSiteWise {
             try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
             try self.validate(self.propertyId, name: "propertyId", parent: name, max: 139)
             try self.validate(self.propertyId, name: "propertyId", parent: name, min: 13)
-            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.propertyUnit, name: "propertyUnit", parent: name, max: 256)
             try self.validate(self.propertyUnit, name: "propertyUnit", parent: name, min: 1)
             try self.validate(self.propertyUnit, name: "propertyUnit", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
@@ -9097,7 +10565,7 @@ extension IoTSiteWise {
             try self.validate(self.assetExternalId, name: "assetExternalId", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.assetId, name: "assetId", parent: name, max: 139)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 13)
-            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
             try self.validate(self.assetName, name: "assetName", parent: name, max: 256)
             try self.validate(self.assetName, name: "assetName", parent: name, min: 1)
             try self.validate(self.assetName, name: "assetName", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
@@ -9125,6 +10593,86 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case assetStatus = "assetStatus"
+        }
+    }
+
+    public struct UpdateComputationModelRequest: AWSEncodableShape {
+        /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+        public let clientToken: String?
+        /// The configuration for the computation model.
+        public let computationModelConfiguration: ComputationModelConfiguration
+        /// The data binding for the computation model. Key is a variable name defined in configuration.  Value is a ComputationModelDataBindingValue referenced by the variable.
+        public let computationModelDataBinding: [String: ComputationModelDataBindingValue]
+        /// The description of the computation model.
+        public let computationModelDescription: String?
+        /// The ID of the computation model.
+        public let computationModelId: String
+        /// The name of the computation model.
+        public let computationModelName: String
+
+        @inlinable
+        public init(clientToken: String? = UpdateComputationModelRequest.idempotencyToken(), computationModelConfiguration: ComputationModelConfiguration, computationModelDataBinding: [String: ComputationModelDataBindingValue], computationModelDescription: String? = nil, computationModelId: String, computationModelName: String) {
+            self.clientToken = clientToken
+            self.computationModelConfiguration = computationModelConfiguration
+            self.computationModelDataBinding = computationModelDataBinding
+            self.computationModelDescription = computationModelDescription
+            self.computationModelId = computationModelId
+            self.computationModelName = computationModelName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.computationModelConfiguration, forKey: .computationModelConfiguration)
+            try container.encode(self.computationModelDataBinding, forKey: .computationModelDataBinding)
+            try container.encodeIfPresent(self.computationModelDescription, forKey: .computationModelDescription)
+            request.encodePath(self.computationModelId, key: "computationModelId")
+            try container.encode(self.computationModelName, forKey: .computationModelName)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.computationModelConfiguration.validate(name: "\(name).computationModelConfiguration")
+            try self.computationModelDataBinding.forEach {
+                try validate($0.key, name: "computationModelDataBinding.key", parent: name, max: 64)
+                try validate($0.key, name: "computationModelDataBinding.key", parent: name, min: 1)
+                try validate($0.key, name: "computationModelDataBinding.key", parent: name, pattern: "^[a-z][a-z0-9_]*$")
+                try $0.value.validate(name: "\(name).computationModelDataBinding[\"\($0.key)\"]")
+            }
+            try self.validate(self.computationModelDescription, name: "computationModelDescription", parent: name, max: 2048)
+            try self.validate(self.computationModelDescription, name: "computationModelDescription", parent: name, min: 1)
+            try self.validate(self.computationModelDescription, name: "computationModelDescription", parent: name, pattern: "^[a-zA-Z0-9 _\\-#$*!@]+$")
+            try self.validate(self.computationModelId, name: "computationModelId", parent: name, max: 36)
+            try self.validate(self.computationModelId, name: "computationModelId", parent: name, min: 36)
+            try self.validate(self.computationModelId, name: "computationModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.computationModelName, name: "computationModelName", parent: name, max: 256)
+            try self.validate(self.computationModelName, name: "computationModelName", parent: name, min: 1)
+            try self.validate(self.computationModelName, name: "computationModelName", parent: name, pattern: "^[a-zA-Z0-9 _\\-#$*!@]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case computationModelConfiguration = "computationModelConfiguration"
+            case computationModelDataBinding = "computationModelDataBinding"
+            case computationModelDescription = "computationModelDescription"
+            case computationModelName = "computationModelName"
+        }
+    }
+
+    public struct UpdateComputationModelResponse: AWSDecodableShape {
+        /// The status of the computation model. It contains a state (UPDATING after successfully calling this operation) and an error message if any.
+        public let computationModelStatus: ComputationModelStatus
+
+        @inlinable
+        public init(computationModelStatus: ComputationModelStatus) {
+            self.computationModelStatus = computationModelStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computationModelStatus = "computationModelStatus"
         }
     }
 
@@ -9170,7 +10718,7 @@ extension IoTSiteWise {
             try self.validate(self.dashboardDescription, name: "dashboardDescription", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 36)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 36)
-            try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.dashboardName, name: "dashboardName", parent: name, max: 256)
             try self.validate(self.dashboardName, name: "dashboardName", parent: name, min: 1)
             try self.validate(self.dashboardName, name: "dashboardName", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
@@ -9226,9 +10774,9 @@ extension IoTSiteWise {
             try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, max: 2048)
             try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, min: 1)
             try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, pattern: "^[a-zA-Z0-9 _\\-#$*!@]+$")
-            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 139)
-            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 13)
-            try self.validate(self.datasetId, name: "datasetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 36)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 36)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.datasetName, name: "datasetName", parent: name, max: 256)
             try self.validate(self.datasetName, name: "datasetName", parent: name, min: 1)
             try self.validate(self.datasetName, name: "datasetName", parent: name, pattern: "^[a-zA-Z0-9 _\\-#$*!@]+$")
@@ -9268,7 +10816,7 @@ extension IoTSiteWise {
     public struct UpdateGatewayCapabilityConfigurationRequest: AWSEncodableShape {
         /// The JSON document that defines the configuration for the gateway capability. For more information, see Configuring data sources (CLI) in the IoT SiteWise User Guide.
         public let capabilityConfiguration: String
-        /// The namespace of the gateway capability configuration to be updated. For example, if you configure OPC-UA sources from the IoT SiteWise console, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollector:version, where version is a number such as 1.
+        /// The namespace of the gateway capability configuration to be updated. For example, if you configure OPC UA sources for an MQTT-enabled gateway, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollector:3.
         public let capabilityNamespace: String
         /// The ID of the gateway to be updated.
         public let gatewayId: String
@@ -9296,7 +10844,7 @@ extension IoTSiteWise {
             try self.validate(self.capabilityNamespace, name: "capabilityNamespace", parent: name, pattern: "^[a-zA-Z]+:[a-zA-Z]+:[0-9]+$")
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 36)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 36)
-            try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9308,7 +10856,7 @@ extension IoTSiteWise {
     public struct UpdateGatewayCapabilityConfigurationResponse: AWSDecodableShape {
         /// The namespace of the gateway capability.
         public let capabilityNamespace: String
-        /// The synchronization status of the capability configuration. The sync status can be one of the following:    IN_SYNC – The gateway is running the capability configuration.    NOT_APPLICABLE – Synchronization is not required for this capability configuration. This is most common when integrating partner data sources, because the data integration is handled externally by the partner.    OUT_OF_SYNC – The gateway hasn't received the capability configuration.    SYNC_FAILED – The gateway rejected the capability configuration.    UNKNOWN – The synchronization status is currently unknown due to an undetermined or temporary error.   After you update a capability configuration, its sync status is OUT_OF_SYNC until the gateway receives and applies or rejects the updated configuration.
+        /// The synchronization status of the gateway capability configuration. The sync status can be one of the following:    IN_SYNC - The gateway is running with the latest configuration.    OUT_OF_SYNC - The gateway hasn't received the latest configuration.    SYNC_FAILED - The gateway rejected the latest configuration.    UNKNOWN - The gateway hasn't reported its sync status.    NOT_APPLICABLE - The gateway doesn't support this capability. This is most common when integrating partner data sources, because the data integration is handled externally by the partner.   After you update a capability configuration, its sync status is OUT_OF_SYNC until the gateway receives and applies or rejects the updated configuration.
         public let capabilitySyncStatus: CapabilitySyncStatus
 
         @inlinable
@@ -9345,7 +10893,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 36)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 36)
-            try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.gatewayName, name: "gatewayName", parent: name, max: 256)
             try self.validate(self.gatewayName, name: "gatewayName", parent: name, min: 1)
             try self.validate(self.gatewayName, name: "gatewayName", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
@@ -9426,7 +10974,7 @@ extension IoTSiteWise {
             try self.validate(self.portalDescription, name: "portalDescription", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
             try self.validate(self.portalId, name: "portalId", parent: name, max: 36)
             try self.validate(self.portalId, name: "portalId", parent: name, min: 36)
-            try self.validate(self.portalId, name: "portalId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.portalId, name: "portalId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.portalLogoImage?.validate(name: "\(name).portalLogoImage")
             try self.validate(self.portalName, name: "portalName", parent: name, max: 256)
             try self.validate(self.portalName, name: "portalName", parent: name, min: 1)
@@ -9505,7 +11053,7 @@ extension IoTSiteWise {
             try self.validate(self.projectDescription, name: "projectDescription", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
             try self.validate(self.projectId, name: "projectId", parent: name, max: 36)
             try self.validate(self.projectId, name: "projectId", parent: name, min: 36)
-            try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.projectName, name: "projectName", parent: name, max: 256)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
@@ -9579,7 +11127,7 @@ extension IoTSiteWise {
     public struct Variant: AWSEncodableShape & AWSDecodableShape {
         /// Asset property data of type Boolean (true or false).
         public let booleanValue: Bool?
-        ///  Asset property data of type double (floating point number). The min value is -10^10.  The max value is 10^10. Double.NaN is allowed.
+        ///  Asset property data of type double (floating point number). The min value is -10^10. The max value is 10^10. Double.NaN is allowed.
         public let doubleValue: Double?
         /// Asset property data of type integer (whole number).
         public let integerValue: Int?
@@ -9672,7 +11220,7 @@ public struct IoTSiteWiseErrorType: AWSErrorType {
     public static var internalFailureException: Self { .init(.internalFailureException) }
     /// The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
-    /// You've reached the limit for a resource. For example, this can occur if you're trying to associate more than the allowed number of child assets or attempting to create more than the allowed number of properties for an asset model. For more information, see Quotas in the IoT SiteWise User Guide.
+    /// You've reached the quota for a resource. For example, this can occur if you're trying to associate more than the allowed number of child assets or attempting to create more than the allowed number of properties for an asset model. For more information, see Quotas in the IoT SiteWise User Guide.
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The precondition in one or more of the request-header fields evaluated to FALSE.
     public static var preconditionFailedException: Self { .init(.preconditionFailedException) }
@@ -9686,7 +11234,7 @@ public struct IoTSiteWiseErrorType: AWSErrorType {
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
     /// Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see Quotas in the IoT SiteWise User Guide.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// You've reached the limit for the number of tags allowed for a resource. For more information, see Tag naming limits and requirements in the Amazon Web Services General Reference.
+    /// You've reached the quota for the number of tags allowed for a resource. For more information, see Tag naming limits and requirements in the Amazon Web Services General Reference.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// You are not authorized.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }

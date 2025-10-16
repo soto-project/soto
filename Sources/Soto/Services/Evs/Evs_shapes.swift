@@ -89,6 +89,55 @@ extension Evs {
 
     // MARK: Shapes
 
+    public struct AssociateEipToVlanRequest: AWSEncodableShape {
+        /// The Elastic IP address allocation ID.
+        public let allocationId: String
+        ///  This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect.  A unique, case-sensitive identifier that you provide to ensure the idempotency of the environment creation request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
+        public let clientToken: String?
+        /// A unique ID for the environment containing the VLAN that the Elastic IP address associates with.
+        public let environmentId: String
+        /// The name of the VLAN. hcx is the only accepted VLAN name at this time.
+        public let vlanName: String
+
+        @inlinable
+        public init(allocationId: String, clientToken: String? = AssociateEipToVlanRequest.idempotencyToken(), environmentId: String, vlanName: String) {
+            self.allocationId = allocationId
+            self.clientToken = clientToken
+            self.environmentId = environmentId
+            self.vlanName = vlanName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.allocationId, name: "allocationId", parent: name, max: 26)
+            try self.validate(self.allocationId, name: "allocationId", parent: name, min: 9)
+            try self.validate(self.allocationId, name: "allocationId", parent: name, pattern: "^eipalloc-[a-zA-Z0-9_-]+$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^(env-[a-zA-Z0-9]{10})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocationId = "allocationId"
+            case clientToken = "clientToken"
+            case environmentId = "environmentId"
+            case vlanName = "vlanName"
+        }
+    }
+
+    public struct AssociateEipToVlanResponse: AWSDecodableShape {
+        public let vlan: Vlan?
+
+        @inlinable
+        public init(vlan: Vlan? = nil) {
+            self.vlan = vlan
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vlan = "vlan"
+        }
+    }
+
     public struct Check: AWSDecodableShape {
         /// The time when environment health began to be impaired.
         public let impairedSince: Date?
@@ -185,17 +234,17 @@ extension Evs {
     public struct CreateEnvironmentRequest: AWSEncodableShape {
         ///  This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect.  A unique, case-sensitive identifier that you provide to ensure the idempotency of the environment creation request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
         public let clientToken: String?
-        ///  The connectivity configuration for the environment. Amazon EVS requires that you specify two route server peer IDs. During environment creation, the route server endpoints peer with the NSX edges over the NSX, providing BGP dynamic routing for overlay networks.
+        ///  The connectivity configuration for the environment. Amazon EVS requires that you specify two route server peer IDs. During environment creation, the route server endpoints peer with the NSX edges over the NSX uplink subnet, providing BGP-based dynamic routing for overlay networks.
         public let connectivityInfo: ConnectivityInfo
         /// The name to give to your environment. The name can contain only alphanumeric characters (case-sensitive), hyphens, and underscores. It must start with an alphanumeric character, and can't be longer than 100 characters. The name must be unique within the Amazon Web Services Region and Amazon Web Services account that you're creating the environment in.
         public let environmentName: String?
-        /// The ESXi hosts to add to the environment. Amazon EVS requires that you provide details for a minimum of 4 hosts during environment creation. For each host, you must provide the desired hostname, EC2 SSH key, and EC2 instance type. Optionally, you can also provide a partition or cluster placement group to use, or use Amazon EC2 Dedicated Hosts.
+        /// The ESXi hosts to add to the environment. Amazon EVS requires that you provide details for a minimum of 4 hosts during environment creation. For each host, you must provide the desired hostname, EC2 SSH keypair name, and EC2 instance type. Optionally, you can also provide a partition or cluster placement group to use, or use Amazon EC2 Dedicated Hosts.
         public let hosts: [HostInfoForCreate]
-        /// The initial VLAN subnets for the environment. You must specify a non-overlapping CIDR block for each VLAN subnet.
+        /// The initial VLAN subnets for the Amazon EVS environment.  For each Amazon EVS VLAN subnet, you must specify a non-overlapping CIDR block. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24.
         public let initialVlans: InitialVlans
         /// A unique ID for the customer-managed KMS key that is used to encrypt the VCF credential pairs for SDDC Manager, NSX Manager, and vCenter appliances. These credentials are stored in Amazon Web Services Secrets Manager.
         public let kmsKeyId: String?
-        /// The license information that Amazon EVS requires to create an environment. Amazon EVS requires two license keys: a VCF solution key and a vSAN license key. VCF licenses must have sufficient core entitlements to cover vCPU core and vSAN storage capacity needs. VCF licenses can be used for only one Amazon EVS environment. Amazon EVS does not support reuse of VCF licenses for multiple environments. VCF license information can be retrieved from the Broadcom portal.
+        /// The license information that Amazon EVS requires to create an environment. Amazon EVS requires two license keys: a VCF solution key and a vSAN license key. The VCF solution key must cover a minimum of 256 cores. The vSAN license key must provide at least 110 TiB of vSAN capacity. VCF licenses can be used for only one Amazon EVS environment. Amazon EVS does not support reuse of VCF licenses for multiple environments. VCF license information can be retrieved from the Broadcom portal.
         public let licenseInfo: [LicenseInfo]
         /// The security group that controls communication between the Amazon EVS control plane and VPC. The default security group is used if a custom security group isn't specified. The security group should allow access to the following.   TCP/UDP access to the DNS servers   HTTPS/SSH access to the host management VLAN subnet   HTTPS/SSH access to the Management VM VLAN subnet   You should avoid modifying the security group rules after deployment, as this can break the persistent connection between the Amazon EVS control plane and VPC. This can cause future environment actions like adding or removing hosts to fail.
         public let serviceAccessSecurityGroups: ServiceAccessSecurityGroups?
@@ -205,13 +254,13 @@ extension Evs {
         public let siteId: String
         /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
         public let tags: [String: String]?
-        /// Customer confirmation that the customer has purchased and maintains sufficient VCF software licenses to cover all physical processor cores in the environment, in compliance with VMware's licensing requirements and terms of use.
+        /// Customer confirmation that the customer has purchased and will continue to maintain the required number of VCF software licenses to cover all physical processor cores in the Amazon EVS environment. Information about your VCF software in Amazon EVS will be shared with Broadcom to verify license compliance. Amazon EVS does not validate license keys. To validate license keys, visit the Broadcom support portal.
         public let termsAccepted: Bool
         /// The DNS hostnames for the virtual machines that host the VCF management appliances. Amazon EVS requires that you provide DNS hostnames for the following appliances: vCenter, NSX Manager, SDDC Manager, and Cloud Builder.
         public let vcfHostnames: VcfHostnames
         ///  The VCF version to use for the environment. Amazon EVS only supports VCF version 5.2.1 at this time.
         public let vcfVersion: VcfVersion
-        /// A unique ID for the VPC that connects to the environment control plane for service access. Amazon EVS requires that all VPC subnets exist in a single Availability Zone in a Region where the service is available. The VPC that you select must have a valid DHCP option set with domain name, at least two DNS servers, and an NTP server. These settings are used to configure your VCF appliances and hosts. If you plan to use HCX over the internet, choose a VPC that has a primary CIDR block and a /28 secondary CIDR block from an IPAM pool. Make sure that your VPC also has an attached internet gateway. Amazon EVS does not support the following Amazon Web Services networking options for NSX overlay connectivity: cross-Region VPC peering, Amazon S3 gateway endpoints, or Amazon Web Services Direct Connect virtual private gateway associations.
+        /// A unique ID for the VPC that the environment is deployed inside. Amazon EVS requires that all VPC subnets exist in a single Availability Zone in a Region where the service is available. The VPC that you specify must have a valid DHCP option set with domain name, at least two DNS servers, and an NTP server. These settings are used to configure your VCF appliances and hosts. The VPC cannot be used with any other deployed Amazon EVS environment. Amazon EVS does not provide multi-VPC support for environments at this time. Amazon EVS does not support the following Amazon Web Services networking options for NSX overlay connectivity: cross-Region VPC peering, Amazon S3 gateway endpoints, or Amazon Web Services Direct Connect virtual private gateway associations.  Ensure that you specify a VPC that is adequately sized to accommodate the {evws} subnets.
         public let vpcId: String
 
         @inlinable
@@ -397,6 +446,77 @@ extension Evs {
         }
     }
 
+    public struct DisassociateEipFromVlanRequest: AWSEncodableShape {
+        ///  A unique ID for the Elastic IP address association.
+        public let associationId: String
+        ///  This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect.  A unique, case-sensitive identifier that you provide to ensure the idempotency of the environment creation request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
+        public let clientToken: String?
+        /// A unique ID for the environment containing the VLAN that the Elastic IP address disassociates from.
+        public let environmentId: String
+        /// The name of the VLAN. hcx is the only accepted VLAN name at this time.
+        public let vlanName: String
+
+        @inlinable
+        public init(associationId: String, clientToken: String? = DisassociateEipFromVlanRequest.idempotencyToken(), environmentId: String, vlanName: String) {
+            self.associationId = associationId
+            self.clientToken = clientToken
+            self.environmentId = environmentId
+            self.vlanName = vlanName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.associationId, name: "associationId", parent: name, max: 26)
+            try self.validate(self.associationId, name: "associationId", parent: name, min: 9)
+            try self.validate(self.associationId, name: "associationId", parent: name, pattern: "^eipassoc-[a-zA-Z0-9_-]+$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^(env-[a-zA-Z0-9]{10})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationId = "associationId"
+            case clientToken = "clientToken"
+            case environmentId = "environmentId"
+            case vlanName = "vlanName"
+        }
+    }
+
+    public struct DisassociateEipFromVlanResponse: AWSDecodableShape {
+        public let vlan: Vlan?
+
+        @inlinable
+        public init(vlan: Vlan? = nil) {
+            self.vlan = vlan
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vlan = "vlan"
+        }
+    }
+
+    public struct EipAssociation: AWSDecodableShape {
+        /// The Elastic IP address allocation ID.
+        public let allocationId: String?
+        /// A unique ID for the elastic IP address association with the VLAN subnet.
+        public let associationId: String?
+        /// The Elastic IP address.
+        public let ipAddress: String?
+
+        @inlinable
+        public init(allocationId: String? = nil, associationId: String? = nil, ipAddress: String? = nil) {
+            self.allocationId = allocationId
+            self.associationId = associationId
+            self.ipAddress = ipAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocationId = "allocationId"
+            case associationId = "associationId"
+            case ipAddress = "ipAddress"
+        }
+    }
+
     public struct Environment: AWSDecodableShape {
         /// A check on the environment to identify instance health and VMware VCF licensing issues.
         public let checks: [Check]?
@@ -418,7 +538,7 @@ extension Evs {
         public let environmentStatus: CheckResult?
         /// The Amazon Web Services KMS key ID that Amazon Web Services Secrets Manager uses to encrypt secrets that are associated with the environment. These secrets contain the VCF credentials that are needed to install vCenter Server, NSX, and SDDC Manager. By default, Amazon EVS use the Amazon Web Services Secrets Manager managed key aws/secretsmanager. You can also specify a customer managed key.
         public let kmsKeyId: String?
-        ///  The license information that Amazon EVS requires to create an environment. Amazon EVS requires two license keys: a VCF solution key and a vSAN license key.
+        ///  The license information that Amazon EVS requires to create an environment. Amazon EVS requires two license keys: a VCF solution key and a vSAN license key. The VCF solution key must cover a minimum of 256 cores. The vSAN license key must provide at least 110 TiB of vSAN capacity.
         public let licenseInfo: [LicenseInfo]?
         ///  The date and time that the environment was modified.
         public let modifiedAt: Date?
@@ -430,7 +550,7 @@ extension Evs {
         public let siteId: String?
         /// A detailed description of the environmentState of an environment.
         public let stateDetails: String?
-        /// Customer confirmation that the customer has purchased and maintains sufficient VCF software licenses to cover all physical processor cores in the environment, in compliance with VMware's licensing requirements and terms of use.
+        /// Customer confirmation that the customer has purchased and will continue to maintain the required number of VCF software licenses to cover all physical processor cores in the Amazon EVS environment. Information about your VCF software in Amazon EVS will be shared with Broadcom to verify license compliance. Amazon EVS does not validate license keys. To validate license keys, visit the Broadcom support portal.
         public let termsAccepted: Bool?
         /// The DNS hostnames to be used by the VCF management appliances in your environment. For environment creation to be successful, each hostname entry must resolve to a domain name that you've registered in your DNS service of choice and configured in the DHCP option set of your VPC. DNS hostnames cannot be changed after environment creation has started.
         public let vcfHostnames: VcfHostnames?
@@ -667,7 +787,7 @@ extension Evs {
     }
 
     public struct InitialVlanInfo: AWSEncodableShape {
-        ///  The CIDR block that you provide to create a VLAN subnet. VLAN CIDR blocks must not overlap with other subnets in the VPC.
+        ///  The CIDR block that you provide to create an Amazon EVS VLAN subnet. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24. Amazon EVS VLAN subnet CIDR blocks must not overlap with other subnets in the VPC.
         public let cidr: String
 
         @inlinable
@@ -691,11 +811,15 @@ extension Evs {
         public let expansionVlan1: InitialVlanInfo
         /// An additional VLAN subnet that can be used to extend VCF capabilities once configured. For example, you can configure an expansion VLAN subnet to use NSX Federation for centralized management and synchronization of multiple NSX deployments across different locations.
         public let expansionVlan2: InitialVlanInfo
-        /// The HCX VLAN subnet. This VLAN subnet allows the HCX Interconnnect (IX) and HCX Network Extension (NE) to reach their peers and enable HCX Service Mesh creation.
+        /// The HCX VLAN subnet. This VLAN subnet allows the HCX Interconnnect (IX) and HCX Network Extension (NE) to reach their peers and enable HCX Service Mesh creation. If you plan to use a public HCX VLAN subnet, the following requirements must be met:   Must have a /28 netmask and be allocated from the IPAM public pool. Required for HCX internet access configuration.   The HCX public VLAN CIDR block must be added to the VPC as a secondary CIDR block.   Must have at least three Elastic IP addresses to be allocated from the public IPAM pool for HCX components.
         public let hcx: InitialVlanInfo
+        /// A unique ID for a network access control list that the HCX VLAN uses. Required when isHcxPublic is set to true.
+        public let hcxNetworkAclId: String?
+        /// Determines if the HCX VLAN that Amazon EVS provisions is public or private.
+        public let isHcxPublic: Bool?
         ///  The NSX uplink VLAN subnet. This VLAN subnet allows connectivity to the NSX overlay network.
         public let nsxUplink: InitialVlanInfo
-        ///  The VMkernel management VLAN subnet. This VLAN subnet carries traffic for managing ESXi hosts and communicating with VMware vCenter Server.
+        ///  The host VMkernel management VLAN subnet. This VLAN subnet carries traffic for managing ESXi hosts and communicating with VMware vCenter Server.
         public let vmkManagement: InitialVlanInfo
         /// The VM management VLAN subnet. This VLAN subnet carries traffic for vSphere virtual machines.
         public let vmManagement: InitialVlanInfo
@@ -707,11 +831,13 @@ extension Evs {
         public let vTep: InitialVlanInfo
 
         @inlinable
-        public init(edgeVTep: InitialVlanInfo, expansionVlan1: InitialVlanInfo, expansionVlan2: InitialVlanInfo, hcx: InitialVlanInfo, nsxUplink: InitialVlanInfo, vmkManagement: InitialVlanInfo, vmManagement: InitialVlanInfo, vMotion: InitialVlanInfo, vSan: InitialVlanInfo, vTep: InitialVlanInfo) {
+        public init(edgeVTep: InitialVlanInfo, expansionVlan1: InitialVlanInfo, expansionVlan2: InitialVlanInfo, hcx: InitialVlanInfo, hcxNetworkAclId: String? = nil, isHcxPublic: Bool? = nil, nsxUplink: InitialVlanInfo, vmkManagement: InitialVlanInfo, vmManagement: InitialVlanInfo, vMotion: InitialVlanInfo, vSan: InitialVlanInfo, vTep: InitialVlanInfo) {
             self.edgeVTep = edgeVTep
             self.expansionVlan1 = expansionVlan1
             self.expansionVlan2 = expansionVlan2
             self.hcx = hcx
+            self.hcxNetworkAclId = hcxNetworkAclId
+            self.isHcxPublic = isHcxPublic
             self.nsxUplink = nsxUplink
             self.vmkManagement = vmkManagement
             self.vmManagement = vmManagement
@@ -725,6 +851,9 @@ extension Evs {
             try self.expansionVlan1.validate(name: "\(name).expansionVlan1")
             try self.expansionVlan2.validate(name: "\(name).expansionVlan2")
             try self.hcx.validate(name: "\(name).hcx")
+            try self.validate(self.hcxNetworkAclId, name: "hcxNetworkAclId", parent: name, max: 21)
+            try self.validate(self.hcxNetworkAclId, name: "hcxNetworkAclId", parent: name, min: 4)
+            try self.validate(self.hcxNetworkAclId, name: "hcxNetworkAclId", parent: name, pattern: "^acl-[a-zA-Z0-9_-]+$")
             try self.nsxUplink.validate(name: "\(name).nsxUplink")
             try self.vmkManagement.validate(name: "\(name).vmkManagement")
             try self.vmManagement.validate(name: "\(name).vmManagement")
@@ -738,6 +867,8 @@ extension Evs {
             case expansionVlan1 = "expansionVlan1"
             case expansionVlan2 = "expansionVlan2"
             case hcx = "hcx"
+            case hcxNetworkAclId = "hcxNetworkAclId"
+            case isHcxPublic = "isHcxPublic"
             case nsxUplink = "nsxUplink"
             case vmkManagement = "vmkManagement"
             case vmManagement = "vmManagement"
@@ -748,9 +879,9 @@ extension Evs {
     }
 
     public struct LicenseInfo: AWSEncodableShape & AWSDecodableShape {
-        ///  The VCF solution key. This license unlocks VMware VCF product features, including vSphere, NSX, SDDC Manager, and vCenter Server.
+        ///  The VCF solution key. This license unlocks VMware VCF product features, including vSphere, NSX, SDDC Manager, and vCenter Server. The VCF solution key must cover a minimum of 256 cores.
         public let solutionKey: String
-        ///  The VSAN license key. This license unlocks vSAN features.
+        ///  The VSAN license key. This license unlocks vSAN features. The vSAN license key must provide at least 110 TiB of vSAN capacity.
         public let vsanKey: String
 
         @inlinable
@@ -1223,14 +1354,20 @@ extension Evs {
     public struct Vlan: AWSDecodableShape {
         /// The availability zone of the VLAN.
         public let availabilityZone: String?
-        ///  The CIDR block of the VLAN.
+        /// The CIDR block of the VLAN. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24.
         public let cidr: String?
         /// The date and time that the VLAN was created.
         public let createdAt: Date?
+        /// An array of Elastic IP address associations.
+        public let eipAssociations: [EipAssociation]?
         /// The VMware VCF traffic type that is carried over the VLAN. For example, a VLAN with a functionName of hcx is being used to carry VMware HCX traffic.
         public let functionName: String?
+        /// Determines if the VLAN that Amazon EVS provisions is public or private.
+        public let isPublic: Bool?
         ///  The date and time that the VLAN was modified.
         public let modifiedAt: Date?
+        /// A unique ID for a network access control list.
+        public let networkAclId: String?
         /// The state details of the VLAN.
         public let stateDetails: String?
         ///  The unique ID of the VLAN subnet.
@@ -1241,12 +1378,15 @@ extension Evs {
         public let vlanState: VlanState?
 
         @inlinable
-        public init(availabilityZone: String? = nil, cidr: String? = nil, createdAt: Date? = nil, functionName: String? = nil, modifiedAt: Date? = nil, stateDetails: String? = nil, subnetId: String? = nil, vlanId: Int? = nil, vlanState: VlanState? = nil) {
+        public init(availabilityZone: String? = nil, cidr: String? = nil, createdAt: Date? = nil, eipAssociations: [EipAssociation]? = nil, functionName: String? = nil, isPublic: Bool? = nil, modifiedAt: Date? = nil, networkAclId: String? = nil, stateDetails: String? = nil, subnetId: String? = nil, vlanId: Int? = nil, vlanState: VlanState? = nil) {
             self.availabilityZone = availabilityZone
             self.cidr = cidr
             self.createdAt = createdAt
+            self.eipAssociations = eipAssociations
             self.functionName = functionName
+            self.isPublic = isPublic
             self.modifiedAt = modifiedAt
+            self.networkAclId = networkAclId
             self.stateDetails = stateDetails
             self.subnetId = subnetId
             self.vlanId = vlanId
@@ -1257,8 +1397,11 @@ extension Evs {
             case availabilityZone = "availabilityZone"
             case cidr = "cidr"
             case createdAt = "createdAt"
+            case eipAssociations = "eipAssociations"
             case functionName = "functionName"
+            case isPublic = "isPublic"
             case modifiedAt = "modifiedAt"
+            case networkAclId = "networkAclId"
             case stateDetails = "stateDetails"
             case subnetId = "subnetId"
             case vlanId = "vlanId"
@@ -1273,6 +1416,7 @@ extension Evs {
 public struct EvsErrorType: AWSErrorType {
     enum Code: String {
         case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case tagPolicyException = "TagPolicyException"
         case throttlingException = "ThrottlingException"
         case tooManyTagsException = "TooManyTagsException"
@@ -1299,11 +1443,13 @@ public struct EvsErrorType: AWSErrorType {
 
     /// A service resource associated with the request could not be found. The resource might not be specified correctly, or it may have a state of DELETED.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The request doesn't comply with IAM tag policy. Correct your request and then retry it.
+    /// The number of one or more Amazon EVS resources exceeds the maximum allowed. For a list of Amazon EVS quotas, see Amazon EVS endpoints and quotas in the Amazon EVS User Guide. Delete some resources or request an increase in your service quota. To request an increase, see Amazon Web Services Service Quotas in the Amazon Web Services General Reference Guide.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    ///   TagPolicyException is deprecated. See  ValidationException  instead.  The request doesn't comply with IAM tag policy. Correct your request and then retry it.
     public static var tagPolicyException: Self { .init(.tagPolicyException) }
-    /// The CreateEnvironmentHost operation couldn't be performed because the service is throttling requests. This exception is thrown when the CreateEnvironmentHost request exceeds concurrency of 1 transaction per second (TPS).
+    /// The operation couldn't be performed because the service is throttling requests. This exception is thrown when there are too many requests accepted concurrently from the service endpoint.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// A service resource associated with the request has more than 200 tags.
+    ///   TooManyTagsException is deprecated. See  ServiceQuotaExceededException  instead.  A service resource associated with the request has more than 200 tags.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// The input fails to satisfy the specified constraints. You will see this exception if invalid inputs are provided for any of the Amazon EVS environment operations, or if a list operation is performed on an environment resource that is still initializing.
     public static var validationException: Self { .init(.validationException) }

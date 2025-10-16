@@ -361,7 +361,7 @@ public struct IoTSiteWise: AWSService {
     /// Sends a list of asset property values to IoT SiteWise. Each value is a timestamp-quality-value (TQV) data point. For more information, see Ingesting data using the API in the IoT SiteWise User Guide. To identify an asset property, you must specify one of the following:   The assetId and propertyId of an asset property.   A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see UpdateAssetProperty.    With respect to Unix epoch time, IoT SiteWise accepts only TQVs that have a timestamp of no more than 7 days in the past and no more than 10 minutes in the future. IoT SiteWise rejects timestamps outside of the inclusive range of [-7 days, +10 minutes] and returns a TimestampOutOfRangeException error. For each asset property, IoT SiteWise overwrites TQVs with duplicate timestamps unless the newer TQV has a different quality. For example, if you store a TQV {T1, GOOD, V1}, then storing {T1, GOOD, V2} replaces the existing TQV.  IoT SiteWise authorizes access to each BatchPutAssetPropertyValue entry individually. For more information, see BatchPutAssetPropertyValue authorization in the IoT SiteWise User Guide.
     ///
     /// Parameters:
-    ///   - enablePartialEntryProcessing: This setting enables partial ingestion at entry-level. If set to true, we ingest all TQVs not resulting in an error. If set to  false, an invalid TQV fails ingestion of the entire entry that contains it.
+    ///   - enablePartialEntryProcessing: This setting enables partial ingestion at entry-level. If set to true, we ingest all TQVs not resulting in an error. If set to false, an invalid TQV fails ingestion of the entire entry that contains it.
     ///   - entries: The list of asset property value entries for the batch put request. You can specify up to 10 entries per request.
     ///   - logger: Logger use during operation
     @inlinable
@@ -377,7 +377,7 @@ public struct IoTSiteWise: AWSService {
         return try await self.batchPutAssetPropertyValue(input, logger: logger)
     }
 
-    /// Creates an access policy that grants the specified identity (IAM Identity Center user, IAM Identity Center group, or IAM user) access to the specified IoT SiteWise Monitor portal or project resource.
+    /// Creates an access policy that grants the specified identity (IAM Identity Center user, IAM Identity Center group, or IAM user) access to the specified IoT SiteWise Monitor portal or project resource.  Support for access policies that use an SSO Group as the identity is not supported at this time.
     @Sendable
     @inlinable
     public func createAccessPolicy(_ input: CreateAccessPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAccessPolicyResponse {
@@ -391,7 +391,7 @@ public struct IoTSiteWise: AWSService {
             logger: logger
         )
     }
-    /// Creates an access policy that grants the specified identity (IAM Identity Center user, IAM Identity Center group, or IAM user) access to the specified IoT SiteWise Monitor portal or project resource.
+    /// Creates an access policy that grants the specified identity (IAM Identity Center user, IAM Identity Center group, or IAM user) access to the specified IoT SiteWise Monitor portal or project resource.  Support for access policies that use an SSO Group as the identity is not supported at this time.
     ///
     /// Parameters:
     ///   - accessPolicyIdentity: The identity for this access policy. Choose an IAM Identity Center user, an IAM Identity Center group, or an IAM user.
@@ -467,7 +467,7 @@ public struct IoTSiteWise: AWSService {
         return try await self.createAsset(input, logger: logger)
     }
 
-    /// Creates an asset model from specified property and hierarchy definitions. You create assets from asset models. With asset models, you can easily create assets of the same type that have standardized definitions. Each asset created from a model inherits the asset model's property and hierarchy definitions. For more information, see Defining asset models in the IoT SiteWise User Guide. You can create two types of asset models, ASSET_MODEL or COMPONENT_MODEL.    ASSET_MODEL – (default) An asset model that you can use to create assets. Can't be included as a component in another asset model.    COMPONENT_MODEL – A reusable component that you can include in the composite models of other asset models. You can't create assets directly from this type of asset model.
+    /// Creates an asset model from specified property and hierarchy definitions. You create assets from asset models. With asset models, you can easily create assets of the same type that have standardized definitions. Each asset created from a model inherits the asset model's property and hierarchy definitions. For more information, see Defining asset models in the IoT SiteWise User Guide. You can create three types of asset models, ASSET_MODEL, COMPONENT_MODEL, or an INTERFACE.    ASSET_MODEL – (default) An asset model that you can use to create assets. Can't be included as a component in another asset model.    COMPONENT_MODEL – A reusable component that you can include in the composite models of other asset models. You can't create assets directly from this type of asset model.     INTERFACE – An interface is a type of model that defines a standard structure that can be applied to different asset models.
     @Sendable
     @inlinable
     public func createAssetModel(_ input: CreateAssetModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAssetModelResponse {
@@ -481,7 +481,7 @@ public struct IoTSiteWise: AWSService {
             logger: logger
         )
     }
-    /// Creates an asset model from specified property and hierarchy definitions. You create assets from asset models. With asset models, you can easily create assets of the same type that have standardized definitions. Each asset created from a model inherits the asset model's property and hierarchy definitions. For more information, see Defining asset models in the IoT SiteWise User Guide. You can create two types of asset models, ASSET_MODEL or COMPONENT_MODEL.    ASSET_MODEL – (default) An asset model that you can use to create assets. Can't be included as a component in another asset model.    COMPONENT_MODEL – A reusable component that you can include in the composite models of other asset models. You can't create assets directly from this type of asset model.
+    /// Creates an asset model from specified property and hierarchy definitions. You create assets from asset models. With asset models, you can easily create assets of the same type that have standardized definitions. Each asset created from a model inherits the asset model's property and hierarchy definitions. For more information, see Defining asset models in the IoT SiteWise User Guide. You can create three types of asset models, ASSET_MODEL, COMPONENT_MODEL, or an INTERFACE.    ASSET_MODEL – (default) An asset model that you can use to create assets. Can't be included as a component in another asset model.    COMPONENT_MODEL – A reusable component that you can include in the composite models of other asset models. You can't create assets directly from this type of asset model.     INTERFACE – An interface is a type of model that defines a standard structure that can be applied to different asset models.
     ///
     /// Parameters:
     ///   - assetModelCompositeModels: The composite models that are part of this asset model. It groups properties (such as attributes, measurements, transforms, and metrics) and child composite models that model parts of your industrial equipment. Each composite model has a type that defines the properties that the composite model supports. Use composite models to define alarms on this asset model.  When creating custom composite models, you need to use CreateAssetModelCompositeModel. For more information, see Creating custom composite models (Components) in the IoT SiteWise User Guide.
@@ -590,7 +590,7 @@ public struct IoTSiteWise: AWSService {
         return try await self.createAssetModelCompositeModel(input, logger: logger)
     }
 
-    /// Defines a job to ingest data to IoT SiteWise from Amazon S3. For more information, see Create a bulk import job (CLI) in the Amazon Simple Storage Service User Guide.  Before you create a bulk import job, you must enable IoT SiteWise warm tier or IoT SiteWise cold tier. For more information about how to configure storage settings, see PutStorageConfiguration. Bulk import is designed to store historical data to IoT SiteWise. It does not trigger computations or notifications on IoT SiteWise warm or cold tier storage.
+    /// Defines a job to ingest data to IoT SiteWise from Amazon S3. For more information, see Create a bulk import job (CLI) in the Amazon Simple Storage Service User Guide.  Before you create a bulk import job, you must enable IoT SiteWise warm tier or IoT SiteWise cold tier. For more information about how to configure storage settings, see PutStorageConfiguration. Bulk import is designed to store historical data to IoT SiteWise.   Newly ingested data in the hot tier triggers notifications and computations.   After data moves from the hot tier to the warm or cold tier based on retention settings, it does not trigger computations or notifications.   Data older than 7 days does not trigger computations or notifications.
     @Sendable
     @inlinable
     public func createBulkImportJob(_ input: CreateBulkImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBulkImportJobResponse {
@@ -604,7 +604,7 @@ public struct IoTSiteWise: AWSService {
             logger: logger
         )
     }
-    /// Defines a job to ingest data to IoT SiteWise from Amazon S3. For more information, see Create a bulk import job (CLI) in the Amazon Simple Storage Service User Guide.  Before you create a bulk import job, you must enable IoT SiteWise warm tier or IoT SiteWise cold tier. For more information about how to configure storage settings, see PutStorageConfiguration. Bulk import is designed to store historical data to IoT SiteWise. It does not trigger computations or notifications on IoT SiteWise warm or cold tier storage.
+    /// Defines a job to ingest data to IoT SiteWise from Amazon S3. For more information, see Create a bulk import job (CLI) in the Amazon Simple Storage Service User Guide.  Before you create a bulk import job, you must enable IoT SiteWise warm tier or IoT SiteWise cold tier. For more information about how to configure storage settings, see PutStorageConfiguration. Bulk import is designed to store historical data to IoT SiteWise.   Newly ingested data in the hot tier triggers notifications and computations.   After data moves from the hot tier to the warm or cold tier based on retention settings, it does not trigger computations or notifications.   Data older than 7 days does not trigger computations or notifications.
     ///
     /// Parameters:
     ///   - adaptiveIngestion: If set to true, ingest new data into IoT SiteWise storage. Measurements with notifications, metrics and transforms are  computed. If set to false, historical data is ingested into IoT SiteWise as is.
@@ -636,6 +636,51 @@ public struct IoTSiteWise: AWSService {
             jobRoleArn: jobRoleArn
         )
         return try await self.createBulkImportJob(input, logger: logger)
+    }
+
+    /// Create a computation model with a configuration and data binding.
+    @Sendable
+    @inlinable
+    public func createComputationModel(_ input: CreateComputationModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateComputationModelResponse {
+        try await self.client.execute(
+            operation: "CreateComputationModel", 
+            path: "/computation-models", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Create a computation model with a configuration and data binding.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+    ///   - computationModelConfiguration: The configuration for the computation model.
+    ///   - computationModelDataBinding: The data binding for the computation model. Key is a variable name defined in configuration.  Value is a ComputationModelDataBindingValue referenced by the variable.
+    ///   - computationModelDescription: The description of the computation model.
+    ///   - computationModelName: The name of the computation model.
+    ///   - tags: A list of key-value pairs that contain metadata for the asset. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createComputationModel(
+        clientToken: String? = CreateComputationModelRequest.idempotencyToken(),
+        computationModelConfiguration: ComputationModelConfiguration,
+        computationModelDataBinding: [String: ComputationModelDataBindingValue],
+        computationModelDescription: String? = nil,
+        computationModelName: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateComputationModelResponse {
+        let input = CreateComputationModelRequest(
+            clientToken: clientToken, 
+            computationModelConfiguration: computationModelConfiguration, 
+            computationModelDataBinding: computationModelDataBinding, 
+            computationModelDescription: computationModelDescription, 
+            computationModelName: computationModelName, 
+            tags: tags
+        )
+        return try await self.createComputationModel(input, logger: logger)
     }
 
     /// Creates a dashboard in an IoT SiteWise Monitor project.
@@ -747,7 +792,7 @@ public struct IoTSiteWise: AWSService {
     /// Parameters:
     ///   - gatewayName: A unique name for the gateway.
     ///   - gatewayPlatform: The gateway's platform. You can only specify one platform in a gateway.
-    ///   - gatewayVersion: The version of the gateway to create. Specify 3 to create an MQTT-enabled, V3 gateway and 2 To create a Classic streams, V2 gateway. If the version isn't specified, a Classic streams, V2 gateway is created by default. We recommend creating an MQTT-enabled, V3 gateway for self-hosted gateways. SiteWise Edge gateways on Siemens Industrial Edge should use gateway version 2. For more information on gateway versions, see  Self-host a SiteWise Edge gateway with IoT Greengrass V2.
+    ///   - gatewayVersion: The version of the gateway to create. Specify 3 to create an MQTT-enabled, V3 gateway and 2 to create a Classic streams, V2 gateway. If not specified, the default is 2 (Classic streams, V2 gateway).  When creating a V3 gateway (gatewayVersion=3) with the GreengrassV2 platform, you must also specify the coreDeviceOperatingSystem parameter.  We recommend creating an MQTT-enabled gateway for self-hosted gateways and Siemens Industrial Edge gateways. For more information on gateway versions, see Use Amazon Web Services IoT SiteWise Edge Edge gateways.
     ///   - tags: A list of key-value pairs that contain metadata for the gateway. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1023,6 +1068,75 @@ public struct IoTSiteWise: AWSService {
             matchForVersionType: matchForVersionType
         )
         return try await self.deleteAssetModelCompositeModel(input, logger: logger)
+    }
+
+    /// Deletes an interface relationship between an asset model and an interface asset model.
+    @Sendable
+    @inlinable
+    public func deleteAssetModelInterfaceRelationship(_ input: DeleteAssetModelInterfaceRelationshipRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAssetModelInterfaceRelationshipResponse {
+        try await self.client.execute(
+            operation: "DeleteAssetModelInterfaceRelationship", 
+            path: "/asset-models/{assetModelId}/interface/{interfaceAssetModelId}/asset-model-interface-relationship", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Deletes an interface relationship between an asset model and an interface asset model.
+    ///
+    /// Parameters:
+    ///   - assetModelId: The ID of the asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID.
+    ///   - clientToken: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+    ///   - interfaceAssetModelId: The ID of the interface asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAssetModelInterfaceRelationship(
+        assetModelId: String,
+        clientToken: String? = DeleteAssetModelInterfaceRelationshipRequest.idempotencyToken(),
+        interfaceAssetModelId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteAssetModelInterfaceRelationshipResponse {
+        let input = DeleteAssetModelInterfaceRelationshipRequest(
+            assetModelId: assetModelId, 
+            clientToken: clientToken, 
+            interfaceAssetModelId: interfaceAssetModelId
+        )
+        return try await self.deleteAssetModelInterfaceRelationship(input, logger: logger)
+    }
+
+    /// Deletes a computation model. This action can't be undone.
+    @Sendable
+    @inlinable
+    public func deleteComputationModel(_ input: DeleteComputationModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteComputationModelResponse {
+        try await self.client.execute(
+            operation: "DeleteComputationModel", 
+            path: "/computation-models/{computationModelId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Deletes a computation model. This action can't be undone.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+    ///   - computationModelId: The ID of the computation model.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteComputationModel(
+        clientToken: String? = DeleteComputationModelRequest.idempotencyToken(),
+        computationModelId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteComputationModelResponse {
+        let input = DeleteComputationModelRequest(
+            clientToken: clientToken, 
+            computationModelId: computationModelId
+        )
+        return try await self.deleteComputationModel(input, logger: logger)
     }
 
     /// Deletes a dashboard from IoT SiteWise Monitor.
@@ -1352,7 +1466,7 @@ public struct IoTSiteWise: AWSService {
         return try await self.describeAssetCompositeModel(input, logger: logger)
     }
 
-    /// Retrieves information about an asset model.
+    /// Retrieves information about an asset model. This includes details about the asset model's properties, hierarchies, composite models, and any interface relationships if the asset model implements interfaces.
     @Sendable
     @inlinable
     public func describeAssetModel(_ input: DescribeAssetModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAssetModelResponse {
@@ -1366,7 +1480,7 @@ public struct IoTSiteWise: AWSService {
             logger: logger
         )
     }
-    /// Retrieves information about an asset model.
+    /// Retrieves information about an asset model. This includes details about the asset model's properties, hierarchies, composite models, and any interface relationships if the asset model implements interfaces.
     ///
     /// Parameters:
     ///   - assetModelId: The ID of the asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.
@@ -1422,6 +1536,39 @@ public struct IoTSiteWise: AWSService {
             assetModelVersion: assetModelVersion
         )
         return try await self.describeAssetModelCompositeModel(input, logger: logger)
+    }
+
+    /// Retrieves information about an interface relationship between an asset model and an interface asset model.
+    @Sendable
+    @inlinable
+    public func describeAssetModelInterfaceRelationship(_ input: DescribeAssetModelInterfaceRelationshipRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAssetModelInterfaceRelationshipResponse {
+        try await self.client.execute(
+            operation: "DescribeAssetModelInterfaceRelationship", 
+            path: "/asset-models/{assetModelId}/interface/{interfaceAssetModelId}/asset-model-interface-relationship", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Retrieves information about an interface relationship between an asset model and an interface asset model.
+    ///
+    /// Parameters:
+    ///   - assetModelId: The ID of the asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID.
+    ///   - interfaceAssetModelId: The ID of the interface asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeAssetModelInterfaceRelationship(
+        assetModelId: String,
+        interfaceAssetModelId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeAssetModelInterfaceRelationshipResponse {
+        let input = DescribeAssetModelInterfaceRelationshipRequest(
+            assetModelId: assetModelId, 
+            interfaceAssetModelId: interfaceAssetModelId
+        )
+        return try await self.describeAssetModelInterfaceRelationship(input, logger: logger)
     }
 
     /// Retrieves information about an asset property.  When you call this operation for an attribute property, this response includes the default attribute value that you define in the asset model. If you update the default value in the model, this operation's response includes the new default value.  This operation doesn't return the value of the asset property. To get the value of an asset property, use GetAssetPropertyValue.
@@ -1485,6 +1632,75 @@ public struct IoTSiteWise: AWSService {
             jobId: jobId
         )
         return try await self.describeBulkImportJob(input, logger: logger)
+    }
+
+    /// Retrieves information about a computation model.
+    @Sendable
+    @inlinable
+    public func describeComputationModel(_ input: DescribeComputationModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeComputationModelResponse {
+        try await self.client.execute(
+            operation: "DescribeComputationModel", 
+            path: "/computation-models/{computationModelId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a computation model.
+    ///
+    /// Parameters:
+    ///   - computationModelId: The ID of the computation model.
+    ///   - computationModelVersion: The version of the computation model.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeComputationModel(
+        computationModelId: String,
+        computationModelVersion: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeComputationModelResponse {
+        let input = DescribeComputationModelRequest(
+            computationModelId: computationModelId, 
+            computationModelVersion: computationModelVersion
+        )
+        return try await self.describeComputationModel(input, logger: logger)
+    }
+
+    /// Retrieves information about the execution summary of a computation model.
+    @Sendable
+    @inlinable
+    public func describeComputationModelExecutionSummary(_ input: DescribeComputationModelExecutionSummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeComputationModelExecutionSummaryResponse {
+        try await self.client.execute(
+            operation: "DescribeComputationModelExecutionSummary", 
+            path: "/computation-models/{computationModelId}/execution-summary", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Retrieves information about the execution summary of a computation model.
+    ///
+    /// Parameters:
+    ///   - computationModelId: The ID of the computation model.
+    ///   - resolveToResourceId: The ID of the resolved resource.
+    ///   - resolveToResourceType: The type of the resolved resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeComputationModelExecutionSummary(
+        computationModelId: String,
+        resolveToResourceId: String? = nil,
+        resolveToResourceType: ResolveToResourceType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeComputationModelExecutionSummaryResponse {
+        let input = DescribeComputationModelExecutionSummaryRequest(
+            computationModelId: computationModelId, 
+            resolveToResourceId: resolveToResourceId, 
+            resolveToResourceType: resolveToResourceType
+        )
+        return try await self.describeComputationModelExecutionSummary(input, logger: logger)
     }
 
     /// Retrieves information about a dashboard.
@@ -1574,6 +1790,36 @@ public struct IoTSiteWise: AWSService {
         return try await self.describeDefaultEncryptionConfiguration(input, logger: logger)
     }
 
+    /// Retrieves information about the execution.
+    @Sendable
+    @inlinable
+    public func describeExecution(_ input: DescribeExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeExecutionResponse {
+        try await self.client.execute(
+            operation: "DescribeExecution", 
+            path: "/executions/{executionId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Retrieves information about the execution.
+    ///
+    /// Parameters:
+    ///   - executionId: The ID of the execution.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeExecution(
+        executionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeExecutionResponse {
+        let input = DescribeExecutionRequest(
+            executionId: executionId
+        )
+        return try await self.describeExecution(input, logger: logger)
+    }
+
     /// Retrieves information about a gateway.
     @Sendable
     @inlinable
@@ -1604,7 +1850,7 @@ public struct IoTSiteWise: AWSService {
         return try await self.describeGateway(input, logger: logger)
     }
 
-    /// Retrieves information about a gateway capability configuration. Each gateway capability defines data sources for a gateway. A capability configuration can contain multiple data source configurations. If you define OPC-UA sources for a gateway in the IoT SiteWise console, all of your OPC-UA sources are stored in one capability configuration. To list all capability configurations for a gateway, use DescribeGateway.
+    /// Each gateway capability defines data sources for a gateway. This is the namespace of the gateway capability. . The namespace follows the format service:capability:version, where:    service - The service providing the capability, or iotsitewise.    capability - The specific capability type. Options include: opcuacollector for the OPC UA data source collector, or publisher for data publisher capability.    version - The version number of the capability. Option include 2 for Classic streams, V2 gateways, and 3 for MQTT-enabled, V3 gateways.   After updating a capability configuration, the sync status becomes OUT_OF_SYNC until the gateway processes the configuration.Use DescribeGatewayCapabilityConfiguration to check the sync status and verify the configuration was applied. A gateway can have multiple capability configurations with different namespaces.
     @Sendable
     @inlinable
     public func describeGatewayCapabilityConfiguration(_ input: DescribeGatewayCapabilityConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGatewayCapabilityConfigurationResponse {
@@ -1618,10 +1864,10 @@ public struct IoTSiteWise: AWSService {
             logger: logger
         )
     }
-    /// Retrieves information about a gateway capability configuration. Each gateway capability defines data sources for a gateway. A capability configuration can contain multiple data source configurations. If you define OPC-UA sources for a gateway in the IoT SiteWise console, all of your OPC-UA sources are stored in one capability configuration. To list all capability configurations for a gateway, use DescribeGateway.
+    /// Each gateway capability defines data sources for a gateway. This is the namespace of the gateway capability. . The namespace follows the format service:capability:version, where:    service - The service providing the capability, or iotsitewise.    capability - The specific capability type. Options include: opcuacollector for the OPC UA data source collector, or publisher for data publisher capability.    version - The version number of the capability. Option include 2 for Classic streams, V2 gateways, and 3 for MQTT-enabled, V3 gateways.   After updating a capability configuration, the sync status becomes OUT_OF_SYNC until the gateway processes the configuration.Use DescribeGatewayCapabilityConfiguration to check the sync status and verify the configuration was applied. A gateway can have multiple capability configurations with different namespaces.
     ///
     /// Parameters:
-    ///   - capabilityNamespace: The namespace of the capability configuration. For example, if you configure OPC-UA sources from the IoT SiteWise console, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollector:version, where version is a number such as 1.
+    ///   - capabilityNamespace: The namespace of the capability configuration. For example, if you configure OPC UA sources for an MQTT-enabled gateway, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollector:3.
     ///   - gatewayId: The ID of the gateway that defines the capability configuration.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1885,6 +2131,7 @@ public struct IoTSiteWise: AWSService {
     ///   - actionDefinitionId: The ID of the action definition.
     ///   - actionPayload: The JSON payload of the action.
     ///   - clientToken: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+    ///   - resolveTo: The detailed resource this action resolves to.
     ///   - targetResource: The resource the action will be taken on.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1892,6 +2139,7 @@ public struct IoTSiteWise: AWSService {
         actionDefinitionId: String,
         actionPayload: ActionPayload,
         clientToken: String? = nil,
+        resolveTo: ResolveTo? = nil,
         targetResource: TargetResource,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ExecuteActionResponse {
@@ -1899,6 +2147,7 @@ public struct IoTSiteWise: AWSService {
             actionDefinitionId: actionDefinitionId, 
             actionPayload: actionPayload, 
             clientToken: clientToken, 
+            resolveTo: resolveTo, 
             targetResource: targetResource
         )
         return try await self.executeAction(input, logger: logger)
@@ -1922,7 +2171,7 @@ public struct IoTSiteWise: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
-    ///   - maxResults: The maximum number of results to return at one time. The default is 25.
+    ///   - maxResults: The maximum number of results to return at one time.   Minimum is 1   Maximum is 20000   Default is 20000
     ///   - nextToken: The string that specifies the next page of results.
     ///   - queryStatement: The IoT SiteWise query statement.
     ///   - logger: Logger use during operation
@@ -2262,6 +2511,8 @@ public struct IoTSiteWise: AWSService {
     /// Parameters:
     ///   - maxResults: The maximum number of results to return for each paginated request.
     ///   - nextToken: The token to be used for the next set of paginated results.
+    ///   - resolveToResourceId: The ID of the resolved resource.
+    ///   - resolveToResourceType: The type of the resolved resource.
     ///   - targetResourceId: The ID of the target resource.
     ///   - targetResourceType: The type of resource.
     ///   - logger: Logger use during operation
@@ -2269,6 +2520,8 @@ public struct IoTSiteWise: AWSService {
     public func listActions(
         maxResults: Int? = nil,
         nextToken: String? = nil,
+        resolveToResourceId: String? = nil,
+        resolveToResourceType: ResolveToResourceType? = nil,
         targetResourceId: String,
         targetResourceType: TargetResourceType,
         logger: Logger = AWSClient.loggingDisabled        
@@ -2276,6 +2529,8 @@ public struct IoTSiteWise: AWSService {
         let input = ListActionsRequest(
             maxResults: maxResults, 
             nextToken: nextToken, 
+            resolveToResourceId: resolveToResourceId, 
+            resolveToResourceType: resolveToResourceType, 
             targetResourceId: targetResourceId, 
             targetResourceType: targetResourceType
         )
@@ -2380,7 +2635,7 @@ public struct IoTSiteWise: AWSService {
     /// Retrieves a paginated list of summaries of all asset models.
     ///
     /// Parameters:
-    ///   - assetModelTypes: The type of asset model. If you don't provide an assetModelTypes, all types of asset models are returned.    ASSET_MODEL – An asset model that you can use to create assets. Can't be included as a component in another asset model.    COMPONENT_MODEL – A reusable component that you can include in the composite models of other asset models. You can't create assets directly from this type of asset model.
+    ///   - assetModelTypes: The type of asset model. If you don't provide an assetModelTypes, all types of asset models are returned.    ASSET_MODEL – An asset model that you can use to create assets. Can't be included as a component in another asset model.    COMPONENT_MODEL – A reusable component that you can include in the composite models of other asset models. You can't create assets directly from this type of asset model.     INTERFACE – An interface is a type of model that defines a standard structure that can be applied to different asset models.
     ///   - assetModelVersion: The version alias that specifies the latest or active version of the asset model.  The details are returned in the response. The default value is LATEST. See  Asset model versions in the IoT SiteWise User Guide.
     ///   - maxResults: The maximum number of results to return for each paginated request. Default: 50
     ///   - nextToken: The token to be used for the next set of paginated results.
@@ -2633,6 +2888,114 @@ public struct IoTSiteWise: AWSService {
         return try await self.listCompositionRelationships(input, logger: logger)
     }
 
+    ///  Lists all data binding usages for computation models. This allows to identify where specific data bindings are being utilized across the computation models. This track dependencies between data sources and computation models.
+    @Sendable
+    @inlinable
+    public func listComputationModelDataBindingUsages(_ input: ListComputationModelDataBindingUsagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListComputationModelDataBindingUsagesResponse {
+        try await self.client.execute(
+            operation: "ListComputationModelDataBindingUsages", 
+            path: "/computation-models/data-binding-usages", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    ///  Lists all data binding usages for computation models. This allows to identify where specific data bindings are being utilized across the computation models. This track dependencies between data sources and computation models.
+    ///
+    /// Parameters:
+    ///   - dataBindingValueFilter: A filter used to limit the returned data binding usages based on specific data binding values. You can filter by asset, asset model, asset property, or asset model property to find all computation models using these specific data sources.
+    ///   - maxResults: The maximum number of results returned for each paginated request.
+    ///   - nextToken: The token used for the next set of paginated results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listComputationModelDataBindingUsages(
+        dataBindingValueFilter: DataBindingValueFilter,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListComputationModelDataBindingUsagesResponse {
+        let input = ListComputationModelDataBindingUsagesRequest(
+            dataBindingValueFilter: dataBindingValueFilter, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listComputationModelDataBindingUsages(input, logger: logger)
+    }
+
+    /// Lists all distinct resources that are resolved from the executed actions of the computation model.
+    @Sendable
+    @inlinable
+    public func listComputationModelResolveToResources(_ input: ListComputationModelResolveToResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListComputationModelResolveToResourcesResponse {
+        try await self.client.execute(
+            operation: "ListComputationModelResolveToResources", 
+            path: "/computation-models/{computationModelId}/resolve-to-resources", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Lists all distinct resources that are resolved from the executed actions of the computation model.
+    ///
+    /// Parameters:
+    ///   - computationModelId: The ID of the computation model for which to list resolved resources.
+    ///   - maxResults: The maximum number of results returned for each paginated request.
+    ///   - nextToken: The token used for the next set of paginated results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listComputationModelResolveToResources(
+        computationModelId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListComputationModelResolveToResourcesResponse {
+        let input = ListComputationModelResolveToResourcesRequest(
+            computationModelId: computationModelId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listComputationModelResolveToResources(input, logger: logger)
+    }
+
+    /// Retrieves a paginated list of summaries of all computation models.
+    @Sendable
+    @inlinable
+    public func listComputationModels(_ input: ListComputationModelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListComputationModelsResponse {
+        try await self.client.execute(
+            operation: "ListComputationModels", 
+            path: "/computation-models", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Retrieves a paginated list of summaries of all computation models.
+    ///
+    /// Parameters:
+    ///   - computationModelType: The type of computation model. If a computationModelType is not provided, all types of computation models are returned.
+    ///   - maxResults: The maximum number of results to return for each paginated request.
+    ///   - nextToken: The token to be used for the next set of paginated results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listComputationModels(
+        computationModelType: ComputationModelType? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListComputationModelsResponse {
+        let input = ListComputationModelsRequest(
+            computationModelType: computationModelType, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listComputationModels(input, logger: logger)
+    }
+
     /// Retrieves a paginated list of dashboards for an IoT SiteWise Monitor project.
     @Sendable
     @inlinable
@@ -2705,6 +3068,54 @@ public struct IoTSiteWise: AWSService {
         return try await self.listDatasets(input, logger: logger)
     }
 
+    /// Retrieves a paginated list of summaries of all executions.
+    @Sendable
+    @inlinable
+    public func listExecutions(_ input: ListExecutionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListExecutionsResponse {
+        try await self.client.execute(
+            operation: "ListExecutions", 
+            path: "/executions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Retrieves a paginated list of summaries of all executions.
+    ///
+    /// Parameters:
+    ///   - actionType: The type of action exectued.
+    ///   - maxResults: The maximum number of results returned for each paginated request.
+    ///   - nextToken: The token used for the next set of paginated results.
+    ///   - resolveToResourceId: The ID of the resolved resource.
+    ///   - resolveToResourceType: The type of the resolved resource.
+    ///   - targetResourceId: The ID of the target resource.
+    ///   - targetResourceType: The type of the target resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listExecutions(
+        actionType: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        resolveToResourceId: String? = nil,
+        resolveToResourceType: ResolveToResourceType? = nil,
+        targetResourceId: String,
+        targetResourceType: TargetResourceType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListExecutionsResponse {
+        let input = ListExecutionsRequest(
+            actionType: actionType, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            resolveToResourceId: resolveToResourceId, 
+            resolveToResourceType: resolveToResourceType, 
+            targetResourceId: targetResourceId, 
+            targetResourceType: targetResourceType
+        )
+        return try await self.listExecutions(input, logger: logger)
+    }
+
     /// Retrieves a paginated list of gateways.
     @Sendable
     @inlinable
@@ -2736,6 +3147,42 @@ public struct IoTSiteWise: AWSService {
             nextToken: nextToken
         )
         return try await self.listGateways(input, logger: logger)
+    }
+
+    /// Retrieves a paginated list of asset models that have a specific interface asset model applied to them.
+    @Sendable
+    @inlinable
+    public func listInterfaceRelationships(_ input: ListInterfaceRelationshipsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInterfaceRelationshipsResponse {
+        try await self.client.execute(
+            operation: "ListInterfaceRelationships", 
+            path: "/interface/{interfaceAssetModelId}/asset-models", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Retrieves a paginated list of asset models that have a specific interface asset model applied to them.
+    ///
+    /// Parameters:
+    ///   - interfaceAssetModelId: The ID of the interface asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID.
+    ///   - maxResults: The maximum number of results to return for each paginated request. Default: 50
+    ///   - nextToken: The token to be used for the next set of paginated results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listInterfaceRelationships(
+        interfaceAssetModelId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListInterfaceRelationshipsResponse {
+        let input = ListInterfaceRelationshipsRequest(
+            interfaceAssetModelId: interfaceAssetModelId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listInterfaceRelationships(input, logger: logger)
     }
 
     /// Retrieves a paginated list of IoT SiteWise Monitor portals.
@@ -2915,6 +3362,45 @@ public struct IoTSiteWise: AWSService {
         return try await self.listTimeSeries(input, logger: logger)
     }
 
+    /// Creates or updates an interface relationship between an asset model and an interface asset model. This operation applies an interface to an asset model.
+    @Sendable
+    @inlinable
+    public func putAssetModelInterfaceRelationship(_ input: PutAssetModelInterfaceRelationshipRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAssetModelInterfaceRelationshipResponse {
+        try await self.client.execute(
+            operation: "PutAssetModelInterfaceRelationship", 
+            path: "/asset-models/{assetModelId}/interface/{interfaceAssetModelId}/asset-model-interface-relationship", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Creates or updates an interface relationship between an asset model and an interface asset model. This operation applies an interface to an asset model.
+    ///
+    /// Parameters:
+    ///   - assetModelId: The ID of the asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID.
+    ///   - clientToken: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+    ///   - interfaceAssetModelId: The ID of the interface asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID.
+    ///   - propertyMappingConfiguration: The configuration for mapping properties from the interface asset model to the asset model where the interface is applied. This configuration controls how properties are matched and created during the interface application process.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putAssetModelInterfaceRelationship(
+        assetModelId: String,
+        clientToken: String? = PutAssetModelInterfaceRelationshipRequest.idempotencyToken(),
+        interfaceAssetModelId: String,
+        propertyMappingConfiguration: PropertyMappingConfiguration,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutAssetModelInterfaceRelationshipResponse {
+        let input = PutAssetModelInterfaceRelationshipRequest(
+            assetModelId: assetModelId, 
+            clientToken: clientToken, 
+            interfaceAssetModelId: interfaceAssetModelId, 
+            propertyMappingConfiguration: propertyMappingConfiguration
+        )
+        return try await self.putAssetModelInterfaceRelationship(input, logger: logger)
+    }
+
     /// Sets the default encryption configuration for the Amazon Web Services account. For more information, see Key management in the IoT SiteWise User Guide.
     @Sendable
     @inlinable
@@ -2995,7 +3481,7 @@ public struct IoTSiteWise: AWSService {
     /// Configures storage settings for IoT SiteWise.
     ///
     /// Parameters:
-    ///   - disallowIngestNullNaN: Describes the configuration for ingesting NULL and NaN data.  By default the feature is allowed. The feature is disallowed if the value is true.
+    ///   - disallowIngestNullNaN: Describes the configuration for ingesting NULL and NaN data. By default the feature is allowed. The feature is disallowed if the value is true.
     ///   - disassociatedDataStorage: Contains the storage configuration for time series (data streams) that aren't associated with asset properties. The disassociatedDataStorage can be one of the following values:    ENABLED – IoT SiteWise accepts time series that aren't associated with asset properties.  After the disassociatedDataStorage is enabled, you can't disable it.     DISABLED – IoT SiteWise doesn't accept time series (data streams) that aren't associated with asset properties.   For more information, see Data streams in the IoT SiteWise User Guide.
     ///   - multiLayerStorage: Identifies a storage destination. If you specified MULTI_LAYER_STORAGE for the storage type, you must specify a MultiLayerStorage object.
     ///   - retentionPeriod: 
@@ -3338,6 +3824,51 @@ public struct IoTSiteWise: AWSService {
         return try await self.updateAssetProperty(input, logger: logger)
     }
 
+    /// Updates the computation model.
+    @Sendable
+    @inlinable
+    public func updateComputationModel(_ input: UpdateComputationModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateComputationModelResponse {
+        try await self.client.execute(
+            operation: "UpdateComputationModel", 
+            path: "/computation-models/{computationModelId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Updates the computation model.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+    ///   - computationModelConfiguration: The configuration for the computation model.
+    ///   - computationModelDataBinding: The data binding for the computation model. Key is a variable name defined in configuration.  Value is a ComputationModelDataBindingValue referenced by the variable.
+    ///   - computationModelDescription: The description of the computation model.
+    ///   - computationModelId: The ID of the computation model.
+    ///   - computationModelName: The name of the computation model.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateComputationModel(
+        clientToken: String? = UpdateComputationModelRequest.idempotencyToken(),
+        computationModelConfiguration: ComputationModelConfiguration,
+        computationModelDataBinding: [String: ComputationModelDataBindingValue],
+        computationModelDescription: String? = nil,
+        computationModelId: String,
+        computationModelName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateComputationModelResponse {
+        let input = UpdateComputationModelRequest(
+            clientToken: clientToken, 
+            computationModelConfiguration: computationModelConfiguration, 
+            computationModelDataBinding: computationModelDataBinding, 
+            computationModelDescription: computationModelDescription, 
+            computationModelId: computationModelId, 
+            computationModelName: computationModelName
+        )
+        return try await self.updateComputationModel(input, logger: logger)
+    }
+
     /// Updates an IoT SiteWise Monitor dashboard.
     @Sendable
     @inlinable
@@ -3455,7 +3986,7 @@ public struct IoTSiteWise: AWSService {
         return try await self.updateGateway(input, logger: logger)
     }
 
-    /// Updates a gateway capability configuration or defines a new capability configuration. Each gateway capability defines data sources for a gateway. A capability configuration can contain multiple data source configurations. If you define OPC-UA sources for a gateway in the IoT SiteWise console, all of your OPC-UA sources are stored in one capability configuration. To list all capability configurations for a gateway, use DescribeGateway.
+    /// Updates a gateway capability configuration or defines a new capability configuration. Each gateway capability defines data sources for a gateway. Important workflow notes: Each gateway capability defines data sources for a gateway. This is the namespace of the gateway capability. . The namespace follows the format service:capability:version, where:    service - The service providing the capability, or iotsitewise.    capability - The specific capability type. Options include: opcuacollector for the OPC UA data source collector, or publisher for data publisher capability.    version - The version number of the capability. Option include 2 for Classic streams, V2 gateways, and 3 for MQTT-enabled, V3 gateways.   After updating a capability configuration, the sync status becomes OUT_OF_SYNC until the gateway processes the configuration.Use DescribeGatewayCapabilityConfiguration to check the sync status and verify the configuration was applied. A gateway can have multiple capability configurations with different namespaces.
     @Sendable
     @inlinable
     public func updateGatewayCapabilityConfiguration(_ input: UpdateGatewayCapabilityConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGatewayCapabilityConfigurationResponse {
@@ -3469,11 +4000,11 @@ public struct IoTSiteWise: AWSService {
             logger: logger
         )
     }
-    /// Updates a gateway capability configuration or defines a new capability configuration. Each gateway capability defines data sources for a gateway. A capability configuration can contain multiple data source configurations. If you define OPC-UA sources for a gateway in the IoT SiteWise console, all of your OPC-UA sources are stored in one capability configuration. To list all capability configurations for a gateway, use DescribeGateway.
+    /// Updates a gateway capability configuration or defines a new capability configuration. Each gateway capability defines data sources for a gateway. Important workflow notes: Each gateway capability defines data sources for a gateway. This is the namespace of the gateway capability. . The namespace follows the format service:capability:version, where:    service - The service providing the capability, or iotsitewise.    capability - The specific capability type. Options include: opcuacollector for the OPC UA data source collector, or publisher for data publisher capability.    version - The version number of the capability. Option include 2 for Classic streams, V2 gateways, and 3 for MQTT-enabled, V3 gateways.   After updating a capability configuration, the sync status becomes OUT_OF_SYNC until the gateway processes the configuration.Use DescribeGatewayCapabilityConfiguration to check the sync status and verify the configuration was applied. A gateway can have multiple capability configurations with different namespaces.
     ///
     /// Parameters:
     ///   - capabilityConfiguration: The JSON document that defines the configuration for the gateway capability. For more information, see Configuring data sources (CLI) in the IoT SiteWise User Guide.
-    ///   - capabilityNamespace: The namespace of the gateway capability configuration to be updated. For example, if you configure OPC-UA sources from the IoT SiteWise console, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollector:version, where version is a number such as 1.
+    ///   - capabilityNamespace: The namespace of the gateway capability configuration to be updated. For example, if you configure OPC UA sources for an MQTT-enabled gateway, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollector:3.
     ///   - gatewayId: The ID of the gateway to be updated.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3734,7 +4265,7 @@ extension IoTSiteWise {
     ///
     /// - Parameters:
     ///   - clientToken: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
-    ///   - maxResults: The maximum number of results to return at one time. The default is 25.
+    ///   - maxResults: The maximum number of results to return at one time.   Minimum is 1   Maximum is 20000   Default is 20000
     ///   - queryStatement: The IoT SiteWise query statement.
     ///   - logger: Logger used for logging
     @inlinable
@@ -4088,7 +4619,7 @@ extension IoTSiteWise {
     /// Return PaginatorSequence for operation ``listAssetModels(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - assetModelTypes: The type of asset model. If you don't provide an assetModelTypes, all types of asset models are returned.    ASSET_MODEL – An asset model that you can use to create assets. Can't be included as a component in another asset model.    COMPONENT_MODEL – A reusable component that you can include in the composite models of other asset models. You can't create assets directly from this type of asset model.
+    ///   - assetModelTypes: The type of asset model. If you don't provide an assetModelTypes, all types of asset models are returned.    ASSET_MODEL – An asset model that you can use to create assets. Can't be included as a component in another asset model.    COMPONENT_MODEL – A reusable component that you can include in the composite models of other asset models. You can't create assets directly from this type of asset model.     INTERFACE – An interface is a type of model that defines a standard structure that can be applied to different asset models.
     ///   - assetModelVersion: The version alias that specifies the latest or active version of the asset model.  The details are returned in the response. The default value is LATEST. See  Asset model versions in the IoT SiteWise User Guide.
     ///   - maxResults: The maximum number of results to return for each paginated request. Default: 50
     ///   - logger: Logger used for logging
@@ -4344,6 +4875,117 @@ extension IoTSiteWise {
         return self.listCompositionRelationshipsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listComputationModelDataBindingUsages(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listComputationModelDataBindingUsagesPaginator(
+        _ input: ListComputationModelDataBindingUsagesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListComputationModelDataBindingUsagesRequest, ListComputationModelDataBindingUsagesResponse> {
+        return .init(
+            input: input,
+            command: self.listComputationModelDataBindingUsages,
+            inputKey: \ListComputationModelDataBindingUsagesRequest.nextToken,
+            outputKey: \ListComputationModelDataBindingUsagesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listComputationModelDataBindingUsages(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - dataBindingValueFilter: A filter used to limit the returned data binding usages based on specific data binding values. You can filter by asset, asset model, asset property, or asset model property to find all computation models using these specific data sources.
+    ///   - maxResults: The maximum number of results returned for each paginated request.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listComputationModelDataBindingUsagesPaginator(
+        dataBindingValueFilter: DataBindingValueFilter,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListComputationModelDataBindingUsagesRequest, ListComputationModelDataBindingUsagesResponse> {
+        let input = ListComputationModelDataBindingUsagesRequest(
+            dataBindingValueFilter: dataBindingValueFilter, 
+            maxResults: maxResults
+        )
+        return self.listComputationModelDataBindingUsagesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listComputationModelResolveToResources(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listComputationModelResolveToResourcesPaginator(
+        _ input: ListComputationModelResolveToResourcesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListComputationModelResolveToResourcesRequest, ListComputationModelResolveToResourcesResponse> {
+        return .init(
+            input: input,
+            command: self.listComputationModelResolveToResources,
+            inputKey: \ListComputationModelResolveToResourcesRequest.nextToken,
+            outputKey: \ListComputationModelResolveToResourcesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listComputationModelResolveToResources(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - computationModelId: The ID of the computation model for which to list resolved resources.
+    ///   - maxResults: The maximum number of results returned for each paginated request.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listComputationModelResolveToResourcesPaginator(
+        computationModelId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListComputationModelResolveToResourcesRequest, ListComputationModelResolveToResourcesResponse> {
+        let input = ListComputationModelResolveToResourcesRequest(
+            computationModelId: computationModelId, 
+            maxResults: maxResults
+        )
+        return self.listComputationModelResolveToResourcesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listComputationModels(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listComputationModelsPaginator(
+        _ input: ListComputationModelsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListComputationModelsRequest, ListComputationModelsResponse> {
+        return .init(
+            input: input,
+            command: self.listComputationModels,
+            inputKey: \ListComputationModelsRequest.nextToken,
+            outputKey: \ListComputationModelsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listComputationModels(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - computationModelType: The type of computation model. If a computationModelType is not provided, all types of computation models are returned.
+    ///   - maxResults: The maximum number of results to return for each paginated request.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listComputationModelsPaginator(
+        computationModelType: ComputationModelType? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListComputationModelsRequest, ListComputationModelsResponse> {
+        let input = ListComputationModelsRequest(
+            computationModelType: computationModelType, 
+            maxResults: maxResults
+        )
+        return self.listComputationModelsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listDashboards(_:logger:)``.
     ///
     /// - Parameters:
@@ -4418,6 +5060,55 @@ extension IoTSiteWise {
         return self.listDatasetsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listExecutions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listExecutionsPaginator(
+        _ input: ListExecutionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListExecutionsRequest, ListExecutionsResponse> {
+        return .init(
+            input: input,
+            command: self.listExecutions,
+            inputKey: \ListExecutionsRequest.nextToken,
+            outputKey: \ListExecutionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listExecutions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - actionType: The type of action exectued.
+    ///   - maxResults: The maximum number of results returned for each paginated request.
+    ///   - resolveToResourceId: The ID of the resolved resource.
+    ///   - resolveToResourceType: The type of the resolved resource.
+    ///   - targetResourceId: The ID of the target resource.
+    ///   - targetResourceType: The type of the target resource.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listExecutionsPaginator(
+        actionType: String? = nil,
+        maxResults: Int? = nil,
+        resolveToResourceId: String? = nil,
+        resolveToResourceType: ResolveToResourceType? = nil,
+        targetResourceId: String,
+        targetResourceType: TargetResourceType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListExecutionsRequest, ListExecutionsResponse> {
+        let input = ListExecutionsRequest(
+            actionType: actionType, 
+            maxResults: maxResults, 
+            resolveToResourceId: resolveToResourceId, 
+            resolveToResourceType: resolveToResourceType, 
+            targetResourceId: targetResourceId, 
+            targetResourceType: targetResourceType
+        )
+        return self.listExecutionsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listGateways(_:logger:)``.
     ///
     /// - Parameters:
@@ -4450,6 +5141,43 @@ extension IoTSiteWise {
             maxResults: maxResults
         )
         return self.listGatewaysPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listInterfaceRelationships(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listInterfaceRelationshipsPaginator(
+        _ input: ListInterfaceRelationshipsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListInterfaceRelationshipsRequest, ListInterfaceRelationshipsResponse> {
+        return .init(
+            input: input,
+            command: self.listInterfaceRelationships,
+            inputKey: \ListInterfaceRelationshipsRequest.nextToken,
+            outputKey: \ListInterfaceRelationshipsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listInterfaceRelationships(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - interfaceAssetModelId: The ID of the interface asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID.
+    ///   - maxResults: The maximum number of results to return for each paginated request. Default: 50
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listInterfaceRelationshipsPaginator(
+        interfaceAssetModelId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListInterfaceRelationshipsRequest, ListInterfaceRelationshipsResponse> {
+        let input = ListInterfaceRelationshipsRequest(
+            interfaceAssetModelId: interfaceAssetModelId, 
+            maxResults: maxResults
+        )
+        return self.listInterfaceRelationshipsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listPortals(_:logger:)``.
@@ -4828,6 +5556,39 @@ extension IoTSiteWise.ListCompositionRelationshipsRequest: AWSPaginateToken {
     }
 }
 
+extension IoTSiteWise.ListComputationModelDataBindingUsagesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListComputationModelDataBindingUsagesRequest {
+        return .init(
+            dataBindingValueFilter: self.dataBindingValueFilter,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension IoTSiteWise.ListComputationModelResolveToResourcesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListComputationModelResolveToResourcesRequest {
+        return .init(
+            computationModelId: self.computationModelId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension IoTSiteWise.ListComputationModelsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListComputationModelsRequest {
+        return .init(
+            computationModelType: self.computationModelType,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension IoTSiteWise.ListDashboardsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListDashboardsRequest {
@@ -4850,10 +5611,36 @@ extension IoTSiteWise.ListDatasetsRequest: AWSPaginateToken {
     }
 }
 
+extension IoTSiteWise.ListExecutionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListExecutionsRequest {
+        return .init(
+            actionType: self.actionType,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resolveToResourceId: self.resolveToResourceId,
+            resolveToResourceType: self.resolveToResourceType,
+            targetResourceId: self.targetResourceId,
+            targetResourceType: self.targetResourceType
+        )
+    }
+}
+
 extension IoTSiteWise.ListGatewaysRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListGatewaysRequest {
         return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension IoTSiteWise.ListInterfaceRelationshipsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListInterfaceRelationshipsRequest {
+        return .init(
+            interfaceAssetModelId: self.interfaceAssetModelId,
             maxResults: self.maxResults,
             nextToken: token
         )

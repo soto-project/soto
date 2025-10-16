@@ -1407,6 +1407,90 @@ extension MemoryDB {
         }
     }
 
+    public struct DescribeMultiRegionParameterGroupsRequest: AWSEncodableShape {
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+        public let maxResults: Int?
+        /// The request for information on a specific multi-region parameter group.
+        public let multiRegionParameterGroupName: String?
+        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, multiRegionParameterGroupName: String? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.multiRegionParameterGroupName = multiRegionParameterGroupName
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case multiRegionParameterGroupName = "MultiRegionParameterGroupName"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeMultiRegionParameterGroupsResponse: AWSDecodableShape {
+        /// A list of multi-region parameter groups. Each element in the list contains detailed information about one parameter group.
+        public let multiRegionParameterGroups: [MultiRegionParameterGroup]?
+        /// An optional token to include in the response. If this token is provided, the response includes only results beyond the token, up to the value specified by MaxResults.
+        public let nextToken: String?
+
+        @inlinable
+        public init(multiRegionParameterGroups: [MultiRegionParameterGroup]? = nil, nextToken: String? = nil) {
+            self.multiRegionParameterGroups = multiRegionParameterGroups
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiRegionParameterGroups = "MultiRegionParameterGroups"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeMultiRegionParametersRequest: AWSEncodableShape {
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+        public let maxResults: Int?
+        /// The name of the multi-region parameter group to return details for.
+        public let multiRegionParameterGroupName: String
+        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
+        public let nextToken: String?
+        /// The parameter types to return. Valid values: user | system | engine-default
+        public let source: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, multiRegionParameterGroupName: String, nextToken: String? = nil, source: String? = nil) {
+            self.maxResults = maxResults
+            self.multiRegionParameterGroupName = multiRegionParameterGroupName
+            self.nextToken = nextToken
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case multiRegionParameterGroupName = "MultiRegionParameterGroupName"
+            case nextToken = "NextToken"
+            case source = "Source"
+        }
+    }
+
+    public struct DescribeMultiRegionParametersResponse: AWSDecodableShape {
+        /// A list of parameters specific to a particular multi-region parameter group. Each element in the list contains detailed information about one parameter.
+        public let multiRegionParameters: [MultiRegionParameter]?
+        /// An optional token to include in the response. If this token is provided, the response includes only results beyond the token, up to the value specified by MaxResults.
+        public let nextToken: String?
+
+        @inlinable
+        public init(multiRegionParameters: [MultiRegionParameter]? = nil, nextToken: String? = nil) {
+            self.multiRegionParameters = multiRegionParameters
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiRegionParameters = "MultiRegionParameters"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct DescribeParameterGroupsRequest: AWSEncodableShape {
         /// The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
         public let maxResults: Int?
@@ -2063,6 +2147,70 @@ extension MemoryDB {
             case numberOfShards = "NumberOfShards"
             case status = "Status"
             case tlsEnabled = "TLSEnabled"
+        }
+    }
+
+    public struct MultiRegionParameter: AWSDecodableShape {
+        /// The valid range of values for the parameter.
+        public let allowedValues: String?
+        /// The valid data type for the parameter.
+        public let dataType: String?
+        /// A description of the parameter.
+        public let description: String?
+        /// The earliest engine version to which the parameter can apply.
+        public let minimumEngineVersion: String?
+        /// The name of the parameter.
+        public let name: String?
+        /// Indicates the source of the parameter value. Valid values: user | system | engine-default
+        public let source: String?
+        /// The value of the parameter.
+        public let value: String?
+
+        @inlinable
+        public init(allowedValues: String? = nil, dataType: String? = nil, description: String? = nil, minimumEngineVersion: String? = nil, name: String? = nil, source: String? = nil, value: String? = nil) {
+            self.allowedValues = allowedValues
+            self.dataType = dataType
+            self.description = description
+            self.minimumEngineVersion = minimumEngineVersion
+            self.name = name
+            self.source = source
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedValues = "AllowedValues"
+            case dataType = "DataType"
+            case description = "Description"
+            case minimumEngineVersion = "MinimumEngineVersion"
+            case name = "Name"
+            case source = "Source"
+            case value = "Value"
+        }
+    }
+
+    public struct MultiRegionParameterGroup: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the multi-region parameter group.
+        public let arn: String?
+        /// A description of the multi-region parameter group.
+        public let description: String?
+        /// The name of the parameter group family that this multi-region parameter group is compatible with.
+        public let family: String?
+        /// The name of the multi-region parameter group.
+        public let name: String?
+
+        @inlinable
+        public init(arn: String? = nil, description: String? = nil, family: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.description = description
+            self.family = family
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case description = "Description"
+            case family = "Family"
+            case name = "Name"
         }
     }
 
@@ -3239,30 +3387,53 @@ public struct MemoryDBErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// An ACL with the specified name already exists.
     public static var aclAlreadyExistsFault: Self { .init(.aclAlreadyExistsFault) }
+    /// The specified ACL does not exist.
     public static var aclNotFoundFault: Self { .init(.aclNotFoundFault) }
+    /// The request cannot be processed because it would exceed the maximum number of ACLs allowed.
     public static var aclQuotaExceededFault: Self { .init(.aclQuotaExceededFault) }
+    /// The customer has exceeded the maximum number of API requests allowed per time period.
     public static var apiCallRateForCustomerExceededFault: Self { .init(.apiCallRateForCustomerExceededFault) }
+    /// A cluster with the specified name already exists.
     public static var clusterAlreadyExistsFault: Self { .init(.clusterAlreadyExistsFault) }
+    /// The specified cluster does not exist.
     public static var clusterNotFoundFault: Self { .init(.clusterNotFoundFault) }
+    /// The request cannot be processed because it would exceed the maximum number of clusters allowed for this customer.
     public static var clusterQuotaForCustomerExceededFault: Self { .init(.clusterQuotaForCustomerExceededFault) }
+    /// A default user is required and must be specified.
     public static var defaultUserRequired: Self { .init(.defaultUserRequired) }
+    /// A user with the specified name already exists.
     public static var duplicateUserNameFault: Self { .init(.duplicateUserNameFault) }
+    /// The cluster does not have sufficient capacity to perform the requested operation.
     public static var insufficientClusterCapacityFault: Self { .init(.insufficientClusterCapacityFault) }
+    /// The ACL is not in a valid state for the requested operation.
     public static var invalidACLStateFault: Self { .init(.invalidACLStateFault) }
+    /// The specified Amazon Resource Name (ARN) is not valid.
     public static var invalidARNFault: Self { .init(.invalidARNFault) }
+    /// The cluster is not in a valid state for the requested operation.
     public static var invalidClusterStateFault: Self { .init(.invalidClusterStateFault) }
+    /// The provided credentials are not valid.
     public static var invalidCredentialsException: Self { .init(.invalidCredentialsException) }
+    /// The specified KMS key is not valid or accessible.
     public static var invalidKMSKeyFault: Self { .init(.invalidKMSKeyFault) }
     /// The requested operation cannot be performed on the multi-Region cluster in its current state.
     public static var invalidMultiRegionClusterStateFault: Self { .init(.invalidMultiRegionClusterStateFault) }
+    /// The node is not in a valid state for the requested operation.
     public static var invalidNodeStateFault: Self { .init(.invalidNodeStateFault) }
+    /// The specified parameter combination is not valid.
     public static var invalidParameterCombinationException: Self { .init(.invalidParameterCombinationException) }
+    /// The parameter group is not in a valid state for the requested operation.
     public static var invalidParameterGroupStateFault: Self { .init(.invalidParameterGroupStateFault) }
+    /// The specified parameter value is not valid.
     public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
+    /// The snapshot is not in a valid state for the requested operation.
     public static var invalidSnapshotStateFault: Self { .init(.invalidSnapshotStateFault) }
+    /// The specified subnet is not valid.
     public static var invalidSubnet: Self { .init(.invalidSubnet) }
+    /// The user is not in a valid state for the requested operation.
     public static var invalidUserStateFault: Self { .init(.invalidUserStateFault) }
+    /// The VPC network is not in a valid state for the requested operation.
     public static var invalidVPCNetworkStateFault: Self { .init(.invalidVPCNetworkStateFault) }
     /// A multi-Region cluster with the specified name already exists.
     public static var multiRegionClusterAlreadyExistsFault: Self { .init(.multiRegionClusterAlreadyExistsFault) }
@@ -3270,11 +3441,17 @@ public struct MemoryDBErrorType: AWSErrorType {
     public static var multiRegionClusterNotFoundFault: Self { .init(.multiRegionClusterNotFoundFault) }
     /// The specified multi-Region parameter group does not exist.
     public static var multiRegionParameterGroupNotFoundFault: Self { .init(.multiRegionParameterGroupNotFoundFault) }
+    /// The requested operation would result in no changes.
     public static var noOperationFault: Self { .init(.noOperationFault) }
+    /// The request cannot be processed because it would exceed the maximum number of nodes allowed for this cluster.
     public static var nodeQuotaForClusterExceededFault: Self { .init(.nodeQuotaForClusterExceededFault) }
+    /// The request cannot be processed because it would exceed the maximum number of nodes allowed for this customer.
     public static var nodeQuotaForCustomerExceededFault: Self { .init(.nodeQuotaForCustomerExceededFault) }
+    /// A parameter group with the specified name already exists.
     public static var parameterGroupAlreadyExistsFault: Self { .init(.parameterGroupAlreadyExistsFault) }
+    /// The specified parameter group does not exist.
     public static var parameterGroupNotFoundFault: Self { .init(.parameterGroupNotFoundFault) }
+    /// The request cannot be processed because it would exceed the maximum number of parameter groups allowed.
     public static var parameterGroupQuotaExceededFault: Self { .init(.parameterGroupQuotaExceededFault) }
     /// You already have a reservation with the given identifier.
     public static var reservedNodeAlreadyExistsFault: Self { .init(.reservedNodeAlreadyExistsFault) }
@@ -3284,25 +3461,45 @@ public struct MemoryDBErrorType: AWSErrorType {
     public static var reservedNodeQuotaExceededFault: Self { .init(.reservedNodeQuotaExceededFault) }
     /// The requested node offering does not exist.
     public static var reservedNodesOfferingNotFoundFault: Self { .init(.reservedNodesOfferingNotFoundFault) }
+    /// The required service-linked role was not found.
     public static var serviceLinkedRoleNotFoundFault: Self { .init(.serviceLinkedRoleNotFoundFault) }
+    /// The specified service update does not exist.
     public static var serviceUpdateNotFoundFault: Self { .init(.serviceUpdateNotFoundFault) }
+    /// The specified shard does not exist.
     public static var shardNotFoundFault: Self { .init(.shardNotFoundFault) }
+    /// The request cannot be processed because it would exceed the maximum number of shards allowed per cluster.
     public static var shardsPerClusterQuotaExceededFault: Self { .init(.shardsPerClusterQuotaExceededFault) }
+    /// A snapshot with the specified name already exists.
     public static var snapshotAlreadyExistsFault: Self { .init(.snapshotAlreadyExistsFault) }
+    /// The specified snapshot does not exist.
     public static var snapshotNotFoundFault: Self { .init(.snapshotNotFoundFault) }
+    /// The request cannot be processed because it would exceed the maximum number of snapshots allowed.
     public static var snapshotQuotaExceededFault: Self { .init(.snapshotQuotaExceededFault) }
+    /// A subnet group with the specified name already exists.
     public static var subnetGroupAlreadyExistsFault: Self { .init(.subnetGroupAlreadyExistsFault) }
+    /// The subnet group is currently in use and cannot be deleted.
     public static var subnetGroupInUseFault: Self { .init(.subnetGroupInUseFault) }
+    /// The specified subnet group does not exist.
     public static var subnetGroupNotFoundFault: Self { .init(.subnetGroupNotFoundFault) }
+    /// The request cannot be processed because it would exceed the maximum number of subnet groups allowed.
     public static var subnetGroupQuotaExceededFault: Self { .init(.subnetGroupQuotaExceededFault) }
+    /// The subnet is currently in use and cannot be deleted.
     public static var subnetInUse: Self { .init(.subnetInUse) }
+    /// The specified subnet is not allowed for this operation.
     public static var subnetNotAllowedFault: Self { .init(.subnetNotAllowedFault) }
+    /// The request cannot be processed because it would exceed the maximum number of subnets allowed.
     public static var subnetQuotaExceededFault: Self { .init(.subnetQuotaExceededFault) }
+    /// The specified tag does not exist.
     public static var tagNotFoundFault: Self { .init(.tagNotFoundFault) }
+    /// The request cannot be processed because it would exceed the maximum number of tags allowed per resource.
     public static var tagQuotaPerResourceExceeded: Self { .init(.tagQuotaPerResourceExceeded) }
+    /// Test failover is not available for this cluster configuration.
     public static var testFailoverNotAvailableFault: Self { .init(.testFailoverNotAvailableFault) }
+    /// A user with the specified name already exists.
     public static var userAlreadyExistsFault: Self { .init(.userAlreadyExistsFault) }
+    /// The specified user does not exist.
     public static var userNotFoundFault: Self { .init(.userNotFoundFault) }
+    /// The request cannot be processed because it would exceed the maximum number of users allowed.
     public static var userQuotaExceededFault: Self { .init(.userQuotaExceededFault) }
 }
 

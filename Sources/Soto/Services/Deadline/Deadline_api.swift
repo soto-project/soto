@@ -838,6 +838,7 @@ public struct Deadline: AWSService {
     ///   - identityCenterInstanceArn: The Amazon Resource Name (ARN) of the IAM Identity Center instance that authenticates monitor users.
     ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role that the monitor uses to connect to Deadline Cloud. Every user that signs in to the monitor using IAM Identity Center uses this role to access Deadline Cloud resources.
     ///   - subdomain: The subdomain to use when creating the monitor URL. The full URL of the monitor is subdomain.Region.deadlinecloud.amazonaws.com.
+    ///   - tags: The tags to add to your monitor. Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
     ///   - logger: Logger use during operation
     @inlinable
     public func createMonitor(
@@ -846,6 +847,7 @@ public struct Deadline: AWSService {
         identityCenterInstanceArn: String,
         roleArn: String,
         subdomain: String,
+        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateMonitorResponse {
         let input = CreateMonitorRequest(
@@ -853,7 +855,8 @@ public struct Deadline: AWSService {
             displayName: displayName, 
             identityCenterInstanceArn: identityCenterInstanceArn, 
             roleArn: roleArn, 
-            subdomain: subdomain
+            subdomain: subdomain, 
+            tags: tags
         )
         return try await self.createMonitor(input, logger: logger)
     }
@@ -3567,7 +3570,7 @@ public struct Deadline: AWSService {
     ///
     /// Parameters:
     ///   - farmId: The farm ID of the job.
-    ///   - filterExpressions: The filter expression, AND or OR, to use when searching among a group of search strings in a resource. You can use two groupings per search each within parenthesis ().
+    ///   - filterExpressions: The filter expression, AND or OR, to use
     ///   - itemOffset: Defines how far into the scrollable list to start the return of results.
     ///   - pageSize: Specifies the number of items per page for the resource.
     ///   - queueIds: The queue ID to use in the job search.
@@ -3612,7 +3615,7 @@ public struct Deadline: AWSService {
     ///
     /// Parameters:
     ///   - farmId: The farm ID to use for the step search.
-    ///   - filterExpressions: The filter expression, AND or OR, to use when searching among a group of search strings in a resource. You can use two groupings per search each within parenthesis ().
+    ///   - filterExpressions: The filter expression, AND or OR, to use
     ///   - itemOffset: Defines how far into the scrollable list to start the return of results.
     ///   - jobId: The job ID to use in the step search.
     ///   - pageSize: Specifies the number of items per page for the resource.
@@ -3660,7 +3663,7 @@ public struct Deadline: AWSService {
     ///
     /// Parameters:
     ///   - farmId: The farm ID of the task.
-    ///   - filterExpressions: The filter expression, AND or OR, to use when searching among a group of search strings in a resource. You can use two groupings per search each within parenthesis ().
+    ///   - filterExpressions: The filter expression, AND or OR, to use
     ///   - itemOffset: Defines how far into the scrollable list to start the return of results.
     ///   - jobId: The job ID for the task search.
     ///   - pageSize: Specifies the number of items per page for the resource.
@@ -3708,7 +3711,7 @@ public struct Deadline: AWSService {
     ///
     /// Parameters:
     ///   - farmId: The farm ID in the workers search.
-    ///   - filterExpressions: The filter expression, AND or OR, to use when searching among a group of search strings in a resource. You can use two groupings per search each within parenthesis ().
+    ///   - filterExpressions: The filter expression, AND or OR, to use
     ///   - fleetIds: The fleet ID of the workers to search for.
     ///   - itemOffset: Defines how far into the scrollable list to start the return of results.
     ///   - pageSize: Specifies the number of items per page for the resource.

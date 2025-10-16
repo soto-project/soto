@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS DAX service.
 ///
-/// DAX is a managed caching service engineered for Amazon DynamoDB. DAX dramatically speeds up database reads by caching frequently-accessed data from DynamoDB, so applications can access that data with sub-millisecond latency. You can create a DAX cluster easily, using the AWS Management Console. With a few simple modifications to your code, your application can begin taking advantage of the DAX cluster and realize significant improvements in read performance.
+/// DAX is a managed caching service engineered for Amazon DynamoDB. DAX dramatically speeds up database reads by caching frequently-accessed data from DynamoDB, so applications can access that data with sub-millisecond latency. You can create a DAX cluster easily, using the Amazon Web Services Management Console. With a few simple modifications to your code, your application can begin taking advantage of the DAX cluster and realize significant improvements in read performance.
 public struct DAX: AWSService {
     // MARK: Member variables
 
@@ -101,12 +101,13 @@ public struct DAX: AWSService {
     ///   - clusterName: The cluster identifier. This parameter is stored as a lowercase string.  Constraints:    A name must contain from 1 to 20 alphanumeric characters or hyphens.   The first character must be a letter.   A name cannot end with a hyphen or contain two consecutive hyphens.
     ///   - description: A description of the cluster.
     ///   - iamRoleArn: A valid Amazon Resource Name (ARN) that identifies an IAM role. At runtime, DAX will assume this role and use the role's permissions to access DynamoDB on your behalf.
+    ///   - networkType: Specifies the IP protocol(s) the cluster uses for network communications. Values are:    ipv4 - The cluster is accessible only through IPv4 addresses    ipv6 - The cluster is accessible only through IPv6 addresses    dual_stack - The cluster is accessible through both IPv4 and IPv6 addresses.    If no explicit NetworkType is provided, the network type is derived based on the subnet group's configuration.
     ///   - nodeType: The compute and memory capacity of the nodes in the cluster.
     ///   - notificationTopicArn: The Amazon Resource Name (ARN) of the Amazon SNS topic to which notifications will be sent.  The Amazon SNS topic owner must be same as the DAX cluster owner.
     ///   - parameterGroupName: The parameter group to be associated with the DAX cluster.
     ///   - preferredMaintenanceWindow: Specifies the weekly time range during which maintenance on the DAX cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:05:00-sun:09:00   If you don't specify a preferred maintenance window when you create or modify a cache cluster, DAX assigns a 60-minute maintenance window on a randomly selected day of the week.
-    ///   - replicationFactor: The number of nodes in the DAX cluster. A replication factor of 1 will create a single-node cluster, without any read replicas. For additional fault tolerance, you can create a multiple node cluster with one or more read replicas. To do this, set ReplicationFactor to a number between 3 (one primary and two read replicas) and 10 (one primary and nine read replicas).  If the AvailabilityZones parameter is provided, its length must equal the ReplicationFactor.  AWS recommends that you have at least two read replicas per cluster.
-    ///   - securityGroupIds: A list of security group IDs to be assigned to each node in the DAX cluster. (Each of the  security group ID is system-generated.) If this parameter is not specified, DAX assigns the default VPC security group to each node.
+    ///   - replicationFactor: The number of nodes in the DAX cluster. A replication factor of 1 will create a single-node cluster, without any read replicas. For additional fault tolerance, you can create a multiple node cluster with one or more read replicas. To do this, set ReplicationFactor to a number between 3 (one primary and two read replicas) and 10 (one primary and nine read replicas). If the AvailabilityZones parameter is provided, its length must equal the ReplicationFactor.  Amazon Web Services recommends that you have at least two read replicas per cluster.
+    ///   - securityGroupIds: A list of security group IDs to be assigned to each node in the DAX cluster. (Each of the security group ID is system-generated.) If this parameter is not specified, DAX assigns the default VPC security group to each node.
     ///   - sseSpecification: Represents the settings used to enable server-side encryption on the cluster.
     ///   - subnetGroupName: The name of the subnet group to be used for the replication group.  DAX clusters can only run in an Amazon VPC environment. All of the subnets that you specify in a subnet group must exist in the same VPC.
     ///   - tags: A set of tags to associate with the DAX cluster.
@@ -118,6 +119,7 @@ public struct DAX: AWSService {
         clusterName: String,
         description: String? = nil,
         iamRoleArn: String,
+        networkType: NetworkType? = nil,
         nodeType: String,
         notificationTopicArn: String? = nil,
         parameterGroupName: String? = nil,
@@ -135,6 +137,7 @@ public struct DAX: AWSService {
             clusterName: clusterName, 
             description: description, 
             iamRoleArn: iamRoleArn, 
+            networkType: networkType, 
             nodeType: nodeType, 
             notificationTopicArn: notificationTopicArn, 
             parameterGroupName: parameterGroupName, 
@@ -661,7 +664,7 @@ public struct DAX: AWSService {
         return try await self.rebootNode(input, logger: logger)
     }
 
-    /// Associates a set of tags with a DAX resource.  You can call TagResource up to 5 times per second, per account.
+    /// Associates a set of tags with a DAX resource. You can call TagResource up to 5 times per second, per account.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -674,7 +677,7 @@ public struct DAX: AWSService {
             logger: logger
         )
     }
-    /// Associates a set of tags with a DAX resource.  You can call TagResource up to 5 times per second, per account.
+    /// Associates a set of tags with a DAX resource. You can call TagResource up to 5 times per second, per account.
     ///
     /// Parameters:
     ///   - resourceName: The name of the DAX resource to which tags should be added.
@@ -747,7 +750,7 @@ public struct DAX: AWSService {
     ///   - notificationTopicStatus: The current state of the topic. A value of “active” means that notifications will be sent to the topic. A value of “inactive” means that notifications will not be sent to the topic.
     ///   - parameterGroupName: The name of a parameter group for this cluster.
     ///   - preferredMaintenanceWindow: A range of time when maintenance of DAX cluster software will be performed. For example: sun:01:00-sun:09:00. Cluster maintenance normally takes less than 30 minutes, and is performed automatically within the maintenance window.
-    ///   - securityGroupIds: A list of user-specified security group IDs to be assigned to each node in the DAX cluster.  If this parameter is not  specified, DAX assigns the default VPC security group to each node.
+    ///   - securityGroupIds: A list of user-specified security group IDs to be assigned to each node in the DAX cluster. If this parameter is not specified, DAX assigns the default VPC security group to each node.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateCluster(

@@ -5474,6 +5474,10 @@ extension IoTWireless {
         public let hrAllowed: Bool?
         /// The MinGwDiversity value.
         public let minGwDiversity: Int?
+        /// The maximum number of transmissions. Default: 3
+        public let nbTransMax: Int?
+        /// The minimum number of transmissions. Default: 0
+        public let nbTransMin: Int?
         /// The NwkGeoLoc value.
         public let nwkGeoLoc: Bool?
         /// The PRAllowed value that describes whether passive roaming is allowed.
@@ -5486,6 +5490,10 @@ extension IoTWireless {
         public let reportDevStatusMargin: Bool?
         /// The TargetPER value.
         public let targetPer: Int?
+        /// The Transmit Power Index maximum value. Default: 15
+        public let txPowerIndexMax: Int?
+        /// The Transmit Power Index minimum value. Default: 0
+        public let txPowerIndexMin: Int?
         /// The ULBucketSize value.
         public let ulBucketSize: Int?
         /// The ULRate value.
@@ -5494,7 +5502,7 @@ extension IoTWireless {
         public let ulRatePolicy: String?
 
         @inlinable
-        public init(addGwMetadata: Bool? = nil, channelMask: String? = nil, devStatusReqFreq: Int? = nil, dlBucketSize: Int? = nil, dlRate: Int? = nil, dlRatePolicy: String? = nil, drMax: Int? = nil, drMin: Int? = nil, hrAllowed: Bool? = nil, minGwDiversity: Int? = nil, nwkGeoLoc: Bool? = nil, prAllowed: Bool? = nil, raAllowed: Bool? = nil, reportDevStatusBattery: Bool? = nil, reportDevStatusMargin: Bool? = nil, targetPer: Int? = nil, ulBucketSize: Int? = nil, ulRate: Int? = nil, ulRatePolicy: String? = nil) {
+        public init(addGwMetadata: Bool? = nil, channelMask: String? = nil, devStatusReqFreq: Int? = nil, dlBucketSize: Int? = nil, dlRate: Int? = nil, dlRatePolicy: String? = nil, drMax: Int? = nil, drMin: Int? = nil, hrAllowed: Bool? = nil, minGwDiversity: Int? = nil, nbTransMax: Int? = nil, nbTransMin: Int? = nil, nwkGeoLoc: Bool? = nil, prAllowed: Bool? = nil, raAllowed: Bool? = nil, reportDevStatusBattery: Bool? = nil, reportDevStatusMargin: Bool? = nil, targetPer: Int? = nil, txPowerIndexMax: Int? = nil, txPowerIndexMin: Int? = nil, ulBucketSize: Int? = nil, ulRate: Int? = nil, ulRatePolicy: String? = nil) {
             self.addGwMetadata = addGwMetadata
             self.channelMask = channelMask
             self.devStatusReqFreq = devStatusReqFreq
@@ -5505,12 +5513,16 @@ extension IoTWireless {
             self.drMin = drMin
             self.hrAllowed = hrAllowed
             self.minGwDiversity = minGwDiversity
+            self.nbTransMax = nbTransMax
+            self.nbTransMin = nbTransMin
             self.nwkGeoLoc = nwkGeoLoc
             self.prAllowed = prAllowed
             self.raAllowed = raAllowed
             self.reportDevStatusBattery = reportDevStatusBattery
             self.reportDevStatusMargin = reportDevStatusMargin
             self.targetPer = targetPer
+            self.txPowerIndexMax = txPowerIndexMax
+            self.txPowerIndexMin = txPowerIndexMin
             self.ulBucketSize = ulBucketSize
             self.ulRate = ulRate
             self.ulRatePolicy = ulRatePolicy
@@ -5527,12 +5539,16 @@ extension IoTWireless {
             case drMin = "DrMin"
             case hrAllowed = "HrAllowed"
             case minGwDiversity = "MinGwDiversity"
+            case nbTransMax = "NbTransMax"
+            case nbTransMin = "NbTransMin"
             case nwkGeoLoc = "NwkGeoLoc"
             case prAllowed = "PrAllowed"
             case raAllowed = "RaAllowed"
             case reportDevStatusBattery = "ReportDevStatusBattery"
             case reportDevStatusMargin = "ReportDevStatusMargin"
             case targetPer = "TargetPer"
+            case txPowerIndexMax = "TxPowerIndexMax"
+            case txPowerIndexMin = "TxPowerIndexMin"
             case ulBucketSize = "UlBucketSize"
             case ulRate = "UlRate"
             case ulRatePolicy = "UlRatePolicy"
@@ -5748,18 +5764,30 @@ extension IoTWireless {
         public let drMax: Int?
         /// The DrMin value.
         public let drMin: Int?
+        /// The maximum number of transmissions. Default: 3
+        public let nbTransMax: Int?
+        /// The minimum number of transmissions. Default: 0
+        public let nbTransMin: Int?
         /// The PRAllowed value that describes whether passive roaming is allowed.
         public let prAllowed: Bool?
         /// The RAAllowed value that describes whether roaming activation is allowed.
         public let raAllowed: Bool?
+        /// The Transmit Power Index maximum. Default: 15
+        public let txPowerIndexMax: Int?
+        /// The Transmit Power Index minimum. Default: 0
+        public let txPowerIndexMin: Int?
 
         @inlinable
-        public init(addGwMetadata: Bool? = nil, drMax: Int? = nil, drMin: Int? = nil, prAllowed: Bool? = nil, raAllowed: Bool? = nil) {
+        public init(addGwMetadata: Bool? = nil, drMax: Int? = nil, drMin: Int? = nil, nbTransMax: Int? = nil, nbTransMin: Int? = nil, prAllowed: Bool? = nil, raAllowed: Bool? = nil, txPowerIndexMax: Int? = nil, txPowerIndexMin: Int? = nil) {
             self.addGwMetadata = addGwMetadata
             self.drMax = drMax
             self.drMin = drMin
+            self.nbTransMax = nbTransMax
+            self.nbTransMin = nbTransMin
             self.prAllowed = prAllowed
             self.raAllowed = raAllowed
+            self.txPowerIndexMax = txPowerIndexMax
+            self.txPowerIndexMin = txPowerIndexMin
         }
 
         public func validate(name: String) throws {
@@ -5767,14 +5795,26 @@ extension IoTWireless {
             try self.validate(self.drMax, name: "drMax", parent: name, min: 0)
             try self.validate(self.drMin, name: "drMin", parent: name, max: 15)
             try self.validate(self.drMin, name: "drMin", parent: name, min: 0)
+            try self.validate(self.nbTransMax, name: "nbTransMax", parent: name, max: 15)
+            try self.validate(self.nbTransMax, name: "nbTransMax", parent: name, min: 0)
+            try self.validate(self.nbTransMin, name: "nbTransMin", parent: name, max: 15)
+            try self.validate(self.nbTransMin, name: "nbTransMin", parent: name, min: 0)
+            try self.validate(self.txPowerIndexMax, name: "txPowerIndexMax", parent: name, max: 15)
+            try self.validate(self.txPowerIndexMax, name: "txPowerIndexMax", parent: name, min: 0)
+            try self.validate(self.txPowerIndexMin, name: "txPowerIndexMin", parent: name, max: 15)
+            try self.validate(self.txPowerIndexMin, name: "txPowerIndexMin", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case addGwMetadata = "AddGwMetadata"
             case drMax = "DrMax"
             case drMin = "DrMin"
+            case nbTransMax = "NbTransMax"
+            case nbTransMin = "NbTransMin"
             case prAllowed = "PrAllowed"
             case raAllowed = "RaAllowed"
+            case txPowerIndexMax = "TxPowerIndexMax"
+            case txPowerIndexMin = "TxPowerIndexMin"
         }
     }
 

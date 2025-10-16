@@ -41,6 +41,16 @@ extension OSIS {
         public var description: String { return self.rawValue }
     }
 
+    public enum PipelineEndpointStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case createFailed = "CREATE_FAILED"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case revoked = "REVOKED"
+        case revoking = "REVOKING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PipelineStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
@@ -154,6 +164,57 @@ extension OSIS {
         }
     }
 
+    public struct CreatePipelineEndpointRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the pipeline to create the endpoint for.
+        public let pipelineArn: String
+        /// Container for the VPC configuration for the pipeline endpoint, including subnet IDs and security group IDs.
+        public let vpcOptions: PipelineEndpointVpcOptions
+
+        @inlinable
+        public init(pipelineArn: String, vpcOptions: PipelineEndpointVpcOptions) {
+            self.pipelineArn = pipelineArn
+            self.vpcOptions = vpcOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.pipelineArn, name: "pipelineArn", parent: name, max: 76)
+            try self.validate(self.pipelineArn, name: "pipelineArn", parent: name, min: 46)
+            try self.validate(self.pipelineArn, name: "pipelineArn", parent: name, pattern: "^arn:(aws|aws\\-cn|aws\\-us\\-gov|aws\\-iso|aws\\-iso\\-b):osis:.+:pipeline\\/.+$")
+            try self.vpcOptions.validate(name: "\(name).vpcOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineArn = "PipelineArn"
+            case vpcOptions = "VpcOptions"
+        }
+    }
+
+    public struct CreatePipelineEndpointResponse: AWSDecodableShape {
+        /// The unique identifier of the pipeline endpoint.
+        public let endpointId: String?
+        /// The Amazon Resource Name (ARN) of the pipeline associated with the endpoint.
+        public let pipelineArn: String?
+        /// The current status of the pipeline endpoint.
+        public let status: PipelineEndpointStatus?
+        /// The ID of the VPC where the pipeline endpoint was created.
+        public let vpcId: String?
+
+        @inlinable
+        public init(endpointId: String? = nil, pipelineArn: String? = nil, status: PipelineEndpointStatus? = nil, vpcId: String? = nil) {
+            self.endpointId = endpointId
+            self.pipelineArn = pipelineArn
+            self.status = status
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointId = "EndpointId"
+            case pipelineArn = "PipelineArn"
+            case status = "Status"
+            case vpcId = "VpcId"
+        }
+    }
+
     public struct CreatePipelineRequest: AWSEncodableShape {
         /// Key-value pairs to configure persistent buffering for the pipeline.
         public let bufferOptions: BufferOptions?
@@ -169,13 +230,15 @@ extension OSIS {
         public let pipelineConfigurationBody: String
         /// The name of the OpenSearch Ingestion pipeline to create. Pipeline names are unique across the pipelines owned by an account within an Amazon Web Services Region.
         public let pipelineName: String
+        /// The Amazon Resource Name (ARN) of the IAM role that grants the pipeline permission to access Amazon Web Services resources.
+        public let pipelineRoleArn: String?
         /// List of tags to add to the pipeline upon creation.
         public let tags: [Tag]?
         /// Container for the values required to configure VPC access for the pipeline. If you don't specify these values, OpenSearch Ingestion creates the pipeline with a public endpoint.
         public let vpcOptions: VpcOptions?
 
         @inlinable
-        public init(bufferOptions: BufferOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: LogPublishingOptions? = nil, maxUnits: Int, minUnits: Int, pipelineConfigurationBody: String, pipelineName: String, tags: [Tag]? = nil, vpcOptions: VpcOptions? = nil) {
+        public init(bufferOptions: BufferOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: LogPublishingOptions? = nil, maxUnits: Int, minUnits: Int, pipelineConfigurationBody: String, pipelineName: String, pipelineRoleArn: String? = nil, tags: [Tag]? = nil, vpcOptions: VpcOptions? = nil) {
             self.bufferOptions = bufferOptions
             self.encryptionAtRestOptions = encryptionAtRestOptions
             self.logPublishingOptions = logPublishingOptions
@@ -183,6 +246,7 @@ extension OSIS {
             self.minUnits = minUnits
             self.pipelineConfigurationBody = pipelineConfigurationBody
             self.pipelineName = pipelineName
+            self.pipelineRoleArn = pipelineRoleArn
             self.tags = tags
             self.vpcOptions = vpcOptions
         }
@@ -197,6 +261,9 @@ extension OSIS {
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 28)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 3)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+            try self.validate(self.pipelineRoleArn, name: "pipelineRoleArn", parent: name, max: 2048)
+            try self.validate(self.pipelineRoleArn, name: "pipelineRoleArn", parent: name, min: 20)
+            try self.validate(self.pipelineRoleArn, name: "pipelineRoleArn", parent: name, pattern: "^arn:(aws|aws\\-cn|aws\\-us\\-gov|aws\\-iso|aws\\-iso\\-b|aws\\-iso\\-e|aws\\-iso\\-f):iam::[0-9]+:role\\/.*$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -211,6 +278,7 @@ extension OSIS {
             case minUnits = "MinUnits"
             case pipelineConfigurationBody = "PipelineConfigurationBody"
             case pipelineName = "PipelineName"
+            case pipelineRoleArn = "PipelineRoleArn"
             case tags = "Tags"
             case vpcOptions = "VpcOptions"
         }
@@ -228,6 +296,34 @@ extension OSIS {
         private enum CodingKeys: String, CodingKey {
             case pipeline = "Pipeline"
         }
+    }
+
+    public struct DeletePipelineEndpointRequest: AWSEncodableShape {
+        /// The unique identifier of the pipeline endpoint to delete.
+        public let endpointId: String
+
+        @inlinable
+        public init(endpointId: String) {
+            self.endpointId = endpointId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.endpointId, key: "EndpointId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endpointId, name: "endpointId", parent: name, max: 512)
+            try self.validate(self.endpointId, name: "endpointId", parent: name, min: 3)
+            try self.validate(self.endpointId, name: "endpointId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-_]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeletePipelineEndpointResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeletePipelineRequest: AWSEncodableShape {
@@ -255,6 +351,34 @@ extension OSIS {
     }
 
     public struct DeletePipelineResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteResourcePolicyRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource from which to delete the policy.
+        public let resourceArn: String
+
+        @inlinable
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 76)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 46)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws\\-cn|aws\\-us\\-gov|aws\\-iso|aws\\-iso\\-b):osis:.+:pipeline\\/.+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteResourcePolicyResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -397,6 +521,48 @@ extension OSIS {
         }
     }
 
+    public struct GetResourcePolicyRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource for which to retrieve the policy.
+        public let resourceArn: String
+
+        @inlinable
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 76)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 46)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws\\-cn|aws\\-us\\-gov|aws\\-iso|aws\\-iso\\-b):osis:.+:pipeline\\/.+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetResourcePolicyResponse: AWSDecodableShape {
+        /// The resource-based policy document in JSON format.
+        public let policy: String?
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String?
+
+        @inlinable
+        public init(policy: String? = nil, resourceArn: String? = nil) {
+            self.policy = policy
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
     public struct ListPipelineBlueprintsRequest: AWSEncodableShape {
         public init() {}
     }
@@ -412,6 +578,100 @@ extension OSIS {
 
         private enum CodingKeys: String, CodingKey {
             case blueprints = "Blueprints"
+        }
+    }
+
+    public struct ListPipelineEndpointConnectionsRequest: AWSEncodableShape {
+        /// The maximum number of pipeline endpoint connections to return in the response.
+        public let maxResults: Int?
+        /// If your initial ListPipelineEndpointConnections operation returns a nextToken, you can include the returned nextToken in subsequent ListPipelineEndpointConnections operations, which returns results in the next page.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^([\\s\\S]*)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListPipelineEndpointConnectionsResponse: AWSDecodableShape {
+        /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+        public let nextToken: String?
+        /// A list of pipeline endpoint connections.
+        public let pipelineEndpointConnections: [PipelineEndpointConnection]?
+
+        @inlinable
+        public init(nextToken: String? = nil, pipelineEndpointConnections: [PipelineEndpointConnection]? = nil) {
+            self.nextToken = nextToken
+            self.pipelineEndpointConnections = pipelineEndpointConnections
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case pipelineEndpointConnections = "PipelineEndpointConnections"
+        }
+    }
+
+    public struct ListPipelineEndpointsRequest: AWSEncodableShape {
+        /// The maximum number of pipeline endpoints to return in the response.
+        public let maxResults: Int?
+        /// If your initial ListPipelineEndpoints operation returns a NextToken, you can include the returned NextToken in subsequent ListPipelineEndpoints operations, which returns results in the next page.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^([\\s\\S]*)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListPipelineEndpointsResponse: AWSDecodableShape {
+        /// When NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+        public let nextToken: String?
+        /// A list of pipeline endpoints.
+        public let pipelineEndpoints: [PipelineEndpoint]?
+
+        @inlinable
+        public init(nextToken: String? = nil, pipelineEndpoints: [PipelineEndpoint]? = nil) {
+            self.nextToken = nextToken
+            self.pipelineEndpoints = pipelineEndpoints
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case pipelineEndpoints = "PipelineEndpoints"
         }
     }
 
@@ -545,6 +805,8 @@ extension OSIS {
         public let pipelineConfigurationBody: String?
         /// The name of the pipeline.
         public let pipelineName: String?
+        /// The Amazon Resource Name (ARN) of the IAM role that the pipeline uses to access AWS resources.
+        public let pipelineRoleArn: String?
         /// A list of VPC endpoints that OpenSearch Ingestion has created to other Amazon Web Services services.
         public let serviceVpcEndpoints: [ServiceVpcEndpoint]?
         /// The current status of the pipeline.
@@ -559,7 +821,7 @@ extension OSIS {
         public let vpcEndpointService: String?
 
         @inlinable
-        public init(bufferOptions: BufferOptions? = nil, createdAt: Date? = nil, destinations: [PipelineDestination]? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, ingestEndpointUrls: [String]? = nil, lastUpdatedAt: Date? = nil, logPublishingOptions: LogPublishingOptions? = nil, maxUnits: Int? = nil, minUnits: Int? = nil, pipelineArn: String? = nil, pipelineConfigurationBody: String? = nil, pipelineName: String? = nil, serviceVpcEndpoints: [ServiceVpcEndpoint]? = nil, status: PipelineStatus? = nil, statusReason: PipelineStatusReason? = nil, tags: [Tag]? = nil, vpcEndpoints: [VpcEndpoint]? = nil, vpcEndpointService: String? = nil) {
+        public init(bufferOptions: BufferOptions? = nil, createdAt: Date? = nil, destinations: [PipelineDestination]? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, ingestEndpointUrls: [String]? = nil, lastUpdatedAt: Date? = nil, logPublishingOptions: LogPublishingOptions? = nil, maxUnits: Int? = nil, minUnits: Int? = nil, pipelineArn: String? = nil, pipelineConfigurationBody: String? = nil, pipelineName: String? = nil, pipelineRoleArn: String? = nil, serviceVpcEndpoints: [ServiceVpcEndpoint]? = nil, status: PipelineStatus? = nil, statusReason: PipelineStatusReason? = nil, tags: [Tag]? = nil, vpcEndpoints: [VpcEndpoint]? = nil, vpcEndpointService: String? = nil) {
             self.bufferOptions = bufferOptions
             self.createdAt = createdAt
             self.destinations = destinations
@@ -572,6 +834,7 @@ extension OSIS {
             self.pipelineArn = pipelineArn
             self.pipelineConfigurationBody = pipelineConfigurationBody
             self.pipelineName = pipelineName
+            self.pipelineRoleArn = pipelineRoleArn
             self.serviceVpcEndpoints = serviceVpcEndpoints
             self.status = status
             self.statusReason = statusReason
@@ -593,6 +856,7 @@ extension OSIS {
             case pipelineArn = "PipelineArn"
             case pipelineConfigurationBody = "PipelineConfigurationBody"
             case pipelineName = "PipelineName"
+            case pipelineRoleArn = "PipelineRoleArn"
             case serviceVpcEndpoints = "ServiceVpcEndpoints"
             case status = "Status"
             case statusReason = "StatusReason"
@@ -684,6 +948,101 @@ extension OSIS {
         }
     }
 
+    public struct PipelineEndpoint: AWSDecodableShape {
+        /// The unique identifier for the pipeline endpoint.
+        public let endpointId: String?
+        /// The URL used to ingest data to the pipeline through the VPC endpoint.
+        public let ingestEndpointUrl: String?
+        /// The Amazon Resource Name (ARN) of the pipeline associated with this endpoint.
+        public let pipelineArn: String?
+        /// The current status of the pipeline endpoint.
+        public let status: PipelineEndpointStatus?
+        /// The ID of the VPC where the pipeline endpoint is created.
+        public let vpcId: String?
+        /// Configuration options for the VPC endpoint, including subnet and security group settings.
+        public let vpcOptions: PipelineEndpointVpcOptions?
+
+        @inlinable
+        public init(endpointId: String? = nil, ingestEndpointUrl: String? = nil, pipelineArn: String? = nil, status: PipelineEndpointStatus? = nil, vpcId: String? = nil, vpcOptions: PipelineEndpointVpcOptions? = nil) {
+            self.endpointId = endpointId
+            self.ingestEndpointUrl = ingestEndpointUrl
+            self.pipelineArn = pipelineArn
+            self.status = status
+            self.vpcId = vpcId
+            self.vpcOptions = vpcOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointId = "EndpointId"
+            case ingestEndpointUrl = "IngestEndpointUrl"
+            case pipelineArn = "PipelineArn"
+            case status = "Status"
+            case vpcId = "VpcId"
+            case vpcOptions = "VpcOptions"
+        }
+    }
+
+    public struct PipelineEndpointConnection: AWSDecodableShape {
+        /// The unique identifier of the endpoint in the connection.
+        public let endpointId: String?
+        /// The Amazon Resource Name (ARN) of the pipeline in the endpoint connection.
+        public let pipelineArn: String?
+        /// The current status of the pipeline endpoint connection.
+        public let status: PipelineEndpointStatus?
+        /// The Amazon Web Services account ID that owns the VPC endpoint used in this connection.
+        public let vpcEndpointOwner: String?
+
+        @inlinable
+        public init(endpointId: String? = nil, pipelineArn: String? = nil, status: PipelineEndpointStatus? = nil, vpcEndpointOwner: String? = nil) {
+            self.endpointId = endpointId
+            self.pipelineArn = pipelineArn
+            self.status = status
+            self.vpcEndpointOwner = vpcEndpointOwner
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointId = "EndpointId"
+            case pipelineArn = "PipelineArn"
+            case status = "Status"
+            case vpcEndpointOwner = "VpcEndpointOwner"
+        }
+    }
+
+    public struct PipelineEndpointVpcOptions: AWSEncodableShape & AWSDecodableShape {
+        /// A list of security group IDs that control network access to the pipeline endpoint.
+        public let securityGroupIds: [String]?
+        /// A list of subnet IDs where the pipeline endpoint network interfaces are created.
+        public let subnetIds: [String]?
+
+        @inlinable
+        public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+        }
+
+        public func validate(name: String) throws {
+            try self.securityGroupIds?.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, max: 20)
+                try validate($0, name: "securityGroupIds[]", parent: name, min: 11)
+                try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^sg-\\w{8}(\\w{9})?$")
+            }
+            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 12)
+            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, min: 1)
+            try self.subnetIds?.forEach {
+                try validate($0, name: "subnetIds[]", parent: name, max: 24)
+                try validate($0, name: "subnetIds[]", parent: name, min: 15)
+                try validate($0, name: "subnetIds[]", parent: name, pattern: "^subnet-\\w{8}(\\w{9})?$")
+            }
+            try self.validate(self.subnetIds, name: "subnetIds", parent: name, max: 12)
+            try self.validate(self.subnetIds, name: "subnetIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupIds = "SecurityGroupIds"
+            case subnetIds = "SubnetIds"
+        }
+    }
+
     public struct PipelineStatusReason: AWSDecodableShape {
         /// A description of why a pipeline has a certain status.
         public let description: String?
@@ -744,6 +1103,99 @@ extension OSIS {
             case status = "Status"
             case statusReason = "StatusReason"
             case tags = "Tags"
+        }
+    }
+
+    public struct PutResourcePolicyRequest: AWSEncodableShape {
+        /// The resource-based policy document in JSON format.
+        public let policy: String
+        /// The Amazon Resource Name (ARN) of the resource to attach the policy to.
+        public let resourceArn: String
+
+        @inlinable
+        public init(policy: String, resourceArn: String) {
+            self.policy = policy
+            self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.policy, forKey: .policy)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.policy, name: "policy", parent: name, max: 204800)
+            try self.validate(self.policy, name: "policy", parent: name, min: 2)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 76)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 46)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws\\-cn|aws\\-us\\-gov|aws\\-iso|aws\\-iso\\-b):osis:.+:pipeline\\/.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+        }
+    }
+
+    public struct PutResourcePolicyResponse: AWSDecodableShape {
+        /// The resource-based policy document that was attached to the resource.
+        public let policy: String?
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String?
+
+        @inlinable
+        public init(policy: String? = nil, resourceArn: String? = nil) {
+            self.policy = policy
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct RevokePipelineEndpointConnectionsRequest: AWSEncodableShape {
+        /// A list of endpoint IDs for which to revoke access to the pipeline.
+        public let endpointIds: [String]
+        /// The Amazon Resource Name (ARN) of the pipeline from which to revoke endpoint connections.
+        public let pipelineArn: String
+
+        @inlinable
+        public init(endpointIds: [String], pipelineArn: String) {
+            self.endpointIds = endpointIds
+            self.pipelineArn = pipelineArn
+        }
+
+        public func validate(name: String) throws {
+            try self.endpointIds.forEach {
+                try validate($0, name: "endpointIds[]", parent: name, max: 512)
+                try validate($0, name: "endpointIds[]", parent: name, min: 3)
+                try validate($0, name: "endpointIds[]", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-_]+$")
+            }
+            try self.validate(self.pipelineArn, name: "pipelineArn", parent: name, max: 76)
+            try self.validate(self.pipelineArn, name: "pipelineArn", parent: name, min: 46)
+            try self.validate(self.pipelineArn, name: "pipelineArn", parent: name, pattern: "^arn:(aws|aws\\-cn|aws\\-us\\-gov|aws\\-iso|aws\\-iso\\-b):osis:.+:pipeline\\/.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointIds = "EndpointIds"
+            case pipelineArn = "PipelineArn"
+        }
+    }
+
+    public struct RevokePipelineEndpointConnectionsResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the pipeline from which endpoint connections were revoked.
+        public let pipelineArn: String?
+
+        @inlinable
+        public init(pipelineArn: String? = nil) {
+            self.pipelineArn = pipelineArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineArn = "PipelineArn"
         }
     }
 
@@ -951,9 +1403,11 @@ extension OSIS {
         public let pipelineConfigurationBody: String?
         /// The name of the pipeline to update.
         public let pipelineName: String
+        /// The Amazon Resource Name (ARN) of the IAM role that grants the pipeline permission to access Amazon Web Services resources.
+        public let pipelineRoleArn: String?
 
         @inlinable
-        public init(bufferOptions: BufferOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: LogPublishingOptions? = nil, maxUnits: Int? = nil, minUnits: Int? = nil, pipelineConfigurationBody: String? = nil, pipelineName: String) {
+        public init(bufferOptions: BufferOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: LogPublishingOptions? = nil, maxUnits: Int? = nil, minUnits: Int? = nil, pipelineConfigurationBody: String? = nil, pipelineName: String, pipelineRoleArn: String? = nil) {
             self.bufferOptions = bufferOptions
             self.encryptionAtRestOptions = encryptionAtRestOptions
             self.logPublishingOptions = logPublishingOptions
@@ -961,6 +1415,7 @@ extension OSIS {
             self.minUnits = minUnits
             self.pipelineConfigurationBody = pipelineConfigurationBody
             self.pipelineName = pipelineName
+            self.pipelineRoleArn = pipelineRoleArn
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -973,6 +1428,7 @@ extension OSIS {
             try container.encodeIfPresent(self.minUnits, forKey: .minUnits)
             try container.encodeIfPresent(self.pipelineConfigurationBody, forKey: .pipelineConfigurationBody)
             request.encodePath(self.pipelineName, key: "PipelineName")
+            try container.encodeIfPresent(self.pipelineRoleArn, forKey: .pipelineRoleArn)
         }
 
         public func validate(name: String) throws {
@@ -985,6 +1441,9 @@ extension OSIS {
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 28)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 3)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+            try self.validate(self.pipelineRoleArn, name: "pipelineRoleArn", parent: name, max: 2048)
+            try self.validate(self.pipelineRoleArn, name: "pipelineRoleArn", parent: name, min: 20)
+            try self.validate(self.pipelineRoleArn, name: "pipelineRoleArn", parent: name, pattern: "^arn:(aws|aws\\-cn|aws\\-us\\-gov|aws\\-iso|aws\\-iso\\-b|aws\\-iso\\-e|aws\\-iso\\-f):iam::[0-9]+:role\\/.*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -994,6 +1453,7 @@ extension OSIS {
             case maxUnits = "MaxUnits"
             case minUnits = "MinUnits"
             case pipelineConfigurationBody = "PipelineConfigurationBody"
+            case pipelineRoleArn = "PipelineRoleArn"
         }
     }
 

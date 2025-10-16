@@ -229,7 +229,7 @@ public struct Organizations: AWSService {
         return try await self.closeAccount(input, logger: logger)
     }
 
-    /// Creates an Amazon Web Services account that is automatically a member of the organization whose credentials made the request. This is an asynchronous request that Amazon Web Services performs in the background. Because CreateAccount operates asynchronously, it can return a successful completion message even though account initialization might still be in progress. You might need to wait a few minutes before you can successfully access the account. To check the status of the request, do one of the following:   Use the Id value of the CreateAccountStatus response element from this operation to provide as a parameter to the DescribeCreateAccountStatus operation.   Check the CloudTrail log for the CreateAccountResult event. For information on using CloudTrail with Organizations, see Logging and monitoring in Organizations in the Organizations User Guide.   The user who calls the API to create an account must have the organizations:CreateAccount permission. If you enabled all features in the organization, Organizations creates the required service-linked role named AWSServiceRoleForOrganizations. For more information, see Organizations and service-linked roles in the Organizations User Guide. If the request includes tags, then the requester must have the organizations:TagResource permission. Organizations preconfigures the new member account with a role (named OrganizationAccountAccessRole by default) that grants users in the management account administrator permissions in the new member account. Principals in the management account can assume the role. Organizations clones the company name and address information for the new account from the organization's management account. This operation can be called only from the organization's management account. For more information about creating accounts, see Creating a member account in your organization in the Organizations User Guide.    When you create an account in an organization using the Organizations console, API, or CLI commands, the information required for the account to operate as a standalone account, such as a payment method is not automatically collected. If you must remove an account from your organization later, you can do so only after you provide the missing information. For more information, see Considerations before removing an account from an organization in the Organizations User Guide.   If you get an exception that indicates that you exceeded your account limits for the organization, contact Amazon Web Services Support.   If you get an exception that indicates that the operation failed because your organization is still initializing, wait one hour and then try again. If the error persists, contact Amazon Web Services Support.   It isn't recommended to use CreateAccount to create multiple temporary accounts, and using  the CreateAccount API to close accounts is subject to a 30-day usage quota. For information on the requirements and process for closing an account, see Closing a member account in your organization in the Organizations User Guide.     When you create a member account with this operation, you can choose whether to create the account with the IAM User and Role Access to Billing Information switch enabled. If you enable it, IAM users and roles that have appropriate permissions can view billing information for the account. If you disable it, only the account root user can access billing information. For information about how to disable this switch for an account, see Granting access to your billing information and tools.
+    /// Creates an Amazon Web Services account that is automatically a member of the organization whose credentials made the request. This is an asynchronous request that Amazon Web Services performs in the background. Because CreateAccount operates asynchronously, it can return a successful completion message even though account initialization might still be in progress. You might need to wait a few minutes before you can successfully access the account. To check the status of the request, do one of the following:   Use the Id value of the CreateAccountStatus response element from this operation to provide as a parameter to the DescribeCreateAccountStatus operation.   Check the CloudTrail log for the CreateAccountResult event. For information on using CloudTrail with Organizations, see Logging and monitoring in Organizations in the Organizations User Guide.   The user who calls the API to create an account must have the organizations:CreateAccount permission. If you enabled all features in the organization, Organizations creates the required service-linked role named AWSServiceRoleForOrganizations. For more information, see Organizations and service-linked roles in the Organizations User Guide. If the request includes tags, then the requester must have the organizations:TagResource permission. Organizations preconfigures the new member account with a role (named OrganizationAccountAccessRole by default) that grants users in the management account administrator permissions in the new member account. Principals in the management account can assume the role. Organizations clones the company name and address information for the new account from the organization's management account. This operation can be called only from the organization's management account. For more information about creating accounts, see Creating a member account in your organization in the Organizations User Guide.    When you create an account in an organization using the Organizations console, API, or CLI commands, the information required for the account to operate as a standalone account, such as a payment method is not automatically collected. If you must remove an account from your organization later, you can do so only after you provide the missing information. For more information, see Considerations before removing an account from an organization in the Organizations User Guide.   If you get an exception that indicates that you exceeded your account limits for the organization, contact Amazon Web Services Support.   If you get an exception that indicates that the operation failed because your organization is still initializing, wait one hour and then try again. If the error persists, contact Amazon Web Services Support.   It isn't recommended to use CreateAccount to create multiple temporary accounts, and using the CreateAccount API to close accounts is subject to a 30-day usage quota. For information on the requirements and process for closing an account, see Closing a member account in your organization in the Organizations User Guide.     When you create a member account with this operation, you can choose whether to create the account with the IAM User and Role Access to Billing Information switch enabled. If you enable it, IAM users and roles that have appropriate permissions can view billing information for the account. If you disable it, only the account root user can access billing information. For information about how to disable this switch for an account, see Granting access to your billing information and tools.
     @Sendable
     @inlinable
     public func createAccount(_ input: CreateAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAccountResponse {
@@ -242,7 +242,7 @@ public struct Organizations: AWSService {
             logger: logger
         )
     }
-    /// Creates an Amazon Web Services account that is automatically a member of the organization whose credentials made the request. This is an asynchronous request that Amazon Web Services performs in the background. Because CreateAccount operates asynchronously, it can return a successful completion message even though account initialization might still be in progress. You might need to wait a few minutes before you can successfully access the account. To check the status of the request, do one of the following:   Use the Id value of the CreateAccountStatus response element from this operation to provide as a parameter to the DescribeCreateAccountStatus operation.   Check the CloudTrail log for the CreateAccountResult event. For information on using CloudTrail with Organizations, see Logging and monitoring in Organizations in the Organizations User Guide.   The user who calls the API to create an account must have the organizations:CreateAccount permission. If you enabled all features in the organization, Organizations creates the required service-linked role named AWSServiceRoleForOrganizations. For more information, see Organizations and service-linked roles in the Organizations User Guide. If the request includes tags, then the requester must have the organizations:TagResource permission. Organizations preconfigures the new member account with a role (named OrganizationAccountAccessRole by default) that grants users in the management account administrator permissions in the new member account. Principals in the management account can assume the role. Organizations clones the company name and address information for the new account from the organization's management account. This operation can be called only from the organization's management account. For more information about creating accounts, see Creating a member account in your organization in the Organizations User Guide.    When you create an account in an organization using the Organizations console, API, or CLI commands, the information required for the account to operate as a standalone account, such as a payment method is not automatically collected. If you must remove an account from your organization later, you can do so only after you provide the missing information. For more information, see Considerations before removing an account from an organization in the Organizations User Guide.   If you get an exception that indicates that you exceeded your account limits for the organization, contact Amazon Web Services Support.   If you get an exception that indicates that the operation failed because your organization is still initializing, wait one hour and then try again. If the error persists, contact Amazon Web Services Support.   It isn't recommended to use CreateAccount to create multiple temporary accounts, and using  the CreateAccount API to close accounts is subject to a 30-day usage quota. For information on the requirements and process for closing an account, see Closing a member account in your organization in the Organizations User Guide.     When you create a member account with this operation, you can choose whether to create the account with the IAM User and Role Access to Billing Information switch enabled. If you enable it, IAM users and roles that have appropriate permissions can view billing information for the account. If you disable it, only the account root user can access billing information. For information about how to disable this switch for an account, see Granting access to your billing information and tools.
+    /// Creates an Amazon Web Services account that is automatically a member of the organization whose credentials made the request. This is an asynchronous request that Amazon Web Services performs in the background. Because CreateAccount operates asynchronously, it can return a successful completion message even though account initialization might still be in progress. You might need to wait a few minutes before you can successfully access the account. To check the status of the request, do one of the following:   Use the Id value of the CreateAccountStatus response element from this operation to provide as a parameter to the DescribeCreateAccountStatus operation.   Check the CloudTrail log for the CreateAccountResult event. For information on using CloudTrail with Organizations, see Logging and monitoring in Organizations in the Organizations User Guide.   The user who calls the API to create an account must have the organizations:CreateAccount permission. If you enabled all features in the organization, Organizations creates the required service-linked role named AWSServiceRoleForOrganizations. For more information, see Organizations and service-linked roles in the Organizations User Guide. If the request includes tags, then the requester must have the organizations:TagResource permission. Organizations preconfigures the new member account with a role (named OrganizationAccountAccessRole by default) that grants users in the management account administrator permissions in the new member account. Principals in the management account can assume the role. Organizations clones the company name and address information for the new account from the organization's management account. This operation can be called only from the organization's management account. For more information about creating accounts, see Creating a member account in your organization in the Organizations User Guide.    When you create an account in an organization using the Organizations console, API, or CLI commands, the information required for the account to operate as a standalone account, such as a payment method is not automatically collected. If you must remove an account from your organization later, you can do so only after you provide the missing information. For more information, see Considerations before removing an account from an organization in the Organizations User Guide.   If you get an exception that indicates that you exceeded your account limits for the organization, contact Amazon Web Services Support.   If you get an exception that indicates that the operation failed because your organization is still initializing, wait one hour and then try again. If the error persists, contact Amazon Web Services Support.   It isn't recommended to use CreateAccount to create multiple temporary accounts, and using the CreateAccount API to close accounts is subject to a 30-day usage quota. For information on the requirements and process for closing an account, see Closing a member account in your organization in the Organizations User Guide.     When you create a member account with this operation, you can choose whether to create the account with the IAM User and Role Access to Billing Information switch enabled. If you enable it, IAM users and roles that have appropriate permissions can view billing information for the account. If you disable it, only the account root user can access billing information. For information about how to disable this switch for an account, see Granting access to your billing information and tools.
     ///
     /// Parameters:
     ///   - accountName: The friendly name of the member account.
@@ -841,7 +841,7 @@ public struct Organizations: AWSService {
     }
 
     /// Disables an organizational policy type in a root. A policy of a certain type can be attached to entities in a root only if that type is enabled in the root. After you perform this operation, you no longer can attach policies of the specified type to that root or to any organizational unit (OU) or account in that root. You can undo this by using the EnablePolicyType operation. This is an asynchronous request that Amazon Web Services performs in the background. If you disable a policy type for a root, it still appears enabled for the organization if all features are enabled for the organization. Amazon Web Services recommends that you first use ListRoots to see the status of policy types for a specified root, and then use this operation. This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator. To view the status of available policy types in the organization, use DescribeOrganization.
+    /// management account or by a member account that is a delegated administrator. To view the status of available policy types in the organization, use ListRoots.
     @Sendable
     @inlinable
     public func disablePolicyType(_ input: DisablePolicyTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisablePolicyTypeResponse {
@@ -855,7 +855,7 @@ public struct Organizations: AWSService {
         )
     }
     /// Disables an organizational policy type in a root. A policy of a certain type can be attached to entities in a root only if that type is enabled in the root. After you perform this operation, you no longer can attach policies of the specified type to that root or to any organizational unit (OU) or account in that root. You can undo this by using the EnablePolicyType operation. This is an asynchronous request that Amazon Web Services performs in the background. If you disable a policy type for a root, it still appears enabled for the organization if all features are enabled for the organization. Amazon Web Services recommends that you first use ListRoots to see the status of policy types for a specified root, and then use this operation. This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator. To view the status of available policy types in the organization, use DescribeOrganization.
+    /// management account or by a member account that is a delegated administrator. To view the status of available policy types in the organization, use ListRoots.
     ///
     /// Parameters:
     ///   - policyType: The policy type that you want to disable in this root. You can specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY
@@ -874,7 +874,7 @@ public struct Organizations: AWSService {
         return try await self.disablePolicyType(input, logger: logger)
     }
 
-    /// Provides an Amazon Web Services service (the service that is specified by ServicePrincipal) with permissions to view the structure of an organization,  create a service-linked role in all the accounts in the organization, and allow the service to perform operations on behalf of the organization and its accounts. Establishing these permissions can be a first step in enabling the integration of an Amazon Web Services service with Organizations.  We recommend that you enable integration between Organizations and the specified Amazon Web Services service by using the console or commands that are provided by the specified service. Doing so ensures that the service is aware that it can create the resources that are required for the integration. How the service creates those resources in the organization's accounts depends on that service. For more information, see the documentation for the other Amazon Web Services service.  For more information about enabling services to integrate with Organizations, see Using Organizations with other Amazon Web Services services in the Organizations User Guide. This operation can be called only from the organization's management account.
+    /// Provides an Amazon Web Services service (the service that is specified by ServicePrincipal) with permissions to view the structure of an organization, create a service-linked role in all the accounts in the organization, and allow the service to perform operations on behalf of the organization and its accounts. Establishing these permissions can be a first step in enabling the integration of an Amazon Web Services service with Organizations.  We recommend that you enable integration between Organizations and the specified Amazon Web Services service by using the console or commands that are provided by the specified service. Doing so ensures that the service is aware that it can create the resources that are required for the integration. How the service creates those resources in the organization's accounts depends on that service. For more information, see the documentation for the other Amazon Web Services service.  For more information about enabling services to integrate with Organizations, see Using Organizations with other Amazon Web Services services in the Organizations User Guide. This operation can be called only from the organization's management account.
     @Sendable
     @inlinable
     public func enableAWSServiceAccess(_ input: EnableAWSServiceAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -887,7 +887,7 @@ public struct Organizations: AWSService {
             logger: logger
         )
     }
-    /// Provides an Amazon Web Services service (the service that is specified by ServicePrincipal) with permissions to view the structure of an organization,  create a service-linked role in all the accounts in the organization, and allow the service to perform operations on behalf of the organization and its accounts. Establishing these permissions can be a first step in enabling the integration of an Amazon Web Services service with Organizations.  We recommend that you enable integration between Organizations and the specified Amazon Web Services service by using the console or commands that are provided by the specified service. Doing so ensures that the service is aware that it can create the resources that are required for the integration. How the service creates those resources in the organization's accounts depends on that service. For more information, see the documentation for the other Amazon Web Services service.  For more information about enabling services to integrate with Organizations, see Using Organizations with other Amazon Web Services services in the Organizations User Guide. This operation can be called only from the organization's management account.
+    /// Provides an Amazon Web Services service (the service that is specified by ServicePrincipal) with permissions to view the structure of an organization, create a service-linked role in all the accounts in the organization, and allow the service to perform operations on behalf of the organization and its accounts. Establishing these permissions can be a first step in enabling the integration of an Amazon Web Services service with Organizations.  We recommend that you enable integration between Organizations and the specified Amazon Web Services service by using the console or commands that are provided by the specified service. Doing so ensures that the service is aware that it can create the resources that are required for the integration. How the service creates those resources in the organization's accounts depends on that service. For more information, see the documentation for the other Amazon Web Services service.  For more information about enabling services to integrate with Organizations, see Using Organizations with other Amazon Web Services services in the Organizations User Guide. This operation can be called only from the organization's management account.
     ///
     /// Parameters:
     ///   - servicePrincipal: The service principal name of the Amazon Web Services service for which you want to enable integration with your organization. This is typically in the form of a URL, such as  service-abbreviation.amazonaws.com.
@@ -930,7 +930,7 @@ public struct Organizations: AWSService {
     }
 
     /// Enables a policy type in a root. After you enable a policy type in a root, you can attach policies of that type to the root, any organizational unit (OU), or account in that root. You can undo this by using the DisablePolicyType operation. This is an asynchronous request that Amazon Web Services performs in the background. Amazon Web Services recommends that you first use ListRoots to see the status of policy types for a specified root, and then use this operation. This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator. You can enable a policy type in a root only if that policy type is available in the organization. To view the status of available policy types in the organization, use DescribeOrganization.
+    /// management account or by a member account that is a delegated administrator. You can enable a policy type in a root only if that policy type is available in the organization. To view the status of available policy types in the organization, use ListRoots.
     @Sendable
     @inlinable
     public func enablePolicyType(_ input: EnablePolicyTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnablePolicyTypeResponse {
@@ -944,7 +944,7 @@ public struct Organizations: AWSService {
         )
     }
     /// Enables a policy type in a root. After you enable a policy type in a root, you can attach policies of that type to the root, any organizational unit (OU), or account in that root. You can undo this by using the DisablePolicyType operation. This is an asynchronous request that Amazon Web Services performs in the background. Amazon Web Services recommends that you first use ListRoots to see the status of policy types for a specified root, and then use this operation. This operation can be called only from the organization's
-    /// management account or by a member account that is a delegated administrator. You can enable a policy type in a root only if that policy type is available in the organization. To view the status of available policy types in the organization, use DescribeOrganization.
+    /// management account or by a member account that is a delegated administrator. You can enable a policy type in a root only if that policy type is available in the organization. To view the status of available policy types in the organization, use ListRoots.
     ///
     /// Parameters:
     ///   - policyType: The policy type that you want to enable. You can specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY
@@ -1132,6 +1132,43 @@ public struct Organizations: AWSService {
         return try await self.listAccountsForParent(input, logger: logger)
     }
 
+    /// Lists all the accounts in an organization that have invalid effective policies. An invalid effective policy is an effective policy that fails validation checks, resulting in the effective policy not being fully enforced on all the intended accounts within an organization. This operation can be called only from the organization's
+    /// management account or by a member account that is a delegated administrator.
+    @Sendable
+    @inlinable
+    public func listAccountsWithInvalidEffectivePolicy(_ input: ListAccountsWithInvalidEffectivePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccountsWithInvalidEffectivePolicyResponse {
+        try await self.client.execute(
+            operation: "ListAccountsWithInvalidEffectivePolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all the accounts in an organization that have invalid effective policies. An invalid effective policy is an effective policy that fails validation checks, resulting in the effective policy not being fully enforced on all the intended accounts within an organization. This operation can be called only from the organization's
+    /// management account or by a member account that is a delegated administrator.
+    ///
+    /// Parameters:
+    ///   - maxResults: The total number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value that is specific to the  operation. If additional items exist beyond the maximum you specify, the NextToken  response element is present and has a value (is not null). Include that value as the  NextToken request parameter in the next call to the operation to get the next part  of the results. Note that Organizations might return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
+    ///   - nextToken: The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
+    ///   - policyType: The type of policy that you want information about. You can specify one of the following values:    DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAccountsWithInvalidEffectivePolicy(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        policyType: EffectivePolicyType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAccountsWithInvalidEffectivePolicyResponse {
+        let input = ListAccountsWithInvalidEffectivePolicyRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            policyType: policyType
+        )
+        return try await self.listAccountsWithInvalidEffectivePolicy(input, logger: logger)
+    }
+
     /// Lists all of the organizational units (OUs) or accounts that are contained in the specified parent OU or root. This operation, along with ListParents enables you to traverse the tree structure that makes up this root.  Always check the NextToken response parameter
     /// for a null value when calling a List* operation. These operations can
     /// occasionally return an empty set of results even when there are more results available. The
@@ -1297,6 +1334,46 @@ public struct Organizations: AWSService {
             nextToken: nextToken
         )
         return try await self.listDelegatedServicesForAccount(input, logger: logger)
+    }
+
+    /// Lists all the validation errors on an effective policy for a specified account and policy type. This operation can be called only from the organization's
+    /// management account or by a member account that is a delegated administrator.
+    @Sendable
+    @inlinable
+    public func listEffectivePolicyValidationErrors(_ input: ListEffectivePolicyValidationErrorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEffectivePolicyValidationErrorsResponse {
+        try await self.client.execute(
+            operation: "ListEffectivePolicyValidationErrors", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all the validation errors on an effective policy for a specified account and policy type. This operation can be called only from the organization's
+    /// management account or by a member account that is a delegated administrator.
+    ///
+    /// Parameters:
+    ///   - accountId: The ID of the account that you want details about. Specifying an organization root or organizational unit (OU) as the target is not supported.
+    ///   - maxResults: The total number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value that is specific to the  operation. If additional items exist beyond the maximum you specify, the NextToken  response element is present and has a value (is not null). Include that value as the  NextToken request parameter in the next call to the operation to get the next part  of the results. Note that Organizations might return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
+    ///   - nextToken: The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
+    ///   - policyType: The type of policy that you want information about. You can specify one of the following values:    DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listEffectivePolicyValidationErrors(
+        accountId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        policyType: EffectivePolicyType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListEffectivePolicyValidationErrorsResponse {
+        let input = ListEffectivePolicyValidationErrorsRequest(
+            accountId: accountId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            policyType: policyType
+        )
+        return try await self.listEffectivePolicyValidationErrors(input, logger: logger)
     }
 
     /// Lists the current handshakes that are associated with the account of the requesting user. Handshakes that are ACCEPTED, DECLINED, CANCELED, or EXPIRED appear in the results of this API for only 30 days after changing to that state. After that, they're deleted and no longer accessible.  Always check the NextToken response parameter
@@ -2078,6 +2155,43 @@ extension Organizations {
         return self.listAccountsForParentPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listAccountsWithInvalidEffectivePolicy(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAccountsWithInvalidEffectivePolicyPaginator(
+        _ input: ListAccountsWithInvalidEffectivePolicyRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAccountsWithInvalidEffectivePolicyRequest, ListAccountsWithInvalidEffectivePolicyResponse> {
+        return .init(
+            input: input,
+            command: self.listAccountsWithInvalidEffectivePolicy,
+            inputKey: \ListAccountsWithInvalidEffectivePolicyRequest.nextToken,
+            outputKey: \ListAccountsWithInvalidEffectivePolicyResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAccountsWithInvalidEffectivePolicy(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The total number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value that is specific to the  operation. If additional items exist beyond the maximum you specify, the NextToken  response element is present and has a value (is not null). Include that value as the  NextToken request parameter in the next call to the operation to get the next part  of the results. Note that Organizations might return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
+    ///   - policyType: The type of policy that you want information about. You can specify one of the following values:    DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAccountsWithInvalidEffectivePolicyPaginator(
+        maxResults: Int? = nil,
+        policyType: EffectivePolicyType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAccountsWithInvalidEffectivePolicyRequest, ListAccountsWithInvalidEffectivePolicyResponse> {
+        let input = ListAccountsWithInvalidEffectivePolicyRequest(
+            maxResults: maxResults, 
+            policyType: policyType
+        )
+        return self.listAccountsWithInvalidEffectivePolicyPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listChildren(_:logger:)``.
     ///
     /// - Parameters:
@@ -2227,6 +2341,46 @@ extension Organizations {
             maxResults: maxResults
         )
         return self.listDelegatedServicesForAccountPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listEffectivePolicyValidationErrors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEffectivePolicyValidationErrorsPaginator(
+        _ input: ListEffectivePolicyValidationErrorsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEffectivePolicyValidationErrorsRequest, ListEffectivePolicyValidationErrorsResponse> {
+        return .init(
+            input: input,
+            command: self.listEffectivePolicyValidationErrors,
+            inputKey: \ListEffectivePolicyValidationErrorsRequest.nextToken,
+            outputKey: \ListEffectivePolicyValidationErrorsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listEffectivePolicyValidationErrors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - accountId: The ID of the account that you want details about. Specifying an organization root or organizational unit (OU) as the target is not supported.
+    ///   - maxResults: The total number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value that is specific to the  operation. If additional items exist beyond the maximum you specify, the NextToken  response element is present and has a value (is not null). Include that value as the  NextToken request parameter in the next call to the operation to get the next part  of the results. Note that Organizations might return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
+    ///   - policyType: The type of policy that you want information about. You can specify one of the following values:    DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEffectivePolicyValidationErrorsPaginator(
+        accountId: String,
+        maxResults: Int? = nil,
+        policyType: EffectivePolicyType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListEffectivePolicyValidationErrorsRequest, ListEffectivePolicyValidationErrorsResponse> {
+        let input = ListEffectivePolicyValidationErrorsRequest(
+            accountId: accountId, 
+            maxResults: maxResults, 
+            policyType: policyType
+        )
+        return self.listEffectivePolicyValidationErrorsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listHandshakesForAccount(_:logger:)``.
@@ -2591,6 +2745,17 @@ extension Organizations.ListAccountsRequest: AWSPaginateToken {
     }
 }
 
+extension Organizations.ListAccountsWithInvalidEffectivePolicyRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Organizations.ListAccountsWithInvalidEffectivePolicyRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            policyType: self.policyType
+        )
+    }
+}
+
 extension Organizations.ListChildrenRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Organizations.ListChildrenRequest {
@@ -2632,6 +2797,18 @@ extension Organizations.ListDelegatedServicesForAccountRequest: AWSPaginateToken
             accountId: self.accountId,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension Organizations.ListEffectivePolicyValidationErrorsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Organizations.ListEffectivePolicyValidationErrorsRequest {
+        return .init(
+            accountId: self.accountId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            policyType: self.policyType
         )
     }
 }

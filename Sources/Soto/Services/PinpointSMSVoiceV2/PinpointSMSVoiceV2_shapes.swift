@@ -408,6 +408,7 @@ extension PinpointSMSVoiceV2 {
         case eventDestination = "event-destination"
         case keyword = "keyword"
         case message = "message"
+        case messageTemplate = "message-template"
         case optOutList = "opt-out-list"
         case optedOutNumber = "opted-out-number"
         case phoneNumber = "phone-number"
@@ -471,6 +472,7 @@ extension PinpointSMSVoiceV2 {
         case countryCodeMismatch = "COUNTRY_CODE_MISMATCH"
         case destinationCountryBlocked = "DESTINATION_COUNTRY_BLOCKED"
         case fieldValidationFailed = "FIELD_VALIDATION_FAILED"
+        case internationalSendingNotSupported = "INTERNATIONAL_SENDING_NOT_SUPPORTED"
         case invalidArn = "INVALID_ARN"
         case invalidFilterValues = "INVALID_FILTER_VALUES"
         case invalidIdentityForDestinationCountry = "INVALID_IDENTITY_FOR_DESTINATION_COUNTRY"
@@ -4486,6 +4488,8 @@ extension PinpointSMSVoiceV2 {
         public let createdTimestamp: Date
         /// When set to true the phone number can't be deleted.
         public let deletionProtectionEnabled: Bool
+        /// When set to true the international sending of phone number is Enabled.
+        public let internationalSendingEnabled: Bool?
         /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
         public let isoCountryCode: String
         /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
@@ -4520,9 +4524,10 @@ extension PinpointSMSVoiceV2 {
         public let twoWayEnabled: Bool
 
         @inlinable
-        public init(createdTimestamp: Date, deletionProtectionEnabled: Bool, isoCountryCode: String, messageType: MessageType, monthlyLeasingPrice: String, numberCapabilities: [NumberCapability], numberType: NumberType, optOutListName: String, phoneNumber: String, phoneNumberArn: String, phoneNumberId: String? = nil, poolId: String? = nil, registrationId: String? = nil, selfManagedOptOutsEnabled: Bool, status: NumberStatus, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool) {
+        public init(createdTimestamp: Date, deletionProtectionEnabled: Bool, internationalSendingEnabled: Bool? = nil, isoCountryCode: String, messageType: MessageType, monthlyLeasingPrice: String, numberCapabilities: [NumberCapability], numberType: NumberType, optOutListName: String, phoneNumber: String, phoneNumberArn: String, phoneNumberId: String? = nil, poolId: String? = nil, registrationId: String? = nil, selfManagedOptOutsEnabled: Bool, status: NumberStatus, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool) {
             self.createdTimestamp = createdTimestamp
             self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.internationalSendingEnabled = internationalSendingEnabled
             self.isoCountryCode = isoCountryCode
             self.messageType = messageType
             self.monthlyLeasingPrice = monthlyLeasingPrice
@@ -4544,6 +4549,7 @@ extension PinpointSMSVoiceV2 {
         private enum CodingKeys: String, CodingKey {
             case createdTimestamp = "CreatedTimestamp"
             case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case internationalSendingEnabled = "InternationalSendingEnabled"
             case isoCountryCode = "IsoCountryCode"
             case messageType = "MessageType"
             case monthlyLeasingPrice = "MonthlyLeasingPrice"
@@ -5911,6 +5917,8 @@ extension PinpointSMSVoiceV2 {
         public let clientToken: String?
         /// By default this is set to false. When set to true the phone number can't be deleted.
         public let deletionProtectionEnabled: Bool?
+        /// By default this is set to false. When set to true the international sending of phone number is Enabled.
+        public let internationalSendingEnabled: Bool?
         /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
         public let isoCountryCode: String
         /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
@@ -5929,9 +5937,10 @@ extension PinpointSMSVoiceV2 {
         public let tags: [Tag]?
 
         @inlinable
-        public init(clientToken: String? = RequestPhoneNumberRequest.idempotencyToken(), deletionProtectionEnabled: Bool? = nil, isoCountryCode: String, messageType: MessageType, numberCapabilities: [NumberCapability], numberType: RequestableNumberType, optOutListName: String? = nil, poolId: String? = nil, registrationId: String? = nil, tags: [Tag]? = nil) {
+        public init(clientToken: String? = RequestPhoneNumberRequest.idempotencyToken(), deletionProtectionEnabled: Bool? = nil, internationalSendingEnabled: Bool? = nil, isoCountryCode: String, messageType: MessageType, numberCapabilities: [NumberCapability], numberType: RequestableNumberType, optOutListName: String? = nil, poolId: String? = nil, registrationId: String? = nil, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.internationalSendingEnabled = internationalSendingEnabled
             self.isoCountryCode = isoCountryCode
             self.messageType = messageType
             self.numberCapabilities = numberCapabilities
@@ -5969,6 +5978,7 @@ extension PinpointSMSVoiceV2 {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
             case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case internationalSendingEnabled = "InternationalSendingEnabled"
             case isoCountryCode = "IsoCountryCode"
             case messageType = "MessageType"
             case numberCapabilities = "NumberCapabilities"
@@ -5985,6 +5995,8 @@ extension PinpointSMSVoiceV2 {
         public let createdTimestamp: Date?
         /// By default this is set to false. When set to true the phone number can't be deleted.
         public let deletionProtectionEnabled: Bool?
+        /// By default this is set to false. When set to true the international sending of phone number is Enabled.
+        public let internationalSendingEnabled: Bool?
         /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
         public let isoCountryCode: String?
         /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
@@ -6021,9 +6033,10 @@ extension PinpointSMSVoiceV2 {
         public let twoWayEnabled: Bool?
 
         @inlinable
-        public init(createdTimestamp: Date? = nil, deletionProtectionEnabled: Bool? = nil, isoCountryCode: String? = nil, messageType: MessageType? = nil, monthlyLeasingPrice: String? = nil, numberCapabilities: [NumberCapability]? = nil, numberType: RequestableNumberType? = nil, optOutListName: String? = nil, phoneNumber: String? = nil, phoneNumberArn: String? = nil, phoneNumberId: String? = nil, poolId: String? = nil, registrationId: String? = nil, selfManagedOptOutsEnabled: Bool? = nil, status: NumberStatus? = nil, tags: [Tag]? = nil, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool? = nil) {
+        public init(createdTimestamp: Date? = nil, deletionProtectionEnabled: Bool? = nil, internationalSendingEnabled: Bool? = nil, isoCountryCode: String? = nil, messageType: MessageType? = nil, monthlyLeasingPrice: String? = nil, numberCapabilities: [NumberCapability]? = nil, numberType: RequestableNumberType? = nil, optOutListName: String? = nil, phoneNumber: String? = nil, phoneNumberArn: String? = nil, phoneNumberId: String? = nil, poolId: String? = nil, registrationId: String? = nil, selfManagedOptOutsEnabled: Bool? = nil, status: NumberStatus? = nil, tags: [Tag]? = nil, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool? = nil) {
             self.createdTimestamp = createdTimestamp
             self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.internationalSendingEnabled = internationalSendingEnabled
             self.isoCountryCode = isoCountryCode
             self.messageType = messageType
             self.monthlyLeasingPrice = monthlyLeasingPrice
@@ -6046,6 +6059,7 @@ extension PinpointSMSVoiceV2 {
         private enum CodingKeys: String, CodingKey {
             case createdTimestamp = "CreatedTimestamp"
             case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case internationalSendingEnabled = "InternationalSendingEnabled"
             case isoCountryCode = "IsoCountryCode"
             case messageType = "MessageType"
             case monthlyLeasingPrice = "MonthlyLeasingPrice"
@@ -7338,6 +7352,8 @@ extension PinpointSMSVoiceV2 {
     public struct UpdatePhoneNumberRequest: AWSEncodableShape {
         /// By default this is set to false. When set to true the phone number can't be deleted.
         public let deletionProtectionEnabled: Bool?
+        /// By default this is set to false. When set to true the international sending of phone number is Enabled.
+        public let internationalSendingEnabled: Bool?
         /// The OptOutList to add the phone number to. Valid values for this field can be either the OutOutListName or OutOutListArn.
         public let optOutListName: String?
         /// The unique identifier of the phone number. Valid values for this field can be either the PhoneNumberId or PhoneNumberArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
@@ -7352,8 +7368,9 @@ extension PinpointSMSVoiceV2 {
         public let twoWayEnabled: Bool?
 
         @inlinable
-        public init(deletionProtectionEnabled: Bool? = nil, optOutListName: String? = nil, phoneNumberId: String, selfManagedOptOutsEnabled: Bool? = nil, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool? = nil) {
+        public init(deletionProtectionEnabled: Bool? = nil, internationalSendingEnabled: Bool? = nil, optOutListName: String? = nil, phoneNumberId: String, selfManagedOptOutsEnabled: Bool? = nil, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool? = nil) {
             self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.internationalSendingEnabled = internationalSendingEnabled
             self.optOutListName = optOutListName
             self.phoneNumberId = phoneNumberId
             self.selfManagedOptOutsEnabled = selfManagedOptOutsEnabled
@@ -7379,6 +7396,7 @@ extension PinpointSMSVoiceV2 {
 
         private enum CodingKeys: String, CodingKey {
             case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case internationalSendingEnabled = "InternationalSendingEnabled"
             case optOutListName = "OptOutListName"
             case phoneNumberId = "PhoneNumberId"
             case selfManagedOptOutsEnabled = "SelfManagedOptOutsEnabled"
@@ -7393,6 +7411,8 @@ extension PinpointSMSVoiceV2 {
         public let createdTimestamp: Date?
         /// When set to true the phone number can't be deleted.
         public let deletionProtectionEnabled: Bool?
+        /// When set to true the international sending of phone number is Enabled.
+        public let internationalSendingEnabled: Bool?
         /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
         public let isoCountryCode: String?
         /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
@@ -7425,9 +7445,10 @@ extension PinpointSMSVoiceV2 {
         public let twoWayEnabled: Bool?
 
         @inlinable
-        public init(createdTimestamp: Date? = nil, deletionProtectionEnabled: Bool? = nil, isoCountryCode: String? = nil, messageType: MessageType? = nil, monthlyLeasingPrice: String? = nil, numberCapabilities: [NumberCapability]? = nil, numberType: NumberType? = nil, optOutListName: String? = nil, phoneNumber: String? = nil, phoneNumberArn: String? = nil, phoneNumberId: String? = nil, registrationId: String? = nil, selfManagedOptOutsEnabled: Bool? = nil, status: NumberStatus? = nil, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool? = nil) {
+        public init(createdTimestamp: Date? = nil, deletionProtectionEnabled: Bool? = nil, internationalSendingEnabled: Bool? = nil, isoCountryCode: String? = nil, messageType: MessageType? = nil, monthlyLeasingPrice: String? = nil, numberCapabilities: [NumberCapability]? = nil, numberType: NumberType? = nil, optOutListName: String? = nil, phoneNumber: String? = nil, phoneNumberArn: String? = nil, phoneNumberId: String? = nil, registrationId: String? = nil, selfManagedOptOutsEnabled: Bool? = nil, status: NumberStatus? = nil, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool? = nil) {
             self.createdTimestamp = createdTimestamp
             self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.internationalSendingEnabled = internationalSendingEnabled
             self.isoCountryCode = isoCountryCode
             self.messageType = messageType
             self.monthlyLeasingPrice = monthlyLeasingPrice
@@ -7448,6 +7469,7 @@ extension PinpointSMSVoiceV2 {
         private enum CodingKeys: String, CodingKey {
             case createdTimestamp = "CreatedTimestamp"
             case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case internationalSendingEnabled = "InternationalSendingEnabled"
             case isoCountryCode = "IsoCountryCode"
             case messageType = "MessageType"
             case monthlyLeasingPrice = "MonthlyLeasingPrice"

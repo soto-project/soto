@@ -252,7 +252,7 @@ public struct DocDB: AWSService {
     ///   - copyTags: Set to true to copy all tags from the source cluster snapshot to the target cluster snapshot, and otherwise false. The default is false.
     ///   - kmsKeyId: The KMS key ID for an encrypted cluster snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.  If you copy an encrypted cluster snapshot from your Amazon Web Services account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the cluster snapshot is encrypted with the same KMS key as the source cluster snapshot. If you copy an encrypted cluster snapshot that is shared from another Amazon Web Services account, then you must specify a value for KmsKeyId. To copy an encrypted cluster snapshot to another Amazon Web Services Region, set KmsKeyId to the KMS key ID that you want to use to encrypt the copy of the cluster snapshot in the destination Region. KMS encryption keys are specific to the Amazon Web Services Region that they are created in, and you can't use encryption keys from one Amazon Web Services Region in another Amazon Web Services Region. If you copy an unencrypted cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
     ///   - preSignedUrl: The URL that contains a Signature Version 4 signed request for theCopyDBClusterSnapshot API action in the Amazon Web Services Region that contains the source cluster snapshot to copy. You must use the PreSignedUrl parameter when copying a cluster snapshot from another Amazon Web Services Region. If you are using an Amazon Web Services SDK tool or the CLI, you can specify SourceRegion (or --source-region for the CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a pre-signed URL that is a valid request for the operation that can be executed in the source Amazon Web Services Region. The presigned URL must be a valid request for the CopyDBClusterSnapshot API action that can be executed in the source Amazon Web Services Region that contains the cluster snapshot to be copied. The presigned URL request must contain the following parameter values:    SourceRegion - The ID of the region that contains the snapshot to be copied.    SourceDBClusterSnapshotIdentifier - The identifier for the the encrypted cluster snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source Amazon Web Services Region. For example, if you are copying an encrypted cluster snapshot from the us-east-1 Amazon Web Services Region, then your SourceDBClusterSnapshotIdentifier looks something like the following: arn:aws:rds:us-east-1:12345678012:sample-cluster:sample-cluster-snapshot.    TargetDBClusterSnapshotIdentifier - The identifier for the new cluster snapshot to be created. This parameter isn't case sensitive.
-    ///   - sourceDBClusterSnapshotIdentifier: The identifier of the cluster snapshot to copy. This parameter is not case sensitive. Constraints:   Must specify a valid system snapshot in the available state.   If the source snapshot is in the same Amazon Web Services Region as the copy, specify a valid snapshot identifier.   If the source snapshot is in a different Amazon Web Services Region than the copy, specify a valid cluster snapshot ARN.   Example: my-cluster-snapshot1
+    ///   - sourceDBClusterSnapshotIdentifier: The identifier of the cluster snapshot to copy. This parameter is not case sensitive. Constraints:   Must specify a valid cluster snapshot in the available state.   If the source cluster snapshot is in the same Amazon Web Services Region as the copy, specify a valid snapshot identifier.   If the source cluster snapshot is in a different Amazon Web Services Region or owned by another Amazon Web Services account, specify the snapshot ARN.   Example: my-cluster-snapshot1
     ///   - tags: The tags to be assigned to the cluster snapshot.
     ///   - targetDBClusterSnapshotIdentifier: The identifier of the new cluster snapshot to create from the source cluster snapshot. This parameter is not case sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.    The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.    Example: my-cluster-snapshot2
     ///   - logger: Logger use during operation
@@ -308,12 +308,14 @@ public struct DocDB: AWSService {
     ///   - masterUsername: The name of the master user for the cluster. Constraints:   Must be from 1 to 63 letters or numbers.   The first character must be a letter.   Cannot be a reserved word for the chosen database engine.
     ///   - masterUserPassword: The password for the master database user. This password can contain any printable ASCII character except forward slash (/), double quote ("), or the "at" symbol (@). Constraints: Must contain from 8 to 100 characters.
     ///   - masterUserSecretKmsKeyId: The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if the master user password is managed by Amazon DocumentDB in Amazon Web Services Secrets Manager for the DB cluster. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.  To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt the secret.  If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. There is a default KMS key for your Amazon Web Services account.  Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+    ///   - networkType: The network type of the cluster. The network type is determined by the DBSubnetGroup specified for the cluster.  A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see DocumentDB clusters in a VPC in the Amazon DocumentDB Developer Guide. Valid Values: IPV4 | DUAL
     ///   - port: The port number on which the instances in the cluster accept connections.
     ///   - preferredBackupWindow: The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter.  The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.    Must be at least 30 minutes.
     ///   - preferredMaintenanceWindow: The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region, occurring on a random day of the week. Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
     ///   - preSignedUrl: Not currently supported.
+    ///   - serverlessV2ScalingConfiguration: Contains the scaling configuration of an Amazon DocumentDB Serverless cluster.
     ///   - storageEncrypted: Specifies whether the cluster is encrypted.
-    ///   - storageType: The storage type to associate with the DB cluster. For information on storage types for Amazon DocumentDB clusters, see  Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1  Default value is standard    When you create a DocumentDB DB cluster with the storage type set to iopt1, the storage type is returned in the response. The storage type isn't returned when you set it to standard.
+    ///   - storageType: The storage type to associate with the DB cluster. For information on storage types for Amazon DocumentDB clusters, see  Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1  Default value is standard    When you create an Amazon DocumentDB cluster with the storage type set to iopt1, the storage type is returned in the response. The storage type isn't returned when you set it to standard.
     ///   - tags: The tags to be assigned to the cluster.
     ///   - vpcSecurityGroupIds: A list of EC2 VPC security groups to associate with this cluster.
     ///   - logger: Logger use during operation
@@ -334,10 +336,12 @@ public struct DocDB: AWSService {
         masterUsername: String? = nil,
         masterUserPassword: String? = nil,
         masterUserSecretKmsKeyId: String? = nil,
+        networkType: String? = nil,
         port: Int? = nil,
         preferredBackupWindow: String? = nil,
         preferredMaintenanceWindow: String? = nil,
         preSignedUrl: String? = nil,
+        serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil,
         storageEncrypted: Bool? = nil,
         storageType: String? = nil,
         tags: [Tag]? = nil,
@@ -360,10 +364,12 @@ public struct DocDB: AWSService {
             masterUsername: masterUsername, 
             masterUserPassword: masterUserPassword, 
             masterUserSecretKmsKeyId: masterUserSecretKmsKeyId, 
+            networkType: networkType, 
             port: port, 
             preferredBackupWindow: preferredBackupWindow, 
             preferredMaintenanceWindow: preferredMaintenanceWindow, 
             preSignedUrl: preSignedUrl, 
+            serverlessV2ScalingConfiguration: serverlessV2ScalingConfiguration, 
             storageEncrypted: storageEncrypted, 
             storageType: storageType, 
             tags: tags, 
@@ -595,7 +601,7 @@ public struct DocDB: AWSService {
         return try await self.createEventSubscription(input, logger: logger)
     }
 
-    /// Creates an Amazon DocumentDB global cluster that can span multiple multiple Amazon Web Services Regions. The global cluster contains one primary cluster with read-write capability, and up-to give read-only secondary clusters. Global clusters uses storage-based fast replication across regions with latencies less than one second, using dedicated infrastructure with no impact to your workload’s performance.  You can create a global cluster that is initially empty, and then add a primary and a secondary to it. Or you can specify an existing cluster during the create operation, and this cluster becomes the primary of the global cluster.   This action only applies to Amazon DocumentDB clusters.
+    /// Creates an Amazon DocumentDB global cluster that can span multiple multiple Amazon Web Services Regions.  The global cluster contains one primary cluster with read-write capability, and up-to 10 read-only secondary clusters. Global clusters uses storage-based fast replication across regions with latencies less than one second, using dedicated infrastructure with no impact to your workload’s performance.  You can create a global cluster that is initially empty, and then add a primary and a secondary to it.  Or you can specify an existing cluster during the create operation, and this cluster becomes the primary of the global cluster.   This action only applies to Amazon DocumentDB clusters.
     @Sendable
     @inlinable
     public func createGlobalCluster(_ input: CreateGlobalClusterMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGlobalClusterResult {
@@ -608,7 +614,7 @@ public struct DocDB: AWSService {
             logger: logger
         )
     }
-    /// Creates an Amazon DocumentDB global cluster that can span multiple multiple Amazon Web Services Regions. The global cluster contains one primary cluster with read-write capability, and up-to give read-only secondary clusters. Global clusters uses storage-based fast replication across regions with latencies less than one second, using dedicated infrastructure with no impact to your workload’s performance.  You can create a global cluster that is initially empty, and then add a primary and a secondary to it. Or you can specify an existing cluster during the create operation, and this cluster becomes the primary of the global cluster.   This action only applies to Amazon DocumentDB clusters.
+    /// Creates an Amazon DocumentDB global cluster that can span multiple multiple Amazon Web Services Regions.  The global cluster contains one primary cluster with read-write capability, and up-to 10 read-only secondary clusters. Global clusters uses storage-based fast replication across regions with latencies less than one second, using dedicated infrastructure with no impact to your workload’s performance.  You can create a global cluster that is initially empty, and then add a primary and a secondary to it.  Or you can specify an existing cluster during the create operation, and this cluster becomes the primary of the global cluster.   This action only applies to Amazon DocumentDB clusters.
     ///
     /// Parameters:
     ///   - databaseName: The name for your database of up to 64 alpha-numeric characters. If you do not provide a name, Amazon DocumentDB will not create a database in the global cluster you are creating.
@@ -1619,7 +1625,7 @@ public struct DocDB: AWSService {
     /// Modifies a setting for an Amazon DocumentDB cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request.
     ///
     /// Parameters:
-    ///   - allowMajorVersionUpgrade: A value that indicates whether major version upgrades are allowed. Constraints: You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the DB cluster's current version.
+    ///   - allowMajorVersionUpgrade: A value that indicates whether major version upgrades are allowed. Constraints:   You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the cluster's current version.   Since some parameters are version specific, changing them requires executing a new ModifyDBCluster API call after the in-place MVU completes.    Performing an MVU directly impacts the following parameters:    MasterUserPassword     NewDBClusterIdentifier     VpcSecurityGroupIds     Port
     ///   - applyImmediately: A value that specifies whether the changes in this request and any pending changes are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cluster. If this parameter is set to false, changes to the cluster are applied during the next maintenance window. The ApplyImmediately parameter affects only the NewDBClusterIdentifier and MasterUserPassword values. If you set this parameter value to false, the changes to the NewDBClusterIdentifier and MasterUserPassword values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false
     ///   - backupRetentionPeriod: The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35.
     ///   - cloudwatchLogsExportConfiguration: The configuration setting for the log types to be enabled for export to Amazon CloudWatch Logs for a specific instance or cluster. The EnableLogTypes and DisableLogTypes arrays determine which logs are exported (or not exported) to CloudWatch Logs.
@@ -1630,11 +1636,13 @@ public struct DocDB: AWSService {
     ///   - manageMasterUserPassword: Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the cluster doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn on this management.  In this case, you can't specify MasterUserPassword. If the cluster already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the master user password is not managed with Amazon Web Services Secrets Manager, then you must specify MasterUserPassword.  In this case, Amazon DocumentDB deletes the secret and uses the new password for the master user specified by MasterUserPassword.
     ///   - masterUserPassword: The password for the master database user. This password can contain any printable ASCII character except forward slash (/), double quote ("), or the "at" symbol (@). Constraints: Must contain from 8 to 100 characters.
     ///   - masterUserSecretKmsKeyId: The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if both of the following conditions are met:   The cluster doesn't manage the master user password in Amazon Web Services Secrets Manager.  If the cluster already manages the master user password in Amazon Web Services Secrets Manager, you can't change the KMS key that is used to encrypt the secret.   You are enabling ManageMasterUserPassword to manage the master user password in Amazon Web Services Secrets Manager.  If you are turning on ManageMasterUserPassword and don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt the secret.  If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key.   The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.  To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. There is a default KMS key for your Amazon Web Services account.  Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+    ///   - networkType: The network type of the cluster. The network type is determined by the DBSubnetGroup specified for the cluster.  A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see DocumentDB clusters in a VPC in the Amazon DocumentDB Developer Guide. Valid Values: IPV4 | DUAL
     ///   - newDBClusterIdentifier: The new cluster identifier for the cluster when renaming a cluster. This value is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster2
     ///   - port: The port number on which the cluster accepts connections. Constraints: Must be a value from 1150 to 65535.  Default: The same port as the original cluster.
     ///   - preferredBackupWindow: The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter.  The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.
     ///   - preferredMaintenanceWindow: The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region, occurring on a random day of the week.  Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
     ///   - rotateMasterUserPassword: Specifies whether to rotate the secret managed by Amazon Web Services Secrets Manager for the master user password. This setting is valid only if the master user password is managed by Amazon DocumentDB in Amazon Web Services Secrets Manager for the cluster.  The secret value contains the updated password. Constraint: You must apply the change immediately when rotating the master user password.
+    ///   - serverlessV2ScalingConfiguration: Contains the scaling configuration of an Amazon DocumentDB Serverless cluster.
     ///   - storageType: The storage type to associate with the DB cluster. For information on storage types for Amazon DocumentDB clusters, see  Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1  Default value is standard
     ///   - vpcSecurityGroupIds: A list of virtual private cloud (VPC) security groups that the cluster will belong to.
     ///   - logger: Logger use during operation
@@ -1651,11 +1659,13 @@ public struct DocDB: AWSService {
         manageMasterUserPassword: Bool? = nil,
         masterUserPassword: String? = nil,
         masterUserSecretKmsKeyId: String? = nil,
+        networkType: String? = nil,
         newDBClusterIdentifier: String? = nil,
         port: Int? = nil,
         preferredBackupWindow: String? = nil,
         preferredMaintenanceWindow: String? = nil,
         rotateMasterUserPassword: Bool? = nil,
+        serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil,
         storageType: String? = nil,
         vpcSecurityGroupIds: [String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -1672,11 +1682,13 @@ public struct DocDB: AWSService {
             manageMasterUserPassword: manageMasterUserPassword, 
             masterUserPassword: masterUserPassword, 
             masterUserSecretKmsKeyId: masterUserSecretKmsKeyId, 
+            networkType: networkType, 
             newDBClusterIdentifier: newDBClusterIdentifier, 
             port: port, 
             preferredBackupWindow: preferredBackupWindow, 
             preferredMaintenanceWindow: preferredMaintenanceWindow, 
             rotateMasterUserPassword: rotateMasterUserPassword, 
+            serverlessV2ScalingConfiguration: serverlessV2ScalingConfiguration, 
             storageType: storageType, 
             vpcSecurityGroupIds: vpcSecurityGroupIds
         )
@@ -2114,7 +2126,9 @@ public struct DocDB: AWSService {
     ///   - engine: The database engine to use for the new cluster. Default: The same as source. Constraint: Must be compatible with the engine of the source.
     ///   - engineVersion: The version of the database engine to use for the new cluster.
     ///   - kmsKeyId: The KMS key identifier to use when restoring an encrypted cluster from a DB snapshot or cluster snapshot. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a cluster with the same Amazon Web Services account that owns the KMS encryption key used to encrypt the new cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If you do not specify a value for the KmsKeyId parameter, then the following occurs:   If the snapshot or cluster snapshot in SnapshotIdentifier is encrypted, then the restored cluster is encrypted using the KMS key that was used to encrypt the snapshot or the cluster snapshot.   If the snapshot or the cluster snapshot in SnapshotIdentifier is not encrypted, then the restored DB cluster is not encrypted.
+    ///   - networkType: The network type of the cluster. The network type is determined by the DBSubnetGroup specified for the cluster.  A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see DocumentDB clusters in a VPC in the Amazon DocumentDB Developer Guide. Valid Values: IPV4 | DUAL
     ///   - port: The port number on which the new cluster accepts connections. Constraints: Must be a value from 1150 to 65535. Default: The same port as the original cluster.
+    ///   - serverlessV2ScalingConfiguration: Contains the scaling configuration of an Amazon DocumentDB Serverless cluster.
     ///   - snapshotIdentifier: The identifier for the snapshot or cluster snapshot to restore from. You can use either the name or the Amazon Resource Name (ARN) to specify a cluster snapshot. However, you can use only the ARN to specify a snapshot. Constraints:   Must match the identifier of an existing snapshot.
     ///   - storageType: The storage type to associate with the DB cluster. For information on storage types for Amazon DocumentDB clusters, see  Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1  Default value is standard
     ///   - tags: The tags to be assigned to the restored cluster.
@@ -2131,7 +2145,9 @@ public struct DocDB: AWSService {
         engine: String? = nil,
         engineVersion: String? = nil,
         kmsKeyId: String? = nil,
+        networkType: String? = nil,
         port: Int? = nil,
+        serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil,
         snapshotIdentifier: String? = nil,
         storageType: String? = nil,
         tags: [Tag]? = nil,
@@ -2148,7 +2164,9 @@ public struct DocDB: AWSService {
             engine: engine, 
             engineVersion: engineVersion, 
             kmsKeyId: kmsKeyId, 
+            networkType: networkType, 
             port: port, 
+            serverlessV2ScalingConfiguration: serverlessV2ScalingConfiguration, 
             snapshotIdentifier: snapshotIdentifier, 
             storageType: storageType, 
             tags: tags, 
@@ -2178,9 +2196,11 @@ public struct DocDB: AWSService {
     ///   - deletionProtection: Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
     ///   - enableCloudwatchLogsExports: A list of log types that must be enabled for exporting to Amazon CloudWatch Logs.
     ///   - kmsKeyId: The KMS key identifier to use when restoring an encrypted cluster from an encrypted cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a cluster with the same Amazon Web Services account that owns the KMS encryption key used to encrypt the new cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. You can restore to a new cluster and encrypt the new cluster with an KMS key that is different from the KMS key used to encrypt the source cluster. The new DB cluster is encrypted with the KMS key identified by the KmsKeyId parameter. If you do not specify a value for the KmsKeyId parameter, then the following occurs:   If the cluster is encrypted, then the restored cluster is encrypted using the KMS key that was used to encrypt the source cluster.   If the cluster is not encrypted, then the restored cluster is not encrypted.   If DBClusterIdentifier refers to a cluster that is not encrypted, then the restore request is rejected.
+    ///   - networkType: The network type of the cluster. The network type is determined by the DBSubnetGroup specified for the cluster.  A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see DocumentDB clusters in a VPC in the Amazon DocumentDB Developer Guide. Valid Values: IPV4 | DUAL
     ///   - port: The port number on which the new cluster accepts connections. Constraints: Must be a value from 1150 to 65535.  Default: The default port for the engine.
     ///   - restoreToTime: The date and time to restore the cluster to. Valid values: A time in Universal Coordinated Time (UTC) format. Constraints:   Must be before the latest restorable time for the instance.   Must be specified if the UseLatestRestorableTime parameter is not provided.   Cannot be specified if the UseLatestRestorableTime parameter is true.   Cannot be specified if the RestoreType parameter is copy-on-write.   Example: 2015-03-07T23:45:00Z
     ///   - restoreType: The type of restore to be performed. You can specify one of the following values:    full-copy - The new DB cluster is restored as a full copy of the source DB cluster.    copy-on-write - The new DB cluster is restored as a clone of the source DB cluster.   Constraints: You can't specify copy-on-write if the engine version of the source DB cluster is earlier than 1.11. If you don't specify a RestoreType value, then the new DB cluster is restored as a full copy of the source DB cluster.
+    ///   - serverlessV2ScalingConfiguration: Contains the scaling configuration of an Amazon DocumentDB Serverless cluster.
     ///   - sourceDBClusterIdentifier: The identifier of the source cluster from which to restore. Constraints:   Must match the identifier of an existing DBCluster.
     ///   - storageType: The storage type to associate with the DB cluster. For information on storage types for Amazon DocumentDB clusters, see  Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1  Default value is standard
     ///   - tags: The tags to be assigned to the restored cluster.
@@ -2194,9 +2214,11 @@ public struct DocDB: AWSService {
         deletionProtection: Bool? = nil,
         enableCloudwatchLogsExports: [String]? = nil,
         kmsKeyId: String? = nil,
+        networkType: String? = nil,
         port: Int? = nil,
         restoreToTime: Date? = nil,
         restoreType: String? = nil,
+        serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil,
         sourceDBClusterIdentifier: String? = nil,
         storageType: String? = nil,
         tags: [Tag]? = nil,
@@ -2210,9 +2232,11 @@ public struct DocDB: AWSService {
             deletionProtection: deletionProtection, 
             enableCloudwatchLogsExports: enableCloudwatchLogsExports, 
             kmsKeyId: kmsKeyId, 
+            networkType: networkType, 
             port: port, 
             restoreToTime: restoreToTime, 
             restoreType: restoreType, 
+            serverlessV2ScalingConfiguration: serverlessV2ScalingConfiguration, 
             sourceDBClusterIdentifier: sourceDBClusterIdentifier, 
             storageType: storageType, 
             tags: tags, 

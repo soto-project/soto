@@ -177,10 +177,37 @@ extension Braket {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case programSetValidationFailed = "ProgramSetValidationFailed"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
+    public struct ActionMetadata: AWSDecodableShape {
+        /// The type of action associated with the quantum task.
+        public let actionType: String
+        /// The number of executables in a program set. This is only available for a Program Set.
+        public let executableCount: Int64?
+        /// The number of programs in a program set. This is only available for a Program Set.
+        public let programCount: Int64?
+
+        @inlinable
+        public init(actionType: String, executableCount: Int64? = nil, programCount: Int64? = nil) {
+            self.actionType = actionType
+            self.executableCount = executableCount
+            self.programCount = programCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionType = "actionType"
+            case executableCount = "executableCount"
+            case programCount = "programCount"
+        }
+    }
+
     public struct AlgorithmSpecification: AWSEncodableShape & AWSDecodableShape {
-        /// The container image used to create an Amazon Braket job.
+        /// The container image used to create an Amazon Braket hybrid job.
         public let containerImage: ContainerImage?
         /// Configures the paths to the Python scripts used for entry and training.
         public let scriptModeConfig: ScriptModeConfig?
@@ -225,7 +252,7 @@ extension Braket {
     }
 
     public struct CancelJobRequest: AWSEncodableShape {
-        /// The ARN of the Amazon Braket job to cancel.
+        /// The ARN of the Amazon Braket hybrid job to cancel.
         public let jobArn: String
 
         @inlinable
@@ -247,7 +274,7 @@ extension Braket {
     }
 
     public struct CancelJobResponse: AWSDecodableShape {
-        /// The status of the job cancellation request.
+        /// The status of the hybrid job.
         public let cancellationStatus: CancellationStatus
         /// The ARN of the Amazon Braket job.
         public let jobArn: String
@@ -265,9 +292,9 @@ extension Braket {
     }
 
     public struct CancelQuantumTaskRequest: AWSEncodableShape {
-        /// The client token associated with the request.
+        /// The client token associated with the cancellation request.
         public let clientToken: String
-        /// The ARN of the task to cancel.
+        /// The ARN of the quantum task to cancel.
         public let quantumTaskArn: String
 
         @inlinable
@@ -295,9 +322,9 @@ extension Braket {
     }
 
     public struct CancelQuantumTaskResponse: AWSDecodableShape {
-        /// The status of the cancellation request.
+        /// The status of the quantum task.
         public let cancellationStatus: CancellationStatus
-        /// The ARN of the task.
+        /// The ARN of the quantum task.
         public let quantumTaskArn: String
 
         @inlinable
@@ -324,7 +351,7 @@ extension Braket {
         public func validate(name: String) throws {
             try self.validate(self.uri, name: "uri", parent: name, max: 255)
             try self.validate(self.uri, name: "uri", parent: name, min: 1)
-            try self.validate(self.uri, name: "uri", parent: name, pattern: "\\d{10,14}\\.dkr\\.ecr.[a-z0-9-]+\\.amazonaws\\.com\\/.+(@sha256)?:.+")
+            try self.validate(self.uri, name: "uri", parent: name, pattern: "^\\d{10,14}\\.dkr\\.ecr.[a-z0-9-]+\\.amazonaws\\.com\\/.+(@sha256)?:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -337,27 +364,27 @@ extension Braket {
         public let algorithmSpecification: AlgorithmSpecification
         /// The list of Amazon Braket resources associated with the hybrid job.
         public let associations: [Association]?
-        /// Information about the output locations for job checkpoint data.
+        /// Information about the output locations for hybrid job checkpoint data.
         public let checkpointConfig: JobCheckpointConfig?
-        /// A unique token that guarantees that the call to this API is idempotent.
+        /// The client token associated with this request that guarantees that the request is idempotent.
         public let clientToken: String
-        /// The quantum processing unit (QPU) or simulator used to create an Amazon Braket job.
+        /// The quantum processing unit (QPU) or simulator used to create an Amazon Braket hybrid job.
         public let deviceConfig: DeviceConfig
-        /// Algorithm-specific parameters used by an Amazon Braket job that influence the quality of the training job. The values are set with a string of JSON key:value pairs, where the key is the name of the hyperparameter and the value is the value of th hyperparameter.
+        /// Algorithm-specific parameters used by an Amazon Braket hybrid job that influence the quality of the training job. The values are set with a map of JSON key:value pairs, where the key is the name of the hyperparameter and the value is the value of the hyperparameter.  Do not include any security-sensitive information including account access IDs, secrets, or tokens in any hyperparameter fields. As part of the shared responsibility model, you are responsible for any potential exposure, unauthorized access, or compromise of your sensitive data if caused by security-sensitive information included in the request hyperparameter variable or plain text fields.
         public let hyperParameters: [String: String]?
         /// A list of parameters that specify the name and type of input data and where it is located.
         public let inputDataConfig: [InputFileConfig]?
         /// Configuration of the resource instances to use while running the hybrid job on Amazon Braket.
         public let instanceConfig: InstanceConfig
-        /// The name of the Amazon Braket job.
+        /// The name of the Amazon Braket hybrid job.
         public let jobName: String
-        /// The path to the S3 location where you want to store job artifacts and the encryption key used to store them.
+        /// The path to the S3 location where you want to store hybrid job artifacts and the encryption key used to store them.
         public let outputDataConfig: JobOutputDataConfig
-        /// The Amazon Resource Name (ARN) of an IAM role that Amazon Braket can assume to perform tasks on behalf of a user. It can access user resources, run an Amazon Braket job container on behalf of user, and output resources to the users' s3 buckets.
+        /// The Amazon Resource Name (ARN) of an IAM role that Amazon Braket can assume to perform tasks on behalf of a user. It can access user resources, run an Amazon Braket job container on behalf of user, and output results and hybrid job details to the users' s3 buckets.
         public let roleArn: String
-        ///  The user-defined criteria that specifies when a job stops running.
+        ///  The user-defined criteria that specifies when a hybrid job stops running.
         public let stoppingCondition: JobStoppingCondition?
-        /// A tag object that consists of a key and an optional value, used to manage metadata for Amazon Braket resources.
+        /// Tags to be added to the hybrid job you're creating.
         public let tags: [String: String]?
 
         @inlinable
@@ -416,7 +443,7 @@ extension Braket {
     }
 
     public struct CreateJobResponse: AWSDecodableShape {
-        /// The ARN of the Amazon Braket job created.
+        /// The ARN of the Amazon Braket hybrid job created.
         public let jobArn: String
 
         @inlinable
@@ -430,23 +457,23 @@ extension Braket {
     }
 
     public struct CreateQuantumTaskRequest: AWSEncodableShape {
-        /// The action associated with the task.
+        /// The action associated with the quantum task.
         public let action: String
         /// The list of Amazon Braket resources associated with the quantum task.
         public let associations: [Association]?
         /// The client token associated with the request.
         public let clientToken: String
-        /// The ARN of the device to run the task on.
+        /// The ARN of the device to run the quantum task on.
         public let deviceArn: String
-        /// The parameters for the device to run the task on.
+        /// The parameters for the device to run the quantum task on.
         public let deviceParameters: String?
-        /// The token for an Amazon Braket job that associates it with the quantum task.
+        /// The token for an Amazon Braket hybrid job that associates it with the quantum task.
         public let jobToken: String?
-        /// The S3 bucket to store task result files in.
+        /// The S3 bucket to store quantum task result files in.
         public let outputS3Bucket: String
-        /// The key prefix for the location in the S3 bucket to store task results in.
+        /// The key prefix for the location in the S3 bucket to store quantum task results in.
         public let outputS3KeyPrefix: String
-        /// The number of shots to use for the task.
+        /// The number of shots to use for the quantum task.
         public let shots: Int64
         /// Tags to be added to the quantum task you're creating.
         public let tags: [String: String]?
@@ -492,7 +519,7 @@ extension Braket {
     }
 
     public struct CreateQuantumTaskResponse: AWSDecodableShape {
-        /// The ARN of the task created by the request.
+        /// The ARN of the quantum task created by the request.
         public let quantumTaskArn: String
 
         @inlinable
@@ -506,7 +533,7 @@ extension Braket {
     }
 
     public struct DataSource: AWSEncodableShape & AWSDecodableShape {
-        /// Information about the data stored in Amazon S3 used by the Amazon Braket job.
+        /// Amazon S3 path of the input data used by the hybrid job.
         public let s3DataSource: S3DataSource
 
         @inlinable
@@ -524,7 +551,7 @@ extension Braket {
     }
 
     public struct DeviceConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The primary quantum processing unit (QPU) or simulator used to create and run an Amazon Braket job.
+        /// The primary device ARN used to create and run an Amazon Braket hybrid job.
         public let device: String
 
         @inlinable
@@ -545,9 +572,9 @@ extension Braket {
     public struct DeviceQueueInfo: AWSDecodableShape {
         /// The name of the queue.
         public let queue: QueueName
-        /// Optional. Specifies the priority of the queue. Tasks in a priority queue are processed before the tasks in a normal queue.
+        /// Optional. Specifies the priority of the queue. Quantum tasks in a priority queue are processed before the quantum tasks in a normal queue.
         public let queuePriority: QueuePriority?
-        /// The number of jobs or tasks in the queue for a given device.
+        /// The number of hybrid jobs or quantum tasks in the queue for a given device.
         public let queueSize: String
 
         @inlinable
@@ -624,7 +651,7 @@ extension Braket {
         public let deviceCapabilities: String
         /// The name of the device.
         public let deviceName: String
-        /// List of information about tasks and jobs queued on a device.
+        /// The number of quantum tasks and hybrid jobs currently queued on the device.
         public let deviceQueueInfo: [DeviceQueueInfo]?
         /// The status of the device.
         public let deviceStatus: DeviceStatus
@@ -656,9 +683,9 @@ extension Braket {
     }
 
     public struct GetJobRequest: AWSEncodableShape {
-        /// A list of attributes to return information for.
+        /// A list of attributes to return additional information for. Only the QueueInfo additional attribute name is currently supported.
         public let additionalAttributeNames: [HybridJobAdditionalAttributeName]?
-        /// The ARN of the job to retrieve.
+        /// The ARN of the hybrid job to retrieve.
         public let jobArn: String
 
         @inlinable
@@ -682,47 +709,47 @@ extension Braket {
     }
 
     public struct GetJobResponse: AWSDecodableShape {
-        /// Definition of the Amazon Braket job created. Specifies the container image the job uses, information about the Python scripts used for entry and training, and the user-defined metrics used to evaluation the job.
+        /// Definition of the Amazon Braket hybrid job created. Provides information about the container image used, and the Python scripts used for training.
         public let algorithmSpecification: AlgorithmSpecification
         /// The list of Amazon Braket resources associated with the hybrid job.
         public let associations: [Association]?
-        /// The billable time the Amazon Braket job used to complete.
+        /// The billable time for which the Amazon Braket hybrid job used to complete.
         public let billableDuration: Int?
-        /// Information about the output locations for job checkpoint data.
+        /// Information about the output locations for hybrid job checkpoint data.
         public let checkpointConfig: JobCheckpointConfig?
-        /// The date and time that the Amazon Braket job was created.
+        /// The time at which the Amazon Braket hybrid job was created.
         public let createdAt: Date
-        /// The quantum processing unit (QPU) or simulator used to run the Amazon Braket job.
+        /// The primary device used by the Amazon Braket hybrid job.
         public let deviceConfig: DeviceConfig?
-        /// The date and time that the Amazon Braket job ended.
+        /// The time at which the Amazon Braket hybrid job ended.
         public let endedAt: Date?
-        /// Details about the type and time events occurred related to the Amazon Braket job.
+        /// Details about the time and type of events occurred related to the Amazon Braket hybrid job.
         public let events: [JobEventDetails]?
-        /// A description of the reason why an Amazon Braket job failed, if it failed.
+        /// A description of the reason why an Amazon Braket hybrid job failed, if it failed.
         public let failureReason: String?
-        /// Algorithm-specific parameters used by an Amazon Braket job that influence the quality of the traiing job. The values are set with a string of JSON key:value pairs, where the key is the name of the hyperparameter and the value is the value of th hyperparameter.
+        /// Algorithm-specific parameters used by an Amazon Braket hybrid job that influence the quality of the traiing job. The values are set with a map of JSON key:value pairs, where the key is the name of the hyperparameter and the value is the value of th hyperparameter.
         public let hyperParameters: [String: String]?
         /// A list of parameters that specify the name and type of input data and where it is located.
         public let inputDataConfig: [InputFileConfig]?
         /// The resource instances to use while running the hybrid job on Amazon Braket.
         public let instanceConfig: InstanceConfig
-        /// The ARN of the Amazon Braket job.
+        /// The ARN of the Amazon Braket hybrid job.
         public let jobArn: String
-        /// The name of the Amazon Braket job.
+        /// The name of the Amazon Braket hybrid job.
         public let jobName: String
-        /// The path to the S3 location where job artifacts are stored and the encryption key used to store them there.
+        /// The path to the S3 location where hybrid job artifacts are stored and the encryption key used to store them there.
         public let outputDataConfig: JobOutputDataConfig
-        /// Queue information for the requested job. Only returned if  QueueInfo is specified in the additionalAttributeNames" field in the GetJob API request.
+        /// Queue information for the requested hybrid job. Only returned if QueueInfo is specified in the additionalAttributeNames" field in the GetJob API request.
         public let queueInfo: HybridJobQueueInfo?
-        /// The Amazon Resource Name (ARN) of an IAM role that Amazon Braket can assume to perform tasks on behalf of a user. It can access user resources, run an Amazon Braket job container on behalf of user, and output resources to the s3 buckets of a user.
+        /// The Amazon Resource Name (ARN) of an IAM role that Amazon Braket can assume to perform tasks on behalf of a user. It can access user resources, run an Amazon Braket job container on behalf of user, and output results and other hybrid job details to the s3 buckets of a user.
         public let roleArn: String
-        /// The date and time that the Amazon Braket job was started.
+        /// The time at which the Amazon Braket hybrid job was started.
         public let startedAt: Date?
-        /// The status of the Amazon Braket job.
+        /// The status of the Amazon Braket hybrid job.
         public let status: JobPrimaryStatus
-        /// The user-defined criteria that specifies when to stop a job running.
+        /// The user-defined criteria that specifies when to stop a running hybrid job.
         public let stoppingCondition: JobStoppingCondition?
-        /// A tag object that consists of a key and an optional value, used to manage metadata for Amazon Braket resources.
+        /// The tags associated with this hybrid job.
         public let tags: [String: String]?
 
         @inlinable
@@ -776,9 +803,9 @@ extension Braket {
     }
 
     public struct GetQuantumTaskRequest: AWSEncodableShape {
-        /// A list of attributes to return information for.
+        /// A list of attributes to return additional information for. Only the QueueInfo additional attribute name is currently supported.
         public let additionalAttributeNames: [QuantumTaskAdditionalAttributeName]?
-        /// The ARN of the task to retrieve.
+        /// The ARN of the quantum task to retrieve.
         public let quantumTaskArn: String
 
         @inlinable
@@ -802,37 +829,42 @@ extension Braket {
     }
 
     public struct GetQuantumTaskResponse: AWSDecodableShape {
+        /// Metadata about the action performed by the quantum task, including information about the type of action and program counts.
+        public let actionMetadata: ActionMetadata?
         /// The list of Amazon Braket resources associated with the quantum task.
         public let associations: [Association]?
-        /// The time at which the task was created.
+        /// The time at which the quantum task was created.
         public let createdAt: Date
-        /// The ARN of the device the task was run on.
+        /// The ARN of the device the quantum task was run on.
         public let deviceArn: String
-        /// The parameters for the device on which the task ran.
+        /// The parameters for the device on which the quantum task ran.
         public let deviceParameters: String
-        /// The time at which the task ended.
+        /// The time at which the quantum task ended.
         public let endedAt: Date?
-        /// The reason that a task failed.
+        /// The reason that a quantum task failed.
         public let failureReason: String?
         /// The ARN of the Amazon Braket job associated with the quantum task.
         public let jobArn: String?
-        /// The S3 bucket where task results are stored.
+        /// The number of successful shots for the quantum task. This is available after a successfully completed quantum task.
+        public let numSuccessfulShots: Int64?
+        /// The S3 bucket where quantum task results are stored.
         public let outputS3Bucket: String
-        /// The folder in the S3 bucket where task results are stored.
+        /// The folder in the S3 bucket where quantum task results are stored.
         public let outputS3Directory: String
-        /// The ARN of the task.
+        /// The ARN of the quantum task.
         public let quantumTaskArn: String
-        /// Queue information for the requested quantum task. Only returned if  QueueInfo is specified in the additionalAttributeNames" field in the GetQuantumTask API request.
+        /// Queue information for the requested quantum task. Only returned if QueueInfo is specified in the additionalAttributeNames" field in the GetQuantumTask API request.
         public let queueInfo: QuantumTaskQueueInfo?
-        /// The number of shots used in the task.
+        /// The number of shots used in the quantum task.
         public let shots: Int64
-        /// The status of the task.
+        /// The status of the quantum task.
         public let status: QuantumTaskStatus
-        /// The tags that belong to this task.
+        /// The tags that belong to this quantum task.
         public let tags: [String: String]?
 
         @inlinable
-        public init(associations: [Association]? = nil, createdAt: Date, deviceArn: String, deviceParameters: String, endedAt: Date? = nil, failureReason: String? = nil, jobArn: String? = nil, outputS3Bucket: String, outputS3Directory: String, quantumTaskArn: String, queueInfo: QuantumTaskQueueInfo? = nil, shots: Int64, status: QuantumTaskStatus, tags: [String: String]? = nil) {
+        public init(actionMetadata: ActionMetadata? = nil, associations: [Association]? = nil, createdAt: Date, deviceArn: String, deviceParameters: String, endedAt: Date? = nil, failureReason: String? = nil, jobArn: String? = nil, numSuccessfulShots: Int64? = nil, outputS3Bucket: String, outputS3Directory: String, quantumTaskArn: String, queueInfo: QuantumTaskQueueInfo? = nil, shots: Int64, status: QuantumTaskStatus, tags: [String: String]? = nil) {
+            self.actionMetadata = actionMetadata
             self.associations = associations
             self.createdAt = createdAt
             self.deviceArn = deviceArn
@@ -840,6 +872,7 @@ extension Braket {
             self.endedAt = endedAt
             self.failureReason = failureReason
             self.jobArn = jobArn
+            self.numSuccessfulShots = numSuccessfulShots
             self.outputS3Bucket = outputS3Bucket
             self.outputS3Directory = outputS3Directory
             self.quantumTaskArn = quantumTaskArn
@@ -850,6 +883,7 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actionMetadata = "actionMetadata"
             case associations = "associations"
             case createdAt = "createdAt"
             case deviceArn = "deviceArn"
@@ -857,6 +891,7 @@ extension Braket {
             case endedAt = "endedAt"
             case failureReason = "failureReason"
             case jobArn = "jobArn"
+            case numSuccessfulShots = "numSuccessfulShots"
             case outputS3Bucket = "outputS3Bucket"
             case outputS3Directory = "outputS3Directory"
             case quantumTaskArn = "quantumTaskArn"
@@ -868,9 +903,9 @@ extension Braket {
     }
 
     public struct HybridJobQueueInfo: AWSDecodableShape {
-        /// Optional. Provides more information about the queue position. For example, if the job is complete and no longer in the queue, the message field contains that information.
+        /// Optional. Provides more information about the queue position. For example, if the hybrid job is complete and no longer in the queue, the message field contains that information.
         public let message: String?
-        /// Current position of the job in the jobs queue.
+        /// Current position of the hybrid job in the jobs queue.
         public let position: String
         /// The name of the queue.
         public let queue: QueueName
@@ -890,11 +925,11 @@ extension Braket {
     }
 
     public struct InputFileConfig: AWSEncodableShape & AWSDecodableShape {
-        /// A named input source that an Amazon Braket job can consume.
+        /// A named input source that an Amazon Braket hybrid job can consume.
         public let channelName: String
         /// The MIME type of the data.
         public let contentType: String?
-        /// The location of the channel data.
+        /// The location of the input data.
         public let dataSource: DataSource
 
         @inlinable
@@ -920,11 +955,11 @@ extension Braket {
     }
 
     public struct InstanceConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Configures the number of resource instances to use while running an Amazon Braket job on Amazon Braket. The default value is 1.
+        /// Configures the number of resource instances to use while running an Amazon Braket hybrid job on Amazon Braket. The default value is 1.
         public let instanceCount: Int?
-        /// Configures the type resource instances to use while running an Amazon Braket hybrid job.
+        /// Configures the type of resource instances to use while running an Amazon Braket hybrid job.
         public let instanceType: InstanceType
-        /// The size of the storage volume, in GB, that user wants to provision.
+        /// The size of the storage volume, in GB, to provision.
         public let volumeSizeInGb: Int
 
         @inlinable
@@ -942,9 +977,9 @@ extension Braket {
     }
 
     public struct JobCheckpointConfig: AWSEncodableShape & AWSDecodableShape {
-        /// (Optional) The local directory where checkpoints are written. The default directory is /opt/braket/checkpoints/.
+        /// (Optional) The local directory where checkpoint data is stored. The default directory is /opt/braket/checkpoints/.
         public let localPath: String?
-        /// Identifies the S3 path where you want Amazon Braket to store checkpoints. For example, s3://bucket-name/key-name-prefix.
+        /// Identifies the S3 path where you want Amazon Braket to store checkpoint data. For example, s3://bucket-name/key-name-prefix.
         public let s3Uri: String
 
         @inlinable
@@ -967,11 +1002,11 @@ extension Braket {
     }
 
     public struct JobEventDetails: AWSDecodableShape {
-        /// The type of event that occurred related to the Amazon Braket job.
+        /// The type of event that occurred related to the Amazon Braket hybrid job.
         public let eventType: JobEventType?
-        /// A message describing the event that occurred related to the Amazon Braket job.
+        /// A message describing the event that occurred related to the Amazon Braket hybrid job.
         public let message: String?
-        /// The type of event that occurred related to the Amazon Braket job.
+        /// The time of the event that occurred related to the Amazon Braket hybrid job.
         public let timeOfEvent: Date?
 
         @inlinable
@@ -989,9 +1024,9 @@ extension Braket {
     }
 
     public struct JobOutputDataConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The AWS Key Management Service (AWS KMS) key that Amazon Braket uses to encrypt the job training artifacts at rest using Amazon S3 server-side encryption.
+        /// The AWS Key Management Service (AWS KMS) key that Amazon Braket uses to encrypt the hybrid job training artifacts at rest using Amazon S3 server-side encryption.
         public let kmsKeyId: String?
-        /// Identifies the S3 path where you want Amazon Braket to store the job training artifacts. For example, s3://bucket-name/key-name-prefix.
+        /// Identifies the S3 path where you want Amazon Braket to store the hybrid job training artifacts. For example, s3://bucket-name/key-name-prefix.
         public let s3Path: String
 
         @inlinable
@@ -1014,7 +1049,7 @@ extension Braket {
     }
 
     public struct JobStoppingCondition: AWSEncodableShape & AWSDecodableShape {
-        /// The maximum length of time, in seconds, that an Amazon Braket job can run.
+        /// The maximum length of time, in seconds, that an Amazon Braket hybrid job can run.
         public let maxRuntimeInSeconds: Int?
 
         @inlinable
@@ -1028,21 +1063,21 @@ extension Braket {
     }
 
     public struct JobSummary: AWSDecodableShape {
-        /// The date and time that the Amazon Braket job was created.
+        /// The time at which the Amazon Braket hybrid job was created.
         public let createdAt: Date
-        /// Provides summary information about the primary device used by an Amazon Braket job.
+        /// The primary device used by an Amazon Braket hybrid job.
         public let device: String
-        /// The date and time that the Amazon Braket job ended.
+        /// The time at which the Amazon Braket hybrid job ended.
         public let endedAt: Date?
-        /// The ARN of the Amazon Braket job.
+        /// The ARN of the Amazon Braket hybrid job.
         public let jobArn: String
-        /// The name of the Amazon Braket job.
+        /// The name of the Amazon Braket hybrid job.
         public let jobName: String
-        /// The date and time that the Amazon Braket job was started.
+        /// The time at which the Amazon Braket hybrid job was started.
         public let startedAt: Date?
-        /// The status of the Amazon Braket job.
+        /// The status of the Amazon Braket hybrid job.
         public let status: JobPrimaryStatus
-        /// A tag object that consists of a key and an optional value, used to manage metadata for Amazon Braket resources.
+        /// Displays the key, value pairs of tags associated with this hybrid job.
         public let tags: [String: String]?
 
         @inlinable
@@ -1101,14 +1136,36 @@ extension Braket {
         }
     }
 
+    public struct ProgramSetValidationFailure: AWSDecodableShape {
+        /// A list of error messages describing the validation failures that occurred.
+        public let errors: [String]?
+        /// The index of the input within the program set that failed validation.
+        public let inputsIndex: Int64?
+        /// The index of the program within the program set that failed validation.
+        public let programIndex: Int64
+
+        @inlinable
+        public init(errors: [String]? = nil, inputsIndex: Int64? = nil, programIndex: Int64) {
+            self.errors = errors
+            self.inputsIndex = inputsIndex
+            self.programIndex = programIndex
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "errors"
+            case inputsIndex = "inputsIndex"
+            case programIndex = "programIndex"
+        }
+    }
+
     public struct QuantumTaskQueueInfo: AWSDecodableShape {
-        /// Optional. Provides more information about the queue position. For example, if the task is complete and no longer in the queue, the message field contains that information.
+        /// Optional. Provides more information about the queue position. For example, if the quantum task is complete and no longer in the queue, the message field contains that information.
         public let message: String?
-        /// Current position of the task in the quantum tasks queue.
+        /// Current position of the quantum task in the quantum tasks queue.
         public let position: String
         /// The name of the queue.
         public let queue: QueueName
-        /// Optional. Specifies the priority of the queue. Quantum tasks in a priority queue are processed before the tasks in a normal queue.
+        /// Optional. Specifies the priority of the queue. Quantum tasks in a priority queue are processed before the quantum tasks in a normal queue.
         public let queuePriority: QueuePriority?
 
         @inlinable
@@ -1128,21 +1185,21 @@ extension Braket {
     }
 
     public struct QuantumTaskSummary: AWSDecodableShape {
-        /// The time at which the task was created.
+        /// The time at which the quantum task was created.
         public let createdAt: Date
-        /// The ARN of the device the task ran on.
+        /// The ARN of the device the quantum task ran on.
         public let deviceArn: String
-        /// The time at which the task finished.
+        /// The time at which the quantum task finished.
         public let endedAt: Date?
-        /// The S3 bucket where the task result file is stored..
+        /// The S3 bucket where the quantum task result file is stored.
         public let outputS3Bucket: String
-        /// The folder in the S3 bucket where the task result file is stored.
+        /// The folder in the S3 bucket where the quantum task result file is stored.
         public let outputS3Directory: String
-        /// The ARN of the task.
+        /// The ARN of the quantum task.
         public let quantumTaskArn: String
-        /// The shots used for the task.
+        /// The shots used for the quantum task.
         public let shots: Int64
-        /// The status of the task.
+        /// The status of the quantum task.
         public let status: QuantumTaskStatus
         /// Displays the key, value pairs of tags associated with this quantum task.
         public let tags: [String: String]?
@@ -1193,11 +1250,11 @@ extension Braket {
     }
 
     public struct ScriptModeConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The type of compression used by the Python scripts for an Amazon Braket job.
+        /// The type of compression used to store the algorithm scripts in Amazon S3 storage.
         public let compressionType: CompressionType?
-        /// The path to the Python script that serves as the entry point for an Amazon Braket job.
+        /// The entry point in the algorithm scripts from where the execution begins in the hybrid job.
         public let entryPoint: String
-        /// The URI that specifies the S3 path to the Python script module that contains the training script used by an Amazon Braket job.
+        /// The URI that specifies the S3 path to the algorithm scripts used by an Amazon Braket hybrid job.
         public let s3Uri: String
 
         @inlinable
@@ -1220,9 +1277,9 @@ extension Braket {
     }
 
     public struct SearchDevicesFilter: AWSEncodableShape {
-        /// The name to use to filter results.
+        /// The name of the device parameter to filter based on. Only deviceArn filter name is currently supported.
         public let name: String
-        /// The values to use to filter results.
+        /// The values used to filter devices based on the filter name.
         public let values: [String]
 
         @inlinable
@@ -1245,11 +1302,11 @@ extension Braket {
     }
 
     public struct SearchDevicesRequest: AWSEncodableShape {
-        /// The filter values to use to search for a device.
+        /// Array of SearchDevicesFilter objects to use when searching for devices.
         public let filters: [SearchDevicesFilter]
         /// The maximum number of results to return in the response.
         public let maxResults: Int?
-        /// A token used for pagination of results returned in the response. Use the token returned from the previous request continue results where the previous request ended.
+        /// A token used for pagination of results returned in the response. Use the token returned from the previous request to continue search where the previous request ended.
         public let nextToken: String?
 
         @inlinable
@@ -1275,7 +1332,7 @@ extension Braket {
     public struct SearchDevicesResponse: AWSDecodableShape {
         /// An array of DeviceSummary objects for devices that match the specified filter values.
         public let devices: [DeviceSummary]
-        /// A token used for pagination of results, or null if there are no additional results. Use the token value in a subsequent request to continue results where the previous request ended.
+        /// A token used for pagination of results, or null if there are no additional results. Use the token value in a subsequent request to continue search where the previous request ended.
         public let nextToken: String?
 
         @inlinable
@@ -1291,11 +1348,11 @@ extension Braket {
     }
 
     public struct SearchJobsFilter: AWSEncodableShape {
-        /// The name to use for the jobs filter.
+        /// The name of the hybrid job parameter to filter based on. Filter name can be either jobArn or createdAt.
         public let name: String
-        /// An operator to use for the jobs filter.
+        /// An operator to use for the filter.
         public let `operator`: SearchJobsFilterOperator
-        /// The values to use for the jobs filter.
+        /// The values used to filter hybrid jobs based on the filter name and operator.
         public let values: [String]
 
         @inlinable
@@ -1322,11 +1379,11 @@ extension Braket {
     }
 
     public struct SearchJobsRequest: AWSEncodableShape {
-        /// The filter values to use when searching for a job.
+        /// Array of SearchJobsFilter objects to use when searching for hybrid jobs.
         public let filters: [SearchJobsFilter]
         /// The maximum number of results to return in the response.
         public let maxResults: Int?
-        /// A token used for pagination of results returned in the response. Use the token returned from the previous request to continue results where the previous request ended.
+        /// A token used for pagination of results returned in the response. Use the token returned from the previous request to continue search where the previous request ended.
         public let nextToken: String?
 
         @inlinable
@@ -1352,7 +1409,7 @@ extension Braket {
     public struct SearchJobsResponse: AWSDecodableShape {
         /// An array of JobSummary objects for devices that match the specified filter values.
         public let jobs: [JobSummary]
-        /// A token used for pagination of results, or null if there are no additional results. Use the token value in a subsequent request to continue results where the previous request ended.
+        /// A token used for pagination of results, or null if there are no additional results. Use the token value in a subsequent request to continue search where the previous request ended.
         public let nextToken: String?
 
         @inlinable
@@ -1368,11 +1425,11 @@ extension Braket {
     }
 
     public struct SearchQuantumTasksFilter: AWSEncodableShape {
-        /// The name of the device used for the task.
+        /// The name of the quantum task parameter to filter based on. Filter name can be either quantumTaskArn, deviceArn, jobArn, status or createdAt.
         public let name: String
-        /// An operator to use in the filter.
+        /// An operator to use for the filter.
         public let `operator`: SearchQuantumTasksFilterOperator
-        /// The values to use for the filter.
+        /// The values used to filter quantum tasks based on the filter name and operator.
         public let values: [String]
 
         @inlinable
@@ -1399,11 +1456,11 @@ extension Braket {
     }
 
     public struct SearchQuantumTasksRequest: AWSEncodableShape {
-        /// Array of SearchQuantumTasksFilter objects.
+        /// Array of SearchQuantumTasksFilter objects to use when searching for quantum tasks.
         public let filters: [SearchQuantumTasksFilter]
         /// Maximum number of results to return in the response.
         public let maxResults: Int?
-        /// A token used for pagination of results returned in the response. Use the token returned from the previous request continue results where the previous request ended.
+        /// A token used for pagination of results returned in the response. Use the token returned from the previous request to continue search where the previous request ended.
         public let nextToken: String?
 
         @inlinable
@@ -1427,9 +1484,9 @@ extension Braket {
     }
 
     public struct SearchQuantumTasksResponse: AWSDecodableShape {
-        /// A token used for pagination of results, or null if there are no additional results. Use the token value in a subsequent request to continue results where the previous request ended.
+        /// A token used for pagination of results, or null if there are no additional results. Use the token value in a subsequent request to continue search where the previous request ended.
         public let nextToken: String?
-        /// An array of QuantumTaskSummary objects for tasks that match the specified filters.
+        /// An array of QuantumTaskSummary objects for quantum tasks that match the specified filters.
         public let quantumTasks: [QuantumTaskSummary]
 
         @inlinable
@@ -1447,7 +1504,7 @@ extension Braket {
     public struct TagResourceRequest: AWSEncodableShape {
         /// Specify the resourceArn of the resource to which a tag will be added.
         public let resourceArn: String
-        /// Specify the tags to add to the resource.
+        /// Specify the tags to add to the resource. Tags can be specified as a key-value map.
         public let tags: [String: String]
 
         @inlinable
@@ -1497,6 +1554,27 @@ extension Braket {
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
     }
+
+    public struct ValidationException: AWSErrorShape {
+        public let message: String?
+        /// The validation failures in the program set submitted in the request.
+        public let programSetValidationFailures: [ProgramSetValidationFailure]?
+        /// The reason for validation failure.
+        public let reason: ValidationExceptionReason?
+
+        @inlinable
+        public init(message: String? = nil, programSetValidationFailures: [ProgramSetValidationFailure]? = nil, reason: ValidationExceptionReason? = nil) {
+            self.message = message
+            self.programSetValidationFailures = programSetValidationFailures
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case programSetValidationFailures = "programSetValidationFailures"
+            case reason = "reason"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -1533,7 +1611,7 @@ public struct BraketErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You do not have sufficient access to perform this action.
+    /// You do not have sufficient permissions to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// An error occurred due to a conflict.
     public static var conflictException: Self { .init(.conflictException) }
@@ -1541,16 +1619,22 @@ public struct BraketErrorType: AWSErrorType {
     public static var deviceOfflineException: Self { .init(.deviceOfflineException) }
     /// The specified device has been retired.
     public static var deviceRetiredException: Self { .init(.deviceRetiredException) }
-    /// The request processing has failed because of an unknown error, exception, or failure.
+    /// The request failed because of an unknown error.
     public static var internalServiceException: Self { .init(.internalServiceException) }
     /// The specified resource was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The request failed because a service quota is exceeded.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
-    /// The throttling rate limit is met.
+    /// The API throttling rate limit is exceeded.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The input fails to satisfy the constraints specified by an AWS service.
+    /// The input request failed to satisfy constraints expected by Amazon Braket.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension BraketErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ValidationException": Braket.ValidationException.self
+    ]
 }
 
 extension BraketErrorType: Equatable {

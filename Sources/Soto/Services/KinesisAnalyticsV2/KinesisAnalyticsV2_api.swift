@@ -710,7 +710,7 @@ public struct KinesisAnalyticsV2: AWSService {
         return try await self.describeApplication(input, logger: logger)
     }
 
-    /// Returns information about a specific operation performed on a Managed Service for Apache Flink application
+    /// Provides a detailed description of a specified application operation. To see a list of all the operations of an application, invoke the ListApplicationOperations operation.  This operation is supported only for Managed Service for Apache Flink.
     @Sendable
     @inlinable
     public func describeApplicationOperation(_ input: DescribeApplicationOperationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeApplicationOperationResponse {
@@ -723,7 +723,7 @@ public struct KinesisAnalyticsV2: AWSService {
             logger: logger
         )
     }
-    /// Returns information about a specific operation performed on a Managed Service for Apache Flink application
+    /// Provides a detailed description of a specified application operation. To see a list of all the operations of an application, invoke the ListApplicationOperations operation.  This operation is supported only for Managed Service for Apache Flink.
     ///
     /// Parameters:
     ///   - applicationName: 
@@ -847,7 +847,7 @@ public struct KinesisAnalyticsV2: AWSService {
         return try await self.discoverInputSchema(input, logger: logger)
     }
 
-    /// Lists information about operations performed on a Managed Service for Apache Flink application
+    /// Lists all the operations performed for the specified application such as UpdateApplication, StartApplication etc. The response also includes a summary of the operation. To get the complete description of a specific operation, invoke the DescribeApplicationOperation operation.  This operation is supported only for Managed Service for Apache Flink.
     @Sendable
     @inlinable
     public func listApplicationOperations(_ input: ListApplicationOperationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationOperationsResponse {
@@ -860,7 +860,7 @@ public struct KinesisAnalyticsV2: AWSService {
             logger: logger
         )
     }
-    /// Lists information about operations performed on a Managed Service for Apache Flink application
+    /// Lists all the operations performed for the specified application such as UpdateApplication, StartApplication etc. The response also includes a summary of the operation. To get the complete description of a specific operation, invoke the DescribeApplicationOperation operation.  This operation is supported only for Managed Service for Apache Flink.
     ///
     /// Parameters:
     ///   - applicationName: 

@@ -57,6 +57,7 @@ extension ARCZonalShift {
         case practiceInBlockedDates = "PracticeInBlockedDates"
         case practiceInBlockedWindows = "PracticeInBlockedWindows"
         case practiceOutcomeAlarmsRed = "PracticeOutcomeAlarmsRed"
+        case practiceOutsideAllowedWindows = "PracticeOutsideAllowedWindows"
         case simultaneousZonalShiftsConflict = "SimultaneousZonalShiftsConflict"
         case zonalAutoshiftActive = "ZonalAutoshiftActive"
         case zonalShiftAlreadyExists = "ZonalShiftAlreadyExists"
@@ -88,11 +89,13 @@ extension ARCZonalShift {
 
     public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case autoshiftUpdateNotAllowed = "AutoshiftUpdateNotAllowed"
+        case conflictingPracticeWindows = "InvalidPracticeWindows"
         case fisExperimentUpdateNotAllowed = "FISExperimentUpdateNotAllowed"
         case invalidAlarmCondition = "InvalidAlarmCondition"
         case invalidAz = "InvalidAz"
         case invalidConditionType = "InvalidConditionType"
         case invalidExpiresIn = "InvalidExpiresIn"
+        case invalidPracticeAllowedWindow = "InvalidPracticeAllowedWindow"
         case invalidPracticeBlocker = "InvalidPracticeBlocker"
         case invalidResourceIdentifier = "InvalidResourceIdentifier"
         case invalidStatus = "InvalidStatus"
@@ -298,19 +301,22 @@ extension ARCZonalShift {
     }
 
     public struct CreatePracticeRunConfigurationRequest: AWSEncodableShape {
+        /// Optionally, you can allow ARC to start practice runs for specific windows of days and times.  The format for allowed windows is: DAY:HH:SS-DAY:HH:SS. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Also, be aware of potential time adjustments that might be required for daylight saving time differences. Separate multiple allowed windows with spaces. For example, say you want to allow practice runs only on Wednesdays and Fridays from noon to 5 p.m. For this scenario, you could set the following recurring days and times as allowed windows, for example: Wed-12:00-Wed:17:00 Fri-12:00-Fri:17:00.  The allowedWindows have to start and end on the same day. Windows that span multiple days aren't supported.
+        public let allowedWindows: [String]?
         /// Optionally, you can block ARC from starting practice runs for a resource on specific calendar dates. The format for blocked dates is: YYYY-MM-DD. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Separate multiple blocked dates with spaces. For example, if you have an application update scheduled to launch on May 1, 2024, and you don't want practice runs to shift traffic away at that time, you could set a blocked date for 2024-05-01.
         public let blockedDates: [String]?
-        /// Optionally, you can block ARC from starting practice runs for specific windows of days and times.  The format for blocked windows is: DAY:HH:SS-DAY:HH:SS. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Also, be aware of potential time adjustments that might be required for daylight saving time differences. Separate multiple blocked windows with spaces. For example, say you run business report summaries three days a week. For this scenario, you might set the following recurring days and times as blocked windows, for example: MON-20:30-21:30 WED-20:30-21:30 FRI-20:30-21:30.
+        /// Optionally, you can block ARC from starting practice runs for specific windows of days and times.  The format for blocked windows is: DAY:HH:SS-DAY:HH:SS. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Also, be aware of potential time adjustments that might be required for daylight saving time differences. Separate multiple blocked windows with spaces. For example, say you run business report summaries three days a week. For this scenario, you could set the following recurring days and times as blocked windows, for example: Mon:00:00-Mon:10:00 Wed-20:30-Wed:21:30 Fri-20:30-Fri:21:30.  The blockedWindows have to start and end on the same day. Windows that span multiple days aren't supported.
         public let blockedWindows: [String]?
-        /// An Amazon CloudWatch alarm that you can specify for zonal autoshift practice runs. This alarm blocks ARC from starting practice run zonal shifts, and ends a practice run that's in progress, when the alarm is in an ALARM state.
+        ///  Blocking alarms for practice runs are optional alarms that you can specify that block practice runs when one or more of the alarms is in an ALARM state.
         public let blockingAlarms: [ControlCondition]?
-        /// The outcome alarm for practice runs is a required Amazon CloudWatch alarm that you specify that ends a practice run when the alarm is in an ALARM state. Configure the alarm to monitor the health of your application when traffic is shifted away from an Availability Zone during each practice run. You should configure the alarm to go into an ALARM state if your application is impacted by the zonal shift, and you want to stop the zonal shift, to let traffic for the resource return to the Availability Zone.
+        ///  Outcome alarms for practice runs are alarms that you specify that end a practice run when one or more of the alarms is in an ALARM state. Configure one or more of these alarms to monitor the health of your application when traffic is shifted away from an Availability Zone during each practice run. You should configure these alarms to go into an ALARM state if you want to stop a zonal shift, to let traffic for the resource return to the original Availability Zone.
         public let outcomeAlarms: [ControlCondition]
         /// The identifier of the resource that Amazon Web Services shifts traffic for with a practice run zonal shift. The identifier is the Amazon Resource Name (ARN) for the resource. Amazon Application Recovery Controller currently supports enabling the following resources for zonal shift and zonal autoshift:    Amazon EC2 Auto Scaling groups     Amazon Elastic Kubernetes Service     Application Load Balancer     Network Load Balancer
         public let resourceIdentifier: String
 
         @inlinable
-        public init(blockedDates: [String]? = nil, blockedWindows: [String]? = nil, blockingAlarms: [ControlCondition]? = nil, outcomeAlarms: [ControlCondition], resourceIdentifier: String) {
+        public init(allowedWindows: [String]? = nil, blockedDates: [String]? = nil, blockedWindows: [String]? = nil, blockingAlarms: [ControlCondition]? = nil, outcomeAlarms: [ControlCondition], resourceIdentifier: String) {
+            self.allowedWindows = allowedWindows
             self.blockedDates = blockedDates
             self.blockedWindows = blockedWindows
             self.blockingAlarms = blockingAlarms
@@ -319,6 +325,12 @@ extension ARCZonalShift {
         }
 
         public func validate(name: String) throws {
+            try self.allowedWindows?.forEach {
+                try validate($0, name: "allowedWindows[]", parent: name, max: 19)
+                try validate($0, name: "allowedWindows[]", parent: name, min: 19)
+                try validate($0, name: "allowedWindows[]", parent: name, pattern: "^(Mon|Tue|Wed|Thu|Fri|Sat|Sun):[0-9]{2}:[0-9]{2}-(Mon|Tue|Wed|Thu|Fri|Sat|Sun):[0-9]{2}:[0-9]{2}$")
+            }
+            try self.validate(self.allowedWindows, name: "allowedWindows", parent: name, max: 15)
             try self.blockedDates?.forEach {
                 try validate($0, name: "blockedDates[]", parent: name, max: 10)
                 try validate($0, name: "blockedDates[]", parent: name, min: 10)
@@ -334,18 +346,18 @@ extension ARCZonalShift {
             try self.blockingAlarms?.forEach {
                 try $0.validate(name: "\(name).blockingAlarms[]")
             }
-            try self.validate(self.blockingAlarms, name: "blockingAlarms", parent: name, max: 1)
-            try self.validate(self.blockingAlarms, name: "blockingAlarms", parent: name, min: 1)
+            try self.validate(self.blockingAlarms, name: "blockingAlarms", parent: name, max: 10)
             try self.outcomeAlarms.forEach {
                 try $0.validate(name: "\(name).outcomeAlarms[]")
             }
-            try self.validate(self.outcomeAlarms, name: "outcomeAlarms", parent: name, max: 1)
+            try self.validate(self.outcomeAlarms, name: "outcomeAlarms", parent: name, max: 10)
             try self.validate(self.outcomeAlarms, name: "outcomeAlarms", parent: name, min: 1)
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, max: 1024)
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, min: 8)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowedWindows = "allowedWindows"
             case blockedDates = "blockedDates"
             case blockedWindows = "blockedWindows"
             case blockingAlarms = "blockingAlarms"
@@ -696,17 +708,20 @@ extension ARCZonalShift {
     }
 
     public struct PracticeRunConfiguration: AWSDecodableShape {
+        /// An array of one or more windows of days and times that you can allow ARC to start practice runs for a resource. For example, say you want to allow practice runs only on Wednesdays and Fridays from noon to 5 p.m. For this scenario, you could set the following recurring days and times as allowed windows, for example: Wed-12:00-Wed:17:00 Fri-12:00-Fri:17:00. The allowedWindows have to start and end on the same day. Windows that span multiple days aren't supported.
+        public let allowedWindows: [String]?
         /// An array of one or more dates that you can specify when Amazon Web Services does not start practice runs for a resource. Specify blocked dates, in UTC, in the format YYYY-MM-DD, separated by spaces.
         public let blockedDates: [String]?
-        /// An array of one or more windows of days and times that you can block ARC from starting practice runs for a resource. Specify the blocked windows in UTC, using the format DAY:HH:MM-DAY:HH:MM, separated by spaces. For example, MON:18:30-MON:19:30 TUE:18:30-TUE:19:30.
+        /// An array of one or more windows of days and times that you can block ARC from starting practice runs for a resource. Specify the blocked windows in UTC, using the format DAY:HH:MM-DAY:HH:MM, separated by spaces. For example, MON:18:30-MON:19:30 TUE:18:30-TUE:19:30. The blockedWindows have to start and end on the same day. Windows that span multiple days aren't supported.
         public let blockedWindows: [String]?
-        /// The blocking alarm for practice runs is an optional alarm that you can specify that blocks practice runs when the alarm is in an ALARM state.
+        ///  Blocking alarms for practice runs are optional alarms that you can specify that block practice runs when one or more of the alarms is in an ALARM state.
         public let blockingAlarms: [ControlCondition]?
-        /// The outcome alarm for practice runs is an alarm that you specify that ends a practice run when the alarm is in an ALARM state.
+        ///  Outcome alarms for practice runs are alarms that you specify that end a practice run when one or more of the alarms is in an ALARM state.
         public let outcomeAlarms: [ControlCondition]
 
         @inlinable
-        public init(blockedDates: [String]? = nil, blockedWindows: [String]? = nil, blockingAlarms: [ControlCondition]? = nil, outcomeAlarms: [ControlCondition]) {
+        public init(allowedWindows: [String]? = nil, blockedDates: [String]? = nil, blockedWindows: [String]? = nil, blockingAlarms: [ControlCondition]? = nil, outcomeAlarms: [ControlCondition]) {
+            self.allowedWindows = allowedWindows
             self.blockedDates = blockedDates
             self.blockedWindows = blockedWindows
             self.blockingAlarms = blockingAlarms
@@ -714,6 +729,7 @@ extension ARCZonalShift {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowedWindows = "allowedWindows"
             case blockedDates = "blockedDates"
             case blockedWindows = "blockedWindows"
             case blockingAlarms = "blockingAlarms"
@@ -853,19 +869,22 @@ extension ARCZonalShift {
     }
 
     public struct UpdatePracticeRunConfigurationRequest: AWSEncodableShape {
+        /// Add, change, or remove windows of days and times for when you can, optionally, allow ARC to start a practice run for a resource. The format for allowed windows is: DAY:HH:SS-DAY:HH:SS. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Also, be aware of potential time adjustments that might be required for daylight saving time differences. Separate multiple allowed windows with spaces. For example, say you want to allow practice runs only on Wednesdays and Fridays from noon to 5 p.m. For this scenario, you could set the following recurring days and times as allowed windows, for example: Wed-12:00-Wed:17:00 Fri-12:00-Fri:17:00.  The allowedWindows have to start and end on the same day. Windows that span multiple days aren't supported.
+        public let allowedWindows: [String]?
         /// Add, change, or remove blocked dates for a practice run in zonal autoshift. Optionally, you can block practice runs for specific calendar dates. The format for blocked dates is: YYYY-MM-DD. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Separate multiple blocked dates with spaces. For example, if you have an application update scheduled to launch on May 1, 2024, and you don't want practice runs to shift traffic away at that time, you could set a blocked date for 2024-05-01.
         public let blockedDates: [String]?
         /// Add, change, or remove windows of days and times for when you can, optionally, block ARC from starting a practice run for a resource. The format for blocked windows is: DAY:HH:SS-DAY:HH:SS. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Also, be aware of potential time adjustments that might be required for daylight saving time differences. Separate multiple blocked windows with spaces. For example, say you run business report summaries three days a week. For this scenario, you might set the following recurring days and times as blocked windows, for example: MON-20:30-21:30 WED-20:30-21:30 FRI-20:30-21:30.
         public let blockedWindows: [String]?
-        /// Add, change, or remove the Amazon CloudWatch alarm that you optionally specify as the blocking alarm for practice runs.
+        /// Add, change, or remove the Amazon CloudWatch alarms that you optionally specify as the blocking alarms for practice runs.
         public let blockingAlarms: [ControlCondition]?
-        /// Specify a new the Amazon CloudWatch alarm as the outcome alarm for practice runs.
+        /// Specify one or more Amazon CloudWatch alarms as the outcome alarms for practice runs.
         public let outcomeAlarms: [ControlCondition]?
         /// The identifier for the resource that you want to update the practice run configuration for. The identifier is the Amazon Resource Name (ARN) for the resource.
         public let resourceIdentifier: String
 
         @inlinable
-        public init(blockedDates: [String]? = nil, blockedWindows: [String]? = nil, blockingAlarms: [ControlCondition]? = nil, outcomeAlarms: [ControlCondition]? = nil, resourceIdentifier: String) {
+        public init(allowedWindows: [String]? = nil, blockedDates: [String]? = nil, blockedWindows: [String]? = nil, blockingAlarms: [ControlCondition]? = nil, outcomeAlarms: [ControlCondition]? = nil, resourceIdentifier: String) {
+            self.allowedWindows = allowedWindows
             self.blockedDates = blockedDates
             self.blockedWindows = blockedWindows
             self.blockingAlarms = blockingAlarms
@@ -876,6 +895,7 @@ extension ARCZonalShift {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.allowedWindows, forKey: .allowedWindows)
             try container.encodeIfPresent(self.blockedDates, forKey: .blockedDates)
             try container.encodeIfPresent(self.blockedWindows, forKey: .blockedWindows)
             try container.encodeIfPresent(self.blockingAlarms, forKey: .blockingAlarms)
@@ -884,6 +904,12 @@ extension ARCZonalShift {
         }
 
         public func validate(name: String) throws {
+            try self.allowedWindows?.forEach {
+                try validate($0, name: "allowedWindows[]", parent: name, max: 19)
+                try validate($0, name: "allowedWindows[]", parent: name, min: 19)
+                try validate($0, name: "allowedWindows[]", parent: name, pattern: "^(Mon|Tue|Wed|Thu|Fri|Sat|Sun):[0-9]{2}:[0-9]{2}-(Mon|Tue|Wed|Thu|Fri|Sat|Sun):[0-9]{2}:[0-9]{2}$")
+            }
+            try self.validate(self.allowedWindows, name: "allowedWindows", parent: name, max: 15)
             try self.blockedDates?.forEach {
                 try validate($0, name: "blockedDates[]", parent: name, max: 10)
                 try validate($0, name: "blockedDates[]", parent: name, min: 10)
@@ -899,18 +925,18 @@ extension ARCZonalShift {
             try self.blockingAlarms?.forEach {
                 try $0.validate(name: "\(name).blockingAlarms[]")
             }
-            try self.validate(self.blockingAlarms, name: "blockingAlarms", parent: name, max: 1)
-            try self.validate(self.blockingAlarms, name: "blockingAlarms", parent: name, min: 1)
+            try self.validate(self.blockingAlarms, name: "blockingAlarms", parent: name, max: 10)
             try self.outcomeAlarms?.forEach {
                 try $0.validate(name: "\(name).outcomeAlarms[]")
             }
-            try self.validate(self.outcomeAlarms, name: "outcomeAlarms", parent: name, max: 1)
+            try self.validate(self.outcomeAlarms, name: "outcomeAlarms", parent: name, max: 10)
             try self.validate(self.outcomeAlarms, name: "outcomeAlarms", parent: name, min: 1)
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, max: 1024)
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, min: 8)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowedWindows = "allowedWindows"
             case blockedDates = "blockedDates"
             case blockedWindows = "blockedWindows"
             case blockingAlarms = "blockingAlarms"

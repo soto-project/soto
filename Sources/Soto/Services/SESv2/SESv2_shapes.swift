@@ -232,6 +232,11 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ListTenantResourcesFilterKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case resourceType = "RESOURCE_TYPE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MailFromDomainStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case pending = "PENDING"
@@ -298,10 +303,33 @@ extension SESv2 {
 
     public enum RecommendationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bimi = "BIMI"
+        case bounce = "BOUNCE"
         case complaint = "COMPLAINT"
         case dkim = "DKIM"
         case dmarc = "DMARC"
+        case feedback3P = "FEEDBACK_3P"
+        case ipListing = "IP_LISTING"
         case spf = "SPF"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReputationEntityFilterKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case entityReferencePrefix = "ENTITY_REFERENCE_PREFIX"
+        case entityType = "ENTITY_TYPE"
+        case reputationImpact = "REPUTATION_IMPACT"
+        case status = "SENDING_STATUS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReputationEntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case resource = "RESOURCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case configurationSet = "CONFIGURATION_SET"
+        case emailIdentity = "EMAIL_IDENTITY"
+        case emailTemplate = "EMAIL_TEMPLATE"
         public var description: String { return self.rawValue }
     }
 
@@ -316,6 +344,13 @@ extension SESv2 {
     public enum ScalingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case managed = "MANAGED"
         case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SendingStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        case reinstated = "REINSTATED"
         public var description: String { return self.rawValue }
     }
 
@@ -888,6 +923,10 @@ extension SESv2 {
             try container.encode(self.eventDestinationName, forKey: .eventDestinationName)
         }
 
+        public func validate(name: String) throws {
+            try self.eventDestination.validate(name: "\(name).eventDestination")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case eventDestination = "EventDestination"
             case eventDestinationName = "EventDestinationName"
@@ -1378,6 +1417,89 @@ extension SESv2 {
         }
     }
 
+    public struct CreateTenantRequest: AWSEncodableShape {
+        /// An array of objects that define the tags (keys and values) to associate with the tenant
+        public let tags: [Tag]?
+        /// The name of the tenant to create. The name can contain up to 64 alphanumeric characters, including letters, numbers, hyphens (-) and underscores (_) only.
+        public let tenantName: String
+
+        @inlinable
+        public init(tags: [Tag]? = nil, tenantName: String) {
+            self.tags = tags
+            self.tenantName = tenantName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tenantName, name: "tenantName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case tenantName = "TenantName"
+        }
+    }
+
+    public struct CreateTenantResourceAssociationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource to associate with the tenant.
+        public let resourceArn: String
+        /// The name of the tenant to associate the resource with.
+        public let tenantName: String
+
+        @inlinable
+        public init(resourceArn: String, tenantName: String) {
+            self.resourceArn = resourceArn
+            self.tenantName = tenantName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.tenantName, name: "tenantName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tenantName = "TenantName"
+        }
+    }
+
+    public struct CreateTenantResourceAssociationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct CreateTenantResponse: AWSDecodableShape {
+        /// The date and time when the tenant was created.
+        public let createdTimestamp: Date?
+        /// The status of email sending capability for the tenant.
+        public let sendingStatus: SendingStatus?
+        /// An array of objects that define the tags (keys and values) associated with the tenant.
+        public let tags: [Tag]?
+        /// The Amazon Resource Name (ARN) of the tenant.
+        public let tenantArn: String?
+        /// A unique identifier for the tenant.
+        public let tenantId: String?
+        /// The name of the tenant.
+        public let tenantName: String?
+
+        @inlinable
+        public init(createdTimestamp: Date? = nil, sendingStatus: SendingStatus? = nil, tags: [Tag]? = nil, tenantArn: String? = nil, tenantId: String? = nil, tenantName: String? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.sendingStatus = sendingStatus
+            self.tags = tags
+            self.tenantArn = tenantArn
+            self.tenantId = tenantId
+            self.tenantName = tenantName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case sendingStatus = "SendingStatus"
+            case tags = "Tags"
+            case tenantArn = "TenantArn"
+            case tenantId = "TenantId"
+            case tenantName = "TenantName"
+        }
+    }
+
     public struct CustomVerificationEmailTemplateMetadata: AWSDecodableShape {
         /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
         public let failureRedirectionURL: String?
@@ -1790,6 +1912,55 @@ extension SESv2 {
         public init() {}
     }
 
+    public struct DeleteTenantRequest: AWSEncodableShape {
+        /// The name of the tenant to delete.
+        public let tenantName: String
+
+        @inlinable
+        public init(tenantName: String) {
+            self.tenantName = tenantName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tenantName, name: "tenantName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tenantName = "TenantName"
+        }
+    }
+
+    public struct DeleteTenantResourceAssociationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource to remove from the tenant association.
+        public let resourceArn: String
+        /// The name of the tenant to remove the resource association from.
+        public let tenantName: String
+
+        @inlinable
+        public init(resourceArn: String, tenantName: String) {
+            self.resourceArn = resourceArn
+            self.tenantName = tenantName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.tenantName, name: "tenantName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tenantName = "TenantName"
+        }
+    }
+
+    public struct DeleteTenantResourceAssociationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteTenantResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeliverabilityTestReport: AWSDecodableShape {
         /// The date and time when the predictive inbox placement test was created.
         public let createDate: Date?
@@ -2176,6 +2347,10 @@ extension SESv2 {
             self.eventBusArn = eventBusArn
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.eventBusArn, name: "eventBusArn", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case eventBusArn = "EventBusArn"
         }
@@ -2248,6 +2423,13 @@ extension SESv2 {
             self.matchingEventTypes = matchingEventTypes
             self.pinpointDestination = pinpointDestination
             self.snsDestination = snsDestination
+        }
+
+        public func validate(name: String) throws {
+            try self.eventBridgeDestination?.validate(name: "\(name).eventBridgeDestination")
+            try self.kinesisFirehoseDestination?.validate(name: "\(name).kinesisFirehoseDestination")
+            try self.pinpointDestination?.validate(name: "\(name).pinpointDestination")
+            try self.snsDestination?.validate(name: "\(name).snsDestination")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3410,6 +3592,46 @@ extension SESv2 {
         }
     }
 
+    public struct GetReputationEntityRequest: AWSEncodableShape {
+        /// The unique identifier for the reputation entity. For resource-type entities,  this is the Amazon Resource Name (ARN) of the resource.
+        public let reputationEntityReference: String
+        /// The type of reputation entity. Currently, only RESOURCE type entities are supported.
+        public let reputationEntityType: ReputationEntityType
+
+        @inlinable
+        public init(reputationEntityReference: String, reputationEntityType: ReputationEntityType) {
+            self.reputationEntityReference = reputationEntityReference
+            self.reputationEntityType = reputationEntityType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.reputationEntityReference, key: "ReputationEntityReference")
+            request.encodePath(self.reputationEntityType, key: "ReputationEntityType")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.reputationEntityReference, name: "reputationEntityReference", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetReputationEntityResponse: AWSDecodableShape {
+        /// The reputation entity information, including status records, policy configuration,  and reputation impact.
+        public let reputationEntity: ReputationEntity?
+
+        @inlinable
+        public init(reputationEntity: ReputationEntity? = nil) {
+            self.reputationEntity = reputationEntity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reputationEntity = "ReputationEntity"
+        }
+    }
+
     public struct GetSuppressedDestinationRequest: AWSEncodableShape {
         /// The email address that's on the account suppression list.
         public let emailAddress: String
@@ -3439,6 +3661,38 @@ extension SESv2 {
 
         private enum CodingKeys: String, CodingKey {
             case suppressedDestination = "SuppressedDestination"
+        }
+    }
+
+    public struct GetTenantRequest: AWSEncodableShape {
+        /// The name of the tenant to retrieve information about.
+        public let tenantName: String
+
+        @inlinable
+        public init(tenantName: String) {
+            self.tenantName = tenantName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tenantName, name: "tenantName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tenantName = "TenantName"
+        }
+    }
+
+    public struct GetTenantResponse: AWSDecodableShape {
+        /// A structure that contains details about the tenant.
+        public let tenant: Tenant?
+
+        @inlinable
+        public init(tenant: Tenant? = nil) {
+            self.tenant = tenant
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tenant = "Tenant"
         }
     }
 
@@ -3635,6 +3889,11 @@ extension SESv2 {
         public init(deliveryStreamArn: String, iamRoleArn: String) {
             self.deliveryStreamArn = deliveryStreamArn
             self.iamRoleArn = iamRoleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deliveryStreamArn, name: "deliveryStreamArn", parent: name, min: 1)
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4244,6 +4503,97 @@ extension SESv2 {
         }
     }
 
+    public struct ListReputationEntitiesRequest: AWSEncodableShape {
+        /// An object that contains filters to apply when listing reputation entities.  You can filter by entity type, reputation impact, sending status, or entity  reference prefix.
+        public let filter: [ReputationEntityFilterKey: String]?
+        /// A token returned from a previous call to ListReputationEntities to indicate  the position in the list of reputation entities.
+        public let nextToken: String?
+        /// The number of results to show in a single call to ListReputationEntities.  If the number of results is larger than the number you specified in this parameter,  then the response includes a NextToken element, which you can use to obtain  additional results.
+        public let pageSize: Int?
+
+        @inlinable
+        public init(filter: [ReputationEntityFilterKey: String]? = nil, nextToken: String? = nil, pageSize: Int? = nil) {
+            self.filter = filter
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.forEach {
+                try validate($0.value, name: "filter[\"\($0.key)\"]", parent: name, max: 512)
+                try validate($0.value, name: "filter[\"\($0.key)\"]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case nextToken = "NextToken"
+            case pageSize = "PageSize"
+        }
+    }
+
+    public struct ListReputationEntitiesResponse: AWSDecodableShape {
+        /// A token that indicates that there are additional reputation entities to list.  To view additional reputation entities, issue another request to ListReputationEntities,  and pass this token in the NextToken parameter.
+        public let nextToken: String?
+        /// An array that contains information about the reputation entities in your account.
+        public let reputationEntities: [ReputationEntity]?
+
+        @inlinable
+        public init(nextToken: String? = nil, reputationEntities: [ReputationEntity]? = nil) {
+            self.nextToken = nextToken
+            self.reputationEntities = reputationEntities
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case reputationEntities = "ReputationEntities"
+        }
+    }
+
+    public struct ListResourceTenantsRequest: AWSEncodableShape {
+        /// A token returned from a previous call to ListResourceTenants to indicate the position in the list of resource tenants.
+        public let nextToken: String?
+        /// The number of results to show in a single call to ListResourceTenants. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
+        public let pageSize: Int?
+        /// The Amazon Resource Name (ARN) of the resource to list associated tenants for.
+        public let resourceArn: String
+
+        @inlinable
+        public init(nextToken: String? = nil, pageSize: Int? = nil, resourceArn: String) {
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case pageSize = "PageSize"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct ListResourceTenantsResponse: AWSDecodableShape {
+        /// A token that indicates that there are additional tenants to list. To view additional tenants, issue another request to ListResourceTenants, and pass this token in the NextToken parameter.
+        public let nextToken: String?
+        /// An array that contains information about each tenant associated with the resource.
+        public let resourceTenants: [ResourceTenantMetadata]?
+
+        @inlinable
+        public init(nextToken: String? = nil, resourceTenants: [ResourceTenantMetadata]? = nil) {
+            self.nextToken = nextToken
+            self.resourceTenants = resourceTenants
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case resourceTenants = "ResourceTenants"
+        }
+    }
+
     public struct ListSuppressedDestinationsRequest: AWSEncodableShape {
         /// Used to filter the list of suppressed email destinations so that it only includes addresses that were added to the list before a specific date.
         public let endDate: Date?
@@ -4311,6 +4661,10 @@ extension SESv2 {
             request.encodeQuery(self.resourceArn, key: "ResourceArn")
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -4325,6 +4679,94 @@ extension SESv2 {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
+        }
+    }
+
+    public struct ListTenantResourcesRequest: AWSEncodableShape {
+        /// A map of filter keys and values for filtering the list of tenant resources. Currently, the only supported filter key is RESOURCE_TYPE.
+        public let filter: [ListTenantResourcesFilterKey: String]?
+        /// A token returned from a previous call to ListTenantResources to indicate the position in the list of tenant resources.
+        public let nextToken: String?
+        /// The number of results to show in a single call to ListTenantResources. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
+        public let pageSize: Int?
+        /// The name of the tenant to list resources for.
+        public let tenantName: String
+
+        @inlinable
+        public init(filter: [ListTenantResourcesFilterKey: String]? = nil, nextToken: String? = nil, pageSize: Int? = nil, tenantName: String) {
+            self.filter = filter
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+            self.tenantName = tenantName
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.forEach {
+                try validate($0.value, name: "filter[\"\($0.key)\"]", parent: name, max: 512)
+                try validate($0.value, name: "filter[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.tenantName, name: "tenantName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case nextToken = "NextToken"
+            case pageSize = "PageSize"
+            case tenantName = "TenantName"
+        }
+    }
+
+    public struct ListTenantResourcesResponse: AWSDecodableShape {
+        /// A token that indicates that there are additional resources to list. To view additional resources, issue another request to ListTenantResources, and pass this token in the NextToken parameter.
+        public let nextToken: String?
+        /// An array that contains information about each resource associated with the tenant.
+        public let tenantResources: [TenantResource]?
+
+        @inlinable
+        public init(nextToken: String? = nil, tenantResources: [TenantResource]? = nil) {
+            self.nextToken = nextToken
+            self.tenantResources = tenantResources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case tenantResources = "TenantResources"
+        }
+    }
+
+    public struct ListTenantsRequest: AWSEncodableShape {
+        /// A token returned from a previous call to ListTenants to indicate the position in the list of tenants.
+        public let nextToken: String?
+        /// The number of results to show in a single call to ListTenants. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
+        public let pageSize: Int?
+
+        @inlinable
+        public init(nextToken: String? = nil, pageSize: Int? = nil) {
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case pageSize = "PageSize"
+        }
+    }
+
+    public struct ListTenantsResponse: AWSDecodableShape {
+        /// A token that indicates that there are additional tenants to list. To view additional tenants, issue another request to ListTenants, and pass this token in the NextToken parameter.
+        public let nextToken: String?
+        /// An array that contains basic information about each tenant.
+        public let tenants: [TenantInfo]?
+
+        @inlinable
+        public init(nextToken: String? = nil, tenants: [TenantInfo]? = nil) {
+            self.nextToken = nextToken
+            self.tenants = tenants
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case tenants = "Tenants"
         }
     }
 
@@ -4671,6 +5113,10 @@ extension SESv2 {
         @inlinable
         public init(applicationArn: String? = nil) {
             self.applicationArn = applicationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5454,6 +5900,44 @@ extension SESv2 {
         }
     }
 
+    public struct ReputationEntity: AWSDecodableShape {
+        /// The Amazon Web Services Amazon SES-managed status record for this reputation entity, including the  current status, cause description, and last updated timestamp.
+        public let awsSesManagedStatus: StatusRecord?
+        /// The customer-managed status record for this reputation entity, including the  current status, cause description, and last updated timestamp.
+        public let customerManagedStatus: StatusRecord?
+        /// The unique identifier for the reputation entity. For resource-type entities,  this is the Amazon Resource Name (ARN) of the resource.
+        public let reputationEntityReference: String?
+        /// The type of reputation entity. Currently, only RESOURCE type entities are supported.
+        public let reputationEntityType: ReputationEntityType?
+        /// The reputation impact level for this entity, representing the highest impact  reputation finding currently active. Reputation findings can be retrieved using  the ListRecommendations operation.
+        public let reputationImpact: RecommendationImpact?
+        /// The Amazon Resource Name (ARN) of the reputation management policy applied to  this entity. This is an Amazon Web Services Amazon SES-managed policy.
+        public let reputationManagementPolicy: String?
+        /// The aggregate sending status that determines whether the entity is allowed to send emails. This status is derived from both the customer-managed and Amazon Web Services Amazon SES-managed statuses. If either the customer-managed status or the Amazon Web Services Amazon SES-managed status is DISABLED, the aggregate status will be DISABLED and the entity will not be allowed to send emails. When the customer-managed status is set to REINSTATED, the entity can continue sending even if there are active reputation findings, provided the Amazon Web Services Amazon SES-managed status also permits sending. The entity can only send emails when both statuses permit sending.
+        public let sendingStatusAggregate: SendingStatus?
+
+        @inlinable
+        public init(awsSesManagedStatus: StatusRecord? = nil, customerManagedStatus: StatusRecord? = nil, reputationEntityReference: String? = nil, reputationEntityType: ReputationEntityType? = nil, reputationImpact: RecommendationImpact? = nil, reputationManagementPolicy: String? = nil, sendingStatusAggregate: SendingStatus? = nil) {
+            self.awsSesManagedStatus = awsSesManagedStatus
+            self.customerManagedStatus = customerManagedStatus
+            self.reputationEntityReference = reputationEntityReference
+            self.reputationEntityType = reputationEntityType
+            self.reputationImpact = reputationImpact
+            self.reputationManagementPolicy = reputationManagementPolicy
+            self.sendingStatusAggregate = sendingStatusAggregate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsSesManagedStatus = "AwsSesManagedStatus"
+            case customerManagedStatus = "CustomerManagedStatus"
+            case reputationEntityReference = "ReputationEntityReference"
+            case reputationEntityType = "ReputationEntityType"
+            case reputationImpact = "ReputationImpact"
+            case reputationManagementPolicy = "ReputationManagementPolicy"
+            case sendingStatusAggregate = "SendingStatusAggregate"
+        }
+    }
+
     public struct ReputationOptions: AWSEncodableShape & AWSDecodableShape {
         /// The date and time (in Unix time) when the reputation metrics were last given a fresh start. When your account is given a fresh start, your reputation metrics are calculated starting from the date of the fresh start.
         public let lastFreshStart: Date?
@@ -5469,6 +5953,32 @@ extension SESv2 {
         private enum CodingKeys: String, CodingKey {
             case lastFreshStart = "LastFreshStart"
             case reputationMetricsEnabled = "ReputationMetricsEnabled"
+        }
+    }
+
+    public struct ResourceTenantMetadata: AWSDecodableShape {
+        /// The date and time when the resource was associated with the tenant.
+        public let associatedTimestamp: Date?
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String?
+        /// A unique identifier for the tenant associated with the resource.
+        public let tenantId: String?
+        /// The name of the tenant associated with the resource.
+        public let tenantName: String?
+
+        @inlinable
+        public init(associatedTimestamp: Date? = nil, resourceArn: String? = nil, tenantId: String? = nil, tenantName: String? = nil) {
+            self.associatedTimestamp = associatedTimestamp
+            self.resourceArn = resourceArn
+            self.tenantId = tenantId
+            self.tenantName = tenantName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedTimestamp = "AssociatedTimestamp"
+            case resourceArn = "ResourceArn"
+            case tenantId = "TenantId"
+            case tenantName = "TenantName"
         }
     }
 
@@ -5561,9 +6071,11 @@ extension SESv2 {
         public let fromEmailAddressIdentityArn: String?
         /// The "Reply-to" email addresses for the message. When the recipient replies to the message, each Reply-to address receives the reply.
         public let replyToAddresses: [String]?
+        /// The name of the tenant through which this bulk email will be sent.   The email sending operation will only succeed if all referenced resources (identities, configuration sets, and templates) are associated with this tenant.
+        public let tenantName: String?
 
         @inlinable
-        public init(bulkEmailEntries: [BulkEmailEntry], configurationSetName: String? = nil, defaultContent: BulkEmailContent, defaultEmailTags: [MessageTag]? = nil, endpointId: String? = nil, feedbackForwardingEmailAddress: String? = nil, feedbackForwardingEmailAddressIdentityArn: String? = nil, fromEmailAddress: String? = nil, fromEmailAddressIdentityArn: String? = nil, replyToAddresses: [String]? = nil) {
+        public init(bulkEmailEntries: [BulkEmailEntry], configurationSetName: String? = nil, defaultContent: BulkEmailContent, defaultEmailTags: [MessageTag]? = nil, endpointId: String? = nil, feedbackForwardingEmailAddress: String? = nil, feedbackForwardingEmailAddressIdentityArn: String? = nil, fromEmailAddress: String? = nil, fromEmailAddressIdentityArn: String? = nil, replyToAddresses: [String]? = nil, tenantName: String? = nil) {
             self.bulkEmailEntries = bulkEmailEntries
             self.configurationSetName = configurationSetName
             self.defaultContent = defaultContent
@@ -5574,6 +6086,7 @@ extension SESv2 {
             self.fromEmailAddress = fromEmailAddress
             self.fromEmailAddressIdentityArn = fromEmailAddressIdentityArn
             self.replyToAddresses = replyToAddresses
+            self.tenantName = tenantName
         }
 
         public func validate(name: String) throws {
@@ -5581,6 +6094,9 @@ extension SESv2 {
                 try $0.validate(name: "\(name).bulkEmailEntries[]")
             }
             try self.defaultContent.validate(name: "\(name).defaultContent")
+            try self.validate(self.feedbackForwardingEmailAddressIdentityArn, name: "feedbackForwardingEmailAddressIdentityArn", parent: name, min: 1)
+            try self.validate(self.fromEmailAddressIdentityArn, name: "fromEmailAddressIdentityArn", parent: name, min: 1)
+            try self.validate(self.tenantName, name: "tenantName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5594,6 +6110,7 @@ extension SESv2 {
             case fromEmailAddress = "FromEmailAddress"
             case fromEmailAddressIdentityArn = "FromEmailAddressIdentityArn"
             case replyToAddresses = "ReplyToAddresses"
+            case tenantName = "TenantName"
         }
     }
 
@@ -5674,9 +6191,11 @@ extension SESv2 {
         public let listManagementOptions: ListManagementOptions?
         /// The "Reply-to" email addresses for the message. When the recipient replies to the message, each Reply-to address receives the reply.
         public let replyToAddresses: [String]?
+        /// The name of the tenant through which this email will be sent.  The email sending operation will only succeed if all referenced resources (identities, configuration sets, and templates) are associated with this tenant.
+        public let tenantName: String?
 
         @inlinable
-        public init(configurationSetName: String? = nil, content: EmailContent, destination: Destination? = nil, emailTags: [MessageTag]? = nil, endpointId: String? = nil, feedbackForwardingEmailAddress: String? = nil, feedbackForwardingEmailAddressIdentityArn: String? = nil, fromEmailAddress: String? = nil, fromEmailAddressIdentityArn: String? = nil, listManagementOptions: ListManagementOptions? = nil, replyToAddresses: [String]? = nil) {
+        public init(configurationSetName: String? = nil, content: EmailContent, destination: Destination? = nil, emailTags: [MessageTag]? = nil, endpointId: String? = nil, feedbackForwardingEmailAddress: String? = nil, feedbackForwardingEmailAddressIdentityArn: String? = nil, fromEmailAddress: String? = nil, fromEmailAddressIdentityArn: String? = nil, listManagementOptions: ListManagementOptions? = nil, replyToAddresses: [String]? = nil, tenantName: String? = nil) {
             self.configurationSetName = configurationSetName
             self.content = content
             self.destination = destination
@@ -5688,10 +6207,14 @@ extension SESv2 {
             self.fromEmailAddressIdentityArn = fromEmailAddressIdentityArn
             self.listManagementOptions = listManagementOptions
             self.replyToAddresses = replyToAddresses
+            self.tenantName = tenantName
         }
 
         public func validate(name: String) throws {
             try self.content.validate(name: "\(name).content")
+            try self.validate(self.feedbackForwardingEmailAddressIdentityArn, name: "feedbackForwardingEmailAddressIdentityArn", parent: name, min: 1)
+            try self.validate(self.fromEmailAddressIdentityArn, name: "fromEmailAddressIdentityArn", parent: name, min: 1)
+            try self.validate(self.tenantName, name: "tenantName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5706,6 +6229,7 @@ extension SESv2 {
             case fromEmailAddressIdentityArn = "FromEmailAddressIdentityArn"
             case listManagementOptions = "ListManagementOptions"
             case replyToAddresses = "ReplyToAddresses"
+            case tenantName = "TenantName"
         }
     }
 
@@ -5768,8 +6292,34 @@ extension SESv2 {
             self.topicArn = topicArn
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.topicArn, name: "topicArn", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case topicArn = "TopicArn"
+        }
+    }
+
+    public struct StatusRecord: AWSDecodableShape {
+        /// A description of the reason for the current status, or null if no specific  cause is available.
+        public let cause: String?
+        /// The timestamp when this status was last updated.
+        public let lastUpdatedTimestamp: Date?
+        /// The current sending status. This can be one of the following:    ENABLED – Sending is allowed.    DISABLED – Sending is prevented.    REINSTATED – Sending is allowed even with active reputation findings.
+        public let status: SendingStatus?
+
+        @inlinable
+        public init(cause: String? = nil, lastUpdatedTimestamp: Date? = nil, status: SendingStatus? = nil) {
+            self.cause = cause
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cause = "Cause"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case status = "Status"
         }
     }
 
@@ -5911,6 +6461,10 @@ extension SESv2 {
             self.tags = tags
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "ResourceArn"
             case tags = "Tags"
@@ -5953,6 +6507,7 @@ extension SESv2 {
                 try $0.validate(name: "\(name).headers[]")
             }
             try self.validate(self.headers, name: "headers", parent: name, max: 15)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, min: 1)
             try self.validate(self.templateData, name: "templateData", parent: name, max: 262144)
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
         }
@@ -5964,6 +6519,84 @@ extension SESv2 {
             case templateContent = "TemplateContent"
             case templateData = "TemplateData"
             case templateName = "TemplateName"
+        }
+    }
+
+    public struct Tenant: AWSDecodableShape {
+        /// The date and time when the tenant was created.
+        public let createdTimestamp: Date?
+        /// The status of sending capability for the tenant.
+        public let sendingStatus: SendingStatus?
+        /// An array of objects that define the tags (keys and values) associated with the tenant.
+        public let tags: [Tag]?
+        /// The Amazon Resource Name (ARN) of the tenant.
+        public let tenantArn: String?
+        /// A unique identifier for the tenant.
+        public let tenantId: String?
+        /// The name of the tenant.
+        public let tenantName: String?
+
+        @inlinable
+        public init(createdTimestamp: Date? = nil, sendingStatus: SendingStatus? = nil, tags: [Tag]? = nil, tenantArn: String? = nil, tenantId: String? = nil, tenantName: String? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.sendingStatus = sendingStatus
+            self.tags = tags
+            self.tenantArn = tenantArn
+            self.tenantId = tenantId
+            self.tenantName = tenantName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case sendingStatus = "SendingStatus"
+            case tags = "Tags"
+            case tenantArn = "TenantArn"
+            case tenantId = "TenantId"
+            case tenantName = "TenantName"
+        }
+    }
+
+    public struct TenantInfo: AWSDecodableShape {
+        /// The date and time when the tenant was created.
+        public let createdTimestamp: Date?
+        /// The Amazon Resource Name (ARN) of the tenant.
+        public let tenantArn: String?
+        /// A unique identifier for the tenant.
+        public let tenantId: String?
+        /// The name of the tenant.
+        public let tenantName: String?
+
+        @inlinable
+        public init(createdTimestamp: Date? = nil, tenantArn: String? = nil, tenantId: String? = nil, tenantName: String? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.tenantArn = tenantArn
+            self.tenantId = tenantId
+            self.tenantName = tenantName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case tenantArn = "TenantArn"
+            case tenantId = "TenantId"
+            case tenantName = "TenantName"
+        }
+    }
+
+    public struct TenantResource: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the resource associated with the tenant.
+        public let resourceArn: String?
+        /// The type of resource associated with the tenant. Valid values are EMAIL_IDENTITY, CONFIGURATION_SET, or EMAIL_TEMPLATE.
+        public let resourceType: ResourceType?
+
+        @inlinable
+        public init(resourceArn: String? = nil, resourceType: ResourceType? = nil) {
+            self.resourceArn = resourceArn
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case resourceType = "ResourceType"
         }
     }
 
@@ -6109,6 +6742,10 @@ extension SESv2 {
             request.encodeQuery(self.tagKeys, key: "TagKeys")
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -6137,6 +6774,10 @@ extension SESv2 {
             request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
             try container.encode(self.eventDestination, forKey: .eventDestination)
             request.encodePath(self.eventDestinationName, key: "EventDestinationName")
+        }
+
+        public func validate(name: String) throws {
+            try self.eventDestination.validate(name: "\(name).eventDestination")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6343,6 +6984,79 @@ extension SESv2 {
     }
 
     public struct UpdateEmailTemplateResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateReputationEntityCustomerManagedStatusRequest: AWSEncodableShape {
+        /// The unique identifier for the reputation entity. For resource-type entities,  this is the Amazon Resource Name (ARN) of the resource.
+        public let reputationEntityReference: String
+        /// The type of reputation entity. Currently, only RESOURCE type entities are supported.
+        public let reputationEntityType: ReputationEntityType
+        /// The new customer-managed sending status for the reputation entity. This can be one of the following:    ENABLED – Allow sending for this entity.    DISABLED – Prevent sending for this entity.    REINSTATED – Allow sending even if there are active reputation findings.
+        public let sendingStatus: SendingStatus
+
+        @inlinable
+        public init(reputationEntityReference: String, reputationEntityType: ReputationEntityType, sendingStatus: SendingStatus) {
+            self.reputationEntityReference = reputationEntityReference
+            self.reputationEntityType = reputationEntityType
+            self.sendingStatus = sendingStatus
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.reputationEntityReference, key: "ReputationEntityReference")
+            request.encodePath(self.reputationEntityType, key: "ReputationEntityType")
+            try container.encode(self.sendingStatus, forKey: .sendingStatus)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.reputationEntityReference, name: "reputationEntityReference", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sendingStatus = "SendingStatus"
+        }
+    }
+
+    public struct UpdateReputationEntityCustomerManagedStatusResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateReputationEntityPolicyRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the reputation management policy to apply  to this entity. This is an Amazon Web Services Amazon SES-managed policy.
+        public let reputationEntityPolicy: String
+        /// The unique identifier for the reputation entity. For resource-type entities,  this is the Amazon Resource Name (ARN) of the resource.
+        public let reputationEntityReference: String
+        /// The type of reputation entity. Currently, only RESOURCE type entities are supported.
+        public let reputationEntityType: ReputationEntityType
+
+        @inlinable
+        public init(reputationEntityPolicy: String, reputationEntityReference: String, reputationEntityType: ReputationEntityType) {
+            self.reputationEntityPolicy = reputationEntityPolicy
+            self.reputationEntityReference = reputationEntityReference
+            self.reputationEntityType = reputationEntityType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.reputationEntityPolicy, forKey: .reputationEntityPolicy)
+            request.encodePath(self.reputationEntityReference, key: "ReputationEntityReference")
+            request.encodePath(self.reputationEntityType, key: "ReputationEntityType")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.reputationEntityPolicy, name: "reputationEntityPolicy", parent: name, min: 1)
+            try self.validate(self.reputationEntityReference, name: "reputationEntityReference", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reputationEntityPolicy = "ReputationEntityPolicy"
+        }
+    }
+
+    public struct UpdateReputationEntityPolicyResponse: AWSDecodableShape {
         public init() {}
     }
 

@@ -78,7 +78,7 @@ public struct CodeStarNotifications: AWSService {
 
     // MARK: API Calls
 
-    /// Creates a notification rule for a resource. The rule specifies the events you want notifications about and the targets (such as Chatbot topics or Chatbot clients configured for Slack) where you want to receive them.
+    /// Creates a notification rule for a resource. The rule specifies the events you want notifications about and the targets (such as Amazon Q Developer in chat applications topics or Amazon Q Developer in chat applications clients configured for Slack) where you want to receive them.
     @Sendable
     @inlinable
     public func createNotificationRule(_ input: CreateNotificationRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNotificationRuleResult {
@@ -91,7 +91,7 @@ public struct CodeStarNotifications: AWSService {
             logger: logger
         )
     }
-    /// Creates a notification rule for a resource. The rule specifies the events you want notifications about and the targets (such as Chatbot topics or Chatbot clients configured for Slack) where you want to receive them.
+    /// Creates a notification rule for a resource. The rule specifies the events you want notifications about and the targets (such as Amazon Q Developer in chat applications topics or Amazon Q Developer in chat applications clients configured for Slack) where you want to receive them.
     ///
     /// Parameters:
     ///   - clientRequestToken: A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request with the same parameters is received and a token is included, the request returns information about the initial request that used that token.  The Amazon Web Services SDKs prepopulate client request tokens. If you are using an Amazon Web Services SDK, an idempotency token is created for you.
@@ -101,7 +101,7 @@ public struct CodeStarNotifications: AWSService {
     ///   - resource: The Amazon Resource Name (ARN) of the resource to associate with the notification rule. Supported resources include pipelines in CodePipeline, repositories in CodeCommit, and build projects in CodeBuild.
     ///   - status: The status of the notification rule. The default value is ENABLED. If the status is set to DISABLED, notifications aren't sent for the notification rule.
     ///   - tags: A list of tags to apply to this notification rule. Key names cannot start with "aws".
-    ///   - targets: A list of Amazon Resource Names (ARNs) of Amazon Simple Notification Service topics and Chatbot clients to associate with the notification rule.
+    ///   - targets: A list of Amazon Resource Names (ARNs) of Amazon Simple Notification Service topics and Amazon Q Developer in chat applications clients to associate with the notification rule.
     ///   - logger: Logger use during operation
     @inlinable
     public func createNotificationRule(
@@ -173,8 +173,8 @@ public struct CodeStarNotifications: AWSService {
     /// Deletes a specified target for notifications.
     ///
     /// Parameters:
-    ///   - forceUnsubscribeAll: A Boolean value that can be used to delete all associations with this Chatbot topic. The default value is FALSE. If set to TRUE, all associations between that target and every notification rule in your Amazon Web Services account are deleted.
-    ///   - targetAddress: The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client to delete.
+    ///   - forceUnsubscribeAll: A Boolean value that can be used to delete all associations with this Amazon Q Developer in chat applications topic. The default value is FALSE. If set to TRUE, all associations between that target and every notification rule in your Amazon Web Services account are deleted.
+    ///   - targetAddress: The Amazon Resource Name (ARN) of the Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client to delete.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteTarget(
@@ -352,7 +352,7 @@ public struct CodeStarNotifications: AWSService {
         return try await self.listTargets(input, logger: logger)
     }
 
-    /// Creates an association between a notification rule and an Chatbot topic or Chatbot client so that the associated target can receive notifications when the events described in the rule are triggered.
+    /// Creates an association between a notification rule and an Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client so that the associated target can receive notifications when the events described in the rule are triggered.
     @Sendable
     @inlinable
     public func subscribe(_ input: SubscribeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SubscribeResult {
@@ -365,7 +365,7 @@ public struct CodeStarNotifications: AWSService {
             logger: logger
         )
     }
-    /// Creates an association between a notification rule and an Chatbot topic or Chatbot client so that the associated target can receive notifications when the events described in the rule are triggered.
+    /// Creates an association between a notification rule and an Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client so that the associated target can receive notifications when the events described in the rule are triggered.
     ///
     /// Parameters:
     ///   - arn: The Amazon Resource Name (ARN) of the notification rule for which you want to create the association.
@@ -419,7 +419,7 @@ public struct CodeStarNotifications: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    /// Removes an association between a notification rule and an Chatbot topic so that subscribers to that topic stop receiving notifications when the events described in the rule are triggered.
+    /// Removes an association between a notification rule and an Amazon Q Developer in chat applications topic so that subscribers to that topic stop receiving notifications when the events described in the rule are triggered.
     @Sendable
     @inlinable
     public func unsubscribe(_ input: UnsubscribeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UnsubscribeResult {
@@ -432,11 +432,11 @@ public struct CodeStarNotifications: AWSService {
             logger: logger
         )
     }
-    /// Removes an association between a notification rule and an Chatbot topic so that subscribers to that topic stop receiving notifications when the events described in the rule are triggered.
+    /// Removes an association between a notification rule and an Amazon Q Developer in chat applications topic so that subscribers to that topic stop receiving notifications when the events described in the rule are triggered.
     ///
     /// Parameters:
     ///   - arn: The Amazon Resource Name (ARN) of the notification rule.
-    ///   - targetAddress: The ARN of the Chatbot topic to unsubscribe from the notification rule.
+    ///   - targetAddress: The ARN of the Amazon Q Developer in chat applications topic to unsubscribe from the notification rule.
     ///   - logger: Logger use during operation
     @inlinable
     public func unsubscribe(

@@ -308,6 +308,12 @@ extension QBusiness {
         public var description: String { return self.rawValue }
     }
 
+    public enum OutputFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case extracted = "EXTRACTED"
+        case raw = "RAW"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PermissionConditionOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case stringEquals = "StringEquals"
         public var description: String { return self.rawValue }
@@ -2097,7 +2103,7 @@ extension QBusiness {
         public let applicationId: String
         /// The identifier of the data source sync during which the documents were added.
         public let dataSourceSyncId: String?
-        /// One or more documents to add to the index.
+        /// One or more documents to add to the index.  Ensure that the name of your document doesn't contain any confidential information. Amazon Q Business returns document names in chat responses and citations when relevant.
         public let documents: [Document]
         /// The identifier of the Amazon Q Business index to add the documents to.
         public let indexId: String
@@ -2164,7 +2170,7 @@ extension QBusiness {
     }
 
     public struct BlockedPhrasesConfiguration: AWSDecodableShape {
-        /// A list of phrases blocked from a Amazon Q Business web experience chat.
+        /// A list of phrases blocked from a Amazon Q Business web experience chat.  Each phrase can contain a maximum of 36 characters. The list can contain a maximum of 20 phrases.
         public let blockedPhrases: [String]?
         /// The configured custom message displayed to an end user informing them that they've used a blocked phrase during chat.
         public let systemMessageOverride: String?
@@ -3145,7 +3151,7 @@ extension QBusiness {
         public let indexId: String
         /// The configuration for extracting information from media in documents during ingestion.
         public let mediaExtractionConfiguration: MediaExtractionConfiguration?
-        /// The Amazon Resource Name (ARN) of an IAM role with permission to access the data source and required resources.
+        /// The Amazon Resource Name (ARN) of an IAM role with permission to access the data source and required resources. This field is required for all connector types except custom connectors, where it is optional.
         public let roleArn: String?
         /// Sets the frequency for Amazon Q Business to check the documents in your data source repository and update your index. If you don't set a schedule, Amazon Q Business won't periodically update the index. Specify a cron- format schedule string or an empty string to indicate that the index is updated on demand. You can't specify the Schedule parameter when the Type parameter is set to CUSTOM. If you do, you receive a ValidationException exception.
         public let syncSchedule: String?
@@ -3642,7 +3648,7 @@ extension QBusiness {
         public let identityProviderConfiguration: IdentityProviderConfiguration?
         /// Sets the website domain origins that are allowed to embed the Amazon Q Business web experience. The domain origin refers to the base URL for accessing a website including the protocol (http/https), the domain name, and the port number (if specified).   You must only submit a base URL and not a full path. For example, https://docs.aws.amazon.com.
         public let origins: [String]?
-        /// The Amazon Resource Name (ARN) of the service role attached to your web experience.  You must provide this value if you're using IAM Identity Center to manage end user access to your application. If you're using legacy identity management to manage user access, you don't need to provide this value.
+        /// The Amazon Resource Name (ARN) of the service role attached to your web experience.  The roleArn parameter is required when your Amazon Q Business application is created with IAM Identity Center. It is not required for SAML-based applications.
         public let roleArn: String?
         /// Determines whether sample prompts are enabled in the web experience for an end user.
         public let samplePromptsControlMode: WebExperienceSamplePromptsControlMode?
@@ -5492,6 +5498,73 @@ extension QBusiness {
             case type = "type"
             case updatedAt = "updatedAt"
             case vpcConfiguration = "vpcConfiguration"
+        }
+    }
+
+    public struct GetDocumentContentRequest: AWSEncodableShape {
+        /// The unique identifier of the Amazon Q Business application containing the document. This ensures the request is scoped to the correct application environment and its associated security policies.
+        public let applicationId: String
+        /// The identifier of the data source from which the document was ingested. This field is not present if the document is ingested by directly calling the BatchPutDocument API. If the document is from a file-upload data source, the datasource will be "uploaded-docs-file-stat-datasourceid".
+        public let dataSourceId: String?
+        /// The unique identifier of the document that is indexed via BatchPutDocument API or file-upload or connector sync. It is also found in chat or chatSync response.
+        public let documentId: String
+        /// The identifier of the index where documents are indexed.
+        public let indexId: String
+        /// Document outputFormat. Defaults to RAW if not selected.
+        public let outputFormat: OutputFormat?
+
+        @inlinable
+        public init(applicationId: String, dataSourceId: String? = nil, documentId: String, indexId: String, outputFormat: OutputFormat? = nil) {
+            self.applicationId = applicationId
+            self.dataSourceId = dataSourceId
+            self.documentId = documentId
+            self.indexId = indexId
+            self.outputFormat = outputFormat
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodeQuery(self.dataSourceId, key: "dataSourceId")
+            request.encodePath(self.documentId, key: "documentId")
+            request.encodePath(self.indexId, key: "indexId")
+            request.encodeQuery(self.outputFormat, key: "outputFormat")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 36)
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, min: 36)
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.validate(self.documentId, name: "documentId", parent: name, max: 1825)
+            try self.validate(self.documentId, name: "documentId", parent: name, min: 1)
+            try self.validate(self.documentId, name: "documentId", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDocumentContentResponse: AWSDecodableShape {
+        /// The MIME type of the document content. When outputFormat is RAW, this corresponds to the original document's MIME type (e.g., application/pdf, text/plain, application/vnd.openxmlformats-officedocument.wordprocessingml.document). When outputFormat is EXTRACTED, the MIME type is always application/json.
+        public let mimeType: String
+        /// A pre-signed URL that provides temporary access to download the document content directly from Amazon Q Business. The URL expires after 5 minutes for security purposes. This URL is generated only after successful ACL validation.
+        public let presignedUrl: String
+
+        @inlinable
+        public init(mimeType: String, presignedUrl: String) {
+            self.mimeType = mimeType
+            self.presignedUrl = presignedUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mimeType = "mimeType"
+            case presignedUrl = "presignedUrl"
         }
     }
 
@@ -8501,6 +8574,8 @@ extension QBusiness {
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
             try self.attributeFilter?.validate(name: "\(name).attributeFilter")
             try self.contentSource.validate(name: "\(name).contentSource")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 800)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -8571,6 +8646,12 @@ extension QBusiness {
     public struct SourceAttribution: AWSDecodableShape {
         /// The number attached to a citation in an Amazon Q Business generated response.
         public let citationNumber: Int?
+        /// The identifier of the data source from which the document was ingested. This field is not present if the document is ingested by directly calling the BatchPutDocument API (similar to checkDocumentAccess). If the document is from a file-upload data source, the datasource will be "uploaded-docs-file-stat-datasourceid".
+        public let datasourceId: String?
+        /// The unique identifier of the source document used in the citation, obtained from the Amazon Q Business index during chat response generation. This ID is used as input to the GetDocumentContent API to retrieve the actual document content for user verification.
+        public let documentId: String?
+        /// The identifier of the index containing the source document's metadata and access control information. This links the citation back to the specific Amazon Q Business index where the document's searchable content and permissions are stored.
+        public let indexId: String?
         /// The content extract from the document on which the generated response is based.
         public let snippet: String?
         /// A text extract from a source document that is used for source attribution.
@@ -8583,8 +8664,11 @@ extension QBusiness {
         public let url: String?
 
         @inlinable
-        public init(citationNumber: Int? = nil, snippet: String? = nil, textMessageSegments: [TextSegment]? = nil, title: String? = nil, updatedAt: Date? = nil, url: String? = nil) {
+        public init(citationNumber: Int? = nil, datasourceId: String? = nil, documentId: String? = nil, indexId: String? = nil, snippet: String? = nil, textMessageSegments: [TextSegment]? = nil, title: String? = nil, updatedAt: Date? = nil, url: String? = nil) {
             self.citationNumber = citationNumber
+            self.datasourceId = datasourceId
+            self.documentId = documentId
+            self.indexId = indexId
             self.snippet = snippet
             self.textMessageSegments = textMessageSegments
             self.title = title
@@ -8594,6 +8678,9 @@ extension QBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case citationNumber = "citationNumber"
+            case datasourceId = "datasourceId"
+            case documentId = "documentId"
+            case indexId = "indexId"
             case snippet = "snippet"
             case textMessageSegments = "textMessageSegments"
             case title = "title"

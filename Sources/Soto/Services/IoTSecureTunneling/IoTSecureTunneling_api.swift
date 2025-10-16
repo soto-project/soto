@@ -89,11 +89,13 @@ public struct IoTSecureTunneling: AWSService {
             "ap-south-1": "api.iot-tunneling.ap-south-1.api.aws",
             "ap-southeast-1": "api.iot-tunneling.ap-southeast-1.api.aws",
             "ap-southeast-2": "api.iot-tunneling.ap-southeast-2.api.aws",
+            "ap-southeast-5": "api.iot-tunneling.ap-southeast-5.api.aws",
             "ca-central-1": "api.iot-tunneling.ca-central-1.api.aws",
             "cn-north-1": "api.iot-tunneling.cn-north-1.api.amazonwebservices.com.cn",
             "cn-northwest-1": "api.iot-tunneling.cn-northwest-1.api.amazonwebservices.com.cn",
             "eu-central-1": "api.iot-tunneling.eu-central-1.api.aws",
             "eu-north-1": "api.iot-tunneling.eu-north-1.api.aws",
+            "eu-south-2": "api.iot-tunneling.eu-south-2.api.aws",
             "eu-west-1": "api.iot-tunneling.eu-west-1.api.aws",
             "eu-west-2": "api.iot-tunneling.eu-west-2.api.aws",
             "eu-west-3": "api.iot-tunneling.eu-west-3.api.aws",
@@ -108,7 +110,9 @@ public struct IoTSecureTunneling: AWSService {
             "us-west-2": "api.iot-tunneling.us-west-2.api.aws"
         ]),
         [.dualstack, .fips]: .init(endpoints: [
+            "ap-southeast-5": "api.iot-tunneling-fips.ap-southeast-5.api.aws",
             "ca-central-1": "api.iot-tunneling-fips.ca-central-1.api.aws",
+            "eu-south-2": "api.iot-tunneling-fips.eu-south-2.api.aws",
             "us-east-1": "api.iot-tunneling-fips.us-east-1.api.aws",
             "us-east-2": "api.iot-tunneling-fips.us-east-2.api.aws",
             "us-gov-east-1": "api.iot-tunneling-fips.us-gov-east-1.api.aws",
@@ -117,7 +121,9 @@ public struct IoTSecureTunneling: AWSService {
             "us-west-2": "api.iot-tunneling-fips.us-west-2.api.aws"
         ]),
         [.fips]: .init(endpoints: [
+            "ap-southeast-5": "api.tunneling.iot-fips.ap-southeast-5.amazonaws.com",
             "ca-central-1": "api.tunneling.iot-fips.ca-central-1.amazonaws.com",
+            "eu-south-2": "api.tunneling.iot-fips.eu-south-2.amazonaws.com",
             "us-east-1": "api.tunneling.iot-fips.us-east-1.amazonaws.com",
             "us-east-2": "api.tunneling.iot-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "api.tunneling.iot-fips.us-gov-east-1.amazonaws.com",

@@ -326,6 +326,16 @@ extension CognitoIdentityProvider {
         public var description: String { return self.rawValue }
     }
 
+    public enum TermsEnforcementType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TermsSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case link = "LINK"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TimeUnitsType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case days = "days"
         case hours = "hours"
@@ -1019,7 +1029,7 @@ extension CognitoIdentityProvider {
         public let analyticsMetadata: AnalyticsMetadataType?
         /// The authentication flow that you want to initiate. Each AuthFlow has linked AuthParameters that you must submit. The following are some example flows.  USER_AUTH  The entry point for choice-based authentication with passwords, one-time passwords, and WebAuthn authenticators. Request a preferred authentication type or review available authentication types. From the offered authentication types, select one in a challenge response and then authenticate with that method in an additional challenge response. To activate this setting, your user pool must be in the  Essentials tier or higher.  USER_SRP_AUTH  Username-password authentication with the Secure Remote Password (SRP) protocol. For more information, see Use SRP password verification in custom authentication flow.  REFRESH_TOKEN_AUTH and REFRESH_TOKEN  Receive new ID and access tokens when you pass a REFRESH_TOKEN parameter with a valid refresh token as the value. For more information, see Using the refresh token.  CUSTOM_AUTH  Custom authentication with Lambda triggers. For more information, see Custom authentication challenge Lambda triggers.  ADMIN_USER_PASSWORD_AUTH  Server-side username-password authentication with the password sent directly in the request. For more information about client-side and server-side authentication, see SDK authorization models.
         public let authFlow: AuthFlowType
-        /// The authentication parameters. These are inputs corresponding to the AuthFlow that you're invoking. The required values depend on the value of AuthFlow for example:   For USER_AUTH: USERNAME (required), PREFERRED_CHALLENGE. If you don't provide a value for PREFERRED_CHALLENGE, Amazon Cognito responds with the AvailableChallenges parameter that specifies the available sign-in methods.   For USER_SRP_AUTH: USERNAME (required), SRP_A (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY.   For ADMIN_USER_PASSWORD_AUTH: USERNAME (required), PASSWORD (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY.   For REFRESH_TOKEN_AUTH/REFRESH_TOKEN: REFRESH_TOKEN (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY.   For CUSTOM_AUTH: USERNAME (required), SECRET_HASH (if app client is configured with client secret), DEVICE_KEY. To start the authentication flow with password verification, include ChallengeName: SRP_A and SRP_A: (The SRP_A Value).   For more information about SECRET_HASH, see Computing secret hash values. For information about DEVICE_KEY, see Working with user devices in your user pool.
+        /// The authentication parameters. These are inputs corresponding to the AuthFlow that you're invoking. The following are some authentication flows and their parameters. Add a SECRET_HASH parameter if your app client has a client secret. Add DEVICE_KEY if you want to bypass multi-factor authentication with a remembered device.   USER_AUTH     USERNAME (required)    PREFERRED_CHALLENGE. If you don't provide a value for PREFERRED_CHALLENGE, Amazon Cognito responds with the AvailableChallenges parameter that specifies the available sign-in methods.    USER_SRP_AUTH     USERNAME (required)    SRP_A (required)    ADMIN_USER_PASSWORD_AUTH     USERNAME (required)    PASSWORD (required)    REFRESH_TOKEN_AUTH/REFRESH_TOKEN     REFRESH_TOKEN(required)    CUSTOM_AUTH     USERNAME (required)    ChallengeName: SRP_A (when preceding custom authentication with SRP authentication)    SRP_A: (An SRP_A value) (when preceding custom authentication with SRP authentication)     For more information about SECRET_HASH, see Computing secret hash values. For information about DEVICE_KEY, see Working with user devices in your user pool.
         public let authParameters: [String: String]?
         /// The ID of the app client where the user wants to sign in.
         public let clientId: String
@@ -1086,7 +1096,7 @@ extension CognitoIdentityProvider {
         public let authenticationResult: AuthenticationResultType?
         /// This response parameter lists the available authentication challenges that users can select from in choice-based authentication. For example, they might be able to choose between passkey authentication, a one-time password from an SMS message, and a traditional password.
         public let availableChallenges: [ChallengeNameType]?
-        /// The name of the challenge that you're responding to with this call. This is returned in the AdminInitiateAuth response if you must pass another challenge. Possible challenges include the following:  All of the following challenges require USERNAME and, when the app client has a client secret, SECRET_HASH in the parameters.     WEB_AUTHN: Respond to the challenge with the results of a successful authentication with a WebAuthn authenticator, or passkey. Examples  of WebAuthn authenticators include biometric devices and security keys.    PASSWORD: Respond with USER_PASSWORD_AUTH parameters: USERNAME (required), PASSWORD (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY.    PASSWORD_SRP: Respond with USER_SRP_AUTH parameters: USERNAME (required), SRP_A (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY.    SELECT_CHALLENGE: Respond to the challenge with USERNAME and an ANSWER that matches one of the challenge types in the AvailableChallenges response parameter.    SMS_MFA: Respond with an SMS_MFA_CODE that your user pool delivered in an SMS message.    EMAIL_OTP: Respond with an EMAIL_OTP_CODE that your user pool delivered in an email message.    PASSWORD_VERIFIER: Respond with PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, and TIMESTAMP after client-side SRP calculations.    CUSTOM_CHALLENGE: This is returned if your custom authentication flow determines that the user should pass another challenge before tokens are issued. The parameters of the challenge are determined by your Lambda function.    DEVICE_SRP_AUTH: Respond with the initial parameters of device SRP  authentication. For more information, see Signing in with a device.    DEVICE_PASSWORD_VERIFIER: Respond with PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, and TIMESTAMP after client-side SRP calculations. For more information, see Signing in with a device.    NEW_PASSWORD_REQUIRED: For users who are required to change their passwords after successful first login. Respond to this challenge with  NEW_PASSWORD and any required attributes that Amazon Cognito returned in  the requiredAttributes parameter. You can also set values for  attributes that aren't required by your user pool and that your app client  can write. Amazon Cognito only returns this challenge for users who have temporary passwords. When you create passwordless users, you must provide values for all required  attributes.  In a NEW_PASSWORD_REQUIRED challenge response, you can't modify a required attribute that already has a value.
+        /// The name of the challenge that you're responding to with this call. This is returned in the AdminInitiateAuth response if you must pass another challenge. Possible challenges include the following:  All of the following challenges require USERNAME and, when the app client has a client secret, SECRET_HASH in the parameters. Include a  DEVICE_KEY for device authentication.     WEB_AUTHN: Respond to the challenge with the results of a successful authentication with a WebAuthn authenticator, or passkey, as  CREDENTIAL. Examples of WebAuthn authenticators include  biometric devices and security keys.    PASSWORD: Respond with the user's password as PASSWORD.    PASSWORD_SRP: Respond with the initial SRP secret as SRP_A.    SELECT_CHALLENGE: Respond with a challenge selection as ANSWER.  It must be one of the challenge types in the AvailableChallenges response  parameter. Add the parameters of the selected challenge, for example USERNAME and SMS_OTP.    SMS_MFA: Respond with the code that your user pool delivered in an SMS message, as SMS_MFA_CODE     EMAIL_MFA: Respond with the code that your user pool delivered in an email message, as EMAIL_MFA_CODE     EMAIL_OTP: Respond with the code that your user pool delivered in an email message, as EMAIL_OTP_CODE .    SMS_OTP: Respond with the code that your user pool delivered in an SMS message, as SMS_OTP_CODE.    PASSWORD_VERIFIER: Respond with the second stage of SRP secrets as PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK,  and TIMESTAMP.    CUSTOM_CHALLENGE: This is returned if your custom authentication flow determines that the user should pass another challenge before tokens are issued. The parameters of the challenge are determined by your Lambda function and issued in the ChallengeParameters of a challenge response.    DEVICE_SRP_AUTH: Respond with the initial parameters of device SRP  authentication. For more information, see Signing in with a device.    DEVICE_PASSWORD_VERIFIER: Respond with PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, and TIMESTAMP after client-side SRP calculations. For more information, see Signing in with a device.    NEW_PASSWORD_REQUIRED: For users who are required to change their passwords after successful first login. Respond to this challenge with  NEW_PASSWORD and any required attributes that Amazon Cognito returned in  the requiredAttributes parameter. You can also set values for  attributes that aren't required by your user pool and that your app client  can write. Amazon Cognito only returns this challenge for users who have temporary passwords. When you create passwordless users, you must provide values for all required  attributes.  In a NEW_PASSWORD_REQUIRED challenge response, you can't modify a required attribute that already has a value.
         /// In AdminRespondToAuthChallenge or RespondToAuthChallenge, set a value for any keys that Amazon Cognito returned in the
         /// requiredAttributes parameter, then use the AdminUpdateUserAttributes or UpdateUserAttributes API
         /// operation to modify the value of any additional attributes.     MFA_SETUP: For users who are required to setup an MFA factor before they can sign in. The MFA types activated for the user pool will be listed in the challenge parameters MFAS_CAN_SETUP value.  To set up time-based one-time password (TOTP) MFA, use the session returned  in this challenge from InitiateAuth or AdminInitiateAuth  as an input to AssociateSoftwareToken. Then, use the session returned by VerifySoftwareToken as an input to  RespondToAuthChallenge or AdminRespondToAuthChallenge with challenge name MFA_SETUP to complete sign-in.  To set up SMS or email MFA, collect a phone_number or  email attribute for the user. Then restart the authentication  flow with an InitiateAuth or AdminInitiateAuth request.
@@ -1416,15 +1426,15 @@ extension CognitoIdentityProvider {
         /// user's endpoint ID. The endpoint ID is a destination for Amazon Pinpoint push notifications, for example a device identifier,
         /// email address, or phone number.
         public let analyticsMetadata: AnalyticsMetadataType?
-        /// The name of the challenge that you are responding to. Possible challenges include the following:  All of the following challenges require USERNAME and, when the app client has a client secret, SECRET_HASH in the parameters.     WEB_AUTHN: Respond to the challenge with the results of a successful authentication with a WebAuthn authenticator, or passkey. Examples  of WebAuthn authenticators include biometric devices and security keys.    PASSWORD: Respond with USER_PASSWORD_AUTH parameters: USERNAME (required), PASSWORD (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY.    PASSWORD_SRP: Respond with USER_SRP_AUTH parameters: USERNAME (required), SRP_A (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY.    SELECT_CHALLENGE: Respond to the challenge with USERNAME and an ANSWER that matches one of the challenge types in the AvailableChallenges response parameter.    SMS_MFA: Respond with an SMS_MFA_CODE that your user pool delivered in an SMS message.    EMAIL_OTP: Respond with an EMAIL_OTP_CODE that your user pool delivered in an email message.    PASSWORD_VERIFIER: Respond with PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, and TIMESTAMP after client-side SRP calculations.    CUSTOM_CHALLENGE: This is returned if your custom authentication flow determines that the user should pass another challenge before tokens are issued. The parameters of the challenge are determined by your Lambda function.    DEVICE_SRP_AUTH: Respond with the initial parameters of device SRP  authentication. For more information, see Signing in with a device.    DEVICE_PASSWORD_VERIFIER: Respond with PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, and TIMESTAMP after client-side SRP calculations. For more information, see Signing in with a device.    NEW_PASSWORD_REQUIRED: For users who are required to change their passwords after successful first login. Respond to this challenge with  NEW_PASSWORD and any required attributes that Amazon Cognito returned in  the requiredAttributes parameter. You can also set values for  attributes that aren't required by your user pool and that your app client  can write. Amazon Cognito only returns this challenge for users who have temporary passwords. When you create passwordless users, you must provide values for all required  attributes.  In a NEW_PASSWORD_REQUIRED challenge response, you can't modify a required attribute that already has a value.
+        /// The name of the challenge that you are responding to. Possible challenges include the following:  All of the following challenges require USERNAME and, when the app client has a client secret, SECRET_HASH in the parameters. Include a  DEVICE_KEY for device authentication.     WEB_AUTHN: Respond to the challenge with the results of a successful authentication with a WebAuthn authenticator, or passkey, as  CREDENTIAL. Examples of WebAuthn authenticators include  biometric devices and security keys.    PASSWORD: Respond with the user's password as PASSWORD.    PASSWORD_SRP: Respond with the initial SRP secret as SRP_A.    SELECT_CHALLENGE: Respond with a challenge selection as ANSWER.  It must be one of the challenge types in the AvailableChallenges response  parameter. Add the parameters of the selected challenge, for example USERNAME and SMS_OTP.    SMS_MFA: Respond with the code that your user pool delivered in an SMS message, as SMS_MFA_CODE     EMAIL_MFA: Respond with the code that your user pool delivered in an email message, as EMAIL_MFA_CODE     EMAIL_OTP: Respond with the code that your user pool delivered in an email message, as EMAIL_OTP_CODE .    SMS_OTP: Respond with the code that your user pool delivered in an SMS message, as SMS_OTP_CODE.    PASSWORD_VERIFIER: Respond with the second stage of SRP secrets as PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK,  and TIMESTAMP.    CUSTOM_CHALLENGE: This is returned if your custom authentication flow determines that the user should pass another challenge before tokens are issued. The parameters of the challenge are determined by your Lambda function and issued in the ChallengeParameters of a challenge response.    DEVICE_SRP_AUTH: Respond with the initial parameters of device SRP  authentication. For more information, see Signing in with a device.    DEVICE_PASSWORD_VERIFIER: Respond with PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, and TIMESTAMP after client-side SRP calculations. For more information, see Signing in with a device.    NEW_PASSWORD_REQUIRED: For users who are required to change their passwords after successful first login. Respond to this challenge with  NEW_PASSWORD and any required attributes that Amazon Cognito returned in  the requiredAttributes parameter. You can also set values for  attributes that aren't required by your user pool and that your app client  can write. Amazon Cognito only returns this challenge for users who have temporary passwords. When you create passwordless users, you must provide values for all required  attributes.  In a NEW_PASSWORD_REQUIRED challenge response, you can't modify a required attribute that already has a value.
         /// In AdminRespondToAuthChallenge or RespondToAuthChallenge, set a value for any keys that Amazon Cognito returned in the
         /// requiredAttributes parameter, then use the AdminUpdateUserAttributes or UpdateUserAttributes API
         /// operation to modify the value of any additional attributes.     MFA_SETUP: For users who are required to setup an MFA factor before they can sign in. The MFA types activated for the user pool will be listed in the challenge parameters MFAS_CAN_SETUP value.  To set up time-based one-time password (TOTP) MFA, use the session returned  in this challenge from InitiateAuth or AdminInitiateAuth  as an input to AssociateSoftwareToken. Then, use the session returned by VerifySoftwareToken as an input to  RespondToAuthChallenge or AdminRespondToAuthChallenge with challenge name MFA_SETUP to complete sign-in.  To set up SMS or email MFA, collect a phone_number or  email attribute for the user. Then restart the authentication  flow with an InitiateAuth or AdminInitiateAuth request.
         public let challengeName: ChallengeNameType
-        /// The responses to the challenge that you received in the previous request. Each challenge has its own required response parameters. The following examples are partial JSON request bodies that highlight challenge-response parameters.  You must provide a SECRET_HASH parameter in all challenge responses to an app client that has a client secret. Include a DEVICE_KEY for device authentication.   SELECT_CHALLENGE   "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "USERNAME": "[username]", "ANSWER": "[Challenge name]"}  Available challenges are PASSWORD, PASSWORD_SRP,  EMAIL_OTP, SMS_OTP, and WEB_AUTHN. Complete authentication in the SELECT_CHALLENGE response for PASSWORD, PASSWORD_SRP, and WEB_AUTHN:    "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER": "WEB_AUTHN", "USERNAME": "[username]", "CREDENTIAL": "[AuthenticationResponseJSON]"}  See  AuthenticationResponseJSON.    "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER": "PASSWORD", "USERNAME": "[username]", "PASSWORD": "[password]"}     "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER": "PASSWORD_SRP", "USERNAME": "[username]", "SRP_A": "[SRP_A]"}    For SMS_OTP and EMAIL_OTP, respond with the username and answer. Your user pool will send a code for the user to submit in the next challenge response.    "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER": "SMS_OTP", "USERNAME": "[username]"}     "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER": "EMAIL_OTP", "USERNAME": "[username]"}     SMS_OTP   "ChallengeName": "SMS_OTP", "ChallengeResponses":  {"SMS_OTP_CODE": "[code]", "USERNAME": "[username]"}   EMAIL_OTP   "ChallengeName": "EMAIL_OTP", "ChallengeResponses": {"EMAIL_OTP_CODE": "[code]", "USERNAME": "[username]"}   SMS_MFA   "ChallengeName": "SMS_MFA", "ChallengeResponses": {"SMS_MFA_CODE": "[code]", "USERNAME": "[username]"}   PASSWORD_VERIFIER  This challenge response is part of the SRP flow. Amazon Cognito requires  that your application respond to this challenge within a few seconds. When the response time exceeds this period, your user pool returns a NotAuthorizedException error.  "ChallengeName": "PASSWORD_VERIFIER", "ChallengeResponses": {"PASSWORD_CLAIM_SIGNATURE": "[claim_signature]", "PASSWORD_CLAIM_SECRET_BLOCK": "[secret_block]", "TIMESTAMP": [timestamp], "USERNAME": "[username]"}  Add "DEVICE_KEY" when you sign in with a remembered device.  CUSTOM_CHALLENGE   "ChallengeName": "CUSTOM_CHALLENGE", "ChallengeResponses": {"USERNAME": "[username]", "ANSWER": "[challenge_answer]"}  Add "DEVICE_KEY" when you sign in with a remembered device.  NEW_PASSWORD_REQUIRED   "ChallengeName": "NEW_PASSWORD_REQUIRED", "ChallengeResponses": {"NEW_PASSWORD": "[new_password]", "USERNAME": "[username]"}  To set any required attributes that InitiateAuth returned in an requiredAttributes parameter, add "userAttributes.[attribute_name]": "[attribute_value]". This parameter can also set values for writable attributes that aren't required by your user pool.  In a NEW_PASSWORD_REQUIRED challenge response, you can't modify a required attribute that already has a value.
+        /// The responses to the challenge that you received in the previous request. Each challenge has its own required response parameters. The following examples are partial JSON request bodies that highlight challenge-response parameters.  You must provide a SECRET_HASH parameter in all challenge responses to an app client that has a client secret. Include a DEVICE_KEY for device authentication.   SELECT_CHALLENGE   "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "USERNAME": "[username]", "ANSWER": "[Challenge name]"}  Available challenges are PASSWORD, PASSWORD_SRP,  EMAIL_OTP, SMS_OTP, and WEB_AUTHN. Complete authentication in the SELECT_CHALLENGE response for PASSWORD, PASSWORD_SRP, and WEB_AUTHN:    "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER": "WEB_AUTHN", "USERNAME": "[username]", "CREDENTIAL": "[AuthenticationResponseJSON]"}  See  AuthenticationResponseJSON.    "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER": "PASSWORD", "USERNAME": "[username]", "PASSWORD": "[password]"}     "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER": "PASSWORD_SRP", "USERNAME": "[username]", "SRP_A": "[SRP_A]"}    For SMS_OTP and EMAIL_OTP, respond with the username and answer. Your user pool will send a code for the user to submit in the next challenge response.    "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER": "SMS_OTP", "USERNAME": "[username]"}     "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER": "EMAIL_OTP", "USERNAME": "[username]"}     WEB_AUTHN   "ChallengeName": "WEB_AUTHN", "ChallengeResponses": { "USERNAME": "[username]", "CREDENTIAL": "[AuthenticationResponseJSON]"}  See  AuthenticationResponseJSON.  PASSWORD   "ChallengeName": "PASSWORD", "ChallengeResponses": { "USERNAME": "[username]", "PASSWORD": "[password]"}   PASSWORD_SRP   "ChallengeName": "PASSWORD_SRP", "ChallengeResponses": { "USERNAME": "[username]", "SRP_A": "[SRP_A]"}   SMS_OTP   "ChallengeName": "SMS_OTP", "ChallengeResponses":  {"SMS_OTP_CODE": "[code]", "USERNAME": "[username]"}   EMAIL_OTP   "ChallengeName": "EMAIL_OTP", "ChallengeResponses": {"EMAIL_OTP_CODE": "[code]", "USERNAME": "[username]"}   SMS_MFA   "ChallengeName": "SMS_MFA", "ChallengeResponses": {"SMS_MFA_CODE": "[code]", "USERNAME": "[username]"}   PASSWORD_VERIFIER  This challenge response is part of the SRP flow. Amazon Cognito requires  that your application respond to this challenge within a few seconds. When the response time exceeds this period, your user pool returns a NotAuthorizedException error.  "ChallengeName": "PASSWORD_VERIFIER", "ChallengeResponses": {"PASSWORD_CLAIM_SIGNATURE": "[claim_signature]", "PASSWORD_CLAIM_SECRET_BLOCK": "[secret_block]", "TIMESTAMP": [timestamp], "USERNAME": "[username]"}   CUSTOM_CHALLENGE   "ChallengeName": "CUSTOM_CHALLENGE", "ChallengeResponses": {"USERNAME": "[username]", "ANSWER": "[challenge_answer]"}   NEW_PASSWORD_REQUIRED   "ChallengeName": "NEW_PASSWORD_REQUIRED", "ChallengeResponses": {"NEW_PASSWORD": "[new_password]", "USERNAME": "[username]"}  To set any required attributes that InitiateAuth returned in an requiredAttributes parameter, add "userAttributes.[attribute_name]": "[attribute_value]". This parameter can also set values for writable attributes that aren't required by your user pool.  In a NEW_PASSWORD_REQUIRED challenge response, you can't modify a required attribute that already has a value.
         /// In AdminRespondToAuthChallenge or RespondToAuthChallenge, set a value for any keys that Amazon Cognito returned in the
         /// requiredAttributes parameter, then use the AdminUpdateUserAttributes or UpdateUserAttributes API
-        /// operation to modify the value of any additional attributes.   SOFTWARE_TOKEN_MFA   "ChallengeName": "SOFTWARE_TOKEN_MFA", "ChallengeResponses": {"USERNAME": "[username]", "SOFTWARE_TOKEN_MFA_CODE": [authenticator_code]}   DEVICE_SRP_AUTH   "ChallengeName": "DEVICE_SRP_AUTH", "ChallengeResponses": {"USERNAME": "[username]", "DEVICE_KEY": "[device_key]", "SRP_A": "[srp_a]"}   DEVICE_PASSWORD_VERIFIER   "ChallengeName": "DEVICE_PASSWORD_VERIFIER", "ChallengeResponses": {"DEVICE_KEY": "[device_key]", "PASSWORD_CLAIM_SIGNATURE": "[claim_signature]", "PASSWORD_CLAIM_SECRET_BLOCK": "[secret_block]", "TIMESTAMP": [timestamp], "USERNAME": "[username]"}   MFA_SETUP   "ChallengeName": "MFA_SETUP", "ChallengeResponses": {"USERNAME": "[username]"}, "SESSION": "[Session ID from VerifySoftwareToken]"   SELECT_MFA_TYPE   "ChallengeName": "SELECT_MFA_TYPE", "ChallengeResponses": {"USERNAME": "[username]", "ANSWER": "[SMS_MFA or SOFTWARE_TOKEN_MFA]"}    For more information about SECRET_HASH, see Computing secret hash values. For information about DEVICE_KEY, see Working with user devices in your user pool.
+        /// operation to modify the value of any additional attributes.   SOFTWARE_TOKEN_MFA   "ChallengeName": "SOFTWARE_TOKEN_MFA", "ChallengeResponses": {"USERNAME": "[username]", "SOFTWARE_TOKEN_MFA_CODE": [authenticator_code]}   DEVICE_SRP_AUTH   "ChallengeName": "DEVICE_SRP_AUTH", "ChallengeResponses": {"USERNAME": "[username]", "DEVICE_KEY": "[device_key]", "SRP_A": "[srp_a]"}   DEVICE_PASSWORD_VERIFIER   "ChallengeName": "DEVICE_PASSWORD_VERIFIER", "ChallengeResponses": {"DEVICE_KEY": "[device_key]", "PASSWORD_CLAIM_SIGNATURE": "[claim_signature]", "PASSWORD_CLAIM_SECRET_BLOCK": "[secret_block]", "TIMESTAMP": [timestamp], "USERNAME": "[username]"}   MFA_SETUP   "ChallengeName": "MFA_SETUP", "ChallengeResponses": {"USERNAME": "[username]"}, "SESSION": "[Session ID from VerifySoftwareToken]"   SELECT_MFA_TYPE   "ChallengeName": "SELECT_MFA_TYPE", "ChallengeResponses": {"USERNAME": "[username]", "ANSWER": "[SMS_MFA|EMAIL_MFA|SOFTWARE_TOKEN_MFA]"}    For more information about SECRET_HASH, see Computing secret hash values. For information about DEVICE_KEY, see Working with user devices in your user pool.
         public let challengeResponses: [String: String]?
         /// The ID of the app client where you initiated sign-in.
         public let clientId: String
@@ -1489,7 +1499,7 @@ extension CognitoIdentityProvider {
     public struct AdminRespondToAuthChallengeResponse: AWSDecodableShape {
         /// The outcome of a successful authentication process. After your application has passed all challenges, Amazon Cognito returns an AuthenticationResult with the JSON web tokens (JWTs) that indicate successful sign-in.
         public let authenticationResult: AuthenticationResultType?
-        /// The name of the next challenge that you must respond to. Possible challenges include the following:  All of the following challenges require USERNAME and, when the app client has a client secret, SECRET_HASH in the parameters.     WEB_AUTHN: Respond to the challenge with the results of a successful authentication with a WebAuthn authenticator, or passkey. Examples  of WebAuthn authenticators include biometric devices and security keys.    PASSWORD: Respond with USER_PASSWORD_AUTH parameters: USERNAME (required), PASSWORD (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY.    PASSWORD_SRP: Respond with USER_SRP_AUTH parameters: USERNAME (required), SRP_A (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY.    SELECT_CHALLENGE: Respond to the challenge with USERNAME and an ANSWER that matches one of the challenge types in the AvailableChallenges response parameter.    SMS_MFA: Respond with an SMS_MFA_CODE that your user pool delivered in an SMS message.    EMAIL_OTP: Respond with an EMAIL_OTP_CODE that your user pool delivered in an email message.    PASSWORD_VERIFIER: Respond with PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, and TIMESTAMP after client-side SRP calculations.    CUSTOM_CHALLENGE: This is returned if your custom authentication flow determines that the user should pass another challenge before tokens are issued. The parameters of the challenge are determined by your Lambda function.    DEVICE_SRP_AUTH: Respond with the initial parameters of device SRP  authentication. For more information, see Signing in with a device.    DEVICE_PASSWORD_VERIFIER: Respond with PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, and TIMESTAMP after client-side SRP calculations. For more information, see Signing in with a device.    NEW_PASSWORD_REQUIRED: For users who are required to change their passwords after successful first login. Respond to this challenge with  NEW_PASSWORD and any required attributes that Amazon Cognito returned in  the requiredAttributes parameter. You can also set values for  attributes that aren't required by your user pool and that your app client  can write. Amazon Cognito only returns this challenge for users who have temporary passwords. When you create passwordless users, you must provide values for all required  attributes.  In a NEW_PASSWORD_REQUIRED challenge response, you can't modify a required attribute that already has a value.
+        /// The name of the next challenge that you must respond to. Possible challenges include the following:  All of the following challenges require USERNAME and, when the app client has a client secret, SECRET_HASH in the parameters. Include a  DEVICE_KEY for device authentication.     WEB_AUTHN: Respond to the challenge with the results of a successful authentication with a WebAuthn authenticator, or passkey, as  CREDENTIAL. Examples of WebAuthn authenticators include  biometric devices and security keys.    PASSWORD: Respond with the user's password as PASSWORD.    PASSWORD_SRP: Respond with the initial SRP secret as SRP_A.    SELECT_CHALLENGE: Respond with a challenge selection as ANSWER.  It must be one of the challenge types in the AvailableChallenges response  parameter. Add the parameters of the selected challenge, for example USERNAME and SMS_OTP.    SMS_MFA: Respond with the code that your user pool delivered in an SMS message, as SMS_MFA_CODE     EMAIL_MFA: Respond with the code that your user pool delivered in an email message, as EMAIL_MFA_CODE     EMAIL_OTP: Respond with the code that your user pool delivered in an email message, as EMAIL_OTP_CODE .    SMS_OTP: Respond with the code that your user pool delivered in an SMS message, as SMS_OTP_CODE.    PASSWORD_VERIFIER: Respond with the second stage of SRP secrets as PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK,  and TIMESTAMP.    CUSTOM_CHALLENGE: This is returned if your custom authentication flow determines that the user should pass another challenge before tokens are issued. The parameters of the challenge are determined by your Lambda function and issued in the ChallengeParameters of a challenge response.    DEVICE_SRP_AUTH: Respond with the initial parameters of device SRP  authentication. For more information, see Signing in with a device.    DEVICE_PASSWORD_VERIFIER: Respond with PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, and TIMESTAMP after client-side SRP calculations. For more information, see Signing in with a device.    NEW_PASSWORD_REQUIRED: For users who are required to change their passwords after successful first login. Respond to this challenge with  NEW_PASSWORD and any required attributes that Amazon Cognito returned in  the requiredAttributes parameter. You can also set values for  attributes that aren't required by your user pool and that your app client  can write. Amazon Cognito only returns this challenge for users who have temporary passwords. When you create passwordless users, you must provide values for all required  attributes.  In a NEW_PASSWORD_REQUIRED challenge response, you can't modify a required attribute that already has a value.
         /// In AdminRespondToAuthChallenge or RespondToAuthChallenge, set a value for any keys that Amazon Cognito returned in the
         /// requiredAttributes parameter, then use the AdminUpdateUserAttributes or UpdateUserAttributes API
         /// operation to modify the value of any additional attributes.     MFA_SETUP: For users who are required to setup an MFA factor before they can sign in. The MFA types activated for the user pool will be listed in the challenge parameters MFAS_CAN_SETUP value.  To set up time-based one-time password (TOTP) MFA, use the session returned  in this challenge from InitiateAuth or AdminInitiateAuth  as an input to AssociateSoftwareToken. Then, use the session returned by VerifySoftwareToken as an input to  RespondToAuthChallenge or AdminRespondToAuthChallenge with challenge name MFA_SETUP to complete sign-in.  To set up SMS or email MFA, collect a phone_number or  email attribute for the user. Then restart the authentication  flow with an InitiateAuth or AdminInitiateAuth request.
@@ -2604,9 +2614,9 @@ extension CognitoIdentityProvider {
         public let assets: [AssetType]?
         /// The app client that you want to create the branding style for. Each style is linked to an app client until you delete it.
         public let clientId: String
-        /// A JSON file, encoded as a Document type, with the the settings that you want to apply to your style.
+        /// A JSON file, encoded as a Document type, with the the settings that you want to apply to your style. The following components are not currently implemented and reserved for future use:    signUp     instructions     sessionTimerDisplay     languageSelector (for localization, see Managed login localization)
         public let settings: AWSDocument?
-        /// When true, applies the default branding style options. These default options are managed by Amazon Cognito. You can modify them later in the branding designer. When you specify true for this option, you must also omit values for Settings and Assets in the request.
+        /// When true, applies the default branding style options. These default options are managed by Amazon Cognito. You can modify them later in the branding editor. When you specify true for this option, you must also omit values for Settings and Assets in the request.
         public let useCognitoProvidedValues: Bool?
         /// The ID of the user pool where you want to create a new branding style.
         public let userPoolId: String
@@ -2709,6 +2719,72 @@ extension CognitoIdentityProvider {
 
         private enum CodingKeys: String, CodingKey {
             case resourceServer = "ResourceServer"
+        }
+    }
+
+    public struct CreateTermsRequest: AWSEncodableShape {
+        /// The ID of the app client where you want to create terms documents. Must be an app client in the requested user pool.
+        public let clientId: String
+        /// This parameter is reserved for future use and currently accepts only one value.
+        public let enforcement: TermsEnforcementType
+        /// A map of URLs to languages. For each localized language that will view the requested TermsName, assign a URL. A selection of cognito:default displays for all languages that don't have a language-specific URL. For example, "cognito:default": "https://terms.example.com", "cognito:spanish": "https://terms.example.com/es".
+        public let links: [String: String]?
+        /// A friendly name for the document that you want to create in the current request. Must begin with terms-of-use or privacy-policy as identification of the document type. Provide URLs for both terms-of-use and privacy-policy in separate requests.
+        public let termsName: String
+        /// This parameter is reserved for future use and currently accepts only one value.
+        public let termsSource: TermsSourceType
+        /// The ID of the user pool where you want to create terms documents.
+        public let userPoolId: String
+
+        @inlinable
+        public init(clientId: String, enforcement: TermsEnforcementType, links: [String: String]? = nil, termsName: String, termsSource: TermsSourceType, userPoolId: String) {
+            self.clientId = clientId
+            self.enforcement = enforcement
+            self.links = links
+            self.termsName = termsName
+            self.termsSource = termsSource
+            self.userPoolId = userPoolId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientId, name: "clientId", parent: name, max: 128)
+            try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
+            try self.validate(self.clientId, name: "clientId", parent: name, pattern: "^[\\w+]+$")
+            try self.links?.forEach {
+                try validate($0.key, name: "links.key", parent: name, pattern: "^cognito:(default|english|french|spanish|german|bahasa-indonesia|italian|japanese|korean|portuguese-brazil|chinese-(simplified|traditional))$")
+                try validate($0.value, name: "links[\"\($0.key)\"]", parent: name, max: 1024)
+                try validate($0.value, name: "links[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "links[\"\($0.key)\"]", parent: name, pattern: "^[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+$")
+            }
+            try self.validate(self.links, name: "links", parent: name, max: 12)
+            try self.validate(self.links, name: "links", parent: name, min: 1)
+            try self.validate(self.termsName, name: "termsName", parent: name, pattern: "^(terms-of-use|privacy-policy)$")
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "^[\\w-]+_[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientId = "ClientId"
+            case enforcement = "Enforcement"
+            case links = "Links"
+            case termsName = "TermsName"
+            case termsSource = "TermsSource"
+            case userPoolId = "UserPoolId"
+        }
+    }
+
+    public struct CreateTermsResponse: AWSDecodableShape {
+        /// A summary of your terms documents. Includes a unique identifier for later changes to the terms documents.
+        public let terms: TermsType?
+
+        @inlinable
+        public init(terms: TermsType? = nil) {
+            self.terms = terms
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case terms = "Terms"
         }
     }
 
@@ -3360,6 +3436,31 @@ extension CognitoIdentityProvider {
         }
     }
 
+    public struct DeleteTermsRequest: AWSEncodableShape {
+        /// The ID of the terms documents that you want to delete.
+        public let termsId: String
+        /// The ID of the user pool that contains the terms documents that you want to delete.
+        public let userPoolId: String
+
+        @inlinable
+        public init(termsId: String, userPoolId: String) {
+            self.termsId = termsId
+            self.userPoolId = userPoolId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.termsId, name: "termsId", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[4][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "^[\\w-]+_[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case termsId = "TermsId"
+            case userPoolId = "UserPoolId"
+        }
+    }
+
     public struct DeleteUserAttributesRequest: AWSEncodableShape {
         /// A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for
         /// aws.cognito.signin.user.admin.
@@ -3725,6 +3826,45 @@ extension CognitoIdentityProvider {
 
         private enum CodingKeys: String, CodingKey {
             case riskConfiguration = "RiskConfiguration"
+        }
+    }
+
+    public struct DescribeTermsRequest: AWSEncodableShape {
+        /// The ID of the terms documents that you want to describe.
+        public let termsId: String
+        /// The ID of the user pool that contains the terms documents that you want to describe.
+        public let userPoolId: String
+
+        @inlinable
+        public init(termsId: String, userPoolId: String) {
+            self.termsId = termsId
+            self.userPoolId = userPoolId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.termsId, name: "termsId", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[4][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "^[\\w-]+_[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case termsId = "TermsId"
+            case userPoolId = "UserPoolId"
+        }
+    }
+
+    public struct DescribeTermsResponse: AWSDecodableShape {
+        /// A summary of the requested terms documents. Includes a unique identifier for later changes to the terms documents.
+        public let terms: TermsType?
+
+        @inlinable
+        public init(terms: TermsType? = nil) {
+            self.terms = terms
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case terms = "Terms"
         }
     }
 
@@ -4515,7 +4655,7 @@ extension CognitoIdentityProvider {
         public let clientSecret: String?
         /// When you enable device remembering, Amazon Cognito issues a device key that you can use for device authentication that bypasses multi-factor authentication (MFA). To implement GetTokensFromRefreshToken in a user pool with device remembering, you must capture the device key from the initial authentication request. If your application doesn't provide the key of a registered device, Amazon Cognito issues a new one. You must provide the confirmed device key in this request if device remembering is enabled in your user pool. For more information about device remembering, see Working with devices.
         public let deviceKey: String?
-        /// A valid refresh token that can authorize the request for new tokens. When refresh token rotation is active in the requested app client, this token is invalidated after the request is complete.
+        /// A valid refresh token that can authorize the request for new tokens. When refresh token rotation is active in the requested app client, this token is invalidated after the request is complete and after an optional grace period.
         public let refreshToken: String
 
         @inlinable
@@ -4940,7 +5080,7 @@ extension CognitoIdentityProvider {
         public let analyticsMetadata: AnalyticsMetadataType?
         /// The authentication flow that you want to initiate. Each AuthFlow has linked AuthParameters that you must submit. The following are some example flows.  USER_AUTH  The entry point for choice-based authentication with passwords, one-time passwords, and WebAuthn authenticators. Request a preferred authentication type or review available authentication types. From the offered authentication types, select one in a challenge response and then authenticate with that method in an additional challenge response. To activate this setting, your user pool must be in the  Essentials tier or higher.  USER_SRP_AUTH  Username-password authentication with the Secure Remote Password (SRP) protocol. For more information, see Use SRP password verification in custom authentication flow.  REFRESH_TOKEN_AUTH and REFRESH_TOKEN  Receive new ID and access tokens when you pass a REFRESH_TOKEN parameter with a valid refresh token as the value. For more information, see Using the refresh token.  CUSTOM_AUTH  Custom authentication with Lambda triggers. For more information, see Custom authentication challenge Lambda triggers.  USER_PASSWORD_AUTH  Client-side username-password authentication with the password sent directly in the request. For more information about client-side and server-side authentication, see SDK authorization models.    ADMIN_USER_PASSWORD_AUTH is a flow type of AdminInitiateAuth and isn't valid for InitiateAuth. ADMIN_NO_SRP_AUTH is a legacy server-side username-password flow and isn't valid for InitiateAuth.
         public let authFlow: AuthFlowType
-        /// The authentication parameters. These are inputs corresponding to the AuthFlow that you're invoking. The required values are specific to the InitiateAuthRequest$AuthFlow. The following are some authentication flows and their parameters. Add a SECRET_HASH parameter if your app client has a client secret.    USER_AUTH: USERNAME (required), PREFERRED_CHALLENGE. If you don't provide a value for PREFERRED_CHALLENGE, Amazon Cognito responds with the AvailableChallenges parameter that specifies the available sign-in methods.    USER_SRP_AUTH: USERNAME (required), SRP_A (required), DEVICE_KEY.    USER_PASSWORD_AUTH: USERNAME (required), PASSWORD (required), DEVICE_KEY.    REFRESH_TOKEN_AUTH/REFRESH_TOKEN: REFRESH_TOKEN (required), DEVICE_KEY.    CUSTOM_AUTH: USERNAME (required), SECRET_HASH (if app client is configured with client secret), DEVICE_KEY. To start the authentication flow with password verification, include ChallengeName: SRP_A and SRP_A: (The SRP_A Value).   For more information about SECRET_HASH, see Computing secret hash values. For information about DEVICE_KEY, see Working with user devices in your user pool.
+        /// The authentication parameters. These are inputs corresponding to the AuthFlow that you're invoking. The following are some authentication flows and their parameters. Add a SECRET_HASH parameter if your app client has a client secret. Add DEVICE_KEY if you want to bypass multi-factor authentication with a remembered device.   USER_AUTH     USERNAME (required)    PREFERRED_CHALLENGE. If you don't provide a value for PREFERRED_CHALLENGE, Amazon Cognito responds with the AvailableChallenges parameter that specifies the available sign-in methods.    USER_SRP_AUTH     USERNAME (required)    SRP_A (required)    USER_PASSWORD_AUTH     USERNAME (required)    PASSWORD (required)    REFRESH_TOKEN_AUTH/REFRESH_TOKEN     REFRESH_TOKEN(required)    CUSTOM_AUTH     USERNAME (required)    ChallengeName: SRP_A (when doing SRP authentication before custom challenges)    SRP_A: (An SRP_A value) (when doing SRP authentication before custom challenges)     For more information about SECRET_HASH, see Computing secret hash values. For information about DEVICE_KEY, see Working with user devices in your user pool.
         public let authParameters: [String: String]?
         /// The ID of the app client that your user wants to sign in to.
         public let clientId: String
@@ -5000,7 +5140,7 @@ extension CognitoIdentityProvider {
         public let authenticationResult: AuthenticationResultType?
         /// This response parameter lists the available authentication challenges that users can select from in choice-based authentication. For example, they might be able to choose between passkey authentication, a one-time password from an SMS message, and a traditional password.
         public let availableChallenges: [ChallengeNameType]?
-        /// The name of an additional authentication challenge that you must respond to. Possible challenges include the following:  All of the following challenges require USERNAME and, when the app client has a client secret, SECRET_HASH in the parameters.     WEB_AUTHN: Respond to the challenge with the results of a successful authentication with a WebAuthn authenticator, or passkey. Examples  of WebAuthn authenticators include biometric devices and security keys.    PASSWORD: Respond with USER_PASSWORD_AUTH parameters: USERNAME (required), PASSWORD (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY.    PASSWORD_SRP: Respond with USER_SRP_AUTH parameters: USERNAME (required), SRP_A (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY.    SELECT_CHALLENGE: Respond to the challenge with USERNAME and an ANSWER that matches one of the challenge types in the AvailableChallenges response parameter.    SMS_MFA: Respond with an SMS_MFA_CODE that your user pool delivered in an SMS message.    EMAIL_OTP: Respond with an EMAIL_OTP_CODE that your user pool delivered in an email message.    PASSWORD_VERIFIER: Respond with PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, and TIMESTAMP after client-side SRP calculations.    CUSTOM_CHALLENGE: This is returned if your custom authentication flow determines that the user should pass another challenge before tokens are issued. The parameters of the challenge are determined by your Lambda function.    DEVICE_SRP_AUTH: Respond with the initial parameters of device SRP  authentication. For more information, see Signing in with a device.    DEVICE_PASSWORD_VERIFIER: Respond with PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, and TIMESTAMP after client-side SRP calculations. For more information, see Signing in with a device.    NEW_PASSWORD_REQUIRED: For users who are required to change their passwords after successful first login. Respond to this challenge with  NEW_PASSWORD and any required attributes that Amazon Cognito returned in  the requiredAttributes parameter. You can also set values for  attributes that aren't required by your user pool and that your app client  can write. Amazon Cognito only returns this challenge for users who have temporary passwords. When you create passwordless users, you must provide values for all required  attributes.  In a NEW_PASSWORD_REQUIRED challenge response, you can't modify a required attribute that already has a value.
+        /// The name of an additional authentication challenge that you must respond to. Possible challenges include the following:  All of the following challenges require USERNAME and, when the app client has a client secret, SECRET_HASH in the parameters. Include a  DEVICE_KEY for device authentication.     WEB_AUTHN: Respond to the challenge with the results of a successful authentication with a WebAuthn authenticator, or passkey, as  CREDENTIAL. Examples of WebAuthn authenticators include  biometric devices and security keys.    PASSWORD: Respond with the user's password as PASSWORD.    PASSWORD_SRP: Respond with the initial SRP secret as SRP_A.    SELECT_CHALLENGE: Respond with a challenge selection as ANSWER.  It must be one of the challenge types in the AvailableChallenges response  parameter. Add the parameters of the selected challenge, for example USERNAME and SMS_OTP.    SMS_MFA: Respond with the code that your user pool delivered in an SMS message, as SMS_MFA_CODE     EMAIL_MFA: Respond with the code that your user pool delivered in an email message, as EMAIL_MFA_CODE     EMAIL_OTP: Respond with the code that your user pool delivered in an email message, as EMAIL_OTP_CODE .    SMS_OTP: Respond with the code that your user pool delivered in an SMS message, as SMS_OTP_CODE.    PASSWORD_VERIFIER: Respond with the second stage of SRP secrets as PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK,  and TIMESTAMP.    CUSTOM_CHALLENGE: This is returned if your custom authentication flow determines that the user should pass another challenge before tokens are issued. The parameters of the challenge are determined by your Lambda function and issued in the ChallengeParameters of a challenge response.    DEVICE_SRP_AUTH: Respond with the initial parameters of device SRP  authentication. For more information, see Signing in with a device.    DEVICE_PASSWORD_VERIFIER: Respond with PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, and TIMESTAMP after client-side SRP calculations. For more information, see Signing in with a device.    NEW_PASSWORD_REQUIRED: For users who are required to change their passwords after successful first login. Respond to this challenge with  NEW_PASSWORD and any required attributes that Amazon Cognito returned in  the requiredAttributes parameter. You can also set values for  attributes that aren't required by your user pool and that your app client  can write. Amazon Cognito only returns this challenge for users who have temporary passwords. When you create passwordless users, you must provide values for all required  attributes.  In a NEW_PASSWORD_REQUIRED challenge response, you can't modify a required attribute that already has a value.
         /// In AdminRespondToAuthChallenge or RespondToAuthChallenge, set a value for any keys that Amazon Cognito returned in the
         /// requiredAttributes parameter, then use the AdminUpdateUserAttributes or UpdateUserAttributes API
         /// operation to modify the value of any additional attributes.     MFA_SETUP: For users who are required to setup an MFA factor before they can sign in. The MFA types activated for the user pool will be listed in the challenge parameters MFAS_CAN_SETUP value.  To set up time-based one-time password (TOTP) MFA, use the session returned  in this challenge from InitiateAuth or AdminInitiateAuth  as an input to AssociateSoftwareToken. Then, use the session returned by VerifySoftwareToken as an input to  RespondToAuthChallenge or AdminRespondToAuthChallenge with challenge name MFA_SETUP to complete sign-in.  To set up SMS or email MFA, collect a phone_number or  email attribute for the user. Then restart the authentication  flow with an InitiateAuth or AdminInitiateAuth request.
@@ -5406,6 +5546,63 @@ extension CognitoIdentityProvider {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
+        }
+    }
+
+    public struct ListTermsRequest: AWSEncodableShape {
+        /// The maximum number of terms documents that you want Amazon Cognito to return in the response.
+        public let maxResults: Int?
+        /// This API operation returns a limited number of results. The pagination token is
+        /// an identifier that you can present in an additional API request with the same parameters. When
+        /// you include the pagination token, Amazon Cognito returns the next set of items after the current list.
+        /// Subsequent requests return a new pagination token. By use of this token, you can paginate
+        /// through the full list of items.
+        public let nextToken: String?
+        /// The ID of the user pool where you want to list terms documents.
+        public let userPoolId: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, userPoolId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.userPoolId = userPoolId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 60)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 131072)
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "^[\\w-]+_[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case userPoolId = "UserPoolId"
+        }
+    }
+
+    public struct ListTermsResponse: AWSDecodableShape {
+        /// This API operation returns a limited number of results. The pagination token is
+        /// an identifier that you can present in an additional API request with the same parameters. When
+        /// you include the pagination token, Amazon Cognito returns the next set of items after the current list.
+        /// Subsequent requests return a new pagination token. By use of this token, you can paginate
+        /// through the full list of items.
+        public let nextToken: String?
+        /// A summary of the requested terms documents. Includes unique identifiers for later changes to the terms documents.
+        public let terms: [TermsDescriptionType]
+
+        @inlinable
+        public init(nextToken: String? = nil, terms: [TermsDescriptionType]) {
+            self.nextToken = nextToken
+            self.terms = terms
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case terms = "Terms"
         }
     }
 
@@ -5850,9 +6047,9 @@ extension CognitoIdentityProvider {
         public let lastModifiedDate: Date?
         /// The ID of the managed login branding style.
         public let managedLoginBrandingId: String?
-        /// A JSON file, encoded as a Document type, with the the settings that you want to apply to your style.
+        /// A JSON file, encoded as a Document type, with the the settings that you want to apply to your style. The following components are not currently implemented and reserved for future use:    signUp     instructions     sessionTimerDisplay     languageSelector (for localization, see Managed login localization)
         public let settings: AWSDocument?
-        /// When true, applies the default branding style options. This option reverts to default style options that are managed by Amazon Cognito. You can modify them later in the branding designer. When you specify true for this option, you must also omit values for Settings and Assets in the request.
+        /// When true, applies the default branding style options. This option reverts to default style options that are managed by Amazon Cognito. You can modify them later in the branding editor. When you specify true for this option, you must also omit values for Settings and Assets in the request.
         public let useCognitoProvidedValues: Bool?
         /// The user pool where the branding style is assigned.
         public let userPoolId: String?
@@ -6337,15 +6534,15 @@ extension CognitoIdentityProvider {
         /// user's endpoint ID. The endpoint ID is a destination for Amazon Pinpoint push notifications, for example a device identifier,
         /// email address, or phone number.
         public let analyticsMetadata: AnalyticsMetadataType?
-        /// The name of the challenge that you are responding to.  You can't respond to an ADMIN_NO_SRP_AUTH challenge with this operation.  Possible challenges include the following:  All of the following challenges require USERNAME and, when the app client has a client secret, SECRET_HASH in the parameters.     WEB_AUTHN: Respond to the challenge with the results of a successful authentication with a WebAuthn authenticator, or passkey. Examples  of WebAuthn authenticators include biometric devices and security keys.    PASSWORD: Respond with USER_PASSWORD_AUTH parameters: USERNAME (required), PASSWORD (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY.    PASSWORD_SRP: Respond with USER_SRP_AUTH parameters: USERNAME (required), SRP_A (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY.    SELECT_CHALLENGE: Respond to the challenge with USERNAME and an ANSWER that matches one of the challenge types in the AvailableChallenges response parameter.    SMS_MFA: Respond with an SMS_MFA_CODE that your user pool delivered in an SMS message.    EMAIL_OTP: Respond with an EMAIL_OTP_CODE that your user pool delivered in an email message.    PASSWORD_VERIFIER: Respond with PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, and TIMESTAMP after client-side SRP calculations.    CUSTOM_CHALLENGE: This is returned if your custom authentication flow determines that the user should pass another challenge before tokens are issued. The parameters of the challenge are determined by your Lambda function.    DEVICE_SRP_AUTH: Respond with the initial parameters of device SRP  authentication. For more information, see Signing in with a device.    DEVICE_PASSWORD_VERIFIER: Respond with PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, and TIMESTAMP after client-side SRP calculations. For more information, see Signing in with a device.    NEW_PASSWORD_REQUIRED: For users who are required to change their passwords after successful first login. Respond to this challenge with  NEW_PASSWORD and any required attributes that Amazon Cognito returned in  the requiredAttributes parameter. You can also set values for  attributes that aren't required by your user pool and that your app client  can write. Amazon Cognito only returns this challenge for users who have temporary passwords. When you create passwordless users, you must provide values for all required  attributes.  In a NEW_PASSWORD_REQUIRED challenge response, you can't modify a required attribute that already has a value.
+        /// The name of the challenge that you are responding to.  You can't respond to an ADMIN_NO_SRP_AUTH challenge with this operation.  Possible challenges include the following:  All of the following challenges require USERNAME and, when the app client has a client secret, SECRET_HASH in the parameters. Include a  DEVICE_KEY for device authentication.     WEB_AUTHN: Respond to the challenge with the results of a successful authentication with a WebAuthn authenticator, or passkey, as  CREDENTIAL. Examples of WebAuthn authenticators include  biometric devices and security keys.    PASSWORD: Respond with the user's password as PASSWORD.    PASSWORD_SRP: Respond with the initial SRP secret as SRP_A.    SELECT_CHALLENGE: Respond with a challenge selection as ANSWER.  It must be one of the challenge types in the AvailableChallenges response  parameter. Add the parameters of the selected challenge, for example USERNAME and SMS_OTP.    SMS_MFA: Respond with the code that your user pool delivered in an SMS message, as SMS_MFA_CODE     EMAIL_MFA: Respond with the code that your user pool delivered in an email message, as EMAIL_MFA_CODE     EMAIL_OTP: Respond with the code that your user pool delivered in an email message, as EMAIL_OTP_CODE .    SMS_OTP: Respond with the code that your user pool delivered in an SMS message, as SMS_OTP_CODE.    PASSWORD_VERIFIER: Respond with the second stage of SRP secrets as PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK,  and TIMESTAMP.    CUSTOM_CHALLENGE: This is returned if your custom authentication flow determines that the user should pass another challenge before tokens are issued. The parameters of the challenge are determined by your Lambda function and issued in the ChallengeParameters of a challenge response.    DEVICE_SRP_AUTH: Respond with the initial parameters of device SRP  authentication. For more information, see Signing in with a device.    DEVICE_PASSWORD_VERIFIER: Respond with PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, and TIMESTAMP after client-side SRP calculations. For more information, see Signing in with a device.    NEW_PASSWORD_REQUIRED: For users who are required to change their passwords after successful first login. Respond to this challenge with  NEW_PASSWORD and any required attributes that Amazon Cognito returned in  the requiredAttributes parameter. You can also set values for  attributes that aren't required by your user pool and that your app client  can write. Amazon Cognito only returns this challenge for users who have temporary passwords. When you create passwordless users, you must provide values for all required  attributes.  In a NEW_PASSWORD_REQUIRED challenge response, you can't modify a required attribute that already has a value.
         /// In AdminRespondToAuthChallenge or RespondToAuthChallenge, set a value for any keys that Amazon Cognito returned in the
         /// requiredAttributes parameter, then use the AdminUpdateUserAttributes or UpdateUserAttributes API
         /// operation to modify the value of any additional attributes.     MFA_SETUP: For users who are required to setup an MFA factor before they can sign in. The MFA types activated for the user pool will be listed in the challenge parameters MFAS_CAN_SETUP value.  To set up time-based one-time password (TOTP) MFA, use the session returned  in this challenge from InitiateAuth or AdminInitiateAuth  as an input to AssociateSoftwareToken. Then, use the session returned by VerifySoftwareToken as an input to  RespondToAuthChallenge or AdminRespondToAuthChallenge with challenge name MFA_SETUP to complete sign-in.  To set up SMS or email MFA, collect a phone_number or  email attribute for the user. Then restart the authentication  flow with an InitiateAuth or AdminInitiateAuth request.
         public let challengeName: ChallengeNameType
-        /// The responses to the challenge that you received in the previous request. Each challenge has its own required response parameters. The following examples are partial JSON request bodies that highlight challenge-response parameters.  You must provide a SECRET_HASH parameter in all challenge responses to an app client that has a client secret. Include a DEVICE_KEY for device authentication.   SELECT_CHALLENGE   "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "USERNAME": "[username]", "ANSWER": "[Challenge name]"}  Available challenges are PASSWORD, PASSWORD_SRP,  EMAIL_OTP, SMS_OTP, and WEB_AUTHN. Complete authentication in the SELECT_CHALLENGE response for PASSWORD, PASSWORD_SRP, and WEB_AUTHN:    "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER": "WEB_AUTHN", "USERNAME": "[username]", "CREDENTIAL": "[AuthenticationResponseJSON]"}  See  AuthenticationResponseJSON.    "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER": "PASSWORD", "USERNAME": "[username]", "PASSWORD": "[password]"}     "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER": "PASSWORD_SRP", "USERNAME": "[username]", "SRP_A": "[SRP_A]"}    For SMS_OTP and EMAIL_OTP, respond with the username and answer. Your user pool will send a code for the user to submit in the next challenge response.    "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER": "SMS_OTP", "USERNAME": "[username]"}     "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER": "EMAIL_OTP", "USERNAME": "[username]"}     SMS_OTP   "ChallengeName": "SMS_OTP", "ChallengeResponses":  {"SMS_OTP_CODE": "[code]", "USERNAME": "[username]"}   EMAIL_OTP   "ChallengeName": "EMAIL_OTP", "ChallengeResponses": {"EMAIL_OTP_CODE": "[code]", "USERNAME": "[username]"}   SMS_MFA   "ChallengeName": "SMS_MFA", "ChallengeResponses": {"SMS_MFA_CODE": "[code]", "USERNAME": "[username]"}   PASSWORD_VERIFIER  This challenge response is part of the SRP flow. Amazon Cognito requires  that your application respond to this challenge within a few seconds. When the response time exceeds this period, your user pool returns a NotAuthorizedException error.  "ChallengeName": "PASSWORD_VERIFIER", "ChallengeResponses": {"PASSWORD_CLAIM_SIGNATURE": "[claim_signature]", "PASSWORD_CLAIM_SECRET_BLOCK": "[secret_block]", "TIMESTAMP": [timestamp], "USERNAME": "[username]"}  Add "DEVICE_KEY" when you sign in with a remembered device.  CUSTOM_CHALLENGE   "ChallengeName": "CUSTOM_CHALLENGE", "ChallengeResponses": {"USERNAME": "[username]", "ANSWER": "[challenge_answer]"}  Add "DEVICE_KEY" when you sign in with a remembered device.  NEW_PASSWORD_REQUIRED   "ChallengeName": "NEW_PASSWORD_REQUIRED", "ChallengeResponses": {"NEW_PASSWORD": "[new_password]", "USERNAME": "[username]"}  To set any required attributes that InitiateAuth returned in an requiredAttributes parameter, add "userAttributes.[attribute_name]": "[attribute_value]". This parameter can also set values for writable attributes that aren't required by your user pool.  In a NEW_PASSWORD_REQUIRED challenge response, you can't modify a required attribute that already has a value.
+        /// The responses to the challenge that you received in the previous request. Each challenge has its own required response parameters. The following examples are partial JSON request bodies that highlight challenge-response parameters.  You must provide a SECRET_HASH parameter in all challenge responses to an app client that has a client secret. Include a DEVICE_KEY for device authentication.   SELECT_CHALLENGE   "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "USERNAME": "[username]", "ANSWER": "[Challenge name]"}  Available challenges are PASSWORD, PASSWORD_SRP,  EMAIL_OTP, SMS_OTP, and WEB_AUTHN. Complete authentication in the SELECT_CHALLENGE response for PASSWORD, PASSWORD_SRP, and WEB_AUTHN:    "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER": "WEB_AUTHN", "USERNAME": "[username]", "CREDENTIAL": "[AuthenticationResponseJSON]"}  See  AuthenticationResponseJSON.    "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER": "PASSWORD", "USERNAME": "[username]", "PASSWORD": "[password]"}     "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER": "PASSWORD_SRP", "USERNAME": "[username]", "SRP_A": "[SRP_A]"}    For SMS_OTP and EMAIL_OTP, respond with the username and answer. Your user pool will send a code for the user to submit in the next challenge response.    "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER": "SMS_OTP", "USERNAME": "[username]"}     "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER": "EMAIL_OTP", "USERNAME": "[username]"}     WEB_AUTHN   "ChallengeName": "WEB_AUTHN", "ChallengeResponses": { "USERNAME": "[username]", "CREDENTIAL": "[AuthenticationResponseJSON]"}  See  AuthenticationResponseJSON.  PASSWORD   "ChallengeName": "PASSWORD", "ChallengeResponses": { "USERNAME": "[username]", "PASSWORD": "[password]"}   PASSWORD_SRP   "ChallengeName": "PASSWORD_SRP", "ChallengeResponses": { "USERNAME": "[username]", "SRP_A": "[SRP_A]"}   SMS_OTP   "ChallengeName": "SMS_OTP", "ChallengeResponses":  {"SMS_OTP_CODE": "[code]", "USERNAME": "[username]"}   EMAIL_OTP   "ChallengeName": "EMAIL_OTP", "ChallengeResponses": {"EMAIL_OTP_CODE": "[code]", "USERNAME": "[username]"}   SMS_MFA   "ChallengeName": "SMS_MFA", "ChallengeResponses": {"SMS_MFA_CODE": "[code]", "USERNAME": "[username]"}   PASSWORD_VERIFIER  This challenge response is part of the SRP flow. Amazon Cognito requires  that your application respond to this challenge within a few seconds. When the response time exceeds this period, your user pool returns a NotAuthorizedException error.  "ChallengeName": "PASSWORD_VERIFIER", "ChallengeResponses": {"PASSWORD_CLAIM_SIGNATURE": "[claim_signature]", "PASSWORD_CLAIM_SECRET_BLOCK": "[secret_block]", "TIMESTAMP": [timestamp], "USERNAME": "[username]"}   CUSTOM_CHALLENGE   "ChallengeName": "CUSTOM_CHALLENGE", "ChallengeResponses": {"USERNAME": "[username]", "ANSWER": "[challenge_answer]"}   NEW_PASSWORD_REQUIRED   "ChallengeName": "NEW_PASSWORD_REQUIRED", "ChallengeResponses": {"NEW_PASSWORD": "[new_password]", "USERNAME": "[username]"}  To set any required attributes that InitiateAuth returned in an requiredAttributes parameter, add "userAttributes.[attribute_name]": "[attribute_value]". This parameter can also set values for writable attributes that aren't required by your user pool.  In a NEW_PASSWORD_REQUIRED challenge response, you can't modify a required attribute that already has a value.
         /// In AdminRespondToAuthChallenge or RespondToAuthChallenge, set a value for any keys that Amazon Cognito returned in the
         /// requiredAttributes parameter, then use the AdminUpdateUserAttributes or UpdateUserAttributes API
-        /// operation to modify the value of any additional attributes.   SOFTWARE_TOKEN_MFA   "ChallengeName": "SOFTWARE_TOKEN_MFA", "ChallengeResponses": {"USERNAME": "[username]", "SOFTWARE_TOKEN_MFA_CODE": [authenticator_code]}   DEVICE_SRP_AUTH   "ChallengeName": "DEVICE_SRP_AUTH", "ChallengeResponses": {"USERNAME": "[username]", "DEVICE_KEY": "[device_key]", "SRP_A": "[srp_a]"}   DEVICE_PASSWORD_VERIFIER   "ChallengeName": "DEVICE_PASSWORD_VERIFIER", "ChallengeResponses": {"DEVICE_KEY": "[device_key]", "PASSWORD_CLAIM_SIGNATURE": "[claim_signature]", "PASSWORD_CLAIM_SECRET_BLOCK": "[secret_block]", "TIMESTAMP": [timestamp], "USERNAME": "[username]"}   MFA_SETUP   "ChallengeName": "MFA_SETUP", "ChallengeResponses": {"USERNAME": "[username]"}, "SESSION": "[Session ID from VerifySoftwareToken]"   SELECT_MFA_TYPE   "ChallengeName": "SELECT_MFA_TYPE", "ChallengeResponses": {"USERNAME": "[username]", "ANSWER": "[SMS_MFA or SOFTWARE_TOKEN_MFA]"}    For more information about SECRET_HASH, see Computing secret hash values. For information about DEVICE_KEY, see Working with user devices in your user pool.
+        /// operation to modify the value of any additional attributes.   SOFTWARE_TOKEN_MFA   "ChallengeName": "SOFTWARE_TOKEN_MFA", "ChallengeResponses": {"USERNAME": "[username]", "SOFTWARE_TOKEN_MFA_CODE": [authenticator_code]}   DEVICE_SRP_AUTH   "ChallengeName": "DEVICE_SRP_AUTH", "ChallengeResponses": {"USERNAME": "[username]", "DEVICE_KEY": "[device_key]", "SRP_A": "[srp_a]"}   DEVICE_PASSWORD_VERIFIER   "ChallengeName": "DEVICE_PASSWORD_VERIFIER", "ChallengeResponses": {"DEVICE_KEY": "[device_key]", "PASSWORD_CLAIM_SIGNATURE": "[claim_signature]", "PASSWORD_CLAIM_SECRET_BLOCK": "[secret_block]", "TIMESTAMP": [timestamp], "USERNAME": "[username]"}   MFA_SETUP   "ChallengeName": "MFA_SETUP", "ChallengeResponses": {"USERNAME": "[username]"}, "SESSION": "[Session ID from VerifySoftwareToken]"   SELECT_MFA_TYPE   "ChallengeName": "SELECT_MFA_TYPE", "ChallengeResponses": {"USERNAME": "[username]", "ANSWER": "[SMS_MFA|EMAIL_MFA|SOFTWARE_TOKEN_MFA]"}    For more information about SECRET_HASH, see Computing secret hash values. For information about DEVICE_KEY, see Working with user devices in your user pool.
         public let challengeResponses: [String: String]?
         /// The ID of the app client where the user is signing in.
         public let clientId: String
@@ -6403,7 +6600,7 @@ extension CognitoIdentityProvider {
     public struct RespondToAuthChallengeResponse: AWSDecodableShape {
         /// The outcome of a successful authentication process. After your application has passed all challenges, Amazon Cognito returns an AuthenticationResult with the JSON web tokens (JWTs) that indicate successful sign-in.
         public let authenticationResult: AuthenticationResultType?
-        /// The name of the next challenge that you must respond to. Possible challenges include the following:  All of the following challenges require USERNAME and, when the app client has a client secret, SECRET_HASH in the parameters.     WEB_AUTHN: Respond to the challenge with the results of a successful authentication with a WebAuthn authenticator, or passkey. Examples  of WebAuthn authenticators include biometric devices and security keys.    PASSWORD: Respond with USER_PASSWORD_AUTH parameters: USERNAME (required), PASSWORD (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY.    PASSWORD_SRP: Respond with USER_SRP_AUTH parameters: USERNAME (required), SRP_A (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY.    SELECT_CHALLENGE: Respond to the challenge with USERNAME and an ANSWER that matches one of the challenge types in the AvailableChallenges response parameter.    SMS_MFA: Respond with an SMS_MFA_CODE that your user pool delivered in an SMS message.    EMAIL_OTP: Respond with an EMAIL_OTP_CODE that your user pool delivered in an email message.    PASSWORD_VERIFIER: Respond with PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, and TIMESTAMP after client-side SRP calculations.    CUSTOM_CHALLENGE: This is returned if your custom authentication flow determines that the user should pass another challenge before tokens are issued. The parameters of the challenge are determined by your Lambda function.    DEVICE_SRP_AUTH: Respond with the initial parameters of device SRP  authentication. For more information, see Signing in with a device.    DEVICE_PASSWORD_VERIFIER: Respond with PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, and TIMESTAMP after client-side SRP calculations. For more information, see Signing in with a device.    NEW_PASSWORD_REQUIRED: For users who are required to change their passwords after successful first login. Respond to this challenge with  NEW_PASSWORD and any required attributes that Amazon Cognito returned in  the requiredAttributes parameter. You can also set values for  attributes that aren't required by your user pool and that your app client  can write. Amazon Cognito only returns this challenge for users who have temporary passwords. When you create passwordless users, you must provide values for all required  attributes.  In a NEW_PASSWORD_REQUIRED challenge response, you can't modify a required attribute that already has a value.
+        /// The name of the next challenge that you must respond to. Possible challenges include the following:  All of the following challenges require USERNAME and, when the app client has a client secret, SECRET_HASH in the parameters. Include a  DEVICE_KEY for device authentication.     WEB_AUTHN: Respond to the challenge with the results of a successful authentication with a WebAuthn authenticator, or passkey, as  CREDENTIAL. Examples of WebAuthn authenticators include  biometric devices and security keys.    PASSWORD: Respond with the user's password as PASSWORD.    PASSWORD_SRP: Respond with the initial SRP secret as SRP_A.    SELECT_CHALLENGE: Respond with a challenge selection as ANSWER.  It must be one of the challenge types in the AvailableChallenges response  parameter. Add the parameters of the selected challenge, for example USERNAME and SMS_OTP.    SMS_MFA: Respond with the code that your user pool delivered in an SMS message, as SMS_MFA_CODE     EMAIL_MFA: Respond with the code that your user pool delivered in an email message, as EMAIL_MFA_CODE     EMAIL_OTP: Respond with the code that your user pool delivered in an email message, as EMAIL_OTP_CODE .    SMS_OTP: Respond with the code that your user pool delivered in an SMS message, as SMS_OTP_CODE.    PASSWORD_VERIFIER: Respond with the second stage of SRP secrets as PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK,  and TIMESTAMP.    CUSTOM_CHALLENGE: This is returned if your custom authentication flow determines that the user should pass another challenge before tokens are issued. The parameters of the challenge are determined by your Lambda function and issued in the ChallengeParameters of a challenge response.    DEVICE_SRP_AUTH: Respond with the initial parameters of device SRP  authentication. For more information, see Signing in with a device.    DEVICE_PASSWORD_VERIFIER: Respond with PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, and TIMESTAMP after client-side SRP calculations. For more information, see Signing in with a device.    NEW_PASSWORD_REQUIRED: For users who are required to change their passwords after successful first login. Respond to this challenge with  NEW_PASSWORD and any required attributes that Amazon Cognito returned in  the requiredAttributes parameter. You can also set values for  attributes that aren't required by your user pool and that your app client  can write. Amazon Cognito only returns this challenge for users who have temporary passwords. When you create passwordless users, you must provide values for all required  attributes.  In a NEW_PASSWORD_REQUIRED challenge response, you can't modify a required attribute that already has a value.
         /// In AdminRespondToAuthChallenge or RespondToAuthChallenge, set a value for any keys that Amazon Cognito returned in the
         /// requiredAttributes parameter, then use the AdminUpdateUserAttributes or UpdateUserAttributes API
         /// operation to modify the value of any additional attributes.     MFA_SETUP: For users who are required to setup an MFA factor before they can sign in. The MFA types activated for the user pool will be listed in the challenge parameters MFAS_CAN_SETUP value.  To set up time-based one-time password (TOTP) MFA, use the session returned  in this challenge from InitiateAuth or AdminInitiateAuth  as an input to AssociateSoftwareToken. Then, use the session returned by VerifySoftwareToken as an input to  RespondToAuthChallenge or AdminRespondToAuthChallenge with challenge name MFA_SETUP to complete sign-in.  To set up SMS or email MFA, collect a phone_number or  email attribute for the user. Then restart the authentication  flow with an InitiateAuth or AdminInitiateAuth request.
@@ -7281,6 +7478,86 @@ extension CognitoIdentityProvider {
         public init() {}
     }
 
+    public struct TermsDescriptionType: AWSDecodableShape {
+        /// The date and time when the item was created. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a
+        /// human-readable format like ISO 8601 or a Java Date object.
+        public let creationDate: Date
+        /// This parameter is reserved for future use and currently accepts one value.
+        public let enforcement: TermsEnforcementType
+        /// The date and time when the item was modified. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a
+        /// human-readable format like ISO 8601 or a Java Date object.
+        public let lastModifiedDate: Date
+        /// The ID of the requested terms documents.
+        public let termsId: String
+        /// The type and friendly name of the requested terms documents.
+        public let termsName: String
+
+        @inlinable
+        public init(creationDate: Date, enforcement: TermsEnforcementType, lastModifiedDate: Date, termsId: String, termsName: String) {
+            self.creationDate = creationDate
+            self.enforcement = enforcement
+            self.lastModifiedDate = lastModifiedDate
+            self.termsId = termsId
+            self.termsName = termsName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "CreationDate"
+            case enforcement = "Enforcement"
+            case lastModifiedDate = "LastModifiedDate"
+            case termsId = "TermsId"
+            case termsName = "TermsName"
+        }
+    }
+
+    public struct TermsType: AWSDecodableShape {
+        /// The ID of the app client that the terms documents are assigned to.
+        public let clientId: String
+        /// The date and time when the item was created. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a
+        /// human-readable format like ISO 8601 or a Java Date object.
+        public let creationDate: Date
+        /// This parameter is reserved for future use and currently accepts one value.
+        public let enforcement: TermsEnforcementType
+        /// The date and time when the item was modified. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a
+        /// human-readable format like ISO 8601 or a Java Date object.
+        public let lastModifiedDate: Date
+        /// A map of URLs to languages. For each localized language that will view the requested TermsName, assign a URL. A selection of cognito:default displays for all languages that don't have a language-specific URL. For example, "cognito:default": "https://terms.example.com", "cognito:spanish": "https://terms.example.com/es".
+        public let links: [String: String]
+        /// The ID of the terms documents.
+        public let termsId: String
+        /// The type and friendly name of the terms documents.
+        public let termsName: String
+        /// This parameter is reserved for future use and currently accepts one value.
+        public let termsSource: TermsSourceType
+        /// The ID of the user pool that contains the terms documents.
+        public let userPoolId: String
+
+        @inlinable
+        public init(clientId: String, creationDate: Date, enforcement: TermsEnforcementType, lastModifiedDate: Date, links: [String: String], termsId: String, termsName: String, termsSource: TermsSourceType, userPoolId: String) {
+            self.clientId = clientId
+            self.creationDate = creationDate
+            self.enforcement = enforcement
+            self.lastModifiedDate = lastModifiedDate
+            self.links = links
+            self.termsId = termsId
+            self.termsName = termsName
+            self.termsSource = termsSource
+            self.userPoolId = userPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientId = "ClientId"
+            case creationDate = "CreationDate"
+            case enforcement = "Enforcement"
+            case lastModifiedDate = "LastModifiedDate"
+            case links = "Links"
+            case termsId = "TermsId"
+            case termsName = "TermsName"
+            case termsSource = "TermsSource"
+            case userPoolId = "UserPoolId"
+        }
+    }
+
     public struct TokenValidityUnitsType: AWSEncodableShape & AWSDecodableShape {
         ///  A time unit for the value that you set in the AccessTokenValidity parameter. The default AccessTokenValidity time unit is hours. AccessTokenValidity duration can range from five minutes to one day.
         public let accessToken: TimeUnitsType?
@@ -7594,9 +7871,9 @@ extension CognitoIdentityProvider {
         public let assets: [AssetType]?
         /// The ID of the managed login branding style that you want to update.
         public let managedLoginBrandingId: String?
-        /// A JSON file, encoded as a Document type, with the the settings that you want to apply to your style.
+        /// A JSON file, encoded as a Document type, with the the settings that you want to apply to your style. The following components are not currently implemented and reserved for future use:    signUp     instructions     sessionTimerDisplay     languageSelector (for localization, see Managed login localization)
         public let settings: AWSDocument?
-        /// When true, applies the default branding style options. This option reverts to default style options that are managed by Amazon Cognito. You can modify them later in the branding designer. When you specify true for this option, you must also omit values for Settings and Assets in the request.
+        /// When true, applies the default branding style options. This option reverts to default style options that are managed by Amazon Cognito. You can modify them later in the branding editor. When you specify true for this option, you must also omit values for Settings and Assets in the request.
         public let useCognitoProvidedValues: Bool?
         /// The ID of the user pool that contains the managed login branding style that you want to update.
         public let userPoolId: String?
@@ -7697,6 +7974,70 @@ extension CognitoIdentityProvider {
 
         private enum CodingKeys: String, CodingKey {
             case resourceServer = "ResourceServer"
+        }
+    }
+
+    public struct UpdateTermsRequest: AWSEncodableShape {
+        /// This parameter is reserved for future use and currently accepts only one value.
+        public let enforcement: TermsEnforcementType?
+        /// A map of URLs to languages. For each localized language that will view the requested TermsName, assign a URL. A selection of cognito:default displays for all languages that don't have a language-specific URL. For example, "cognito:default": "https://terms.example.com", "cognito:spanish": "https://terms.example.com/es".
+        public let links: [String: String]?
+        /// The ID of the terms document that you want to update.
+        public let termsId: String
+        /// The new name that you want to apply to the requested terms documents.
+        public let termsName: String?
+        /// This parameter is reserved for future use and currently accepts only one value.
+        public let termsSource: TermsSourceType?
+        /// The ID of the user pool that contains the terms that you want to update.
+        public let userPoolId: String
+
+        @inlinable
+        public init(enforcement: TermsEnforcementType? = nil, links: [String: String]? = nil, termsId: String, termsName: String? = nil, termsSource: TermsSourceType? = nil, userPoolId: String) {
+            self.enforcement = enforcement
+            self.links = links
+            self.termsId = termsId
+            self.termsName = termsName
+            self.termsSource = termsSource
+            self.userPoolId = userPoolId
+        }
+
+        public func validate(name: String) throws {
+            try self.links?.forEach {
+                try validate($0.key, name: "links.key", parent: name, pattern: "^cognito:(default|english|french|spanish|german|bahasa-indonesia|italian|japanese|korean|portuguese-brazil|chinese-(simplified|traditional))$")
+                try validate($0.value, name: "links[\"\($0.key)\"]", parent: name, max: 1024)
+                try validate($0.value, name: "links[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "links[\"\($0.key)\"]", parent: name, pattern: "^[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+$")
+            }
+            try self.validate(self.links, name: "links", parent: name, max: 12)
+            try self.validate(self.links, name: "links", parent: name, min: 1)
+            try self.validate(self.termsId, name: "termsId", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[4][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
+            try self.validate(self.termsName, name: "termsName", parent: name, pattern: "^(terms-of-use|privacy-policy)$")
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "^[\\w-]+_[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enforcement = "Enforcement"
+            case links = "Links"
+            case termsId = "TermsId"
+            case termsName = "TermsName"
+            case termsSource = "TermsSource"
+            case userPoolId = "UserPoolId"
+        }
+    }
+
+    public struct UpdateTermsResponse: AWSDecodableShape {
+        /// A summary of the updates to your terms documents.
+        public let terms: TermsType?
+
+        @inlinable
+        public init(terms: TermsType? = nil) {
+            self.terms = terms
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case terms = "Terms"
         }
     }
 
@@ -7963,7 +8304,7 @@ extension CognitoIdentityProvider {
         public let customDomainConfig: CustomDomainConfigType?
         /// The name of the domain that you want to update. For custom domains, this is the fully-qualified domain name, for example auth.example.com. For prefix domains, this is the prefix alone, such as myprefix.
         public let domain: String
-        /// A version number that indicates the state of managed login for your domain. Version 1 is hosted UI (classic). Version 2 is the newer managed login with the branding designer. For more information, see Managed login.
+        /// A version number that indicates the state of managed login for your domain. Version 1 is hosted UI (classic). Version 2 is the newer managed login with the branding editor. For more information, see Managed login.
         public let managedLoginVersion: Int?
         /// The ID of the user pool that is associated with the domain you're updating.
         public let userPoolId: String
@@ -7997,7 +8338,7 @@ extension CognitoIdentityProvider {
     public struct UpdateUserPoolDomainResponse: AWSDecodableShape {
         /// The fully-qualified domain name (FQDN) of the Amazon CloudFront distribution that hosts your managed login or classic hosted UI pages. You domain-name authority must have an alias record that points requests for your custom domain to this FQDN. Amazon Cognito returns this value if you set a custom domain with CustomDomainConfig. If you set an Amazon Cognito prefix domain, this operation returns a blank response.
         public let cloudFrontDomain: String?
-        /// A version number that indicates the state of managed login for your domain. Version 1 is hosted UI (classic). Version 2 is the newer managed login with the branding designer. For more information, see Managed login.
+        /// A version number that indicates the state of managed login for your domain. Version 1 is hosted UI (classic). Version 2 is the newer managed login with the branding editor. For more information, see Managed login.
         public let managedLoginVersion: Int?
 
         @inlinable
@@ -9007,6 +9348,7 @@ public struct CognitoIdentityProviderErrorType: AWSErrorType {
         case resourceNotFoundException = "ResourceNotFoundException"
         case scopeDoesNotExistException = "ScopeDoesNotExistException"
         case softwareTokenMFANotFoundException = "SoftwareTokenMFANotFoundException"
+        case termsExistsException = "TermsExistsException"
         case tierChangeNotAllowedException = "TierChangeNotAllowedException"
         case tooManyFailedAttemptsException = "TooManyFailedAttemptsException"
         case tooManyRequestsException = "TooManyRequestsException"
@@ -9112,6 +9454,8 @@ public struct CognitoIdentityProviderErrorType: AWSErrorType {
     public static var scopeDoesNotExistException: Self { .init(.scopeDoesNotExistException) }
     /// This exception is thrown when the software token time-based one-time password (TOTP) multi-factor authentication (MFA) isn't activated for the user pool.
     public static var softwareTokenMFANotFoundException: Self { .init(.softwareTokenMFANotFoundException) }
+    /// Terms document names must be unique to the app client. This exception is thrown when you attempt to create terms documents with a duplicate TermsName.
+    public static var termsExistsException: Self { .init(.termsExistsException) }
     /// This exception is thrown when you've attempted to change your feature plan but the operation isn't permitted.
     public static var tierChangeNotAllowedException: Self { .init(.tierChangeNotAllowedException) }
     /// This exception is thrown when the user has made too many failed attempts for a given action, such as sign-in.

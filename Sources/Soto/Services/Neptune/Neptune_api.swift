@@ -287,7 +287,7 @@ public struct Neptune: AWSService {
     ///   - copyTags: True to copy all tags from the source DB cluster snapshot to the target DB cluster snapshot, and otherwise false. The default is false.
     ///   - kmsKeyId: The Amazon Amazon KMS key ID for an encrypted DB cluster snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key. If you copy an encrypted DB cluster snapshot from your Amazon account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the DB cluster snapshot is encrypted with the same KMS key as the source DB cluster snapshot. If you copy an encrypted DB cluster snapshot that is shared from another Amazon account, then you must specify a value for KmsKeyId. KMS encryption keys are specific to the Amazon Region that they are created in, and you can't use encryption keys from one Amazon Region in another Amazon Region. You cannot encrypt an unencrypted DB cluster snapshot when you copy it. If you try to copy an unencrypted DB cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
     ///   - preSignedUrl: Not currently supported.
-    ///   - sourceDBClusterSnapshotIdentifier: The identifier of the DB cluster snapshot to copy. This parameter is not case-sensitive. Constraints:   Must specify a valid system snapshot in the "available" state.   Specify a valid DB snapshot identifier.   Example: my-cluster-snapshot1
+    ///   - sourceDBClusterSnapshotIdentifier: The identifier of the DB cluster snapshot to copy. This parameter is not case-sensitive. If the source DB cluster snapshot is in a different region or  owned by another account, specify the snapshot ARN. Constraints:   Must specify a valid system snapshot in the "available" state.   Specify a valid DB snapshot identifier.   Example: my-cluster-snapshot1
     ///   - tags: The tags to assign to the new DB cluster snapshot copy.
     ///   - targetDBClusterSnapshotIdentifier: The identifier of the new DB cluster snapshot to create from the source DB cluster snapshot. This parameter is not case-sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster-snapshot2
     ///   - logger: Logger use during operation
@@ -628,6 +628,7 @@ public struct Neptune: AWSService {
     ///   - preferredBackupWindow:  The daily time range during which automated backups are created. Not applicable. The daily time range for creating automated backups is managed by the DB cluster. For more information, see CreateDBCluster.
     ///   - preferredMaintenanceWindow: The time range each week during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Region, occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
     ///   - promotionTier: A value that specifies the order in which an Read Replica is promoted to the primary instance after a failure of the existing primary instance.  Default: 1 Valid Values: 0 - 15
+    ///   - publiclyAccessible: Indicates whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private  cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within  the same VPC as the DB instance, the endpoint resolves to the private IP address. Access to the DB instance is  ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned  to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a  private IP address.
     ///   - storageEncrypted: Specifies whether the DB instance is encrypted. Not applicable. The encryption for DB instances is managed by the DB cluster. For more information, see CreateDBCluster. Default: false
     ///   - storageType: Not applicable. In Neptune the storage type is managed at the DB Cluster level.
     ///   - tags: The tags to assign to the new instance.
@@ -673,6 +674,7 @@ public struct Neptune: AWSService {
         preferredBackupWindow: String? = nil,
         preferredMaintenanceWindow: String? = nil,
         promotionTier: Int? = nil,
+        publiclyAccessible: Bool? = nil,
         storageEncrypted: Bool? = nil,
         storageType: String? = nil,
         tags: [Tag]? = nil,
@@ -718,6 +720,7 @@ public struct Neptune: AWSService {
             preferredBackupWindow: preferredBackupWindow, 
             preferredMaintenanceWindow: preferredMaintenanceWindow, 
             promotionTier: promotionTier, 
+            publiclyAccessible: publiclyAccessible, 
             storageEncrypted: storageEncrypted, 
             storageType: storageType, 
             tags: tags, 
@@ -2309,6 +2312,7 @@ public struct Neptune: AWSService {
     ///   - preferredBackupWindow:  The daily time range during which automated backups are created if automated backups are enabled. Not applicable. The daily time range for creating automated backups is managed by the DB cluster. For more information, see ModifyDBCluster. Constraints:   Must be in the format hh24:mi-hh24:mi   Must be in Universal Time Coordinated (UTC)   Must not conflict with the preferred maintenance window   Must be at least 30 minutes
     ///   - preferredMaintenanceWindow: The weekly time range (in UTC) during which system maintenance can occur, which might result in an outage. Changing this parameter doesn't result in an outage, except in the following situation, and the change is asynchronously applied as soon as possible. If there are pending actions that cause a reboot, and the maintenance window is changed to include the current time, then changing this parameter will cause a reboot of the DB instance. If moving this window to the current time, there must be at least 30 minutes between the current time and end of the window to ensure pending changes are applied. Default: Uses existing setting Format: ddd:hh24:mi-ddd:hh24:mi Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes
     ///   - promotionTier: A value that specifies the order in which a Read Replica is promoted to the primary instance after a failure of the existing primary instance. Default: 1 Valid Values: 0 - 15
+    ///   - publiclyAccessible: Indicates whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private  cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within  the same VPC as the DB instance, the endpoint resolves to the private IP address. Access to the DB instance is  ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned  to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a  private IP address.
     ///   - storageType: Not applicable. In Neptune the storage type is managed at the DB Cluster level.
     ///   - tdeCredentialArn: The ARN from the key store with which to associate the instance for TDE encryption.
     ///   - tdeCredentialPassword: The password for the given ARN from the key store in order to access the device.
@@ -2348,6 +2352,7 @@ public struct Neptune: AWSService {
         preferredBackupWindow: String? = nil,
         preferredMaintenanceWindow: String? = nil,
         promotionTier: Int? = nil,
+        publiclyAccessible: Bool? = nil,
         storageType: String? = nil,
         tdeCredentialArn: String? = nil,
         tdeCredentialPassword: String? = nil,
@@ -2387,6 +2392,7 @@ public struct Neptune: AWSService {
             preferredBackupWindow: preferredBackupWindow, 
             preferredMaintenanceWindow: preferredMaintenanceWindow, 
             promotionTier: promotionTier, 
+            publiclyAccessible: publiclyAccessible, 
             storageType: storageType, 
             tdeCredentialArn: tdeCredentialArn, 
             tdeCredentialPassword: tdeCredentialPassword, 

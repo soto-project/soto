@@ -33,6 +33,7 @@ extension MediaPackageV2 {
 
     public enum AdMarkerHls: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case daterange = "DATERANGE"
+        case scte35Enhanced = "SCTE35_ENHANCED"
         public var description: String { return self.rawValue }
     }
 
@@ -258,6 +259,7 @@ extension MediaPackageV2 {
         case onlyCmafInputTypeAllowForceEndpointErrorConfiguration = "ONLY_CMAF_INPUT_TYPE_ALLOW_FORCE_ENDPOINT_ERROR_CONFIGURATION"
         case onlyCmafInputTypeAllowMqcsInputSwitching = "ONLY_CMAF_INPUT_TYPE_ALLOW_MQCS_INPUT_SWITCHING"
         case onlyCmafInputTypeAllowMqcsOutputConfiguration = "ONLY_CMAF_INPUT_TYPE_ALLOW_MQCS_OUTPUT_CONFIGURATION"
+        case onlyCmafInputTypeAllowPreferredInputConfiguration = "ONLY_CMAF_INPUT_TYPE_ALLOW_PREFERRED_INPUT_CONFIGURATION"
         case periodTriggersNoneSpecifiedWithAdditionalValues = "PERIOD_TRIGGERS_NONE_SPECIFIED_WITH_ADDITIONAL_VALUES"
         case roleArnInvalidFormat = "ROLE_ARN_INVALID_FORMAT"
         case roleArnLengthOutOfRange = "ROLE_ARN_LENGTH_OUT_OF_RANGE"
@@ -1353,7 +1355,7 @@ extension MediaPackageV2 {
     }
 
     public struct DashTtmlConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The profile that MediaPackage uses when signaling subtitles in the manifest. IMSC is the default profile.  EBU-TT-D produces subtitles that are compliant with the EBU-TT-D TTML profile.  MediaPackage passes through subtitle styles to the manifest. For more information about EBU-TT-D subtitles, see EBU-TT-D Subtitling Distribution Format.
+        /// The profile that MediaPackage uses when signaling subtitles in the manifest. IMSC is the default profile. EBU-TT-D produces subtitles that are compliant with the EBU-TT-D TTML profile. MediaPackage passes through subtitle styles to the manifest. For more information about EBU-TT-D subtitles, see EBU-TT-D Subtitling Distribution Format.
         public let ttmlProfile: DashTtmlProfile
 
         @inlinable
@@ -2259,7 +2261,7 @@ extension MediaPackageV2 {
     }
 
     public struct GetOriginEndpointPolicyResponse: AWSDecodableShape {
-        /// The settings for using authorization headers between the MediaPackage endpoint and your CDN.  For information about CDN authorization, see CDN authorization in Elemental MediaPackage  in the MediaPackage user guide.
+        /// The settings for using authorization headers between the MediaPackage endpoint and your CDN.  For information about CDN authorization, see CDN authorization in Elemental MediaPackage in the MediaPackage user guide.
         public let cdnAuthConfiguration: CdnAuthConfiguration?
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
@@ -2606,14 +2608,18 @@ extension MediaPackageV2 {
     public struct InputSwitchConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// When true, AWS Elemental MediaPackage performs input switching based on the MQCS. Default is true. This setting is valid only when InputType is CMAF.
         public let mqcsInputSwitching: Bool?
+        /// For CMAF inputs, indicates which input MediaPackage should prefer when both inputs have equal MQCS scores. Select 1 to prefer the first ingest endpoint, or 2 to prefer the second ingest endpoint. If you don't specify a preferred input, MediaPackage uses its default switching behavior when MQCS scores are equal.
+        public let preferredInput: Int?
 
         @inlinable
-        public init(mqcsInputSwitching: Bool? = nil) {
+        public init(mqcsInputSwitching: Bool? = nil, preferredInput: Int? = nil) {
             self.mqcsInputSwitching = mqcsInputSwitching
+            self.preferredInput = preferredInput
         }
 
         private enum CodingKeys: String, CodingKey {
             case mqcsInputSwitching = "MQCSInputSwitching"
+            case preferredInput = "PreferredInput"
         }
     }
 
@@ -3074,7 +3080,7 @@ extension MediaPackageV2 {
     }
 
     public struct PutOriginEndpointPolicyRequest: AWSEncodableShape {
-        /// The settings for using authorization headers between the MediaPackage endpoint and your CDN.  For information about CDN authorization, see CDN authorization in Elemental MediaPackage  in the MediaPackage user guide.
+        /// The settings for using authorization headers between the MediaPackage endpoint and your CDN.  For information about CDN authorization, see CDN authorization in Elemental MediaPackage in the MediaPackage user guide.
         public let cdnAuthConfiguration: CdnAuthConfiguration?
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
@@ -3902,7 +3908,7 @@ public struct MediaPackageV2ErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least  one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
+    /// Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// Updating or deleting this resource can cause an inconsistent state.
     public static var conflictException: Self { .init(.conflictException) }

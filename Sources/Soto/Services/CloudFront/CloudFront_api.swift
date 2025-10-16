@@ -267,7 +267,7 @@ public struct CloudFront: AWSService {
         return try await self.createAnycastIpList(input, logger: logger)
     }
 
-    /// Creates a cache policy. After you create a cache policy, you can attach it to one or more cache behaviors. When it's attached to a cache behavior, the cache policy determines the following:   The values that CloudFront includes in the cache key. These values can include HTTP headers, cookies, and URL query strings. CloudFront uses the cache key to find an object in its cache that it can return to the viewer.   The default, minimum, and maximum time to live (TTL) values that you want objects to stay in the CloudFront cache.   The headers, cookies, and query strings that are included in the cache key are also included in requests that CloudFront sends to the origin. CloudFront sends a request when it can't find an object in its cache that matches the request's cache key. If you want to send values to the origin but not include them in the cache key, use OriginRequestPolicy. For more information about cache policies, see Controlling the cache key in the Amazon CloudFront Developer Guide.
+    /// Creates a cache policy. After you create a cache policy, you can attach it to one or more cache behaviors. When it's attached to a cache behavior, the cache policy determines the following:   The values that CloudFront includes in the cache key. These values can include HTTP headers, cookies, and URL query strings. CloudFront uses the cache key to find an object in its cache that it can return to the viewer.   The default, minimum, and maximum time to live (TTL) values that you want objects to stay in the CloudFront cache.  If your minimum TTL is greater than 0, CloudFront will cache content for at least the duration specified in the cache policy's minimum TTL, even if the Cache-Control: no-cache, no-store, or private directives are present in the origin headers.    The headers, cookies, and query strings that are included in the cache key are also included in requests that CloudFront sends to the origin. CloudFront sends a request when it can't find an object in its cache that matches the request's cache key. If you want to send values to the origin but not include them in the cache key, use OriginRequestPolicy. For more information about cache policies, see Controlling the cache key in the Amazon CloudFront Developer Guide.
     @Sendable
     @inlinable
     public func createCachePolicy(_ input: CreateCachePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCachePolicyResult {
@@ -280,7 +280,7 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Creates a cache policy. After you create a cache policy, you can attach it to one or more cache behaviors. When it's attached to a cache behavior, the cache policy determines the following:   The values that CloudFront includes in the cache key. These values can include HTTP headers, cookies, and URL query strings. CloudFront uses the cache key to find an object in its cache that it can return to the viewer.   The default, minimum, and maximum time to live (TTL) values that you want objects to stay in the CloudFront cache.   The headers, cookies, and query strings that are included in the cache key are also included in requests that CloudFront sends to the origin. CloudFront sends a request when it can't find an object in its cache that matches the request's cache key. If you want to send values to the origin but not include them in the cache key, use OriginRequestPolicy. For more information about cache policies, see Controlling the cache key in the Amazon CloudFront Developer Guide.
+    /// Creates a cache policy. After you create a cache policy, you can attach it to one or more cache behaviors. When it's attached to a cache behavior, the cache policy determines the following:   The values that CloudFront includes in the cache key. These values can include HTTP headers, cookies, and URL query strings. CloudFront uses the cache key to find an object in its cache that it can return to the viewer.   The default, minimum, and maximum time to live (TTL) values that you want objects to stay in the CloudFront cache.  If your minimum TTL is greater than 0, CloudFront will cache content for at least the duration specified in the cache policy's minimum TTL, even if the Cache-Control: no-cache, no-store, or private directives are present in the origin headers.    The headers, cookies, and query strings that are included in the cache key are also included in requests that CloudFront sends to the origin. CloudFront sends a request when it can't find an object in its cache that matches the request's cache key. If you want to send values to the origin but not include them in the cache key, use OriginRequestPolicy. For more information about cache policies, see Controlling the cache key in the Amazon CloudFront Developer Guide.
     ///
     /// Parameters:
     ///   - cachePolicyConfig: A cache policy configuration.
@@ -3216,7 +3216,7 @@ public struct CloudFront: AWSService {
     /// Lists the distributions by the connection mode that you specify.
     ///
     /// Parameters:
-    ///   - connectionMode: This field specifies whether the connection mode is through a standard distribution (direct) or a multi-tenant distribution with distribution tenants(tenant-only).
+    ///   - connectionMode: This field specifies whether the connection mode is through a standard distribution (direct) or a multi-tenant distribution with distribution tenants (tenant-only).
     ///   - marker:  The marker for the next set of distributions to retrieve.
     ///   - maxItems: The maximum number of distributions to return.
     ///   - logger: Logger use during operation
@@ -4115,7 +4115,7 @@ public struct CloudFront: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Updates a cache policy configuration. When you update a cache policy configuration, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update a cache policy configuration:   Use GetCachePolicyConfig to get the current configuration.   Locally modify the fields in the cache policy configuration that you want to update.   Call UpdateCachePolicy by providing the entire cache policy configuration, including the fields that you modified and those that you didn't.
+    /// Updates a cache policy configuration. When you update a cache policy configuration, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update a cache policy configuration:   Use GetCachePolicyConfig to get the current configuration.   Locally modify the fields in the cache policy configuration that you want to update.   Call UpdateCachePolicy by providing the entire cache policy configuration, including the fields that you modified and those that you didn't.    If your minimum TTL is greater than 0, CloudFront will cache content for at least the duration specified in the cache policy's minimum TTL, even if the Cache-Control: no-cache, no-store, or private directives are present in the origin headers.
     @Sendable
     @inlinable
     public func updateCachePolicy(_ input: UpdateCachePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCachePolicyResult {
@@ -4128,7 +4128,7 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Updates a cache policy configuration. When you update a cache policy configuration, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update a cache policy configuration:   Use GetCachePolicyConfig to get the current configuration.   Locally modify the fields in the cache policy configuration that you want to update.   Call UpdateCachePolicy by providing the entire cache policy configuration, including the fields that you modified and those that you didn't.
+    /// Updates a cache policy configuration. When you update a cache policy configuration, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update a cache policy configuration:   Use GetCachePolicyConfig to get the current configuration.   Locally modify the fields in the cache policy configuration that you want to update.   Call UpdateCachePolicy by providing the entire cache policy configuration, including the fields that you modified and those that you didn't.    If your minimum TTL is greater than 0, CloudFront will cache content for at least the duration specified in the cache policy's minimum TTL, even if the Cache-Control: no-cache, no-store, or private directives are present in the origin headers.
     ///
     /// Parameters:
     ///   - cachePolicyConfig: A cache policy configuration.
@@ -5097,7 +5097,7 @@ extension CloudFront {
     /// Return PaginatorSequence for operation ``listDistributionsByConnectionMode(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - connectionMode: This field specifies whether the connection mode is through a standard distribution (direct) or a multi-tenant distribution with distribution tenants(tenant-only).
+    ///   - connectionMode: This field specifies whether the connection mode is through a standard distribution (direct) or a multi-tenant distribution with distribution tenants (tenant-only).
     ///   - maxItems: The maximum number of distributions to return.
     ///   - logger: Logger used for logging
     @inlinable
@@ -5262,6 +5262,40 @@ extension CloudFront {
             status: status
         )
         return self.listKeyValueStoresPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listOriginAccessControls(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listOriginAccessControlsPaginator(
+        _ input: ListOriginAccessControlsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListOriginAccessControlsRequest, ListOriginAccessControlsResult> {
+        return .init(
+            input: input,
+            command: self.listOriginAccessControls,
+            inputKey: \ListOriginAccessControlsRequest.marker,
+            outputKey: \ListOriginAccessControlsResult.originAccessControlList.nextMarker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listOriginAccessControls(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxItems: The maximum number of origin access controls that you want in the response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listOriginAccessControlsPaginator(
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListOriginAccessControlsRequest, ListOriginAccessControlsResult> {
+        let input = ListOriginAccessControlsRequest(
+            maxItems: maxItems
+        )
+        return self.listOriginAccessControlsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listPublicKeys(_:logger:)``.
@@ -5439,6 +5473,16 @@ extension CloudFront.ListKeyValueStoresRequest: AWSPaginateToken {
             marker: token,
             maxItems: self.maxItems,
             status: self.status
+        )
+    }
+}
+
+extension CloudFront.ListOriginAccessControlsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CloudFront.ListOriginAccessControlsRequest {
+        return .init(
+            marker: token,
+            maxItems: self.maxItems
         )
     }
 }

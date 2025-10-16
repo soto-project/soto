@@ -74,6 +74,9 @@ extension NeptuneGraph {
         case importing = "IMPORTING"
         case resetting = "RESETTING"
         case snapshotting = "SNAPSHOTTING"
+        case starting = "STARTING"
+        case stopped = "STOPPED"
+        case stopping = "STOPPING"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
@@ -210,7 +213,7 @@ extension NeptuneGraph {
         public let parquetType: ParquetType?
         /// The ARN of the IAM role that will allow the exporting of data to the destination.
         public let roleArn: String
-        /// The current status of the export task. The status is CANCELLING when the  export task is cancelled.
+        /// The current status of the export task. The status is CANCELLING when the export task is cancelled.
         public let status: ExportTaskStatus
         /// The reason that the export task has this status value.
         public let statusReason: String?
@@ -556,7 +559,7 @@ extension NeptuneGraph {
     }
 
     public struct CreateGraphUsingImportTaskInput: AWSEncodableShape {
-        /// The method to handle blank nodes in the dataset. Currently, only convertToIri is supported,  meaning blank nodes are converted to unique IRIs at load time. Must be provided when format is ntriples.  For more information, see Handling RDF values.
+        /// The method to handle blank nodes in the dataset. Currently, only convertToIri is supported, meaning blank nodes are converted to unique IRIs at load time. Must be provided when format is ntriples. For more information, see Handling RDF values.
         public let blankNodeHandling: BlankNodeHandling?
         /// Indicates whether or not to enable deletion protection on the graph. The graph can’t be deleted when deletion protection is enabled. (true or false).
         public let deletionProtection: Bool?
@@ -570,7 +573,7 @@ extension NeptuneGraph {
         public let importOptions: ImportOptions?
         /// Specifies a KMS key to use to encrypt data imported into the new graph.
         public let kmsKeyIdentifier: String?
-        /// The maximum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 1024, or the approved upper limit for your account. If both the minimum and maximum values are specified, the final provisioned-memory will be chosen per the actual size of your imported data. If neither value is specified,  128 m-NCUs are used.
+        /// The maximum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 1024, or the approved upper limit for your account.  If both the minimum and maximum values are specified, the final provisioned-memory will be chosen per the actual size of your imported data. If neither value is specified, 128 m-NCUs are used.
         public let maxProvisionedMemory: Int?
         /// The minimum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 16
         public let minProvisionedMemory: Int?
@@ -997,7 +1000,7 @@ extension NeptuneGraph {
     }
 
     public struct ExecuteQueryInput: AWSEncodableShape {
-        /// The explain mode parameter returns a query explain instead of the actual query results. A query explain can  be used to gather insights about the query execution such as planning decisions, time spent on each operator, solutions  flowing etc.
+        /// The explain mode parameter returns a query explain instead of the actual query results. A query explain can be used to gather insights about the query execution such as planning decisions, time spent on each operator, solutions flowing etc.
         public let explainMode: ExplainMode?
         /// The unique identifier of the Neptune Analytics graph.
         public let graphIdentifier: String
@@ -1005,7 +1008,7 @@ extension NeptuneGraph {
         public let language: QueryLanguage
         /// The data parameters the query can use in JSON format. For example: {"name": "john", "age": 20}. (optional)
         public let parameters: [String: AWSDocument]?
-        /// Query plan cache is a feature that saves the query plan and reuses it on successive executions of the same query.  This reduces query latency, and works for both READ and UPDATE queries. The plan cache is an  LRU cache with a 5 minute TTL and a capacity of 1000.
+        /// Query plan cache is a feature that saves the query plan and reuses it on successive executions of the same query. This reduces query latency, and works for both READ and UPDATE queries. The plan cache is an LRU cache with a 5 minute TTL and a capacity of 1000.
         public let planCache: PlanCacheType?
         /// The query string to be executed.
         public let queryString: String
@@ -1069,9 +1072,9 @@ extension NeptuneGraph {
     }
 
     public struct ExportFilter: AWSEncodableShape & AWSDecodableShape {
-        /// Used to specify filters on a per-label basis for edges. This allows you to control which edge labels  and properties are included in the export.
+        /// Used to specify filters on a per-label basis for edges. This allows you to control which edge labels and properties are included in the export.
         public let edgeFilter: [String: ExportFilterElement]?
-        /// Used to specify filters on a per-label basis for vertices. This allows you to control which vertex labels  and properties are included in the export.
+        /// Used to specify filters on a per-label basis for vertices. This allows you to control which vertex labels and properties are included in the export.
         public let vertexFilter: [String: ExportFilterElement]?
 
         @inlinable
@@ -1100,7 +1103,7 @@ extension NeptuneGraph {
     }
 
     public struct ExportFilterElement: AWSEncodableShape & AWSDecodableShape {
-        /// Each property is defined by a key-value pair, where the key is the desired output property name (e.g. "name"),  and the value is an object.
+        /// Each property is defined by a key-value pair, where the key is the desired output property name (e.g. "name"), and the value is an object.
         public let properties: [String: ExportFilterPropertyAttributes]?
 
         @inlinable
@@ -1123,11 +1126,11 @@ extension NeptuneGraph {
     }
 
     public struct ExportFilterPropertyAttributes: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies how to handle properties that have multiple values. Can be either TO_LIST to export all  values as a list, or PICK_FIRST to export the first value encountered. If not specified, the default  value is PICK_FIRST.
+        /// Specifies how to handle properties that have multiple values. Can be either TO_LIST to export all values as a list, or PICK_FIRST to export the first value encountered. If not specified, the default value is PICK_FIRST.
         public let multiValueHandling: MultiValueHandlingType?
-        /// Specifies the data type to use for the property in the exported data (e.g. "String", "Int", "Float").  If a type is not provided, the export process will determine the type. If a given property is present as multiple  types (e.g. one vertex has "height" stored as a double, and another edge has it stored as a string), the type  will be of Any type, otherwise, it will be the type of the property as present in vertices.
+        /// Specifies the data type to use for the property in the exported data (e.g. "String", "Int", "Float"). If a type is not provided, the export process will determine the type. If a given property is present as multiple types (e.g. one vertex has "height" stored as a double, and another edge has it stored as a string), the type will be of Any type, otherwise, it will be the type of the property as present in vertices.
         public let outputType: String?
-        /// The name of the property as it exists in the original graph data. If not provided, it is assumed that the key  matches the desired sourcePropertyName.
+        /// The name of the property as it exists in the original graph data. If not provided, it is assumed that the key matches the desired sourcePropertyName.
         public let sourcePropertyName: String?
 
         @inlinable
@@ -2729,12 +2732,103 @@ extension NeptuneGraph {
         }
     }
 
+    public struct StartGraphInput: AWSEncodableShape {
+        /// The unique identifier of the Neptune Analytics graph.
+        public let graphIdentifier: String
+
+        @inlinable
+        public init(graphIdentifier: String) {
+            self.graphIdentifier = graphIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.graphIdentifier, key: "graphIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.graphIdentifier, name: "graphIdentifier", parent: name, pattern: "^g-[a-z0-9]{10}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StartGraphOutput: AWSDecodableShape {
+        /// The ARN associated with the graph.
+        public let arn: String
+        /// The build number of the graph.
+        public let buildNumber: String?
+        /// The time at which the graph was created.
+        public let createTime: Date?
+        /// If true, deletion protection is enabled for the graph.
+        public let deletionProtection: Bool?
+        /// The graph endpoint.
+        public let endpoint: String?
+        /// The unique identifier of the graph.
+        public let id: String
+        /// The ID of the KMS key used to encrypt and decrypt graph data.
+        public let kmsKeyIdentifier: String?
+        /// The name of the graph.
+        public let name: String
+        /// The number of memory-optimized Neptune Capacity Units (m-NCUs) allocated to the graph.
+        public let provisionedMemory: Int?
+        /// If true, the graph has a public endpoint, otherwise not.
+        public let publicConnectivity: Bool?
+        /// The number of replicas for the graph.
+        public let replicaCount: Int?
+        /// The ID of the snapshot from which the graph was created, if it was created from a snapshot.
+        public let sourceSnapshotId: String?
+        /// The status of the graph.
+        public let status: GraphStatus?
+        /// The reason that the graph has this status.
+        public let statusReason: String?
+        public let vectorSearchConfiguration: VectorSearchConfiguration?
+
+        @inlinable
+        public init(arn: String, buildNumber: String? = nil, createTime: Date? = nil, deletionProtection: Bool? = nil, endpoint: String? = nil, id: String, kmsKeyIdentifier: String? = nil, name: String, provisionedMemory: Int? = nil, publicConnectivity: Bool? = nil, replicaCount: Int? = nil, sourceSnapshotId: String? = nil, status: GraphStatus? = nil, statusReason: String? = nil, vectorSearchConfiguration: VectorSearchConfiguration? = nil) {
+            self.arn = arn
+            self.buildNumber = buildNumber
+            self.createTime = createTime
+            self.deletionProtection = deletionProtection
+            self.endpoint = endpoint
+            self.id = id
+            self.kmsKeyIdentifier = kmsKeyIdentifier
+            self.name = name
+            self.provisionedMemory = provisionedMemory
+            self.publicConnectivity = publicConnectivity
+            self.replicaCount = replicaCount
+            self.sourceSnapshotId = sourceSnapshotId
+            self.status = status
+            self.statusReason = statusReason
+            self.vectorSearchConfiguration = vectorSearchConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case buildNumber = "buildNumber"
+            case createTime = "createTime"
+            case deletionProtection = "deletionProtection"
+            case endpoint = "endpoint"
+            case id = "id"
+            case kmsKeyIdentifier = "kmsKeyIdentifier"
+            case name = "name"
+            case provisionedMemory = "provisionedMemory"
+            case publicConnectivity = "publicConnectivity"
+            case replicaCount = "replicaCount"
+            case sourceSnapshotId = "sourceSnapshotId"
+            case status = "status"
+            case statusReason = "statusReason"
+            case vectorSearchConfiguration = "vectorSearchConfiguration"
+        }
+    }
+
     public struct StartImportTaskInput: AWSEncodableShape {
-        /// The method to handle blank nodes in the dataset. Currently, only convertToIri is supported,  meaning blank nodes are converted to unique IRIs at load time. Must be provided when format is ntriples.  For more information, see Handling RDF values.
+        /// The method to handle blank nodes in the dataset. Currently, only convertToIri is supported, meaning blank nodes are converted to unique IRIs at load time. Must be provided when format is ntriples. For more information, see Handling RDF values.
         public let blankNodeHandling: BlankNodeHandling?
-        /// If set to true, the task halts when an import error is encountered. If set to false, the task skips the data that  caused the error and continues if possible.
+        /// If set to true, the task halts when an import error is encountered. If set to false, the task skips the data that caused the error and continues if possible.
         public let failOnError: Bool?
-        /// Specifies the format of Amazon S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or  OPENCYPHER, which identies the openCypher load format.
+        /// Specifies the format of Amazon S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or OPENCYPHER, which identies the openCypher load format.
         public let format: Format?
         /// The unique identifier of the Neptune Analytics graph.
         public let graphIdentifier: String
@@ -2743,7 +2837,7 @@ extension NeptuneGraph {
         public let parquetType: ParquetType?
         /// The ARN of the IAM role that will allow access to the data that is to be imported.
         public let roleArn: String
-        /// A URL identifying the location of the data to be imported. This can be an Amazon S3 path, or can point to a  Neptune database endpoint or snapshot.
+        /// A URL identifying the location of the data to be imported. This can be an Amazon S3 path, or can point to a Neptune database endpoint or snapshot.
         public let source: String
 
         @inlinable
@@ -2788,7 +2882,7 @@ extension NeptuneGraph {
     }
 
     public struct StartImportTaskOutput: AWSDecodableShape {
-        /// Specifies the format of Amazon S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or  OPENCYPHER, which identies the openCypher load format.
+        /// Specifies the format of Amazon S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or OPENCYPHER, which identies the openCypher load format.
         public let format: Format?
         /// The unique identifier of the Neptune Analytics graph.
         public let graphId: String?
@@ -2797,7 +2891,7 @@ extension NeptuneGraph {
         public let parquetType: ParquetType?
         /// The ARN of the IAM role that will allow access to the data that is to be imported.
         public let roleArn: String
-        /// A URL identifying the location of the data to be imported. This can be an Amazon S3 path, or can point to a  Neptune database endpoint or snapshot.
+        /// A URL identifying the location of the data to be imported. This can be an Amazon S3 path, or can point to a Neptune database endpoint or snapshot.
         public let source: String
         /// The status of the import task.
         public let status: ImportTaskStatus
@@ -2825,6 +2919,97 @@ extension NeptuneGraph {
             case source = "source"
             case status = "status"
             case taskId = "taskId"
+        }
+    }
+
+    public struct StopGraphInput: AWSEncodableShape {
+        /// The unique identifier of the Neptune Analytics graph.
+        public let graphIdentifier: String
+
+        @inlinable
+        public init(graphIdentifier: String) {
+            self.graphIdentifier = graphIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.graphIdentifier, key: "graphIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.graphIdentifier, name: "graphIdentifier", parent: name, pattern: "^g-[a-z0-9]{10}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StopGraphOutput: AWSDecodableShape {
+        /// The ARN associated with the graph.
+        public let arn: String
+        /// The build number of the graph.
+        public let buildNumber: String?
+        /// The time at which the graph was created.
+        public let createTime: Date?
+        /// If true, deletion protection is enabled for the graph.
+        public let deletionProtection: Bool?
+        /// The graph endpoint.
+        public let endpoint: String?
+        /// The unique identifier of the graph.
+        public let id: String
+        /// The ID of the KMS key used to encrypt and decrypt graph data.
+        public let kmsKeyIdentifier: String?
+        /// The name of the graph.
+        public let name: String
+        /// The number of memory-optimized Neptune Capacity Units (m-NCUs) allocated to the graph.
+        public let provisionedMemory: Int?
+        /// If true, the graph has a public endpoint, otherwise not.
+        public let publicConnectivity: Bool?
+        /// The number of replicas for the graph.
+        public let replicaCount: Int?
+        /// The ID of the snapshot from which the graph was created, if it was created from a snapshot.
+        public let sourceSnapshotId: String?
+        /// The status of the graph.
+        public let status: GraphStatus?
+        /// The reason that the graph has this status.
+        public let statusReason: String?
+        public let vectorSearchConfiguration: VectorSearchConfiguration?
+
+        @inlinable
+        public init(arn: String, buildNumber: String? = nil, createTime: Date? = nil, deletionProtection: Bool? = nil, endpoint: String? = nil, id: String, kmsKeyIdentifier: String? = nil, name: String, provisionedMemory: Int? = nil, publicConnectivity: Bool? = nil, replicaCount: Int? = nil, sourceSnapshotId: String? = nil, status: GraphStatus? = nil, statusReason: String? = nil, vectorSearchConfiguration: VectorSearchConfiguration? = nil) {
+            self.arn = arn
+            self.buildNumber = buildNumber
+            self.createTime = createTime
+            self.deletionProtection = deletionProtection
+            self.endpoint = endpoint
+            self.id = id
+            self.kmsKeyIdentifier = kmsKeyIdentifier
+            self.name = name
+            self.provisionedMemory = provisionedMemory
+            self.publicConnectivity = publicConnectivity
+            self.replicaCount = replicaCount
+            self.sourceSnapshotId = sourceSnapshotId
+            self.status = status
+            self.statusReason = statusReason
+            self.vectorSearchConfiguration = vectorSearchConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case buildNumber = "buildNumber"
+            case createTime = "createTime"
+            case deletionProtection = "deletionProtection"
+            case endpoint = "endpoint"
+            case id = "id"
+            case kmsKeyIdentifier = "kmsKeyIdentifier"
+            case name = "name"
+            case provisionedMemory = "provisionedMemory"
+            case publicConnectivity = "publicConnectivity"
+            case replicaCount = "replicaCount"
+            case sourceSnapshotId = "sourceSnapshotId"
+            case status = "status"
+            case statusReason = "statusReason"
+            case vectorSearchConfiguration = "vectorSearchConfiguration"
         }
     }
 

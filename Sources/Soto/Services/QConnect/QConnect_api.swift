@@ -333,7 +333,7 @@ public struct QConnect: AWSService {
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs..
     ///   - description: The description of the AI Prompt.
-    ///   - modelId: The identifier of the model used for this AI Prompt.
+    ///   - modelId: The identifier of the model used for this AI Prompt.  For information about which models are supported in each Amazon Web Services Region, see Supported models for system/custom prompts.
     ///   - name: The name of the AI Prompt.
     ///   - tags: The tags used to organize, track, or control access for this resource.
     ///   - templateConfiguration: The configuration of the prompt template for this AI Prompt.
@@ -858,6 +858,7 @@ public struct QConnect: AWSService {
     ///   - aiAgentConfiguration: The configuration of the AI Agents (mapped by AI Agent Type to AI Agent version) that should be used by Amazon Q in Connect for this Session.
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+    ///   - contactArn: The Amazon Resource Name (ARN) of the email contact in Amazon Connect. Used to retrieve email content and establish session context for AI-powered email assistance.
     ///   - description: The description.
     ///   - name: The name of the session.
     ///   - tagFilter: An object that can be used to specify Tag conditions.
@@ -868,6 +869,7 @@ public struct QConnect: AWSService {
         aiAgentConfiguration: [AIAgentType: AIAgentConfigurationData]? = nil,
         assistantId: String,
         clientToken: String? = CreateSessionRequest.idempotencyToken(),
+        contactArn: String? = nil,
         description: String? = nil,
         name: String,
         tagFilter: TagFilter? = nil,
@@ -878,6 +880,7 @@ public struct QConnect: AWSService {
             aiAgentConfiguration: aiAgentConfiguration, 
             assistantId: assistantId, 
             clientToken: clientToken, 
+            contactArn: contactArn, 
             description: description, 
             name: name, 
             tagFilter: tagFilter, 
@@ -3206,6 +3209,7 @@ public struct QConnect: AWSService {
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs..
     ///   - description: The description of the Amazon Q in Connect AI Prompt.
+    ///   - modelId: The identifier of the model used for this AI Prompt.  For information about which models are supported in each Amazon Web Services Region, see Supported models for system/custom prompts.
     ///   - templateConfiguration: The configuration of the prompt template for this AI Prompt.
     ///   - visibilityStatus: The visibility status of the Amazon Q in Connect AI prompt.
     ///   - logger: Logger use during operation
@@ -3215,6 +3219,7 @@ public struct QConnect: AWSService {
         assistantId: String,
         clientToken: String? = UpdateAIPromptRequest.idempotencyToken(),
         description: String? = nil,
+        modelId: String? = nil,
         templateConfiguration: AIPromptTemplateConfiguration? = nil,
         visibilityStatus: VisibilityStatus,
         logger: Logger = AWSClient.loggingDisabled        
@@ -3224,6 +3229,7 @@ public struct QConnect: AWSService {
             assistantId: assistantId, 
             clientToken: clientToken, 
             description: description, 
+            modelId: modelId, 
             templateConfiguration: templateConfiguration, 
             visibilityStatus: visibilityStatus
         )

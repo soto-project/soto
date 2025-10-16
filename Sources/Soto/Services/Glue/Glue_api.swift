@@ -629,7 +629,7 @@ public struct Glue: AWSService {
         return try await self.batchGetWorkflows(input, logger: logger)
     }
 
-    /// Annotate datapoints over time for a specific data quality statistic.
+    /// Annotate datapoints over time for a specific data quality statistic. The API requires both profileID and statisticID as part of the InclusionAnnotation input. The API only works for a single statisticId across multiple profiles.
     @Sendable
     @inlinable
     public func batchPutDataQualityStatisticAnnotation(_ input: BatchPutDataQualityStatisticAnnotationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchPutDataQualityStatisticAnnotationResponse {
@@ -642,11 +642,11 @@ public struct Glue: AWSService {
             logger: logger
         )
     }
-    /// Annotate datapoints over time for a specific data quality statistic.
+    /// Annotate datapoints over time for a specific data quality statistic. The API requires both profileID and statisticID as part of the InclusionAnnotation input. The API only works for a single statisticId across multiple profiles.
     ///
     /// Parameters:
     ///   - clientToken: Client Token.
-    ///   - inclusionAnnotations: A list of DatapointInclusionAnnotation's.
+    ///   - inclusionAnnotations: A list of DatapointInclusionAnnotation's. The InclusionAnnotations must contain a profileId and statisticId. If there are multiple InclusionAnnotations, the list must refer to a single statisticId across multiple profileIds.
     ///   - logger: Logger use during operation
     @inlinable
     public func batchPutDataQualityStatisticAnnotation(
@@ -1349,6 +1349,38 @@ public struct Glue: AWSService {
         return try await self.createDevEndpoint(input, logger: logger)
     }
 
+    /// Creates a new Glue Identity Center configuration to enable integration between Glue and Amazon Web Services IAM  Identity Center for authentication and authorization.
+    @Sendable
+    @inlinable
+    public func createGlueIdentityCenterConfiguration(_ input: CreateGlueIdentityCenterConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGlueIdentityCenterConfigurationResponse {
+        try await self.client.execute(
+            operation: "CreateGlueIdentityCenterConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new Glue Identity Center configuration to enable integration between Glue and Amazon Web Services IAM  Identity Center for authentication and authorization.
+    ///
+    /// Parameters:
+    ///   - instanceArn: The Amazon Resource Name (ARN) of the Identity Center instance to be associated with the Glue configuration.
+    ///   - scopes: A list of Identity Center scopes that define the permissions and access levels for the Glue configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createGlueIdentityCenterConfiguration(
+        instanceArn: String,
+        scopes: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateGlueIdentityCenterConfigurationResponse {
+        let input = CreateGlueIdentityCenterConfigurationRequest(
+            instanceArn: instanceArn, 
+            scopes: scopes
+        )
+        return try await self.createGlueIdentityCenterConfiguration(input, logger: logger)
+    }
+
     /// Creates a Zero-ETL integration in the caller's account between two resources with Amazon Resource Names (ARNs): the SourceArn and TargetArn.
     @Sendable
     @inlinable
@@ -1514,7 +1546,7 @@ public struct Glue: AWSService {
     ///   - sourceControlDetails: The details for a source control configuration for a job, allowing synchronization of job artifacts to or from a remote repository.
     ///   - tags: The tags to use with this job. You may use tags to limit access to the job. For more information about tags in Glue, see Amazon Web Services Tags in Glue in the developer guide.
     ///   - timeout: The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2880 minutes. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
-    ///   - workerType: The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk, and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 or later streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
+    ///   - workerType: The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Mumbai), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Spain), Europe (Stockholm), and South America (São Paulo).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk, and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 or later streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
     ///   - logger: Logger use during operation
     @inlinable
     public func createJob(
@@ -2568,6 +2600,32 @@ public struct Glue: AWSService {
             endpointName: endpointName
         )
         return try await self.deleteDevEndpoint(input, logger: logger)
+    }
+
+    /// Deletes the existing Glue Identity Center configuration, removing the integration between Glue and  Amazon Web Services IAM Identity Center.
+    @Sendable
+    @inlinable
+    public func deleteGlueIdentityCenterConfiguration(_ input: DeleteGlueIdentityCenterConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGlueIdentityCenterConfigurationResponse {
+        try await self.client.execute(
+            operation: "DeleteGlueIdentityCenterConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the existing Glue Identity Center configuration, removing the integration between Glue and  Amazon Web Services IAM Identity Center.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteGlueIdentityCenterConfiguration(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteGlueIdentityCenterConfigurationResponse {
+        let input = DeleteGlueIdentityCenterConfigurationRequest(
+        )
+        return try await self.deleteGlueIdentityCenterConfiguration(input, logger: logger)
     }
 
     /// Deletes the specified Zero-ETL integration.
@@ -4402,6 +4460,32 @@ public struct Glue: AWSService {
         return try await self.getEntityRecords(input, logger: logger)
     }
 
+    /// Retrieves the current Glue Identity Center configuration details, including the associated Identity Center instance and  application information.
+    @Sendable
+    @inlinable
+    public func getGlueIdentityCenterConfiguration(_ input: GetGlueIdentityCenterConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetGlueIdentityCenterConfigurationResponse {
+        try await self.client.execute(
+            operation: "GetGlueIdentityCenterConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the current Glue Identity Center configuration details, including the associated Identity Center instance and  application information.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getGlueIdentityCenterConfiguration(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetGlueIdentityCenterConfigurationResponse {
+        let input = GetGlueIdentityCenterConfigurationRequest(
+        )
+        return try await self.getGlueIdentityCenterConfiguration(input, logger: logger)
+    }
+
     /// This API is used for fetching the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target)
     @Sendable
     @inlinable
@@ -5345,6 +5429,7 @@ public struct Glue: AWSService {
     /// Retrieves the Table definition in a Data Catalog for a specified table.
     ///
     /// Parameters:
+    ///   - auditContext: A structure containing the Lake Formation audit context.
     ///   - catalogId: The ID of the Data Catalog where the table resides. If none is provided, the Amazon Web Services account ID is used by default.
     ///   - databaseName: The name of the database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
     ///   - includeStatusDetails: Specifies whether to include status details related to a request to create or update an Glue Data Catalog view.
@@ -5354,6 +5439,7 @@ public struct Glue: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func getTable(
+        auditContext: AuditContext? = nil,
         catalogId: String? = nil,
         databaseName: String,
         includeStatusDetails: Bool? = nil,
@@ -5363,6 +5449,7 @@ public struct Glue: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetTableResponse {
         let input = GetTableRequest(
+            auditContext: auditContext, 
             catalogId: catalogId, 
             databaseName: databaseName, 
             includeStatusDetails: includeStatusDetails, 
@@ -5507,6 +5594,7 @@ public struct Glue: AWSService {
     ///
     /// Parameters:
     ///   - attributesToGet:  Specifies the table fields returned by the GetTables call. This parameter doesn’t accept an empty list. The request must include NAME. The following are the valid combinations of values:    NAME - Names of all tables in the database.    NAME, TABLE_TYPE - Names of all tables and the table types.
+    ///   - auditContext: A structure containing the Lake Formation audit context.
     ///   - catalogId: The ID of the Data Catalog where the tables reside. If none is provided, the Amazon Web Services account ID is used by default.
     ///   - databaseName: The database in the catalog whose tables to list. For Hive compatibility, this name is entirely lowercase.
     ///   - expression: A regular expression pattern. If present, only those tables whose names match the pattern are returned.
@@ -5519,6 +5607,7 @@ public struct Glue: AWSService {
     @inlinable
     public func getTables(
         attributesToGet: [TableAttributes]? = nil,
+        auditContext: AuditContext? = nil,
         catalogId: String? = nil,
         databaseName: String,
         expression: String? = nil,
@@ -5531,6 +5620,7 @@ public struct Glue: AWSService {
     ) async throws -> GetTablesResponse {
         let input = GetTablesRequest(
             attributesToGet: attributesToGet, 
+            auditContext: auditContext, 
             catalogId: catalogId, 
             databaseName: databaseName, 
             expression: expression, 
@@ -6998,6 +7088,7 @@ public struct Glue: AWSService {
     /// Parameters:
     ///   - dataFilter: Selects source tables for the integration using Maxwell filter syntax.
     ///   - description: A description of the integration.
+    ///   - integrationConfig: 
     ///   - integrationIdentifier: The Amazon Resource Name (ARN) for the integration.
     ///   - integrationName: A unique name for an integration in Glue.
     ///   - logger: Logger use during operation
@@ -7005,6 +7096,7 @@ public struct Glue: AWSService {
     public func modifyIntegration(
         dataFilter: String? = nil,
         description: String? = nil,
+        integrationConfig: IntegrationConfig? = nil,
         integrationIdentifier: String,
         integrationName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -7012,6 +7104,7 @@ public struct Glue: AWSService {
         let input = ModifyIntegrationRequest(
             dataFilter: dataFilter, 
             description: description, 
+            integrationConfig: integrationConfig, 
             integrationIdentifier: integrationIdentifier, 
             integrationName: integrationName
         )
@@ -7816,6 +7909,7 @@ public struct Glue: AWSService {
     /// Parameters:
     ///   - arguments: The job arguments associated with this run. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that Glue itself consumes. Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Secrets Manager or other secret management mechanism if you intend to keep them within the Job.  For information about how to specify and consume your own Job arguments, see the Calling Glue APIs in Python topic in the developer guide. For information about the arguments you can provide to this field when configuring Spark jobs, see the Special Parameters Used by Glue topic in the developer guide. For information about the arguments you can provide to this field when configuring Ray jobs, see Using job parameters in Ray jobs in the developer guide.
     ///   - executionClass: Indicates whether the job is run with a standard or flexible execution class. The standard execution-class is ideal for time-sensitive workloads that require fast job startup and dedicated resources. The flexible execution class is appropriate for time-insensitive jobs whose start and completion times may vary.  Only jobs with Glue version 3.0 and above and command type glueetl will be allowed to set ExecutionClass to FLEX. The flexible execution class is available for Spark jobs.
+    ///   - executionRoleSessionPolicy: This inline session policy to the StartJobRun API allows you to dynamically restrict the permissions of the specified execution role for the scope of the job, without requiring the creation of additional IAM roles.
     ///   - jobName: The name of the job definition to use.
     ///   - jobRunId: The ID of a previous JobRun to retry.
     ///   - jobRunQueuingEnabled: Specifies whether job run queuing is enabled for the job run. A value of true means job run queuing is enabled for the job run. If false or not populated, the job run will not be considered for queueing.
@@ -7830,6 +7924,7 @@ public struct Glue: AWSService {
     public func startJobRun(
         arguments: [String: String]? = nil,
         executionClass: ExecutionClass? = nil,
+        executionRoleSessionPolicy: String? = nil,
         jobName: String,
         jobRunId: String? = nil,
         jobRunQueuingEnabled: Bool? = nil,
@@ -7844,6 +7939,7 @@ public struct Glue: AWSService {
         let input = StartJobRunRequest(
             arguments: arguments, 
             executionClass: executionClass, 
+            executionRoleSessionPolicy: executionRoleSessionPolicy, 
             jobName: jobName, 
             jobRunId: jobRunId, 
             jobRunQueuingEnabled: jobRunQueuingEnabled, 
@@ -8782,6 +8878,35 @@ public struct Glue: AWSService {
         return try await self.updateDevEndpoint(input, logger: logger)
     }
 
+    /// Updates the existing Glue Identity Center configuration, allowing modification of scopes and permissions for the integration.
+    @Sendable
+    @inlinable
+    public func updateGlueIdentityCenterConfiguration(_ input: UpdateGlueIdentityCenterConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGlueIdentityCenterConfigurationResponse {
+        try await self.client.execute(
+            operation: "UpdateGlueIdentityCenterConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the existing Glue Identity Center configuration, allowing modification of scopes and permissions for the integration.
+    ///
+    /// Parameters:
+    ///   - scopes: A list of Identity Center scopes that define the updated permissions and access levels for the Glue configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateGlueIdentityCenterConfiguration(
+        scopes: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateGlueIdentityCenterConfigurationResponse {
+        let input = UpdateGlueIdentityCenterConfigurationRequest(
+            scopes: scopes
+        )
+        return try await self.updateGlueIdentityCenterConfiguration(input, logger: logger)
+    }
+
     /// This API can be used for updating the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or database. Since the same resource can be used across multiple integrations, updating resource properties will impact all the integrations using it.
     @Sendable
     @inlinable
@@ -9186,7 +9311,7 @@ public struct Glue: AWSService {
     ///   - skipArchive: By default, UpdateTable always creates an archived version of the table before updating it. However, if skipArchive is set to true, UpdateTable does not create the archived version.
     ///   - tableInput: An updated TableInput object to define the metadata table in the catalog.
     ///   - transactionId: The transaction ID at which to update the table contents.
-    ///   - updateOpenTableFormatInput: 
+    ///   - updateOpenTableFormatInput: Input parameters for updating open table format tables in GlueData Catalog, serving as a wrapper for format-specific update operations such as Apache Iceberg.
     ///   - versionId: The version ID at which to update the table contents.
     ///   - viewUpdateAction: The operation to be performed when updating the view.
     ///   - logger: Logger use during operation
@@ -10147,6 +10272,7 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - attributesToGet:  Specifies the table fields returned by the GetTables call. This parameter doesn’t accept an empty list. The request must include NAME. The following are the valid combinations of values:    NAME - Names of all tables in the database.    NAME, TABLE_TYPE - Names of all tables and the table types.
+    ///   - auditContext: A structure containing the Lake Formation audit context.
     ///   - catalogId: The ID of the Data Catalog where the tables reside. If none is provided, the Amazon Web Services account ID is used by default.
     ///   - databaseName: The database in the catalog whose tables to list. For Hive compatibility, this name is entirely lowercase.
     ///   - expression: A regular expression pattern. If present, only those tables whose names match the pattern are returned.
@@ -10158,6 +10284,7 @@ extension Glue {
     @inlinable
     public func getTablesPaginator(
         attributesToGet: [TableAttributes]? = nil,
+        auditContext: AuditContext? = nil,
         catalogId: String? = nil,
         databaseName: String,
         expression: String? = nil,
@@ -10169,6 +10296,7 @@ extension Glue {
     ) -> AWSClient.PaginatorSequence<GetTablesRequest, GetTablesResponse> {
         let input = GetTablesRequest(
             attributesToGet: attributesToGet, 
+            auditContext: auditContext, 
             catalogId: catalogId, 
             databaseName: databaseName, 
             expression: expression, 
@@ -11423,6 +11551,7 @@ extension Glue.GetTablesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.GetTablesRequest {
         return .init(
             attributesToGet: self.attributesToGet,
+            auditContext: self.auditContext,
             catalogId: self.catalogId,
             databaseName: self.databaseName,
             expression: self.expression,

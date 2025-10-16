@@ -67,6 +67,22 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
+    public enum ComputeObjectChecksumAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case crc32 = "CRC32"
+        case crc32c = "CRC32C"
+        case crc64nvme = "CRC64NVME"
+        case md5 = "MD5"
+        case sha1 = "SHA1"
+        case sha256 = "SHA256"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComputeObjectChecksumType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case composite = "COMPOSITE"
+        case fullObject = "FULL_OBJECT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeleteMarkerReplicationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case enabled = "Enabled"
@@ -203,6 +219,7 @@ extension S3Control {
 
     public enum OperationName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case lambdaInvoke = "LambdaInvoke"
+        case s3ComputeObjectChecksum = "S3ComputeObjectChecksum"
         case s3DeleteObjectTagging = "S3DeleteObjectTagging"
         case s3InitiateRestoreObject = "S3InitiateRestoreObject"
         case s3PutObjectAcl = "S3PutObjectAcl"
@@ -395,6 +412,82 @@ extension S3Control {
         case onezoneIa = "ONEZONE_IA"
         case standardIa = "STANDARD_IA"
         public var description: String { return self.rawValue }
+    }
+
+    public enum ObjectEncryptionFilter: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Filters for objects that are encrypted by dual-layer server-side encryption with Amazon Web Services Key Management Service (KMS) keys (DSSE-KMS).
+        case dssekms(DSSEKMSFilter)
+        /// Filters for objects that are not encrypted by server-side encryption.
+        case notsse(NotSSEFilter)
+        /// Filters for objects that are encrypted by server-side encryption with customer-provided keys (SSE-C).
+        case ssec(SSECFilter)
+        /// Filters for objects that are encrypted by server-side encryption with Amazon Web Services Key Management Service (KMS) keys (SSE-KMS).
+        case ssekms(SSEKMSFilter)
+        /// Filters for objects that are encrypted by server-side encryption with Amazon S3 managed keys (SSE-S3).
+        case sses3(SSES3Filter)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .dssekms:
+                let value = try container.decode(DSSEKMSFilter.self, forKey: .dssekms)
+                self = .dssekms(value)
+            case .notsse:
+                let value = try container.decode(NotSSEFilter.self, forKey: .notsse)
+                self = .notsse(value)
+            case .ssec:
+                let value = try container.decode(SSECFilter.self, forKey: .ssec)
+                self = .ssec(value)
+            case .ssekms:
+                let value = try container.decode(SSEKMSFilter.self, forKey: .ssekms)
+                self = .ssekms(value)
+            case .sses3:
+                let value = try container.decode(SSES3Filter.self, forKey: .sses3)
+                self = .sses3(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .dssekms(let value):
+                try container.encode(value, forKey: .dssekms)
+            case .notsse(let value):
+                try container.encode(value, forKey: .notsse)
+            case .ssec(let value):
+                try container.encode(value, forKey: .ssec)
+            case .ssekms(let value):
+                try container.encode(value, forKey: .ssekms)
+            case .sses3(let value):
+                try container.encode(value, forKey: .sses3)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .dssekms(let value):
+                try value.validate(name: "\(name).dssekms")
+            case .ssekms(let value):
+                try value.validate(name: "\(name).ssekms")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dssekms = "DSSE-KMS"
+            case notsse = "NOT-SSE"
+            case ssec = "SSE-C"
+            case ssekms = "SSE-KMS"
+            case sses3 = "SSE-S3"
+        }
     }
 
     // MARK: Shapes
@@ -1133,11 +1226,13 @@ extension S3Control {
     }
 
     public struct CreateAccessPointRequest: AWSEncodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
         /// The Amazon Web Services account ID for the account that owns the specified access point.
         public let accountId: String
         /// The name of the bucket that you want to associate this access point with. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String
-        /// The Amazon Web Services account ID associated with the S3 bucket associated with this access point. For same account access point when your bucket and access point belong to the same account owner, the BucketAccountId is not required.  For cross-account access point when your bucket and access point are not in the same account, the BucketAccountId is required.
+        /// The Amazon Web Services account ID associated with the S3 bucket associated with this access point. For same account access point when your bucket and access point belong to the same account owner, the BucketAccountId is not required. For cross-account access point when your bucket and access point are not in the same account, the BucketAccountId is required.
         public let bucketAccountId: String?
         /// The name you want to assign to this access point. For directory buckets, the access point name must consist of a base name that you provide and suffix that includes the ZoneID (Amazon Web Services Availability Zone or Local Zone) of your bucket location, followed by --xa-s3. For more information, see Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide.
         public let name: String
@@ -1145,17 +1240,21 @@ extension S3Control {
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration?
         /// For directory buckets, you can filter access control to specific prefixes, API operations, or a combination of both. For more information, see Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide.  Scope is only supported for access points attached to directory buckets.
         public let scope: Scope?
+        /// An array of tags that you can apply to an access point. Tags are key-value pairs of metadata used to control access to your access points. For more information about tags, see Using tags with Amazon S3. For information about tagging access points, see Using tags for attribute-based access control (ABAC).    You must have the s3:TagResource permission to create an access point with tags for a general purpose bucket.    You must have the s3express:TagResource permission to create an access point with tags for a directory bucket.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
         /// If you include this field, Amazon S3 restricts access to this access point to requests from the specified virtual private cloud (VPC).  This is required for creating an access point for Amazon S3 on Outposts buckets.
         public let vpcConfiguration: VpcConfiguration?
 
         @inlinable
-        public init(accountId: String, bucket: String, bucketAccountId: String? = nil, name: String, publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil, scope: Scope? = nil, vpcConfiguration: VpcConfiguration? = nil) {
+        public init(accountId: String, bucket: String, bucketAccountId: String? = nil, name: String, publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil, scope: Scope? = nil, tags: [Tag]? = nil, vpcConfiguration: VpcConfiguration? = nil) {
             self.accountId = accountId
             self.bucket = bucket
             self.bucketAccountId = bucketAccountId
             self.name = name
             self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
             self.scope = scope
+            self.tags = tags
             self.vpcConfiguration = vpcConfiguration
         }
 
@@ -1169,6 +1268,7 @@ extension S3Control {
             request.encodePath(self.name, key: "Name")
             try container.encodeIfPresent(self.publicAccessBlockConfiguration, forKey: .publicAccessBlockConfiguration)
             try container.encodeIfPresent(self.scope, forKey: .scope)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
             try container.encodeIfPresent(self.vpcConfiguration, forKey: .vpcConfiguration)
         }
 
@@ -1181,6 +1281,10 @@ extension S3Control {
             try self.validate(self.bucketAccountId, name: "bucketAccountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
         }
 
@@ -1189,6 +1293,7 @@ extension S3Control {
             case bucketAccountId = "BucketAccountId"
             case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
             case scope = "Scope"
+            case tags = "Tags"
             case vpcConfiguration = "VpcConfiguration"
         }
     }
@@ -1569,6 +1674,26 @@ extension S3Control {
             case expiration = "Expiration"
             case secretAccessKey = "SecretAccessKey"
             case sessionToken = "SessionToken"
+        }
+    }
+
+    public struct DSSEKMSFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the customer managed KMS key to use for the filter  to return objects that are encrypted by the specified key. For best performance,  we recommend using the KMSKeyArn filter in conjunction with other object metadata filters, like MatchAnyPrefix, CreatedAfter, or  MatchAnyStorageClass.  You must provide the full KMS Key ARN. You can't use an alias name or alias ARN.  For more information, see   KMS keys in the Amazon Web Services Key Management Service Developer Guide.
+        public let kmsKeyArn: String?
+
+        @inlinable
+        public init(kmsKeyArn: String? = nil) {
+            self.kmsKeyArn = kmsKeyArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2000)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 1)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws[a-zA-Z0-9-]*:kms:[a-z0-9-]+:[0-9]{12}:key/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyArn = "KmsKeyArn"
         }
     }
 
@@ -4213,6 +4338,8 @@ extension S3Control {
     }
 
     public struct JobManifestGeneratorFilter: AWSEncodableShape & AWSDecodableShape {
+        public struct _MatchAnyObjectEncryptionEncoding: ArrayCoderProperties { public static let member = "ObjectEncryption" }
+
         /// If provided, the generated manifest includes only source bucket objects that were created after this time.
         public let createdAfter: Date?
         /// If provided, the generated manifest includes only source bucket objects that were created before this time.
@@ -4221,6 +4348,9 @@ extension S3Control {
         public let eligibleForReplication: Bool?
         /// If provided, the generated manifest includes only source bucket objects whose object keys match the string constraints specified for MatchAnyPrefix, MatchAnySuffix, and MatchAnySubstring.
         public let keyNameConstraint: KeyNameConstraint?
+        /// If provided, the generated object list includes  only source bucket objects with the indicated server-side encryption type (SSE-S3, SSE-KMS, DSSE-KMS, SSE-C, or NOT-SSE).  If you select SSE-KMS or DSSE-KMS, you can optionally further filter your results by specifying a specific KMS Key ARN.  If you select SSE-KMS, you can also optionally further filter your results by Bucket Key enabled status.
+        @OptionalCustomCoding<ArrayCoder<_MatchAnyObjectEncryptionEncoding, ObjectEncryptionFilter>>
+        public var matchAnyObjectEncryption: [ObjectEncryptionFilter]?
         /// If provided, the generated manifest includes only source bucket objects that are stored with the specified storage class.
         @OptionalCustomCoding<StandardArrayCoder<S3StorageClass>>
         public var matchAnyStorageClass: [S3StorageClass]?
@@ -4233,11 +4363,12 @@ extension S3Control {
         public let objectSizeLessThanBytes: Int64?
 
         @inlinable
-        public init(createdAfter: Date? = nil, createdBefore: Date? = nil, eligibleForReplication: Bool? = nil, keyNameConstraint: KeyNameConstraint? = nil, matchAnyStorageClass: [S3StorageClass]? = nil, objectReplicationStatuses: [ReplicationStatus]? = nil, objectSizeGreaterThanBytes: Int64? = nil, objectSizeLessThanBytes: Int64? = nil) {
+        public init(createdAfter: Date? = nil, createdBefore: Date? = nil, eligibleForReplication: Bool? = nil, keyNameConstraint: KeyNameConstraint? = nil, matchAnyObjectEncryption: [ObjectEncryptionFilter]? = nil, matchAnyStorageClass: [S3StorageClass]? = nil, objectReplicationStatuses: [ReplicationStatus]? = nil, objectSizeGreaterThanBytes: Int64? = nil, objectSizeLessThanBytes: Int64? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
             self.eligibleForReplication = eligibleForReplication
             self.keyNameConstraint = keyNameConstraint
+            self.matchAnyObjectEncryption = matchAnyObjectEncryption
             self.matchAnyStorageClass = matchAnyStorageClass
             self.objectReplicationStatuses = objectReplicationStatuses
             self.objectSizeGreaterThanBytes = objectSizeGreaterThanBytes
@@ -4246,6 +4377,11 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try self.keyNameConstraint?.validate(name: "\(name).keyNameConstraint")
+            try self.matchAnyObjectEncryption?.forEach {
+                try $0.validate(name: "\(name).matchAnyObjectEncryption[]")
+            }
+            try self.validate(self.matchAnyObjectEncryption, name: "matchAnyObjectEncryption", parent: name, max: 1)
+            try self.validate(self.matchAnyObjectEncryption, name: "matchAnyObjectEncryption", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4253,6 +4389,7 @@ extension S3Control {
             case createdBefore = "CreatedBefore"
             case eligibleForReplication = "EligibleForReplication"
             case keyNameConstraint = "KeyNameConstraint"
+            case matchAnyObjectEncryption = "MatchAnyObjectEncryption"
             case matchAnyStorageClass = "MatchAnyStorageClass"
             case objectReplicationStatuses = "ObjectReplicationStatuses"
             case objectSizeGreaterThanBytes = "ObjectSizeGreaterThanBytes"
@@ -4316,6 +4453,8 @@ extension S3Control {
     public struct JobOperation: AWSEncodableShape & AWSDecodableShape {
         /// Directs the specified job to invoke an Lambda function on every object in the manifest.
         public let lambdaInvoke: LambdaInvokeOperation?
+        /// Directs the specified job to compute checksum values for every object in the manifest.
+        public let s3ComputeObjectChecksum: S3ComputeObjectChecksumOperation?
         /// Directs the specified job to execute a DELETE Object tagging call on every object in the manifest.  This functionality is not supported by directory buckets.
         public let s3DeleteObjectTagging: S3DeleteObjectTaggingOperation?
         /// Directs the specified job to initiate restore requests for every archived object in the manifest.  This functionality is not supported by directory buckets.
@@ -4332,8 +4471,9 @@ extension S3Control {
         public let s3ReplicateObject: S3ReplicateObjectOperation?
 
         @inlinable
-        public init(lambdaInvoke: LambdaInvokeOperation? = nil, s3DeleteObjectTagging: S3DeleteObjectTaggingOperation? = nil, s3InitiateRestoreObject: S3InitiateRestoreObjectOperation? = nil, s3PutObjectAcl: S3SetObjectAclOperation? = nil, s3PutObjectCopy: S3CopyObjectOperation? = nil, s3PutObjectLegalHold: S3SetObjectLegalHoldOperation? = nil, s3PutObjectRetention: S3SetObjectRetentionOperation? = nil, s3PutObjectTagging: S3SetObjectTaggingOperation? = nil, s3ReplicateObject: S3ReplicateObjectOperation? = nil) {
+        public init(lambdaInvoke: LambdaInvokeOperation? = nil, s3ComputeObjectChecksum: S3ComputeObjectChecksumOperation? = nil, s3DeleteObjectTagging: S3DeleteObjectTaggingOperation? = nil, s3InitiateRestoreObject: S3InitiateRestoreObjectOperation? = nil, s3PutObjectAcl: S3SetObjectAclOperation? = nil, s3PutObjectCopy: S3CopyObjectOperation? = nil, s3PutObjectLegalHold: S3SetObjectLegalHoldOperation? = nil, s3PutObjectRetention: S3SetObjectRetentionOperation? = nil, s3PutObjectTagging: S3SetObjectTaggingOperation? = nil, s3ReplicateObject: S3ReplicateObjectOperation? = nil) {
             self.lambdaInvoke = lambdaInvoke
+            self.s3ComputeObjectChecksum = s3ComputeObjectChecksum
             self.s3DeleteObjectTagging = s3DeleteObjectTagging
             self.s3InitiateRestoreObject = s3InitiateRestoreObject
             self.s3PutObjectAcl = s3PutObjectAcl
@@ -4354,6 +4494,7 @@ extension S3Control {
 
         private enum CodingKeys: String, CodingKey {
             case lambdaInvoke = "LambdaInvoke"
+            case s3ComputeObjectChecksum = "S3ComputeObjectChecksum"
             case s3DeleteObjectTagging = "S3DeleteObjectTagging"
             case s3InitiateRestoreObject = "S3InitiateRestoreObject"
             case s3PutObjectAcl = "S3PutObjectAcl"
@@ -4389,10 +4530,12 @@ extension S3Control {
     }
 
     public struct JobReport: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) for the bucket where specified job-completion report will be stored.   Directory buckets - Directory buckets aren't supported  as a location for Batch Operations to store job completion reports.
+        /// The Amazon Resource Name (ARN) for the bucket where specified job-completion report will be stored.   Directory buckets - Directory buckets aren't supported as a location for Batch Operations to store job completion reports.
         public let bucket: String?
         /// Indicates whether the specified job will generate a job-completion report.
         public let enabled: Bool
+        /// Lists the Amazon Web Services account ID that owns the target bucket, where the completion report is received.
+        public let expectedBucketOwner: String?
         /// The format of the specified job-completion report.
         public let format: JobReportFormat?
         /// An optional prefix to describe where in the specified bucket the job-completion report will be stored. Amazon S3 stores the job-completion report at /job-/report.json.
@@ -4401,9 +4544,10 @@ extension S3Control {
         public let reportScope: JobReportScope?
 
         @inlinable
-        public init(bucket: String? = nil, enabled: Bool, format: JobReportFormat? = nil, prefix: String? = nil, reportScope: JobReportScope? = nil) {
+        public init(bucket: String? = nil, enabled: Bool, expectedBucketOwner: String? = nil, format: JobReportFormat? = nil, prefix: String? = nil, reportScope: JobReportScope? = nil) {
             self.bucket = bucket
             self.enabled = enabled
+            self.expectedBucketOwner = expectedBucketOwner
             self.format = format
             self.prefix = prefix
             self.reportScope = reportScope
@@ -4413,6 +4557,8 @@ extension S3Control {
             try self.validate(self.bucket, name: "bucket", parent: name, max: 128)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 1)
             try self.validate(self.bucket, name: "bucket", parent: name, pattern: "^arn:[^:]+:s3:")
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, max: 64)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.prefix, name: "prefix", parent: name, max: 512)
             try self.validate(self.prefix, name: "prefix", parent: name, min: 1)
         }
@@ -4420,6 +4566,7 @@ extension S3Control {
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case enabled = "Enabled"
+            case expectedBucketOwner = "ExpectedBucketOwner"
             case format = "Format"
             case prefix = "Prefix"
             case reportScope = "ReportScope"
@@ -4577,7 +4724,7 @@ extension S3Control {
         public let id: String?
         /// The noncurrent version expiration of the lifecycle rule.
         public let noncurrentVersionExpiration: NoncurrentVersionExpiration?
-        ///  Specifies the transition rule for the lifecycle rule that describes when noncurrent objects transition to a specific storage class. If your bucket is versioning-enabled (or versioning is suspended), you can set this action to request that Amazon S3 transition noncurrent object versions to a specific storage class at a set period in the object's lifetime.   This is not supported by Amazon S3 on Outposts buckets.
+        ///  Specifies the transition rule for the lifecycle rule that describes when non-current objects transition to a specific storage class. If your bucket is versioning-enabled (or versioning is suspended), you can set this action to request that Amazon S3 transition noncurrent object versions to a specific storage class at a set period in the object's lifetime.   This is not supported by Amazon S3 on Outposts buckets.
         @OptionalCustomCoding<ArrayCoder<_NoncurrentVersionTransitionsEncoding, NoncurrentVersionTransition>>
         public var noncurrentVersionTransitions: [NoncurrentVersionTransition]?
         /// If 'Enabled', the rule is currently being applied. If 'Disabled', the rule is not currently being applied.
@@ -5605,9 +5752,9 @@ extension S3Control {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        /// The Amazon Web Services account ID of the resource owner.
+        ///  The Amazon Web Services account ID of the resource owner.
         public let accountId: String
-        /// The Amazon Resource Name (ARN) of the S3 resource that you want to list tags for. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
+        ///  The Amazon Resource Name (ARN) of the S3 resource that you want to list tags for. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
         public let resourceArn: String
 
         @inlinable
@@ -5637,7 +5784,7 @@ extension S3Control {
     public struct ListTagsForResourceResult: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// The Amazon Web Services resource tags that are associated with the resource.
+        ///  The Amazon Web Services resource tags that are associated with the resource.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
@@ -5859,6 +6006,10 @@ extension S3Control {
             case noncurrentDays = "NoncurrentDays"
             case storageClass = "StorageClass"
         }
+    }
+
+    public struct NotSSEFilter: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
     }
 
     public struct ObjectLambdaAccessPoint: AWSDecodableShape {
@@ -7062,6 +7213,24 @@ extension S3Control {
         }
     }
 
+    public struct S3ComputeObjectChecksumOperation: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates the algorithm that you want Amazon S3 to use to create the checksum. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumAlgorithm: ComputeObjectChecksumAlgorithm?
+        /// Indicates the checksum type that you want Amazon S3 to use to calculate the object’s checksum value. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumType: ComputeObjectChecksumType?
+
+        @inlinable
+        public init(checksumAlgorithm: ComputeObjectChecksumAlgorithm? = nil, checksumType: ComputeObjectChecksumType? = nil) {
+            self.checksumAlgorithm = checksumAlgorithm
+            self.checksumType = checksumType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checksumAlgorithm = "ChecksumAlgorithm"
+            case checksumType = "ChecksumType"
+        }
+    }
+
     public struct S3CopyObjectOperation: AWSEncodableShape & AWSDecodableShape {
         ///   This functionality is not supported by directory buckets.
         @OptionalCustomCoding<StandardArrayCoder<S3Grant>>
@@ -7077,7 +7246,7 @@ extension S3Control {
         public let modifiedSinceConstraint: Date?
         /// If you don't provide this parameter, Amazon S3 copies all the metadata from the original objects. If you specify an empty set, the new objects will have no tags. Otherwise, Amazon S3 assigns the supplied tags to the new objects.
         public let newObjectMetadata: S3ObjectMetadata?
-        /// Specifies a list of tags to add to the destination objects after they are copied.  If NewObjectTagging is not specified, the tags of the source objects are copied to destination objects by default.   Directory buckets - Tags aren't supported by directory buckets.  If your source objects have tags and your destination bucket is a directory bucket, specify an empty tag set in the NewObjectTagging field  to prevent copying the source object tags to the directory bucket.
+        /// Specifies a list of tags to add to the destination objects after they are copied. If NewObjectTagging is not specified, the tags of the source objects are copied to destination objects by default.   Directory buckets - Tags aren't supported by directory buckets. If your source objects have tags and your destination bucket is a directory bucket, specify an empty tag set in the NewObjectTagging field to prevent copying the source object tags to the directory bucket.
         @OptionalCustomCoding<StandardArrayCoder<S3Tag>>
         public var newObjectTagging: [S3Tag]?
         /// The legal hold status to be applied to all objects in the Batch Operations job.  This functionality is not supported by directory buckets.
@@ -7098,7 +7267,7 @@ extension S3Control {
         public let storageClass: S3StorageClass?
         /// Specifies the folder prefix that you want the objects to be copied into. For example, to copy objects into a folder named Folder1 in the destination bucket, set the TargetKeyPrefix property to Folder1.
         public let targetKeyPrefix: String?
-        /// Specifies the destination bucket Amazon Resource Name (ARN) for the batch copy operation.    General purpose buckets - For example, to copy objects to a general purpose bucket named destinationBucket, set the TargetResource property to arn:aws:s3:::destinationBucket.    Directory buckets - For example, to copy objects to a directory bucket named destinationBucket in the Availability Zone identified by the AZ ID usw2-az1, set the TargetResource property to arn:aws:s3express:region:account_id:/bucket/destination_bucket_base_name--usw2-az1--x-s3. A directory bucket as a destination bucket can be in Availability Zone or Local Zone.   Copying objects across different Amazon Web Services Regions isn't supported when the source or destination bucket is in Amazon Web Services Local Zones. The source and destination buckets must have the same parent Amazon Web Services Region. Otherwise,  you get an HTTP 400 Bad Request error with the error code InvalidRequest.
+        /// Specifies the destination bucket Amazon Resource Name (ARN) for the batch copy operation.    General purpose buckets - For example, to copy objects to a general purpose bucket named destinationBucket, set the TargetResource property to arn:aws:s3:::destinationBucket.    Directory buckets - For example, to copy objects to a directory bucket named destinationBucket in the Availability Zone identified by the AZ ID usw2-az1, set the TargetResource property to arn:aws:s3express:region:account_id:/bucket/destination_bucket_base_name--usw2-az1--x-s3. A directory bucket as a destination bucket can be in Availability Zone or Local Zone.   Copying objects across different Amazon Web Services Regions isn't supported when the source or destination bucket is in Amazon Web Services Local Zones. The source and destination buckets must have the same parent Amazon Web Services Region. Otherwise, you get an HTTP 400 Bad Request error with the error code InvalidRequest.
         public let targetResource: String?
         public let unModifiedSinceConstraint: Date?
 
@@ -7263,7 +7432,7 @@ extension S3Control {
         public let filter: JobManifestGeneratorFilter?
         /// Specifies the location the generated manifest will be written to. Manifests can't be written to directory buckets. For more information, see Directory buckets.
         public let manifestOutputLocation: S3ManifestOutputLocation?
-        /// The ARN of the source bucket used by the ManifestGenerator.   Directory buckets - Directory buckets aren't supported  as the source buckets used by S3JobManifestGenerator to generate the job manifest.
+        /// The ARN of the source bucket used by the ManifestGenerator.   Directory buckets - Directory buckets aren't supported as the source buckets used by S3JobManifestGenerator to generate the job manifest.
         public let sourceBucket: String
 
         @inlinable
@@ -7295,7 +7464,7 @@ extension S3Control {
     }
 
     public struct S3ManifestOutputLocation: AWSEncodableShape & AWSDecodableShape {
-        /// The bucket ARN the generated manifest should be written to.   Directory buckets - Directory buckets aren't supported  as the buckets to store the generated manifest.
+        /// The bucket ARN the generated manifest should be written to.   Directory buckets - Directory buckets aren't supported as the buckets to store the generated manifest.
         public let bucket: String
         /// The Account ID that owns the bucket the generated manifest is written to.
         public let expectedManifestBucketOwner: String?
@@ -7559,6 +7728,10 @@ extension S3Control {
         }
     }
 
+    public struct SSECFilter: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
     public struct SSEKMS: AWSEncodableShape & AWSDecodableShape {
         /// A container for the ARN of the SSE-KMS encryption. This property is read-only and follows the following format:  arn:aws:kms:us-east-1:example-account-id:key/example-9a73-4afc-8d29-8f5900cef44e
         public let keyId: String
@@ -7592,11 +7765,39 @@ extension S3Control {
         }
     }
 
+    public struct SSEKMSFilter: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption  using Amazon Web Services Key Management Service (Amazon Web Services KMS) keys (SSE-KMS). If specified, will filter SSE-KMS encrypted objects by S3 Bucket Key status.  For more information, see Reducing the cost of SSE-KMS with Amazon S3 Bucket Keys in the Amazon S3 User Guide.
+        public let bucketKeyEnabled: Bool?
+        /// The Amazon Resource Name (ARN) of the customer managed KMS key to use for the filter  to return objects that are encrypted by the specified key. For best performance,  we recommend using the KMSKeyArn filter in conjunction with other object metadata filters, like MatchAnyPrefix, CreatedAfter, or  MatchAnyStorageClass.  You must provide the full KMS Key ARN. You can't use an alias name or alias ARN.  For more information, see   KMS keys in the Amazon Web Services Key Management Service Developer Guide.
+        public let kmsKeyArn: String?
+
+        @inlinable
+        public init(bucketKeyEnabled: Bool? = nil, kmsKeyArn: String? = nil) {
+            self.bucketKeyEnabled = bucketKeyEnabled
+            self.kmsKeyArn = kmsKeyArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2000)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 1)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws[a-zA-Z0-9-]*:kms:[a-z0-9-]+:[0-9]{12}:key/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketKeyEnabled = "BucketKeyEnabled"
+            case kmsKeyArn = "KmsKeyArn"
+        }
+    }
+
     public struct SSES3: AWSEncodableShape & AWSDecodableShape {
         public init() {}
     }
 
     public struct SSES3Encryption: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct SSES3Filter: AWSEncodableShape & AWSDecodableShape {
         public init() {}
     }
 
@@ -7989,15 +8190,15 @@ extension S3Control {
         ///  Filters objects that match any of the specified prefixes.
         @OptionalCustomCoding<ArrayCoder<_MatchAnyPrefixEncoding, String>>
         public var matchAnyPrefix: [String]?
-        /// Filters objects that match any of the specified suffixes.
+        ///  Filters objects that match any of the specified suffixes.
         @OptionalCustomCoding<ArrayCoder<_MatchAnySuffixEncoding, String>>
         public var matchAnySuffix: [String]?
-        /// Filters objects that match any of the specified S3 object tags.
+        ///  Filters objects that match any of the specified S3 object tags.
         @OptionalCustomCoding<ArrayCoder<_MatchAnyTagEncoding, S3Tag>>
         public var matchAnyTag: [S3Tag]?
-        /// Filters objects that match the specified object age range.
+        ///  Filters objects that match the specified object age range.
         public let matchObjectAge: MatchObjectAge?
-        /// Filters objects that match the specified object size range.
+        ///  Filters objects that match the specified object size range.
         public let matchObjectSize: MatchObjectSize?
 
         @inlinable
@@ -8128,7 +8329,7 @@ extension S3Control {
         public let accountId: String
         /// The Amazon Resource Name (ARN) of the S3 resource that you're applying tags to. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
         public let resourceArn: String
-        /// The Amazon Web Services resource tags that you want to add to the specified S3 resource.
+        ///  The Amazon Web Services resource tags that you want to add to the specified S3 resource.
         @CustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]
 
@@ -8257,7 +8458,7 @@ extension S3Control {
 
     public struct UpdateAccessGrantsLocationRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumRequired]
-        /// The ID of the registered location that you are updating. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.   The ID of the registered location to which you are granting access. S3 Access Grants assigned this ID when you registered the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.   If you are passing the default location, you cannot create an access grant for the entire default location. You must also specify a bucket or a bucket and prefix in the Subprefix field.
+        /// The ID of the registered location that you are updating. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.  The ID of the registered location to which you are granting access. S3 Access Grants assigned this ID when you registered the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.  If you are passing the default location, you cannot create an access grant for the entire default location. You must also specify a bucket or a bucket and prefix in the Subprefix field.
         public let accessGrantsLocationId: String
         /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String

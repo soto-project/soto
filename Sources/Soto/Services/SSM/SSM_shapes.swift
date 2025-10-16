@@ -2954,7 +2954,7 @@ extension SSM {
         public let syncCompliance: AssociationSyncCompliance?
         /// Adds or overwrites one or more tags for a State Manager association. Tags are metadata that you can assign to your Amazon Web Services resources. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define.
         public let tags: [Tag]?
-        /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to create an association in multiple Regions and multiple accounts.
+        /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to create an association in multiple Regions and multiple accounts.  The IncludeChildOrganizationUnits parameter is not supported by State Manager.
         public let targetLocations: [TargetLocation]?
         /// A key-value mapping of document parameters to target resources. Both Targets and TargetMaps can't be specified together.
         public let targetMaps: [[String: [String]]]?
@@ -3446,7 +3446,7 @@ extension SSM {
         public let operatingSystem: OperatingSystem?
         /// A list of explicitly rejected patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see Package name formats for approved and rejected patch lists in the Amazon Web Services Systems Manager User Guide.
         public let rejectedPatches: [String]?
-        /// The action for Patch Manager to take on patches included in the RejectedPackages list.  ALLOW_AS_DEPENDENCY   Linux and macOS: A package in the rejected patches list is installed only if it is a dependency of another package. It is considered compliant with the patch baseline, and its status is reported as INSTALLED_OTHER. This is the default action if no option is specified.  Windows Server: Windows Server doesn't support the concept of package dependencies. If a package in the rejected patches list and already installed on the node, its status is reported as INSTALLED_OTHER. Any package not already installed on the node is skipped. This is the default action if no option is specified.  BLOCK   All OSs: Packages in the rejected patches list, and packages that include them as dependencies, aren't installed by Patch Manager under any circumstances. If a package was installed before it was added to the rejected patches list, or is installed outside of Patch Manager afterward, it's considered noncompliant with the patch baseline and its status is reported as INSTALLED_REJECTED.
+        /// The action for Patch Manager to take on patches included in the RejectedPackages list.  ALLOW_AS_DEPENDENCY   Linux and macOS: A package in the rejected patches list is installed only if it is a dependency of another package. It is considered compliant with the patch baseline, and its status is reported as INSTALLED_OTHER. This is the default action if no option is specified.  Windows Server: Windows Server doesn't support the concept of package dependencies. If a package in the rejected patches list and already installed on the node, its status is reported as INSTALLED_OTHER. Any package not already installed on the node is skipped. This is the default action if no option is specified.  BLOCK   All OSs: Packages in the rejected patches list, and packages that include them as dependencies, aren't installed by Patch Manager under any circumstances.  State value assignment for patch compliance:   If a package was installed before it was added to the rejected patches list, or is installed outside of Patch Manager afterward, it's considered noncompliant with the patch baseline and its status is reported as INSTALLED_REJECTED.   If an update attempts to install a dependency package that is now rejected by the baseline, when previous versions of the package were not rejected, the package being updated is reported as MISSING for SCAN operations and as FAILED for INSTALL operations.
         public let rejectedPatchesAction: PatchAction?
         /// Information about the patches to use to update the managed nodes, including target operating systems and source repositories. Applies to Linux managed nodes only.
         public let sources: [PatchSource]?
@@ -6781,12 +6781,15 @@ extension SSM {
         public let instanceId: String
         /// The snapshot ID provided by the user when running AWS-RunPatchBaseline.
         public let snapshotId: String
+        /// Specifies whether to use S3 dualstack endpoints for the patch snapshot download URL. Set to true to receive a presigned URL that supports both IPv4 and IPv6 connectivity. Set to false to use standard IPv4-only endpoints. Default is false. This parameter is required for managed nodes in IPv6-only environments.
+        public let useS3DualStackEndpoint: Bool?
 
         @inlinable
-        public init(baselineOverride: BaselineOverride? = nil, instanceId: String, snapshotId: String) {
+        public init(baselineOverride: BaselineOverride? = nil, instanceId: String, snapshotId: String, useS3DualStackEndpoint: Bool? = nil) {
             self.baselineOverride = baselineOverride
             self.instanceId = instanceId
             self.snapshotId = snapshotId
+            self.useS3DualStackEndpoint = useS3DualStackEndpoint
         }
 
         public func validate(name: String) throws {
@@ -6801,6 +6804,7 @@ extension SSM {
             case baselineOverride = "BaselineOverride"
             case instanceId = "InstanceId"
             case snapshotId = "SnapshotId"
+            case useS3DualStackEndpoint = "UseS3DualStackEndpoint"
         }
     }
 
@@ -14537,14 +14541,14 @@ extension SSM {
         public let excludeAccounts: [String]?
         /// The Automation execution role used by the currently running Automation. If not specified, the default value is AWS-SystemsManager-AutomationExecutionRole.
         public let executionRoleName: String?
-        /// Indicates whether to include child organizational units (OUs) that are children of the targeted OUs. The default is false.
+        /// Indicates whether to include child organizational units (OUs) that are children of the targeted OUs. The default is false.  This parameter is not supported by State Manager.
         public let includeChildOrganizationUnits: Bool?
         /// The Amazon Web Services Regions targeted by the current Automation execution.
         public let regions: [String]?
         public let targetLocationAlarmConfiguration: AlarmConfiguration?
-        /// The maximum number of Amazon Web Services Regions and Amazon Web Services accounts allowed to run the Automation concurrently.
+        /// The maximum number of Amazon Web Services Regions and Amazon Web Services accounts allowed to run the Automation concurrently. TargetLocationMaxConcurrency has a default value of 1.
         public let targetLocationMaxConcurrency: String?
-        /// The maximum number of errors allowed before the system stops queueing additional Automation executions for the currently running Automation.
+        /// The maximum number of errors allowed before the system stops queueing additional Automation executions for the currently running Automation. TargetLocationMaxErrors has a default value of 0.
         public let targetLocationMaxErrors: String?
         /// A list of key-value mappings to target resources. If you specify values for this data type, you must also specify a value for TargetParameterName. This Targets parameter takes precedence over the StartAutomationExecution:Targets parameter if both are supplied.
         public let targets: [Target]?
@@ -14792,7 +14796,7 @@ extension SSM {
         public let scheduleOffset: Int?
         /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the PutComplianceItems API operation. In this case, compliance data isn't managed by State Manager, a tool in Amazon Web Services Systems Manager. It is managed by your direct call to the PutComplianceItems API operation. By default, all associations use AUTO mode.
         public let syncCompliance: AssociationSyncCompliance?
-        /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to update an association in multiple Regions and multiple accounts.
+        /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to update an association in multiple Regions and multiple accounts.  The IncludeChildOrganizationUnits parameter is not supported by State Manager.
         public let targetLocations: [TargetLocation]?
         /// A key-value mapping of document parameters to target resources. Both Targets and TargetMaps can't be specified together.
         public let targetMaps: [[String: [String]]]?
@@ -15705,7 +15709,7 @@ extension SSM {
         public let name: String?
         /// A list of explicitly rejected patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see Package name formats for approved and rejected patch lists in the Amazon Web Services Systems Manager User Guide.
         public let rejectedPatches: [String]?
-        /// The action for Patch Manager to take on patches included in the RejectedPackages list.  ALLOW_AS_DEPENDENCY   Linux and macOS: A package in the rejected patches list is installed only if it is a dependency of another package. It is considered compliant with the patch baseline, and its status is reported as INSTALLED_OTHER. This is the default action if no option is specified.  Windows Server: Windows Server doesn't support the concept of package dependencies. If a package in the rejected patches list and already installed on the node, its status is reported as INSTALLED_OTHER. Any package not already installed on the node is skipped. This is the default action if no option is specified.  BLOCK   All OSs: Packages in the rejected patches list, and packages that include them as dependencies, aren't installed by Patch Manager under any circumstances. If a package was installed before it was added to the rejected patches list, or is installed outside of Patch Manager afterward, it's considered noncompliant with the patch baseline and its status is reported as INSTALLED_REJECTED.
+        /// The action for Patch Manager to take on patches included in the RejectedPackages list.  ALLOW_AS_DEPENDENCY   Linux and macOS: A package in the rejected patches list is installed only if it is a dependency of another package. It is considered compliant with the patch baseline, and its status is reported as INSTALLED_OTHER. This is the default action if no option is specified.  Windows Server: Windows Server doesn't support the concept of package dependencies. If a package in the rejected patches list and already installed on the node, its status is reported as INSTALLED_OTHER. Any package not already installed on the node is skipped. This is the default action if no option is specified.  BLOCK   All OSs: Packages in the rejected patches list, and packages that include them as dependencies, aren't installed by Patch Manager under any circumstances.  State value assignment for patch compliance:   If a package was installed before it was added to the rejected patches list, or is installed outside of Patch Manager afterward, it's considered noncompliant with the patch baseline and its status is reported as INSTALLED_REJECTED.   If an update attempts to install a dependency package that is now rejected by the baseline, when previous versions of the package were not rejected, the package being updated is reported as MISSING for SCAN operations and as FAILED for INSTALL operations.
         public let rejectedPatchesAction: PatchAction?
         /// If True, then all fields that are required by the CreatePatchBaseline operation are also required for this API request. Optional fields that aren't specified are set to null.
         public let replace: Bool?

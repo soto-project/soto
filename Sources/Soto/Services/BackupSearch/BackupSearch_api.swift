@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS BackupSearch service.
 ///
-/// Backup Search Backup Search is the recovery point and item level search for Backup. For additional information, see:    Backup API Reference     Backup  Developer Guide
+/// Backup Search Backup Search is the recovery point and item level search for Backup. For additional information, see:    Backup API Reference     Backup Developer Guide
 public struct BackupSearch: AWSService {
     // MARK: Member variables
 
@@ -78,7 +78,7 @@ public struct BackupSearch: AWSService {
 
     // MARK: API Calls
 
-    /// This operation retrieves metadata of a search job,  including its progress.
+    /// This operation retrieves metadata of a search job, including its progress.
     @Sendable
     @inlinable
     public func getSearchJob(_ input: GetSearchJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSearchJobOutput {
@@ -91,10 +91,10 @@ public struct BackupSearch: AWSService {
             logger: logger
         )
     }
-    /// This operation retrieves metadata of a search job,  including its progress.
+    /// This operation retrieves metadata of a search job, including its progress.
     ///
     /// Parameters:
-    ///   - searchJobIdentifier: Required unique string that specifies the  search job.
+    ///   - searchJobIdentifier: Required unique string that specifies the search job.
     ///   - logger: Logger use during operation
     @inlinable
     public func getSearchJob(
@@ -107,7 +107,7 @@ public struct BackupSearch: AWSService {
         return try await self.getSearchJob(input, logger: logger)
     }
 
-    /// This operation retrieves the metadata of an export job. An export job is an operation that transmits the results  of a search job to a specified S3 bucket in a  .csv file. An export job allows you to retain results of a search  beyond the search job's scheduled retention of 7 days.
+    /// This operation retrieves the metadata of an export job. An export job is an operation that transmits the results of a search job to a specified S3 bucket in a .csv file. An export job allows you to retain results of a search beyond the search job's scheduled retention of 7 days.
     @Sendable
     @inlinable
     public func getSearchResultExportJob(_ input: GetSearchResultExportJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSearchResultExportJobOutput {
@@ -120,10 +120,10 @@ public struct BackupSearch: AWSService {
             logger: logger
         )
     }
-    /// This operation retrieves the metadata of an export job. An export job is an operation that transmits the results  of a search job to a specified S3 bucket in a  .csv file. An export job allows you to retain results of a search  beyond the search job's scheduled retention of 7 days.
+    /// This operation retrieves the metadata of an export job. An export job is an operation that transmits the results of a search job to a specified S3 bucket in a .csv file. An export job allows you to retain results of a search beyond the search job's scheduled retention of 7 days.
     ///
     /// Parameters:
-    ///   - exportJobIdentifier: This is the unique string that identifies a  specific export job. Required for this operation.
+    ///   - exportJobIdentifier: This is the unique string that identifies a specific export job. Required for this operation.
     ///   - logger: Logger use during operation
     @inlinable
     public func getSearchResultExportJob(
@@ -136,7 +136,7 @@ public struct BackupSearch: AWSService {
         return try await self.getSearchResultExportJob(input, logger: logger)
     }
 
-    /// This operation returns a list of all backups (recovery  points) in a paginated format that were included in  the search job. If a search does not display an expected backup in  the results, you can call this operation to display each  backup included in the search. Any backups that were not  included because they have a FAILED status  from a permissions issue will be displayed, along with a  status message. Only recovery points with a backup index that has  a status of ACTIVE will be included in search results.  If the index has any other status, its status will be  displayed along with a status message.
+    /// This operation returns a list of all backups (recovery points) in a paginated format that were included in the search job. If a search does not display an expected backup in the results, you can call this operation to display each backup included in the search. Any backups that were not included because they have a FAILED status from a permissions issue will be displayed, along with a status message. Only recovery points with a backup index that has a status of ACTIVE will be included in search results. If the index has any other status, its status will be displayed along with a status message.
     @Sendable
     @inlinable
     public func listSearchJobBackups(_ input: ListSearchJobBackupsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSearchJobBackupsOutput {
@@ -149,11 +149,11 @@ public struct BackupSearch: AWSService {
             logger: logger
         )
     }
-    /// This operation returns a list of all backups (recovery  points) in a paginated format that were included in  the search job. If a search does not display an expected backup in  the results, you can call this operation to display each  backup included in the search. Any backups that were not  included because they have a FAILED status  from a permissions issue will be displayed, along with a  status message. Only recovery points with a backup index that has  a status of ACTIVE will be included in search results.  If the index has any other status, its status will be  displayed along with a status message.
+    /// This operation returns a list of all backups (recovery points) in a paginated format that were included in the search job. If a search does not display an expected backup in the results, you can call this operation to display each backup included in the search. Any backups that were not included because they have a FAILED status from a permissions issue will be displayed, along with a status message. Only recovery points with a backup index that has a status of ACTIVE will be included in search results. If the index has any other status, its status will be displayed along with a status message.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of resource list items to be returned.
-    ///   - nextToken: The next item following a partial list of returned backups  included in a search job. For example, if a request is made to return MaxResults number of backups, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    ///   - nextToken: The next item following a partial list of returned backups included in a search job. For example, if a request is made to return MaxResults number of backups, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     ///   - searchJobIdentifier: The unique string that specifies the search job.
     ///   - logger: Logger use during operation
     @inlinable
@@ -188,7 +188,7 @@ public struct BackupSearch: AWSService {
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of resource list items to be returned.
-    ///   - nextToken: The next item following a partial list of returned  search job results. For example, if a request is made to return MaxResults number of  search job results, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    ///   - nextToken: The next item following a partial list of returned search job results. For example, if a request is made to return MaxResults number of search job results, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     ///   - searchJobIdentifier: The unique string that specifies the search job.
     ///   - logger: Logger use during operation
     @inlinable
@@ -206,7 +206,7 @@ public struct BackupSearch: AWSService {
         return try await self.listSearchJobResults(input, logger: logger)
     }
 
-    /// This operation returns a list of search jobs belonging  to an account.
+    /// This operation returns a list of search jobs belonging to an account.
     @Sendable
     @inlinable
     public func listSearchJobs(_ input: ListSearchJobsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSearchJobsOutput {
@@ -219,12 +219,12 @@ public struct BackupSearch: AWSService {
             logger: logger
         )
     }
-    /// This operation returns a list of search jobs belonging  to an account.
+    /// This operation returns a list of search jobs belonging to an account.
     ///
     /// Parameters:
-    ///   - byStatus: Include this parameter to filter list by search  job status.
+    ///   - byStatus: Include this parameter to filter list by search job status.
     ///   - maxResults: The maximum number of resource list items to be returned.
-    ///   - nextToken: The next item following a partial list of returned  search jobs. For example, if a request is made to return MaxResults number of backups, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    ///   - nextToken: The next item following a partial list of returned search jobs. For example, if a request is made to return MaxResults number of backups, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     ///   - logger: Logger use during operation
     @inlinable
     public func listSearchJobs(
@@ -241,7 +241,7 @@ public struct BackupSearch: AWSService {
         return try await self.listSearchJobs(input, logger: logger)
     }
 
-    /// This operation exports search results of a search job  to a specified destination S3 bucket.
+    /// This operation exports search results of a search job to a specified destination S3 bucket.
     @Sendable
     @inlinable
     public func listSearchResultExportJobs(_ input: ListSearchResultExportJobsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSearchResultExportJobsOutput {
@@ -254,13 +254,13 @@ public struct BackupSearch: AWSService {
             logger: logger
         )
     }
-    /// This operation exports search results of a search job  to a specified destination S3 bucket.
+    /// This operation exports search results of a search job to a specified destination S3 bucket.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of resource list items to be returned.
-    ///   - nextToken: The next item following a partial list of returned backups  included in a search job. For example, if a request is made to return MaxResults number of backups, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    ///   - nextToken: The next item following a partial list of returned backups included in a search job. For example, if a request is made to return MaxResults number of backups, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     ///   - searchJobIdentifier: The unique string that specifies the search job.
-    ///   - status: The search jobs to be included in the export job  can be filtered by including this parameter.
+    ///   - status: The search jobs to be included in the export job can be filtered by including this parameter.
     ///   - logger: Logger use during operation
     @inlinable
     public func listSearchResultExportJobs(
@@ -295,7 +295,7 @@ public struct BackupSearch: AWSService {
     /// This operation returns the tags for a resource type.
     ///
     /// Parameters:
-    ///   - resourceArn: The Amazon Resource Name (ARN) that uniquely identifies  the resource.&gt;
+    ///   - resourceArn: The Amazon Resource Name (ARN) that uniquely identifies the resource.&gt;
     ///   - logger: Logger use during operation
     @inlinable
     public func listTagsForResource(
@@ -308,7 +308,7 @@ public struct BackupSearch: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// This operation creates a search job which returns  recovery points filtered by SearchScope and items  filtered by ItemFilters. You can optionally include ClientToken,  EncryptionKeyArn, Name, and/or Tags.
+    /// This operation creates a search job which returns recovery points filtered by SearchScope and items filtered by ItemFilters. You can optionally include ClientToken, EncryptionKeyArn, Name, and/or Tags.
     @Sendable
     @inlinable
     public func startSearchJob(_ input: StartSearchJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartSearchJobOutput {
@@ -321,14 +321,14 @@ public struct BackupSearch: AWSService {
             logger: logger
         )
     }
-    /// This operation creates a search job which returns  recovery points filtered by SearchScope and items  filtered by ItemFilters. You can optionally include ClientToken,  EncryptionKeyArn, Name, and/or Tags.
+    /// This operation creates a search job which returns recovery points filtered by SearchScope and items filtered by ItemFilters. You can optionally include ClientToken, EncryptionKeyArn, Name, and/or Tags.
     ///
     /// Parameters:
-    ///   - clientToken: Include this parameter to allow multiple identical  calls for idempotency. A client token is valid for 8 hours after the first  request that uses it is completed. After this time, any request with the same token is treated as a  new request.
-    ///   - encryptionKeyArn: The encryption key for the specified  search job.
-    ///   - itemFilters: Item Filters represent all input item   properties specified when the search was  created. Contains either EBSItemFilters or  S3ItemFilters
-    ///   - name: Include alphanumeric characters to create a  name for this search job.
-    ///   - searchScope: This object can contain BackupResourceTypes,  BackupResourceArns, BackupResourceCreationTime,  BackupResourceTags, and SourceResourceArns to  filter the recovery points returned by the search  job.
+    ///   - clientToken: Include this parameter to allow multiple identical calls for idempotency. A client token is valid for 8 hours after the first request that uses it is completed. After this time, any request with the same token is treated as a new request.
+    ///   - encryptionKeyArn: The encryption key for the specified search job.
+    ///   - itemFilters: Item Filters represent all input item properties specified when the search was created. Contains either EBSItemFilters or S3ItemFilters
+    ///   - name: Include alphanumeric characters to create a name for this search job.
+    ///   - searchScope: This object can contain BackupResourceTypes, BackupResourceArns, BackupResourceCreationTime, BackupResourceTags, and SourceResourceArns to filter the recovery points returned by the search job.
     ///   - tags: List of tags returned by the operation.
     ///   - logger: Logger use during operation
     @inlinable
@@ -352,7 +352,7 @@ public struct BackupSearch: AWSService {
         return try await self.startSearchJob(input, logger: logger)
     }
 
-    /// This operations starts a job to export the results  of search job to a designated S3 bucket.
+    /// This operations starts a job to export the results of search job to a designated S3 bucket.
     @Sendable
     @inlinable
     public func startSearchResultExportJob(_ input: StartSearchResultExportJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartSearchResultExportJobOutput {
@@ -365,14 +365,14 @@ public struct BackupSearch: AWSService {
             logger: logger
         )
     }
-    /// This operations starts a job to export the results  of search job to a designated S3 bucket.
+    /// This operations starts a job to export the results of search job to a designated S3 bucket.
     ///
     /// Parameters:
-    ///   - clientToken: Include this parameter to allow multiple identical  calls for idempotency. A client token is valid for 8 hours after the first  request that uses it is completed. After this time, any request with the same token is treated as a  new request.
-    ///   - exportSpecification: This specification contains a required string of the  destination bucket; optionally, you can include the  destination prefix.
-    ///   - roleArn: This parameter specifies the role ARN used to start  the search results export jobs.
+    ///   - clientToken: Include this parameter to allow multiple identical calls for idempotency. A client token is valid for 8 hours after the first request that uses it is completed. After this time, any request with the same token is treated as a new request.
+    ///   - exportSpecification: This specification contains a required string of the destination bucket; optionally, you can include the destination prefix.
+    ///   - roleArn: This parameter specifies the role ARN used to start the search results export jobs.
     ///   - searchJobIdentifier: The unique string that specifies the search job.
-    ///   - tags: Optional tags to include. A tag is a key-value pair you can use to manage,  filter, and search for your resources. Allowed characters include UTF-8 letters,  numbers, spaces, and the following characters: + - = . _ : /.
+    ///   - tags: Optional tags to include. A tag is a key-value pair you can use to manage, filter, and search for your resources. Allowed characters include UTF-8 letters, numbers, spaces, and the following characters: + - = . _ : /.
     ///   - logger: Logger use during operation
     @inlinable
     public func startSearchResultExportJob(
@@ -393,7 +393,7 @@ public struct BackupSearch: AWSService {
         return try await self.startSearchResultExportJob(input, logger: logger)
     }
 
-    /// This operations ends a search job. Only a search job with a status of RUNNING  can be stopped.
+    /// This operations ends a search job. Only a search job with a status of RUNNING can be stopped.
     @Sendable
     @inlinable
     public func stopSearchJob(_ input: StopSearchJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StopSearchJobOutput {
@@ -406,7 +406,7 @@ public struct BackupSearch: AWSService {
             logger: logger
         )
     }
-    /// This operations ends a search job. Only a search job with a status of RUNNING  can be stopped.
+    /// This operations ends a search job. Only a search job with a status of RUNNING can be stopped.
     ///
     /// Parameters:
     ///   - searchJobIdentifier: The unique string that specifies the search job.
@@ -438,8 +438,8 @@ public struct BackupSearch: AWSService {
     /// This operation puts tags on the resource you indicate.
     ///
     /// Parameters:
-    ///   - resourceArn: The Amazon Resource Name (ARN) that uniquely identifies  the resource. This is the resource that will have the indicated tags.
-    ///   - tags: Required tags to include. A tag is a key-value pair you can use to manage,  filter, and search for your resources. Allowed characters include UTF-8 letters,  numbers, spaces, and the following characters: + - = . _ : /.
+    ///   - resourceArn: The Amazon Resource Name (ARN) that uniquely identifies the resource. This is the resource that will have the indicated tags.
+    ///   - tags: Required tags to include. A tag is a key-value pair you can use to manage, filter, and search for your resources. Allowed characters include UTF-8 letters, numbers, spaces, and the following characters: + - = . _ : /.
     ///   - logger: Logger use during operation
     @inlinable
     public func tagResource(
@@ -470,8 +470,8 @@ public struct BackupSearch: AWSService {
     /// This operation removes tags from the specified resource.
     ///
     /// Parameters:
-    ///   - resourceArn: The Amazon Resource Name (ARN) that uniquely identifies  the resource where you want to remove tags.
-    ///   - tagKeys: This required parameter contains the tag keys you  want to remove from the source.
+    ///   - resourceArn: The Amazon Resource Name (ARN) that uniquely identifies the resource where you want to remove tags.
+    ///   - tagKeys: This required parameter contains the tag keys you want to remove from the source.
     ///   - logger: Logger use during operation
     @inlinable
     public func untagResource(

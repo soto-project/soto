@@ -43,6 +43,11 @@ extension EntityResolution {
         public var description: String { return self.rawValue }
     }
 
+    public enum IdMappingIncrementalRunType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case onDemand = "ON_DEMAND"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IdMappingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case provider = "PROVIDER"
         case ruleBased = "RULE_BASED"
@@ -71,6 +76,13 @@ extension EntityResolution {
         case queued = "QUEUED"
         case running = "RUNNING"
         case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case batch = "BATCH"
+        case deleteOnly = "DELETE_ONLY"
+        case incremental = "INCREMENTAL"
         public var description: String { return self.rawValue }
     }
 
@@ -295,9 +307,11 @@ extension EntityResolution {
         public let description: String?
         /// An object which defines the ID mapping technique and any additional configurations.
         public let idMappingTechniques: IdMappingTechniques
+        ///  The incremental run configuration for the ID mapping workflow.
+        public let incrementalRunConfig: IdMappingIncrementalRunConfig?
         /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
         public let inputSourceConfig: [IdMappingWorkflowInputSource]
-        /// A list of IdMappingWorkflowOutputSource objects, each of which contains fields OutputS3Path and Output.
+        /// A list of IdMappingWorkflowOutputSource objects, each of which contains fields outputS3Path and KMSArn.
         public let outputSourceConfig: [IdMappingWorkflowOutputSource]?
         /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
         public let roleArn: String?
@@ -307,9 +321,10 @@ extension EntityResolution {
         public let workflowName: String
 
         @inlinable
-        public init(description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, workflowName: String) {
+        public init(description: String? = nil, idMappingTechniques: IdMappingTechniques, incrementalRunConfig: IdMappingIncrementalRunConfig? = nil, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, workflowName: String) {
             self.description = description
             self.idMappingTechniques = idMappingTechniques
+            self.incrementalRunConfig = incrementalRunConfig
             self.inputSourceConfig = inputSourceConfig
             self.outputSourceConfig = outputSourceConfig
             self.roleArn = roleArn
@@ -346,6 +361,7 @@ extension EntityResolution {
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case idMappingTechniques = "idMappingTechniques"
+            case incrementalRunConfig = "incrementalRunConfig"
             case inputSourceConfig = "inputSourceConfig"
             case outputSourceConfig = "outputSourceConfig"
             case roleArn = "roleArn"
@@ -359,9 +375,11 @@ extension EntityResolution {
         public let description: String?
         /// An object which defines the ID mapping technique and any additional configurations.
         public let idMappingTechniques: IdMappingTechniques
+        ///  The incremental run configuration for the ID mapping workflow.
+        public let incrementalRunConfig: IdMappingIncrementalRunConfig?
         /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
         public let inputSourceConfig: [IdMappingWorkflowInputSource]
-        /// A list of IdMappingWorkflowOutputSource objects, each of which contains fields OutputS3Path and Output.
+        /// A list of IdMappingWorkflowOutputSource objects, each of which contains fields outputS3Path and KMSArn.
         public let outputSourceConfig: [IdMappingWorkflowOutputSource]?
         /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
         public let roleArn: String?
@@ -371,9 +389,10 @@ extension EntityResolution {
         public let workflowName: String
 
         @inlinable
-        public init(description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String? = nil, workflowArn: String, workflowName: String) {
+        public init(description: String? = nil, idMappingTechniques: IdMappingTechniques, incrementalRunConfig: IdMappingIncrementalRunConfig? = nil, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String? = nil, workflowArn: String, workflowName: String) {
             self.description = description
             self.idMappingTechniques = idMappingTechniques
+            self.incrementalRunConfig = incrementalRunConfig
             self.inputSourceConfig = inputSourceConfig
             self.outputSourceConfig = outputSourceConfig
             self.roleArn = roleArn
@@ -384,6 +403,7 @@ extension EntityResolution {
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case idMappingTechniques = "idMappingTechniques"
+            case incrementalRunConfig = "incrementalRunConfig"
             case inputSourceConfig = "inputSourceConfig"
             case outputSourceConfig = "outputSourceConfig"
             case roleArn = "roleArn"
@@ -508,11 +528,11 @@ extension EntityResolution {
     public struct CreateMatchingWorkflowInput: AWSEncodableShape {
         /// A description of the workflow.
         public let description: String?
-        /// An object which defines an incremental run type and has only incrementalRunType as a field.
+        /// Optional. An object that defines the incremental run type. This object contains only the incrementalRunType field, which appears as "Automatic" in the console.   For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
         public let incrementalRunConfig: IncrementalRunConfig?
         /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
         public let inputSourceConfig: [InputSource]
-        /// A list of OutputSource objects, each of which contains fields OutputS3Path, ApplyNormalization, and Output.
+        /// A list of OutputSource objects, each of which contains fields outputS3Path, applyNormalization, KMSArn, and output.
         public let outputSourceConfig: [OutputSource]
         /// An object which defines the resolutionType and the ruleBasedProperties.
         public let resolutionTechniques: ResolutionTechniques
@@ -578,7 +598,7 @@ extension EntityResolution {
         public let incrementalRunConfig: IncrementalRunConfig?
         /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
         public let inputSourceConfig: [InputSource]
-        /// A list of OutputSource objects, each of which contains fields OutputS3Path, ApplyNormalization, and Output.
+        /// A list of OutputSource objects, each of which contains fields outputS3Path, applyNormalization, KMSArn, and output.
         public let outputSourceConfig: [OutputSource]
         /// An object which defines the resolutionType and the ruleBasedProperties.
         public let resolutionTechniques: ResolutionTechniques
@@ -887,9 +907,9 @@ extension EntityResolution {
     }
 
     public struct DeleteUniqueIdError: AWSDecodableShape {
-        ///  The error type for the batch delete unique ID operation.
+        ///  The error type for the delete unique ID operation. The SERVICE_ERROR value indicates that an internal service-side problem occurred during the deletion operation. The VALIDATION_ERROR value indicates that the deletion operation couldn't complete because of invalid input parameters or data.
         public let errorType: DeleteUniqueIdErrorType
-        /// The unique ID that could not be deleted.
+        /// The unique ID that couldn't be deleted.
         public let uniqueId: String
 
         @inlinable
@@ -1064,6 +1084,8 @@ extension EntityResolution {
         public let errorDetails: ErrorDetails?
         /// The ID of the job.
         public let jobId: String
+        ///  The job type of the ID mapping job. A value of INCREMENTAL indicates that only new or changed data was processed since the last job run. This is the default job type if the workflow was created with an incrementalRunConfig. A value of BATCH indicates that all data was processed from the input source, regardless of previous job runs. This is the default job type if the workflow wasn't created with an incrementalRunConfig. A value of DELETE_ONLY indicates that only deletion requests from BatchDeleteUniqueIds were processed.
+        public let jobType: JobType?
         /// Metrics associated with the execution, specifically total records processed, unique IDs generated, and records the execution skipped.
         public let metrics: IdMappingJobMetrics?
         /// A list of OutputSource objects.
@@ -1074,10 +1096,11 @@ extension EntityResolution {
         public let status: JobStatus
 
         @inlinable
-        public init(endTime: Date? = nil, errorDetails: ErrorDetails? = nil, jobId: String, metrics: IdMappingJobMetrics? = nil, outputSourceConfig: [IdMappingJobOutputSource]? = nil, startTime: Date, status: JobStatus) {
+        public init(endTime: Date? = nil, errorDetails: ErrorDetails? = nil, jobId: String, jobType: JobType? = nil, metrics: IdMappingJobMetrics? = nil, outputSourceConfig: [IdMappingJobOutputSource]? = nil, startTime: Date, status: JobStatus) {
             self.endTime = endTime
             self.errorDetails = errorDetails
             self.jobId = jobId
+            self.jobType = jobType
             self.metrics = metrics
             self.outputSourceConfig = outputSourceConfig
             self.startTime = startTime
@@ -1088,6 +1111,7 @@ extension EntityResolution {
             case endTime = "endTime"
             case errorDetails = "errorDetails"
             case jobId = "jobId"
+            case jobType = "jobType"
             case metrics = "metrics"
             case outputSourceConfig = "outputSourceConfig"
             case startTime = "startTime"
@@ -1126,9 +1150,11 @@ extension EntityResolution {
         public let description: String?
         /// An object which defines the ID mapping technique and any additional configurations.
         public let idMappingTechniques: IdMappingTechniques
+        ///  The incremental run configuration for the ID mapping workflow.
+        public let incrementalRunConfig: IdMappingIncrementalRunConfig?
         /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
         public let inputSourceConfig: [IdMappingWorkflowInputSource]
-        /// A list of OutputSource objects, each of which contains fields OutputS3Path and KMSArn.
+        /// A list of OutputSource objects, each of which contains fields outputS3Path and KMSArn.
         public let outputSourceConfig: [IdMappingWorkflowOutputSource]?
         /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access Amazon Web Services resources on your behalf.
         public let roleArn: String?
@@ -1142,10 +1168,11 @@ extension EntityResolution {
         public let workflowName: String
 
         @inlinable
-        public init(createdAt: Date, description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, updatedAt: Date, workflowArn: String, workflowName: String) {
+        public init(createdAt: Date, description: String? = nil, idMappingTechniques: IdMappingTechniques, incrementalRunConfig: IdMappingIncrementalRunConfig? = nil, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, updatedAt: Date, workflowArn: String, workflowName: String) {
             self.createdAt = createdAt
             self.description = description
             self.idMappingTechniques = idMappingTechniques
+            self.incrementalRunConfig = incrementalRunConfig
             self.inputSourceConfig = inputSourceConfig
             self.outputSourceConfig = outputSourceConfig
             self.roleArn = roleArn
@@ -1159,6 +1186,7 @@ extension EntityResolution {
             case createdAt = "createdAt"
             case description = "description"
             case idMappingTechniques = "idMappingTechniques"
+            case incrementalRunConfig = "incrementalRunConfig"
             case inputSourceConfig = "inputSourceConfig"
             case outputSourceConfig = "outputSourceConfig"
             case roleArn = "roleArn"
@@ -1394,7 +1422,7 @@ extension EntityResolution {
         public let incrementalRunConfig: IncrementalRunConfig?
         /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
         public let inputSourceConfig: [InputSource]
-        /// A list of OutputSource objects, each of which contains fields OutputS3Path, ApplyNormalization, and Output.
+        /// A list of OutputSource objects, each of which contains fields outputS3Path, applyNormalization, KMSArn, and output.
         public let outputSourceConfig: [OutputSource]
         /// An object which defines the resolutionType and the ruleBasedProperties.
         public let resolutionTechniques: ResolutionTechniques
@@ -1642,9 +1670,39 @@ extension EntityResolution {
         }
     }
 
+    public struct IdMappingIncrementalRunConfig: AWSEncodableShape & AWSDecodableShape {
+        ///  The incremental run type for an ID mapping workflow. It takes only one value: ON_DEMAND. This setting runs the ID mapping workflow when it's manually triggered through the StartIdMappingJob API.
+        public let incrementalRunType: IdMappingIncrementalRunType?
+
+        @inlinable
+        public init(incrementalRunType: IdMappingIncrementalRunType? = nil) {
+            self.incrementalRunType = incrementalRunType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case incrementalRunType = "incrementalRunType"
+        }
+    }
+
     public struct IdMappingJobMetrics: AWSDecodableShape {
+        /// The number of records processed that were marked for deletion in the input file using the DELETE schema mapping field. These are the records to be removed from the ID mapping table.
+        public let deleteRecordsProcessed: Int?
         /// The total number of records that were input for processing.
         public let inputRecords: Int?
+        ///  The number of mapped records removed.
+        public let mappedRecordsRemoved: Int?
+        ///  The number of source records removed due to ID mapping.
+        public let mappedSourceRecordsRemoved: Int?
+        ///  The number of mapped target records removed.
+        public let mappedTargetRecordsRemoved: Int?
+        ///  The number of new mapped records.
+        public let newMappedRecords: Int?
+        ///  The number of new source records mapped.
+        public let newMappedSourceRecords: Int?
+        ///  The number of new mapped target records.
+        public let newMappedTargetRecords: Int?
+        /// The number of new unique records processed in the current job run, after removing duplicates. This metric excludes deletion-related records. Duplicates are determined by the field marked as UNIQUE_ID in your schema mapping. Records sharing the same value in this field are considered duplicates. For example, if your current run processes five new records with the same UNIQUE_ID value, they would count as one new unique record in this metric.
+        public let newUniqueRecordsLoaded: Int?
         /// The total number of records that did not get processed.
         public let recordsNotProcessed: Int?
         ///  The total number of records that were mapped.
@@ -1655,12 +1713,20 @@ extension EntityResolution {
         public let totalMappedTargetRecords: Int?
         /// The total number of records that were processed.
         public let totalRecordsProcessed: Int?
-        /// The number of records remaining after loading and aggregating duplicate records. Duplicates are determined by the field marked as UNIQUE_ID in your schema mapping - records sharing the same value in this field are considered duplicates. For example, if you specified "customer_id" as a UNIQUE_ID field and had three records with the same customer_id value, they would count as one unique record in this metric.
+        /// The number of de-duplicated processed records across all runs, excluding deletion-related records. Duplicates are determined by the field marked as UNIQUE_ID in your schema mapping. Records sharing the same value in this field are considered duplicates. For example, if you specified "customer_id" as a UNIQUE_ID field and had three records with the same customer_id value, they would count as one unique record in this metric.
         public let uniqueRecordsLoaded: Int?
 
         @inlinable
-        public init(inputRecords: Int? = nil, recordsNotProcessed: Int? = nil, totalMappedRecords: Int? = nil, totalMappedSourceRecords: Int? = nil, totalMappedTargetRecords: Int? = nil, totalRecordsProcessed: Int? = nil, uniqueRecordsLoaded: Int? = nil) {
+        public init(deleteRecordsProcessed: Int? = nil, inputRecords: Int? = nil, mappedRecordsRemoved: Int? = nil, mappedSourceRecordsRemoved: Int? = nil, mappedTargetRecordsRemoved: Int? = nil, newMappedRecords: Int? = nil, newMappedSourceRecords: Int? = nil, newMappedTargetRecords: Int? = nil, newUniqueRecordsLoaded: Int? = nil, recordsNotProcessed: Int? = nil, totalMappedRecords: Int? = nil, totalMappedSourceRecords: Int? = nil, totalMappedTargetRecords: Int? = nil, totalRecordsProcessed: Int? = nil, uniqueRecordsLoaded: Int? = nil) {
+            self.deleteRecordsProcessed = deleteRecordsProcessed
             self.inputRecords = inputRecords
+            self.mappedRecordsRemoved = mappedRecordsRemoved
+            self.mappedSourceRecordsRemoved = mappedSourceRecordsRemoved
+            self.mappedTargetRecordsRemoved = mappedTargetRecordsRemoved
+            self.newMappedRecords = newMappedRecords
+            self.newMappedSourceRecords = newMappedSourceRecords
+            self.newMappedTargetRecords = newMappedTargetRecords
+            self.newUniqueRecordsLoaded = newUniqueRecordsLoaded
             self.recordsNotProcessed = recordsNotProcessed
             self.totalMappedRecords = totalMappedRecords
             self.totalMappedSourceRecords = totalMappedSourceRecords
@@ -1670,7 +1736,15 @@ extension EntityResolution {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deleteRecordsProcessed = "deleteRecordsProcessed"
             case inputRecords = "inputRecords"
+            case mappedRecordsRemoved = "mappedRecordsRemoved"
+            case mappedSourceRecordsRemoved = "mappedSourceRecordsRemoved"
+            case mappedTargetRecordsRemoved = "mappedTargetRecordsRemoved"
+            case newMappedRecords = "newMappedRecords"
+            case newMappedSourceRecords = "newMappedSourceRecords"
+            case newMappedTargetRecords = "newMappedTargetRecords"
+            case newUniqueRecordsLoaded = "newUniqueRecordsLoaded"
             case recordsNotProcessed = "recordsNotProcessed"
             case totalMappedRecords = "totalMappedRecords"
             case totalMappedSourceRecords = "totalMappedSourceRecords"
@@ -1713,7 +1787,7 @@ extension EntityResolution {
     }
 
     public struct IdMappingRuleBasedProperties: AWSEncodableShape & AWSDecodableShape {
-        /// The comparison type. You can either choose ONE_TO_ONE or MANY_TO_MANY as the attributeMatchingModel.  If you choose MANY_TO_MANY, the system can match attributes across the sub-types of an attribute type. For example, if the value of the Email field of Profile A matches the value of the BusinessEmail field of Profile B, the two profiles are matched on the Email attribute type.  If you choose ONE_TO_ONE, the system can only match attributes if the sub-types are an exact match. For example, for the Email attribute type, the system will only consider it a match if the value of the Email field of Profile A matches the value of the Email field of Profile B.
+        /// The comparison type. You can either choose ONE_TO_ONE or MANY_TO_MANY as the attributeMatchingModel.  If you choose ONE_TO_ONE, the system can only match attributes if the sub-types are an exact match. For example, for the Email attribute type, the system will only consider it a match if the value of the Email field of Profile A matches the value of the Email field of Profile B. If you choose MANY_TO_MANY, the system can match attributes across the sub-types of an attribute type. For example, if the value of the Email field of Profile A matches the value of the BusinessEmail field of Profile B, the two profiles are matched on the Email attribute type.
         public let attributeMatchingModel: AttributeMatchingModel
         ///  The type of matching record that is allowed to be used in an ID mapping workflow.  If the value is set to ONE_SOURCE_TO_ONE_TARGET, only one record in the source can be matched to the same record in the target. If the value is set to MANY_SOURCE_TO_ONE_TARGET, multiple records in the source can be matched to one record in the target.
         public let recordMatchingModel: RecordMatchingModel
@@ -1787,6 +1861,7 @@ extension EntityResolution {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.inputSourceARN, name: "inputSourceARN", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(idnamespace/[a-zA-Z_0-9-]{1,255})$|^arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(matchingworkflow/[a-zA-Z_0-9-]{1,255})$|^arn:(aws|aws-us-gov|aws-cn):glue:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(table/[a-zA-Z_0-9-]{1,255}/[a-zA-Z_0-9-]{1,255})$")
             try self.validate(self.schemaName, name: "schemaName", parent: name, max: 255)
             try self.validate(self.schemaName, name: "schemaName", parent: name, min: 1)
             try self.validate(self.schemaName, name: "schemaName", parent: name, pattern: "^[a-zA-Z_0-9-]*$")
@@ -1904,6 +1979,7 @@ extension EntityResolution {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.inputSourceARN, name: "inputSourceARN", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(idnamespace/[a-zA-Z_0-9-]{1,255})$|^arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(matchingworkflow/[a-zA-Z_0-9-]{1,255})$|^arn:(aws|aws-us-gov|aws-cn):glue:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(table/[a-zA-Z_0-9-]{1,255}/[a-zA-Z_0-9-]{1,255})$")
             try self.validate(self.schemaName, name: "schemaName", parent: name, max: 255)
             try self.validate(self.schemaName, name: "schemaName", parent: name, min: 1)
             try self.validate(self.schemaName, name: "schemaName", parent: name, pattern: "^[a-zA-Z_0-9-]*$")
@@ -1954,7 +2030,7 @@ extension EntityResolution {
     }
 
     public struct IncrementalRunConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The type of incremental run. It takes only one value: IMMEDIATE.
+        /// The type of incremental run. The only valid value is IMMEDIATE. This appears as "Automatic" in the console.  For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
         public let incrementalRunType: IncrementalRunType?
 
         @inlinable
@@ -1983,6 +2059,7 @@ extension EntityResolution {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.inputSourceARN, name: "inputSourceARN", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(idnamespace/[a-zA-Z_0-9-]{1,255})$|^arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(matchingworkflow/[a-zA-Z_0-9-]{1,255})$|^arn:(aws|aws-us-gov|aws-cn):glue:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(table/[a-zA-Z_0-9-]{1,255}/[a-zA-Z_0-9-]{1,255})$")
             try self.validate(self.schemaName, name: "schemaName", parent: name, max: 255)
             try self.validate(self.schemaName, name: "schemaName", parent: name, min: 1)
             try self.validate(self.schemaName, name: "schemaName", parent: name, pattern: "^[a-zA-Z_0-9-]*$")
@@ -2016,6 +2093,8 @@ extension EntityResolution {
     }
 
     public struct JobMetrics: AWSDecodableShape {
+        /// The number of records processed that were marked for deletion (DELETE = True) in the input file. This metric tracks records flagged for removal during the job execution.
+        public let deleteRecordsProcessed: Int?
         /// The total number of input records.
         public let inputRecords: Int?
         /// The total number of matchIDs generated.
@@ -2026,7 +2105,8 @@ extension EntityResolution {
         public let totalRecordsProcessed: Int?
 
         @inlinable
-        public init(inputRecords: Int? = nil, matchIDs: Int? = nil, recordsNotProcessed: Int? = nil, totalRecordsProcessed: Int? = nil) {
+        public init(deleteRecordsProcessed: Int? = nil, inputRecords: Int? = nil, matchIDs: Int? = nil, recordsNotProcessed: Int? = nil, totalRecordsProcessed: Int? = nil) {
+            self.deleteRecordsProcessed = deleteRecordsProcessed
             self.inputRecords = inputRecords
             self.matchIDs = matchIDs
             self.recordsNotProcessed = recordsNotProcessed
@@ -2034,6 +2114,7 @@ extension EntityResolution {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deleteRecordsProcessed = "deleteRecordsProcessed"
             case inputRecords = "inputRecords"
             case matchIDs = "matchIDs"
             case recordsNotProcessed = "recordsNotProcessed"
@@ -2316,7 +2397,7 @@ extension EntityResolution {
     public struct ListMatchingWorkflowsOutput: AWSDecodableShape {
         /// The pagination token from the previous API call.
         public let nextToken: String?
-        /// A list of MatchingWorkflowSummary objects, each of which contain the fields WorkflowName, WorkflowArn, CreatedAt, and UpdatedAt.
+        /// A list of MatchingWorkflowSummary objects, each of which contain the fields workflowName, workflowArn, resolutionType, createdAt, and updatedAt.
         public let workflowSummaries: [MatchingWorkflowSummary]?
 
         @inlinable
@@ -2561,7 +2642,7 @@ extension EntityResolution {
     }
 
     public struct NamespaceRuleBasedProperties: AWSEncodableShape & AWSDecodableShape {
-        /// The comparison type. You can either choose ONE_TO_ONE or MANY_TO_MANY as the attributeMatchingModel.  If you choose MANY_TO_MANY, the system can match attributes across the sub-types of an attribute type. For example, if the value of the Email field of Profile A matches the value of BusinessEmail field of Profile B, the two profiles are matched on the Email attribute type.  If you choose ONE_TO_ONE, the system can only match attributes if the sub-types are an exact match. For example, for the Email attribute type, the system will only consider it a match if the value of the Email field of Profile A matches the value of the Email field of Profile B.
+        /// The comparison type. You can either choose ONE_TO_ONE or MANY_TO_MANY as the attributeMatchingModel.  If you choose ONE_TO_ONE, the system can only match attributes if the sub-types are an exact match. For example, for the Email attribute type, the system will only consider it a match if the value of the Email field of Profile A matches the value of the Email field of Profile B. If you choose MANY_TO_MANY, the system can match attributes across the sub-types of an attribute type. For example, if the value of the Email field of Profile A matches the value of BusinessEmail field of Profile B, the two profiles are matched on the Email attribute type.
         public let attributeMatchingModel: AttributeMatchingModel?
         ///  The type of matching record that is allowed to be used in an ID mapping workflow.  If the value is set to ONE_SOURCE_TO_ONE_TARGET, only one record in the source is matched to one record in the target.  If the value is set to MANY_SOURCE_TO_ONE_TARGET, all matching records in the source are matched to one record in the target.
         public let recordMatchingModels: [RecordMatchingModel]?
@@ -2896,6 +2977,7 @@ extension EntityResolution {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.inputSourceARN, name: "inputSourceARN", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(idnamespace/[a-zA-Z_0-9-]{1,255})$|^arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(matchingworkflow/[a-zA-Z_0-9-]{1,255})$|^arn:(aws|aws-us-gov|aws-cn):glue:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(table/[a-zA-Z_0-9-]{1,255}/[a-zA-Z_0-9-]{1,255})$")
             try self.validate(self.uniqueId, name: "uniqueId", parent: name, max: 38)
             try self.validate(self.uniqueId, name: "uniqueId", parent: name, min: 1)
             try self.validate(self.uniqueId, name: "uniqueId", parent: name, pattern: "^[a-zA-Z0-9_-]*$")
@@ -2911,16 +2993,19 @@ extension EntityResolution {
     public struct ResolutionTechniques: AWSEncodableShape & AWSDecodableShape {
         /// The properties of the provider service.
         public let providerProperties: ProviderProperties?
-        /// The type of matching. There are three types of matching: RULE_MATCHING, ML_MATCHING, and PROVIDER.
+        /// The type of matching workflow to create. Specify one of the following types:     RULE_MATCHING: Match records using configurable rule-based criteria     ML_MATCHING: Match records using machine learning models     PROVIDER: Match records using a third-party matching provider
         public let resolutionType: ResolutionType
-        /// An object which defines the list of matching rules to run and has a field Rules, which is a list of rule objects.
+        /// An object which defines the list of matching rules to run and has a field rules, which is a list of rule objects.
         public let ruleBasedProperties: RuleBasedProperties?
+        /// An object containing the rules for a matching workflow.
+        public let ruleConditionProperties: RuleConditionProperties?
 
         @inlinable
-        public init(providerProperties: ProviderProperties? = nil, resolutionType: ResolutionType, ruleBasedProperties: RuleBasedProperties? = nil) {
+        public init(providerProperties: ProviderProperties? = nil, resolutionType: ResolutionType, ruleBasedProperties: RuleBasedProperties? = nil, ruleConditionProperties: RuleConditionProperties? = nil) {
             self.providerProperties = providerProperties
             self.resolutionType = resolutionType
             self.ruleBasedProperties = ruleBasedProperties
+            self.ruleConditionProperties = ruleConditionProperties
         }
 
         public func validate(name: String) throws {
@@ -2932,6 +3017,7 @@ extension EntityResolution {
             case providerProperties = "providerProperties"
             case resolutionType = "resolutionType"
             case ruleBasedProperties = "ruleBasedProperties"
+            case ruleConditionProperties = "ruleConditionProperties"
         }
     }
 
@@ -2961,7 +3047,7 @@ extension EntityResolution {
     }
 
     public struct RuleBasedProperties: AWSEncodableShape & AWSDecodableShape {
-        /// The comparison type. You can either choose ONE_TO_ONE or MANY_TO_MANY as the attributeMatchingModel.  If you choose MANY_TO_MANY, the system can match attributes across the sub-types of an attribute type. For example, if the value of the Email field of Profile A and the value of BusinessEmail field of Profile B matches, the two profiles are matched on the Email attribute type.  If you choose ONE_TO_ONE, the system can only match attributes if the sub-types are an exact match. For example, for the Email attribute type, the system will only consider it a match if the value of the Email field of Profile A matches the value of the Email field of Profile B.
+        /// The comparison type. You can choose ONE_TO_ONE or MANY_TO_MANY as the attributeMatchingModel.  If you choose ONE_TO_ONE, the system can only match attributes if the sub-types are an exact match. For example, for the Email attribute type, the system will only consider it a match if the value of the Email field of Profile A matches the value of the Email field of Profile B. If you choose MANY_TO_MANY, the system can match attributes across the sub-types of an attribute type. For example, if the value of the Email field of Profile A and the value of BusinessEmail field of Profile B matches, the two profiles are matched on the Email attribute type.
         public let attributeMatchingModel: AttributeMatchingModel
         ///  An indicator of whether to generate IDs and index the data or not. If you choose IDENTIFIER_GENERATION, the process generates IDs and indexes the data. If you choose INDEXING, the process indexes the data without generating IDs.
         public let matchPurpose: MatchPurpose?
@@ -2984,6 +3070,38 @@ extension EntityResolution {
         private enum CodingKeys: String, CodingKey {
             case attributeMatchingModel = "attributeMatchingModel"
             case matchPurpose = "matchPurpose"
+            case rules = "rules"
+        }
+    }
+
+    public struct RuleCondition: AWSEncodableShape & AWSDecodableShape {
+        /// A statement that specifies the conditions for a matching rule. If your data is accurate, use an Exact matching function: Exact or ExactManyToMany.  If your data has variations in spelling or pronunciation, use a Fuzzy matching function: Cosine, Levenshtein, or Soundex.  Use operators if you want to combine (AND), separate (OR), or group matching functions (...). For example: (Cosine(a, 10) AND Exact(b, true)) OR ExactManyToMany(c, d)
+        public let condition: String
+        /// A name for the matching rule. For example: Rule1
+        public let ruleName: String
+
+        @inlinable
+        public init(condition: String, ruleName: String) {
+            self.condition = condition
+            self.ruleName = ruleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case condition = "condition"
+            case ruleName = "ruleName"
+        }
+    }
+
+    public struct RuleConditionProperties: AWSEncodableShape & AWSDecodableShape {
+        ///  A list of rule objects, each of which have fields ruleName and condition.
+        public let rules: [RuleCondition]
+
+        @inlinable
+        public init(rules: [RuleCondition]) {
+            self.rules = rules
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case rules = "rules"
         }
     }
@@ -3064,13 +3182,16 @@ extension EntityResolution {
     }
 
     public struct StartIdMappingJobInput: AWSEncodableShape {
+        ///  The job type for the ID mapping job. If the jobType value is set to INCREMENTAL, only new or changed data is processed since the last job run. This is the default value if the CreateIdMappingWorkflow API is configured with an incrementalRunConfig. If the jobType value is set to BATCH, all data is processed from the input source, regardless of previous job runs. This is the default value if the CreateIdMappingWorkflow API isn't configured with an incrementalRunConfig. If the jobType value is set to DELETE_ONLY, only deletion requests from BatchDeleteUniqueIds are processed.
+        public let jobType: JobType?
         /// A list of OutputSource objects.
         public let outputSourceConfig: [IdMappingJobOutputSource]?
         /// The name of the ID mapping job to be retrieved.
         public let workflowName: String
 
         @inlinable
-        public init(outputSourceConfig: [IdMappingJobOutputSource]? = nil, workflowName: String) {
+        public init(jobType: JobType? = nil, outputSourceConfig: [IdMappingJobOutputSource]? = nil, workflowName: String) {
+            self.jobType = jobType
             self.outputSourceConfig = outputSourceConfig
             self.workflowName = workflowName
         }
@@ -3078,6 +3199,7 @@ extension EntityResolution {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.jobType, forKey: .jobType)
             try container.encodeIfPresent(self.outputSourceConfig, forKey: .outputSourceConfig)
             request.encodePath(self.workflowName, key: "workflowName")
         }
@@ -3092,6 +3214,7 @@ extension EntityResolution {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case jobType = "jobType"
             case outputSourceConfig = "outputSourceConfig"
         }
     }
@@ -3099,17 +3222,21 @@ extension EntityResolution {
     public struct StartIdMappingJobOutput: AWSDecodableShape {
         /// The ID of the job.
         public let jobId: String
+        ///  The job type for the started ID mapping job. A value of INCREMENTAL indicates that only new or changed data was processed since the last job run. This is the default job type if the workflow was created with an incrementalRunConfig. A value of BATCH indicates that all data was processed from the input source, regardless of previous job runs. This is the default job type if the workflow wasn't created with an incrementalRunConfig. A value of DELETE_ONLY indicates that only deletion requests from BatchDeleteUniqueIds were processed.
+        public let jobType: JobType?
         /// A list of OutputSource objects.
         public let outputSourceConfig: [IdMappingJobOutputSource]?
 
         @inlinable
-        public init(jobId: String, outputSourceConfig: [IdMappingJobOutputSource]? = nil) {
+        public init(jobId: String, jobType: JobType? = nil, outputSourceConfig: [IdMappingJobOutputSource]? = nil) {
             self.jobId = jobId
+            self.jobType = jobType
             self.outputSourceConfig = outputSourceConfig
         }
 
         private enum CodingKeys: String, CodingKey {
             case jobId = "jobId"
+            case jobType = "jobType"
             case outputSourceConfig = "outputSourceConfig"
         }
     }
@@ -3230,9 +3357,11 @@ extension EntityResolution {
         public let description: String?
         /// An object which defines the ID mapping technique and any additional configurations.
         public let idMappingTechniques: IdMappingTechniques
+        ///  The incremental run configuration for the update ID mapping workflow.
+        public let incrementalRunConfig: IdMappingIncrementalRunConfig?
         /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
         public let inputSourceConfig: [IdMappingWorkflowInputSource]
-        /// A list of OutputSource objects, each of which contains fields OutputS3Path and KMSArn.
+        /// A list of OutputSource objects, each of which contains fields outputS3Path and KMSArn.
         public let outputSourceConfig: [IdMappingWorkflowOutputSource]?
         /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access Amazon Web Services resources on your behalf.
         public let roleArn: String?
@@ -3240,9 +3369,10 @@ extension EntityResolution {
         public let workflowName: String
 
         @inlinable
-        public init(description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String? = nil, workflowName: String) {
+        public init(description: String? = nil, idMappingTechniques: IdMappingTechniques, incrementalRunConfig: IdMappingIncrementalRunConfig? = nil, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String? = nil, workflowName: String) {
             self.description = description
             self.idMappingTechniques = idMappingTechniques
+            self.incrementalRunConfig = incrementalRunConfig
             self.inputSourceConfig = inputSourceConfig
             self.outputSourceConfig = outputSourceConfig
             self.roleArn = roleArn
@@ -3254,6 +3384,7 @@ extension EntityResolution {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encode(self.idMappingTechniques, forKey: .idMappingTechniques)
+            try container.encodeIfPresent(self.incrementalRunConfig, forKey: .incrementalRunConfig)
             try container.encode(self.inputSourceConfig, forKey: .inputSourceConfig)
             try container.encodeIfPresent(self.outputSourceConfig, forKey: .outputSourceConfig)
             try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
@@ -3283,6 +3414,7 @@ extension EntityResolution {
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case idMappingTechniques = "idMappingTechniques"
+            case incrementalRunConfig = "incrementalRunConfig"
             case inputSourceConfig = "inputSourceConfig"
             case outputSourceConfig = "outputSourceConfig"
             case roleArn = "roleArn"
@@ -3294,9 +3426,11 @@ extension EntityResolution {
         public let description: String?
         /// An object which defines the ID mapping technique and any additional configurations.
         public let idMappingTechniques: IdMappingTechniques
+        ///  The incremental run configuration for the update ID mapping workflow output.
+        public let incrementalRunConfig: IdMappingIncrementalRunConfig?
         /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
         public let inputSourceConfig: [IdMappingWorkflowInputSource]
-        /// A list of OutputSource objects, each of which contains fields OutputS3Path and KMSArn.
+        /// A list of OutputSource objects, each of which contains fields outputS3Path and KMSArn.
         public let outputSourceConfig: [IdMappingWorkflowOutputSource]?
         /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access Amazon Web Services resources on your behalf.
         public let roleArn: String?
@@ -3306,9 +3440,10 @@ extension EntityResolution {
         public let workflowName: String
 
         @inlinable
-        public init(description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String? = nil, workflowArn: String, workflowName: String) {
+        public init(description: String? = nil, idMappingTechniques: IdMappingTechniques, incrementalRunConfig: IdMappingIncrementalRunConfig? = nil, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String? = nil, workflowArn: String, workflowName: String) {
             self.description = description
             self.idMappingTechniques = idMappingTechniques
+            self.incrementalRunConfig = incrementalRunConfig
             self.inputSourceConfig = inputSourceConfig
             self.outputSourceConfig = outputSourceConfig
             self.roleArn = roleArn
@@ -3319,6 +3454,7 @@ extension EntityResolution {
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case idMappingTechniques = "idMappingTechniques"
+            case incrementalRunConfig = "incrementalRunConfig"
             case inputSourceConfig = "inputSourceConfig"
             case outputSourceConfig = "outputSourceConfig"
             case roleArn = "roleArn"
@@ -3434,11 +3570,11 @@ extension EntityResolution {
     public struct UpdateMatchingWorkflowInput: AWSEncodableShape {
         /// A description of the workflow.
         public let description: String?
-        /// An object which defines an incremental run type and has only incrementalRunType as a field.
+        /// Optional. An object that defines the incremental run type. This object contains only the incrementalRunType field, which appears as "Automatic" in the console.   For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
         public let incrementalRunConfig: IncrementalRunConfig?
         /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
         public let inputSourceConfig: [InputSource]
-        /// A list of OutputSource objects, each of which contains fields OutputS3Path, ApplyNormalization, and Output.
+        /// A list of OutputSource objects, each of which contains fields outputS3Path, applyNormalization, KMSArn, and output.
         public let outputSourceConfig: [OutputSource]
         /// An object which defines the resolutionType and the ruleBasedProperties.
         public let resolutionTechniques: ResolutionTechniques
@@ -3505,7 +3641,7 @@ extension EntityResolution {
         public let incrementalRunConfig: IncrementalRunConfig?
         /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
         public let inputSourceConfig: [InputSource]
-        /// A list of OutputSource objects, each of which contains fields OutputS3Path, ApplyNormalization, and Output.
+        /// A list of OutputSource objects, each of which contains fields outputS3Path, applyNormalization, KMSArn, and output.
         public let outputSourceConfig: [OutputSource]
         /// An object which defines the resolutionType and the ruleBasedProperties.
         public let resolutionTechniques: ResolutionTechniques
@@ -3652,13 +3788,13 @@ public struct EntityResolutionErrorType: AWSErrorType {
 
     /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// The request could not be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
+    /// The request couldn't be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
     public static var conflictException: Self { .init(.conflictException) }
     /// The request was rejected because it attempted to create resources beyond the current Entity Resolution account limits. The error message describes the limit exceeded.
     public static var exceedsLimitException: Self { .init(.exceedsLimitException) }
     /// This exception occurs when there is an internal failure in the Entity Resolution service.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// The resource could not be found.
+    /// The resource couldn't be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }

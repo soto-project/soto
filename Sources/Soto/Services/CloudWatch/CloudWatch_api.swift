@@ -239,6 +239,38 @@ public struct CloudWatch: AWSService {
         return try await self.deleteMetricStream(input, logger: logger)
     }
 
+    /// Returns the information of the current alarm contributors that are in ALARM state. This operation returns details about the individual time series that contribute to the alarm's state.
+    @Sendable
+    @inlinable
+    public func describeAlarmContributors(_ input: DescribeAlarmContributorsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAlarmContributorsOutput {
+        try await self.client.execute(
+            operation: "DescribeAlarmContributors", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the information of the current alarm contributors that are in ALARM state. This operation returns details about the individual time series that contribute to the alarm's state.
+    ///
+    /// Parameters:
+    ///   - alarmName: The name of the alarm for which to retrieve contributor information.
+    ///   - nextToken: The token returned by a previous call to indicate that there is more data available.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeAlarmContributors(
+        alarmName: String? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeAlarmContributorsOutput {
+        let input = DescribeAlarmContributorsInput(
+            alarmName: alarmName, 
+            nextToken: nextToken
+        )
+        return try await self.describeAlarmContributors(input, logger: logger)
+    }
+
     /// Retrieves the history for the specified alarm. You can filter the results by date range or item type. If an alarm name is not specified, the histories for either all metric alarms or all composite alarms are returned. CloudWatch retains the history of an alarm even if you delete the alarm. To use this operation and return information about a composite alarm, you must be signed on with the cloudwatch:DescribeAlarmHistory permission that is scoped to *. You can't return information about composite alarms if your cloudwatch:DescribeAlarmHistory permission has a narrower scope.
     @Sendable
     @inlinable
@@ -255,6 +287,7 @@ public struct CloudWatch: AWSService {
     /// Retrieves the history for the specified alarm. You can filter the results by date range or item type. If an alarm name is not specified, the histories for either all metric alarms or all composite alarms are returned. CloudWatch retains the history of an alarm even if you delete the alarm. To use this operation and return information about a composite alarm, you must be signed on with the cloudwatch:DescribeAlarmHistory permission that is scoped to *. You can't return information about composite alarms if your cloudwatch:DescribeAlarmHistory permission has a narrower scope.
     ///
     /// Parameters:
+    ///   - alarmContributorId: The unique identifier of a specific alarm contributor to filter the alarm history results.
     ///   - alarmName: The name of the alarm.
     ///   - alarmTypes: Use this parameter to specify whether you want the operation to return metric alarms or composite alarms. If you omit this parameter, only metric alarms are returned.
     ///   - endDate: The ending date to retrieve alarm history.
@@ -266,6 +299,7 @@ public struct CloudWatch: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func describeAlarmHistory(
+        alarmContributorId: String? = nil,
         alarmName: String? = nil,
         alarmTypes: [AlarmType]? = nil,
         endDate: Date? = nil,
@@ -277,6 +311,7 @@ public struct CloudWatch: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DescribeAlarmHistoryOutput {
         let input = DescribeAlarmHistoryInput(
+            alarmContributorId: alarmContributorId, 
             alarmName: alarmName, 
             alarmTypes: alarmTypes, 
             endDate: endDate, 
@@ -1138,7 +1173,7 @@ public struct CloudWatch: AWSService {
     /// Creates a Contributor Insights rule. Rules evaluate log events in a CloudWatch Logs log group, enabling you to find contributor data for the log events in that log group. For more information, see Using Contributor Insights to Analyze High-Cardinality Data. If you create a rule, delete it, and then re-create it with the same name, historical data from the first time the rule was created might not be available.
     ///
     /// Parameters:
-    ///   - applyOnTransformedLogs: Specify true to have this rule evalute log events after they have been transformed by   Log transformation. If you specify true, then the log events in log groups that have transformers will  be evaluated by Contributor Insights after being transformed. Log groups that don't have transformers will still have their original log events evaluated by Contributor Insights. The default is false   If a log group has a transformer, and transformation fails for some log events, those log events won't be evaluated by Contributor Insights. For information about investigating log transformation failures, see Transformation metrics and errors.
+    ///   - applyOnTransformedLogs: Specify true to have this rule evaluate log events after they have been transformed by   Log transformation. If you specify true, then the log events in log groups that have transformers will  be evaluated by Contributor Insights after being transformed. Log groups that don't have transformers will still have their original log events evaluated by Contributor Insights. The default is false   If a log group has a transformer, and transformation fails for some log events, those log events won't be evaluated by Contributor Insights. For information about investigating log transformation failures, see Transformation metrics and errors.
     ///   - ruleDefinition: The definition of the rule, as a JSON object. For details on the valid syntax, see Contributor Insights Rule Syntax.
     ///   - ruleName: A unique name for the rule.
     ///   - ruleState: The state of the rule. Valid values are ENABLED and DISABLED.
@@ -1570,6 +1605,7 @@ extension CloudWatch {
     /// Return PaginatorSequence for operation ``describeAlarmHistory(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - alarmContributorId: The unique identifier of a specific alarm contributor to filter the alarm history results.
     ///   - alarmName: The name of the alarm.
     ///   - alarmTypes: Use this parameter to specify whether you want the operation to return metric alarms or composite alarms. If you omit this parameter, only metric alarms are returned.
     ///   - endDate: The ending date to retrieve alarm history.
@@ -1580,6 +1616,7 @@ extension CloudWatch {
     ///   - logger: Logger used for logging
     @inlinable
     public func describeAlarmHistoryPaginator(
+        alarmContributorId: String? = nil,
         alarmName: String? = nil,
         alarmTypes: [AlarmType]? = nil,
         endDate: Date? = nil,
@@ -1590,6 +1627,7 @@ extension CloudWatch {
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<DescribeAlarmHistoryInput, DescribeAlarmHistoryOutput> {
         let input = DescribeAlarmHistoryInput(
+            alarmContributorId: alarmContributorId, 
             alarmName: alarmName, 
             alarmTypes: alarmTypes, 
             endDate: endDate, 
@@ -1944,6 +1982,7 @@ extension CloudWatch.DescribeAlarmHistoryInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> CloudWatch.DescribeAlarmHistoryInput {
         return .init(
+            alarmContributorId: self.alarmContributorId,
             alarmName: self.alarmName,
             alarmTypes: self.alarmTypes,
             endDate: self.endDate,

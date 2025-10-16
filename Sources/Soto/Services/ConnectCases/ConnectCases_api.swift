@@ -454,7 +454,7 @@ public struct ConnectCases: AWSService {
         return try await self.createTemplate(input, logger: logger)
     }
 
-    ///  The DeleteCase API permanently deletes a case and all its associated resources from the cases data store. After a successful deletion, you cannot:   Retrieve related items   Access audit history   Perform any operations that require the CaseID    This action is irreversible. Once you delete a case, you cannot recover its data.
+    ///  The DeleteCase API permanently deletes a case and all its associated resources from the cases data store. After a successful deletion, you cannot:   Retrieve related items   Access audit history   Perform any operations that require the CaseID    This action is irreversible. After you delete a case, you cannot recover its data.
     @Sendable
     @inlinable
     public func deleteCase(_ input: DeleteCaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCaseResponse {
@@ -467,7 +467,7 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    ///  The DeleteCase API permanently deletes a case and all its associated resources from the cases data store. After a successful deletion, you cannot:   Retrieve related items   Access audit history   Perform any operations that require the CaseID    This action is irreversible. Once you delete a case, you cannot recover its data.
+    ///  The DeleteCase API permanently deletes a case and all its associated resources from the cases data store. After a successful deletion, you cannot:   Retrieve related items   Access audit history   Perform any operations that require the CaseID    This action is irreversible. After you delete a case, you cannot recover its data.
     ///
     /// Parameters:
     ///   - caseId: A unique identifier of the case.
@@ -734,7 +734,7 @@ public struct ConnectCases: AWSService {
     /// Parameters:
     ///   - caseId: A unique identifier of the case.
     ///   - domainId: The unique identifier of the Cases domain.
-    ///   - maxResults: The maximum number of audit events to return. The current maximum supported value is 25. This is also the default when no other value is provided.
+    ///   - maxResults: The maximum number of audit events to return. When no value is provided, 25 is the default.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1191,6 +1191,47 @@ public struct ConnectCases: AWSService {
         return try await self.putCaseEventConfiguration(input, logger: logger)
     }
 
+    /// Searches for related items across all cases within a domain. This is a global search operation that returns related items from multiple cases, unlike the case-specific SearchRelatedItems API.  Use cases  Following are common uses cases for this API:   Find cases with similar issues across the domain. For example, search for all cases containing comments about "product defect" to identify patterns and existing solutions.   Locate all cases associated with specific contacts or orders. For example, find all cases linked to a contactArn to understand the complete customer journey.    Monitor SLA compliance across cases. For example, search for all cases with "Active" SLA status to prioritize remediation efforts.    Important things to know    This API returns case IDs, not complete case objects. To retrieve full case details, you must make additional calls to the GetCase API for each returned case ID.    This API searches across related items content, not case fields. Use the SearchCases API to search within case field values.    Endpoints: See Amazon Connect endpoints and quotas.
+    @Sendable
+    @inlinable
+    public func searchAllRelatedItems(_ input: SearchAllRelatedItemsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchAllRelatedItemsResponse {
+        try await self.client.execute(
+            operation: "SearchAllRelatedItems", 
+            path: "/domains/{domainId}/related-items-search", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Searches for related items across all cases within a domain. This is a global search operation that returns related items from multiple cases, unlike the case-specific SearchRelatedItems API.  Use cases  Following are common uses cases for this API:   Find cases with similar issues across the domain. For example, search for all cases containing comments about "product defect" to identify patterns and existing solutions.   Locate all cases associated with specific contacts or orders. For example, find all cases linked to a contactArn to understand the complete customer journey.    Monitor SLA compliance across cases. For example, search for all cases with "Active" SLA status to prioritize remediation efforts.    Important things to know    This API returns case IDs, not complete case objects. To retrieve full case details, you must make additional calls to the GetCase API for each returned case ID.    This API searches across related items content, not case fields. Use the SearchCases API to search within case field values.    Endpoints: See Amazon Connect endpoints and quotas.
+    ///
+    /// Parameters:
+    ///   - domainId: The unique identifier of the Cases domain.
+    ///   - filters: The list of types of related items and their parameters to use for filtering. The filters work as an OR condition: caller gets back related items that match any of the specified filter types.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    ///   - sorts: A structured set of sort terms to specify the order in which related items should be returned. Supports sorting by association time or case ID. The sorts work in the order specified: first sort term takes precedence over subsequent terms.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func searchAllRelatedItems(
+        domainId: String,
+        filters: [RelatedItemTypeFilter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        sorts: [SearchAllRelatedItemsSort]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SearchAllRelatedItemsResponse {
+        let input = SearchAllRelatedItemsRequest(
+            domainId: domainId, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            sorts: sorts
+        )
+        return try await self.searchAllRelatedItems(input, logger: logger)
+    }
+
     /// Searches for cases within their associated Cases domain. Search results are returned as a paginated list of abridged case documents.  For customer_id you must provide the full customer profile ARN in this format:  arn:aws:profile:your AWS Region:your AWS account ID:domains/profiles domain name/profiles/profile ID.
     @Sendable
     @inlinable
@@ -1210,7 +1251,7 @@ public struct ConnectCases: AWSService {
     ///   - domainId: The unique identifier of the Cases domain.
     ///   - fields: The list of field identifiers to be returned as part of the response.
     ///   - filter: A list of filter objects.
-    ///   - maxResults: The maximum number of cases to return. The current maximum supported value is 25. This is also the default value when no other value is provided.
+    ///   - maxResults: The maximum number of cases to return. When no value is provided, 25 is the default.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - searchTerm: A word or phrase used to perform a quick search.
     ///   - sorts: A list of sorts where each sort specifies a field and their sort order to be applied to the results.
@@ -1625,7 +1666,7 @@ extension ConnectCases {
     /// - Parameters:
     ///   - caseId: A unique identifier of the case.
     ///   - domainId: The unique identifier of the Cases domain.
-    ///   - maxResults: The maximum number of audit events to return. The current maximum supported value is 25. This is also the default when no other value is provided.
+    ///   - maxResults: The maximum number of audit events to return. When no value is provided, 25 is the default.
     ///   - logger: Logger used for logging
     @inlinable
     public func getCaseAuditEventsPaginator(
@@ -1910,6 +1951,49 @@ extension ConnectCases {
         return self.listTemplatesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``searchAllRelatedItems(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchAllRelatedItemsPaginator(
+        _ input: SearchAllRelatedItemsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchAllRelatedItemsRequest, SearchAllRelatedItemsResponse> {
+        return .init(
+            input: input,
+            command: self.searchAllRelatedItems,
+            inputKey: \SearchAllRelatedItemsRequest.nextToken,
+            outputKey: \SearchAllRelatedItemsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``searchAllRelatedItems(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - domainId: The unique identifier of the Cases domain.
+    ///   - filters: The list of types of related items and their parameters to use for filtering. The filters work as an OR condition: caller gets back related items that match any of the specified filter types.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - sorts: A structured set of sort terms to specify the order in which related items should be returned. Supports sorting by association time or case ID. The sorts work in the order specified: first sort term takes precedence over subsequent terms.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchAllRelatedItemsPaginator(
+        domainId: String,
+        filters: [RelatedItemTypeFilter]? = nil,
+        maxResults: Int? = nil,
+        sorts: [SearchAllRelatedItemsSort]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<SearchAllRelatedItemsRequest, SearchAllRelatedItemsResponse> {
+        let input = SearchAllRelatedItemsRequest(
+            domainId: domainId, 
+            filters: filters, 
+            maxResults: maxResults, 
+            sorts: sorts
+        )
+        return self.searchAllRelatedItemsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``searchCases(_:logger:)``.
     ///
     /// - Parameters:
@@ -1934,7 +2018,7 @@ extension ConnectCases {
     ///   - domainId: The unique identifier of the Cases domain.
     ///   - fields: The list of field identifiers to be returned as part of the response.
     ///   - filter: A list of filter objects.
-    ///   - maxResults: The maximum number of cases to return. The current maximum supported value is 25. This is also the default value when no other value is provided.
+    ///   - maxResults: The maximum number of cases to return. When no value is provided, 25 is the default.
     ///   - searchTerm: A word or phrase used to perform a quick search.
     ///   - sorts: A list of sorts where each sort specifies a field and their sort order to be applied to the results.
     ///   - logger: Logger used for logging
@@ -2103,6 +2187,19 @@ extension ConnectCases.ListTemplatesRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             status: self.status
+        )
+    }
+}
+
+extension ConnectCases.SearchAllRelatedItemsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ConnectCases.SearchAllRelatedItemsRequest {
+        return .init(
+            domainId: self.domainId,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sorts: self.sorts
         )
     }
 }

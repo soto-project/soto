@@ -67,6 +67,7 @@ extension Route53 {
         case apSoutheast3 = "ap-southeast-3"
         case apSoutheast4 = "ap-southeast-4"
         case apSoutheast5 = "ap-southeast-5"
+        case apSoutheast6 = "ap-southeast-6"
         case apSoutheast7 = "ap-southeast-7"
         case caCentral1 = "ca-central-1"
         case caWest1 = "ca-west-1"
@@ -199,6 +200,7 @@ extension Route53 {
         case apSoutheast3 = "ap-southeast-3"
         case apSoutheast4 = "ap-southeast-4"
         case apSoutheast5 = "ap-southeast-5"
+        case apSoutheast6 = "ap-southeast-6"
         case apSoutheast7 = "ap-southeast-7"
         case caCentral1 = "ca-central-1"
         case caWest1 = "ca-west-1"
@@ -260,6 +262,7 @@ extension Route53 {
         case apSoutheast3 = "ap-southeast-3"
         case apSoutheast4 = "ap-southeast-4"
         case apSoutheast5 = "ap-southeast-5"
+        case apSoutheast6 = "ap-southeast-6"
         case apSoutheast7 = "ap-southeast-7"
         case caCentral1 = "ca-central-1"
         case caWest1 = "ca-west-1"
@@ -5486,8 +5489,7 @@ extension Route53 {
         /// 			| AAAA | CAA | CNAME | MX |
         /// 				NAPTR | PTR | SPF | SRV |
         /// 				TXT| TLSA| SSHFP| SVCB|
-        /// 				HTTPS. When creating a group of weighted, latency, geolocation,
-        /// 			or
+        /// 				HTTPS. When creating a group of weighted, latency, geolocation, or
         /// 			failover resource record sets, specify the same value for all of the resource record
         /// 			sets in the group. Valid values for multivalue answer resource record sets: A |
         /// 				AAAA | MX | NAPTR | PTR |
@@ -5949,8 +5951,9 @@ extension Route53 {
         /// 					aggregating the status of the referenced health checks.    Health checks that monitor CloudWatch alarms:
         /// 					Route 53 stops monitoring the corresponding CloudWatch metrics.   After you disable a health check, Route 53 considers the status of the health check to
         /// 			always be healthy. If you configured DNS failover, Route 53 continues to route traffic
-        /// 			to the corresponding resources. If you want to stop routing traffic to a resource,
-        /// 			change the value of Inverted.  Charges for a health check still apply when the health check is disabled. For more
+        /// 			to the corresponding resources. Additionally, in disabled state, you can also invert the
+        /// 			status of the health check to route traffic differently. For more information, see
+        /// 				Inverted.  Charges for a health check still apply when the health check is disabled. For more
         /// 			information, see Amazon Route 53
         /// 				Pricing.
         public let disabled: Bool?

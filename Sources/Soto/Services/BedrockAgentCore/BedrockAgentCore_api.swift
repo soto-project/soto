@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS BedrockAgentCore service.
 ///
-///  Amazon Bedrock AgentCore is in preview release and is subject to change.  Data plane operations for Amazon Bedrock AgentCore.
+///  Amazon Bedrock AgentCore is in preview release and is subject to change.  Welcome to the Amazon Bedrock AgentCore Data Plane API reference. Data Plane actions process and handle data or workloads within Amazon Web Services services.
 public struct BedrockAgentCore: AWSService {
     // MARK: Member variables
 
@@ -78,7 +78,138 @@ public struct BedrockAgentCore: AWSService {
 
     // MARK: API Calls
 
-    /// Creates an event in a memory store. Events represent interactions or activities that occur within a session and are associated with specific actors. To use this operation, you must have the genesismemory:CreateEvent permission. This operation is subject to request rate limiting.
+    /// Creates multiple memory records in a single batch operation for the specified memory with custom content.
+    @Sendable
+    @inlinable
+    public func batchCreateMemoryRecords(_ input: BatchCreateMemoryRecordsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchCreateMemoryRecordsOutput {
+        try await self.client.execute(
+            operation: "BatchCreateMemoryRecords", 
+            path: "/memories/{memoryId}/memoryRecords/batchCreate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates multiple memory records in a single batch operation for the specified memory with custom content.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure idempotent processing of the batch request.
+    ///   - memoryId: The unique ID of the memory resource where records will be created.
+    ///   - records: A list of memory record creation inputs to be processed in the batch operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchCreateMemoryRecords(
+        clientToken: String? = BatchCreateMemoryRecordsInput.idempotencyToken(),
+        memoryId: String,
+        records: [MemoryRecordCreateInput],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchCreateMemoryRecordsOutput {
+        let input = BatchCreateMemoryRecordsInput(
+            clientToken: clientToken, 
+            memoryId: memoryId, 
+            records: records
+        )
+        return try await self.batchCreateMemoryRecords(input, logger: logger)
+    }
+
+    /// Deletes multiple memory records in a single batch operation from the specified memory.
+    @Sendable
+    @inlinable
+    public func batchDeleteMemoryRecords(_ input: BatchDeleteMemoryRecordsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteMemoryRecordsOutput {
+        try await self.client.execute(
+            operation: "BatchDeleteMemoryRecords", 
+            path: "/memories/{memoryId}/memoryRecords/batchDelete", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes multiple memory records in a single batch operation from the specified memory.
+    ///
+    /// Parameters:
+    ///   - memoryId: The unique ID of the memory resource where records will be deleted.
+    ///   - records: A list of memory record deletion inputs to be processed in the batch operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchDeleteMemoryRecords(
+        memoryId: String,
+        records: [MemoryRecordDeleteInput],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchDeleteMemoryRecordsOutput {
+        let input = BatchDeleteMemoryRecordsInput(
+            memoryId: memoryId, 
+            records: records
+        )
+        return try await self.batchDeleteMemoryRecords(input, logger: logger)
+    }
+
+    /// Updates multiple memory records with custom content in a single batch operation within the specified memory.
+    @Sendable
+    @inlinable
+    public func batchUpdateMemoryRecords(_ input: BatchUpdateMemoryRecordsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateMemoryRecordsOutput {
+        try await self.client.execute(
+            operation: "BatchUpdateMemoryRecords", 
+            path: "/memories/{memoryId}/memoryRecords/batchUpdate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates multiple memory records with custom content in a single batch operation within the specified memory.
+    ///
+    /// Parameters:
+    ///   - memoryId: The unique ID of the memory resource where records will be updated.
+    ///   - records: A list of memory record update inputs to be processed in the batch operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchUpdateMemoryRecords(
+        memoryId: String,
+        records: [MemoryRecordUpdateInput],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchUpdateMemoryRecordsOutput {
+        let input = BatchUpdateMemoryRecordsInput(
+            memoryId: memoryId, 
+            records: records
+        )
+        return try await self.batchUpdateMemoryRecords(input, logger: logger)
+    }
+
+    /// Confirms the user authentication session for obtaining OAuth2.0 tokens for a resource.
+    @Sendable
+    @inlinable
+    public func completeResourceTokenAuth(_ input: CompleteResourceTokenAuthRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CompleteResourceTokenAuthResponse {
+        try await self.client.execute(
+            operation: "CompleteResourceTokenAuth", 
+            path: "/identities/CompleteResourceTokenAuth", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Confirms the user authentication session for obtaining OAuth2.0 tokens for a resource.
+    ///
+    /// Parameters:
+    ///   - sessionUri: Unique identifier for the user's authentication session for retrieving OAuth2 tokens. This ID tracks the authorization flow state across multiple requests and responses during the OAuth2 authentication process.
+    ///   - userIdentifier: The OAuth2.0 token or user ID that was used to generate the workload access token used for initiating the user authorization flow to retrieve OAuth2.0 tokens.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func completeResourceTokenAuth(
+        sessionUri: String,
+        userIdentifier: UserIdentifier,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CompleteResourceTokenAuthResponse {
+        let input = CompleteResourceTokenAuthRequest(
+            sessionUri: sessionUri, 
+            userIdentifier: userIdentifier
+        )
+        return try await self.completeResourceTokenAuth(input, logger: logger)
+    }
+
+    /// Creates an event in an AgentCore Memory resource. Events represent interactions or activities that occur within a session and are associated with specific actors. To use this operation, you must have the bedrock-agentcore:CreateEvent permission. This operation is subject to request rate limiting.
     @Sendable
     @inlinable
     public func createEvent(_ input: CreateEventInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEventOutput {
@@ -91,14 +222,15 @@ public struct BedrockAgentCore: AWSService {
             logger: logger
         )
     }
-    /// Creates an event in a memory store. Events represent interactions or activities that occur within a session and are associated with specific actors. To use this operation, you must have the genesismemory:CreateEvent permission. This operation is subject to request rate limiting.
+    /// Creates an event in an AgentCore Memory resource. Events represent interactions or activities that occur within a session and are associated with specific actors. To use this operation, you must have the bedrock-agentcore:CreateEvent permission. This operation is subject to request rate limiting.
     ///
     /// Parameters:
     ///   - actorId: The identifier of the actor associated with this event. An actor represents an entity that participates in sessions and generates events.
     ///   - branch: The branch information for this event. Branches allow for organizing events into different conversation threads or paths.
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, AgentCore ignores the request, but does not return an error.
     ///   - eventTimestamp: The timestamp when the event occurred. If not specified, the current time is used.
-    ///   - memoryId: The identifier of the memory store in which to create the event.
+    ///   - memoryId: The identifier of the AgentCore Memory resource in which to create the event.
+    ///   - metadata: The key-value metadata to attach to the event.
     ///   - payload: The content payload of the event. This can include conversational data or binary content.
     ///   - sessionId: The identifier of the session in which this event occurs. A session represents a sequence of related events.
     ///   - logger: Logger use during operation
@@ -109,6 +241,7 @@ public struct BedrockAgentCore: AWSService {
         clientToken: String? = CreateEventInput.idempotencyToken(),
         eventTimestamp: Date,
         memoryId: String,
+        metadata: [String: MetadataValue]? = nil,
         payload: [PayloadType],
         sessionId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -119,13 +252,14 @@ public struct BedrockAgentCore: AWSService {
             clientToken: clientToken, 
             eventTimestamp: eventTimestamp, 
             memoryId: memoryId, 
+            metadata: metadata, 
             payload: payload, 
             sessionId: sessionId
         )
         return try await self.createEvent(input, logger: logger)
     }
 
-    /// Deletes an event from a memory store. When you delete an event, it is permanently removed. To use this operation, you must have the genesismemory:DeleteEvent permission.
+    /// Deletes an event from an AgentCore Memory resource. When you delete an event, it is permanently removed. To use this operation, you must have the bedrock-agentcore:DeleteEvent permission.
     @Sendable
     @inlinable
     public func deleteEvent(_ input: DeleteEventInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEventOutput {
@@ -138,12 +272,12 @@ public struct BedrockAgentCore: AWSService {
             logger: logger
         )
     }
-    /// Deletes an event from a memory store. When you delete an event, it is permanently removed. To use this operation, you must have the genesismemory:DeleteEvent permission.
+    /// Deletes an event from an AgentCore Memory resource. When you delete an event, it is permanently removed. To use this operation, you must have the bedrock-agentcore:DeleteEvent permission.
     ///
     /// Parameters:
     ///   - actorId: The identifier of the actor associated with the event to delete.
     ///   - eventId: The identifier of the event to delete.
-    ///   - memoryId: The identifier of the memory store from which to delete the event.
+    ///   - memoryId: The identifier of the AgentCore Memory resource from which to delete the event.
     ///   - sessionId: The identifier of the session containing the event to delete.
     ///   - logger: Logger use during operation
     @inlinable
@@ -163,7 +297,7 @@ public struct BedrockAgentCore: AWSService {
         return try await self.deleteEvent(input, logger: logger)
     }
 
-    /// Deletes a memory record from a memory store. When you delete a memory record, it is permanently removed. To use this operation, you must have the genesismemory:DeleteMemoryRecord permission.
+    /// Deletes a memory record from an AgentCore Memory resource. When you delete a memory record, it is permanently removed. To use this operation, you must have the bedrock-agentcore:DeleteMemoryRecord permission.
     @Sendable
     @inlinable
     public func deleteMemoryRecord(_ input: DeleteMemoryRecordInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMemoryRecordOutput {
@@ -176,10 +310,10 @@ public struct BedrockAgentCore: AWSService {
             logger: logger
         )
     }
-    /// Deletes a memory record from a memory store. When you delete a memory record, it is permanently removed. To use this operation, you must have the genesismemory:DeleteMemoryRecord permission.
+    /// Deletes a memory record from an AgentCore Memory resource. When you delete a memory record, it is permanently removed. To use this operation, you must have the bedrock-agentcore:DeleteMemoryRecord permission.
     ///
     /// Parameters:
-    ///   - memoryId: The identifier of the memory store from which to delete the memory record.
+    ///   - memoryId: The identifier of the AgentCore Memory resource from which to delete the memory record.
     ///   - memoryRecordId: The identifier of the memory record to delete.
     ///   - logger: Logger use during operation
     @inlinable
@@ -193,6 +327,41 @@ public struct BedrockAgentCore: AWSService {
             memoryRecordId: memoryRecordId
         )
         return try await self.deleteMemoryRecord(input, logger: logger)
+    }
+
+    /// Retrieves the A2A agent card associated with an AgentCore Runtime agent.
+    @Sendable
+    @inlinable
+    public func getAgentCard(_ input: GetAgentCardRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAgentCardResponse {
+        try await self.client.execute(
+            operation: "GetAgentCard", 
+            path: "/runtimes/{agentRuntimeArn}/invocations/.well-known/agent-card.json", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the A2A agent card associated with an AgentCore Runtime agent.
+    ///
+    /// Parameters:
+    ///   - agentRuntimeArn: The ARN of the AgentCore Runtime agent for which you want to get the A2A agent card.
+    ///   - qualifier: Optional qualifier to specify an agent alias, such as prodcode&gt; or dev. If you don't provide a value, the DEFAULT alias is used.
+    ///   - runtimeSessionId: The session ID that the AgentCore Runtime agent is using.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAgentCard(
+        agentRuntimeArn: String,
+        qualifier: String? = nil,
+        runtimeSessionId: String? = GetAgentCardRequest.idempotencyToken(),
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAgentCardResponse {
+        let input = GetAgentCardRequest(
+            agentRuntimeArn: agentRuntimeArn, 
+            qualifier: qualifier, 
+            runtimeSessionId: runtimeSessionId
+        )
+        return try await self.getAgentCard(input, logger: logger)
     }
 
     /// Retrieves detailed information about a specific browser session in Amazon Bedrock. This operation returns the session's configuration, current status, associated streams, and metadata. To get a browser session, you must specify both the browser identifier and the session ID. The response includes information about the session's viewport configuration, timeout settings, and stream endpoints. The following operations are related to GetBrowserSession:    StartBrowserSession     ListBrowserSessions     StopBrowserSession
@@ -259,7 +428,7 @@ public struct BedrockAgentCore: AWSService {
         return try await self.getCodeInterpreterSession(input, logger: logger)
     }
 
-    /// Retrieves information about a specific event in a memory store. To use this operation, you must have the genesismemory:GetEvent permission.
+    /// Retrieves information about a specific event in an AgentCore Memory resource. To use this operation, you must have the bedrock-agentcore:GetEvent permission.
     @Sendable
     @inlinable
     public func getEvent(_ input: GetEventInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEventOutput {
@@ -272,12 +441,12 @@ public struct BedrockAgentCore: AWSService {
             logger: logger
         )
     }
-    /// Retrieves information about a specific event in a memory store. To use this operation, you must have the genesismemory:GetEvent permission.
+    /// Retrieves information about a specific event in an AgentCore Memory resource. To use this operation, you must have the bedrock-agentcore:GetEvent permission.
     ///
     /// Parameters:
     ///   - actorId: The identifier of the actor associated with the event.
     ///   - eventId: The identifier of the event to retrieve.
-    ///   - memoryId: The identifier of the memory store containing the event.
+    ///   - memoryId: The identifier of the AgentCore Memory resource containing the event.
     ///   - sessionId: The identifier of the session containing the event.
     ///   - logger: Logger use during operation
     @inlinable
@@ -297,7 +466,7 @@ public struct BedrockAgentCore: AWSService {
         return try await self.getEvent(input, logger: logger)
     }
 
-    /// Retrieves a specific memory record from a memory store. To use this operation, you must have the genesismemory:GetMemoryRecord permission.
+    /// Retrieves a specific memory record from an AgentCore Memory resource. To use this operation, you must have the bedrock-agentcore:GetMemoryRecord permission.
     @Sendable
     @inlinable
     public func getMemoryRecord(_ input: GetMemoryRecordInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMemoryRecordOutput {
@@ -310,10 +479,10 @@ public struct BedrockAgentCore: AWSService {
             logger: logger
         )
     }
-    /// Retrieves a specific memory record from a memory store. To use this operation, you must have the genesismemory:GetMemoryRecord permission.
+    /// Retrieves a specific memory record from an AgentCore Memory resource. To use this operation, you must have the bedrock-agentcore:GetMemoryRecord permission.
     ///
     /// Parameters:
-    ///   - memoryId: The identifier of the memory store containing the memory record.
+    ///   - memoryId: The identifier of the AgentCore Memory resource containing the memory record.
     ///   - memoryRecordId: The identifier of the memory record to retrieve.
     ///   - logger: Logger use during operation
     @inlinable
@@ -329,7 +498,7 @@ public struct BedrockAgentCore: AWSService {
         return try await self.getMemoryRecord(input, logger: logger)
     }
 
-    /// Retrieves an API Key associated with an API Key Credential Provider
+    /// Retrieves the API key associated with an API key credential provider.
     @Sendable
     @inlinable
     public func getResourceApiKey(_ input: GetResourceApiKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceApiKeyResponse {
@@ -342,11 +511,11 @@ public struct BedrockAgentCore: AWSService {
             logger: logger
         )
     }
-    /// Retrieves an API Key associated with an API Key Credential Provider
+    /// Retrieves the API key associated with an API key credential provider.
     ///
     /// Parameters:
-    ///   - resourceCredentialProviderName: The credential provider name of the resource you are retrieving the API Key of.
-    ///   - workloadIdentityToken: The identity token of the workload you want to get the API Key of.
+    ///   - resourceCredentialProviderName: The credential provider name for the resource from which you are retrieving the API key.
+    ///   - workloadIdentityToken: The identity token of the workload from which you want to retrieve the API key.
     ///   - logger: Logger use during operation
     @inlinable
     public func getResourceApiKey(
@@ -361,7 +530,7 @@ public struct BedrockAgentCore: AWSService {
         return try await self.getResourceApiKey(input, logger: logger)
     }
 
-    /// Reaturns the Oauth2Token of the provided resource
+    /// Returns the OAuth 2.0 token of the provided resource.
     @Sendable
     @inlinable
     public func getResourceOauth2Token(_ input: GetResourceOauth2TokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceOauth2TokenResponse {
@@ -374,44 +543,47 @@ public struct BedrockAgentCore: AWSService {
             logger: logger
         )
     }
-    /// Reaturns the Oauth2Token of the provided resource
+    /// Returns the OAuth 2.0 token of the provided resource.
     ///
     /// Parameters:
-    ///   - customParameters: Gives the ability to send extra/custom parameters to the resource credentials provider during the authorization process. Standard OAuth2 flow parameters will not be overriden.
-    ///   - forceAuthentication: If true, always initiate a new 3LO flow
-    ///   - oauth2Flow: The type of flow to be performed
-    ///   - resourceCredentialProviderName: Reference to the credential provider
-    ///   - resourceOauth2ReturnUrl: Callback url to redirect after token retrieval completes. Should be one of the provideded urls during WorkloadIdentity creation
-    ///   - scopes: The OAuth scopes requested
-    ///   - userId: The user ID of the user you're retrieving the token on behalf of.
-    ///   - workloadIdentityToken: The identity token of the workload you want to retrive the Oauth2 Token of.
+    ///   - customParameters: A map of custom parameters to include in the authorization request to the resource credential provider. These parameters are in addition to the standard OAuth 2.0 flow parameters, and will not override them.
+    ///   - customState: An opaque string that will be sent back to the callback URL provided in resourceOauth2ReturnUrl. This state should be used to protect the callback URL of your application against CSRF attacks by ensuring the response corresponds to the original request.
+    ///   - forceAuthentication: Indicates whether to always initiate a new three-legged OAuth (3LO) flow, regardless of any existing session.
+    ///   - oauth2Flow: The type of flow to be performed.
+    ///   - resourceCredentialProviderName: The name of the resource's credential provider.
+    ///   - resourceOauth2ReturnUrl: The callback URL to redirect to after the OAuth 2.0 token retrieval is complete. This URL must be one of the provided URLs configured for the workload identity.
+    ///   - scopes: The OAuth scopes being requested.
+    ///   - sessionUri: Unique identifier for the user's authentication session for retrieving OAuth2 tokens. This ID tracks the authorization flow state across multiple requests and responses during the OAuth2 authentication process.
+    ///   - workloadIdentityToken: The identity token of the workload from which you want to retrieve the OAuth2 token.
     ///   - logger: Logger use during operation
     @inlinable
     public func getResourceOauth2Token(
         customParameters: [String: String]? = nil,
+        customState: String? = nil,
         forceAuthentication: Bool? = nil,
         oauth2Flow: Oauth2FlowType,
         resourceCredentialProviderName: String,
         resourceOauth2ReturnUrl: String? = nil,
         scopes: [String],
-        userId: String? = nil,
+        sessionUri: String? = nil,
         workloadIdentityToken: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetResourceOauth2TokenResponse {
         let input = GetResourceOauth2TokenRequest(
             customParameters: customParameters, 
+            customState: customState, 
             forceAuthentication: forceAuthentication, 
             oauth2Flow: oauth2Flow, 
             resourceCredentialProviderName: resourceCredentialProviderName, 
             resourceOauth2ReturnUrl: resourceOauth2ReturnUrl, 
             scopes: scopes, 
-            userId: userId, 
+            sessionUri: sessionUri, 
             workloadIdentityToken: workloadIdentityToken
         )
         return try await self.getResourceOauth2Token(input, logger: logger)
     }
 
-    /// Obtains an Workload access token for agentic workloads not acting on behalf of user.
+    /// Obtains a workload access token for agentic workloads not acting on behalf of a user.
     @Sendable
     @inlinable
     public func getWorkloadAccessToken(_ input: GetWorkloadAccessTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWorkloadAccessTokenResponse {
@@ -424,10 +596,10 @@ public struct BedrockAgentCore: AWSService {
             logger: logger
         )
     }
-    /// Obtains an Workload access token for agentic workloads not acting on behalf of user.
+    /// Obtains a workload access token for agentic workloads not acting on behalf of a user.
     ///
     /// Parameters:
-    ///   - workloadName: Unique identifier for the registered agent
+    ///   - workloadName: The unique identifier for the registered workload.
     ///   - logger: Logger use during operation
     @inlinable
     public func getWorkloadAccessToken(
@@ -440,7 +612,7 @@ public struct BedrockAgentCore: AWSService {
         return try await self.getWorkloadAccessToken(input, logger: logger)
     }
 
-    /// Obtains an Workload access token for agentic workloads acting on behalf of user with JWT token
+    /// Obtains a workload access token for agentic workloads acting on behalf of a user, using a JWT token.
     @Sendable
     @inlinable
     public func getWorkloadAccessTokenForJWT(_ input: GetWorkloadAccessTokenForJWTRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWorkloadAccessTokenForJWTResponse {
@@ -453,11 +625,11 @@ public struct BedrockAgentCore: AWSService {
             logger: logger
         )
     }
-    /// Obtains an Workload access token for agentic workloads acting on behalf of user with JWT token
+    /// Obtains a workload access token for agentic workloads acting on behalf of a user, using a JWT token.
     ///
     /// Parameters:
-    ///   - userToken: OAuth2 token issued by the user's identity provider
-    ///   - workloadName: Unique identifier for the registered agent
+    ///   - userToken: The OAuth 2.0 token issued by the user's identity provider.
+    ///   - workloadName: The unique identifier for the registered workload.
     ///   - logger: Logger use during operation
     @inlinable
     public func getWorkloadAccessTokenForJWT(
@@ -472,7 +644,7 @@ public struct BedrockAgentCore: AWSService {
         return try await self.getWorkloadAccessTokenForJWT(input, logger: logger)
     }
 
-    /// Obtains an Workload access token for agentic workloads acting on behalf of user with User Id.
+    /// Obtains a workload access token for agentic workloads acting on behalf of a user, using the user's ID.
     @Sendable
     @inlinable
     public func getWorkloadAccessTokenForUserId(_ input: GetWorkloadAccessTokenForUserIdRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWorkloadAccessTokenForUserIdResponse {
@@ -485,11 +657,11 @@ public struct BedrockAgentCore: AWSService {
             logger: logger
         )
     }
-    /// Obtains an Workload access token for agentic workloads acting on behalf of user with User Id.
+    /// Obtains a workload access token for agentic workloads acting on behalf of a user, using the user's ID.
     ///
     /// Parameters:
-    ///   - userId: The user id of the user you are retrieving the access token for.
-    ///   - workloadName: The name of the worklaod you want to get the access token of.
+    ///   - userId: The ID of the user for whom you are retrieving the access token.
+    ///   - workloadName: The name of the workload from which you want to retrieve the access token.
     ///   - logger: Logger use during operation
     @inlinable
     public func getWorkloadAccessTokenForUserId(
@@ -504,7 +676,7 @@ public struct BedrockAgentCore: AWSService {
         return try await self.getWorkloadAccessTokenForUserId(input, logger: logger)
     }
 
-    /// Sends a request to an agent runtime in Amazon Bedrock and receives responses in real-time. The agent processes the request using the configured foundation model and any associated knowledge bases or action groups. To invoke an agent runtime, you must specify the agent runtime ARN and provide a payload containing your request. You can optionally specify a qualifier to target a specific version or alias of the agent. This operation supports streaming responses, allowing you to receive partial responses as they become available. We recommend using pagination to ensure that the operation returns quickly and successfully when processing large responses.
+    /// Sends a request to an agent or tool hosted in an Amazon Bedrock AgentCore Runtime and receives responses in real-time.  To invoke an agent you must specify the AgentCore Runtime ARN and provide a payload containing your request. You can optionally specify a qualifier to target a specific version or endpoint of the agent. This operation supports streaming responses, allowing you to receive partial responses as they become available. We recommend using pagination to ensure that the operation returns quickly and successfully when processing large responses. For example code, see Invoke an AgentCore Runtime agent.  If you're integrating your agent with OAuth, you can't use the Amazon Web Services SDK to call InvokeAgentRuntime. Instead, make a HTTPS request to InvokeAgentRuntime. For an example, see Authenticate and authorize with Inbound Auth and Outbound Auth. To use this operation, you must have the bedrock-agentcore:InvokeAgentRuntime permission. If you are making a call to InvokeAgentRuntime on behalf of a user ID with the X-Amzn-Bedrock-AgentCore-Runtime-User-Id header, You require permissions to both actions (bedrock-agentcore:InvokeAgentRuntime and bedrock-agentcore:InvokeAgentRuntimeForUser).
     @Sendable
     @inlinable
     public func invokeAgentRuntime(_ input: InvokeAgentRuntimeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeAgentRuntimeResponse {
@@ -517,17 +689,18 @@ public struct BedrockAgentCore: AWSService {
             logger: logger
         )
     }
-    /// Sends a request to an agent runtime in Amazon Bedrock and receives responses in real-time. The agent processes the request using the configured foundation model and any associated knowledge bases or action groups. To invoke an agent runtime, you must specify the agent runtime ARN and provide a payload containing your request. You can optionally specify a qualifier to target a specific version or alias of the agent. This operation supports streaming responses, allowing you to receive partial responses as they become available. We recommend using pagination to ensure that the operation returns quickly and successfully when processing large responses.
+    /// Sends a request to an agent or tool hosted in an Amazon Bedrock AgentCore Runtime and receives responses in real-time.  To invoke an agent you must specify the AgentCore Runtime ARN and provide a payload containing your request. You can optionally specify a qualifier to target a specific version or endpoint of the agent. This operation supports streaming responses, allowing you to receive partial responses as they become available. We recommend using pagination to ensure that the operation returns quickly and successfully when processing large responses. For example code, see Invoke an AgentCore Runtime agent.  If you're integrating your agent with OAuth, you can't use the Amazon Web Services SDK to call InvokeAgentRuntime. Instead, make a HTTPS request to InvokeAgentRuntime. For an example, see Authenticate and authorize with Inbound Auth and Outbound Auth. To use this operation, you must have the bedrock-agentcore:InvokeAgentRuntime permission. If you are making a call to InvokeAgentRuntime on behalf of a user ID with the X-Amzn-Bedrock-AgentCore-Runtime-User-Id header, You require permissions to both actions (bedrock-agentcore:InvokeAgentRuntime and bedrock-agentcore:InvokeAgentRuntimeForUser).
     ///
     /// Parameters:
     ///   - accept: The desired MIME type for the response from the agent runtime. This tells the agent runtime what format to use for the response data. Common values include application/json for JSON data.
+    ///   - accountId: The identifier of the Amazon Web Services account for the agent runtime resource.
     ///   - agentRuntimeArn: The Amazon Web Services Resource Name (ARN) of the agent runtime to invoke. The ARN uniquely identifies the agent runtime resource in Amazon Bedrock.
     ///   - baggage: Additional context information for distributed tracing.
     ///   - contentType: The MIME type of the input data in the payload. This tells the agent runtime how to interpret the payload data. Common values include application/json for JSON data.
     ///   - mcpProtocolVersion: The version of the MCP protocol being used.
     ///   - mcpSessionId: The identifier of the MCP session.
     ///   - payload: The input data to send to the agent runtime. The format of this data depends on the specific agent configuration and must match the specified content type. For most agents, this is a JSON object containing the user's request.
-    ///   - qualifier: The qualifier to use for the agent runtime. This can be a version number or an alias name that points to a specific version. If not specified, Amazon Bedrock uses the default version of the agent runtime.
+    ///   - qualifier: The qualifier to use for the agent runtime. This can be a version number or an endpoint name that points to a specific version. If not specified, Amazon Bedrock uses the default version of the agent runtime.
     ///   - runtimeSessionId: The identifier of the runtime session.
     ///   - runtimeUserId: The identifier of the runtime user.
     ///   - traceId: The trace identifier for request tracking.
@@ -537,6 +710,7 @@ public struct BedrockAgentCore: AWSService {
     @inlinable
     public func invokeAgentRuntime(
         accept: String? = nil,
+        accountId: String? = nil,
         agentRuntimeArn: String,
         baggage: String? = nil,
         contentType: String? = nil,
@@ -553,6 +727,7 @@ public struct BedrockAgentCore: AWSService {
     ) async throws -> InvokeAgentRuntimeResponse {
         let input = InvokeAgentRuntimeRequest(
             accept: accept, 
+            accountId: accountId, 
             agentRuntimeArn: agentRuntimeArn, 
             baggage: baggage, 
             contentType: contentType, 
@@ -589,6 +764,8 @@ public struct BedrockAgentCore: AWSService {
     ///   - codeInterpreterIdentifier: The unique identifier of the code interpreter associated with the session. This must match the identifier used when creating the session with StartCodeInterpreterSession.
     ///   - name: The name of the code interpreter to invoke.
     ///   - sessionId: The unique identifier of the code interpreter session to use. This must be an active session created with StartCodeInterpreterSession. If the session has expired or been stopped, the request will fail.
+    ///   - traceId: The trace identifier for request tracking.
+    ///   - traceParent: The parent trace information for distributed tracing.
     ///   - logger: Logger use during operation
     @inlinable
     public func invokeCodeInterpreter(
@@ -596,18 +773,22 @@ public struct BedrockAgentCore: AWSService {
         codeInterpreterIdentifier: String,
         name: ToolName,
         sessionId: String? = nil,
+        traceId: String? = nil,
+        traceParent: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> InvokeCodeInterpreterResponse {
         let input = InvokeCodeInterpreterRequest(
             arguments: arguments, 
             codeInterpreterIdentifier: codeInterpreterIdentifier, 
             name: name, 
-            sessionId: sessionId
+            sessionId: sessionId, 
+            traceId: traceId, 
+            traceParent: traceParent
         )
         return try await self.invokeCodeInterpreter(input, logger: logger)
     }
 
-    /// Lists all actors in a memory store. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the genesismemory:ListActors permission.
+    /// Lists all actors in an AgentCore Memory resource. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListActors permission.
     @Sendable
     @inlinable
     public func listActors(_ input: ListActorsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListActorsOutput {
@@ -620,11 +801,11 @@ public struct BedrockAgentCore: AWSService {
             logger: logger
         )
     }
-    /// Lists all actors in a memory store. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the genesismemory:ListActors permission.
+    /// Lists all actors in an AgentCore Memory resource. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListActors permission.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
-    ///   - memoryId: The identifier of the memory store for which to list actors.
+    ///   - memoryId: The identifier of the AgentCore Memory resource for which to list actors.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
@@ -718,7 +899,7 @@ public struct BedrockAgentCore: AWSService {
         return try await self.listCodeInterpreterSessions(input, logger: logger)
     }
 
-    /// Lists events in a memory store based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the genesismemory:ListEvents permission.
+    /// Lists events in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListEvents permission.
     @Sendable
     @inlinable
     public func listEvents(_ input: ListEventsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEventsOutput {
@@ -731,14 +912,14 @@ public struct BedrockAgentCore: AWSService {
             logger: logger
         )
     }
-    /// Lists events in a memory store based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the genesismemory:ListEvents permission.
+    /// Lists events in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListEvents permission.
     ///
     /// Parameters:
     ///   - actorId: The identifier of the actor for which to list events. If specified, only events from this actor are returned.
     ///   - filter: Filter criteria to apply when listing events.
     ///   - includePayloads: Specifies whether to include event payloads in the response. Set to true to include payloads, or false to exclude them.
     ///   - maxResults: The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
-    ///   - memoryId: The identifier of the memory store for which to list events.
+    ///   - memoryId: The identifier of the AgentCore Memory resource for which to list events.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - sessionId: The identifier of the session for which to list events. If specified, only events from this session are returned.
     ///   - logger: Logger use during operation
@@ -765,7 +946,7 @@ public struct BedrockAgentCore: AWSService {
         return try await self.listEvents(input, logger: logger)
     }
 
-    /// Lists memory records in a memory store based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the genesismemory:ListMemoryRecords permission.
+    /// Lists memory records in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListMemoryRecords permission.
     @Sendable
     @inlinable
     public func listMemoryRecords(_ input: ListMemoryRecordsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMemoryRecordsOutput {
@@ -778,11 +959,11 @@ public struct BedrockAgentCore: AWSService {
             logger: logger
         )
     }
-    /// Lists memory records in a memory store based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the genesismemory:ListMemoryRecords permission.
+    /// Lists memory records in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListMemoryRecords permission.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
-    ///   - memoryId: The identifier of the memory store for which to list memory records.
+    ///   - memoryId: The identifier of the AgentCore Memory resource for which to list memory records.
     ///   - memoryStrategyId: The memory strategy identifier to filter memory records by. If specified, only memory records with this strategy ID are returned.
     ///   - namespace: The namespace to filter memory records by. If specified, only memory records in this namespace are returned.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -806,7 +987,7 @@ public struct BedrockAgentCore: AWSService {
         return try await self.listMemoryRecords(input, logger: logger)
     }
 
-    /// Lists sessions in a memory store based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the genesismemory:ListSessions permission.
+    /// Lists sessions in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListSessions permission.
     @Sendable
     @inlinable
     public func listSessions(_ input: ListSessionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSessionsOutput {
@@ -819,12 +1000,12 @@ public struct BedrockAgentCore: AWSService {
             logger: logger
         )
     }
-    /// Lists sessions in a memory store based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the genesismemory:ListSessions permission.
+    /// Lists sessions in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListSessions permission.
     ///
     /// Parameters:
     ///   - actorId: The identifier of the actor for which to list sessions. If specified, only sessions involving this actor are returned.
     ///   - maxResults: The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
-    ///   - memoryId: The identifier of the memory store for which to list sessions.
+    ///   - memoryId: The identifier of the AgentCore Memory resource for which to list sessions.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
@@ -844,7 +1025,7 @@ public struct BedrockAgentCore: AWSService {
         return try await self.listSessions(input, logger: logger)
     }
 
-    /// Searches for and retrieves memory records from a memory store based on specified search criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the genesismemory:RetrieveMemoryRecords permission.
+    /// Searches for and retrieves memory records from an AgentCore Memory resource based on specified search criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:RetrieveMemoryRecords permission.
     @Sendable
     @inlinable
     public func retrieveMemoryRecords(_ input: RetrieveMemoryRecordsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> RetrieveMemoryRecordsOutput {
@@ -857,11 +1038,11 @@ public struct BedrockAgentCore: AWSService {
             logger: logger
         )
     }
-    /// Searches for and retrieves memory records from a memory store based on specified search criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the genesismemory:RetrieveMemoryRecords permission.
+    /// Searches for and retrieves memory records from an AgentCore Memory resource based on specified search criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:RetrieveMemoryRecords permission.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
-    ///   - memoryId: The identifier of the memory store from which to retrieve memory records.
+    ///   - memoryId: The identifier of the AgentCore Memory resource from which to retrieve memory records.
     ///   - namespace: The namespace to filter memory records by. If specified, only memory records in this namespace are searched.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - searchCriteria: The search criteria to use for finding relevant memory records. This includes the search query, memory strategy ID, and other search parameters.
@@ -905,6 +1086,8 @@ public struct BedrockAgentCore: AWSService {
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. This parameter helps prevent the creation of duplicate sessions if there are temporary network issues.
     ///   - name: The name of the browser session. This name helps you identify and manage the session. The name does not need to be unique.
     ///   - sessionTimeoutSeconds: The time in seconds after which the session automatically terminates if there is no activity. The default value is 3600 seconds (1 hour). The minimum allowed value is 60 seconds, and the maximum allowed value is 28800 seconds (8 hours).
+    ///   - traceId: The trace identifier for request tracking.
+    ///   - traceParent: The parent trace information for distributed tracing.
     ///   - viewPort: The dimensions of the browser viewport for this session. This determines the visible area of the web content and affects how web pages are rendered. If not specified, Amazon Bedrock uses a default viewport size.
     ///   - logger: Logger use during operation
     @inlinable
@@ -913,6 +1096,8 @@ public struct BedrockAgentCore: AWSService {
         clientToken: String? = StartBrowserSessionRequest.idempotencyToken(),
         name: String? = nil,
         sessionTimeoutSeconds: Int? = nil,
+        traceId: String? = nil,
+        traceParent: String? = nil,
         viewPort: ViewPort? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartBrowserSessionResponse {
@@ -921,6 +1106,8 @@ public struct BedrockAgentCore: AWSService {
             clientToken: clientToken, 
             name: name, 
             sessionTimeoutSeconds: sessionTimeoutSeconds, 
+            traceId: traceId, 
+            traceParent: traceParent, 
             viewPort: viewPort
         )
         return try await self.startBrowserSession(input, logger: logger)
@@ -945,7 +1132,9 @@ public struct BedrockAgentCore: AWSService {
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. This parameter helps prevent the creation of duplicate sessions if there are temporary network issues.
     ///   - codeInterpreterIdentifier: The unique identifier of the code interpreter to use for this session. This identifier specifies which code interpreter environment to initialize for the session.
     ///   - name: The name of the code interpreter session. This name helps you identify and manage the session. The name does not need to be unique.
-    ///   - sessionTimeoutSeconds: The time in seconds after which the session automatically terminates if there is no activity. The default value is 3600 seconds (1 hour). The minimum allowed value is 60 seconds, and the maximum allowed value is 28800 seconds (8 hours).
+    ///   - sessionTimeoutSeconds: The time in seconds after which the session automatically terminates if there is no activity. The default value is 900 seconds (15 minutes). The minimum allowed value is 60 seconds, and the maximum allowed value is 28800 seconds (8 hours).
+    ///   - traceId: The trace identifier for request tracking.
+    ///   - traceParent: The parent trace information for distributed tracing.
     ///   - logger: Logger use during operation
     @inlinable
     public func startCodeInterpreterSession(
@@ -953,13 +1142,17 @@ public struct BedrockAgentCore: AWSService {
         codeInterpreterIdentifier: String,
         name: String? = nil,
         sessionTimeoutSeconds: Int? = nil,
+        traceId: String? = nil,
+        traceParent: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartCodeInterpreterSessionResponse {
         let input = StartCodeInterpreterSessionRequest(
             clientToken: clientToken, 
             codeInterpreterIdentifier: codeInterpreterIdentifier, 
             name: name, 
-            sessionTimeoutSeconds: sessionTimeoutSeconds
+            sessionTimeoutSeconds: sessionTimeoutSeconds, 
+            traceId: traceId, 
+            traceParent: traceParent
         )
         return try await self.startCodeInterpreterSession(input, logger: logger)
     }
@@ -983,18 +1176,24 @@ public struct BedrockAgentCore: AWSService {
     ///   - browserIdentifier: The unique identifier of the browser associated with the session.
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error.
     ///   - sessionId: The unique identifier of the browser session to stop.
+    ///   - traceId: The trace identifier for request tracking.
+    ///   - traceParent: The parent trace information for distributed tracing.
     ///   - logger: Logger use during operation
     @inlinable
     public func stopBrowserSession(
         browserIdentifier: String,
         clientToken: String? = StopBrowserSessionRequest.idempotencyToken(),
         sessionId: String,
+        traceId: String? = nil,
+        traceParent: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StopBrowserSessionResponse {
         let input = StopBrowserSessionRequest(
             browserIdentifier: browserIdentifier, 
             clientToken: clientToken, 
-            sessionId: sessionId
+            sessionId: sessionId, 
+            traceId: traceId, 
+            traceParent: traceParent
         )
         return try await self.stopBrowserSession(input, logger: logger)
     }
@@ -1018,20 +1217,64 @@ public struct BedrockAgentCore: AWSService {
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error.
     ///   - codeInterpreterIdentifier: The unique identifier of the code interpreter associated with the session.
     ///   - sessionId: The unique identifier of the code interpreter session to stop.
+    ///   - traceId: The trace identifier for request tracking.
+    ///   - traceParent: The parent trace information for distributed tracing.
     ///   - logger: Logger use during operation
     @inlinable
     public func stopCodeInterpreterSession(
         clientToken: String? = StopCodeInterpreterSessionRequest.idempotencyToken(),
         codeInterpreterIdentifier: String,
         sessionId: String,
+        traceId: String? = nil,
+        traceParent: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StopCodeInterpreterSessionResponse {
         let input = StopCodeInterpreterSessionRequest(
             clientToken: clientToken, 
             codeInterpreterIdentifier: codeInterpreterIdentifier, 
-            sessionId: sessionId
+            sessionId: sessionId, 
+            traceId: traceId, 
+            traceParent: traceParent
         )
         return try await self.stopCodeInterpreterSession(input, logger: logger)
+    }
+
+    /// Stops a session that is running in an running AgentCore Runtime agent.
+    @Sendable
+    @inlinable
+    public func stopRuntimeSession(_ input: StopRuntimeSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopRuntimeSessionResponse {
+        try await self.client.execute(
+            operation: "StopRuntimeSession", 
+            path: "/runtimes/{agentRuntimeArn}/stopruntimesession", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops a session that is running in an running AgentCore Runtime agent.
+    ///
+    /// Parameters:
+    ///   - agentRuntimeArn: The ARN of the agent that contains the session that you want to stop.
+    ///   - clientToken: Idempotent token used to identify the request. If you use the same token with multiple requests, the same response is returned. Use ClientToken to prevent the same request from being processed more than once.
+    ///   - qualifier: Optional qualifier to specify an agent alias, such as prodcode&gt; or dev. If you don't provide a value, the DEFAULT alias is used.
+    ///   - runtimeSessionId: The ID of the session that you want to stop.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopRuntimeSession(
+        agentRuntimeArn: String,
+        clientToken: String? = StopRuntimeSessionRequest.idempotencyToken(),
+        qualifier: String? = nil,
+        runtimeSessionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopRuntimeSessionResponse {
+        let input = StopRuntimeSessionRequest(
+            agentRuntimeArn: agentRuntimeArn, 
+            clientToken: clientToken, 
+            qualifier: qualifier, 
+            runtimeSessionId: runtimeSessionId
+        )
+        return try await self.stopRuntimeSession(input, logger: logger)
     }
 
     /// Updates a browser stream. To use this operation, you must have permissions to perform the bedrock:UpdateBrowserStream action.
@@ -1108,7 +1351,7 @@ extension BedrockAgentCore {
     ///
     /// - Parameters:
     ///   - maxResults: The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
-    ///   - memoryId: The identifier of the memory store for which to list actors.
+    ///   - memoryId: The identifier of the AgentCore Memory resource for which to list actors.
     ///   - logger: Logger used for logging
     @inlinable
     public func listActorsPaginator(
@@ -1148,7 +1391,7 @@ extension BedrockAgentCore {
     ///   - filter: Filter criteria to apply when listing events.
     ///   - includePayloads: Specifies whether to include event payloads in the response. Set to true to include payloads, or false to exclude them.
     ///   - maxResults: The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
-    ///   - memoryId: The identifier of the memory store for which to list events.
+    ///   - memoryId: The identifier of the AgentCore Memory resource for which to list events.
     ///   - sessionId: The identifier of the session for which to list events. If specified, only events from this session are returned.
     ///   - logger: Logger used for logging
     @inlinable
@@ -1194,7 +1437,7 @@ extension BedrockAgentCore {
     ///
     /// - Parameters:
     ///   - maxResults: The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
-    ///   - memoryId: The identifier of the memory store for which to list memory records.
+    ///   - memoryId: The identifier of the AgentCore Memory resource for which to list memory records.
     ///   - memoryStrategyId: The memory strategy identifier to filter memory records by. If specified, only memory records with this strategy ID are returned.
     ///   - namespace: The namespace to filter memory records by. If specified, only memory records in this namespace are returned.
     ///   - logger: Logger used for logging
@@ -1238,7 +1481,7 @@ extension BedrockAgentCore {
     /// - Parameters:
     ///   - actorId: The identifier of the actor for which to list sessions. If specified, only sessions involving this actor are returned.
     ///   - maxResults: The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
-    ///   - memoryId: The identifier of the memory store for which to list sessions.
+    ///   - memoryId: The identifier of the AgentCore Memory resource for which to list sessions.
     ///   - logger: Logger used for logging
     @inlinable
     public func listSessionsPaginator(
@@ -1277,7 +1520,7 @@ extension BedrockAgentCore {
     ///
     /// - Parameters:
     ///   - maxResults: The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
-    ///   - memoryId: The identifier of the memory store from which to retrieve memory records.
+    ///   - memoryId: The identifier of the AgentCore Memory resource from which to retrieve memory records.
     ///   - namespace: The namespace to filter memory records by. If specified, only memory records in this namespace are searched.
     ///   - searchCriteria: The search criteria to use for finding relevant memory records. This includes the search query, memory strategy ID, and other search parameters.
     ///   - logger: Logger used for logging

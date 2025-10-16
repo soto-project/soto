@@ -505,7 +505,7 @@ public struct MediaPackageV2: AWSService {
         return try await self.deleteOriginEndpointPolicy(input, logger: logger)
     }
 
-    /// Retrieves the specified channel that's configured in AWS Elemental MediaPackage, including the origin endpoints that are associated with it.
+    /// Retrieves the specified channel that's configured in AWS Elemental MediaPackage.
     @Sendable
     @inlinable
     public func getChannel(_ input: GetChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetChannelResponse {
@@ -518,7 +518,7 @@ public struct MediaPackageV2: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the specified channel that's configured in AWS Elemental MediaPackage, including the origin endpoints that are associated with it.
+    /// Retrieves the specified channel that's configured in AWS Elemental MediaPackage.
     ///
     /// Parameters:
     ///   - channelGroupName: The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
@@ -537,7 +537,7 @@ public struct MediaPackageV2: AWSService {
         return try await self.getChannel(input, logger: logger)
     }
 
-    /// Retrieves the specified channel group that's configured in AWS Elemental MediaPackage, including the channels and origin endpoints that are associated with it.
+    /// Retrieves the specified channel group that's configured in AWS Elemental MediaPackage.
     @Sendable
     @inlinable
     public func getChannelGroup(_ input: GetChannelGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetChannelGroupResponse {
@@ -550,7 +550,7 @@ public struct MediaPackageV2: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the specified channel group that's configured in AWS Elemental MediaPackage, including the channels and origin endpoints that are associated with it.
+    /// Retrieves the specified channel group that's configured in AWS Elemental MediaPackage.
     ///
     /// Parameters:
     ///   - channelGroupName: The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
@@ -738,7 +738,7 @@ public struct MediaPackageV2: AWSService {
         return try await self.listChannelGroups(input, logger: logger)
     }
 
-    /// Retrieves all channels in a specific channel group that are configured in AWS Elemental MediaPackage, including the origin endpoints that are associated with it.
+    /// Retrieves all channels in a specific channel group that are configured in AWS Elemental MediaPackage.
     @Sendable
     @inlinable
     public func listChannels(_ input: ListChannelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListChannelsResponse {
@@ -751,7 +751,7 @@ public struct MediaPackageV2: AWSService {
             logger: logger
         )
     }
-    /// Retrieves all channels in a specific channel group that are configured in AWS Elemental MediaPackage, including the origin endpoints that are associated with it.
+    /// Retrieves all channels in a specific channel group that are configured in AWS Elemental MediaPackage.
     ///
     /// Parameters:
     ///   - channelGroupName: The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
@@ -935,7 +935,7 @@ public struct MediaPackageV2: AWSService {
     /// Attaches an IAM policy to the specified origin endpoint. You can attach only one policy with each request.
     ///
     /// Parameters:
-    ///   - cdnAuthConfiguration: The settings for using authorization headers between the MediaPackage endpoint and your CDN.  For information about CDN authorization, see CDN authorization in Elemental MediaPackage  in the MediaPackage user guide.
+    ///   - cdnAuthConfiguration: The settings for using authorization headers between the MediaPackage endpoint and your CDN.  For information about CDN authorization, see CDN authorization in Elemental MediaPackage in the MediaPackage user guide.
     ///   - channelGroupName: The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     ///   - channelName: The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group.
     ///   - originEndpointName: The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
@@ -960,7 +960,7 @@ public struct MediaPackageV2: AWSService {
         return try await self.putOriginEndpointPolicy(input, logger: logger)
     }
 
-    /// Resetting the channel can help to clear errors from misconfigurations in the encoder. A reset refreshes the ingest stream and removes previous content.  Be sure to stop the encoder before you reset the channel, and wait at least 30 seconds before you restart the encoder.
+    /// Resetting the channel can help to clear errors from misconfigurations in the encoder. A reset refreshes the ingest stream and removes previous content.   Be sure to stop the encoder before you reset the channel, and wait at least 30 seconds before you restart the encoder.
     @Sendable
     @inlinable
     public func resetChannelState(_ input: ResetChannelStateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResetChannelStateResponse {
@@ -973,7 +973,7 @@ public struct MediaPackageV2: AWSService {
             logger: logger
         )
     }
-    /// Resetting the channel can help to clear errors from misconfigurations in the encoder. A reset refreshes the ingest stream and removes previous content.  Be sure to stop the encoder before you reset the channel, and wait at least 30 seconds before you restart the encoder.
+    /// Resetting the channel can help to clear errors from misconfigurations in the encoder. A reset refreshes the ingest stream and removes previous content.   Be sure to stop the encoder before you reset the channel, and wait at least 30 seconds before you restart the encoder.
     ///
     /// Parameters:
     ///   - channelGroupName: The name of the channel group that contains the channel that you are resetting.

@@ -42,6 +42,32 @@ extension WorkSpacesWeb {
         public var description: String { return self.rawValue }
     }
 
+    public enum Event: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case contentCopyFromWebsite = "ContentCopyFromWebsite"
+        case contentPasteToWebsite = "ContentPasteToWebsite"
+        case contentTransferFromLocalToRemoteClipboard = "ContentTransferFromLocalToRemoteClipboard"
+        case fileDownloadFromSecureBrowserToRemoteDisk = "FileDownloadFromSecureBrowserToRemoteDisk"
+        case fileTransferFromLocalToRemoteDisk = "FileTransferFromLocalToRemoteDisk"
+        case fileTransferFromRemoteToLocalDisk = "FileTransferFromRemoteToLocalDisk"
+        case fileUploadFromRemoteDiskToSecureBrowser = "FileUploadFromRemoteDiskToSecureBrowser"
+        case printJobSubmit = "PrintJobSubmit"
+        case sessionConnect = "SessionConnect"
+        case sessionDisconnect = "SessionDisconnect"
+        case sessionEnd = "SessionEnd"
+        case sessionStart = "SessionStart"
+        case tabClose = "TabClose"
+        case tabOpen = "TabOpen"
+        case urlLoad = "UrlLoad"
+        case websiteInteract = "WebsiteInteract"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FolderStructure: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case flat = "Flat"
+        case nestedByDate = "NestedByDate"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IdentityProviderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case facebook = "Facebook"
         case google = "Google"
@@ -56,6 +82,12 @@ extension WorkSpacesWeb {
         case standardLarge = "standard.large"
         case standardRegular = "standard.regular"
         case standardXlarge = "standard.xlarge"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LogFileFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case json = "Json"
+        case jsonLines = "JSONLines"
         public var description: String { return self.rawValue }
     }
 
@@ -127,6 +159,56 @@ extension WorkSpacesWeb {
         case dark = "Dark"
         case light = "Light"
         public var description: String { return self.rawValue }
+    }
+
+    public enum EventFilter: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The filter that monitors all of the available events, including any new events emitted in the future.
+        case all
+        /// The filter that monitors only the listed set of events. New events are not auto-monitored.
+        case include([Event])
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .all:
+                self = .all
+            case .include:
+                let value = try container.decode([Event].self, forKey: .include)
+                self = .include(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .all:
+                try container.encode([String: String](), forKey: .all)
+            case .include(let value):
+                try container.encode(value, forKey: .include)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .include(let value):
+                try self.validate(value, name: "include", parent: name, max: 100)
+                try self.validate(value, name: "include", parent: name, min: 1)
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case all = "all"
+            case include = "include"
+        }
     }
 
     // MARK: Shapes
@@ -324,6 +406,55 @@ extension WorkSpacesWeb {
         private enum CodingKeys: String, CodingKey {
             case networkSettingsArn = "networkSettingsArn"
             case portalArn = "portalArn"
+        }
+    }
+
+    public struct AssociateSessionLoggerRequest: AWSEncodableShape {
+        /// The ARN of the portal to associate to the session logger ARN.
+        public let portalArn: String
+        /// The ARN of the session logger to associate to the portal ARN.
+        public let sessionLoggerArn: String
+
+        @inlinable
+        public init(portalArn: String, sessionLoggerArn: String) {
+            self.portalArn = portalArn
+            self.sessionLoggerArn = sessionLoggerArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.portalArn, key: "portalArn")
+            request.encodeQuery(self.sessionLoggerArn, key: "sessionLoggerArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.portalArn, name: "portalArn", parent: name, max: 2048)
+            try self.validate(self.portalArn, name: "portalArn", parent: name, min: 20)
+            try self.validate(self.portalArn, name: "portalArn", parent: name, pattern: "^arn:[\\w+=\\/,.@-]+:[a-zA-Z0-9\\-]+:[a-zA-Z0-9\\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\\/[a-fA-F0-9\\-]{36})+$")
+            try self.validate(self.sessionLoggerArn, name: "sessionLoggerArn", parent: name, max: 2048)
+            try self.validate(self.sessionLoggerArn, name: "sessionLoggerArn", parent: name, min: 20)
+            try self.validate(self.sessionLoggerArn, name: "sessionLoggerArn", parent: name, pattern: "^arn:[\\w+=\\/,.@-]+:[a-zA-Z0-9\\-]+:[a-zA-Z0-9\\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\\/[a-fA-F0-9\\-]{36})+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct AssociateSessionLoggerResponse: AWSDecodableShape {
+        /// The ARN of the portal.
+        public let portalArn: String
+        /// The ARN of the session logger.
+        public let sessionLoggerArn: String
+
+        @inlinable
+        public init(portalArn: String, sessionLoggerArn: String) {
+            self.portalArn = portalArn
+            self.sessionLoggerArn = sessionLoggerArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case portalArn = "portalArn"
+            case sessionLoggerArn = "sessionLoggerArn"
         }
     }
 
@@ -692,7 +823,7 @@ extension WorkSpacesWeb {
             }
             try self.validate(self.browserPolicy, name: "browserPolicy", parent: name, max: 131072)
             try self.validate(self.browserPolicy, name: "browserPolicy", parent: name, min: 2)
-            try self.validate(self.browserPolicy, name: "browserPolicy", parent: name, pattern: "\\{[\\S\\s]*\\}\\s*")
+            try self.validate(self.browserPolicy, name: "browserPolicy", parent: name, pattern: "^\\{[\\S\\s]*\\}\\s*$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 512)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.customerManagedKey, name: "customerManagedKey", parent: name, max: 2048)
@@ -1107,6 +1238,81 @@ extension WorkSpacesWeb {
         }
     }
 
+    public struct CreateSessionLoggerRequest: AWSEncodableShape {
+        /// The additional encryption context of the session logger.
+        public let additionalEncryptionContext: [String: String]?
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
+        public let clientToken: String?
+        /// The custom managed key of the session logger.
+        public let customerManagedKey: String?
+        /// The human-readable display name for the session logger resource.
+        public let displayName: String?
+        /// The filter that specifies the events to monitor.
+        public let eventFilter: EventFilter
+        /// The configuration that specifies where logs are delivered.
+        public let logConfiguration: LogConfiguration
+        /// The tags to add to the session logger.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(additionalEncryptionContext: [String: String]? = nil, clientToken: String? = CreateSessionLoggerRequest.idempotencyToken(), customerManagedKey: String? = nil, displayName: String? = nil, eventFilter: EventFilter, logConfiguration: LogConfiguration, tags: [Tag]? = nil) {
+            self.additionalEncryptionContext = additionalEncryptionContext
+            self.clientToken = clientToken
+            self.customerManagedKey = customerManagedKey
+            self.displayName = displayName
+            self.eventFilter = eventFilter
+            self.logConfiguration = logConfiguration
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalEncryptionContext?.forEach {
+                try validate($0.key, name: "additionalEncryptionContext.key", parent: name, max: 131072)
+                try validate($0.key, name: "additionalEncryptionContext.key", parent: name, pattern: "^[\\s\\S]*$")
+                try validate($0.value, name: "additionalEncryptionContext[\"\($0.key)\"]", parent: name, max: 131072)
+                try validate($0.value, name: "additionalEncryptionContext[\"\($0.key)\"]", parent: name, pattern: "^[\\s\\S]*$")
+            }
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 512)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.customerManagedKey, name: "customerManagedKey", parent: name, max: 2048)
+            try self.validate(self.customerManagedKey, name: "customerManagedKey", parent: name, min: 20)
+            try self.validate(self.customerManagedKey, name: "customerManagedKey", parent: name, pattern: "^arn:[\\w+=\\/,.@-]+:kms:[a-zA-Z0-9\\-]*:[a-zA-Z0-9]{1,12}:key\\/[a-zA-Z0-9-]+$")
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 64)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[ _\\-\\d\\w]+$")
+            try self.eventFilter.validate(name: "\(name).eventFilter")
+            try self.logConfiguration.validate(name: "\(name).logConfiguration")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalEncryptionContext = "additionalEncryptionContext"
+            case clientToken = "clientToken"
+            case customerManagedKey = "customerManagedKey"
+            case displayName = "displayName"
+            case eventFilter = "eventFilter"
+            case logConfiguration = "logConfiguration"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateSessionLoggerResponse: AWSDecodableShape {
+        /// The ARN of the session logger.
+        public let sessionLoggerArn: String
+
+        @inlinable
+        public init(sessionLoggerArn: String) {
+            self.sessionLoggerArn = sessionLoggerArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionLoggerArn = "sessionLoggerArn"
+        }
+    }
+
     public struct CreateTrustStoreRequest: AWSEncodableShape {
         /// A list of CA certificates to be added to the trust store.
         public let certificateList: [AWSBase64Data]
@@ -1123,6 +1329,10 @@ extension WorkSpacesWeb {
         }
 
         public func validate(name: String) throws {
+            try self.certificateList.forEach {
+                try validate($0, name: "certificateList[]", parent: name, max: 32768)
+                try validate($0, name: "certificateList[]", parent: name, min: 1)
+            }
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 512)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.tags?.forEach {
@@ -1172,7 +1382,7 @@ extension WorkSpacesWeb {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.kinesisStreamArn, name: "kinesisStreamArn", parent: name, max: 2048)
             try self.validate(self.kinesisStreamArn, name: "kinesisStreamArn", parent: name, min: 20)
-            try self.validate(self.kinesisStreamArn, name: "kinesisStreamArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:kinesis:[a-zA-Z0-9\\-]*:[a-zA-Z0-9]{1,12}:stream/.+")
+            try self.validate(self.kinesisStreamArn, name: "kinesisStreamArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:kinesis:[a-zA-Z0-9\\-]*:[a-zA-Z0-9]{1,12}:stream/.+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1578,6 +1788,34 @@ extension WorkSpacesWeb {
         public init() {}
     }
 
+    public struct DeleteSessionLoggerRequest: AWSEncodableShape {
+        /// The ARN of the session logger.
+        public let sessionLoggerArn: String
+
+        @inlinable
+        public init(sessionLoggerArn: String) {
+            self.sessionLoggerArn = sessionLoggerArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.sessionLoggerArn, key: "sessionLoggerArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sessionLoggerArn, name: "sessionLoggerArn", parent: name, max: 2048)
+            try self.validate(self.sessionLoggerArn, name: "sessionLoggerArn", parent: name, min: 20)
+            try self.validate(self.sessionLoggerArn, name: "sessionLoggerArn", parent: name, pattern: "^arn:[\\w+=\\/,.@-]+:[a-zA-Z0-9\\-]+:[a-zA-Z0-9\\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\\/[a-fA-F0-9\\-]{36})+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteSessionLoggerResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteTrustStoreRequest: AWSEncodableShape {
         /// The ARN of the trust store.
         public let trustStoreArn: String
@@ -1771,6 +2009,34 @@ extension WorkSpacesWeb {
     }
 
     public struct DisassociateNetworkSettingsResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DisassociateSessionLoggerRequest: AWSEncodableShape {
+        /// The ARN of the portal to disassociate from the a session logger.
+        public let portalArn: String
+
+        @inlinable
+        public init(portalArn: String) {
+            self.portalArn = portalArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.portalArn, key: "portalArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.portalArn, name: "portalArn", parent: name, max: 2048)
+            try self.validate(self.portalArn, name: "portalArn", parent: name, min: 20)
+            try self.validate(self.portalArn, name: "portalArn", parent: name, pattern: "^arn:[\\w+=\\/,.@-]+:[a-zA-Z0-9\\-]+:[a-zA-Z0-9\\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\\/[a-fA-F0-9\\-]{36})+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DisassociateSessionLoggerResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -2160,6 +2426,44 @@ extension WorkSpacesWeb {
         private enum CodingKeys: String, CodingKey {
             case portalArn = "portalArn"
             case serviceProviderSamlMetadata = "serviceProviderSamlMetadata"
+        }
+    }
+
+    public struct GetSessionLoggerRequest: AWSEncodableShape {
+        /// The ARN of the session logger.
+        public let sessionLoggerArn: String
+
+        @inlinable
+        public init(sessionLoggerArn: String) {
+            self.sessionLoggerArn = sessionLoggerArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.sessionLoggerArn, key: "sessionLoggerArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sessionLoggerArn, name: "sessionLoggerArn", parent: name, max: 2048)
+            try self.validate(self.sessionLoggerArn, name: "sessionLoggerArn", parent: name, min: 20)
+            try self.validate(self.sessionLoggerArn, name: "sessionLoggerArn", parent: name, pattern: "^arn:[\\w+=\\/,.@-]+:[a-zA-Z0-9\\-]+:[a-zA-Z0-9\\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\\/[a-fA-F0-9\\-]{36})+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetSessionLoggerResponse: AWSDecodableShape {
+        /// The session logger details.
+        public let sessionLogger: SessionLogger?
+
+        @inlinable
+        public init(sessionLogger: SessionLogger? = nil) {
+            self.sessionLogger = sessionLogger
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionLogger = "sessionLogger"
         }
     }
 
@@ -2923,6 +3227,53 @@ extension WorkSpacesWeb {
         }
     }
 
+    public struct ListSessionLoggersRequest: AWSEncodableShape {
+        /// The maximum number of results to be included in the next page.
+        public let maxResults: Int?
+        /// The pagination token used to retrieve the next page of results for this operation.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListSessionLoggersResponse: AWSDecodableShape {
+        /// The pagination token used to retrieve the next page of results for this operation.
+        public let nextToken: String?
+        /// The list of session loggers, including summaries of their details.
+        public let sessionLoggers: [SessionLoggerSummary]?
+
+        @inlinable
+        public init(nextToken: String? = nil, sessionLoggers: [SessionLoggerSummary]? = nil) {
+            self.nextToken = nextToken
+            self.sessionLoggers = sessionLoggers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case sessionLoggers = "sessionLoggers"
+        }
+    }
+
     public struct ListSessionsRequest: AWSEncodableShape {
         /// The maximum number of results to be included in the next page.
         public let maxResults: Int?
@@ -3235,6 +3586,24 @@ extension WorkSpacesWeb {
         }
     }
 
+    public struct LogConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for delivering the logs to S3.
+        public let s3: S3LogConfiguration?
+
+        @inlinable
+        public init(s3: S3LogConfiguration? = nil) {
+            self.s3 = s3
+        }
+
+        public func validate(name: String) throws {
+            try self.s3?.validate(name: "\(name).s3")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3 = "s3"
+        }
+    }
+
     public struct NetworkSettings: AWSDecodableShape {
         /// A list of web portal ARNs that this network settings is associated with.
         public let associatedPortalArns: [String]?
@@ -3316,6 +3685,8 @@ extension WorkSpacesWeb {
         public let portalStatus: PortalStatus?
         /// The renderer that is used in streaming sessions.
         public let rendererType: RendererType?
+        /// The ARN of the session logger that is assocaited with the portal.
+        public let sessionLoggerArn: String?
         /// A message that explains why the web portal is in its current status.
         public let statusReason: String?
         /// The ARN of the trust store that is associated with the web portal.
@@ -3326,7 +3697,7 @@ extension WorkSpacesWeb {
         public let userSettingsArn: String?
 
         @inlinable
-        public init(additionalEncryptionContext: [String: String]? = nil, authenticationType: AuthenticationType? = nil, browserSettingsArn: String? = nil, browserType: BrowserType? = nil, creationDate: Date? = nil, customerManagedKey: String? = nil, dataProtectionSettingsArn: String? = nil, displayName: String? = nil, instanceType: InstanceType? = nil, ipAccessSettingsArn: String? = nil, maxConcurrentSessions: Int? = nil, networkSettingsArn: String? = nil, portalArn: String, portalEndpoint: String? = nil, portalStatus: PortalStatus? = nil, rendererType: RendererType? = nil, statusReason: String? = nil, trustStoreArn: String? = nil, userAccessLoggingSettingsArn: String? = nil, userSettingsArn: String? = nil) {
+        public init(additionalEncryptionContext: [String: String]? = nil, authenticationType: AuthenticationType? = nil, browserSettingsArn: String? = nil, browserType: BrowserType? = nil, creationDate: Date? = nil, customerManagedKey: String? = nil, dataProtectionSettingsArn: String? = nil, displayName: String? = nil, instanceType: InstanceType? = nil, ipAccessSettingsArn: String? = nil, maxConcurrentSessions: Int? = nil, networkSettingsArn: String? = nil, portalArn: String, portalEndpoint: String? = nil, portalStatus: PortalStatus? = nil, rendererType: RendererType? = nil, sessionLoggerArn: String? = nil, statusReason: String? = nil, trustStoreArn: String? = nil, userAccessLoggingSettingsArn: String? = nil, userSettingsArn: String? = nil) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.authenticationType = authenticationType
             self.browserSettingsArn = browserSettingsArn
@@ -3343,6 +3714,7 @@ extension WorkSpacesWeb {
             self.portalEndpoint = portalEndpoint
             self.portalStatus = portalStatus
             self.rendererType = rendererType
+            self.sessionLoggerArn = sessionLoggerArn
             self.statusReason = statusReason
             self.trustStoreArn = trustStoreArn
             self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
@@ -3366,6 +3738,7 @@ extension WorkSpacesWeb {
             case portalEndpoint = "portalEndpoint"
             case portalStatus = "portalStatus"
             case rendererType = "rendererType"
+            case sessionLoggerArn = "sessionLoggerArn"
             case statusReason = "statusReason"
             case trustStoreArn = "trustStoreArn"
             case userAccessLoggingSettingsArn = "userAccessLoggingSettingsArn"
@@ -3402,6 +3775,8 @@ extension WorkSpacesWeb {
         public let portalStatus: PortalStatus?
         /// The renderer that is used in streaming sessions.
         public let rendererType: RendererType?
+        /// The ARN of the session logger that is assocaited with the portal.
+        public let sessionLoggerArn: String?
         /// The ARN of the trust that is associated with this web portal.
         public let trustStoreArn: String?
         /// The ARN of the user access logging settings that is associated with the web portal.
@@ -3410,7 +3785,7 @@ extension WorkSpacesWeb {
         public let userSettingsArn: String?
 
         @inlinable
-        public init(authenticationType: AuthenticationType? = nil, browserSettingsArn: String? = nil, browserType: BrowserType? = nil, creationDate: Date? = nil, dataProtectionSettingsArn: String? = nil, displayName: String? = nil, instanceType: InstanceType? = nil, ipAccessSettingsArn: String? = nil, maxConcurrentSessions: Int? = nil, networkSettingsArn: String? = nil, portalArn: String, portalEndpoint: String? = nil, portalStatus: PortalStatus? = nil, rendererType: RendererType? = nil, trustStoreArn: String? = nil, userAccessLoggingSettingsArn: String? = nil, userSettingsArn: String? = nil) {
+        public init(authenticationType: AuthenticationType? = nil, browserSettingsArn: String? = nil, browserType: BrowserType? = nil, creationDate: Date? = nil, dataProtectionSettingsArn: String? = nil, displayName: String? = nil, instanceType: InstanceType? = nil, ipAccessSettingsArn: String? = nil, maxConcurrentSessions: Int? = nil, networkSettingsArn: String? = nil, portalArn: String, portalEndpoint: String? = nil, portalStatus: PortalStatus? = nil, rendererType: RendererType? = nil, sessionLoggerArn: String? = nil, trustStoreArn: String? = nil, userAccessLoggingSettingsArn: String? = nil, userSettingsArn: String? = nil) {
             self.authenticationType = authenticationType
             self.browserSettingsArn = browserSettingsArn
             self.browserType = browserType
@@ -3425,6 +3800,7 @@ extension WorkSpacesWeb {
             self.portalEndpoint = portalEndpoint
             self.portalStatus = portalStatus
             self.rendererType = rendererType
+            self.sessionLoggerArn = sessionLoggerArn
             self.trustStoreArn = trustStoreArn
             self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
             self.userSettingsArn = userSettingsArn
@@ -3445,6 +3821,7 @@ extension WorkSpacesWeb {
             case portalEndpoint = "portalEndpoint"
             case portalStatus = "portalStatus"
             case rendererType = "rendererType"
+            case sessionLoggerArn = "sessionLoggerArn"
             case trustStoreArn = "trustStoreArn"
             case userAccessLoggingSettingsArn = "userAccessLoggingSettingsArn"
             case userSettingsArn = "userSettingsArn"
@@ -3493,6 +3870,46 @@ extension WorkSpacesWeb {
             case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
+        }
+    }
+
+    public struct S3LogConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The S3 bucket name where logs are delivered.
+        public let bucket: String
+        /// The expected bucket owner of the target S3 bucket. The caller must have permissions to write to the target bucket.
+        public let bucketOwner: String?
+        /// The folder structure that defines the organizational structure for log files in S3.
+        public let folderStructure: FolderStructure
+        /// The S3 path prefix that determines where log files are stored.
+        public let keyPrefix: String?
+        /// The format of the LogFile that is written to S3.
+        public let logFileFormat: LogFileFormat
+
+        @inlinable
+        public init(bucket: String, bucketOwner: String? = nil, folderStructure: FolderStructure, keyPrefix: String? = nil, logFileFormat: LogFileFormat) {
+            self.bucket = bucket
+            self.bucketOwner = bucketOwner
+            self.folderStructure = folderStructure
+            self.keyPrefix = keyPrefix
+            self.logFileFormat = logFileFormat
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucket, name: "bucket", parent: name, max: 256)
+            try self.validate(self.bucket, name: "bucket", parent: name, min: 1)
+            try self.validate(self.bucket, name: "bucket", parent: name, pattern: "^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
+            try self.validate(self.bucketOwner, name: "bucketOwner", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.keyPrefix, name: "keyPrefix", parent: name, max: 256)
+            try self.validate(self.keyPrefix, name: "keyPrefix", parent: name, min: 1)
+            try self.validate(self.keyPrefix, name: "keyPrefix", parent: name, pattern: "^[\\d\\w\\-_/!().*']+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "bucket"
+            case bucketOwner = "bucketOwner"
+            case folderStructure = "folderStructure"
+            case keyPrefix = "keyPrefix"
+            case logFileFormat = "logFileFormat"
         }
     }
 
@@ -3560,6 +3977,74 @@ extension WorkSpacesWeb {
             case startTime = "startTime"
             case status = "status"
             case username = "username"
+        }
+    }
+
+    public struct SessionLogger: AWSDecodableShape {
+        /// The additional encryption context of the session logger.
+        public let additionalEncryptionContext: [String: String]?
+        /// The associated portal ARN.
+        public let associatedPortalArns: [String]?
+        /// The date the session logger resource was created.
+        public let creationDate: Date?
+        /// The custom managed key of the session logger.
+        public let customerManagedKey: String?
+        /// The human-readable display name.
+        public let displayName: String?
+        /// The filter that specifies which events to monitor.
+        public let eventFilter: EventFilter?
+        /// The configuration that specifies where logs are fowarded.
+        public let logConfiguration: LogConfiguration?
+        /// The ARN of the session logger resource.
+        public let sessionLoggerArn: String
+
+        @inlinable
+        public init(additionalEncryptionContext: [String: String]? = nil, associatedPortalArns: [String]? = nil, creationDate: Date? = nil, customerManagedKey: String? = nil, displayName: String? = nil, eventFilter: EventFilter? = nil, logConfiguration: LogConfiguration? = nil, sessionLoggerArn: String) {
+            self.additionalEncryptionContext = additionalEncryptionContext
+            self.associatedPortalArns = associatedPortalArns
+            self.creationDate = creationDate
+            self.customerManagedKey = customerManagedKey
+            self.displayName = displayName
+            self.eventFilter = eventFilter
+            self.logConfiguration = logConfiguration
+            self.sessionLoggerArn = sessionLoggerArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalEncryptionContext = "additionalEncryptionContext"
+            case associatedPortalArns = "associatedPortalArns"
+            case creationDate = "creationDate"
+            case customerManagedKey = "customerManagedKey"
+            case displayName = "displayName"
+            case eventFilter = "eventFilter"
+            case logConfiguration = "logConfiguration"
+            case sessionLoggerArn = "sessionLoggerArn"
+        }
+    }
+
+    public struct SessionLoggerSummary: AWSDecodableShape {
+        /// The date the session logger resource was created.
+        public let creationDate: Date?
+        /// The human-readable display name.
+        public let displayName: String?
+        /// The configuration that specifies where the logs are fowarded.
+        public let logConfiguration: LogConfiguration?
+        /// The ARN of the session logger resource.
+        public let sessionLoggerArn: String
+
+        @inlinable
+        public init(creationDate: Date? = nil, displayName: String? = nil, logConfiguration: LogConfiguration? = nil, sessionLoggerArn: String) {
+            self.creationDate = creationDate
+            self.displayName = displayName
+            self.logConfiguration = logConfiguration
+            self.sessionLoggerArn = sessionLoggerArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "creationDate"
+            case displayName = "displayName"
+            case logConfiguration = "logConfiguration"
+            case sessionLoggerArn = "sessionLoggerArn"
         }
     }
 
@@ -3840,7 +4325,7 @@ extension WorkSpacesWeb {
         public func validate(name: String) throws {
             try self.validate(self.browserPolicy, name: "browserPolicy", parent: name, max: 131072)
             try self.validate(self.browserPolicy, name: "browserPolicy", parent: name, min: 2)
-            try self.validate(self.browserPolicy, name: "browserPolicy", parent: name, pattern: "\\{[\\S\\s]*\\}\\s*")
+            try self.validate(self.browserPolicy, name: "browserPolicy", parent: name, pattern: "^\\{[\\S\\s]*\\}\\s*$")
             try self.validate(self.browserSettingsArn, name: "browserSettingsArn", parent: name, max: 2048)
             try self.validate(self.browserSettingsArn, name: "browserSettingsArn", parent: name, min: 20)
             try self.validate(self.browserSettingsArn, name: "browserSettingsArn", parent: name, pattern: "^arn:[\\w+=\\/,.@-]+:[a-zA-Z0-9\\-]+:[a-zA-Z0-9\\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\\/[a-fA-F0-9\\-]{36})+$")
@@ -4220,6 +4705,65 @@ extension WorkSpacesWeb {
         }
     }
 
+    public struct UpdateSessionLoggerRequest: AWSEncodableShape {
+        /// The updated display name.
+        public let displayName: String?
+        /// The updated eventFilter.
+        public let eventFilter: EventFilter?
+        /// The updated logConfiguration.
+        public let logConfiguration: LogConfiguration?
+        /// The ARN of the session logger to update.
+        public let sessionLoggerArn: String
+
+        @inlinable
+        public init(displayName: String? = nil, eventFilter: EventFilter? = nil, logConfiguration: LogConfiguration? = nil, sessionLoggerArn: String) {
+            self.displayName = displayName
+            self.eventFilter = eventFilter
+            self.logConfiguration = logConfiguration
+            self.sessionLoggerArn = sessionLoggerArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.displayName, forKey: .displayName)
+            try container.encodeIfPresent(self.eventFilter, forKey: .eventFilter)
+            try container.encodeIfPresent(self.logConfiguration, forKey: .logConfiguration)
+            request.encodePath(self.sessionLoggerArn, key: "sessionLoggerArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 64)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[ _\\-\\d\\w]+$")
+            try self.eventFilter?.validate(name: "\(name).eventFilter")
+            try self.logConfiguration?.validate(name: "\(name).logConfiguration")
+            try self.validate(self.sessionLoggerArn, name: "sessionLoggerArn", parent: name, max: 2048)
+            try self.validate(self.sessionLoggerArn, name: "sessionLoggerArn", parent: name, min: 20)
+            try self.validate(self.sessionLoggerArn, name: "sessionLoggerArn", parent: name, pattern: "^arn:[\\w+=\\/,.@-]+:[a-zA-Z0-9\\-]+:[a-zA-Z0-9\\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\\/[a-fA-F0-9\\-]{36})+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "displayName"
+            case eventFilter = "eventFilter"
+            case logConfiguration = "logConfiguration"
+        }
+    }
+
+    public struct UpdateSessionLoggerResponse: AWSDecodableShape {
+        /// The updated details of the session logger.
+        public let sessionLogger: SessionLogger
+
+        @inlinable
+        public init(sessionLogger: SessionLogger) {
+            self.sessionLogger = sessionLogger
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionLogger = "sessionLogger"
+        }
+    }
+
     public struct UpdateTrustStoreRequest: AWSEncodableShape {
         /// A list of CA certificates to add to the trust store.
         public let certificatesToAdd: [AWSBase64Data]?
@@ -4248,6 +4792,10 @@ extension WorkSpacesWeb {
         }
 
         public func validate(name: String) throws {
+            try self.certificatesToAdd?.forEach {
+                try validate($0, name: "certificatesToAdd[]", parent: name, max: 32768)
+                try validate($0, name: "certificatesToAdd[]", parent: name, min: 1)
+            }
             try self.certificatesToDelete?.forEach {
                 try validate($0, name: "certificatesToDelete[]", parent: name, max: 64)
                 try validate($0, name: "certificatesToDelete[]", parent: name, min: 64)
@@ -4309,7 +4857,7 @@ extension WorkSpacesWeb {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.kinesisStreamArn, name: "kinesisStreamArn", parent: name, max: 2048)
             try self.validate(self.kinesisStreamArn, name: "kinesisStreamArn", parent: name, min: 20)
-            try self.validate(self.kinesisStreamArn, name: "kinesisStreamArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:kinesis:[a-zA-Z0-9\\-]*:[a-zA-Z0-9]{1,12}:stream/.+")
+            try self.validate(self.kinesisStreamArn, name: "kinesisStreamArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:kinesis:[a-zA-Z0-9\\-]*:[a-zA-Z0-9]{1,12}:stream/.+$")
             try self.validate(self.userAccessLoggingSettingsArn, name: "userAccessLoggingSettingsArn", parent: name, max: 2048)
             try self.validate(self.userAccessLoggingSettingsArn, name: "userAccessLoggingSettingsArn", parent: name, min: 20)
             try self.validate(self.userAccessLoggingSettingsArn, name: "userAccessLoggingSettingsArn", parent: name, pattern: "^arn:[\\w+=\\/,.@-]+:[a-zA-Z0-9\\-]+:[a-zA-Z0-9\\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\\/[a-fA-F0-9\\-]{36})+$")

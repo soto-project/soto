@@ -265,6 +265,7 @@ extension CloudWatchLogs {
 
     public enum GetLogObjectResponseStream: AWSDecodableShape, Sendable {
         case fields(FieldsData)
+        /// An internal error occurred during the streaming of log data. This exception is thrown when there's an issue with the internal streaming mechanism used by the GetLogObject operation.
         case internalStreamingException(InternalStreamingException)
 
         public init(from decoder: Decoder) throws {
@@ -1563,7 +1564,7 @@ extension CloudWatchLogs {
         public let arn: String?
         /// The ARN of the delivery destination that is associated with this delivery.
         public let deliveryDestinationArn: String?
-        /// Displays whether the delivery destination associated with this delivery is CloudWatch Logs, Amazon S3, Firehose,  or X-Ray.
+        /// Displays whether the delivery destination associated with this delivery is CloudWatch Logs, Amazon S3, Firehose, or X-Ray.
         public let deliveryDestinationType: DeliveryDestinationType?
         /// The name of the delivery source that is associated with this delivery.
         public let deliverySourceName: String?
@@ -3365,6 +3366,7 @@ extension CloudWatchLogs {
     }
 
     public struct GetLogObjectResponse: AWSDecodableShape {
+        /// A stream of structured log data returned by the GetLogObject operation. This stream contains log events with their associated metadata and extracted fields.
         public let fieldStream: AWSEventStream<GetLogObjectResponseStream>?
 
         @inlinable
@@ -4304,6 +4306,10 @@ extension CloudWatchLogs {
         public let applyOnTransformedLogs: Bool?
         /// The creation time of the metric filter, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let creationTime: Int64?
+        /// The list of system fields that are emitted as additional dimensions in the generated metrics. Returns the emitSystemFieldDimensions value if it was specified when the metric filter was created.
+        public let emitSystemFieldDimensions: [String]?
+        /// The filter expression that specifies which log events are processed by this metric filter based on system fields. Returns the fieldSelectionCriteria value if it was specified when the metric filter was created.
+        public let fieldSelectionCriteria: String?
         /// The name of the metric filter.
         public let filterName: String?
         public let filterPattern: String?
@@ -4313,9 +4319,11 @@ extension CloudWatchLogs {
         public let metricTransformations: [MetricTransformation]?
 
         @inlinable
-        public init(applyOnTransformedLogs: Bool? = nil, creationTime: Int64? = nil, filterName: String? = nil, filterPattern: String? = nil, logGroupName: String? = nil, metricTransformations: [MetricTransformation]? = nil) {
+        public init(applyOnTransformedLogs: Bool? = nil, creationTime: Int64? = nil, emitSystemFieldDimensions: [String]? = nil, fieldSelectionCriteria: String? = nil, filterName: String? = nil, filterPattern: String? = nil, logGroupName: String? = nil, metricTransformations: [MetricTransformation]? = nil) {
             self.applyOnTransformedLogs = applyOnTransformedLogs
             self.creationTime = creationTime
+            self.emitSystemFieldDimensions = emitSystemFieldDimensions
+            self.fieldSelectionCriteria = fieldSelectionCriteria
             self.filterName = filterName
             self.filterPattern = filterPattern
             self.logGroupName = logGroupName
@@ -4325,6 +4333,8 @@ extension CloudWatchLogs {
         private enum CodingKeys: String, CodingKey {
             case applyOnTransformedLogs = "applyOnTransformedLogs"
             case creationTime = "creationTime"
+            case emitSystemFieldDimensions = "emitSystemFieldDimensions"
+            case fieldSelectionCriteria = "fieldSelectionCriteria"
             case filterName = "filterName"
             case filterPattern = "filterPattern"
             case logGroupName = "logGroupName"
@@ -5587,6 +5597,10 @@ extension CloudWatchLogs {
     public struct PutMetricFilterRequest: AWSEncodableShape {
         /// This parameter is valid only for log groups that have an active log transformer. For more information about log transformers, see PutTransformer. If the log group uses either a log-group level or account-level transformer, and you specify true, the metric filter will be applied on the transformed version of the log events instead of the original ingested log events.
         public let applyOnTransformedLogs: Bool?
+        /// A list of system fields to emit as additional dimensions in the generated metrics. Valid values are @aws.account and @aws.region. These dimensions help identify the source of centralized log data and count toward the total dimension limit for metric filters.
+        public let emitSystemFieldDimensions: [String]?
+        /// A filter expression that specifies which log events should be processed by this metric filter based on system fields such as source account and source region. Uses selection criteria syntax with operators like =, !=, AND, OR, IN, NOT IN. Example: @aws.region = "us-east-1" or @aws.account IN ["123456789012", "987654321098"]. Maximum length: 2000 characters.
+        public let fieldSelectionCriteria: String?
         /// A name for the metric filter.
         public let filterName: String
         /// A filter pattern for extracting metric data out of ingested log events.
@@ -5597,8 +5611,10 @@ extension CloudWatchLogs {
         public let metricTransformations: [MetricTransformation]
 
         @inlinable
-        public init(applyOnTransformedLogs: Bool? = nil, filterName: String, filterPattern: String, logGroupName: String, metricTransformations: [MetricTransformation]) {
+        public init(applyOnTransformedLogs: Bool? = nil, emitSystemFieldDimensions: [String]? = nil, fieldSelectionCriteria: String? = nil, filterName: String, filterPattern: String, logGroupName: String, metricTransformations: [MetricTransformation]) {
             self.applyOnTransformedLogs = applyOnTransformedLogs
+            self.emitSystemFieldDimensions = emitSystemFieldDimensions
+            self.fieldSelectionCriteria = fieldSelectionCriteria
             self.filterName = filterName
             self.filterPattern = filterPattern
             self.logGroupName = logGroupName
@@ -5606,6 +5622,7 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.fieldSelectionCriteria, name: "fieldSelectionCriteria", parent: name, max: 2000)
             try self.validate(self.filterName, name: "filterName", parent: name, max: 512)
             try self.validate(self.filterName, name: "filterName", parent: name, min: 1)
             try self.validate(self.filterName, name: "filterName", parent: name, pattern: "^[^:*]*$")
@@ -5622,6 +5639,8 @@ extension CloudWatchLogs {
 
         private enum CodingKeys: String, CodingKey {
             case applyOnTransformedLogs = "applyOnTransformedLogs"
+            case emitSystemFieldDimensions = "emitSystemFieldDimensions"
+            case fieldSelectionCriteria = "fieldSelectionCriteria"
             case filterName = "filterName"
             case filterPattern = "filterPattern"
             case logGroupName = "logGroupName"
@@ -5774,6 +5793,10 @@ extension CloudWatchLogs {
         public let destinationArn: String
         /// The method used to distribute log data to the destination. By default, log data is grouped by log stream, but the grouping can be set to random for a more even distribution. This property is only applicable when the destination is an Amazon Kinesis data stream.
         public let distribution: Distribution?
+        /// A list of system fields to include in the log events sent to the subscription destination. Valid values are @aws.account and @aws.region. These fields provide source information for centralized log data in the forwarded payload.
+        public let emitSystemFields: [String]?
+        /// A filter expression that specifies which log events should be processed by this subscription filter based on system fields such as source account and source region. Uses selection criteria syntax with operators like =, !=, AND, OR, IN, NOT IN. Example: @aws.region NOT IN ["cn-north-1"] or @aws.account = "123456789012" AND @aws.region = "us-east-1". Maximum length: 2000 characters.
+        public let fieldSelectionCriteria: String?
         /// A name for the subscription filter. If you are updating an existing filter, you must specify the correct name in filterName. To find the name of the filter currently associated with a log group, use DescribeSubscriptionFilters.
         public let filterName: String
         /// A filter pattern for subscribing to a filtered stream of log events.
@@ -5784,10 +5807,12 @@ extension CloudWatchLogs {
         public let roleArn: String?
 
         @inlinable
-        public init(applyOnTransformedLogs: Bool? = nil, destinationArn: String, distribution: Distribution? = nil, filterName: String, filterPattern: String, logGroupName: String, roleArn: String? = nil) {
+        public init(applyOnTransformedLogs: Bool? = nil, destinationArn: String, distribution: Distribution? = nil, emitSystemFields: [String]? = nil, fieldSelectionCriteria: String? = nil, filterName: String, filterPattern: String, logGroupName: String, roleArn: String? = nil) {
             self.applyOnTransformedLogs = applyOnTransformedLogs
             self.destinationArn = destinationArn
             self.distribution = distribution
+            self.emitSystemFields = emitSystemFields
+            self.fieldSelectionCriteria = fieldSelectionCriteria
             self.filterName = filterName
             self.filterPattern = filterPattern
             self.logGroupName = logGroupName
@@ -5796,6 +5821,7 @@ extension CloudWatchLogs {
 
         public func validate(name: String) throws {
             try self.validate(self.destinationArn, name: "destinationArn", parent: name, min: 1)
+            try self.validate(self.fieldSelectionCriteria, name: "fieldSelectionCriteria", parent: name, max: 2000)
             try self.validate(self.filterName, name: "filterName", parent: name, max: 512)
             try self.validate(self.filterName, name: "filterName", parent: name, min: 1)
             try self.validate(self.filterName, name: "filterName", parent: name, pattern: "^[^:*]*$")
@@ -5810,6 +5836,8 @@ extension CloudWatchLogs {
             case applyOnTransformedLogs = "applyOnTransformedLogs"
             case destinationArn = "destinationArn"
             case distribution = "distribution"
+            case emitSystemFields = "emitSystemFields"
+            case fieldSelectionCriteria = "fieldSelectionCriteria"
             case filterName = "filterName"
             case filterPattern = "filterPattern"
             case logGroupName = "logGroupName"
@@ -6441,6 +6469,10 @@ extension CloudWatchLogs {
         /// The Amazon Resource Name (ARN) of the destination.
         public let destinationArn: String?
         public let distribution: Distribution?
+        /// The list of system fields that are included in the log events sent to the subscription destination. Returns the emitSystemFields value if it was specified when the subscription filter was created.
+        public let emitSystemFields: [String]?
+        /// The filter expression that specifies which log events are processed by this subscription filter based on system fields. Returns the fieldSelectionCriteria value if it was specified when the subscription filter was created.
+        public let fieldSelectionCriteria: String?
         /// The name of the subscription filter.
         public let filterName: String?
         public let filterPattern: String?
@@ -6449,11 +6481,13 @@ extension CloudWatchLogs {
         public let roleArn: String?
 
         @inlinable
-        public init(applyOnTransformedLogs: Bool? = nil, creationTime: Int64? = nil, destinationArn: String? = nil, distribution: Distribution? = nil, filterName: String? = nil, filterPattern: String? = nil, logGroupName: String? = nil, roleArn: String? = nil) {
+        public init(applyOnTransformedLogs: Bool? = nil, creationTime: Int64? = nil, destinationArn: String? = nil, distribution: Distribution? = nil, emitSystemFields: [String]? = nil, fieldSelectionCriteria: String? = nil, filterName: String? = nil, filterPattern: String? = nil, logGroupName: String? = nil, roleArn: String? = nil) {
             self.applyOnTransformedLogs = applyOnTransformedLogs
             self.creationTime = creationTime
             self.destinationArn = destinationArn
             self.distribution = distribution
+            self.emitSystemFields = emitSystemFields
+            self.fieldSelectionCriteria = fieldSelectionCriteria
             self.filterName = filterName
             self.filterPattern = filterPattern
             self.logGroupName = logGroupName
@@ -6465,6 +6499,8 @@ extension CloudWatchLogs {
             case creationTime = "creationTime"
             case destinationArn = "destinationArn"
             case distribution = "distribution"
+            case emitSystemFields = "emitSystemFields"
+            case fieldSelectionCriteria = "fieldSelectionCriteria"
             case filterName = "filterName"
             case filterPattern = "filterPattern"
             case logGroupName = "logGroupName"

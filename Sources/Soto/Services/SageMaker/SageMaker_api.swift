@@ -221,6 +221,76 @@ public struct SageMaker: AWSService {
         return try await self.associateTrialComponent(input, logger: logger)
     }
 
+    ///  Attaches your Amazon Elastic Block Store (Amazon EBS) volume to a node in your EKS orchestrated HyperPod cluster.   This API works with the Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver to manage the lifecycle of persistent storage in your HyperPod EKS clusters.
+    @Sendable
+    @inlinable
+    public func attachClusterNodeVolume(_ input: AttachClusterNodeVolumeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AttachClusterNodeVolumeResponse {
+        try await self.client.execute(
+            operation: "AttachClusterNodeVolume", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Attaches your Amazon Elastic Block Store (Amazon EBS) volume to a node in your EKS orchestrated HyperPod cluster.   This API works with the Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver to manage the lifecycle of persistent storage in your HyperPod EKS clusters.
+    ///
+    /// Parameters:
+    ///   - clusterArn:  The Amazon Resource Name (ARN) of your SageMaker HyperPod cluster containing the target node. Your cluster must use EKS as the orchestration and be in the InService state.
+    ///   - nodeId:  The unique identifier of the cluster node to which you want to attach the volume. The node must belong to your specified HyperPod cluster and cannot be part of a Restricted Instance Group (RIG).
+    ///   - volumeId:  The unique identifier of your EBS volume to attach. The volume must be in the available state.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func attachClusterNodeVolume(
+        clusterArn: String? = nil,
+        nodeId: String? = nil,
+        volumeId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AttachClusterNodeVolumeResponse {
+        let input = AttachClusterNodeVolumeRequest(
+            clusterArn: clusterArn, 
+            nodeId: nodeId, 
+            volumeId: volumeId
+        )
+        return try await self.attachClusterNodeVolume(input, logger: logger)
+    }
+
+    /// Adds nodes to a HyperPod cluster by incrementing the target count for one or more instance groups. This operation returns a unique NodeLogicalId for each node being added, which can be used to track the provisioning status of the node. This API provides a safer alternative to UpdateCluster for scaling operations by avoiding unintended configuration changes.  This API is only supported for clusters using Continuous as the NodeProvisioningMode.
+    @Sendable
+    @inlinable
+    public func batchAddClusterNodes(_ input: BatchAddClusterNodesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchAddClusterNodesResponse {
+        try await self.client.execute(
+            operation: "BatchAddClusterNodes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Adds nodes to a HyperPod cluster by incrementing the target count for one or more instance groups. This operation returns a unique NodeLogicalId for each node being added, which can be used to track the provisioning status of the node. This API provides a safer alternative to UpdateCluster for scaling operations by avoiding unintended configuration changes.  This API is only supported for clusters using Continuous as the NodeProvisioningMode.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This token is valid for 8 hours. If you retry the request with the same client token within this timeframe and the same parameters, the API returns the same set of NodeLogicalIds with their latest status.
+    ///   - clusterName: The name of the HyperPod cluster to which you want to add nodes.
+    ///   - nodesToAdd: A list of instance groups and the number of nodes to add to each. You can specify up to 5 instance groups in a single request, with a maximum of 50 nodes total across all instance groups.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchAddClusterNodes(
+        clientToken: String? = nil,
+        clusterName: String,
+        nodesToAdd: [AddClusterNodeSpecification]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchAddClusterNodesResponse {
+        let input = BatchAddClusterNodesRequest(
+            clientToken: clientToken, 
+            clusterName: clusterName, 
+            nodesToAdd: nodesToAdd
+        )
+        return try await self.batchAddClusterNodes(input, logger: logger)
+    }
+
     /// Deletes specific nodes within a SageMaker HyperPod cluster. BatchDeleteClusterNodes accepts a cluster name and a list of node IDs.    To safeguard your work, back up your data to Amazon S3 or an FSx for Lustre file system before invoking the API on a worker node group. This will help prevent any potential data loss from the instance root volume. For more information about backup, see Use the backup script provided by SageMaker HyperPod.    If you want to invoke this API on an existing cluster, you'll first need to patch the cluster by running the UpdateClusterSoftware API. For more information about patching a cluster, see Update the SageMaker HyperPod platform software of a cluster.
     @Sendable
     @inlinable
@@ -239,16 +309,19 @@ public struct SageMaker: AWSService {
     /// Parameters:
     ///   - clusterName: The name of the SageMaker HyperPod cluster from which to delete the specified nodes.
     ///   - nodeIds: A list of node IDs to be deleted from the specified cluster.    For SageMaker HyperPod clusters using the Slurm workload manager, you cannot remove instances that are configured as Slurm controller nodes.   If you need to delete more than 99 instances, contact Support for assistance.
+    ///   - nodeLogicalIds: A list of NodeLogicalIds identifying the nodes to be deleted. You can specify up to 50 NodeLogicalIds. You must specify either NodeLogicalIds, InstanceIds, or both, with a combined maximum of 50 identifiers.
     ///   - logger: Logger use during operation
     @inlinable
     public func batchDeleteClusterNodes(
         clusterName: String? = nil,
         nodeIds: [String]? = nil,
+        nodeLogicalIds: [String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> BatchDeleteClusterNodesResponse {
         let input = BatchDeleteClusterNodesRequest(
             clusterName: clusterName, 
-            nodeIds: nodeIds
+            nodeIds: nodeIds, 
+            nodeLogicalIds: nodeLogicalIds
         )
         return try await self.batchDeleteClusterNodes(input, logger: logger)
     }
@@ -645,32 +718,44 @@ public struct SageMaker: AWSService {
     /// Creates a SageMaker HyperPod cluster. SageMaker HyperPod is a capability of SageMaker for creating and managing persistent clusters for developing large machine learning models, such as large language models (LLMs) and diffusion models. To learn more, see Amazon SageMaker HyperPod in the Amazon SageMaker Developer Guide.
     ///
     /// Parameters:
+    ///   - autoScaling: The autoscaling configuration for the cluster. Enables automatic scaling of cluster nodes based on workload demand using a Karpenter-based system.
     ///   - clusterName: The name for the new SageMaker HyperPod cluster.
+    ///   - clusterRole: The Amazon Resource Name (ARN) of the IAM role that HyperPod assumes to perform cluster autoscaling operations. This role must have permissions for sagemaker:BatchAddClusterNodes and sagemaker:BatchDeleteClusterNodes. This is only required when autoscaling is enabled and when HyperPod is performing autoscaling operations.
     ///   - instanceGroups: The instance groups to be created in the SageMaker HyperPod cluster.
+    ///   - nodeProvisioningMode: The mode for provisioning nodes in the cluster. You can specify the following modes:    Continuous: Scaling behavior that enables 1) concurrent operation execution within instance groups, 2) continuous retry mechanisms for failed operations, 3) enhanced customer visibility into cluster events through detailed event streams, 4) partial provisioning capabilities. Your clusters and instance groups remain InService while scaling. This mode is only supported for EKS orchestrated clusters.
     ///   - nodeRecovery: The node recovery mode for the SageMaker HyperPod cluster. When set to Automatic, SageMaker HyperPod will automatically reboot or replace faulty nodes when issues are detected. When set to None, cluster administrators will need to manually manage any faulty cluster instances.
-    ///   - orchestrator: The type of orchestrator to use for the SageMaker HyperPod cluster. Currently, the only supported value is "eks", which is to use an Amazon Elastic Kubernetes Service (EKS) cluster as the orchestrator.
+    ///   - orchestrator: The type of orchestrator to use for the SageMaker HyperPod cluster. Currently, the only supported value is "eks", which is to use an Amazon Elastic Kubernetes Service cluster as the orchestrator.
     ///   - restrictedInstanceGroups: The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
     ///   - tags: Custom tags for managing the SageMaker HyperPod cluster as an Amazon Web Services resource. You can add tags to your cluster in the same way you add them in other Amazon Web Services services that support tagging. To learn more about tagging Amazon Web Services resources in general, see Tagging Amazon Web Services Resources User Guide.
+    ///   - tieredStorageConfig: The configuration for managed tier checkpointing on the HyperPod cluster. When enabled, this feature uses a multi-tier storage approach for storing model checkpoints, providing faster checkpoint operations and improved fault tolerance across cluster nodes.
     ///   - vpcConfig: Specifies the Amazon Virtual Private Cloud (VPC) that is associated with the Amazon SageMaker HyperPod cluster. You can control access to and from your resources by configuring your VPC. For more information, see Give SageMaker access to resources in your Amazon VPC.  When your Amazon VPC and subnets support IPv6, network communications differ based on the cluster orchestration platform:   Slurm-orchestrated clusters automatically configure nodes with dual IPv6 and IPv4 addresses, allowing immediate IPv6 network communications.   In Amazon EKS-orchestrated clusters, nodes receive dual-stack addressing, but pods can only use IPv6 when the Amazon EKS cluster is explicitly IPv6-enabled. For information about deploying an IPv6 Amazon EKS cluster, see Amazon EKS IPv6 Cluster Deployment.   Additional resources for IPv6 configuration:   For information about adding IPv6 support to your VPC, see to IPv6 Support for VPC.   For information about creating a new IPv6-compatible VPC, see Amazon VPC Creation Guide.   To configure SageMaker HyperPod with a custom Amazon VPC, see Custom Amazon VPC Setup for SageMaker HyperPod.
     ///   - logger: Logger use during operation
     @inlinable
     public func createCluster(
+        autoScaling: ClusterAutoScalingConfig? = nil,
         clusterName: String? = nil,
+        clusterRole: String? = nil,
         instanceGroups: [ClusterInstanceGroupSpecification]? = nil,
+        nodeProvisioningMode: ClusterNodeProvisioningMode? = nil,
         nodeRecovery: ClusterNodeRecovery? = nil,
         orchestrator: ClusterOrchestrator? = nil,
         restrictedInstanceGroups: [ClusterRestrictedInstanceGroupSpecification]? = nil,
         tags: [Tag]? = nil,
+        tieredStorageConfig: ClusterTieredStorageConfig? = nil,
         vpcConfig: VpcConfig? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateClusterResponse {
         let input = CreateClusterRequest(
+            autoScaling: autoScaling, 
             clusterName: clusterName, 
+            clusterRole: clusterRole, 
             instanceGroups: instanceGroups, 
+            nodeProvisioningMode: nodeProvisioningMode, 
             nodeRecovery: nodeRecovery, 
             orchestrator: orchestrator, 
             restrictedInstanceGroups: restrictedInstanceGroups, 
             tags: tags, 
+            tieredStorageConfig: tieredStorageConfig, 
             vpcConfig: vpcConfig
         )
         return try await self.createCluster(input, logger: logger)
@@ -1017,10 +1102,10 @@ public struct SageMaker: AWSService {
     ///   - domainName: A name for the domain.
     ///   - domainSettings: A collection of Domain settings.
     ///   - kmsKeyId: SageMaker AI uses Amazon Web Services KMS to encrypt EFS and EBS volumes attached to the domain with an Amazon Web Services managed key by default. For more control, specify a customer managed key.
-    ///   - subnetIds: The VPC subnets that the domain uses for communication.
+    ///   - subnetIds: The VPC subnets that the domain uses for communication. The field is optional when the AppNetworkAccessType parameter is set to PublicInternetOnly for domains created from Amazon SageMaker Unified Studio.
     ///   - tagPropagation: Indicates whether custom tag propagation is supported for the domain. Defaults to DISABLED.
     ///   - tags: Tags to associated with the Domain. Each tag consists of a key and an optional value. Tag keys must be unique per resource. Tags are searchable using the Search API. Tags that you specify for the Domain are also added to all Apps that the Domain launches.
-    ///   - vpcId: The ID of the Amazon Virtual Private Cloud (VPC) that the domain uses for communication.
+    ///   - vpcId: The ID of the Amazon Virtual Private Cloud (VPC) that the domain uses for communication. The field is optional when the AppNetworkAccessType parameter is set to PublicInternetOnly for domains created from Amazon SageMaker Unified Studio.
     ///   - logger: Logger use during operation
     @inlinable
     public func createDomain(
@@ -1901,7 +1986,7 @@ public struct SageMaker: AWSService {
     /// Parameters:
     ///   - humanTaskConfig: Configures the labeling task and how it is presented to workers; including, but not limited to price, keywords, and batch size (task count).
     ///   - inputConfig: Input data for the labeling job, such as the Amazon S3 location of the data objects and the location of the manifest file that describes the data objects. You must specify at least one of the following: S3DataSource or SnsDataSource.    Use SnsDataSource to specify an SNS input topic for a streaming labeling job. If you do not specify and SNS input topic ARN, Ground Truth will create a one-time labeling job that stops after all data objects in the input manifest file have been labeled.   Use S3DataSource to specify an input manifest file for both streaming and one-time labeling jobs. Adding an S3DataSource is optional if you use SnsDataSource to create a streaming labeling job.   If you use the Amazon Mechanical Turk workforce, your input data should not include confidential information, personal information or protected health information. Use ContentClassifiers to specify that your data is free of personally identifiable information and adult content.
-    ///   - labelAttributeName: The attribute name to use for the label in the output manifest file. This is the key for the key/value pair formed with the label that a worker assigns to the object. The LabelAttributeName must meet the following requirements.   The name can't end with "-metadata".    If you are using one of the following built-in task types, the attribute name must end with "-ref". If the task type you are using is not listed below, the attribute name must not end with "-ref".   Image semantic segmentation (SemanticSegmentation), and adjustment (AdjustmentSemanticSegmentation) and verification (VerificationSemanticSegmentation) labeling jobs for this task type.   Video frame object detection (VideoObjectDetection), and adjustment and verification (AdjustmentVideoObjectDetection) labeling jobs for this task type.   Video frame object tracking (VideoObjectTracking), and adjustment and verification (AdjustmentVideoObjectTracking) labeling jobs for this task type.   3D point cloud semantic segmentation (3DPointCloudSemanticSegmentation), and adjustment and verification (Adjustment3DPointCloudSemanticSegmentation) labeling jobs for this task type.    3D point cloud object tracking (3DPointCloudObjectTracking), and adjustment and verification (Adjustment3DPointCloudObjectTracking) labeling jobs for this task type.        If you are creating an adjustment or verification labeling job, you must use a different LabelAttributeName than the one used in the original labeling job. The original labeling job is the Ground Truth labeling job that produced the labels that you want verified or adjusted. To learn more about adjustment and verification labeling jobs, see Verify and Adjust Labels.
+    ///   - labelAttributeName: The attribute name to use for the label in the output manifest file. This is the key for the key/value pair formed with the label that a worker assigns to the object. The LabelAttributeName must meet the following requirements.   The name can't end with "-metadata".    If you are using one of the built-in task types or one of the following, the attribute name must end with "-ref".   Image semantic segmentation (SemanticSegmentation) and adjustment (AdjustmentSemanticSegmentation) labeling jobs for this task type. One exception is that verification (VerificationSemanticSegmentation) must not end with -"ref".   Video frame object detection (VideoObjectDetection), and adjustment and verification (AdjustmentVideoObjectDetection) labeling jobs for this task type.   Video frame object tracking (VideoObjectTracking), and adjustment and verification (AdjustmentVideoObjectTracking) labeling jobs for this task type.   3D point cloud semantic segmentation (3DPointCloudSemanticSegmentation), and adjustment and verification (Adjustment3DPointCloudSemanticSegmentation) labeling jobs for this task type.    3D point cloud object tracking (3DPointCloudObjectTracking), and adjustment and verification (Adjustment3DPointCloudObjectTracking) labeling jobs for this task type.        If you are creating an adjustment or verification labeling job, you must use a different LabelAttributeName than the one used in the original labeling job. The original labeling job is the Ground Truth labeling job that produced the labels that you want verified or adjusted. To learn more about adjustment and verification labeling jobs, see Verify and Adjust Labels.
     ///   - labelCategoryConfigS3Uri: The S3 URI of the file, referred to as a label category configuration file, that defines the categories used to label the data objects. For 3D point cloud and video frame task types, you can add label category attributes and frame attributes to your label category configuration file. To learn how, see Create a Labeling Category Configuration File for 3D Point Cloud Labeling Jobs.  For named entity recognition jobs, in addition to "labels", you must provide worker instructions in the label category configuration file using the "instructions" parameter: "instructions": {"shortInstruction":"&lt;h1&gt;Add header&lt;/h1&gt;&lt;p&gt;Add Instructions&lt;/p&gt;", "fullInstruction":"&lt;p&gt;Add additional instructions.&lt;/p&gt;"}. For details and an example, see Create a Named Entity Recognition Labeling Job (API) . For all other built-in task types and custom tasks, your label category configuration file must be a JSON file in the following format. Identify the labels you want to use by replacing label_1, label_2,...,label_n with your label categories.  {    "document-version": "2018-11-28",   "labels": [{"label": "label_1"},{"label": "label_2"},...{"label": "label_n"}]   }  Note the following about the label category configuration file:   For image classification and text classification (single and multi-label) you must specify at least two label categories. For all other task types, the minimum number of label categories required is one.    Each label category must be unique, you cannot specify duplicate label categories.   If you create a 3D point cloud or video frame adjustment or verification labeling job, you must include auditLabelAttributeName in the label category configuration. Use this parameter to enter the  LabelAttributeName  of the labeling job you want to adjust or verify annotations of.
     ///   - labelingJobAlgorithmsConfig: Configures the information required to perform automated data labeling.
     ///   - labelingJobName: The name of the labeling job. This name is used to identify the job in a list of labeling jobs. Labeling job names must be unique within an Amazon Web Services account and region. LabelingJobName is not case sensitive. For example, Example-job and example-job are considered the same labeling job name by Ground Truth.
@@ -2473,6 +2558,7 @@ public struct SageMaker: AWSService {
     ///   - directInternetAccess: Sets whether SageMaker AI provides internet access to the notebook instance. If you set this to Disabled this notebook instance is able to access resources only in your VPC, and is not be able to connect to SageMaker AI training and endpoint services unless you configure a NAT Gateway in your VPC. For more information, see Notebook Instances Are Internet-Enabled by Default. You can set the value of this parameter to Disabled only if you set a value for the SubnetId parameter.
     ///   - instanceMetadataServiceConfiguration: Information on the IMDS configuration of the notebook instance
     ///   - instanceType: The type of ML compute instance to launch for the notebook instance.
+    ///   - ipAddressType: The IP address type for the notebook instance. Specify ipv4 for IPv4-only connectivity or dualstack for both IPv4 and IPv6 connectivity. When you specify dualstack, the subnet must support IPv6 CIDR blocks. If not specified, defaults to ipv4.
     ///   - kmsKeyId: The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that SageMaker AI uses to encrypt data on the storage volume attached to your notebook instance. The KMS key you provide must be enabled. For information, see Enabling and Disabling Keys in the Amazon Web Services Key Management Service Developer Guide.
     ///   - lifecycleConfigName: The name of a lifecycle configuration to associate with the notebook instance. For information about lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance.
     ///   - notebookInstanceName: The name of the new notebook instance.
@@ -2492,6 +2578,7 @@ public struct SageMaker: AWSService {
         directInternetAccess: DirectInternetAccess? = nil,
         instanceMetadataServiceConfiguration: InstanceMetadataServiceConfiguration? = nil,
         instanceType: InstanceType? = nil,
+        ipAddressType: IPAddressType? = nil,
         kmsKeyId: String? = nil,
         lifecycleConfigName: String? = nil,
         notebookInstanceName: String? = nil,
@@ -2511,6 +2598,7 @@ public struct SageMaker: AWSService {
             directInternetAccess: directInternetAccess, 
             instanceMetadataServiceConfiguration: instanceMetadataServiceConfiguration, 
             instanceType: instanceType, 
+            ipAddressType: ipAddressType, 
             kmsKeyId: kmsKeyId, 
             lifecycleConfigName: lifecycleConfigName, 
             notebookInstanceName: notebookInstanceName, 
@@ -3179,18 +3267,21 @@ public struct SageMaker: AWSService {
     /// Creates a new training plan in SageMaker to reserve compute capacity. Amazon SageMaker Training Plan is a capability within SageMaker that allows customers to reserve and manage GPU capacity for large-scale AI model training. It provides a way to secure predictable access to computational resources within specific timelines and budgets, without the need to manage underlying infrastructure.   How it works  Plans can be created for specific resources such as SageMaker Training Jobs or SageMaker HyperPod clusters, automatically provisioning resources, setting up infrastructure, executing workloads, and handling infrastructure failures.  Plan creation workflow    Users search for available plan offerings based on their requirements (e.g., instance type, count, start time, duration) using the  SearchTrainingPlanOfferings  API operation.   They create a plan that best matches their needs using the ID of the plan offering they want to use.    After successful upfront payment, the plan's status becomes Scheduled.    The plan can be used to:   Queue training jobs.   Allocate to an instance group of a SageMaker HyperPod cluster.      When the plan start date arrives, it becomes Active. Based on available reserved capacity:   Training jobs are launched.   Instance groups are provisioned.      Plan composition  A plan can consist of one or more Reserved Capacities, each defined by a specific instance type, quantity, Availability Zone, duration, and start and end times. For more information about Reserved Capacity, see  ReservedCapacitySummary .
     ///
     /// Parameters:
+    ///   - spareInstanceCountPerUltraServer: Number of spare instances to reserve per UltraServer for enhanced resiliency. Default is 1.
     ///   - tags: An array of key-value pairs to apply to this training plan.
     ///   - trainingPlanName: The name of the training plan to create.
     ///   - trainingPlanOfferingId: The unique identifier of the training plan offering to use for creating this plan.
     ///   - logger: Logger use during operation
     @inlinable
     public func createTrainingPlan(
+        spareInstanceCountPerUltraServer: Int? = nil,
         tags: [Tag]? = nil,
         trainingPlanName: String? = nil,
         trainingPlanOfferingId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateTrainingPlanResponse {
         let input = CreateTrainingPlanRequest(
+            spareInstanceCountPerUltraServer: spareInstanceCountPerUltraServer, 
             tags: tags, 
             trainingPlanName: trainingPlanName, 
             trainingPlanOfferingId: trainingPlanOfferingId
@@ -3424,6 +3515,7 @@ public struct SageMaker: AWSService {
     ///
     /// Parameters:
     ///   - cognitoConfig: Use this parameter to configure an Amazon Cognito private workforce. A single Cognito workforce is created using and corresponds to a single  Amazon Cognito user pool. Do not use OidcConfig if you specify values for CognitoConfig.
+    ///   - ipAddressType: Use this parameter to specify whether you want IPv4 only or dualstack (IPv4 and IPv6) to support your labeling workforce.
     ///   - oidcConfig: Use this parameter to configure a private workforce using your own OIDC Identity Provider. Do not use CognitoConfig if you specify values for OidcConfig.
     ///   - sourceIpConfig: 
     ///   - tags: An array of key-value pairs that contain metadata to help you categorize and organize our workforce. Each tag consists of a key and a value, both of which you define.
@@ -3433,6 +3525,7 @@ public struct SageMaker: AWSService {
     @inlinable
     public func createWorkforce(
         cognitoConfig: CognitoConfig? = nil,
+        ipAddressType: WorkforceIpAddressType? = nil,
         oidcConfig: OidcConfig? = nil,
         sourceIpConfig: SourceIpConfig? = nil,
         tags: [Tag]? = nil,
@@ -3442,6 +3535,7 @@ public struct SageMaker: AWSService {
     ) async throws -> CreateWorkforceResponse {
         let input = CreateWorkforceRequest(
             cognitoConfig: cognitoConfig, 
+            ipAddressType: ipAddressType, 
             oidcConfig: oidcConfig, 
             sourceIpConfig: sourceIpConfig, 
             tags: tags, 
@@ -5429,6 +5523,38 @@ public struct SageMaker: AWSService {
         return try await self.describeCluster(input, logger: logger)
     }
 
+    /// Retrieves detailed information about a specific event for a given HyperPod cluster. This functionality is only supported when the NodeProvisioningMode is set to Continuous.
+    @Sendable
+    @inlinable
+    public func describeClusterEvent(_ input: DescribeClusterEventRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeClusterEventResponse {
+        try await self.client.execute(
+            operation: "DescribeClusterEvent", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about a specific event for a given HyperPod cluster. This functionality is only supported when the NodeProvisioningMode is set to Continuous.
+    ///
+    /// Parameters:
+    ///   - clusterName: The name or Amazon Resource Name (ARN) of the HyperPod cluster associated with the event.
+    ///   - eventId: The unique identifier (UUID) of the event to describe. This ID can be obtained from the ListClusterEvents operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeClusterEvent(
+        clusterName: String? = nil,
+        eventId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeClusterEventResponse {
+        let input = DescribeClusterEventRequest(
+            clusterName: clusterName, 
+            eventId: eventId
+        )
+        return try await self.describeClusterEvent(input, logger: logger)
+    }
+
     /// Retrieves information of a node (also called a instance interchangeably) of a SageMaker HyperPod cluster.
     @Sendable
     @inlinable
@@ -5447,16 +5573,19 @@ public struct SageMaker: AWSService {
     /// Parameters:
     ///   - clusterName: The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster in which the node is.
     ///   - nodeId: The ID of the SageMaker HyperPod cluster node.
+    ///   - nodeLogicalId: The logical identifier of the node to describe. You can specify either NodeLogicalId or InstanceId, but not both. NodeLogicalId can be used to describe nodes that are still being provisioned and don't yet have an InstanceId assigned.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeClusterNode(
         clusterName: String? = nil,
         nodeId: String? = nil,
+        nodeLogicalId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DescribeClusterNodeResponse {
         let input = DescribeClusterNodeRequest(
             clusterName: clusterName, 
-            nodeId: nodeId
+            nodeId: nodeId, 
+            nodeLogicalId: nodeLogicalId
         )
         return try await self.describeClusterNode(input, logger: logger)
     }
@@ -6869,6 +6998,35 @@ public struct SageMaker: AWSService {
         return try await self.describeProject(input, logger: logger)
     }
 
+    /// Retrieves details about a reserved capacity.
+    @Sendable
+    @inlinable
+    public func describeReservedCapacity(_ input: DescribeReservedCapacityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReservedCapacityResponse {
+        try await self.client.execute(
+            operation: "DescribeReservedCapacity", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves details about a reserved capacity.
+    ///
+    /// Parameters:
+    ///   - reservedCapacityArn: ARN of the reserved capacity to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeReservedCapacity(
+        reservedCapacityArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeReservedCapacityResponse {
+        let input = DescribeReservedCapacityRequest(
+            reservedCapacityArn: reservedCapacityArn
+        )
+        return try await self.describeReservedCapacity(input, logger: logger)
+    }
+
     /// Describes the space.
     @Sendable
     @inlinable
@@ -7192,6 +7350,41 @@ public struct SageMaker: AWSService {
             workteamName: workteamName
         )
         return try await self.describeWorkteam(input, logger: logger)
+    }
+
+    ///  Detaches your Amazon Elastic Block Store (Amazon EBS) volume from a node in your EKS orchestrated SageMaker HyperPod cluster.  This API works with the Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver to manage the lifecycle of persistent storage in your HyperPod EKS clusters.
+    @Sendable
+    @inlinable
+    public func detachClusterNodeVolume(_ input: DetachClusterNodeVolumeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DetachClusterNodeVolumeResponse {
+        try await self.client.execute(
+            operation: "DetachClusterNodeVolume", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Detaches your Amazon Elastic Block Store (Amazon EBS) volume from a node in your EKS orchestrated SageMaker HyperPod cluster.  This API works with the Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver to manage the lifecycle of persistent storage in your HyperPod EKS clusters.
+    ///
+    /// Parameters:
+    ///   - clusterArn:  The Amazon Resource Name (ARN) of your SageMaker HyperPod cluster containing the target node. Your cluster must use EKS as the orchestration and be in the InService state.
+    ///   - nodeId:  The unique identifier of the cluster node from which you want to detach the volume.
+    ///   - volumeId:  The unique identifier of your EBS volume that you want to detach. Your volume must be currently attached to the specified node.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func detachClusterNodeVolume(
+        clusterArn: String? = nil,
+        nodeId: String? = nil,
+        volumeId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DetachClusterNodeVolumeResponse {
+        let input = DetachClusterNodeVolumeRequest(
+            clusterArn: clusterArn, 
+            nodeId: nodeId, 
+            volumeId: volumeId
+        )
+        return try await self.detachClusterNodeVolume(input, logger: logger)
     }
 
     /// Disables using Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects.
@@ -7976,6 +8169,62 @@ public struct SageMaker: AWSService {
         return try await self.listCandidatesForAutoMLJob(input, logger: logger)
     }
 
+    /// Retrieves a list of event summaries for a specified HyperPod cluster. The operation supports filtering, sorting, and pagination of results. This functionality is only supported when the NodeProvisioningMode is set to Continuous.
+    @Sendable
+    @inlinable
+    public func listClusterEvents(_ input: ListClusterEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListClusterEventsResponse {
+        try await self.client.execute(
+            operation: "ListClusterEvents", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a list of event summaries for a specified HyperPod cluster. The operation supports filtering, sorting, and pagination of results. This functionality is only supported when the NodeProvisioningMode is set to Continuous.
+    ///
+    /// Parameters:
+    ///   - clusterName: The name or Amazon Resource Name (ARN) of the HyperPod cluster for which to list events.
+    ///   - eventTimeAfter: The start of the time range for filtering events. Only events that occurred after this time are included in the results.
+    ///   - eventTimeBefore: The end of the time range for filtering events. Only events that occurred before this time are included in the results.
+    ///   - instanceGroupName: The name of the instance group to filter events. If specified, only events related to this instance group are returned.
+    ///   - maxResults: The maximum number of events to return in the response. Valid range is 1 to 100.
+    ///   - nextToken: A token to retrieve the next set of results. This token is obtained from the output of a previous ListClusterEvents call.
+    ///   - nodeId: The EC2 instance ID to filter events. If specified, only events related to this instance are returned.
+    ///   - resourceType: The type of resource for which to filter events. Valid values are Cluster, InstanceGroup, or Instance.
+    ///   - sortBy: The field to use for sorting the event list. Currently, the only supported value is EventTime.
+    ///   - sortOrder: The order in which to sort the results. Valid values are Ascending or Descending (the default is Descending).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listClusterEvents(
+        clusterName: String? = nil,
+        eventTimeAfter: Date? = nil,
+        eventTimeBefore: Date? = nil,
+        instanceGroupName: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        nodeId: String? = nil,
+        resourceType: ClusterEventResourceType? = nil,
+        sortBy: EventSortBy? = nil,
+        sortOrder: SortOrder? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListClusterEventsResponse {
+        let input = ListClusterEventsRequest(
+            clusterName: clusterName, 
+            eventTimeAfter: eventTimeAfter, 
+            eventTimeBefore: eventTimeBefore, 
+            instanceGroupName: instanceGroupName, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            nodeId: nodeId, 
+            resourceType: resourceType, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder
+        )
+        return try await self.listClusterEvents(input, logger: logger)
+    }
+
     /// Retrieves the list of instances (also called nodes interchangeably) in a SageMaker HyperPod cluster.
     @Sendable
     @inlinable
@@ -7995,6 +8244,7 @@ public struct SageMaker: AWSService {
     ///   - clusterName: The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster in which you want to retrieve the list of nodes.
     ///   - creationTimeAfter: A filter that returns nodes in a SageMaker HyperPod cluster created after the specified time. Timestamps are formatted according to the ISO 8601 standard.  Acceptable formats include:    YYYY-MM-DDThh:mm:ss.sssTZD (UTC), for example, 2014-10-01T20:30:00.000Z     YYYY-MM-DDThh:mm:ss.sssTZD (with offset), for example, 2014-10-01T12:30:00.000-08:00     YYYY-MM-DD, for example, 2014-10-01    Unix time in seconds, for example, 1412195400. This is also referred to as Unix Epoch time and represents the number of seconds since midnight, January 1, 1970 UTC.   For more information about the timestamp format, see Timestamp in the Amazon Web Services Command Line Interface User Guide.
     ///   - creationTimeBefore: A filter that returns nodes in a SageMaker HyperPod cluster created before the specified time. The acceptable formats are the same as the timestamp formats for CreationTimeAfter. For more information about the timestamp format, see Timestamp in the Amazon Web Services Command Line Interface User Guide.
+    ///   - includeNodeLogicalIds: Specifies whether to include nodes that are still being provisioned in the response. When set to true, the response includes all nodes regardless of their provisioning status. When set to False (default), only nodes with assigned InstanceIds are returned.
     ///   - instanceGroupNameContains: A filter that returns the instance groups whose name contain a specified string.
     ///   - maxResults: The maximum number of nodes to return in the response.
     ///   - nextToken: If the result of the previous ListClusterNodes request was truncated, the response includes a NextToken. To retrieve the next set of cluster nodes, use the token in the next request.
@@ -8006,6 +8256,7 @@ public struct SageMaker: AWSService {
         clusterName: String? = nil,
         creationTimeAfter: Date? = nil,
         creationTimeBefore: Date? = nil,
+        includeNodeLogicalIds: Bool? = nil,
         instanceGroupNameContains: String? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
@@ -8017,6 +8268,7 @@ public struct SageMaker: AWSService {
             clusterName: clusterName, 
             creationTimeAfter: creationTimeAfter, 
             creationTimeBefore: creationTimeBefore, 
+            includeNodeLogicalIds: includeNodeLogicalIds, 
             instanceGroupNameContains: instanceGroupNameContains, 
             maxResults: maxResults, 
             nextToken: nextToken, 
@@ -11479,6 +11731,41 @@ public struct SageMaker: AWSService {
         return try await self.listTrials(input, logger: logger)
     }
 
+    /// Lists all UltraServers that are part of a specified reserved capacity.
+    @Sendable
+    @inlinable
+    public func listUltraServersByReservedCapacity(_ input: ListUltraServersByReservedCapacityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUltraServersByReservedCapacityResponse {
+        try await self.client.execute(
+            operation: "ListUltraServersByReservedCapacity", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all UltraServers that are part of a specified reserved capacity.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of UltraServers to return in the response. The default value is 10.
+    ///   - nextToken: If the previous response was truncated, you receive this token. Use it in your next request to receive the next set of results.
+    ///   - reservedCapacityArn: The ARN of the reserved capacity to list UltraServers for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listUltraServersByReservedCapacity(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        reservedCapacityArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListUltraServersByReservedCapacityResponse {
+        let input = ListUltraServersByReservedCapacityRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            reservedCapacityArn: reservedCapacityArn
+        )
+        return try await self.listUltraServersByReservedCapacity(input, logger: logger)
+    }
+
     /// Lists user profiles.
     @Sendable
     @inlinable
@@ -11864,6 +12151,8 @@ public struct SageMaker: AWSService {
     ///   - instanceType: The type of instance you want to search for in the available training plan offerings. This field allows you to filter the search results based on the specific compute resources you require for your SageMaker training jobs or SageMaker HyperPod clusters. When searching for training plan offerings, specifying the instance type helps you find Reserved Instances that match your computational needs.
     ///   - startTimeAfter: A filter to search for training plan offerings with a start time after a specified date.
     ///   - targetResources: The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod) to search for in the offerings. Training plans are specific to their target resource.   A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.   A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.
+    ///   - ultraServerCount: The number of UltraServers to search for.
+    ///   - ultraServerType: The type of UltraServer to search for, such as ml.u-p6e-gb200x72.
     ///   - logger: Logger use during operation
     @inlinable
     public func searchTrainingPlanOfferings(
@@ -11873,6 +12162,8 @@ public struct SageMaker: AWSService {
         instanceType: ReservedCapacityInstanceType? = nil,
         startTimeAfter: Date? = nil,
         targetResources: [SageMakerResourceName]? = nil,
+        ultraServerCount: Int? = nil,
+        ultraServerType: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> SearchTrainingPlanOfferingsResponse {
         let input = SearchTrainingPlanOfferingsRequest(
@@ -11881,7 +12172,9 @@ public struct SageMaker: AWSService {
             instanceCount: instanceCount, 
             instanceType: instanceType, 
             startTimeAfter: startTimeAfter, 
-            targetResources: targetResources
+            targetResources: targetResources, 
+            ultraServerCount: ultraServerCount, 
+            ultraServerType: ultraServerType
         )
         return try await self.searchTrainingPlanOfferings(input, logger: logger)
     }
@@ -12798,27 +13091,36 @@ public struct SageMaker: AWSService {
     /// Updates a SageMaker HyperPod cluster.
     ///
     /// Parameters:
+    ///   - autoScaling: Updates the autoscaling configuration for the cluster. Use to enable or disable automatic node scaling.
     ///   - clusterName: Specify the name of the SageMaker HyperPod cluster you want to update.
+    ///   - clusterRole: The Amazon Resource Name (ARN) of the IAM role that HyperPod assumes for cluster autoscaling operations. Cannot be updated while autoscaling is enabled.
     ///   - instanceGroups: Specify the instance groups to update.
     ///   - instanceGroupsToDelete: Specify the names of the instance groups to delete. Use a single , as the separator between multiple names.
     ///   - nodeRecovery: The node recovery mode to be applied to the SageMaker HyperPod cluster.
     ///   - restrictedInstanceGroups: The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
+    ///   - tieredStorageConfig: Updates the configuration for managed tier checkpointing on the HyperPod cluster. For example, you can enable or disable the feature and modify the percentage of cluster memory allocated for checkpoint storage.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateCluster(
+        autoScaling: ClusterAutoScalingConfig? = nil,
         clusterName: String? = nil,
+        clusterRole: String? = nil,
         instanceGroups: [ClusterInstanceGroupSpecification]? = nil,
         instanceGroupsToDelete: [String]? = nil,
         nodeRecovery: ClusterNodeRecovery? = nil,
         restrictedInstanceGroups: [ClusterRestrictedInstanceGroupSpecification]? = nil,
+        tieredStorageConfig: ClusterTieredStorageConfig? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateClusterResponse {
         let input = UpdateClusterRequest(
+            autoScaling: autoScaling, 
             clusterName: clusterName, 
+            clusterRole: clusterRole, 
             instanceGroups: instanceGroups, 
             instanceGroupsToDelete: instanceGroupsToDelete, 
             nodeRecovery: nodeRecovery, 
-            restrictedInstanceGroups: restrictedInstanceGroups
+            restrictedInstanceGroups: restrictedInstanceGroups, 
+            tieredStorageConfig: tieredStorageConfig
         )
         return try await self.updateCluster(input, logger: logger)
     }
@@ -12879,18 +13181,21 @@ public struct SageMaker: AWSService {
     /// Parameters:
     ///   - clusterName: Specify the name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster you want to update for security patching.
     ///   - deploymentConfig: The configuration to use when updating the AMI versions.
+    ///   - imageId: When configuring your HyperPod cluster, you can specify an image ID using one of the following options:    HyperPodPublicAmiId: Use a HyperPod public AMI    CustomAmiId: Use your custom AMI    default: Use the default latest system image   If you choose to use a custom AMI (CustomAmiId), ensure it meets the following requirements:   Encryption: The custom AMI must be unencrypted.   Ownership: The custom AMI must be owned by the same Amazon Web Services account that is creating the HyperPod cluster.   Volume support: Only the primary AMI snapshot volume is supported; additional AMI volumes are not supported.   When updating the instance group's AMI through the UpdateClusterSoftware operation, if an instance group uses a custom AMI, you must provide an ImageId or use the default as input. Note that if you don't specify an instance group in your UpdateClusterSoftware request, then all of the instance groups are patched with the specified image.
     ///   - instanceGroups: The array of instance groups for which to update AMI versions.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateClusterSoftware(
         clusterName: String? = nil,
         deploymentConfig: DeploymentConfiguration? = nil,
+        imageId: String? = nil,
         instanceGroups: [UpdateClusterSoftwareInstanceGroupSpecification]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateClusterSoftwareResponse {
         let input = UpdateClusterSoftwareRequest(
             clusterName: clusterName, 
             deploymentConfig: deploymentConfig, 
+            imageId: imageId, 
             instanceGroups: instanceGroups
         )
         return try await self.updateClusterSoftware(input, logger: logger)
@@ -13899,6 +14204,7 @@ public struct SageMaker: AWSService {
     ///   - disassociateLifecycleConfig: Set to true to remove the notebook instance lifecycle configuration currently associated with the notebook instance. This operation is idempotent. If you specify a lifecycle configuration that is not associated with the notebook instance when you call this method, it does not throw an error.
     ///   - instanceMetadataServiceConfiguration: Information on the IMDS configuration of the notebook instance
     ///   - instanceType: The Amazon ML compute instance type.
+    ///   - ipAddressType: The IP address type for the notebook instance. Specify ipv4 for IPv4-only connectivity or dualstack for both IPv4 and IPv6 connectivity. The notebook instance must be stopped before updating this setting. When you specify dualstack, the subnet must support IPv6 addressing.
     ///   - lifecycleConfigName: The name of a lifecycle configuration to associate with the notebook instance. For information about lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance.
     ///   - notebookInstanceName: The name of the notebook instance to update.
     ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role that SageMaker AI can assume to access the notebook instance. For more information, see SageMaker AI Roles.   To be able to pass this role to SageMaker AI, the caller of this API must have the iam:PassRole permission.
@@ -13916,6 +14222,7 @@ public struct SageMaker: AWSService {
         disassociateLifecycleConfig: Bool? = nil,
         instanceMetadataServiceConfiguration: InstanceMetadataServiceConfiguration? = nil,
         instanceType: InstanceType? = nil,
+        ipAddressType: IPAddressType? = nil,
         lifecycleConfigName: String? = nil,
         notebookInstanceName: String? = nil,
         roleArn: String? = nil,
@@ -13933,6 +14240,7 @@ public struct SageMaker: AWSService {
             disassociateLifecycleConfig: disassociateLifecycleConfig, 
             instanceMetadataServiceConfiguration: instanceMetadataServiceConfiguration, 
             instanceType: instanceType, 
+            ipAddressType: ipAddressType, 
             lifecycleConfigName: lifecycleConfigName, 
             notebookInstanceName: notebookInstanceName, 
             roleArn: roleArn, 
@@ -14393,7 +14701,7 @@ public struct SageMaker: AWSService {
         return try await self.updateUserProfile(input, logger: logger)
     }
 
-    /// Use this operation to update your workforce. You can use this operation to require that workers use specific IP addresses to work on tasks and to update your OpenID Connect (OIDC) Identity Provider (IdP) workforce configuration. The worker portal is now supported in VPC and public internet.  Use SourceIpConfig to restrict worker access to tasks to a specific range of IP addresses. You specify allowed IP addresses by creating a list of up to ten CIDRs. By default, a workforce isn't restricted to specific IP addresses. If you specify a range of IP addresses, workers who attempt to access tasks using any IP address outside the specified range are denied and get a Not Found error message on the worker portal. To restrict access to all the workers in public internet, add the SourceIpConfig CIDR value as "10.0.0.0/16".  Amazon SageMaker does not support Source Ip restriction for worker portals in VPC.  Use OidcConfig to update the configuration of a workforce created using your own OIDC IdP.   You can only update your OIDC IdP configuration when there are no work teams associated with your workforce. You can delete work teams using the DeleteWorkteam operation.  After restricting access to a range of IP addresses or updating your OIDC IdP configuration with this operation, you can view details about your update workforce using the DescribeWorkforce operation.  This operation only applies to private workforces.
+    /// Use this operation to update your workforce. You can use this operation to require that workers use specific IP addresses to work on tasks and to update your OpenID Connect (OIDC) Identity Provider (IdP) workforce configuration. The worker portal is now supported in VPC and public internet.  Use SourceIpConfig to restrict worker access to tasks to a specific range of IP addresses. You specify allowed IP addresses by creating a list of up to ten CIDRs. By default, a workforce isn't restricted to specific IP addresses. If you specify a range of IP addresses, workers who attempt to access tasks using any IP address outside the specified range are denied and get a Not Found error message on the worker portal. To restrict public internet access for all workers, configure the SourceIpConfig CIDR value. For example, when using SourceIpConfig with an IpAddressType of IPv4, you can restrict access to the IPv4 CIDR block "10.0.0.0/16". When using an IpAddressType of dualstack, you can specify both the IPv4 and IPv6 CIDR blocks, such as "10.0.0.0/16" for IPv4 only, "2001:db8:1234:1a00::/56" for IPv6 only, or "10.0.0.0/16" and "2001:db8:1234:1a00::/56" for dual stack.  Amazon SageMaker does not support Source Ip restriction for worker portals in VPC.  Use OidcConfig to update the configuration of a workforce created using your own OIDC IdP.   You can only update your OIDC IdP configuration when there are no work teams associated with your workforce. You can delete work teams using the DeleteWorkteam operation.  After restricting access to a range of IP addresses or updating your OIDC IdP configuration with this operation, you can view details about your update workforce using the DescribeWorkforce operation.  This operation only applies to private workforces.
     @Sendable
     @inlinable
     public func updateWorkforce(_ input: UpdateWorkforceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWorkforceResponse {
@@ -14406,9 +14714,10 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Use this operation to update your workforce. You can use this operation to require that workers use specific IP addresses to work on tasks and to update your OpenID Connect (OIDC) Identity Provider (IdP) workforce configuration. The worker portal is now supported in VPC and public internet.  Use SourceIpConfig to restrict worker access to tasks to a specific range of IP addresses. You specify allowed IP addresses by creating a list of up to ten CIDRs. By default, a workforce isn't restricted to specific IP addresses. If you specify a range of IP addresses, workers who attempt to access tasks using any IP address outside the specified range are denied and get a Not Found error message on the worker portal. To restrict access to all the workers in public internet, add the SourceIpConfig CIDR value as "10.0.0.0/16".  Amazon SageMaker does not support Source Ip restriction for worker portals in VPC.  Use OidcConfig to update the configuration of a workforce created using your own OIDC IdP.   You can only update your OIDC IdP configuration when there are no work teams associated with your workforce. You can delete work teams using the DeleteWorkteam operation.  After restricting access to a range of IP addresses or updating your OIDC IdP configuration with this operation, you can view details about your update workforce using the DescribeWorkforce operation.  This operation only applies to private workforces.
+    /// Use this operation to update your workforce. You can use this operation to require that workers use specific IP addresses to work on tasks and to update your OpenID Connect (OIDC) Identity Provider (IdP) workforce configuration. The worker portal is now supported in VPC and public internet.  Use SourceIpConfig to restrict worker access to tasks to a specific range of IP addresses. You specify allowed IP addresses by creating a list of up to ten CIDRs. By default, a workforce isn't restricted to specific IP addresses. If you specify a range of IP addresses, workers who attempt to access tasks using any IP address outside the specified range are denied and get a Not Found error message on the worker portal. To restrict public internet access for all workers, configure the SourceIpConfig CIDR value. For example, when using SourceIpConfig with an IpAddressType of IPv4, you can restrict access to the IPv4 CIDR block "10.0.0.0/16". When using an IpAddressType of dualstack, you can specify both the IPv4 and IPv6 CIDR blocks, such as "10.0.0.0/16" for IPv4 only, "2001:db8:1234:1a00::/56" for IPv6 only, or "10.0.0.0/16" and "2001:db8:1234:1a00::/56" for dual stack.  Amazon SageMaker does not support Source Ip restriction for worker portals in VPC.  Use OidcConfig to update the configuration of a workforce created using your own OIDC IdP.   You can only update your OIDC IdP configuration when there are no work teams associated with your workforce. You can delete work teams using the DeleteWorkteam operation.  After restricting access to a range of IP addresses or updating your OIDC IdP configuration with this operation, you can view details about your update workforce using the DescribeWorkforce operation.  This operation only applies to private workforces.
     ///
     /// Parameters:
+    ///   - ipAddressType: Use this parameter to specify whether you want IPv4 only or dualstack (IPv4 and IPv6) to support your labeling workforce.
     ///   - oidcConfig: Use this parameter to update your OIDC Identity Provider (IdP) configuration for a workforce made using your own IdP.
     ///   - sourceIpConfig: A list of one to ten worker IP address ranges (CIDRs) that can be used to access tasks assigned to this workforce. Maximum: Ten CIDR values
     ///   - workforceName: The name of the private workforce that you want to update. You can find your workforce name by using the ListWorkforces operation.
@@ -14416,6 +14725,7 @@ public struct SageMaker: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateWorkforce(
+        ipAddressType: WorkforceIpAddressType? = nil,
         oidcConfig: OidcConfig? = nil,
         sourceIpConfig: SourceIpConfig? = nil,
         workforceName: String? = nil,
@@ -14423,6 +14733,7 @@ public struct SageMaker: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateWorkforceResponse {
         let input = UpdateWorkforceRequest(
+            ipAddressType: ipAddressType, 
             oidcConfig: oidcConfig, 
             sourceIpConfig: sourceIpConfig, 
             workforceName: workforceName, 
@@ -15003,6 +15314,64 @@ extension SageMaker {
         return self.listCandidatesForAutoMLJobPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listClusterEvents(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listClusterEventsPaginator(
+        _ input: ListClusterEventsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListClusterEventsRequest, ListClusterEventsResponse> {
+        return .init(
+            input: input,
+            command: self.listClusterEvents,
+            inputKey: \ListClusterEventsRequest.nextToken,
+            outputKey: \ListClusterEventsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listClusterEvents(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - clusterName: The name or Amazon Resource Name (ARN) of the HyperPod cluster for which to list events.
+    ///   - eventTimeAfter: The start of the time range for filtering events. Only events that occurred after this time are included in the results.
+    ///   - eventTimeBefore: The end of the time range for filtering events. Only events that occurred before this time are included in the results.
+    ///   - instanceGroupName: The name of the instance group to filter events. If specified, only events related to this instance group are returned.
+    ///   - maxResults: The maximum number of events to return in the response. Valid range is 1 to 100.
+    ///   - nodeId: The EC2 instance ID to filter events. If specified, only events related to this instance are returned.
+    ///   - resourceType: The type of resource for which to filter events. Valid values are Cluster, InstanceGroup, or Instance.
+    ///   - sortBy: The field to use for sorting the event list. Currently, the only supported value is EventTime.
+    ///   - sortOrder: The order in which to sort the results. Valid values are Ascending or Descending (the default is Descending).
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listClusterEventsPaginator(
+        clusterName: String? = nil,
+        eventTimeAfter: Date? = nil,
+        eventTimeBefore: Date? = nil,
+        instanceGroupName: String? = nil,
+        maxResults: Int? = nil,
+        nodeId: String? = nil,
+        resourceType: ClusterEventResourceType? = nil,
+        sortBy: EventSortBy? = nil,
+        sortOrder: SortOrder? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListClusterEventsRequest, ListClusterEventsResponse> {
+        let input = ListClusterEventsRequest(
+            clusterName: clusterName, 
+            eventTimeAfter: eventTimeAfter, 
+            eventTimeBefore: eventTimeBefore, 
+            instanceGroupName: instanceGroupName, 
+            maxResults: maxResults, 
+            nodeId: nodeId, 
+            resourceType: resourceType, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder
+        )
+        return self.listClusterEventsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listClusterNodes(_:logger:)``.
     ///
     /// - Parameters:
@@ -15027,6 +15396,7 @@ extension SageMaker {
     ///   - clusterName: The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster in which you want to retrieve the list of nodes.
     ///   - creationTimeAfter: A filter that returns nodes in a SageMaker HyperPod cluster created after the specified time. Timestamps are formatted according to the ISO 8601 standard.  Acceptable formats include:    YYYY-MM-DDThh:mm:ss.sssTZD (UTC), for example, 2014-10-01T20:30:00.000Z     YYYY-MM-DDThh:mm:ss.sssTZD (with offset), for example, 2014-10-01T12:30:00.000-08:00     YYYY-MM-DD, for example, 2014-10-01    Unix time in seconds, for example, 1412195400. This is also referred to as Unix Epoch time and represents the number of seconds since midnight, January 1, 1970 UTC.   For more information about the timestamp format, see Timestamp in the Amazon Web Services Command Line Interface User Guide.
     ///   - creationTimeBefore: A filter that returns nodes in a SageMaker HyperPod cluster created before the specified time. The acceptable formats are the same as the timestamp formats for CreationTimeAfter. For more information about the timestamp format, see Timestamp in the Amazon Web Services Command Line Interface User Guide.
+    ///   - includeNodeLogicalIds: Specifies whether to include nodes that are still being provisioned in the response. When set to true, the response includes all nodes regardless of their provisioning status. When set to False (default), only nodes with assigned InstanceIds are returned.
     ///   - instanceGroupNameContains: A filter that returns the instance groups whose name contain a specified string.
     ///   - maxResults: The maximum number of nodes to return in the response.
     ///   - sortBy: The field by which to sort results. The default value is CREATION_TIME.
@@ -15037,6 +15407,7 @@ extension SageMaker {
         clusterName: String? = nil,
         creationTimeAfter: Date? = nil,
         creationTimeBefore: Date? = nil,
+        includeNodeLogicalIds: Bool? = nil,
         instanceGroupNameContains: String? = nil,
         maxResults: Int? = nil,
         sortBy: ClusterSortBy? = nil,
@@ -15047,6 +15418,7 @@ extension SageMaker {
             clusterName: clusterName, 
             creationTimeAfter: creationTimeAfter, 
             creationTimeBefore: creationTimeBefore, 
+            includeNodeLogicalIds: includeNodeLogicalIds, 
             instanceGroupNameContains: instanceGroupNameContains, 
             maxResults: maxResults, 
             sortBy: sortBy, 
@@ -18472,6 +18844,43 @@ extension SageMaker {
         return self.listTrialsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listUltraServersByReservedCapacity(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listUltraServersByReservedCapacityPaginator(
+        _ input: ListUltraServersByReservedCapacityRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListUltraServersByReservedCapacityRequest, ListUltraServersByReservedCapacityResponse> {
+        return .init(
+            input: input,
+            command: self.listUltraServersByReservedCapacity,
+            inputKey: \ListUltraServersByReservedCapacityRequest.nextToken,
+            outputKey: \ListUltraServersByReservedCapacityResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listUltraServersByReservedCapacity(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of UltraServers to return in the response. The default value is 10.
+    ///   - reservedCapacityArn: The ARN of the reserved capacity to list UltraServers for.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listUltraServersByReservedCapacityPaginator(
+        maxResults: Int? = nil,
+        reservedCapacityArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListUltraServersByReservedCapacityRequest, ListUltraServersByReservedCapacityResponse> {
+        let input = ListUltraServersByReservedCapacityRequest(
+            maxResults: maxResults, 
+            reservedCapacityArn: reservedCapacityArn
+        )
+        return self.listUltraServersByReservedCapacityPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listUserProfiles(_:logger:)``.
     ///
     /// - Parameters:
@@ -18865,6 +19274,24 @@ extension SageMaker.ListCandidatesForAutoMLJobRequest: AWSPaginateToken {
     }
 }
 
+extension SageMaker.ListClusterEventsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListClusterEventsRequest {
+        return .init(
+            clusterName: self.clusterName,
+            eventTimeAfter: self.eventTimeAfter,
+            eventTimeBefore: self.eventTimeBefore,
+            instanceGroupName: self.instanceGroupName,
+            maxResults: self.maxResults,
+            nextToken: token,
+            nodeId: self.nodeId,
+            resourceType: self.resourceType,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
 extension SageMaker.ListClusterNodesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> SageMaker.ListClusterNodesRequest {
@@ -18872,6 +19299,7 @@ extension SageMaker.ListClusterNodesRequest: AWSPaginateToken {
             clusterName: self.clusterName,
             creationTimeAfter: self.creationTimeAfter,
             creationTimeBefore: self.creationTimeBefore,
+            includeNodeLogicalIds: self.includeNodeLogicalIds,
             instanceGroupNameContains: self.instanceGroupNameContains,
             maxResults: self.maxResults,
             nextToken: token,
@@ -19928,6 +20356,17 @@ extension SageMaker.ListTrialsRequest: AWSPaginateToken {
             sortBy: self.sortBy,
             sortOrder: self.sortOrder,
             trialComponentName: self.trialComponentName
+        )
+    }
+}
+
+extension SageMaker.ListUltraServersByReservedCapacityRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListUltraServersByReservedCapacityRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            reservedCapacityArn: self.reservedCapacityArn
         )
     }
 }

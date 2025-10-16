@@ -608,7 +608,7 @@ extension VPCLattice {
             try self.rules.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
-            try self.validate(self.rules, name: "rules", parent: name, max: 5)
+            try self.validate(self.rules, name: "rules", parent: name, max: 10)
             try self.validate(self.rules, name: "rules", parent: name, min: 1)
             try self.validate(self.serviceIdentifier, name: "serviceIdentifier", parent: name, max: 2048)
             try self.validate(self.serviceIdentifier, name: "serviceIdentifier", parent: name, min: 17)
@@ -746,7 +746,7 @@ extension VPCLattice {
         public let clientToken: String?
         /// The action for the default rule. Each listener has a default rule. The default rule is used if no other rules match.
         public let defaultAction: RuleAction
-        /// The name of the listener. A listener name must be unique within a service. The valid characters are a-z, 0-9, and hyphens (-). You can't use a  hyphen as the first or last character, or immediately after another hyphen.
+        /// The name of the listener. A listener name must be unique within a service. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen.
         public let name: String
         /// The listener port. You can specify a value from 1 to 65535. For HTTP, the default is 80. For HTTPS, the default is 443.
         public let port: Int?
@@ -854,25 +854,25 @@ extension VPCLattice {
     }
 
     public struct CreateResourceConfigurationRequest: AWSEncodableShape {
-        /// (SINGLE, GROUP, ARN) Specifies whether the resource configuration can be associated with  a sharable service network. The default is false.
+        /// (SINGLE, GROUP, ARN) Specifies whether the resource configuration can be associated with a sharable service network. The default is false.
         public let allowAssociationToShareableServiceNetwork: Bool?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
         public let clientToken: String?
         /// The name of the resource configuration. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen.
         public let name: String
-        /// (SINGLE, GROUP, CHILD) The TCP port ranges that a consumer can use to access a resource configuration  (for example: 1-65535). You can separate port ranges using commas (for example: 1,2,22-30).
+        /// (SINGLE, GROUP, CHILD) The TCP port ranges that a consumer can use to access a resource configuration (for example: 1-65535). You can separate port ranges using commas (for example: 1,2,22-30).
         public let portRanges: [String]?
         /// (SINGLE, GROUP) The protocol accepted by the resource configuration.
         public let `protocol`: ProtocolType?
-        /// (SINGLE, CHILD, ARN) The resource configuration.
+        /// Identifies the resource configuration in one of the following ways:    Amazon Resource Name (ARN) - Supported resource-types that are provisioned by Amazon Web Services services, such as RDS databases, can be identified by their ARN.    Domain name - Any domain name that is publicly resolvable.    IP address - For IPv4 and IPv6, only IP addresses in the VPC are supported.
         public let resourceConfigurationDefinition: ResourceConfigurationDefinition?
-        /// (CHILD) The ID or ARN of the parent resource configuration (type is GROUP).  This is used to associate a child resource configuration with a group resource configuration.
+        /// (CHILD) The ID or ARN of the parent resource configuration of type GROUP. This is used to associate a child resource configuration with a group resource configuration.
         public let resourceConfigurationGroupIdentifier: String?
         /// (SINGLE, GROUP, ARN) The ID or ARN of the resource gateway used to connect to the resource configuration. For a child resource configuration, this value is inherited from the parent resource configuration.
         public let resourceGatewayIdentifier: String?
         /// The tags for the resource configuration.
         public let tags: [String: String]?
-        /// The type of resource configuration.    SINGLE - A single resource.    GROUP - A group of resources. You must create a group resource configuration before you create a child resource configuration.    CHILD - A single resource that is part of a group resource configuration.    ARN - An Amazon Web Services resource.
+        /// The type of resource configuration. A resource configuration can be one of the following types:    SINGLE - A single resource.    GROUP - A group of resources. You must create a group resource configuration before you create a child resource configuration.    CHILD - A single resource that is part of a group resource configuration.    ARN - An Amazon Web Services resource.
         public let type: ResourceConfigurationType
 
         @inlinable
@@ -948,15 +948,15 @@ extension VPCLattice {
         public let portRanges: [String]?
         /// The protocol.
         public let `protocol`: ProtocolType?
-        /// The resource configuration.
+        /// Identifies the resource configuration in one of the following ways:    Amazon Resource Name (ARN) - Supported resource-types that are provisioned by Amazon Web Services services, such as RDS databases, can be identified by their ARN.    Domain name - Any domain name that is publicly resolvable.    IP address - For IPv4 and IPv6, only IP addresses in the VPC are supported.
         public let resourceConfigurationDefinition: ResourceConfigurationDefinition?
-        /// The ID of the parent resource configuration (type is GROUP).
+        /// The ID of the parent resource configuration of type GROUP.
         public let resourceConfigurationGroupId: String?
         /// The ID of the resource gateway associated with the resource configuration.
         public let resourceGatewayId: String?
         /// The current status of the resource configuration.
         public let status: ResourceConfigurationStatus?
-        /// The type of resource configuration.
+        /// The type of resource configuration. A resource configuration can be one of the following types:    SINGLE - A single resource.    GROUP - A group of resources. You must create a group resource configuration before you create a child resource configuration.    CHILD - A single resource that is part of a group resource configuration.    ARN - An Amazon Web Services resource.
         public let type: ResourceConfigurationType?
 
         @inlinable
@@ -996,23 +996,26 @@ extension VPCLattice {
     public struct CreateResourceGatewayRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
         public let clientToken: String?
-        /// The type of IP address used by the resource gateway.
+        /// A resource gateway can have IPv4, IPv6 or dualstack addresses. The IP address type of a resource gateway must be compatible with the subnets of the resource gateway and the IP address type of the resource, as described here:     IPv4Assign IPv4 addresses to your resource gateway network interfaces. This option is supported only if all selected subnets have IPv4 address ranges, and the resource also has an IPv4 address.    IPv6Assign IPv6 addresses to your resource gateway network interfaces. This option is supported only if all selected subnets are IPv6 only subnets, and the resource also has an IPv6 address.    DualstackAssign both IPv4 and IPv6 addresses to your resource gateway network interfaces. This option is supported only if all selected subnets have both IPv4 and IPv6 address ranges, and the resource either has an IPv4 or IPv6 address.   The IP address type of the resource gateway is independent of the IP address type of the client or the VPC endpoint through which the resource is accessed.
         public let ipAddressType: ResourceGatewayIpAddressType?
+        /// The number of IPv4 addresses in each ENI for the resource gateway.
+        public let ipv4AddressesPerEni: Int?
         /// The name of the resource gateway.
         public let name: String
         /// The IDs of the security groups to apply to the resource gateway. The security groups must be in the same VPC.
         public let securityGroupIds: [String]?
         /// The IDs of the VPC subnets in which to create the resource gateway.
-        public let subnetIds: [String]
+        public let subnetIds: [String]?
         /// The tags for the resource gateway.
         public let tags: [String: String]?
         /// The ID of the VPC for the resource gateway.
-        public let vpcIdentifier: String
+        public let vpcIdentifier: String?
 
         @inlinable
-        public init(clientToken: String? = CreateResourceGatewayRequest.idempotencyToken(), ipAddressType: ResourceGatewayIpAddressType? = nil, name: String, securityGroupIds: [String]? = nil, subnetIds: [String], tags: [String: String]? = nil, vpcIdentifier: String) {
+        public init(clientToken: String? = CreateResourceGatewayRequest.idempotencyToken(), ipAddressType: ResourceGatewayIpAddressType? = nil, ipv4AddressesPerEni: Int? = nil, name: String, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, vpcIdentifier: String? = nil) {
             self.clientToken = clientToken
             self.ipAddressType = ipAddressType
+            self.ipv4AddressesPerEni = ipv4AddressesPerEni
             self.name = name
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -1024,6 +1027,8 @@ extension VPCLattice {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.ipv4AddressesPerEni, name: "ipv4AddressesPerEni", parent: name, max: 62)
+            try self.validate(self.ipv4AddressesPerEni, name: "ipv4AddressesPerEni", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 40)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?!rgw-)(?![-])(?!.*[-]$)(?!.*[-]{2})[a-z0-9-]+$")
@@ -1032,7 +1037,7 @@ extension VPCLattice {
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 5)
                 try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^sg-(([0-9a-z]{8})|([0-9a-z]{17}))$")
             }
-            try self.subnetIds.forEach {
+            try self.subnetIds?.forEach {
                 try validate($0, name: "subnetIds[]", parent: name, max: 200)
                 try validate($0, name: "subnetIds[]", parent: name, min: 5)
             }
@@ -1050,6 +1055,7 @@ extension VPCLattice {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case ipAddressType = "ipAddressType"
+            case ipv4AddressesPerEni = "ipv4AddressesPerEni"
             case name = "name"
             case securityGroupIds = "securityGroupIds"
             case subnetIds = "subnetIds"
@@ -1065,6 +1071,8 @@ extension VPCLattice {
         public let id: String?
         /// The type of IP address for the resource gateway.
         public let ipAddressType: ResourceGatewayIpAddressType?
+        /// The number of IPv4 addresses in each ENI for the resource gateway.
+        public let ipv4AddressesPerEni: Int?
         /// The name of the resource gateway.
         public let name: String?
         /// The IDs of the security groups for the resource gateway.
@@ -1077,10 +1085,11 @@ extension VPCLattice {
         public let vpcIdentifier: String?
 
         @inlinable
-        public init(arn: String? = nil, id: String? = nil, ipAddressType: ResourceGatewayIpAddressType? = nil, name: String? = nil, securityGroupIds: [String]? = nil, status: ResourceGatewayStatus? = nil, subnetIds: [String]? = nil, vpcIdentifier: String? = nil) {
+        public init(arn: String? = nil, id: String? = nil, ipAddressType: ResourceGatewayIpAddressType? = nil, ipv4AddressesPerEni: Int? = nil, name: String? = nil, securityGroupIds: [String]? = nil, status: ResourceGatewayStatus? = nil, subnetIds: [String]? = nil, vpcIdentifier: String? = nil) {
             self.arn = arn
             self.id = id
             self.ipAddressType = ipAddressType
+            self.ipv4AddressesPerEni = ipv4AddressesPerEni
             self.name = name
             self.securityGroupIds = securityGroupIds
             self.status = status
@@ -1092,6 +1101,7 @@ extension VPCLattice {
             case arn = "arn"
             case id = "id"
             case ipAddressType = "ipAddressType"
+            case ipv4AddressesPerEni = "ipv4AddressesPerEni"
             case name = "name"
             case securityGroupIds = "securityGroupIds"
             case status = "status"
@@ -1109,7 +1119,7 @@ extension VPCLattice {
         public let listenerIdentifier: String
         /// The rule match.
         public let match: RuleMatch
-        /// The name of the rule. The name must be unique within the listener. The valid characters are a-z, 0-9, and hyphens (-). You can't use a  hyphen as the first or last character, or immediately after another hyphen.
+        /// The name of the rule. The name must be unique within the listener. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen.
         public let name: String
         /// The priority assigned to the rule. Each rule for a specific listener must have a unique priority. The lower the priority number the higher the priority.
         public let priority: Int
@@ -1155,7 +1165,7 @@ extension VPCLattice {
             try self.validate(self.name, name: "name", parent: name, max: 63)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?!rule-)(?![-])(?!.*[-]$)(?!.*[-]{2})[a-z0-9-]+$")
-            try self.validate(self.priority, name: "priority", parent: name, max: 100)
+            try self.validate(self.priority, name: "priority", parent: name, max: 2000)
             try self.validate(self.priority, name: "priority", parent: name, min: 1)
             try self.validate(self.serviceIdentifier, name: "serviceIdentifier", parent: name, max: 2048)
             try self.validate(self.serviceIdentifier, name: "serviceIdentifier", parent: name, min: 17)
@@ -1217,7 +1227,7 @@ extension VPCLattice {
         public let authType: AuthType?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
         public let clientToken: String?
-        /// The name of the service network. The name must be unique to the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a  hyphen as the first or last character, or immediately after another hyphen.
+        /// The name of the service network. The name must be unique to the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen.
         public let name: String
         /// Specify if the service network should be enabled for sharing.
         public let sharingConfig: SharingConfig?
@@ -1264,7 +1274,7 @@ extension VPCLattice {
         public let resourceConfigurationIdentifier: String
         /// The ID of the service network to associate with the resource configuration.
         public let serviceNetworkIdentifier: String
-        /// The tags for the association.
+        /// A key-value pair to associate with a resource.
         public let tags: [String: String]?
 
         @inlinable
@@ -1526,7 +1536,7 @@ extension VPCLattice {
         public let clientToken: String?
         /// The custom domain name of the service.
         public let customDomainName: String?
-        /// The name of the service. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a  hyphen as the first or last character, or immediately after another hyphen.
+        /// The name of the service. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen.
         public let name: String
         /// The tags for the service.
         public let tags: [String: String]?
@@ -1617,7 +1627,7 @@ extension VPCLattice {
         public let clientToken: String?
         /// The target group configuration.
         public let config: TargetGroupConfig?
-        /// The name of the target group. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a  hyphen as the first or last character, or immediately after another hyphen.
+        /// The name of the target group. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen.
         public let name: String
         /// The tags for the target group.
         public let tags: [String: String]?
@@ -2319,7 +2329,7 @@ extension VPCLattice {
     public struct DnsResource: AWSEncodableShape & AWSDecodableShape {
         /// The domain name of the resource.
         public let domainName: String?
-        /// The type of IP address.
+        /// The type of IP address. Dualstack is currently not supported.
         public let ipAddressType: ResourceConfigurationIpAddressType?
 
         @inlinable
@@ -2340,7 +2350,7 @@ extension VPCLattice {
     }
 
     public struct FixedResponseAction: AWSEncodableShape & AWSDecodableShape {
-        /// The HTTP response code.
+        /// The HTTP response code. Only 404 and 500 status codes are supported.
         public let statusCode: Int
 
         @inlinable
@@ -2717,6 +2727,8 @@ extension VPCLattice {
         public let id: String?
         /// The type of IP address for the resource gateway.
         public let ipAddressType: ResourceGatewayIpAddressType?
+        /// The number of IPv4 addresses in each ENI for the resource gateway.
+        public let ipv4AddressesPerEni: Int?
         /// The date and time that the resource gateway was last updated, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastUpdatedAt: Date?
@@ -2732,11 +2744,12 @@ extension VPCLattice {
         public let vpcId: String?
 
         @inlinable
-        public init(arn: String? = nil, createdAt: Date? = nil, id: String? = nil, ipAddressType: ResourceGatewayIpAddressType? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, securityGroupIds: [String]? = nil, status: ResourceGatewayStatus? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, id: String? = nil, ipAddressType: ResourceGatewayIpAddressType? = nil, ipv4AddressesPerEni: Int? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, securityGroupIds: [String]? = nil, status: ResourceGatewayStatus? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.id = id
             self.ipAddressType = ipAddressType
+            self.ipv4AddressesPerEni = ipv4AddressesPerEni
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
             self.securityGroupIds = securityGroupIds
@@ -2750,6 +2763,7 @@ extension VPCLattice {
             case createdAt = "createdAt"
             case id = "id"
             case ipAddressType = "ipAddressType"
+            case ipv4AddressesPerEni = "ipv4AddressesPerEni"
             case lastUpdatedAt = "lastUpdatedAt"
             case name = "name"
             case securityGroupIds = "securityGroupIds"
@@ -3687,7 +3701,7 @@ extension VPCLattice {
         public let maxResults: Int?
         /// A pagination token for the next page of results.
         public let nextToken: String?
-        /// The ID of the group resource configuration.
+        /// The ID of the resource configuration of type Group.
         public let resourceConfigurationGroupIdentifier: String?
         /// The ID of the resource gateway for the resource configuration.
         public let resourceGatewayIdentifier: String?
@@ -3927,17 +3941,20 @@ extension VPCLattice {
     }
 
     public struct ListServiceNetworkResourceAssociationsRequest: AWSEncodableShape {
+        /// Include service network resource associations of the child resource configuration with the grouped resource configuration. The type is boolean and the default value is false.
+        public let includeChildren: Bool?
         /// The maximum page size.
         public let maxResults: Int?
         /// If there are additional results, a pagination token for the next page of results.
         public let nextToken: String?
-        /// The ID of the resource configurationk.
+        /// The ID of the resource configuration.
         public let resourceConfigurationIdentifier: String?
         /// The ID of the service network.
         public let serviceNetworkIdentifier: String?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceConfigurationIdentifier: String? = nil, serviceNetworkIdentifier: String? = nil) {
+        public init(includeChildren: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceConfigurationIdentifier: String? = nil, serviceNetworkIdentifier: String? = nil) {
+            self.includeChildren = includeChildren
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceConfigurationIdentifier = resourceConfigurationIdentifier
@@ -3947,6 +3964,7 @@ extension VPCLattice {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.includeChildren, key: "includeChildren")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
             request.encodeQuery(self.resourceConfigurationIdentifier, key: "resourceConfigurationIdentifier")
@@ -4497,7 +4515,7 @@ extension VPCLattice {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.policy, name: "policy", parent: name, max: 10000)
+            try self.validate(self.policy, name: "policy", parent: name, max: 36864)
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, max: 200)
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, min: 17)
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^((((sn)|(svc)|(rcfg))-[0-9a-z]{17})|(arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((servicenetwork/sn)|(resourceconfiguration/rcfg)|(service/svc))-[0-9a-z]{17}))$")
@@ -4635,7 +4653,7 @@ extension VPCLattice {
         public let resourceGatewayId: String?
         /// The status of the resource configuration.
         public let status: ResourceConfigurationStatus?
-        /// The type of resource configuration.    SINGLE - A single resource.    GROUP - A group of resources.    CHILD - A single resource that is part of a group resource configuration.    ARN - An Amazon Web Services resource.
+        /// The type of resource configuration.    SINGLE - A single resource.    GROUP - A group of resources. You must create a group resource configuration before you create a child resource configuration.    CHILD - A single resource that is part of a group resource configuration.    ARN - An Amazon Web Services resource.
         public let type: ResourceConfigurationType?
 
         @inlinable
@@ -4723,6 +4741,8 @@ extension VPCLattice {
         public let id: String?
         /// The type of IP address used by the resource gateway.
         public let ipAddressType: ResourceGatewayIpAddressType?
+        /// The number of IPv4 addresses in each ENI for the resource gateway.
+        public let ipv4AddressesPerEni: Int?
         /// The most recent date and time that the resource gateway was updated, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastUpdatedAt: Date?
@@ -4738,11 +4758,12 @@ extension VPCLattice {
         public let vpcIdentifier: String?
 
         @inlinable
-        public init(arn: String? = nil, createdAt: Date? = nil, id: String? = nil, ipAddressType: ResourceGatewayIpAddressType? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, securityGroupIds: [String]? = nil, status: ResourceGatewayStatus? = nil, subnetIds: [String]? = nil, vpcIdentifier: String? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, id: String? = nil, ipAddressType: ResourceGatewayIpAddressType? = nil, ipv4AddressesPerEni: Int? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, securityGroupIds: [String]? = nil, status: ResourceGatewayStatus? = nil, subnetIds: [String]? = nil, vpcIdentifier: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.id = id
             self.ipAddressType = ipAddressType
+            self.ipv4AddressesPerEni = ipv4AddressesPerEni
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
             self.securityGroupIds = securityGroupIds
@@ -4756,6 +4777,7 @@ extension VPCLattice {
             case createdAt = "createdAt"
             case id = "id"
             case ipAddressType = "ipAddressType"
+            case ipv4AddressesPerEni = "ipv4AddressesPerEni"
             case lastUpdatedAt = "lastUpdatedAt"
             case name = "name"
             case securityGroupIds = "securityGroupIds"
@@ -4847,7 +4869,7 @@ extension VPCLattice {
         public func validate(name: String) throws {
             try self.action?.validate(name: "\(name).action")
             try self.match?.validate(name: "\(name).match")
-            try self.validate(self.priority, name: "priority", parent: name, max: 100)
+            try self.validate(self.priority, name: "priority", parent: name, max: 2000)
             try self.validate(self.priority, name: "priority", parent: name, min: 1)
             try self.validate(self.ruleIdentifier, name: "ruleIdentifier", parent: name, max: 2048)
             try self.validate(self.ruleIdentifier, name: "ruleIdentifier", parent: name, min: 20)
@@ -4991,7 +5013,7 @@ extension VPCLattice {
         public let serviceNetworkId: String?
         /// The name of the service network associated with the resource configuration.
         public let serviceNetworkName: String?
-        /// The status of the service network associated with the resource configuration.
+        /// The status of the service network’s association with the resource configuration. If the deletion fails, try to delete again.
         public let status: ServiceNetworkResourceAssociationStatus?
 
         @inlinable
@@ -5058,7 +5080,7 @@ extension VPCLattice {
         public let serviceNetworkId: String?
         /// The name of the service network.
         public let serviceNetworkName: String?
-        /// The status. If the deletion fails, try to delete again.
+        /// The status of the service network’s association with the service. If the deletion fails, try to delete again.
         public let status: ServiceNetworkServiceAssociationStatus?
 
         @inlinable
@@ -5720,7 +5742,7 @@ extension VPCLattice {
         public let allowAssociationToShareableServiceNetwork: Bool?
         /// The TCP port ranges that a consumer can use to access a resource configuration. You can separate port ranges with a comma. Example: 1-65535 or 1,2,22-30
         public let portRanges: [String]?
-        /// The resource configuration.
+        /// Identifies the resource configuration in one of the following ways:    Amazon Resource Name (ARN) - Supported resource-types that are provisioned by Amazon Web Services services, such as RDS databases, can be identified by their ARN.    Domain name - Any domain name that is publicly resolvable.    IP address - For IPv4 and IPv6, only IP addresses in the VPC are supported.
         public let resourceConfigurationDefinition: ResourceConfigurationDefinition?
         /// The ID of the resource configuration.
         public let resourceConfigurationIdentifier: String
@@ -5933,7 +5955,7 @@ extension VPCLattice {
             try self.validate(self.listenerIdentifier, name: "listenerIdentifier", parent: name, min: 20)
             try self.validate(self.listenerIdentifier, name: "listenerIdentifier", parent: name, pattern: "^((listener-[0-9a-z]{17})|(^arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:service/svc-[0-9a-z]{17}/listener/listener-[0-9a-z]{17}$))$")
             try self.match?.validate(name: "\(name).match")
-            try self.validate(self.priority, name: "priority", parent: name, max: 100)
+            try self.validate(self.priority, name: "priority", parent: name, max: 2000)
             try self.validate(self.priority, name: "priority", parent: name, min: 1)
             try self.validate(self.ruleIdentifier, name: "ruleIdentifier", parent: name, max: 2048)
             try self.validate(self.ruleIdentifier, name: "ruleIdentifier", parent: name, min: 20)

@@ -1129,6 +1129,8 @@ public struct Redshift: AWSService {
     ///   - identityNamespace: The namespace for the Amazon Redshift IAM Identity Center application instance. It determines which managed application  verifies the connection token.
     ///   - redshiftIdcApplicationName: The name of the Redshift application in IAM Identity Center.
     ///   - serviceIntegrations: A collection of service integrations for the Redshift IAM Identity Center application.
+    ///   - ssoTagKeys: A list of tags keys that Redshift Identity Center applications copy to IAM Identity Center. For each input key, the tag corresponding to the key-value pair is propagated.
+    ///   - tags: A list of tags.
     ///   - logger: Logger use during operation
     @inlinable
     public func createRedshiftIdcApplication(
@@ -1139,6 +1141,8 @@ public struct Redshift: AWSService {
         identityNamespace: String? = nil,
         redshiftIdcApplicationName: String? = nil,
         serviceIntegrations: [ServiceIntegrationsUnion]? = nil,
+        ssoTagKeys: [String]? = nil,
+        tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateRedshiftIdcApplicationResult {
         let input = CreateRedshiftIdcApplicationMessage(
@@ -1148,7 +1152,9 @@ public struct Redshift: AWSService {
             idcInstanceArn: idcInstanceArn, 
             identityNamespace: identityNamespace, 
             redshiftIdcApplicationName: redshiftIdcApplicationName, 
-            serviceIntegrations: serviceIntegrations
+            serviceIntegrations: serviceIntegrations, 
+            ssoTagKeys: ssoTagKeys, 
+            tags: tags
         )
         return try await self.createRedshiftIdcApplication(input, logger: logger)
     }

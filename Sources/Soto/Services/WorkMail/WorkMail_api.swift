@@ -2574,13 +2574,13 @@ public struct WorkMail: AWSService {
     /// Parameters:
     ///   - logGroupArn: The Amazon Resource Name (ARN) of the CloudWatch Log group associated with the email monitoring configuration.
     ///   - organizationId: The ID of the organization for which the email monitoring configuration is set.
-    ///   - roleArn: The Amazon Resource Name (ARN) of the IAM Role associated with the email monitoring configuration.
+    ///   - roleArn: The Amazon Resource Name (ARN) of the IAM Role associated with the email monitoring configuration. If absent, the IAM Role Arn of AWSServiceRoleForAmazonWorkMailEvents will be used.
     ///   - logger: Logger use during operation
     @inlinable
     public func putEmailMonitoringConfiguration(
         logGroupArn: String,
         organizationId: String,
-        roleArn: String,
+        roleArn: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> PutEmailMonitoringConfigurationResponse {
         let input = PutEmailMonitoringConfigurationRequest(

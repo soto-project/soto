@@ -138,6 +138,7 @@ extension Deadline {
     public enum Ec2MarketType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case onDemand = "on-demand"
         case spot = "spot"
+        case waitAndSave = "wait-and-save"
         public var description: String { return self.rawValue }
     }
 
@@ -157,6 +158,7 @@ extension Deadline {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
+        case suspended = "SUSPENDED"
         case updateFailed = "UPDATE_FAILED"
         case updateInProgress = "UPDATE_IN_PROGRESS"
         public var description: String { return self.rawValue }
@@ -2559,14 +2561,17 @@ extension Deadline {
         public let roleArn: String
         /// The subdomain to use when creating the monitor URL. The full URL of the monitor is subdomain.Region.deadlinecloud.amazonaws.com.
         public let subdomain: String
+        /// The tags to add to your monitor. Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
+        public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = CreateMonitorRequest.idempotencyToken(), displayName: String, identityCenterInstanceArn: String, roleArn: String, subdomain: String) {
+        public init(clientToken: String? = CreateMonitorRequest.idempotencyToken(), displayName: String, identityCenterInstanceArn: String, roleArn: String, subdomain: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.displayName = displayName
             self.identityCenterInstanceArn = identityCenterInstanceArn
             self.roleArn = roleArn
             self.subdomain = subdomain
+            self.tags = tags
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -2577,6 +2582,7 @@ extension Deadline {
             try container.encode(self.identityCenterInstanceArn, forKey: .identityCenterInstanceArn)
             try container.encode(self.roleArn, forKey: .roleArn)
             try container.encode(self.subdomain, forKey: .subdomain)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2594,6 +2600,7 @@ extension Deadline {
             case identityCenterInstanceArn = "identityCenterInstanceArn"
             case roleArn = "roleArn"
             case subdomain = "subdomain"
+            case tags = "tags"
         }
     }
 
@@ -4127,6 +4134,8 @@ extension Deadline {
         public let minWorkerCount: Int
         /// The status of the fleet.
         public let status: FleetStatus
+        /// A message that communicates a suspended status of the fleet.
+        public let statusMessage: String?
         /// The target number of workers in a fleet.
         public let targetWorkerCount: Int?
         /// The date and time the resource was updated.
@@ -4138,7 +4147,7 @@ extension Deadline {
         public let workerCount: Int
 
         @inlinable
-        public init(autoScalingStatus: AutoScalingStatus? = nil, configuration: FleetConfiguration, createdAt: Date, createdBy: String, displayName: String, farmId: String, fleetId: String, maxWorkerCount: Int, minWorkerCount: Int, status: FleetStatus, targetWorkerCount: Int? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, workerCount: Int) {
+        public init(autoScalingStatus: AutoScalingStatus? = nil, configuration: FleetConfiguration, createdAt: Date, createdBy: String, displayName: String, farmId: String, fleetId: String, maxWorkerCount: Int, minWorkerCount: Int, status: FleetStatus, statusMessage: String? = nil, targetWorkerCount: Int? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, workerCount: Int) {
             self.autoScalingStatus = autoScalingStatus
             self.configuration = configuration
             self.createdAt = createdAt
@@ -4149,6 +4158,7 @@ extension Deadline {
             self.maxWorkerCount = maxWorkerCount
             self.minWorkerCount = minWorkerCount
             self.status = status
+            self.statusMessage = statusMessage
             self.targetWorkerCount = targetWorkerCount
             self.updatedAt = updatedAt
             self.updatedBy = updatedBy
@@ -4166,6 +4176,7 @@ extension Deadline {
             case maxWorkerCount = "maxWorkerCount"
             case minWorkerCount = "minWorkerCount"
             case status = "status"
+            case statusMessage = "statusMessage"
             case targetWorkerCount = "targetWorkerCount"
             case updatedAt = "updatedAt"
             case updatedBy = "updatedBy"
@@ -4392,6 +4403,8 @@ extension Deadline {
         public let roleArn: String
         /// The status of the fleet.
         public let status: FleetStatus
+        /// A message that communicates a suspended status of the fleet.
+        public let statusMessage: String?
         /// The number of target workers in the fleet.
         public let targetWorkerCount: Int?
         /// The date and time the resource was updated.
@@ -4403,7 +4416,7 @@ extension Deadline {
         public let workerCount: Int
 
         @inlinable
-        public init(autoScalingStatus: AutoScalingStatus? = nil, capabilities: FleetCapabilities? = nil, configuration: FleetConfiguration, createdAt: Date, createdBy: String, description: String? = nil, displayName: String, farmId: String, fleetId: String, hostConfiguration: HostConfiguration? = nil, maxWorkerCount: Int, minWorkerCount: Int, roleArn: String, status: FleetStatus, targetWorkerCount: Int? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, workerCount: Int) {
+        public init(autoScalingStatus: AutoScalingStatus? = nil, capabilities: FleetCapabilities? = nil, configuration: FleetConfiguration, createdAt: Date, createdBy: String, description: String? = nil, displayName: String, farmId: String, fleetId: String, hostConfiguration: HostConfiguration? = nil, maxWorkerCount: Int, minWorkerCount: Int, roleArn: String, status: FleetStatus, statusMessage: String? = nil, targetWorkerCount: Int? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, workerCount: Int) {
             self.autoScalingStatus = autoScalingStatus
             self.capabilities = capabilities
             self.configuration = configuration
@@ -4418,6 +4431,7 @@ extension Deadline {
             self.minWorkerCount = minWorkerCount
             self.roleArn = roleArn
             self.status = status
+            self.statusMessage = statusMessage
             self.targetWorkerCount = targetWorkerCount
             self.updatedAt = updatedAt
             self.updatedBy = updatedBy
@@ -4439,6 +4453,7 @@ extension Deadline {
             case minWorkerCount = "minWorkerCount"
             case roleArn = "roleArn"
             case status = "status"
+            case statusMessage = "statusMessage"
             case targetWorkerCount = "targetWorkerCount"
             case updatedAt = "updatedAt"
             case updatedBy = "updatedBy"
@@ -6222,9 +6237,14 @@ extension Deadline {
         public let taskRunStatus: TaskRunStatus?
         /// The number of tasks running on the job.
         public let taskRunStatusCounts: [TaskRunStatus: Int]?
+        /// The date and time the resource was updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+        /// The user or system that updated this resource.
+        public let updatedBy: String?
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String? = nil, endedAt: Date? = nil, jobId: String? = nil, jobParameters: [String: JobParameter]? = nil, lifecycleStatus: JobLifecycleStatus? = nil, lifecycleStatusMessage: String? = nil, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, maxWorkerCount: Int? = nil, name: String? = nil, priority: Int? = nil, queueId: String? = nil, sourceJobId: String? = nil, startedAt: Date? = nil, targetTaskRunStatus: JobTargetTaskRunStatus? = nil, taskFailureRetryCount: Int? = nil, taskRunStatus: TaskRunStatus? = nil, taskRunStatusCounts: [TaskRunStatus: Int]? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String? = nil, endedAt: Date? = nil, jobId: String? = nil, jobParameters: [String: JobParameter]? = nil, lifecycleStatus: JobLifecycleStatus? = nil, lifecycleStatusMessage: String? = nil, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, maxWorkerCount: Int? = nil, name: String? = nil, priority: Int? = nil, queueId: String? = nil, sourceJobId: String? = nil, startedAt: Date? = nil, targetTaskRunStatus: JobTargetTaskRunStatus? = nil, taskFailureRetryCount: Int? = nil, taskRunStatus: TaskRunStatus? = nil, taskRunStatusCounts: [TaskRunStatus: Int]? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.endedAt = endedAt
@@ -6244,6 +6264,8 @@ extension Deadline {
             self.taskFailureRetryCount = taskFailureRetryCount
             self.taskRunStatus = taskRunStatus
             self.taskRunStatusCounts = taskRunStatusCounts
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6266,6 +6288,8 @@ extension Deadline {
             case taskFailureRetryCount = "taskFailureRetryCount"
             case taskRunStatus = "taskRunStatus"
             case taskRunStatusCounts = "taskRunStatusCounts"
+            case updatedAt = "updatedAt"
+            case updatedBy = "updatedBy"
         }
     }
 
@@ -8653,7 +8677,9 @@ extension Deadline {
     public struct SearchJobsRequest: AWSEncodableShape {
         /// The farm ID of the job.
         public let farmId: String
-        /// The filter expression, AND or OR, to use when searching among a group of search strings in a resource. You can use two groupings per search each within parenthesis ().
+        /// The filter expression, AND or OR, to use
+        /// when searching among a group of search strings in a resource.
+        /// You can use two groupings per search each within parenthesis ().
         public let filterExpressions: SearchGroupedFilterExpressions?
         /// Defines how far into the scrollable list to start the return of results.
         public let itemOffset: Int
@@ -8730,7 +8756,9 @@ extension Deadline {
     public struct SearchStepsRequest: AWSEncodableShape {
         /// The farm ID to use for the step search.
         public let farmId: String
-        /// The filter expression, AND or OR, to use when searching among a group of search strings in a resource. You can use two groupings per search each within parenthesis ().
+        /// The filter expression, AND or OR, to use
+        /// when searching among a group of search strings in a resource.
+        /// You can use two groupings per search each within parenthesis ().
         public let filterExpressions: SearchGroupedFilterExpressions?
         /// Defines how far into the scrollable list to start the return of results.
         public let itemOffset: Int
@@ -8813,7 +8841,9 @@ extension Deadline {
     public struct SearchTasksRequest: AWSEncodableShape {
         /// The farm ID of the task.
         public let farmId: String
-        /// The filter expression, AND or OR, to use when searching among a group of search strings in a resource. You can use two groupings per search each within parenthesis ().
+        /// The filter expression, AND or OR, to use
+        /// when searching among a group of search strings in a resource.
+        /// You can use two groupings per search each within parenthesis ().
         public let filterExpressions: SearchGroupedFilterExpressions?
         /// Defines how far into the scrollable list to start the return of results.
         public let itemOffset: Int
@@ -8919,7 +8949,9 @@ extension Deadline {
     public struct SearchWorkersRequest: AWSEncodableShape {
         /// The farm ID in the workers search.
         public let farmId: String
-        /// The filter expression, AND or OR, to use when searching among a group of search strings in a resource. You can use two groupings per search each within parenthesis ().
+        /// The filter expression, AND or OR, to use
+        /// when searching among a group of search strings in a resource.
+        /// You can use two groupings per search each within parenthesis ().
         public let filterExpressions: SearchGroupedFilterExpressions?
         /// The fleet ID of the workers to search for.
         public let fleetIds: [String]
@@ -9000,23 +9032,28 @@ extension Deadline {
         public let instanceMarketOptions: ServiceManagedEc2InstanceMarketOptions
         /// The storage profile ID.
         public let storageProfileId: String?
+        /// The VPC configuration details for a service managed Amazon EC2 fleet.
+        public let vpcConfiguration: VpcConfiguration?
 
         @inlinable
-        public init(instanceCapabilities: ServiceManagedEc2InstanceCapabilities, instanceMarketOptions: ServiceManagedEc2InstanceMarketOptions, storageProfileId: String? = nil) {
+        public init(instanceCapabilities: ServiceManagedEc2InstanceCapabilities, instanceMarketOptions: ServiceManagedEc2InstanceMarketOptions, storageProfileId: String? = nil, vpcConfiguration: VpcConfiguration? = nil) {
             self.instanceCapabilities = instanceCapabilities
             self.instanceMarketOptions = instanceMarketOptions
             self.storageProfileId = storageProfileId
+            self.vpcConfiguration = vpcConfiguration
         }
 
         public func validate(name: String) throws {
             try self.instanceCapabilities.validate(name: "\(name).instanceCapabilities")
             try self.validate(self.storageProfileId, name: "storageProfileId", parent: name, pattern: "^sp-[0-9a-f]{32}$")
+            try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case instanceCapabilities = "instanceCapabilities"
             case instanceMarketOptions = "instanceMarketOptions"
             case storageProfileId = "storageProfileId"
+            case vpcConfiguration = "vpcConfiguration"
         }
     }
 
@@ -9617,6 +9654,8 @@ extension Deadline {
         /// The date and time the resource was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
+        /// The user or system that created this resource.
+        public let createdBy: String?
         /// The date and time the resource ended running.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var endedAt: Date?
@@ -9645,10 +9684,16 @@ extension Deadline {
         public let taskRunStatus: TaskRunStatus?
         /// The number of tasks running on the job.
         public let taskRunStatusCounts: [TaskRunStatus: Int]?
+        /// The date and time the resource was updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+        /// The user or system that updated this resource.
+        public let updatedBy: String?
 
         @inlinable
-        public init(createdAt: Date? = nil, endedAt: Date? = nil, jobId: String? = nil, lifecycleStatus: StepLifecycleStatus? = nil, lifecycleStatusMessage: String? = nil, name: String? = nil, parameterSpace: ParameterSpace? = nil, queueId: String? = nil, startedAt: Date? = nil, stepId: String? = nil, targetTaskRunStatus: StepTargetTaskRunStatus? = nil, taskFailureRetryCount: Int? = nil, taskRunStatus: TaskRunStatus? = nil, taskRunStatusCounts: [TaskRunStatus: Int]? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String? = nil, endedAt: Date? = nil, jobId: String? = nil, lifecycleStatus: StepLifecycleStatus? = nil, lifecycleStatusMessage: String? = nil, name: String? = nil, parameterSpace: ParameterSpace? = nil, queueId: String? = nil, startedAt: Date? = nil, stepId: String? = nil, targetTaskRunStatus: StepTargetTaskRunStatus? = nil, taskFailureRetryCount: Int? = nil, taskRunStatus: TaskRunStatus? = nil, taskRunStatusCounts: [TaskRunStatus: Int]? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
+            self.createdBy = createdBy
             self.endedAt = endedAt
             self.jobId = jobId
             self.lifecycleStatus = lifecycleStatus
@@ -9662,10 +9707,13 @@ extension Deadline {
             self.taskFailureRetryCount = taskFailureRetryCount
             self.taskRunStatus = taskRunStatus
             self.taskRunStatusCounts = taskRunStatusCounts
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
         }
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
+            case createdBy = "createdBy"
             case endedAt = "endedAt"
             case jobId = "jobId"
             case lifecycleStatus = "lifecycleStatus"
@@ -9679,6 +9727,8 @@ extension Deadline {
             case taskFailureRetryCount = "taskFailureRetryCount"
             case taskRunStatus = "taskRunStatus"
             case taskRunStatusCounts = "taskRunStatusCounts"
+            case updatedAt = "updatedAt"
+            case updatedBy = "updatedBy"
         }
     }
 
@@ -9964,9 +10014,14 @@ extension Deadline {
         public let targetRunStatus: TaskTargetRunStatus?
         /// The task ID.
         public let taskId: String?
+        /// The date and time the resource was updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+        /// The user or system that updated this resource.
+        public let updatedBy: String?
 
         @inlinable
-        public init(endedAt: Date? = nil, failureRetryCount: Int? = nil, jobId: String? = nil, parameters: [String: TaskParameterValue]? = nil, queueId: String? = nil, runStatus: TaskRunStatus? = nil, startedAt: Date? = nil, stepId: String? = nil, targetRunStatus: TaskTargetRunStatus? = nil, taskId: String? = nil) {
+        public init(endedAt: Date? = nil, failureRetryCount: Int? = nil, jobId: String? = nil, parameters: [String: TaskParameterValue]? = nil, queueId: String? = nil, runStatus: TaskRunStatus? = nil, startedAt: Date? = nil, stepId: String? = nil, targetRunStatus: TaskTargetRunStatus? = nil, taskId: String? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.endedAt = endedAt
             self.failureRetryCount = failureRetryCount
             self.jobId = jobId
@@ -9977,6 +10032,8 @@ extension Deadline {
             self.stepId = stepId
             self.targetRunStatus = targetRunStatus
             self.taskId = taskId
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9990,6 +10047,8 @@ extension Deadline {
             case stepId = "stepId"
             case targetRunStatus = "targetRunStatus"
             case taskId = "taskId"
+            case updatedAt = "updatedAt"
+            case updatedBy = "updatedBy"
         }
     }
 
@@ -11266,6 +11325,27 @@ extension Deadline {
         private enum CodingKeys: String, CodingKey {
             case message = "message"
             case name = "name"
+        }
+    }
+
+    public struct VpcConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ARNs of the VPC Lattice resource configurations attached to the fleet.
+        public let resourceConfigurationArns: [String]?
+
+        @inlinable
+        public init(resourceConfigurationArns: [String]? = nil) {
+            self.resourceConfigurationArns = resourceConfigurationArns
+        }
+
+        public func validate(name: String) throws {
+            try self.resourceConfigurationArns?.forEach {
+                try validate($0, name: "resourceConfigurationArns[]", parent: name, max: 2048)
+                try validate($0, name: "resourceConfigurationArns[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceConfigurationArns = "resourceConfigurationArns"
         }
     }
 

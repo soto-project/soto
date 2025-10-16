@@ -84,8 +84,12 @@ extension VerifiedPermissions {
     public enum AttributeValue: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// An attribute value of Boolean type. Example: {"boolean": true}
         case boolean(Bool)
+        /// An attribute value of datetime type. Example: {"datetime": "2024-10-15T11:35:00Z"}
+        case datetime(String)
         /// An attribute value of decimal type. Example: {"decimal": "1.1"}
         case decimal(String)
+        /// An attribute value of duration type. Example: {"duration": "1h30m"}
+        case duration(String)
         /// An attribute value of type EntityIdentifier. Example: "entityIdentifier": { "entityId": "&lt;id&gt;", "entityType": "&lt;entity type&gt;"}
         case entityIdentifier(EntityIdentifier)
         /// An attribute value of ipaddr type. Example: {"ip": "192.168.1.100"}
@@ -112,9 +116,15 @@ extension VerifiedPermissions {
             case .boolean:
                 let value = try container.decode(Bool.self, forKey: .boolean)
                 self = .boolean(value)
+            case .datetime:
+                let value = try container.decode(String.self, forKey: .datetime)
+                self = .datetime(value)
             case .decimal:
                 let value = try container.decode(String.self, forKey: .decimal)
                 self = .decimal(value)
+            case .duration:
+                let value = try container.decode(String.self, forKey: .duration)
+                self = .duration(value)
             case .entityIdentifier:
                 let value = try container.decode(EntityIdentifier.self, forKey: .entityIdentifier)
                 self = .entityIdentifier(value)
@@ -141,8 +151,12 @@ extension VerifiedPermissions {
             switch self {
             case .boolean(let value):
                 try container.encode(value, forKey: .boolean)
+            case .datetime(let value):
+                try container.encode(value, forKey: .datetime)
             case .decimal(let value):
                 try container.encode(value, forKey: .decimal)
+            case .duration(let value):
+                try container.encode(value, forKey: .duration)
             case .entityIdentifier(let value):
                 try container.encode(value, forKey: .entityIdentifier)
             case .ipaddr(let value):
@@ -160,10 +174,18 @@ extension VerifiedPermissions {
 
         public func validate(name: String) throws {
             switch self {
+            case .datetime(let value):
+                try self.validate(value, name: "datetime", parent: name, max: 28)
+                try self.validate(value, name: "datetime", parent: name, min: 10)
+                try self.validate(value, name: "datetime", parent: name, pattern: "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d{3})?(Z|[+-]\\d{4}))?$")
             case .decimal(let value):
                 try self.validate(value, name: "decimal", parent: name, max: 23)
                 try self.validate(value, name: "decimal", parent: name, min: 3)
                 try self.validate(value, name: "decimal", parent: name, pattern: "^-?\\d{1,15}\\.\\d{1,4}$")
+            case .duration(let value):
+                try self.validate(value, name: "duration", parent: name, max: 100)
+                try self.validate(value, name: "duration", parent: name, min: 2)
+                try self.validate(value, name: "duration", parent: name, pattern: "^-?(\\d+d)?(\\d+h)?(\\d+m)?(\\d+s)?(\\d+ms)?$")
             case .entityIdentifier(let value):
                 try value.validate(name: "\(name).entityIdentifier")
             case .ipaddr(let value):
@@ -185,7 +207,9 @@ extension VerifiedPermissions {
 
         private enum CodingKeys: String, CodingKey {
             case boolean = "boolean"
+            case datetime = "datetime"
             case decimal = "decimal"
+            case duration = "duration"
             case entityIdentifier = "entityIdentifier"
             case ipaddr = "ipaddr"
             case long = "long"

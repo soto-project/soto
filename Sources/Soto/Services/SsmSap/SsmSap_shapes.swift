@@ -97,6 +97,19 @@ extension SsmSap {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConfigurationCheckOperationListingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allOperations = "ALL_OPERATIONS"
+        case latestPerCheck = "LATEST_PER_CHECK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfigurationCheckType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case sapCheck01 = "SAP_CHECK_01"
+        case sapCheck02 = "SAP_CHECK_02"
+        case sapCheck03 = "SAP_CHECK_03"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConnectedEntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dbms = "DBMS"
         public var description: String { return self.rawValue }
@@ -178,6 +191,15 @@ extension SsmSap {
         case primary = "PRIMARY"
         case sync = "SYNC"
         case syncmem = "SYNCMEM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleResultStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case info = "INFO"
+        case passed = "PASSED"
+        case unknown = "UNKNOWN"
+        case warning = "WARNING"
         public var description: String { return self.rawValue }
     }
 
@@ -372,7 +394,7 @@ extension SsmSap {
         public let sapKernelVersion: String?
         /// The SAP System Identifier of the application component.
         public let sid: String?
-        /// The status of the component.   ACTIVATED - this status has been deprecated.   STARTING - the component is in the process of being started.   STOPPED - the component is not running.   STOPPING - the component is in the process of being stopped.   RUNNING - the component is running.   RUNNING_WITH_ERROR - one or more child component(s) of the parent component is not running. Call  GetComponent to review the status of each child component.   UNDEFINED - AWS Systems Manager for SAP cannot provide the component status based on the discovered information. Verify your SAP application.
+        /// The status of the component.   ACTIVATED - this status has been deprecated.   STARTING - the component is in the process of being started.   STOPPED - the component is not running.   STOPPING - the component is in the process of being stopped.   RUNNING - the component is running.   RUNNING_WITH_ERROR - one or more child component(s) of the parent component is not running. Call  GetComponent  to review the status of each child component.   UNDEFINED - AWS Systems Manager for SAP cannot provide the component status based on the discovered information. Verify your SAP application.
         public let status: ComponentStatus?
         /// The SAP system number of the application component.
         public let systemNumber: String?
@@ -504,6 +526,82 @@ extension SsmSap {
             case componentId = "ComponentId"
             case componentType = "ComponentType"
             case tags = "Tags"
+        }
+    }
+
+    public struct ConfigurationCheckDefinition: AWSDecodableShape {
+        /// The list of SSMSAP application types that this configuration check can be evaluated against.
+        public let applicableApplicationTypes: [ApplicationType]?
+        /// A description of what the configuration check validates.
+        public let description: String?
+        /// The unique identifier of the configuration check.
+        public let id: ConfigurationCheckType?
+        /// The name of the configuration check.
+        public let name: String?
+
+        @inlinable
+        public init(applicableApplicationTypes: [ApplicationType]? = nil, description: String? = nil, id: ConfigurationCheckType? = nil, name: String? = nil) {
+            self.applicableApplicationTypes = applicableApplicationTypes
+            self.description = description
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicableApplicationTypes = "ApplicableApplicationTypes"
+            case description = "Description"
+            case id = "Id"
+            case name = "Name"
+        }
+    }
+
+    public struct ConfigurationCheckOperation: AWSDecodableShape {
+        /// The ID of the application against which the configuration check was performed.
+        public let applicationId: String?
+        /// A description of the configuration check that was performed.
+        public let configurationCheckDescription: String?
+        /// The unique identifier of the configuration check that was performed.
+        public let configurationCheckId: ConfigurationCheckType?
+        /// The name of the configuration check that was performed.
+        public let configurationCheckName: String?
+        /// The time at which the configuration check operation completed.
+        public let endTime: Date?
+        /// The unique identifier of the configuration check operation.
+        public let id: String?
+        /// A summary of all the rule results, showing counts for each status type.
+        public let ruleStatusCounts: RuleStatusCounts?
+        /// The time at which the configuration check operation started.
+        public let startTime: Date?
+        /// The current status of the configuration check operation.
+        public let status: OperationStatus?
+        /// A message providing additional details about the status of the configuration check operation.
+        public let statusMessage: String?
+
+        @inlinable
+        public init(applicationId: String? = nil, configurationCheckDescription: String? = nil, configurationCheckId: ConfigurationCheckType? = nil, configurationCheckName: String? = nil, endTime: Date? = nil, id: String? = nil, ruleStatusCounts: RuleStatusCounts? = nil, startTime: Date? = nil, status: OperationStatus? = nil, statusMessage: String? = nil) {
+            self.applicationId = applicationId
+            self.configurationCheckDescription = configurationCheckDescription
+            self.configurationCheckId = configurationCheckId
+            self.configurationCheckName = configurationCheckName
+            self.endTime = endTime
+            self.id = id
+            self.ruleStatusCounts = ruleStatusCounts
+            self.startTime = startTime
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+            case configurationCheckDescription = "ConfigurationCheckDescription"
+            case configurationCheckId = "ConfigurationCheckId"
+            case configurationCheckName = "ConfigurationCheckName"
+            case endTime = "EndTime"
+            case id = "Id"
+            case ruleStatusCounts = "RuleStatusCounts"
+            case startTime = "StartTime"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
         }
     }
 
@@ -808,6 +906,38 @@ extension SsmSap {
         }
     }
 
+    public struct GetConfigurationCheckOperationInput: AWSEncodableShape {
+        /// The ID of the configuration check operation.
+        public let operationId: String
+
+        @inlinable
+        public init(operationId: String) {
+            self.operationId = operationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.operationId, name: "operationId", parent: name, pattern: "^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
+        }
+    }
+
+    public struct GetConfigurationCheckOperationOutput: AWSDecodableShape {
+        /// Returns the details of a configuration check operation.
+        public let configurationCheckOperation: ConfigurationCheckOperation?
+
+        @inlinable
+        public init(configurationCheckOperation: ConfigurationCheckOperation? = nil) {
+            self.configurationCheckOperation = configurationCheckOperation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationCheckOperation = "ConfigurationCheckOperation"
+        }
+    }
+
     public struct GetDatabaseInput: AWSEncodableShape {
         /// The ID of the application.
         public let applicationId: String?
@@ -1010,7 +1140,7 @@ extension SsmSap {
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.{16,1024}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.{16,2048}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1059,7 +1189,7 @@ extension SsmSap {
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d\\.-]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.{16,1024}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.{16,2048}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1083,6 +1213,110 @@ extension SsmSap {
 
         private enum CodingKeys: String, CodingKey {
             case components = "Components"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListConfigurationCheckDefinitionsInput: AWSEncodableShape {
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.{16,2048}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListConfigurationCheckDefinitionsOutput: AWSDecodableShape {
+        /// The configuration check types supported by AWS Systems Manager for SAP.
+        public let configurationChecks: [ConfigurationCheckDefinition]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(configurationChecks: [ConfigurationCheckDefinition]? = nil, nextToken: String? = nil) {
+            self.configurationChecks = configurationChecks
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationChecks = "ConfigurationChecks"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListConfigurationCheckOperationsInput: AWSEncodableShape {
+        /// The ID of the application.
+        public let applicationId: String
+        /// The filters of an operation.
+        public let filters: [Filter]?
+        /// The mode for listing configuration check operations. Defaults to "LATEST_PER_CHECK".   LATEST_PER_CHECK - Will list the latest configuration check operation per check type.   ALL_OPERATIONS - Will list all configuration check operations performed on the application.
+        public let listMode: ConfigurationCheckOperationListingMode?
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(applicationId: String, filters: [Filter]? = nil, listMode: ConfigurationCheckOperationListingMode? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.applicationId = applicationId
+            self.filters = filters
+            self.listMode = listMode
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 60)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d\\.-]+$")
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 10)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.{16,2048}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+            case filters = "Filters"
+            case listMode = "ListMode"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListConfigurationCheckOperationsOutput: AWSDecodableShape {
+        /// The configuration check operations performed by AWS Systems Manager for SAP.
+        public let configurationCheckOperations: [ConfigurationCheckOperation]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(configurationCheckOperations: [ConfigurationCheckOperation]? = nil, nextToken: String? = nil) {
+            self.configurationCheckOperations = configurationCheckOperations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationCheckOperations = "ConfigurationCheckOperations"
             case nextToken = "NextToken"
         }
     }
@@ -1114,7 +1348,7 @@ extension SsmSap {
             try self.validate(self.componentId, name: "componentId", parent: name, pattern: "^[\\w\\d-]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.{16,1024}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.{16,2048}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1169,7 +1403,7 @@ extension SsmSap {
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.{16,1024}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.{16,2048}$")
             try self.validate(self.operationId, name: "operationId", parent: name, pattern: "^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$")
         }
 
@@ -1228,7 +1462,7 @@ extension SsmSap {
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.{16,1024}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.{16,2048}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1254,6 +1488,100 @@ extension SsmSap {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case operations = "Operations"
+        }
+    }
+
+    public struct ListSubCheckResultsInput: AWSEncodableShape {
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The ID of the configuration check operation.
+        public let operationId: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, operationId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.operationId = operationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.{16,2048}$")
+            try self.validate(self.operationId, name: "operationId", parent: name, pattern: "^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case operationId = "OperationId"
+        }
+    }
+
+    public struct ListSubCheckResultsOutput: AWSDecodableShape {
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// The sub-check results of a configuration check operation.
+        public let subCheckResults: [SubCheckResult]?
+
+        @inlinable
+        public init(nextToken: String? = nil, subCheckResults: [SubCheckResult]? = nil) {
+            self.nextToken = nextToken
+            self.subCheckResults = subCheckResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case subCheckResults = "SubCheckResults"
+        }
+    }
+
+    public struct ListSubCheckRuleResultsInput: AWSEncodableShape {
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The ID of the sub check result.
+        public let subCheckResultId: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, subCheckResultId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.subCheckResultId = subCheckResultId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.{16,2048}$")
+            try self.validate(self.subCheckResultId, name: "subCheckResultId", parent: name, pattern: "^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case subCheckResultId = "SubCheckResultId"
+        }
+    }
+
+    public struct ListSubCheckRuleResultsOutput: AWSDecodableShape {
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// The rule results of a sub-check belonging to a configuration check operation.
+        public let ruleResults: [RuleResult]?
+
+        @inlinable
+        public init(nextToken: String? = nil, ruleResults: [RuleResult]? = nil) {
+            self.nextToken = nextToken
+            self.ruleResults = ruleResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case ruleResults = "RuleResults"
         }
     }
 
@@ -1418,7 +1746,7 @@ extension SsmSap {
         public let applicationId: String
         /// The type of the application.
         public let applicationType: ApplicationType
-        /// This is an optional parameter for component details  to which the SAP ABAP application is attached,  such as Web Dispatcher. This is an array of ApplicationComponent objects.  You may input 0 to 5 items.
+        /// This is an optional parameter for component details to which the SAP ABAP application is attached, such as Web Dispatcher. This is an array of ApplicationComponent objects. You may input 0 to 5 items.
         public let componentsInfo: [ComponentInfo]?
         /// The credentials of the SAP application.
         public let credentials: [ApplicationCredential]?
@@ -1552,6 +1880,66 @@ extension SsmSap {
         }
     }
 
+    public struct RuleResult: AWSDecodableShape {
+        /// A description of what the rule validates.
+        public let description: String?
+        /// The unique identifier of the rule result.
+        public let id: String?
+        /// A message providing details about the rule result.
+        public let message: String?
+        /// Additional metadata associated with the rule result.
+        public let metadata: [String: String]?
+        /// The status of the rule result.
+        public let status: RuleResultStatus?
+
+        @inlinable
+        public init(description: String? = nil, id: String? = nil, message: String? = nil, metadata: [String: String]? = nil, status: RuleResultStatus? = nil) {
+            self.description = description
+            self.id = id
+            self.message = message
+            self.metadata = metadata
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case id = "Id"
+            case message = "Message"
+            case metadata = "Metadata"
+            case status = "Status"
+        }
+    }
+
+    public struct RuleStatusCounts: AWSDecodableShape {
+        /// The number of rules that failed.
+        public let failed: Int?
+        /// The number of rules that returned informational results.
+        public let info: Int?
+        /// The number of rules that passed.
+        public let passed: Int?
+        /// The number of rules with unknown status.
+        public let unknown: Int?
+        /// The number of rules that returned warnings.
+        public let warning: Int?
+
+        @inlinable
+        public init(failed: Int? = nil, info: Int? = nil, passed: Int? = nil, unknown: Int? = nil, warning: Int? = nil) {
+            self.failed = failed
+            self.info = info
+            self.passed = passed
+            self.unknown = unknown
+            self.warning = warning
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failed = "Failed"
+            case info = "Info"
+            case passed = "Passed"
+            case unknown = "Unknown"
+            case warning = "Warning"
+        }
+    }
+
     public struct StartApplicationInput: AWSEncodableShape {
         /// The ID of the application.
         public let applicationId: String
@@ -1620,6 +2008,44 @@ extension SsmSap {
         }
     }
 
+    public struct StartConfigurationChecksInput: AWSEncodableShape {
+        /// The ID of the application.
+        public let applicationId: String
+        /// The list of configuration checks to perform.
+        public let configurationCheckIds: [ConfigurationCheckType]?
+
+        @inlinable
+        public init(applicationId: String, configurationCheckIds: [ConfigurationCheckType]? = nil) {
+            self.applicationId = applicationId
+            self.configurationCheckIds = configurationCheckIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 60)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d\\.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+            case configurationCheckIds = "ConfigurationCheckIds"
+        }
+    }
+
+    public struct StartConfigurationChecksOutput: AWSDecodableShape {
+        /// The configuration check operations that were started.
+        public let configurationCheckOperations: [ConfigurationCheckOperation]?
+
+        @inlinable
+        public init(configurationCheckOperations: [ConfigurationCheckOperation]? = nil) {
+            self.configurationCheckOperations = configurationCheckOperations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationCheckOperations = "ConfigurationCheckOperations"
+        }
+    }
+
     public struct StopApplicationInput: AWSEncodableShape {
         /// The ID of the application.
         public let applicationId: String
@@ -1659,6 +2085,32 @@ extension SsmSap {
 
         private enum CodingKeys: String, CodingKey {
             case operationId = "OperationId"
+        }
+    }
+
+    public struct SubCheckResult: AWSDecodableShape {
+        /// A description of what the sub-check validates.
+        public let description: String?
+        /// The unique identifier of the sub-check result.
+        public let id: String?
+        /// The name of the sub-check.
+        public let name: String?
+        /// A list of references or documentation links related to the sub-check.
+        public let references: [String]?
+
+        @inlinable
+        public init(description: String? = nil, id: String? = nil, name: String? = nil, references: [String]? = nil) {
+            self.description = description
+            self.id = id
+            self.name = name
+            self.references = references
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case id = "Id"
+            case name = "Name"
+            case references = "References"
         }
     }
 

@@ -32,6 +32,7 @@ let package = Package(
         .library(name: "SotoACMPCA", targets: ["SotoACMPCA"]),
         .library(name: "SotoAIOps", targets: ["SotoAIOps"]),
         .library(name: "SotoAPIGateway", targets: ["SotoAPIGateway"]),
+        .library(name: "SotoARCRegionSwitch", targets: ["SotoARCRegionSwitch"]),
         .library(name: "SotoARCZonalShift", targets: ["SotoARCZonalShift"]),
         .library(name: "SotoAccessAnalyzer", targets: ["SotoAccessAnalyzer"]),
         .library(name: "SotoAccount", targets: ["SotoAccount"]),
@@ -62,8 +63,10 @@ let package = Package(
         .library(name: "SotoAutoScaling", targets: ["SotoAutoScaling"]),
         .library(name: "SotoAutoScalingPlans", targets: ["SotoAutoScalingPlans"]),
         .library(name: "SotoB2bi", targets: ["SotoB2bi"]),
+        .library(name: "SotoBCMDashboards", targets: ["SotoBCMDashboards"]),
         .library(name: "SotoBCMDataExports", targets: ["SotoBCMDataExports"]),
         .library(name: "SotoBCMPricingCalculator", targets: ["SotoBCMPricingCalculator"]),
+        .library(name: "SotoBCMRecommendedActions", targets: ["SotoBCMRecommendedActions"]),
         .library(name: "SotoBackup", targets: ["SotoBackup"]),
         .library(name: "SotoBackupGateway", targets: ["SotoBackupGateway"]),
         .library(name: "SotoBackupSearch", targets: ["SotoBackupSearch"]),
@@ -309,8 +312,6 @@ let package = Package(
         .library(name: "SotoOmics", targets: ["SotoOmics"]),
         .library(name: "SotoOpenSearch", targets: ["SotoOpenSearch"]),
         .library(name: "SotoOpenSearchServerless", targets: ["SotoOpenSearchServerless"]),
-        .library(name: "SotoOpsWorks", targets: ["SotoOpsWorks"]),
-        .library(name: "SotoOpsWorksCM", targets: ["SotoOpsWorksCM"]),
         .library(name: "SotoOrganizations", targets: ["SotoOrganizations"]),
         .library(name: "SotoOutposts", targets: ["SotoOutposts"]),
         .library(name: "SotoPCS", targets: ["SotoPCS"]),
@@ -331,7 +332,6 @@ let package = Package(
         .library(name: "SotoPipes", targets: ["SotoPipes"]),
         .library(name: "SotoPolly", targets: ["SotoPolly"]),
         .library(name: "SotoPricing", targets: ["SotoPricing"]),
-        .library(name: "SotoPrivateNetworks", targets: ["SotoPrivateNetworks"]),
         .library(name: "SotoProton", targets: ["SotoProton"]),
         .library(name: "SotoQApps", targets: ["SotoQApps"]),
         .library(name: "SotoQBusiness", targets: ["SotoQBusiness"]),
@@ -370,7 +370,6 @@ let package = Package(
         .library(name: "SotoSES", targets: ["SotoSES"]),
         .library(name: "SotoSESv2", targets: ["SotoSESv2"]),
         .library(name: "SotoSFN", targets: ["SotoSFN"]),
-        .library(name: "SotoSMS", targets: ["SotoSMS"]),
         .library(name: "SotoSNS", targets: ["SotoSNS"]),
         .library(name: "SotoSQS", targets: ["SotoSQS"]),
         .library(name: "SotoSSM", targets: ["SotoSSM"]),
@@ -468,6 +467,12 @@ let package = Package(
             name: "SotoAPIGateway",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/APIGateway",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoARCRegionSwitch",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/ARCRegionSwitch",
             swiftSettings: swiftSettings
         ),
         .target(
@@ -651,6 +656,12 @@ let package = Package(
             swiftSettings: swiftSettings
         ),
         .target(
+            name: "SotoBCMDashboards",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/BCMDashboards",
+            swiftSettings: swiftSettings
+        ),
+        .target(
             name: "SotoBCMDataExports",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/BCMDataExports",
@@ -660,6 +671,12 @@ let package = Package(
             name: "SotoBCMPricingCalculator",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/BCMPricingCalculator",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoBCMRecommendedActions",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/BCMRecommendedActions",
             swiftSettings: swiftSettings
         ),
         .target(
@@ -2133,18 +2150,6 @@ let package = Package(
             swiftSettings: swiftSettings
         ),
         .target(
-            name: "SotoOpsWorks",
-            dependencies: [.product(name: "SotoCore", package: "soto-core")],
-            path: "./Sources/Soto/Services/OpsWorks",
-            swiftSettings: swiftSettings
-        ),
-        .target(
-            name: "SotoOpsWorksCM",
-            dependencies: [.product(name: "SotoCore", package: "soto-core")],
-            path: "./Sources/Soto/Services/OpsWorksCM",
-            swiftSettings: swiftSettings
-        ),
-        .target(
             name: "SotoOrganizations",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/Organizations",
@@ -2262,12 +2267,6 @@ let package = Package(
             name: "SotoPricing",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/Pricing",
-            swiftSettings: swiftSettings
-        ),
-        .target(
-            name: "SotoPrivateNetworks",
-            dependencies: [.product(name: "SotoCore", package: "soto-core")],
-            path: "./Sources/Soto/Services/PrivateNetworks",
             swiftSettings: swiftSettings
         ),
         .target(
@@ -2496,12 +2495,6 @@ let package = Package(
             name: "SotoSFN",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/SFN",
-            swiftSettings: swiftSettings
-        ),
-        .target(
-            name: "SotoSMS",
-            dependencies: [.product(name: "SotoCore", package: "soto-core")],
-            path: "./Sources/Soto/Services/SMS",
             swiftSettings: swiftSettings
         ),
         .target(

@@ -29,6 +29,7 @@ extension NetworkFlowMonitor {
         case amazonDynamodb = "AMAZON_DYNAMODB"
         case amazonS3 = "AMAZON_S3"
         case interAz = "INTER_AZ"
+        case interRegion = "INTER_REGION"
         case interVpc = "INTER_VPC"
         case intraAz = "INTRA_AZ"
         case unclassified = "UNCLASSIFIED"
@@ -68,6 +69,7 @@ extension NetworkFlowMonitor {
 
     public enum MonitorLocalResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsAz = "AWS::AvailabilityZone"
+        case awsRegion = "AWS::Region"
         case awsSubnet = "AWS::EC2::Subnet"
         case awsVpc = "AWS::EC2::VPC"
         public var description: String { return self.rawValue }
@@ -83,6 +85,7 @@ extension NetworkFlowMonitor {
 
     public enum MonitorRemoteResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsAz = "AWS::AvailabilityZone"
+        case awsRegion = "AWS::Region"
         case awsService = "AWS::AWSService"
         case awsSubnet = "AWS::EC2::Subnet"
         case awsVpc = "AWS::EC2::VPC"
@@ -133,11 +136,11 @@ extension NetworkFlowMonitor {
     public struct CreateMonitorInput: AWSEncodableShape {
         /// A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. Don't reuse the same client token for other API requests.
         public let clientToken: String?
-        /// The local resources to monitor. A local resource, in a bi-directional flow of a workload, is the host where the agent is installed. For example, if a workload consists of an interaction between a web service and a backend database (for example, Amazon Relational Database Service (RDS)), the EC2 instance hosting the web service, which also runs the agent, is the local resource.
+        /// The local resources to monitor. A local resource in a workload is the location of the host, or hosts, where the Network Flow Monitor agent is installed. For example, if a workload consists of an interaction between a web service and a backend database (for example, Amazon Dynamo DB), the subnet with the EC2 instance that hosts the web service, which also runs the agent, is the local resource. Be aware that all local resources must belong to the current Region.
         public let localResources: [MonitorLocalResource]
         /// The name of the monitor.
         public let monitorName: String
-        /// The remote resources to monitor. A remote resource is the other endpoint in the bi-directional flow of a workload, with a local resource. For example, Amazon Relational Database Service (RDS) can be a remote resource.
+        /// The remote resources to monitor. A remote resource is the other endpoint in the bi-directional flow of a workload, with a local resource. For example, Amazon Dynamo DB can be a remote resource. When you specify remote resources, be aware that specific combinations of resources are allowed and others are not, including the following constraints:   All remote resources that you specify must all belong to a single Region.   If you specify Amazon Web Services services as remote resources, any other remote resources that you specify must be in the current Region.   When you specify a remote resource for another Region, you can only specify the Region resource type. You cannot specify a subnet, VPC, or Availability Zone in another Region.   If you leave the RemoteResources parameter empty, the monitor will include all network flows that terminate in the current Region.
         public let remoteResources: [MonitorRemoteResource]?
         /// The Amazon Resource Name (ARN) of the scope for the monitor.
         public let scopeArn: String
@@ -185,7 +188,7 @@ extension NetworkFlowMonitor {
     public struct CreateMonitorOutput: AWSDecodableShape {
         /// The date and time when the monitor was created.
         public let createdAt: Date
-        /// The local resources to monitor. A local resource, in a bi-directional flow of a workload, is the host where the agent is installed.
+        /// The local resources to monitor. A local resource in a workload is the location of hosts where the Network Flow Monitor agent is installed.
         public let localResources: [MonitorLocalResource]
         /// The last date and time that the monitor was modified.
         public let modifiedAt: Date
@@ -195,7 +198,7 @@ extension NetworkFlowMonitor {
         public let monitorName: String
         /// The status of a monitor. The status can be one of the following    PENDING: The monitor is in the process of being created.    ACTIVE: The monitor is active.    INACTIVE: The monitor is inactive.    ERROR: Monitor creation failed due to an error.    DELETING: The monitor is in the process of being deleted.
         public let monitorStatus: MonitorStatus
-        /// The remote resources to monitor. A remote resource is the other endpoint in the bi-directional flow of a workload, with a local resource. For example, Amazon Relational Database Service (RDS) can be a remote resource. The remote resource is identified by its ARN or an identifier.
+        /// The remote resources to monitor. A remote resource is the other endpoint specified for the network flow of a workload, with a local resource. For example, Amazon Dynamo DB can be a remote resource.
         public let remoteResources: [MonitorRemoteResource]
         /// The tags for a monitor.
         public let tags: [String: String]?
@@ -229,7 +232,7 @@ extension NetworkFlowMonitor {
         public let clientToken: String?
         /// The tags for a scope. You can add a maximum of 200 tags.
         public let tags: [String: String]?
-        /// The targets to define the scope to be monitored. Currently, a target is an Amazon Web Services account.
+        /// The targets to define the scope to be monitored. A target is an array of targetResources, which are currently Region-account pairs, defined by targetResource constructs.
         public let targets: [TargetResource]
 
         @inlinable
@@ -364,7 +367,7 @@ extension NetworkFlowMonitor {
     public struct GetMonitorOutput: AWSDecodableShape {
         /// The date and time when the monitor was created.
         public let createdAt: Date
-        /// The local resources for this monitor.
+        /// The local resources to monitor. A local resource in a workload is the location of the hosts where the Network Flow Monitor agent is installed.
         public let localResources: [MonitorLocalResource]
         /// The date and time when the monitor was last modified.
         public let modifiedAt: Date
@@ -374,7 +377,7 @@ extension NetworkFlowMonitor {
         public let monitorName: String
         /// The status of a monitor. The status can be one of the following    PENDING: The monitor is in the process of being created.    ACTIVE: The monitor is active.    INACTIVE: The monitor is inactive.    ERROR: Monitor creation failed due to an error.    DELETING: The monitor is in the process of being deleted.
         public let monitorStatus: MonitorStatus
-        /// The remote resources for this monitor.
+        /// The remote resources to monitor. A remote resource is the other endpoint specified for the network flow of a workload, with a local resource. For example, Amazon Dynamo DB can be a remote resource.
         public let remoteResources: [MonitorRemoteResource]
         /// The tags for a monitor.
         public let tags: [String: String]?
@@ -702,7 +705,7 @@ extension NetworkFlowMonitor {
         public let status: ScopeStatus
         /// The tags for a scope.
         public let tags: [String: String]?
-        /// The targets for a scope
+        /// The targets to define the scope to be monitored. A target is an array of targetResources, which are currently Region-account pairs, defined by targetResource constructs.
         public let targets: [TargetResource]
 
         @inlinable
@@ -890,9 +893,9 @@ extension NetworkFlowMonitor {
     }
 
     public struct MonitorLocalResource: AWSEncodableShape & AWSDecodableShape {
-        /// The identifier of the local resource, such as an ARN.
+        /// The identifier of the local resource. For a VPC or subnet, this identifier is the VPC Amazon Resource Name (ARN) or subnet ARN. For an Availability Zone, this identifier is the AZ name, for example, us-west-2b.
         public let identifier: String
-        /// The type of the local resource. Valid values are AWS::EC2::VPC AWS::AvailabilityZone or AWS::EC2::Subnet.
+        /// The type of the local resource. Valid values are AWS::EC2::VPC AWS::AvailabilityZone, AWS::EC2::Subnet, or AWS::Region.
         public let type: MonitorLocalResourceType
 
         @inlinable
@@ -908,9 +911,9 @@ extension NetworkFlowMonitor {
     }
 
     public struct MonitorRemoteResource: AWSEncodableShape & AWSDecodableShape {
-        /// The identifier of the remote resource, such as an ARN.
+        /// The identifier of the remote resource. For a VPC or subnet, this identifier is the VPC Amazon Resource Name (ARN) or subnet ARN. For an Availability Zone, this identifier is the AZ name, for example, us-west-2b. For an Amazon Web Services Region , this identifier is the Region name, for example, us-west-2.
         public let identifier: String
-        /// The type of the remote resource. Valid values are AWS::EC2::VPC AWS::AvailabilityZone, AWS::EC2::Subnet, or AWS::AWSService.
+        /// The type of the remote resource. Valid values are AWS::EC2::VPC AWS::AvailabilityZone, AWS::EC2::Subnet, AWS::AWSService, or AWS::Region.
         public let type: MonitorRemoteResourceType
 
         @inlinable
@@ -948,7 +951,7 @@ extension NetworkFlowMonitor {
     }
 
     public struct MonitorTopContributorsRow: AWSDecodableShape {
-        /// The destination category for a top contributors row. Destination categories can be one of the following:     INTRA_AZ: Top contributor network flows within a single Availability Zone    INTER_AZ: Top contributor network flows between Availability Zones    INTER_VPC: Top contributor network flows between VPCs    AWS_SERVICES: Top contributor network flows to or from Amazon Web Services services    UNCLASSIFIED: Top contributor network flows that do not have a bucket classification
+        /// The destination category for a top contributors row. Destination categories can be one of the following:     INTRA_AZ: Top contributor network flows within a single Availability Zone    INTER_AZ: Top contributor network flows between Availability Zones    INTER_REGION: Top contributor network flows between Regions (to the edge of another Region)    INTER_VPC: Top contributor network flows between VPCs    AWS_SERVICES: Top contributor network flows to or from Amazon Web Services services    UNCLASSIFIED: Top contributor network flows that do not have a bucket classification
         public let destinationCategory: DestinationCategory?
         /// The destination network address translation (DNAT) IP address for a top contributor network flow.
         public let dnatIp: String?
@@ -1060,7 +1063,7 @@ extension NetworkFlowMonitor {
     public struct ScopeSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the scope.
         public let scopeArn: String
-        /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
+        /// The identifier for the scope that includes the resources that you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for the accounts in a scope.
         public let scopeId: String
         /// The status for a scope. The status can be one of the following: SUCCEEDED, IN_PROGRESS, FAILED, DEACTIVATING, or DEACTIVATED. A status of DEACTIVATING means that you've requested a scope to be deactivated and Network Flow Monitor is in the process of deactivating the scope. A status of DEACTIVATED means that the deactivating process is complete.
         public let status: ScopeStatus
@@ -1080,7 +1083,7 @@ extension NetworkFlowMonitor {
     }
 
     public struct StartQueryMonitorTopContributorsInput: AWSEncodableShape {
-        /// The category that you want to query top contributors for, for a specific monitor. Destination categories can be one of the following:     INTRA_AZ: Top contributor network flows within a single Availability Zone    INTER_AZ: Top contributor network flows between Availability Zones    INTER_VPC: Top contributor network flows between VPCs    AMAZON_S3: Top contributor network flows to or from Amazon S3    AMAZON_DYNAMODB: Top contributor network flows to or from Amazon Dynamo DB    UNCLASSIFIED: Top contributor network flows that do not have a bucket classification
+        /// The category that you want to query top contributors for, for a specific monitor. Destination categories can be one of the following:     INTRA_AZ: Top contributor network flows within a single Availability Zone    INTER_AZ: Top contributor network flows between Availability Zones    INTER_REGION: Top contributor network flows between Regions (to the edge of another Region)    INTER_VPC: Top contributor network flows between VPCs    AMAZON_S3: Top contributor network flows to or from Amazon S3    AMAZON_DYNAMODB: Top contributor network flows to or from Amazon Dynamo DB    UNCLASSIFIED: Top contributor network flows that do not have a bucket classification
         public let destinationCategory: DestinationCategory
         /// The timestamp that is the date and time end of the period that you want to retrieve results for with your query.
         public let endTime: Date
@@ -1090,7 +1093,7 @@ extension NetworkFlowMonitor {
         public let metricName: MonitorMetric
         /// The name of the monitor.
         public let monitorName: String
-        /// The timestamp that is the date and time beginning of the period that you want to retrieve results for with your query.
+        /// The timestamp that is the date and time that is the beginning of the period that you want to retrieve results for with your query.
         public let startTime: Date
 
         @inlinable
@@ -1146,7 +1149,7 @@ extension NetworkFlowMonitor {
     }
 
     public struct StartQueryWorkloadInsightsTopContributorsDataInput: AWSEncodableShape {
-        /// The destination category for a top contributors. Destination categories can be one of the following:     INTRA_AZ: Top contributor network flows within a single Availability Zone    INTER_AZ: Top contributor network flows between Availability Zones    INTER_VPC: Top contributor network flows between VPCs    AWS_SERVICES: Top contributor network flows to or from Amazon Web Services services    UNCLASSIFIED: Top contributor network flows that do not have a bucket classification
+        /// The destination category for a top contributors. Destination categories can be one of the following:     INTRA_AZ: Top contributor network flows within a single Availability Zone    INTER_AZ: Top contributor network flows between Availability Zones    INTER_REGION: Top contributor network flows between Regions (to the edge of another Region)    INTER_VPC: Top contributor network flows between VPCs    AWS_SERVICES: Top contributor network flows to or from Amazon Web Services services    UNCLASSIFIED: Top contributor network flows that do not have a bucket classification
         public let destinationCategory: DestinationCategory
         /// The timestamp that is the date and time end of the period that you want to retrieve results for with your query.
         public let endTime: Date
@@ -1154,7 +1157,7 @@ extension NetworkFlowMonitor {
         public let metricName: WorkloadInsightsMetric
         /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
         public let scopeId: String
-        /// The timestamp that is the date and time beginning of the period that you want to retrieve results for with your query.
+        /// The timestamp that is the date and time that is the beginning of the period that you want to retrieve results for with your query.
         public let startTime: Date
 
         @inlinable
@@ -1199,7 +1202,7 @@ extension NetworkFlowMonitor {
     }
 
     public struct StartQueryWorkloadInsightsTopContributorsInput: AWSEncodableShape {
-        /// The destination category for a top contributors row. Destination categories can be one of the following:     INTRA_AZ: Top contributor network flows within a single Availability Zone    INTER_AZ: Top contributor network flows between Availability Zones    INTER_VPC: Top contributor network flows between VPCs    AWS_SERVICES: Top contributor network flows to or from Amazon Web Services services    UNCLASSIFIED: Top contributor network flows that do not have a bucket classification
+        /// The destination category for a top contributors row. Destination categories can be one of the following:     INTRA_AZ: Top contributor network flows within a single Availability Zone    INTER_AZ: Top contributor network flows between Availability Zones    INTER_REGION: Top contributor network flows between Regions (to the edge of another Region)    INTER_VPC: Top contributor network flows between VPCs    AWS_SERVICES: Top contributor network flows to or from Amazon Web Services services    UNCLASSIFIED: Top contributor network flows that do not have a bucket classification
         public let destinationCategory: DestinationCategory
         /// The timestamp that is the date and time end of the period that you want to retrieve results for with your query.
         public let endTime: Date
@@ -1209,7 +1212,7 @@ extension NetworkFlowMonitor {
         public let metricName: WorkloadInsightsMetric
         /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account. A scope ID is returned from a CreateScope API call.
         public let scopeId: String
-        /// The timestamp that is the date and time beginning of the period that you want to retrieve results for with your query.
+        /// The timestamp that is the date and time that is the beginning of the period that you want to retrieve results for with your query.
         public let startTime: Date
 
         @inlinable
@@ -1386,9 +1389,9 @@ extension NetworkFlowMonitor {
     }
 
     public struct TargetIdentifier: AWSEncodableShape & AWSDecodableShape {
-        /// The identifier for a target.
+        /// The identifier for a target, which is currently always an account ID .
         public let targetId: TargetId
-        /// The type of a target. A target type is currently always ACCOUNT because a target is currently a single Amazon Web Services account.
+        /// The type of a target. A target type is currently always ACCOUNT.
         public let targetType: TargetType
 
         @inlinable
@@ -1408,9 +1411,9 @@ extension NetworkFlowMonitor {
     }
 
     public struct TargetResource: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Web Services Region where the target resource is located.
+        /// The Amazon Web Services Region for the scope.
         public let region: String
-        /// A target identifier is a pair of identifying information for a resource that is included in a target. A target identifier includes the target ID and the target type.
+        /// A target identifier is a pair of identifying information for a scope. A target identifier is made up of a targetID (currently always an account ID) and a targetType (currently always an account).
         public let targetIdentifier: TargetIdentifier
 
         @inlinable
@@ -1430,7 +1433,7 @@ extension NetworkFlowMonitor {
     }
 
     public struct TraversedComponent: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of a tranversed component.
+        /// The Amazon Resource Name (ARN) of a traversed component.
         public let componentArn: String?
         /// The identifier for the traversed component.
         public let componentId: String?
@@ -1495,15 +1498,15 @@ extension NetworkFlowMonitor {
     public struct UpdateMonitorInput: AWSEncodableShape {
         /// A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. Don't reuse the same client token for other API requests.
         public let clientToken: String?
-        /// The local resources to add, as an array of resources with identifiers and types.
+        /// Additional local resources to specify network flows for a monitor, as an array of resources with identifiers and types. A local resource in a workload is the location of hosts where the Network Flow Monitor agent is installed.
         public let localResourcesToAdd: [MonitorLocalResource]?
         /// The local resources to remove, as an array of resources with identifiers and types.
         public let localResourcesToRemove: [MonitorLocalResource]?
         /// The name of the monitor.
         public let monitorName: String
-        /// The remove resources to add, as an array of resources with identifiers and types.
+        /// The remote resources to add, as an array of resources with identifiers and types. A remote resource is the other endpoint in the flow of a workload, with a local resource. For example, Amazon Dynamo DB can be a remote resource.
         public let remoteResourcesToAdd: [MonitorRemoteResource]?
-        /// The remove resources to remove, as an array of resources with identifiers and types.
+        /// The remote resources to remove, as an array of resources with identifiers and types. A remote resource is the other endpoint specified for the network flow of a workload, with a local resource. For example, Amazon Dynamo DB can be a remote resource.
         public let remoteResourcesToRemove: [MonitorRemoteResource]?
 
         @inlinable
@@ -1548,7 +1551,7 @@ extension NetworkFlowMonitor {
     public struct UpdateMonitorOutput: AWSDecodableShape {
         /// The date and time when the monitor was created.
         public let createdAt: Date
-        /// The local resources updated for a monitor, as an array of resources with identifiers and types.
+        /// The local resources to monitor. A local resource in a workload is the location of hosts where the Network Flow Monitor agent is installed.
         public let localResources: [MonitorLocalResource]
         /// The last date and time that the monitor was modified.
         public let modifiedAt: Date
@@ -1558,7 +1561,7 @@ extension NetworkFlowMonitor {
         public let monitorName: String
         /// The status of a monitor. The status can be one of the following    PENDING: The monitor is in the process of being created.    ACTIVE: The monitor is active.    INACTIVE: The monitor is inactive.    ERROR: Monitor creation failed due to an error.    DELETING: The monitor is in the process of being deleted.
         public let monitorStatus: MonitorStatus
-        /// The remote resources updated for a monitor, as an array of resources with identifiers and types.
+        /// The remote resources updated for a monitor, as an array of resources with identifiers and types. A remote resource is the other endpoint specified for the network flow of a workload, with a local resource. For example, Amazon Dynamo DB can be a remote resource.
         public let remoteResources: [MonitorRemoteResource]
         /// The tags for a monitor.
         public let tags: [String: String]?
@@ -1688,7 +1691,7 @@ extension NetworkFlowMonitor {
         public let localVpcArn: String?
         /// The identifier for the VPC for the local resource.
         public let localVpcId: String?
-        /// The identifier of a remote resource.
+        /// The identifier of a remote resource. For a VPC or subnet, this identifier is the VPC Amazon Resource Name (ARN) or subnet ARN. For an Availability Zone, this identifier is the AZ name, for example, us-west-2b. For an Amazon Web Services Region , this identifier is the Region name, for example, us-west-2.
         public let remoteIdentifier: String?
         /// The value for a metric.
         public let value: Int64?

@@ -28,6 +28,7 @@ extension Notifications {
     public enum AccessStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        case failed = "FAILED"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
@@ -140,6 +141,20 @@ extension Notifications {
         public var description: String { return self.rawValue }
     }
 
+    public enum MemberAccountNotificationConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The member account Notification Configuration status is ACTIVE.
+        case active = "ACTIVE"
+        /// The member account Notification Configuration status is CREATING.
+        case creating = "CREATING"
+        /// The member account Notification Configuration status is DELETING.
+        case deleting = "DELETING"
+        /// The member account Notification Configuration status is INACTIVE.
+        case inactive = "INACTIVE"
+        /// The member account Notification Configuration status is PENDING.
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NotificationConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// All of the EventRules are in ACTIVE Status. Any call can be executed.
         case active = "ACTIVE"
@@ -149,6 +164,14 @@ extension Notifications {
         case inactive = "INACTIVE"
         /// Some EventRules are in ACTIVE Status and some are INACTIVE. Any call can be executed.
         case partiallyActive = "PARTIALLY_ACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotificationConfigurationSubtype: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Notification configuration created by the account
+        case account = "ACCOUNT"
+        /// Notification configuration managed by an administrator account
+        case adminManaged = "ADMIN_MANAGED"
         public var description: String { return self.rawValue }
     }
 
@@ -259,7 +282,7 @@ extension Notifications {
     }
 
     public struct AssociateChannelRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the Channel to associate with the NotificationConfiguration. Supported ARNs include Chatbot, the Console Mobile Application, and notifications-contacts.
+        /// The Amazon Resource Name (ARN) of the Channel to associate with the NotificationConfiguration. Supported ARNs include Amazon Q Developer in chat applications, the Console Mobile Application, and notifications-contacts.
         public let arn: String
         /// The ARN of the NotificationConfiguration to associate with the Channel.
         public let notificationConfigurationArn: String
@@ -324,7 +347,7 @@ extension Notifications {
     }
 
     public struct AssociateManagedNotificationAdditionalChannelRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the Channel to associate with the ManagedNotificationConfiguration. Supported ARNs include Chatbot, the Console Mobile Application, and email (notifications-contacts).
+        /// The Amazon Resource Name (ARN) of the Channel to associate with the ManagedNotificationConfiguration. Supported ARNs include Amazon Q Developer in chat applications, the Console Mobile Application, and email (notifications-contacts).
         public let channelArn: String
         /// The Amazon Resource Name (ARN) of the ManagedNotificationConfiguration to associate with the additional Channel.
         public let managedNotificationConfigurationArn: String
@@ -353,6 +376,39 @@ extension Notifications {
     }
 
     public struct AssociateManagedNotificationAdditionalChannelResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct AssociateOrganizationalUnitRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the notification configuration to associate with the organizational unit.
+        public let notificationConfigurationArn: String
+        /// The unique identifier of the organizational unit to associate.
+        public let organizationalUnitId: String
+
+        @inlinable
+        public init(notificationConfigurationArn: String, organizationalUnitId: String) {
+            self.notificationConfigurationArn = notificationConfigurationArn
+            self.organizationalUnitId = organizationalUnitId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.notificationConfigurationArn, forKey: .notificationConfigurationArn)
+            request.encodePath(self.organizationalUnitId, key: "organizationalUnitId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.notificationConfigurationArn, name: "notificationConfigurationArn", parent: name, pattern: "^arn:aws:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
+            try self.validate(self.organizationalUnitId, name: "organizationalUnitId", parent: name, pattern: "^(Root|r-[0-9a-z]{4,32}|ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notificationConfigurationArn = "notificationConfigurationArn"
+        }
+    }
+
+    public struct AssociateOrganizationalUnitResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -717,6 +773,39 @@ extension Notifications {
         public init() {}
     }
 
+    public struct DisassociateOrganizationalUnitRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the notification configuration to disassociate from the organizational unit.
+        public let notificationConfigurationArn: String
+        /// The unique identifier of the organizational unit to disassociate.
+        public let organizationalUnitId: String
+
+        @inlinable
+        public init(notificationConfigurationArn: String, organizationalUnitId: String) {
+            self.notificationConfigurationArn = notificationConfigurationArn
+            self.organizationalUnitId = organizationalUnitId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.notificationConfigurationArn, forKey: .notificationConfigurationArn)
+            request.encodePath(self.organizationalUnitId, key: "organizationalUnitId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.notificationConfigurationArn, name: "notificationConfigurationArn", parent: name, pattern: "^arn:aws:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
+            try self.validate(self.organizationalUnitId, name: "organizationalUnitId", parent: name, pattern: "^(Root|r-[0-9a-z]{4,32}|ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notificationConfigurationArn = "notificationConfigurationArn"
+        }
+    }
+
+    public struct DisassociateOrganizationalUnitResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct EnableNotificationsAccessForOrganizationRequest: AWSEncodableShape {
         public init() {}
     }
@@ -759,7 +848,7 @@ extension Notifications {
         public let notificationConfigurationArn: String
         /// A list of Amazon Web Services Regions that send events to this EventRule.
         public let regions: [String]
-        /// The event source this rule should match with the EventBridge event sources. It must match with atleast one of the valid EventBridge event sources. Only Amazon Web Services service sourced events are supported.  For example, aws.ec2 and aws.cloudwatch. For more information, see Event delivery from Amazon Web Services services in the  Amazon EventBridge User Guide.
+        /// The event source this rule should match with the EventBridge event sources. It must match with atleast one of the valid EventBridge event sources. Only Amazon Web Services service sourced events are supported. For example, aws.ec2 and aws.cloudwatch. For more information, see Event delivery from Amazon Web Services services in the  Amazon EventBridge User Guide.
         public let source: String
         /// A list of an EventRule's status by Region. Regions are mapped to EventRuleStatusSummary.
         public let statusSummaryByRegion: [String: EventRuleStatusSummary]
@@ -1053,15 +1142,18 @@ extension Notifications {
         public let name: String
         /// The status of this NotificationConfiguration.
         public let status: NotificationConfigurationStatus
+        /// The subtype of the notification configuration returned in the response.
+        public let subtype: NotificationConfigurationSubtype?
 
         @inlinable
-        public init(aggregationDuration: AggregationDuration? = nil, arn: String, creationTime: Date, description: String, name: String, status: NotificationConfigurationStatus) {
+        public init(aggregationDuration: AggregationDuration? = nil, arn: String, creationTime: Date, description: String, name: String, status: NotificationConfigurationStatus, subtype: NotificationConfigurationSubtype? = nil) {
             self.aggregationDuration = aggregationDuration
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
             self.name = name
             self.status = status
+            self.subtype = subtype
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1071,6 +1163,7 @@ extension Notifications {
             case description = "description"
             case name = "name"
             case status = "status"
+            case subtype = "subtype"
         }
     }
 
@@ -1346,7 +1439,7 @@ extension Notifications {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w+-/=]+$")
-            try self.validate(self.organizationalUnitId, name: "organizationalUnitId", parent: name, pattern: "^Root|ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$")
+            try self.validate(self.organizationalUnitId, name: "organizationalUnitId", parent: name, pattern: "^(Root|r-[0-9a-z]{4,32}|ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
             try self.validate(self.relatedAccount, name: "relatedAccount", parent: name, pattern: "^\\d{12}$")
         }
 
@@ -1469,7 +1562,7 @@ extension Notifications {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w+-/=]+$")
-            try self.validate(self.organizationalUnitId, name: "organizationalUnitId", parent: name, pattern: "^Root|ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$")
+            try self.validate(self.organizationalUnitId, name: "organizationalUnitId", parent: name, pattern: "^(Root|r-[0-9a-z]{4,32}|ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
             try self.validate(self.relatedAccount, name: "relatedAccount", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.source, name: "source", parent: name, max: 36)
             try self.validate(self.source, name: "source", parent: name, min: 1)
@@ -1497,6 +1590,71 @@ extension Notifications {
         }
     }
 
+    public struct ListMemberAccountsRequest: AWSEncodableShape {
+        /// The maximum number of results to return in a single call. Valid values are 1-100.
+        public let maxResults: Int?
+        /// The member account identifier used to filter the results.
+        public let memberAccount: String?
+        /// The token for the next page of results. Use the value returned in the previous response.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the notification configuration used to filter the member accounts.
+        public let notificationConfigurationArn: String
+        /// The organizational unit ID used to filter the member accounts.
+        public let organizationalUnitId: String?
+        /// The status used to filter the member accounts.
+        public let status: MemberAccountNotificationConfigurationStatus?
+
+        @inlinable
+        public init(maxResults: Int? = nil, memberAccount: String? = nil, nextToken: String? = nil, notificationConfigurationArn: String, organizationalUnitId: String? = nil, status: MemberAccountNotificationConfigurationStatus? = nil) {
+            self.maxResults = maxResults
+            self.memberAccount = memberAccount
+            self.nextToken = nextToken
+            self.notificationConfigurationArn = notificationConfigurationArn
+            self.organizationalUnitId = organizationalUnitId
+            self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.memberAccount, key: "memberAccount")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.notificationConfigurationArn, key: "notificationConfigurationArn")
+            request.encodeQuery(self.organizationalUnitId, key: "organizationalUnitId")
+            request.encodeQuery(self.status, key: "status")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.memberAccount, name: "memberAccount", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w+-/=]+$")
+            try self.validate(self.notificationConfigurationArn, name: "notificationConfigurationArn", parent: name, pattern: "^arn:aws:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
+            try self.validate(self.organizationalUnitId, name: "organizationalUnitId", parent: name, pattern: "^(Root|r-[0-9a-z]{4,32}|ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListMemberAccountsResponse: AWSDecodableShape {
+        /// The list of member accounts that match the specified criteria.
+        public let memberAccounts: [MemberAccount]
+        /// The token to use for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(memberAccounts: [MemberAccount], nextToken: String? = nil) {
+            self.memberAccounts = memberAccounts
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case memberAccounts = "memberAccounts"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListNotificationConfigurationsRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the Channel to match.
         public let channelArn: String?
@@ -1508,14 +1666,17 @@ extension Notifications {
         public let nextToken: String?
         /// The NotificationConfiguration status to match.   Values:    ACTIVE    All EventRules are ACTIVE and any call can be run.      PARTIALLY_ACTIVE    Some EventRules are ACTIVE and some are INACTIVE. Any call can be run.   Any call can be run.      INACTIVE    All EventRules are INACTIVE and any call can be run.      DELETING    This NotificationConfiguration is being deleted.   Only GET and LIST calls can be run.
         public let status: NotificationConfigurationStatus?
+        /// The subtype used to filter the notification configurations in the request.
+        public let subtype: NotificationConfigurationSubtype?
 
         @inlinable
-        public init(channelArn: String? = nil, eventRuleSource: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: NotificationConfigurationStatus? = nil) {
+        public init(channelArn: String? = nil, eventRuleSource: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: NotificationConfigurationStatus? = nil, subtype: NotificationConfigurationSubtype? = nil) {
             self.channelArn = channelArn
             self.eventRuleSource = eventRuleSource
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.status = status
+            self.subtype = subtype
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -1526,6 +1687,7 @@ extension Notifications {
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
             request.encodeQuery(self.status, key: "status")
+            request.encodeQuery(self.subtype, key: "subtype")
         }
 
         public func validate(name: String) throws {
@@ -1572,19 +1734,22 @@ extension Notifications {
         public let maxResults: Int?
         /// The start token for paginated calls. Retrieved from the response of a previous ListEventRules call. Next token uses Base64 encoding.
         public let nextToken: String?
+        /// The unique identifier of the organizational unit used to filter notification events.
+        public let organizationalUnitId: String?
         /// The matched event source. Must match one of the valid EventBridge sources. Only Amazon Web Services service sourced events are supported. For example, aws.ec2 and aws.cloudwatch. For more information, see Event delivery from Amazon Web Services services in the Amazon EventBridge User Guide.
         public let source: String?
         /// The earliest time of events to return from this call.
         public let startTime: Date?
 
         @inlinable
-        public init(aggregateNotificationEventArn: String? = nil, endTime: Date? = nil, includeChildEvents: Bool? = nil, locale: LocaleCode? = nil, maxResults: Int? = nil, nextToken: String? = nil, source: String? = nil, startTime: Date? = nil) {
+        public init(aggregateNotificationEventArn: String? = nil, endTime: Date? = nil, includeChildEvents: Bool? = nil, locale: LocaleCode? = nil, maxResults: Int? = nil, nextToken: String? = nil, organizationalUnitId: String? = nil, source: String? = nil, startTime: Date? = nil) {
             self.aggregateNotificationEventArn = aggregateNotificationEventArn
             self.endTime = endTime
             self.includeChildEvents = includeChildEvents
             self.locale = locale
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.organizationalUnitId = organizationalUnitId
             self.source = source
             self.startTime = startTime
         }
@@ -1598,6 +1763,7 @@ extension Notifications {
             request.encodeQuery(self.locale, key: "locale")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.organizationalUnitId, key: "organizationalUnitId")
             request.encodeQuery(self.source, key: "source")
             request.encodeQuery(self.startTime, key: "startTime")
         }
@@ -1607,6 +1773,7 @@ extension Notifications {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w+-/=]+$")
+            try self.validate(self.organizationalUnitId, name: "organizationalUnitId", parent: name, pattern: "^(Root|r-[0-9a-z]{4,32}|ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
             try self.validate(self.source, name: "source", parent: name, max: 36)
             try self.validate(self.source, name: "source", parent: name, min: 1)
             try self.validate(self.source, name: "source", parent: name, pattern: "^aws.([a-z0-9\\-])+$")
@@ -1679,6 +1846,57 @@ extension Notifications {
         }
     }
 
+    public struct ListOrganizationalUnitsRequest: AWSEncodableShape {
+        /// The maximum number of organizational units to return in a single call. Valid values are 1-100.
+        public let maxResults: Int?
+        /// The token for the next page of results. Use the value returned in the previous response.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the notification configuration used to filter the organizational units.
+        public let notificationConfigurationArn: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, notificationConfigurationArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.notificationConfigurationArn = notificationConfigurationArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.notificationConfigurationArn, key: "notificationConfigurationArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w+-/=]+$")
+            try self.validate(self.notificationConfigurationArn, name: "notificationConfigurationArn", parent: name, pattern: "^arn:aws:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListOrganizationalUnitsResponse: AWSDecodableShape {
+        /// The token to use for the next page of results. If there are no additional results, this value is null.
+        public let nextToken: String?
+        /// The list of organizational units that match the specified criteria.
+        public let organizationalUnits: [String]
+
+        @inlinable
+        public init(nextToken: String? = nil, organizationalUnits: [String]) {
+            self.nextToken = nextToken
+            self.organizationalUnits = organizationalUnits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case organizationalUnits = "organizationalUnits"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) to use to list tags.
         public let arn: String
@@ -1718,7 +1936,7 @@ extension Notifications {
     public struct ManagedNotificationChannelAssociationSummary: AWSDecodableShape {
         /// The unique identifier for the notification channel.
         public let channelIdentifier: String
-        /// The type of notification channel used for message delivery.   Values:    ACCOUNT_CONTACT    Delivers notifications to Account Managed contacts through the User Notification Service.      MOBILE    Delivers notifications through the Amazon Web Services Console Mobile Application to mobile devices.      CHATBOT    Delivers notifications through Chatbot to collaboration platforms (Slack, Chime).      EMAIL    Delivers notifications to email addresses.
+        /// The type of notification channel used for message delivery.   Values:    ACCOUNT_CONTACT    Delivers notifications to Account Managed contacts through the User Notification Service.      MOBILE    Delivers notifications through the Amazon Web Services Console Mobile Application to mobile devices.      CHATBOT    Delivers notifications through Amazon Q Developer in chat applications to collaboration platforms (Slack, Chime).      EMAIL    Delivers notifications to email addresses.
         public let channelType: ChannelType
         /// Controls whether users can modify channel associations for a notification configuration.   Values:    ENABLED    Users can associate or disassociate channels with the notification configuration.      DISABLED    Users cannot associate or disassociate channels with the notification configuration.
         public let overrideOption: ChannelAssociationOverrideOption?
@@ -2074,6 +2292,36 @@ extension Notifications {
         }
     }
 
+    public struct MemberAccount: AWSDecodableShape {
+        /// The AWS account ID of the member account.
+        public let accountId: String
+        /// The Amazon Resource Name (ARN) of the notification configuration associated with the member account.
+        public let notificationConfigurationArn: String?
+        /// The unique identifier of the organizational unit containing the member account.
+        public let organizationalUnitId: String
+        /// The current status of the member account.
+        public let status: MemberAccountNotificationConfigurationStatus
+        /// The reason for the current status of the member account.
+        public let statusReason: String
+
+        @inlinable
+        public init(accountId: String, notificationConfigurationArn: String? = nil, organizationalUnitId: String, status: MemberAccountNotificationConfigurationStatus, statusReason: String) {
+            self.accountId = accountId
+            self.notificationConfigurationArn = notificationConfigurationArn
+            self.organizationalUnitId = organizationalUnitId
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case notificationConfigurationArn = "notificationConfigurationArn"
+            case organizationalUnitId = "organizationalUnitId"
+            case status = "status"
+            case statusReason = "statusReason"
+        }
+    }
+
     public struct MessageComponents: AWSDecodableShape {
         /// A complete summary with all possible relevant information.
         public let completeDescription: String?
@@ -2081,7 +2329,7 @@ extension Notifications {
         public let dimensions: [Dimension]?
         /// A sentence long summary. For example, titles or an email subject line.
         public let headline: String?
-        /// A paragraph long or multiple sentence summary. For example, Chatbot notifications.
+        /// A paragraph long or multiple sentence summary. For example, Amazon Q Developer in chat applications notifications.
         public let paragraphSummary: String?
 
         @inlinable
@@ -2128,15 +2376,18 @@ extension Notifications {
         public let name: String
         /// The current status of the NotificationConfiguration.
         public let status: NotificationConfigurationStatus
+        /// The subtype of the notification configuration.
+        public let subtype: NotificationConfigurationSubtype?
 
         @inlinable
-        public init(aggregationDuration: AggregationDuration? = nil, arn: String, creationTime: Date, description: String, name: String, status: NotificationConfigurationStatus) {
+        public init(aggregationDuration: AggregationDuration? = nil, arn: String, creationTime: Date, description: String, name: String, status: NotificationConfigurationStatus, subtype: NotificationConfigurationSubtype? = nil) {
             self.aggregationDuration = aggregationDuration
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
             self.name = name
             self.status = status
+            self.subtype = subtype
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2146,6 +2397,7 @@ extension Notifications {
             case description = "description"
             case name = "name"
             case status = "status"
+            case subtype = "subtype"
         }
     }
 
@@ -2165,11 +2417,13 @@ extension Notifications {
         public let notificationConfigurationArn: String
         /// Refers to a NotificationEventSummary object. Similar in structure to content in the GetNotificationEvent response.
         public let notificationEvent: NotificationEventSummary
+        /// The unique identifier of the organizational unit in the notification event overview.
+        public let organizationalUnitId: String?
         /// The account name containing the NotificationHub.
         public let relatedAccount: String
 
         @inlinable
-        public init(aggregateNotificationEventArn: String? = nil, aggregationEventType: AggregationEventType? = nil, aggregationSummary: AggregationSummary? = nil, arn: String, creationTime: Date, notificationConfigurationArn: String, notificationEvent: NotificationEventSummary, relatedAccount: String) {
+        public init(aggregateNotificationEventArn: String? = nil, aggregationEventType: AggregationEventType? = nil, aggregationSummary: AggregationSummary? = nil, arn: String, creationTime: Date, notificationConfigurationArn: String, notificationEvent: NotificationEventSummary, organizationalUnitId: String? = nil, relatedAccount: String) {
             self.aggregateNotificationEventArn = aggregateNotificationEventArn
             self.aggregationEventType = aggregationEventType
             self.aggregationSummary = aggregationSummary
@@ -2177,6 +2431,7 @@ extension Notifications {
             self.creationTime = creationTime
             self.notificationConfigurationArn = notificationConfigurationArn
             self.notificationEvent = notificationEvent
+            self.organizationalUnitId = organizationalUnitId
             self.relatedAccount = relatedAccount
         }
 
@@ -2188,6 +2443,7 @@ extension Notifications {
             case creationTime = "creationTime"
             case notificationConfigurationArn = "notificationConfigurationArn"
             case notificationEvent = "notificationEvent"
+            case organizationalUnitId = "organizationalUnitId"
             case relatedAccount = "relatedAccount"
         }
     }
@@ -2210,6 +2466,8 @@ extension Notifications {
         public let messageComponents: MessageComponents
         /// The type of event causing the notification.   Values:    ALERT    A notification about an event where something was triggered, initiated, reopened, deployed, or a threshold was breached.      WARNING    A notification about an event where an issue is about to arise. For example, something is approaching a threshold.      ANNOUNCEMENT    A notification about an important event. For example, a step in a workflow or escalation path or that a workflow was updated.      INFORMATIONAL    A notification about informational messages. For example, recommendations, service announcements, or reminders.
         public let notificationType: NotificationType
+        /// The unique identifier of the organizational unit associated with the notification event.
+        public let organizationalUnitId: String?
         /// The schema version of the Notification Event.
         public let schemaVersion: SchemaVersion
         /// The source event URL.
@@ -2224,7 +2482,7 @@ extension Notifications {
         public let textParts: [String: TextPartValue]
 
         @inlinable
-        public init(aggregateNotificationEventArn: String? = nil, aggregationEventType: AggregationEventType? = nil, aggregationSummary: AggregationSummary? = nil, endTime: Date? = nil, eventStatus: EventStatus? = nil, id: String, media: [MediaElement], messageComponents: MessageComponents, notificationType: NotificationType, schemaVersion: SchemaVersion, sourceEventDetailUrl: String? = nil, sourceEventDetailUrlDisplayText: String? = nil, sourceEventMetadata: SourceEventMetadata, startTime: Date? = nil, textParts: [String: TextPartValue]) {
+        public init(aggregateNotificationEventArn: String? = nil, aggregationEventType: AggregationEventType? = nil, aggregationSummary: AggregationSummary? = nil, endTime: Date? = nil, eventStatus: EventStatus? = nil, id: String, media: [MediaElement], messageComponents: MessageComponents, notificationType: NotificationType, organizationalUnitId: String? = nil, schemaVersion: SchemaVersion, sourceEventDetailUrl: String? = nil, sourceEventDetailUrlDisplayText: String? = nil, sourceEventMetadata: SourceEventMetadata, startTime: Date? = nil, textParts: [String: TextPartValue]) {
             self.aggregateNotificationEventArn = aggregateNotificationEventArn
             self.aggregationEventType = aggregationEventType
             self.aggregationSummary = aggregationSummary
@@ -2234,6 +2492,7 @@ extension Notifications {
             self.media = media
             self.messageComponents = messageComponents
             self.notificationType = notificationType
+            self.organizationalUnitId = organizationalUnitId
             self.schemaVersion = schemaVersion
             self.sourceEventDetailUrl = sourceEventDetailUrl
             self.sourceEventDetailUrlDisplayText = sourceEventDetailUrlDisplayText
@@ -2252,6 +2511,7 @@ extension Notifications {
             case media = "media"
             case messageComponents = "messageComponents"
             case notificationType = "notificationType"
+            case organizationalUnitId = "organizationalUnitId"
             case schemaVersion = "schemaVersion"
             case sourceEventDetailUrl = "sourceEventDetailUrl"
             case sourceEventDetailUrlDisplayText = "sourceEventDetailUrlDisplayText"

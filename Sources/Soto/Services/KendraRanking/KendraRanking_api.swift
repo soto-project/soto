@@ -131,6 +131,7 @@ public struct KendraRanking: AWSService {
             "ap-southeast-3": "kendra-ranking-fips.ap-southeast-3.api.aws",
             "ap-southeast-4": "kendra-ranking-fips.ap-southeast-4.api.aws",
             "ap-southeast-5": "kendra-ranking-fips.ap-southeast-5.api.aws",
+            "ap-southeast-6": "kendra-ranking-fips.ap-southeast-6.api.aws",
             "ap-southeast-7": "kendra-ranking-fips.ap-southeast-7.api.aws",
             "ca-central-1": "kendra-ranking-fips.ca-central-1.api.aws",
             "ca-west-1": "kendra-ranking-fips.ca-west-1.api.aws",

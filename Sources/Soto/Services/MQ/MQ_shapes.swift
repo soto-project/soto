@@ -26,6 +26,7 @@ extension MQ {
     // MARK: Enums
 
     public enum AuthenticationStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case configManaged = "CONFIG_MANAGED"
         case ldap = "LDAP"
         case simple = "SIMPLE"
         public var description: String { return self.rawValue }
@@ -440,7 +441,7 @@ extension MQ {
         public let subnetIds: [String]?
         /// Create tags when creating the broker.
         public let tags: [String: String]?
-        /// The list of broker users (persons or applications) who can access queues and topics. For Amazon MQ for RabbitMQ brokers, one and only one administrative user is accepted and created when a broker is first provisioned. All subsequent broker users are created by making RabbitMQ API calls directly to brokers or via the RabbitMQ web console.
+        /// The list of broker users (persons or applications) who can access queues and topics. For Amazon MQ for RabbitMQ brokers, an administrative user is required if using simple authentication and authorization. For brokers using OAuth2, this user is optional. When provided, one and only one administrative user is accepted and created when a broker is first provisioned. All subsequent broker users are created by making RabbitMQ API calls directly to brokers or via the RabbitMQ web console.
         public let users: [User]?
 
         @inlinable

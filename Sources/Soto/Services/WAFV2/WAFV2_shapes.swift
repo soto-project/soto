@@ -857,7 +857,7 @@ extension WAFV2 {
                 try validate($0, name: "values[]", parent: name, max: 64)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
-            try self.validate(self.values, name: "values", parent: name, max: 10)
+            try self.validate(self.values, name: "values", parent: name, max: 50)
             try self.validate(self.values, name: "values", parent: name, min: 1)
         }
 
@@ -5810,7 +5810,7 @@ extension WAFV2 {
     public struct RuleActionOverride: AWSEncodableShape & AWSDecodableShape {
         /// The override action to use, in place of the configured action of the rule in the rule group.
         public let actionToUse: RuleAction
-        /// The name of the rule to override.  Take care to verify the rule names in your overrides. If you provide a rule name that doesn't match the name of any rule in the rule group, WAF doesn't return an error and doesn't apply the override setting.
+        /// The name of the rule to override.  Verify the rule names in your overrides carefully. With managed rule groups, WAF silently ignores any override that uses an invalid rule name. With customer-owned rule groups, invalid rule names in your overrides will cause web ACL updates to fail. An invalid rule name is any name that doesn't exactly match the case-sensitive name of an existing rule in the rule group.
         public let name: String
 
         @inlinable
@@ -6663,6 +6663,8 @@ extension WAFV2 {
     }
 
     public struct UpdateWebACLRequest: AWSEncodableShape {
+        /// Configures the ability for the WAF console to store and retrieve application attributes.  Application attributes help WAF give recommendations for protection packs. When using UpdateWebACL, ApplicationConfig follows these rules:   If you omit ApplicationConfig from the request, all existing entries in the web ACL are retained.   If you include ApplicationConfig, entries must match the existing values exactly. Any attempt to modify existing entries will result in an error.
+        public let applicationConfig: ApplicationConfig?
         /// Specifies custom configurations for the associations between the web ACL and protected resources.   Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can  customize this setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 16 KB (16,384 bytes).   You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see WAF Pricing.  For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
         public let associationConfig: AssociationConfig?
         /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
@@ -6696,7 +6698,8 @@ extension WAFV2 {
         public let visibilityConfig: VisibilityConfig
 
         @inlinable
-        public init(associationConfig: AssociationConfig? = nil, captchaConfig: CaptchaConfig? = nil, challengeConfig: ChallengeConfig? = nil, customResponseBodies: [String: CustomResponseBody]? = nil, dataProtectionConfig: DataProtectionConfig? = nil, defaultAction: DefaultAction, description: String? = nil, id: String, lockToken: String, name: String, onSourceDDoSProtectionConfig: OnSourceDDoSProtectionConfig? = nil, rules: [Rule]? = nil, scope: Scope, tokenDomains: [String]? = nil, visibilityConfig: VisibilityConfig) {
+        public init(applicationConfig: ApplicationConfig? = nil, associationConfig: AssociationConfig? = nil, captchaConfig: CaptchaConfig? = nil, challengeConfig: ChallengeConfig? = nil, customResponseBodies: [String: CustomResponseBody]? = nil, dataProtectionConfig: DataProtectionConfig? = nil, defaultAction: DefaultAction, description: String? = nil, id: String, lockToken: String, name: String, onSourceDDoSProtectionConfig: OnSourceDDoSProtectionConfig? = nil, rules: [Rule]? = nil, scope: Scope, tokenDomains: [String]? = nil, visibilityConfig: VisibilityConfig) {
+            self.applicationConfig = applicationConfig
             self.associationConfig = associationConfig
             self.captchaConfig = captchaConfig
             self.challengeConfig = challengeConfig
@@ -6715,6 +6718,7 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.applicationConfig?.validate(name: "\(name).applicationConfig")
             try self.captchaConfig?.validate(name: "\(name).captchaConfig")
             try self.challengeConfig?.validate(name: "\(name).challengeConfig")
             try self.customResponseBodies?.forEach {
@@ -6750,6 +6754,7 @@ extension WAFV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationConfig = "ApplicationConfig"
             case associationConfig = "AssociationConfig"
             case captchaConfig = "CaptchaConfig"
             case challengeConfig = "ChallengeConfig"

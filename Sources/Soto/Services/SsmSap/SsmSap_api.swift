@@ -257,6 +257,35 @@ public struct SsmSap: AWSService {
         return try await self.getComponent(input, logger: logger)
     }
 
+    /// Gets the details of a configuration check operation by specifying the operation ID.
+    @Sendable
+    @inlinable
+    public func getConfigurationCheckOperation(_ input: GetConfigurationCheckOperationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConfigurationCheckOperationOutput {
+        try await self.client.execute(
+            operation: "GetConfigurationCheckOperation", 
+            path: "/get-configuration-check-operation", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets the details of a configuration check operation by specifying the operation ID.
+    ///
+    /// Parameters:
+    ///   - operationId: The ID of the configuration check operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getConfigurationCheckOperation(
+        operationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetConfigurationCheckOperationOutput {
+        let input = GetConfigurationCheckOperationInput(
+            operationId: operationId
+        )
+        return try await self.getConfigurationCheckOperation(input, logger: logger)
+    }
+
     /// Gets the SAP HANA database of an application registered with AWS Systems Manager for SAP.
     @Sendable
     @inlinable
@@ -426,6 +455,79 @@ public struct SsmSap: AWSService {
         return try await self.listComponents(input, logger: logger)
     }
 
+    /// Lists all configuration check types supported by AWS Systems Manager for SAP.
+    @Sendable
+    @inlinable
+    public func listConfigurationCheckDefinitions(_ input: ListConfigurationCheckDefinitionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConfigurationCheckDefinitionsOutput {
+        try await self.client.execute(
+            operation: "ListConfigurationCheckDefinitions", 
+            path: "/list-configuration-check-definitions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all configuration check types supported by AWS Systems Manager for SAP.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+    ///   - nextToken: The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listConfigurationCheckDefinitions(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListConfigurationCheckDefinitionsOutput {
+        let input = ListConfigurationCheckDefinitionsInput(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listConfigurationCheckDefinitions(input, logger: logger)
+    }
+
+    /// Lists the configuration check operations performed by AWS Systems Manager for SAP.
+    @Sendable
+    @inlinable
+    public func listConfigurationCheckOperations(_ input: ListConfigurationCheckOperationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConfigurationCheckOperationsOutput {
+        try await self.client.execute(
+            operation: "ListConfigurationCheckOperations", 
+            path: "/list-configuration-check-operations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the configuration check operations performed by AWS Systems Manager for SAP.
+    ///
+    /// Parameters:
+    ///   - applicationId: The ID of the application.
+    ///   - filters: The filters of an operation.
+    ///   - listMode: The mode for listing configuration check operations. Defaults to "LATEST_PER_CHECK".   LATEST_PER_CHECK - Will list the latest configuration check operation per check type.   ALL_OPERATIONS - Will list all configuration check operations performed on the application.
+    ///   - maxResults: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+    ///   - nextToken: The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listConfigurationCheckOperations(
+        applicationId: String,
+        filters: [Filter]? = nil,
+        listMode: ConfigurationCheckOperationListingMode? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListConfigurationCheckOperationsOutput {
+        let input = ListConfigurationCheckOperationsInput(
+            applicationId: applicationId, 
+            filters: filters, 
+            listMode: listMode, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listConfigurationCheckOperations(input, logger: logger)
+    }
+
     /// Lists the SAP HANA databases of an application registered with AWS Systems Manager for SAP.
     @Sendable
     @inlinable
@@ -540,6 +642,76 @@ public struct SsmSap: AWSService {
         return try await self.listOperations(input, logger: logger)
     }
 
+    /// Lists the sub-check results of a specified configuration check operation.
+    @Sendable
+    @inlinable
+    public func listSubCheckResults(_ input: ListSubCheckResultsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSubCheckResultsOutput {
+        try await self.client.execute(
+            operation: "ListSubCheckResults", 
+            path: "/list-sub-check-results", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the sub-check results of a specified configuration check operation.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+    ///   - nextToken: The token for the next page of results.
+    ///   - operationId: The ID of the configuration check operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listSubCheckResults(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        operationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListSubCheckResultsOutput {
+        let input = ListSubCheckResultsInput(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            operationId: operationId
+        )
+        return try await self.listSubCheckResults(input, logger: logger)
+    }
+
+    /// Lists the rules of a specified sub-check belonging to a configuration check operation.
+    @Sendable
+    @inlinable
+    public func listSubCheckRuleResults(_ input: ListSubCheckRuleResultsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSubCheckRuleResultsOutput {
+        try await self.client.execute(
+            operation: "ListSubCheckRuleResults", 
+            path: "/list-sub-check-rule-results", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the rules of a specified sub-check belonging to a configuration check operation.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+    ///   - nextToken: The token for the next page of results.
+    ///   - subCheckResultId: The ID of the sub check result.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listSubCheckRuleResults(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        subCheckResultId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListSubCheckRuleResultsOutput {
+        let input = ListSubCheckRuleResultsInput(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            subCheckResultId: subCheckResultId
+        )
+        return try await self.listSubCheckRuleResults(input, logger: logger)
+    }
+
     /// Lists all tags on an SAP HANA application and/or database registered with AWS Systems Manager for SAP.
     @Sendable
     @inlinable
@@ -622,7 +794,7 @@ public struct SsmSap: AWSService {
     /// Parameters:
     ///   - applicationId: The ID of the application.
     ///   - applicationType: The type of the application.
-    ///   - componentsInfo: This is an optional parameter for component details  to which the SAP ABAP application is attached,  such as Web Dispatcher. This is an array of ApplicationComponent objects.  You may input 0 to 5 items.
+    ///   - componentsInfo: This is an optional parameter for component details to which the SAP ABAP application is attached, such as Web Dispatcher. This is an array of ApplicationComponent objects. You may input 0 to 5 items.
     ///   - credentials: The credentials of the SAP application.
     ///   - databaseArn: The Amazon Resource Name of the SAP HANA database.
     ///   - instances: The Amazon EC2 instances on which your SAP application is running.
@@ -713,6 +885,38 @@ public struct SsmSap: AWSService {
             applicationId: applicationId
         )
         return try await self.startApplicationRefresh(input, logger: logger)
+    }
+
+    /// Initiates configuration check operations against a specified application.
+    @Sendable
+    @inlinable
+    public func startConfigurationChecks(_ input: StartConfigurationChecksInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartConfigurationChecksOutput {
+        try await self.client.execute(
+            operation: "StartConfigurationChecks", 
+            path: "/start-configuration-checks", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Initiates configuration check operations against a specified application.
+    ///
+    /// Parameters:
+    ///   - applicationId: The ID of the application.
+    ///   - configurationCheckIds: The list of configuration checks to perform.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startConfigurationChecks(
+        applicationId: String,
+        configurationCheckIds: [ConfigurationCheckType]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartConfigurationChecksOutput {
+        let input = StartConfigurationChecksInput(
+            applicationId: applicationId, 
+            configurationCheckIds: configurationCheckIds
+        )
+        return try await self.startConfigurationChecks(input, logger: logger)
     }
 
     /// Request is an operation to stop an application. Parameter ApplicationId is required. Parameters StopConnectedEntity and IncludeEc2InstanceShutdown are optional.
@@ -943,6 +1147,83 @@ extension SsmSap {
         return self.listComponentsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listConfigurationCheckDefinitions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConfigurationCheckDefinitionsPaginator(
+        _ input: ListConfigurationCheckDefinitionsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListConfigurationCheckDefinitionsInput, ListConfigurationCheckDefinitionsOutput> {
+        return .init(
+            input: input,
+            command: self.listConfigurationCheckDefinitions,
+            inputKey: \ListConfigurationCheckDefinitionsInput.nextToken,
+            outputKey: \ListConfigurationCheckDefinitionsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listConfigurationCheckDefinitions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConfigurationCheckDefinitionsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListConfigurationCheckDefinitionsInput, ListConfigurationCheckDefinitionsOutput> {
+        let input = ListConfigurationCheckDefinitionsInput(
+            maxResults: maxResults
+        )
+        return self.listConfigurationCheckDefinitionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listConfigurationCheckOperations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConfigurationCheckOperationsPaginator(
+        _ input: ListConfigurationCheckOperationsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListConfigurationCheckOperationsInput, ListConfigurationCheckOperationsOutput> {
+        return .init(
+            input: input,
+            command: self.listConfigurationCheckOperations,
+            inputKey: \ListConfigurationCheckOperationsInput.nextToken,
+            outputKey: \ListConfigurationCheckOperationsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listConfigurationCheckOperations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - applicationId: The ID of the application.
+    ///   - filters: The filters of an operation.
+    ///   - listMode: The mode for listing configuration check operations. Defaults to "LATEST_PER_CHECK".   LATEST_PER_CHECK - Will list the latest configuration check operation per check type.   ALL_OPERATIONS - Will list all configuration check operations performed on the application.
+    ///   - maxResults: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConfigurationCheckOperationsPaginator(
+        applicationId: String,
+        filters: [Filter]? = nil,
+        listMode: ConfigurationCheckOperationListingMode? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListConfigurationCheckOperationsInput, ListConfigurationCheckOperationsOutput> {
+        let input = ListConfigurationCheckOperationsInput(
+            applicationId: applicationId, 
+            filters: filters, 
+            listMode: listMode, 
+            maxResults: maxResults
+        )
+        return self.listConfigurationCheckOperationsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listDatabases(_:logger:)``.
     ///
     /// - Parameters:
@@ -1062,6 +1343,80 @@ extension SsmSap {
         )
         return self.listOperationsPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listSubCheckResults(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSubCheckResultsPaginator(
+        _ input: ListSubCheckResultsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSubCheckResultsInput, ListSubCheckResultsOutput> {
+        return .init(
+            input: input,
+            command: self.listSubCheckResults,
+            inputKey: \ListSubCheckResultsInput.nextToken,
+            outputKey: \ListSubCheckResultsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listSubCheckResults(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+    ///   - operationId: The ID of the configuration check operation.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSubCheckResultsPaginator(
+        maxResults: Int? = nil,
+        operationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListSubCheckResultsInput, ListSubCheckResultsOutput> {
+        let input = ListSubCheckResultsInput(
+            maxResults: maxResults, 
+            operationId: operationId
+        )
+        return self.listSubCheckResultsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listSubCheckRuleResults(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSubCheckRuleResultsPaginator(
+        _ input: ListSubCheckRuleResultsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSubCheckRuleResultsInput, ListSubCheckRuleResultsOutput> {
+        return .init(
+            input: input,
+            command: self.listSubCheckRuleResults,
+            inputKey: \ListSubCheckRuleResultsInput.nextToken,
+            outputKey: \ListSubCheckRuleResultsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listSubCheckRuleResults(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+    ///   - subCheckResultId: The ID of the sub check result.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSubCheckRuleResultsPaginator(
+        maxResults: Int? = nil,
+        subCheckResultId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListSubCheckRuleResultsInput, ListSubCheckRuleResultsOutput> {
+        let input = ListSubCheckRuleResultsInput(
+            maxResults: maxResults, 
+            subCheckResultId: subCheckResultId
+        )
+        return self.listSubCheckRuleResultsPaginator(input, logger: logger)
+    }
 }
 
 extension SsmSap.ListApplicationsInput: AWSPaginateToken {
@@ -1080,6 +1435,29 @@ extension SsmSap.ListComponentsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SsmSap.ListComponentsInput {
         return .init(
             applicationId: self.applicationId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension SsmSap.ListConfigurationCheckDefinitionsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SsmSap.ListConfigurationCheckDefinitionsInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension SsmSap.ListConfigurationCheckOperationsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SsmSap.ListConfigurationCheckOperationsInput {
+        return .init(
+            applicationId: self.applicationId,
+            filters: self.filters,
+            listMode: self.listMode,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -1118,6 +1496,28 @@ extension SsmSap.ListOperationsInput: AWSPaginateToken {
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension SsmSap.ListSubCheckResultsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SsmSap.ListSubCheckResultsInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            operationId: self.operationId
+        )
+    }
+}
+
+extension SsmSap.ListSubCheckRuleResultsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SsmSap.ListSubCheckRuleResultsInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            subCheckResultId: self.subCheckResultId
         )
     }
 }
