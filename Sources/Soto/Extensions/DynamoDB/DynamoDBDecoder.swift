@@ -744,16 +744,8 @@ extension _DynamoDBDecoder {
     }
 }
 
-#if compiler(>=5.10)
 nonisolated(unsafe) let _iso8601DateFormatter: ISO8601DateFormatter = {
     let formatter = ISO8601DateFormatter()
     formatter.formatOptions = .withInternetDateTime
     return formatter
 }()
-#else
-let _iso8601DateFormatter: ISO8601DateFormatter = {
-    let formatter = ISO8601DateFormatter()
-    formatter.formatOptions = .withInternetDateTime
-    return formatter
-}()
-#endif
