@@ -59,7 +59,7 @@ class IAMTests: XCTestCase {
 
     func createUser(userName: String, tags: [String: String] = [:], iam: IAM? = nil) async throws {
         let iam: IAM = iam ?? Self.iam
-        let request = IAM.CreateUserRequest(tags: tags.map { return IAM.Tag(key: $0.key, value: $0.value) }, userName: userName)
+        let request = IAM.CreateUserRequest(tags: tags.map { IAM.Tag(key: $0.key, value: $0.value) }, userName: userName)
         do {
             let response = try await iam.createUser(request, logger: TestEnvironment.logger)
             XCTAssertEqual(response.user?.userName, userName)
