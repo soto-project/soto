@@ -543,6 +543,8 @@ extension EMRContainers {
     public struct CreateSecurityConfigurationRequest: AWSEncodableShape {
         /// The client idempotency token to use when creating the security configuration.
         public let clientToken: String
+        /// The container provider associated with the security configuration.
+        public let containerProvider: ContainerProvider?
         /// The name of the security configuration.
         public let name: String
         /// Security configuration input for the request.
@@ -551,8 +553,9 @@ extension EMRContainers {
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String = CreateSecurityConfigurationRequest.idempotencyToken(), name: String, securityConfigurationData: SecurityConfigurationData, tags: [String: String]? = nil) {
+        public init(clientToken: String = CreateSecurityConfigurationRequest.idempotencyToken(), containerProvider: ContainerProvider? = nil, name: String, securityConfigurationData: SecurityConfigurationData, tags: [String: String]? = nil) {
             self.clientToken = clientToken
+            self.containerProvider = containerProvider
             self.name = name
             self.securityConfigurationData = securityConfigurationData
             self.tags = tags
@@ -562,6 +565,7 @@ extension EMRContainers {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S")
+            try self.containerProvider?.validate(name: "\(name).containerProvider")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
@@ -578,6 +582,7 @@ extension EMRContainers {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
+            case containerProvider = "containerProvider"
             case name = "name"
             case securityConfigurationData = "securityConfigurationData"
             case tags = "tags"
@@ -1011,20 +1016,27 @@ extension EMRContainers {
     public struct EksInfo: AWSEncodableShape & AWSDecodableShape {
         /// The namespaces of the Amazon EKS cluster.
         public let namespace: String?
+        /// The nodeLabel of the nodes where the resources of this virtual cluster can get scheduled. It requires relevant scaling and policy engine addons.
+        public let nodeLabel: String?
 
         @inlinable
-        public init(namespace: String? = nil) {
+        public init(namespace: String? = nil, nodeLabel: String? = nil) {
             self.namespace = namespace
+            self.nodeLabel = nodeLabel
         }
 
         public func validate(name: String) throws {
             try self.validate(self.namespace, name: "namespace", parent: name, max: 63)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$")
+            try self.validate(self.nodeLabel, name: "nodeLabel", parent: name, max: 64)
+            try self.validate(self.nodeLabel, name: "nodeLabel", parent: name, min: 1)
+            try self.validate(self.nodeLabel, name: "nodeLabel", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case namespace = "namespace"
+            case nodeLabel = "nodeLabel"
         }
     }
 

@@ -53,6 +53,17 @@ extension Outposts {
         public var description: String { return self.rawValue }
     }
 
+    public enum BlockingResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ec2Instance = "EC2_INSTANCE"
+        case lgwRouteTable = "LGW_ROUTE_TABLE"
+        case lgwRoutingDomain = "LGW_ROUTING_DOMAIN"
+        case lgwVirtualInterfaceGroup = "LGW_VIRTUAL_INTERFACE_GROUP"
+        case outpostOrderCancellable = "OUTPOST_ORDER_CANCELLABLE"
+        case outpostOrderInterventionRequired = "OUTPOST_ORDER_INTERVENTION_REQUIRED"
+        case outpostRamShare = "OUTPOST_RAM_SHARE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CapacityTaskFailureType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case blockingInstancesNotEvacuated = "BLOCKING_INSTANCES_NOT_EVACUATED"
         case internalServerError = "INTERNAL_SERVER_ERROR"
@@ -89,6 +100,13 @@ extension Outposts {
         case active = "ACTIVE"
         case isolated = "ISOLATED"
         case retiring = "RETIRING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DecommissionRequestStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case blocked = "BLOCKED"
+        case requested = "REQUESTED"
+        case skipped = "SKIPPED"
         public var description: String { return self.rawValue }
     }
 
@@ -719,7 +737,7 @@ extension Outposts {
 
     public struct CreateOrderInput: AWSEncodableShape {
         /// The line items that make up the order.
-        public let lineItems: [LineItemRequest]
+        public let lineItems: [LineItemRequest]?
         ///  The ID or the Amazon Resource Name (ARN) of the Outpost.
         public let outpostIdentifier: String
         /// The payment option.
@@ -728,7 +746,7 @@ extension Outposts {
         public let paymentTerm: PaymentTerm?
 
         @inlinable
-        public init(lineItems: [LineItemRequest], outpostIdentifier: String, paymentOption: PaymentOption, paymentTerm: PaymentTerm? = nil) {
+        public init(lineItems: [LineItemRequest]? = nil, outpostIdentifier: String, paymentOption: PaymentOption, paymentTerm: PaymentTerm? = nil) {
             self.lineItems = lineItems
             self.outpostIdentifier = outpostIdentifier
             self.paymentOption = paymentOption
@@ -736,7 +754,7 @@ extension Outposts {
         }
 
         public func validate(name: String) throws {
-            try self.lineItems.forEach {
+            try self.lineItems?.forEach {
                 try $0.validate(name: "\(name).lineItems[]")
             }
             try self.validate(self.lineItems, name: "lineItems", parent: name, max: 20)
@@ -2658,6 +2676,54 @@ extension Outposts {
         private enum CodingKeys: String, CodingKey {
             case connectionId = "ConnectionId"
             case underlayIpAddress = "UnderlayIpAddress"
+        }
+    }
+
+    public struct StartOutpostDecommissionInput: AWSEncodableShape {
+        /// The ID or ARN of the Outpost that you want to decommission.
+        public let outpostIdentifier: String
+        /// Validates the request without starting the decommission process.
+        public let validateOnly: Bool?
+
+        @inlinable
+        public init(outpostIdentifier: String, validateOnly: Bool? = nil) {
+            self.outpostIdentifier = outpostIdentifier
+            self.validateOnly = validateOnly
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.outpostIdentifier, key: "OutpostIdentifier")
+            try container.encodeIfPresent(self.validateOnly, forKey: .validateOnly)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, max: 180)
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, min: 1)
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case validateOnly = "ValidateOnly"
+        }
+    }
+
+    public struct StartOutpostDecommissionOutput: AWSDecodableShape {
+        /// The resources still associated with the Outpost that you are decommissioning.
+        public let blockingResourceTypes: [BlockingResourceType]?
+        /// The status of the decommission request.
+        public let status: DecommissionRequestStatus?
+
+        @inlinable
+        public init(blockingResourceTypes: [BlockingResourceType]? = nil, status: DecommissionRequestStatus? = nil) {
+            self.blockingResourceTypes = blockingResourceTypes
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blockingResourceTypes = "BlockingResourceTypes"
+            case status = "Status"
         }
     }
 

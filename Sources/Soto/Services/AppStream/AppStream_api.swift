@@ -221,6 +221,38 @@ public struct AppStream: AWSService {
         return try await self.associateFleet(input, logger: logger)
     }
 
+    /// Associates license included application(s) with an existing image builder instance.
+    @Sendable
+    @inlinable
+    public func associateSoftwareToImageBuilder(_ input: AssociateSoftwareToImageBuilderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateSoftwareToImageBuilderResult {
+        try await self.client.execute(
+            operation: "AssociateSoftwareToImageBuilder", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates license included application(s) with an existing image builder instance.
+    ///
+    /// Parameters:
+    ///   - imageBuilderName: The name of the target image builder instance.
+    ///   - softwareNames: The list of license included applications to associate with the image builder. Possible values include the following:   Microsoft_Office_2021_LTSC_Professional_Plus_32Bit   Microsoft_Office_2021_LTSC_Professional_Plus_64Bit   Microsoft_Office_2024_LTSC_Professional_Plus_32Bit   Microsoft_Office_2024_LTSC_Professional_Plus_64Bit   Microsoft_Visio_2021_LTSC_Professional_32Bit   Microsoft_Visio_2021_LTSC_Professional_64Bit   Microsoft_Visio_2024_LTSC_Professional_32Bit   Microsoft_Visio_2024_LTSC_Professional_64Bit   Microsoft_Project_2021_Professional_32Bit   Microsoft_Project_2021_Professional_64Bit   Microsoft_Project_2024_Professional_32Bit   Microsoft_Project_2024_Professional_64Bit   Microsoft_Office_2021_LTSC_Standard_32Bit   Microsoft_Office_2021_LTSC_Standard_64Bit   Microsoft_Office_2024_LTSC_Standard_32Bit   Microsoft_Office_2024_LTSC_Standard_64Bit   Microsoft_Visio_2021_LTSC_Standard_32Bit   Microsoft_Visio_2021_LTSC_Standard_64Bit   Microsoft_Visio_2024_LTSC_Standard_32Bit   Microsoft_Visio_2024_LTSC_Standard_64Bit   Microsoft_Project_2021_Standard_32Bit   Microsoft_Project_2021_Standard_64Bit   Microsoft_Project_2024_Standard_32Bit   Microsoft_Project_2024_Standard_64Bit
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateSoftwareToImageBuilder(
+        imageBuilderName: String? = nil,
+        softwareNames: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AssociateSoftwareToImageBuilderResult {
+        let input = AssociateSoftwareToImageBuilderRequest(
+            imageBuilderName: imageBuilderName, 
+            softwareNames: softwareNames
+        )
+        return try await self.associateSoftwareToImageBuilder(input, logger: logger)
+    }
+
     /// Associates the specified users with the specified stacks. Users in a user pool cannot be assigned to stacks with fleets that are joined to an Active Directory domain.
     @Sendable
     @inlinable
@@ -620,7 +652,7 @@ public struct AppStream: AWSService {
     ///   - idleDisconnectTimeoutInSeconds: The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If they try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected. To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 36000. The default value is 0.  If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.
     ///   - imageArn: The ARN of the public, private, or shared image to use.
     ///   - imageName: The name of the image used to create the fleet.
-    ///   - instanceType: The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.24xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge   The following instance types are available for Elastic fleets:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
+    ///   - instanceType: The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.24xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge   The following instance types are available for Elastic fleets:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
     ///   - maxConcurrentSessions: The maximum concurrent sessions of the Elastic fleet. This is required for Elastic fleets, and not allowed for other fleet types.
     ///   - maxSessionsPerInstance: The maximum number of user sessions on an instance. This only applies to multi-session fleets.
     ///   - maxUserDurationInSeconds: The maximum amount of time that a streaming session can remain active, in seconds. If users are still connected to a streaming instance five minutes before this limit is reached, they are prompted to save any open documents before being disconnected. After this time elapses, the instance is terminated and replaced by a new instance. Specify a value between 600 and 432000.
@@ -710,8 +742,10 @@ public struct AppStream: AWSService {
     ///   - iamRoleArn: The Amazon Resource Name (ARN) of the IAM role to apply to the image builder. To assume a role, the image builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances in the Amazon AppStream 2.0 Administration Guide.
     ///   - imageArn: The ARN of the public, private, or shared image to use.
     ///   - imageName: The name of the image used to create the image builder.
-    ///   - instanceType: The instance type to use when launching the image builder. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge
+    ///   - instanceType: The instance type to use when launching the image builder. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge
     ///   - name: A unique name for the image builder.
+    ///   - softwaresToInstall: The list of license included applications to install on the image builder during creation. Possible values include the following:   Microsoft_Office_2021_LTSC_Professional_Plus_32Bit   Microsoft_Office_2021_LTSC_Professional_Plus_64Bit   Microsoft_Office_2024_LTSC_Professional_Plus_32Bit   Microsoft_Office_2024_LTSC_Professional_Plus_64Bit   Microsoft_Visio_2021_LTSC_Professional_32Bit   Microsoft_Visio_2021_LTSC_Professional_64Bit   Microsoft_Visio_2024_LTSC_Professional_32Bit   Microsoft_Visio_2024_LTSC_Professional_64Bit   Microsoft_Project_2021_Professional_32Bit   Microsoft_Project_2021_Professional_64Bit   Microsoft_Project_2024_Professional_32Bit   Microsoft_Project_2024_Professional_64Bit   Microsoft_Office_2021_LTSC_Standard_32Bit   Microsoft_Office_2021_LTSC_Standard_64Bit   Microsoft_Office_2024_LTSC_Standard_32Bit   Microsoft_Office_2024_LTSC_Standard_64Bit   Microsoft_Visio_2021_LTSC_Standard_32Bit   Microsoft_Visio_2021_LTSC_Standard_64Bit   Microsoft_Visio_2024_LTSC_Standard_32Bit   Microsoft_Visio_2024_LTSC_Standard_64Bit   Microsoft_Project_2021_Standard_32Bit   Microsoft_Project_2021_Standard_64Bit   Microsoft_Project_2024_Standard_32Bit   Microsoft_Project_2024_Standard_64Bit
+    ///   - softwaresToUninstall: The list of license included applications to uninstall from the image builder during creation. Possible values include the following:   Microsoft_Office_2021_LTSC_Professional_Plus_32Bit   Microsoft_Office_2021_LTSC_Professional_Plus_64Bit   Microsoft_Office_2024_LTSC_Professional_Plus_32Bit   Microsoft_Office_2024_LTSC_Professional_Plus_64Bit   Microsoft_Visio_2021_LTSC_Professional_32Bit   Microsoft_Visio_2021_LTSC_Professional_64Bit   Microsoft_Visio_2024_LTSC_Professional_32Bit   Microsoft_Visio_2024_LTSC_Professional_64Bit   Microsoft_Project_2021_Professional_32Bit   Microsoft_Project_2021_Professional_64Bit   Microsoft_Project_2024_Professional_32Bit   Microsoft_Project_2024_Professional_64Bit   Microsoft_Office_2021_LTSC_Standard_32Bit   Microsoft_Office_2021_LTSC_Standard_64Bit   Microsoft_Office_2024_LTSC_Standard_32Bit   Microsoft_Office_2024_LTSC_Standard_64Bit   Microsoft_Visio_2021_LTSC_Standard_32Bit   Microsoft_Visio_2021_LTSC_Standard_64Bit   Microsoft_Visio_2024_LTSC_Standard_32Bit   Microsoft_Visio_2024_LTSC_Standard_64Bit   Microsoft_Project_2021_Standard_32Bit   Microsoft_Project_2021_Standard_64Bit   Microsoft_Project_2024_Standard_32Bit   Microsoft_Project_2024_Standard_64Bit
     ///   - tags: The tags to associate with the image builder. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ If you do not specify a value, the value is set to an empty string. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
     ///   - vpcConfig: The VPC configuration for the image builder. You can specify only one subnet.
     ///   - logger: Logger use during operation
@@ -728,6 +762,8 @@ public struct AppStream: AWSService {
         imageName: String? = nil,
         instanceType: String? = nil,
         name: String? = nil,
+        softwaresToInstall: [String]? = nil,
+        softwaresToUninstall: [String]? = nil,
         tags: [String: String]? = nil,
         vpcConfig: VpcConfig? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -744,6 +780,8 @@ public struct AppStream: AWSService {
             imageName: imageName, 
             instanceType: instanceType, 
             name: name, 
+            softwaresToInstall: softwaresToInstall, 
+            softwaresToUninstall: softwaresToUninstall, 
             tags: tags, 
             vpcConfig: vpcConfig
         )
@@ -1534,6 +1572,41 @@ public struct AppStream: AWSService {
         return try await self.describeAppBlocks(input, logger: logger)
     }
 
+    /// Retrieves license included application usage information.
+    @Sendable
+    @inlinable
+    public func describeAppLicenseUsage(_ input: DescribeAppLicenseUsageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAppLicenseUsageResult {
+        try await self.client.execute(
+            operation: "DescribeAppLicenseUsage", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves license included application usage information.
+    ///
+    /// Parameters:
+    ///   - billingPeriod: Billing period for the usage record. Specify the value in yyyy-mm format. For example, for August 2025, use 2025-08.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - nextToken: Token for pagination of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeAppLicenseUsage(
+        billingPeriod: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeAppLicenseUsageResult {
+        let input = DescribeAppLicenseUsageRequest(
+            billingPeriod: billingPeriod, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.describeAppLicenseUsage(input, logger: logger)
+    }
+
     /// Retrieves a list that describes one or more application fleet associations. Either ApplicationArn or FleetName must be specified.
     @Sendable
     @inlinable
@@ -1873,6 +1946,41 @@ public struct AppStream: AWSService {
         return try await self.describeSessions(input, logger: logger)
     }
 
+    /// Retrieves license included application associations for a specified resource.
+    @Sendable
+    @inlinable
+    public func describeSoftwareAssociations(_ input: DescribeSoftwareAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSoftwareAssociationsResult {
+        try await self.client.execute(
+            operation: "DescribeSoftwareAssociations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves license included application associations for a specified resource.
+    ///
+    /// Parameters:
+    ///   - associatedResource: The ARN of the resource to describe software associations. Possible resources are Image and ImageBuilder.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - nextToken: The pagination token to use to retrieve the next page of results for this operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeSoftwareAssociations(
+        associatedResource: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeSoftwareAssociationsResult {
+        let input = DescribeSoftwareAssociationsRequest(
+            associatedResource: associatedResource, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.describeSoftwareAssociations(input, logger: logger)
+    }
+
     /// Retrieves a list that describes one or more specified stacks, if the stack names are provided. Otherwise, all stacks in the account are described.
     @Sendable
     @inlinable
@@ -2205,6 +2313,38 @@ public struct AppStream: AWSService {
         return try await self.disassociateFleet(input, logger: logger)
     }
 
+    /// Removes license included application(s) association(s) from an image builder instance.
+    @Sendable
+    @inlinable
+    public func disassociateSoftwareFromImageBuilder(_ input: DisassociateSoftwareFromImageBuilderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateSoftwareFromImageBuilderResult {
+        try await self.client.execute(
+            operation: "DisassociateSoftwareFromImageBuilder", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes license included application(s) association(s) from an image builder instance.
+    ///
+    /// Parameters:
+    ///   - imageBuilderName: The name of the target image builder instance.
+    ///   - softwareNames: The list of license included applications to disassociate from the image builder. Possible values include the following:   Microsoft_Office_2021_LTSC_Professional_Plus_32Bit   Microsoft_Office_2021_LTSC_Professional_Plus_64Bit   Microsoft_Office_2024_LTSC_Professional_Plus_32Bit   Microsoft_Office_2024_LTSC_Professional_Plus_64Bit   Microsoft_Visio_2021_LTSC_Professional_32Bit   Microsoft_Visio_2021_LTSC_Professional_64Bit   Microsoft_Visio_2024_LTSC_Professional_32Bit   Microsoft_Visio_2024_LTSC_Professional_64Bit   Microsoft_Project_2021_Professional_32Bit   Microsoft_Project_2021_Professional_64Bit   Microsoft_Project_2024_Professional_32Bit   Microsoft_Project_2024_Professional_64Bit   Microsoft_Office_2021_LTSC_Standard_32Bit   Microsoft_Office_2021_LTSC_Standard_64Bit   Microsoft_Office_2024_LTSC_Standard_32Bit   Microsoft_Office_2024_LTSC_Standard_64Bit   Microsoft_Visio_2021_LTSC_Standard_32Bit   Microsoft_Visio_2021_LTSC_Standard_64Bit   Microsoft_Visio_2024_LTSC_Standard_32Bit   Microsoft_Visio_2024_LTSC_Standard_64Bit   Microsoft_Project_2021_Standard_32Bit   Microsoft_Project_2021_Standard_64Bit   Microsoft_Project_2024_Standard_32Bit   Microsoft_Project_2024_Standard_64Bit
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateSoftwareFromImageBuilder(
+        imageBuilderName: String? = nil,
+        softwareNames: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisassociateSoftwareFromImageBuilderResult {
+        let input = DisassociateSoftwareFromImageBuilderRequest(
+            imageBuilderName: imageBuilderName, 
+            softwareNames: softwareNames
+        )
+        return try await self.disassociateSoftwareFromImageBuilder(input, logger: logger)
+    }
+
     /// Enables a user in the user pool. After being enabled, users can sign in to AppStream 2.0 and open applications from the stacks to which they are assigned.
     @Sendable
     @inlinable
@@ -2485,6 +2625,38 @@ public struct AppStream: AWSService {
             name: name
         )
         return try await self.startImageBuilder(input, logger: logger)
+    }
+
+    /// Initiates license included applications deployment to an image builder instance.
+    @Sendable
+    @inlinable
+    public func startSoftwareDeploymentToImageBuilder(_ input: StartSoftwareDeploymentToImageBuilderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartSoftwareDeploymentToImageBuilderResult {
+        try await self.client.execute(
+            operation: "StartSoftwareDeploymentToImageBuilder", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Initiates license included applications deployment to an image builder instance.
+    ///
+    /// Parameters:
+    ///   - imageBuilderName: The name of the target image builder instance.
+    ///   - retryFailedDeployments: Whether to retry previously failed license included application deployments.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startSoftwareDeploymentToImageBuilder(
+        imageBuilderName: String? = nil,
+        retryFailedDeployments: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartSoftwareDeploymentToImageBuilderResult {
+        let input = StartSoftwareDeploymentToImageBuilderRequest(
+            imageBuilderName: imageBuilderName, 
+            retryFailedDeployments: retryFailedDeployments
+        )
+        return try await self.startSoftwareDeploymentToImageBuilder(input, logger: logger)
     }
 
     /// Stops an app block builder. Stopping an app block builder terminates the instance, and the instance state is not persisted.
@@ -2853,7 +3025,7 @@ public struct AppStream: AWSService {
     ///   - idleDisconnectTimeoutInSeconds: The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If users try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected.  To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 36000. The default value is 0.  If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.
     ///   - imageArn: The ARN of the public, private, or shared image to use.
     ///   - imageName: The name of the image used to create the fleet.
-    ///   - instanceType: The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge   The following instance types are available for Elastic fleets:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
+    ///   - instanceType: The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge   The following instance types are available for Elastic fleets:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
     ///   - maxConcurrentSessions: The maximum number of concurrent sessions for a fleet.
     ///   - maxSessionsPerInstance: The maximum number of user sessions on an instance. This only applies to multi-session fleets.
     ///   - maxUserDurationInSeconds: The maximum amount of time that a streaming session can remain active, in seconds. If users are still connected to a streaming instance five minutes before this limit is reached, they are prompted to save any open documents before being disconnected. After this time elapses, the instance is terminated and replaced by a new instance. Specify a value between 600 and 432000.

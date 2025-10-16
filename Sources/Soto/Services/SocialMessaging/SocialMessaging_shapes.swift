@@ -73,6 +73,138 @@ extension SocialMessaging {
         }
     }
 
+    public struct CreateWhatsAppMessageTemplateFromLibraryInput: AWSEncodableShape {
+        /// The ID of the WhatsApp Business Account to associate with this template.
+        public let id: String
+        /// The template configuration from Meta's library, including customizations for buttons and body text.
+        public let metaLibraryTemplate: MetaLibraryTemplate
+
+        @inlinable
+        public init(id: String, metaLibraryTemplate: MetaLibraryTemplate) {
+            self.id = id
+            self.metaLibraryTemplate = metaLibraryTemplate
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 100)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
+            try self.metaLibraryTemplate.validate(name: "\(name).metaLibraryTemplate")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case metaLibraryTemplate = "metaLibraryTemplate"
+        }
+    }
+
+    public struct CreateWhatsAppMessageTemplateFromLibraryOutput: AWSDecodableShape {
+        /// The category of the template (for example, UTILITY or MARKETING).
+        public let category: String?
+        /// The numeric ID assigned to the template by Meta.
+        public let metaTemplateId: String?
+        /// The status of the created template (for example, PENDING or APPROVED).
+        public let templateStatus: String?
+
+        @inlinable
+        public init(category: String? = nil, metaTemplateId: String? = nil, templateStatus: String? = nil) {
+            self.category = category
+            self.metaTemplateId = metaTemplateId
+            self.templateStatus = templateStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "category"
+            case metaTemplateId = "metaTemplateId"
+            case templateStatus = "templateStatus"
+        }
+    }
+
+    public struct CreateWhatsAppMessageTemplateInput: AWSEncodableShape {
+        /// The ID of the WhatsApp Business Account to associate with this template.
+        public let id: String
+        /// The complete template definition as a JSON blob.
+        public let templateDefinition: AWSBase64Data
+
+        @inlinable
+        public init(id: String, templateDefinition: AWSBase64Data) {
+            self.id = id
+            self.templateDefinition = templateDefinition
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 100)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
+            try self.validate(self.templateDefinition, name: "templateDefinition", parent: name, max: 6000)
+            try self.validate(self.templateDefinition, name: "templateDefinition", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case templateDefinition = "templateDefinition"
+        }
+    }
+
+    public struct CreateWhatsAppMessageTemplateMediaInput: AWSEncodableShape {
+        /// The ID of the WhatsApp Business Account associated with this media upload.
+        public let id: String
+        public let sourceS3File: S3File?
+
+        @inlinable
+        public init(id: String, sourceS3File: S3File? = nil) {
+            self.id = id
+            self.sourceS3File = sourceS3File
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 100)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case sourceS3File = "sourceS3File"
+        }
+    }
+
+    public struct CreateWhatsAppMessageTemplateMediaOutput: AWSDecodableShape {
+        /// The handle assigned to the uploaded media by Meta, used to reference the media in templates.
+        public let metaHeaderHandle: String?
+
+        @inlinable
+        public init(metaHeaderHandle: String? = nil) {
+            self.metaHeaderHandle = metaHeaderHandle
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metaHeaderHandle = "metaHeaderHandle"
+        }
+    }
+
+    public struct CreateWhatsAppMessageTemplateOutput: AWSDecodableShape {
+        /// The category of the template, such as UTILITY or MARKETING.
+        public let category: String?
+        /// The numeric ID assigned to the template by Meta.
+        public let metaTemplateId: String?
+        /// The status of the created template, such as PENDING or APPROVED..
+        public let templateStatus: String?
+
+        @inlinable
+        public init(category: String? = nil, metaTemplateId: String? = nil, templateStatus: String? = nil) {
+            self.category = category
+            self.metaTemplateId = metaTemplateId
+            self.templateStatus = templateStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "category"
+            case metaTemplateId = "metaTemplateId"
+            case templateStatus = "templateStatus"
+        }
+    }
+
     public struct DeleteWhatsAppMessageMediaInput: AWSEncodableShape {
         /// The unique identifier of the media file to delete. Use the mediaId returned from PostWhatsAppMessageMedia.
         public let mediaId: String
@@ -116,6 +248,51 @@ extension SocialMessaging {
         private enum CodingKeys: String, CodingKey {
             case success = "success"
         }
+    }
+
+    public struct DeleteWhatsAppMessageTemplateInput: AWSEncodableShape {
+        /// If true, deletes all language versions of the template.
+        public let deleteAllLanguages: Bool?
+        /// The ID of the WhatsApp Business Account associated with this template.
+        public let id: String
+        /// The numeric ID of the template assigned by Meta.
+        public let metaTemplateId: String?
+        /// The name of the template to delete.
+        public let templateName: String
+
+        @inlinable
+        public init(deleteAllLanguages: Bool? = nil, id: String, metaTemplateId: String? = nil, templateName: String) {
+            self.deleteAllLanguages = deleteAllLanguages
+            self.id = id
+            self.metaTemplateId = metaTemplateId
+            self.templateName = templateName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.deleteAllLanguages, key: "deleteAllTemplates")
+            request.encodeQuery(self.id, key: "id")
+            request.encodeQuery(self.metaTemplateId, key: "metaTemplateId")
+            request.encodeQuery(self.templateName, key: "templateName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 100)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
+            try self.validate(self.metaTemplateId, name: "metaTemplateId", parent: name, max: 100)
+            try self.validate(self.metaTemplateId, name: "metaTemplateId", parent: name, min: 1)
+            try self.validate(self.metaTemplateId, name: "metaTemplateId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.templateName, name: "templateName", parent: name, max: 512)
+            try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteWhatsAppMessageTemplateOutput: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DisassociateWhatsAppBusinessAccountInput: AWSEncodableShape {
@@ -279,6 +456,166 @@ extension SocialMessaging {
         private enum CodingKeys: String, CodingKey {
             case fileSize = "fileSize"
             case mimeType = "mimeType"
+        }
+    }
+
+    public struct GetWhatsAppMessageTemplateInput: AWSEncodableShape {
+        /// The ID of the WhatsApp Business Account associated with this template.
+        public let id: String
+        /// The numeric ID of the template assigned by Meta.
+        public let metaTemplateId: String
+
+        @inlinable
+        public init(id: String, metaTemplateId: String) {
+            self.id = id
+            self.metaTemplateId = metaTemplateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.id, key: "id")
+            request.encodeQuery(self.metaTemplateId, key: "metaTemplateId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 100)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
+            try self.validate(self.metaTemplateId, name: "metaTemplateId", parent: name, max: 100)
+            try self.validate(self.metaTemplateId, name: "metaTemplateId", parent: name, min: 1)
+            try self.validate(self.metaTemplateId, name: "metaTemplateId", parent: name, pattern: "^[0-9]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetWhatsAppMessageTemplateOutput: AWSDecodableShape {
+        /// The complete template definition as a JSON string (maximum 6000 characters).
+        public let template: String?
+
+        @inlinable
+        public init(template: String? = nil) {
+            self.template = template
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case template = "template"
+        }
+    }
+
+    public struct LibraryTemplateBodyInputs: AWSEncodableShape {
+        /// When true, includes a contact number in the template body.
+        public let addContactNumber: Bool?
+        /// When true, includes a "learn more" link in the template body.
+        public let addLearnMoreLink: Bool?
+        /// When true, includes security recommendations in the template body.
+        public let addSecurityRecommendation: Bool?
+        /// When true, includes a package tracking link in the template body.
+        public let addTrackPackageLink: Bool?
+        /// The number of minutes until a verification code or OTP expires.
+        public let codeExpirationMinutes: Int?
+
+        @inlinable
+        public init(addContactNumber: Bool? = nil, addLearnMoreLink: Bool? = nil, addSecurityRecommendation: Bool? = nil, addTrackPackageLink: Bool? = nil, codeExpirationMinutes: Int? = nil) {
+            self.addContactNumber = addContactNumber
+            self.addLearnMoreLink = addLearnMoreLink
+            self.addSecurityRecommendation = addSecurityRecommendation
+            self.addTrackPackageLink = addTrackPackageLink
+            self.codeExpirationMinutes = codeExpirationMinutes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addContactNumber = "addContactNumber"
+            case addLearnMoreLink = "addLearnMoreLink"
+            case addSecurityRecommendation = "addSecurityRecommendation"
+            case addTrackPackageLink = "addTrackPackageLink"
+            case codeExpirationMinutes = "codeExpirationMinutes"
+        }
+    }
+
+    public struct LibraryTemplateButtonInput: AWSEncodableShape {
+        /// The type of one-time password for OTP buttons.
+        public let otpType: String?
+        /// The phone number in E.164 format for CALL-type buttons.
+        public let phoneNumber: String?
+        /// List of supported applications for this button type.
+        public let supportedApps: [[String: String]]?
+        /// The type of button (for example, QUICK_REPLY, CALL, or URL).
+        public let type: String?
+        /// The URL with dynamic parameters for URL-type buttons.
+        public let url: [String: String]?
+        /// When true, indicates acceptance of zero-tap terms for the button.
+        public let zeroTapTermsAccepted: Bool?
+
+        @inlinable
+        public init(otpType: String? = nil, phoneNumber: String? = nil, supportedApps: [[String: String]]? = nil, type: String? = nil, url: [String: String]? = nil, zeroTapTermsAccepted: Bool? = nil) {
+            self.otpType = otpType
+            self.phoneNumber = phoneNumber
+            self.supportedApps = supportedApps
+            self.type = type
+            self.url = url
+            self.zeroTapTermsAccepted = zeroTapTermsAccepted
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.otpType, name: "otpType", parent: name, max: 25)
+            try self.validate(self.otpType, name: "otpType", parent: name, min: 1)
+            try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, max: 20)
+            try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, min: 1)
+            try self.supportedApps?.forEach {
+                try validate($0, name: "supportedApps[]", parent: name, max: 10)
+            }
+            try self.validate(self.type, name: "type", parent: name, max: 25)
+            try self.validate(self.type, name: "type", parent: name, min: 1)
+            try self.validate(self.url, name: "url", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case otpType = "otpType"
+            case phoneNumber = "phoneNumber"
+            case supportedApps = "supportedApps"
+            case type = "type"
+            case url = "url"
+            case zeroTapTermsAccepted = "zeroTapTermsAccepted"
+        }
+    }
+
+    public struct LibraryTemplateButtonList: AWSDecodableShape {
+        /// The type of one-time password for OTP buttons.
+        public let otpType: String?
+        /// The phone number in E.164 format for CALL-type buttons.
+        public let phoneNumber: String?
+        /// List of supported applications for this button type.
+        public let supportedApps: [[String: String]]?
+        /// The text displayed on the button (maximum 40 characters).
+        public let text: String?
+        /// The type of button (for example, QUICK_REPLY, CALL, or URL).
+        public let type: String?
+        /// The URL for URL-type buttons.
+        public let url: String?
+        /// When true, indicates acceptance of zero-tap terms for the button.
+        public let zeroTapTermsAccepted: Bool?
+
+        @inlinable
+        public init(otpType: String? = nil, phoneNumber: String? = nil, supportedApps: [[String: String]]? = nil, text: String? = nil, type: String? = nil, url: String? = nil, zeroTapTermsAccepted: Bool? = nil) {
+            self.otpType = otpType
+            self.phoneNumber = phoneNumber
+            self.supportedApps = supportedApps
+            self.text = text
+            self.type = type
+            self.url = url
+            self.zeroTapTermsAccepted = zeroTapTermsAccepted
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case otpType = "otpType"
+            case phoneNumber = "phoneNumber"
+            case supportedApps = "supportedApps"
+            case text = "text"
+            case type = "type"
+            case url = "url"
+            case zeroTapTermsAccepted = "zeroTapTermsAccepted"
         }
     }
 
@@ -473,6 +810,221 @@ extension SocialMessaging {
         private enum CodingKeys: String, CodingKey {
             case statusCode = "statusCode"
             case tags = "tags"
+        }
+    }
+
+    public struct ListWhatsAppMessageTemplatesInput: AWSEncodableShape {
+        /// The ID of the WhatsApp Business Account to list templates for.
+        public let id: String
+        /// The maximum number of results to return per page (1-100).
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(id: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.id = id
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.id, key: "id")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 100)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 600)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListWhatsAppMessageTemplatesOutput: AWSDecodableShape {
+        /// The token to retrieve the next page of results, if any.
+        public let nextToken: String?
+        /// A list of template summaries.
+        public let templates: [TemplateSummary]?
+
+        @inlinable
+        public init(nextToken: String? = nil, templates: [TemplateSummary]? = nil) {
+            self.nextToken = nextToken
+            self.templates = templates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case templates = "templates"
+        }
+    }
+
+    public struct ListWhatsAppTemplateLibraryInput: AWSEncodableShape {
+        /// Map of filters to apply (searchKey, topic, usecase, industry, language).
+        public let filters: [String: String]?
+        /// The ID of the WhatsApp Business Account to list library templates for.
+        public let id: String
+        /// The maximum number of results to return per page (1-100).
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filters: [String: String]? = nil, id: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.id = id
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.filters, forKey: .filters)
+            request.encodeQuery(self.id, key: "id")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.filters, name: "filters", parent: name, max: 10)
+            try self.validate(self.id, name: "id", parent: name, max: 100)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 600)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListWhatsAppTemplateLibraryOutput: AWSDecodableShape {
+        /// A list of templates from Meta's library.
+        public let metaLibraryTemplates: [MetaLibraryTemplateDefinition]?
+        /// The token to retrieve the next page of results, if any.
+        public let nextToken: String?
+
+        @inlinable
+        public init(metaLibraryTemplates: [MetaLibraryTemplateDefinition]? = nil, nextToken: String? = nil) {
+            self.metaLibraryTemplates = metaLibraryTemplates
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metaLibraryTemplates = "metaLibraryTemplates"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct MetaLibraryTemplate: AWSEncodableShape {
+        /// Body text customizations for the template.
+        public let libraryTemplateBodyInputs: LibraryTemplateBodyInputs?
+        /// Button customizations for the template.
+        public let libraryTemplateButtonInputs: [LibraryTemplateButtonInput]?
+        /// The name of the template in Meta's library.
+        public let libraryTemplateName: String
+        /// The category of the template (for example, UTILITY or MARKETING).
+        public let templateCategory: String
+        /// The language code for the template (for example, en_US).
+        public let templateLanguage: String
+        /// The name to assign to the template.
+        public let templateName: String
+
+        @inlinable
+        public init(libraryTemplateBodyInputs: LibraryTemplateBodyInputs? = nil, libraryTemplateButtonInputs: [LibraryTemplateButtonInput]? = nil, libraryTemplateName: String, templateCategory: String, templateLanguage: String, templateName: String) {
+            self.libraryTemplateBodyInputs = libraryTemplateBodyInputs
+            self.libraryTemplateButtonInputs = libraryTemplateButtonInputs
+            self.libraryTemplateName = libraryTemplateName
+            self.templateCategory = templateCategory
+            self.templateLanguage = templateLanguage
+            self.templateName = templateName
+        }
+
+        public func validate(name: String) throws {
+            try self.libraryTemplateButtonInputs?.forEach {
+                try $0.validate(name: "\(name).libraryTemplateButtonInputs[]")
+            }
+            try self.validate(self.libraryTemplateName, name: "libraryTemplateName", parent: name, max: 512)
+            try self.validate(self.libraryTemplateName, name: "libraryTemplateName", parent: name, min: 1)
+            try self.validate(self.templateCategory, name: "templateCategory", parent: name, max: 100)
+            try self.validate(self.templateCategory, name: "templateCategory", parent: name, min: 1)
+            try self.validate(self.templateLanguage, name: "templateLanguage", parent: name, max: 6)
+            try self.validate(self.templateLanguage, name: "templateLanguage", parent: name, min: 1)
+            try self.validate(self.templateName, name: "templateName", parent: name, max: 512)
+            try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case libraryTemplateBodyInputs = "libraryTemplateBodyInputs"
+            case libraryTemplateButtonInputs = "libraryTemplateButtonInputs"
+            case libraryTemplateName = "libraryTemplateName"
+            case templateCategory = "templateCategory"
+            case templateLanguage = "templateLanguage"
+            case templateName = "templateName"
+        }
+    }
+
+    public struct MetaLibraryTemplateDefinition: AWSDecodableShape {
+        /// The body text of the template.
+        public let templateBody: String?
+        /// The buttons included in the template.
+        public let templateButtons: [LibraryTemplateButtonList]?
+        /// The category of the template (for example, UTILITY or MARKETING).
+        public let templateCategory: String?
+        /// The header text of the template.
+        public let templateHeader: String?
+        /// The ID of the template in Meta's library.
+        public let templateId: String?
+        /// The industries the template is designed for.
+        public let templateIndustry: [String]?
+        /// The language code for the template (for example, en_US).
+        public let templateLanguage: String?
+        /// The name of the template.
+        public let templateName: String?
+        /// The topic or subject matter of the template.
+        public let templateTopic: String?
+        /// The intended use case for the template.
+        public let templateUseCase: String?
+
+        @inlinable
+        public init(templateBody: String? = nil, templateButtons: [LibraryTemplateButtonList]? = nil, templateCategory: String? = nil, templateHeader: String? = nil, templateId: String? = nil, templateIndustry: [String]? = nil, templateLanguage: String? = nil, templateName: String? = nil, templateTopic: String? = nil, templateUseCase: String? = nil) {
+            self.templateBody = templateBody
+            self.templateButtons = templateButtons
+            self.templateCategory = templateCategory
+            self.templateHeader = templateHeader
+            self.templateId = templateId
+            self.templateIndustry = templateIndustry
+            self.templateLanguage = templateLanguage
+            self.templateName = templateName
+            self.templateTopic = templateTopic
+            self.templateUseCase = templateUseCase
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateBody = "templateBody"
+            case templateButtons = "templateButtons"
+            case templateCategory = "templateCategory"
+            case templateHeader = "templateHeader"
+            case templateId = "templateId"
+            case templateIndustry = "templateIndustry"
+            case templateLanguage = "templateLanguage"
+            case templateName = "templateName"
+            case templateTopic = "templateTopic"
+            case templateUseCase = "templateUseCase"
         }
     }
 
@@ -685,6 +1237,40 @@ extension SocialMessaging {
         }
     }
 
+    public struct TemplateSummary: AWSDecodableShape {
+        /// The numeric ID assigned to the template by Meta.
+        public let metaTemplateId: String?
+        /// The category of the template (for example, UTILITY or MARKETING).
+        public let templateCategory: String?
+        /// The language code of the template (for example, en_US).
+        public let templateLanguage: String?
+        /// The name of the template.
+        public let templateName: String?
+        /// The quality score assigned to the template by Meta.
+        public let templateQualityScore: String?
+        /// The current status of the template (for example, APPROVED, PENDING, or REJECTED).
+        public let templateStatus: String?
+
+        @inlinable
+        public init(metaTemplateId: String? = nil, templateCategory: String? = nil, templateLanguage: String? = nil, templateName: String? = nil, templateQualityScore: String? = nil, templateStatus: String? = nil) {
+            self.metaTemplateId = metaTemplateId
+            self.templateCategory = templateCategory
+            self.templateLanguage = templateLanguage
+            self.templateName = templateName
+            self.templateQualityScore = templateQualityScore
+            self.templateStatus = templateStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metaTemplateId = "metaTemplateId"
+            case templateCategory = "templateCategory"
+            case templateLanguage = "templateLanguage"
+            case templateName = "templateName"
+            case templateQualityScore = "templateQualityScore"
+            case templateStatus = "templateStatus"
+        }
+    }
+
     public struct UntagResourceInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource to remove tags from.
         public let resourceArn: String
@@ -720,6 +1306,49 @@ extension SocialMessaging {
         private enum CodingKeys: String, CodingKey {
             case statusCode = "statusCode"
         }
+    }
+
+    public struct UpdateWhatsAppMessageTemplateInput: AWSEncodableShape {
+        /// The ID of the WhatsApp Business Account associated with this template.
+        public let id: String
+        /// The numeric ID of the template assigned by Meta.
+        public let metaTemplateId: String
+        /// The new category for the template (for example, UTILITY or MARKETING).
+        public let templateCategory: String?
+        /// The updated components of the template as a JSON blob (maximum 3000 characters).
+        public let templateComponents: AWSBase64Data?
+
+        @inlinable
+        public init(id: String, metaTemplateId: String, templateCategory: String? = nil, templateComponents: AWSBase64Data? = nil) {
+            self.id = id
+            self.metaTemplateId = metaTemplateId
+            self.templateCategory = templateCategory
+            self.templateComponents = templateComponents
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 100)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
+            try self.validate(self.metaTemplateId, name: "metaTemplateId", parent: name, max: 100)
+            try self.validate(self.metaTemplateId, name: "metaTemplateId", parent: name, min: 1)
+            try self.validate(self.metaTemplateId, name: "metaTemplateId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.templateCategory, name: "templateCategory", parent: name, max: 100)
+            try self.validate(self.templateCategory, name: "templateCategory", parent: name, min: 1)
+            try self.validate(self.templateComponents, name: "templateComponents", parent: name, max: 3000)
+            try self.validate(self.templateComponents, name: "templateComponents", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case metaTemplateId = "metaTemplateId"
+            case templateCategory = "templateCategory"
+            case templateComponents = "templateComponents"
+        }
+    }
+
+    public struct UpdateWhatsAppMessageTemplateOutput: AWSDecodableShape {
+        public init() {}
     }
 
     public struct WabaPhoneNumberSetupFinalization: AWSEncodableShape {
@@ -814,6 +1443,8 @@ extension SocialMessaging {
     public struct WhatsAppPhoneNumberDetail: AWSDecodableShape {
         /// The ARN of the WhatsApp phone number.
         public let arn: String
+        /// The geographic region where the WhatsApp phone number's data is stored and processed.
+        public let dataLocalizationRegion: String?
         /// The phone number that appears in the recipients display.
         public let displayPhoneNumber: String
         /// The display name for this phone number.
@@ -828,8 +1459,9 @@ extension SocialMessaging {
         public let qualityRating: String
 
         @inlinable
-        public init(arn: String, displayPhoneNumber: String, displayPhoneNumberName: String, metaPhoneNumberId: String, phoneNumber: String, phoneNumberId: String, qualityRating: String) {
+        public init(arn: String, dataLocalizationRegion: String? = nil, displayPhoneNumber: String, displayPhoneNumberName: String, metaPhoneNumberId: String, phoneNumber: String, phoneNumberId: String, qualityRating: String) {
             self.arn = arn
+            self.dataLocalizationRegion = dataLocalizationRegion
             self.displayPhoneNumber = displayPhoneNumber
             self.displayPhoneNumberName = displayPhoneNumberName
             self.metaPhoneNumberId = metaPhoneNumberId
@@ -840,6 +1472,7 @@ extension SocialMessaging {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case dataLocalizationRegion = "dataLocalizationRegion"
             case displayPhoneNumber = "displayPhoneNumber"
             case displayPhoneNumberName = "displayPhoneNumberName"
             case metaPhoneNumberId = "metaPhoneNumberId"
@@ -852,6 +1485,8 @@ extension SocialMessaging {
     public struct WhatsAppPhoneNumberSummary: AWSDecodableShape {
         /// The full Amazon Resource Name (ARN) for the phone number.
         public let arn: String
+        /// The geographic region where the WhatsApp phone number's data is stored and processed.
+        public let dataLocalizationRegion: String?
         /// The phone number that appears in the recipients display.
         public let displayPhoneNumber: String
         /// The display name for this phone number.
@@ -866,8 +1501,9 @@ extension SocialMessaging {
         public let qualityRating: String
 
         @inlinable
-        public init(arn: String, displayPhoneNumber: String, displayPhoneNumberName: String, metaPhoneNumberId: String, phoneNumber: String, phoneNumberId: String, qualityRating: String) {
+        public init(arn: String, dataLocalizationRegion: String? = nil, displayPhoneNumber: String, displayPhoneNumberName: String, metaPhoneNumberId: String, phoneNumber: String, phoneNumberId: String, qualityRating: String) {
             self.arn = arn
+            self.dataLocalizationRegion = dataLocalizationRegion
             self.displayPhoneNumber = displayPhoneNumber
             self.displayPhoneNumberName = displayPhoneNumberName
             self.metaPhoneNumberId = metaPhoneNumberId
@@ -878,6 +1514,7 @@ extension SocialMessaging {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case dataLocalizationRegion = "dataLocalizationRegion"
             case displayPhoneNumber = "displayPhoneNumber"
             case displayPhoneNumberName = "displayPhoneNumberName"
             case metaPhoneNumberId = "metaPhoneNumberId"
@@ -927,14 +1564,18 @@ extension SocialMessaging {
     public struct WhatsAppSignupCallback: AWSEncodableShape {
         /// The access token for your WhatsApp Business Account. The accessToken value is provided by Meta.
         public let accessToken: String
+        /// The URL where WhatsApp will send callback notifications for this account.
+        public let callbackUrl: String?
 
         @inlinable
-        public init(accessToken: String) {
+        public init(accessToken: String, callbackUrl: String? = nil) {
             self.accessToken = accessToken
+            self.callbackUrl = callbackUrl
         }
 
         private enum CodingKeys: String, CodingKey {
             case accessToken = "accessToken"
+            case callbackUrl = "callbackUrl"
         }
     }
 
@@ -967,6 +1608,7 @@ public struct SocialMessagingErrorType: AWSErrorType {
         case dependencyException = "DependencyException"
         case internalServiceException = "InternalServiceException"
         case invalidParametersException = "InvalidParametersException"
+        case limitExceededException = "LimitExceededException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case throttledRequestException = "ThrottledRequestException"
         case validationException = "ValidationException"
@@ -1000,6 +1642,8 @@ public struct SocialMessagingErrorType: AWSErrorType {
     public static var internalServiceException: Self { .init(.internalServiceException) }
     /// One or more parameters provided to the action are not valid.
     public static var invalidParametersException: Self { .init(.invalidParametersException) }
+    /// The request was denied because it would exceed one or more service quotas or limits.
+    public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The resource was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The request was denied due to request throttling.

@@ -32,6 +32,9 @@ extension QConnect {
 
     public enum AIAgentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case answerRecommendation = "ANSWER_RECOMMENDATION"
+        case emailGenerativeAnswer = "EMAIL_GENERATIVE_ANSWER"
+        case emailOverview = "EMAIL_OVERVIEW"
+        case emailResponse = "EMAIL_RESPONSE"
         case manualSearch = "MANUAL_SEARCH"
         case selfService = "SELF_SERVICE"
         public var description: String { return self.rawValue }
@@ -52,6 +55,10 @@ extension QConnect {
 
     public enum AIPromptType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case answerGeneration = "ANSWER_GENERATION"
+        case emailGenerativeAnswer = "EMAIL_GENERATIVE_ANSWER"
+        case emailOverview = "EMAIL_OVERVIEW"
+        case emailQueryReformulation = "EMAIL_QUERY_REFORMULATION"
+        case emailResponse = "EMAIL_RESPONSE"
         case intentLabelingGeneration = "INTENT_LABELING_GENERATION"
         case queryReformulation = "QUERY_REFORMULATION"
         case selfServiceAnswerGeneration = "SELF_SERVICE_ANSWER_GENERATION"
@@ -333,6 +340,9 @@ extension QConnect {
     public enum QueryResultType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case blockedGenerativeAnswerChunk = "BLOCKED_GENERATIVE_ANSWER_CHUNK"
         case blockedIntentAnswerChunk = "BLOCKED_INTENT_ANSWER_CHUNK"
+        case emailGenerativeAnswerChunk = "EMAIL_GENERATIVE_ANSWER_CHUNK"
+        case emailOverviewChunk = "EMAIL_OVERVIEW_CHUNK"
+        case emailResponseChunk = "EMAIL_RESPONSE_CHUNK"
         case generativeAnswer = "GENERATIVE_ANSWER"
         case generativeAnswerChunk = "GENERATIVE_ANSWER_CHUNK"
         case intentAnswer = "INTENT_ANSWER"
@@ -382,6 +392,9 @@ extension QConnect {
         case blockedGenerativeAnswerChunk = "BLOCKED_GENERATIVE_ANSWER_CHUNK"
         case blockedIntentAnswerChunk = "BLOCKED_INTENT_ANSWER_CHUNK"
         case detectedIntent = "DETECTED_INTENT"
+        case emailGenerativeAnswerChunk = "EMAIL_GENERATIVE_ANSWER_CHUNK"
+        case emailOverviewChunk = "EMAIL_OVERVIEW_CHUNK"
+        case emailResponseChunk = "EMAIL_RESPONSE_CHUNK"
         case generativeAnswer = "GENERATIVE_ANSWER"
         case generativeAnswerChunk = "GENERATIVE_ANSWER_CHUNK"
         case generativeResponse = "GENERATIVE_RESPONSE"
@@ -458,6 +471,12 @@ extension QConnect {
     public enum AIAgentConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The configuration for AI Agents of type ANSWER_RECOMMENDATION.
         case answerRecommendationAIAgentConfiguration(AnswerRecommendationAIAgentConfiguration)
+        /// Configuration for the EMAIL_GENERATIVE_ANSWER AI agent that provides comprehensive knowledge-based answers for customer queries.
+        case emailGenerativeAnswerAIAgentConfiguration(EmailGenerativeAnswerAIAgentConfiguration)
+        /// Configuration for the EMAIL_OVERVIEW AI agent that generates structured overview of email conversations.
+        case emailOverviewAIAgentConfiguration(EmailOverviewAIAgentConfiguration)
+        /// Configuration for the EMAIL_RESPONSE AI agent that generates professional email responses using knowledge base content.
+        case emailResponseAIAgentConfiguration(EmailResponseAIAgentConfiguration)
         /// The configuration for AI Agents of type MANUAL_SEARCH.
         case manualSearchAIAgentConfiguration(ManualSearchAIAgentConfiguration)
         /// The configuration for AI Agents of type SELF_SERVICE.
@@ -476,6 +495,15 @@ extension QConnect {
             case .answerRecommendationAIAgentConfiguration:
                 let value = try container.decode(AnswerRecommendationAIAgentConfiguration.self, forKey: .answerRecommendationAIAgentConfiguration)
                 self = .answerRecommendationAIAgentConfiguration(value)
+            case .emailGenerativeAnswerAIAgentConfiguration:
+                let value = try container.decode(EmailGenerativeAnswerAIAgentConfiguration.self, forKey: .emailGenerativeAnswerAIAgentConfiguration)
+                self = .emailGenerativeAnswerAIAgentConfiguration(value)
+            case .emailOverviewAIAgentConfiguration:
+                let value = try container.decode(EmailOverviewAIAgentConfiguration.self, forKey: .emailOverviewAIAgentConfiguration)
+                self = .emailOverviewAIAgentConfiguration(value)
+            case .emailResponseAIAgentConfiguration:
+                let value = try container.decode(EmailResponseAIAgentConfiguration.self, forKey: .emailResponseAIAgentConfiguration)
+                self = .emailResponseAIAgentConfiguration(value)
             case .manualSearchAIAgentConfiguration:
                 let value = try container.decode(ManualSearchAIAgentConfiguration.self, forKey: .manualSearchAIAgentConfiguration)
                 self = .manualSearchAIAgentConfiguration(value)
@@ -490,6 +518,12 @@ extension QConnect {
             switch self {
             case .answerRecommendationAIAgentConfiguration(let value):
                 try container.encode(value, forKey: .answerRecommendationAIAgentConfiguration)
+            case .emailGenerativeAnswerAIAgentConfiguration(let value):
+                try container.encode(value, forKey: .emailGenerativeAnswerAIAgentConfiguration)
+            case .emailOverviewAIAgentConfiguration(let value):
+                try container.encode(value, forKey: .emailOverviewAIAgentConfiguration)
+            case .emailResponseAIAgentConfiguration(let value):
+                try container.encode(value, forKey: .emailResponseAIAgentConfiguration)
             case .manualSearchAIAgentConfiguration(let value):
                 try container.encode(value, forKey: .manualSearchAIAgentConfiguration)
             case .selfServiceAIAgentConfiguration(let value):
@@ -501,6 +535,12 @@ extension QConnect {
             switch self {
             case .answerRecommendationAIAgentConfiguration(let value):
                 try value.validate(name: "\(name).answerRecommendationAIAgentConfiguration")
+            case .emailGenerativeAnswerAIAgentConfiguration(let value):
+                try value.validate(name: "\(name).emailGenerativeAnswerAIAgentConfiguration")
+            case .emailOverviewAIAgentConfiguration(let value):
+                try value.validate(name: "\(name).emailOverviewAIAgentConfiguration")
+            case .emailResponseAIAgentConfiguration(let value):
+                try value.validate(name: "\(name).emailResponseAIAgentConfiguration")
             case .manualSearchAIAgentConfiguration(let value):
                 try value.validate(name: "\(name).manualSearchAIAgentConfiguration")
             case .selfServiceAIAgentConfiguration(let value):
@@ -510,6 +550,9 @@ extension QConnect {
 
         private enum CodingKeys: String, CodingKey {
             case answerRecommendationAIAgentConfiguration = "answerRecommendationAIAgentConfiguration"
+            case emailGenerativeAnswerAIAgentConfiguration = "emailGenerativeAnswerAIAgentConfiguration"
+            case emailOverviewAIAgentConfiguration = "emailOverviewAIAgentConfiguration"
+            case emailResponseAIAgentConfiguration = "emailResponseAIAgentConfiguration"
             case manualSearchAIAgentConfiguration = "manualSearchAIAgentConfiguration"
             case selfServiceAIAgentConfiguration = "selfServiceAIAgentConfiguration"
         }
@@ -518,6 +561,12 @@ extension QConnect {
     public enum DataDetails: AWSDecodableShape, Sendable {
         /// Details about the content data.
         case contentData(ContentDataDetails)
+        /// Streaming chunk data for email generative answers containing partial knowledge-based response content.
+        case emailGenerativeAnswerChunkData(EmailGenerativeAnswerChunkDataDetails)
+        /// Streaming chunk data for email overview containing partial overview content.
+        case emailOverviewChunkData(EmailOverviewChunkDataDetails)
+        /// Streaming chunk data for email response generation containing partial response content.
+        case emailResponseChunkData(EmailResponseChunkDataDetails)
         /// Details about the generative chunk data.
         case generativeChunkData(GenerativeChunkDataDetails)
         ///  Details about the generative data.
@@ -540,6 +589,15 @@ extension QConnect {
             case .contentData:
                 let value = try container.decode(ContentDataDetails.self, forKey: .contentData)
                 self = .contentData(value)
+            case .emailGenerativeAnswerChunkData:
+                let value = try container.decode(EmailGenerativeAnswerChunkDataDetails.self, forKey: .emailGenerativeAnswerChunkData)
+                self = .emailGenerativeAnswerChunkData(value)
+            case .emailOverviewChunkData:
+                let value = try container.decode(EmailOverviewChunkDataDetails.self, forKey: .emailOverviewChunkData)
+                self = .emailOverviewChunkData(value)
+            case .emailResponseChunkData:
+                let value = try container.decode(EmailResponseChunkDataDetails.self, forKey: .emailResponseChunkData)
+                self = .emailResponseChunkData(value)
             case .generativeChunkData:
                 let value = try container.decode(GenerativeChunkDataDetails.self, forKey: .generativeChunkData)
                 self = .generativeChunkData(value)
@@ -557,6 +615,9 @@ extension QConnect {
 
         private enum CodingKeys: String, CodingKey {
             case contentData = "contentData"
+            case emailGenerativeAnswerChunkData = "emailGenerativeAnswerChunkData"
+            case emailOverviewChunkData = "emailOverviewChunkData"
+            case emailResponseChunkData = "emailResponseChunkData"
             case generativeChunkData = "generativeChunkData"
             case generativeData = "generativeData"
             case intentDetectedData = "intentDetectedData"
@@ -2564,7 +2625,7 @@ extension QConnect {
         public let clientToken: String?
         /// The description of the AI Prompt.
         public let description: String?
-        /// The identifier of the model used for this AI Prompt.
+        /// The identifier of the model used for this AI Prompt.  For information about which models are supported in each Amazon Web Services Region, see Supported models for system/custom prompts.
         public let modelId: String
         /// The name of the AI Prompt.
         public let name: String
@@ -3445,6 +3506,8 @@ extension QConnect {
         public let assistantId: String
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
+        /// The Amazon Resource Name (ARN) of the email contact in Amazon Connect. Used to retrieve email content and establish session context for AI-powered email assistance.
+        public let contactArn: String?
         /// The description.
         public let description: String?
         /// The name of the session.
@@ -3455,10 +3518,11 @@ extension QConnect {
         public let tags: [String: String]?
 
         @inlinable
-        public init(aiAgentConfiguration: [AIAgentType: AIAgentConfigurationData]? = nil, assistantId: String, clientToken: String? = CreateSessionRequest.idempotencyToken(), description: String? = nil, name: String, tagFilter: TagFilter? = nil, tags: [String: String]? = nil) {
+        public init(aiAgentConfiguration: [AIAgentType: AIAgentConfigurationData]? = nil, assistantId: String, clientToken: String? = CreateSessionRequest.idempotencyToken(), contactArn: String? = nil, description: String? = nil, name: String, tagFilter: TagFilter? = nil, tags: [String: String]? = nil) {
             self.aiAgentConfiguration = aiAgentConfiguration
             self.assistantId = assistantId
             self.clientToken = clientToken
+            self.contactArn = contactArn
             self.description = description
             self.name = name
             self.tagFilter = tagFilter
@@ -3471,6 +3535,7 @@ extension QConnect {
             try container.encodeIfPresent(self.aiAgentConfiguration, forKey: .aiAgentConfiguration)
             request.encodePath(self.assistantId, key: "assistantId")
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.contactArn, forKey: .contactArn)
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encode(self.name, forKey: .name)
             try container.encodeIfPresent(self.tagFilter, forKey: .tagFilter)
@@ -3484,6 +3549,9 @@ extension QConnect {
             try self.validate(self.assistantId, name: "assistantId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 4096)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.contactArn, name: "contactArn", parent: name, max: 2048)
+            try self.validate(self.contactArn, name: "contactArn", parent: name, min: 1)
+            try self.validate(self.contactArn, name: "contactArn", parent: name, pattern: "^arn:[a-z-]+?:[a-z-]+?:[a-z0-9-]*?:([0-9]{12})?:[a-zA-Z0-9-:/]+$")
             try self.validate(self.description, name: "description", parent: name, max: 255)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[a-zA-Z0-9\\s_.,-]+")
@@ -3503,6 +3571,7 @@ extension QConnect {
         private enum CodingKeys: String, CodingKey {
             case aiAgentConfiguration = "aiAgentConfiguration"
             case clientToken = "clientToken"
+            case contactArn = "contactArn"
             case description = "description"
             case name = "name"
             case tagFilter = "tagFilter"
@@ -4483,6 +4552,64 @@ extension QConnect {
         }
     }
 
+    public struct EmailGenerativeAnswerAIAgentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration settings for knowledge base associations used by the email generative answer agent.
+        public let associationConfigurations: [AssociationConfiguration]?
+        /// The ID of the System AI prompt used for generating comprehensive knowledge-based answers from email queries.
+        public let emailGenerativeAnswerAIPromptId: String?
+        /// The ID of the System AI prompt used for reformulating email queries to optimize knowledge base search results.
+        public let emailQueryReformulationAIPromptId: String?
+        /// The locale setting for language-specific email processing and response generation (for example, en_US, es_ES).
+        public let locale: String?
+
+        @inlinable
+        public init(associationConfigurations: [AssociationConfiguration]? = nil, emailGenerativeAnswerAIPromptId: String? = nil, emailQueryReformulationAIPromptId: String? = nil, locale: String? = nil) {
+            self.associationConfigurations = associationConfigurations
+            self.emailGenerativeAnswerAIPromptId = emailGenerativeAnswerAIPromptId
+            self.emailQueryReformulationAIPromptId = emailQueryReformulationAIPromptId
+            self.locale = locale
+        }
+
+        public func validate(name: String) throws {
+            try self.associationConfigurations?.forEach {
+                try $0.validate(name: "\(name).associationConfigurations[]")
+            }
+            try self.validate(self.emailGenerativeAnswerAIPromptId, name: "emailGenerativeAnswerAIPromptId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$")
+            try self.validate(self.emailQueryReformulationAIPromptId, name: "emailQueryReformulationAIPromptId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$")
+            try self.validate(self.locale, name: "locale", parent: name, max: 4096)
+            try self.validate(self.locale, name: "locale", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationConfigurations = "associationConfigurations"
+            case emailGenerativeAnswerAIPromptId = "emailGenerativeAnswerAIPromptId"
+            case emailQueryReformulationAIPromptId = "emailQueryReformulationAIPromptId"
+            case locale = "locale"
+        }
+    }
+
+    public struct EmailGenerativeAnswerChunkDataDetails: AWSDecodableShape {
+        /// The partial or complete text content of the generative answer response.
+        public let completion: String?
+        /// Token for retrieving the next chunk of streaming response data, if available.
+        public let nextChunkToken: String?
+        /// Source references and citations from knowledge base articles used to generate the answer.
+        public let references: [DataSummary]?
+
+        @inlinable
+        public init(completion: String? = nil, nextChunkToken: String? = nil, references: [DataSummary]? = nil) {
+            self.completion = completion
+            self.nextChunkToken = nextChunkToken
+            self.references = references
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completion = "completion"
+            case nextChunkToken = "nextChunkToken"
+            case references = "references"
+        }
+    }
+
     public struct EmailHeader: AWSEncodableShape & AWSDecodableShape {
         /// The name of the email header.
         public let name: String?
@@ -4561,6 +4688,102 @@ extension QConnect {
         private enum CodingKeys: String, CodingKey {
             case html = "html"
             case plainText = "plainText"
+        }
+    }
+
+    public struct EmailOverviewAIAgentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the System AI prompt used for generating structured email conversation summaries.
+        public let emailOverviewAIPromptId: String?
+        /// The locale setting for language-specific email overview processing (for example, en_US, es_ES).
+        public let locale: String?
+
+        @inlinable
+        public init(emailOverviewAIPromptId: String? = nil, locale: String? = nil) {
+            self.emailOverviewAIPromptId = emailOverviewAIPromptId
+            self.locale = locale
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.emailOverviewAIPromptId, name: "emailOverviewAIPromptId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$")
+            try self.validate(self.locale, name: "locale", parent: name, max: 4096)
+            try self.validate(self.locale, name: "locale", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emailOverviewAIPromptId = "emailOverviewAIPromptId"
+            case locale = "locale"
+        }
+    }
+
+    public struct EmailOverviewChunkDataDetails: AWSDecodableShape {
+        /// The partial or complete overview text content in structured HTML format with customer issues, resolutions, and next steps.
+        public let completion: String?
+        /// Token for retrieving the next chunk of streaming overview data, if available.
+        public let nextChunkToken: String?
+
+        @inlinable
+        public init(completion: String? = nil, nextChunkToken: String? = nil) {
+            self.completion = completion
+            self.nextChunkToken = nextChunkToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completion = "completion"
+            case nextChunkToken = "nextChunkToken"
+        }
+    }
+
+    public struct EmailResponseAIAgentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration settings for knowledge base associations used by the email response agent.
+        public let associationConfigurations: [AssociationConfiguration]?
+        /// The ID of the System AI prompt used for reformulating email queries to optimize knowledge base search for response generation.
+        public let emailQueryReformulationAIPromptId: String?
+        /// The ID of the System AI prompt used for generating professional email responses based on knowledge base content.
+        public let emailResponseAIPromptId: String?
+        /// The locale setting for language-specific email response generation (for example, en_US, es_ES).
+        public let locale: String?
+
+        @inlinable
+        public init(associationConfigurations: [AssociationConfiguration]? = nil, emailQueryReformulationAIPromptId: String? = nil, emailResponseAIPromptId: String? = nil, locale: String? = nil) {
+            self.associationConfigurations = associationConfigurations
+            self.emailQueryReformulationAIPromptId = emailQueryReformulationAIPromptId
+            self.emailResponseAIPromptId = emailResponseAIPromptId
+            self.locale = locale
+        }
+
+        public func validate(name: String) throws {
+            try self.associationConfigurations?.forEach {
+                try $0.validate(name: "\(name).associationConfigurations[]")
+            }
+            try self.validate(self.emailQueryReformulationAIPromptId, name: "emailQueryReformulationAIPromptId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$")
+            try self.validate(self.emailResponseAIPromptId, name: "emailResponseAIPromptId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$")
+            try self.validate(self.locale, name: "locale", parent: name, max: 4096)
+            try self.validate(self.locale, name: "locale", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationConfigurations = "associationConfigurations"
+            case emailQueryReformulationAIPromptId = "emailQueryReformulationAIPromptId"
+            case emailResponseAIPromptId = "emailResponseAIPromptId"
+            case locale = "locale"
+        }
+    }
+
+    public struct EmailResponseChunkDataDetails: AWSDecodableShape {
+        /// The partial or complete professional email response text with appropriate greetings and closings.
+        public let completion: String?
+        /// Token for retrieving the next chunk of streaming response data, if available.
+        public let nextChunkToken: String?
+
+        @inlinable
+        public init(completion: String? = nil, nextChunkToken: String? = nil) {
+            self.completion = completion
+            self.nextChunkToken = nextChunkToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completion = "completion"
+            case nextChunkToken = "nextChunkToken"
         }
     }
 
@@ -9617,17 +9840,20 @@ extension QConnect {
         public let clientToken: String?
         /// The description of the Amazon Q in Connect AI Prompt.
         public let description: String?
+        /// The identifier of the model used for this AI Prompt.  For information about which models are supported in each Amazon Web Services Region, see Supported models for system/custom prompts.
+        public let modelId: String?
         /// The configuration of the prompt template for this AI Prompt.
         public let templateConfiguration: AIPromptTemplateConfiguration?
         /// The visibility status of the Amazon Q in Connect AI prompt.
         public let visibilityStatus: VisibilityStatus
 
         @inlinable
-        public init(aiPromptId: String, assistantId: String, clientToken: String? = UpdateAIPromptRequest.idempotencyToken(), description: String? = nil, templateConfiguration: AIPromptTemplateConfiguration? = nil, visibilityStatus: VisibilityStatus) {
+        public init(aiPromptId: String, assistantId: String, clientToken: String? = UpdateAIPromptRequest.idempotencyToken(), description: String? = nil, modelId: String? = nil, templateConfiguration: AIPromptTemplateConfiguration? = nil, visibilityStatus: VisibilityStatus) {
             self.aiPromptId = aiPromptId
             self.assistantId = assistantId
             self.clientToken = clientToken
             self.description = description
+            self.modelId = modelId
             self.templateConfiguration = templateConfiguration
             self.visibilityStatus = visibilityStatus
         }
@@ -9639,6 +9865,7 @@ extension QConnect {
             request.encodePath(self.assistantId, key: "assistantId")
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.modelId, forKey: .modelId)
             try container.encodeIfPresent(self.templateConfiguration, forKey: .templateConfiguration)
             try container.encode(self.visibilityStatus, forKey: .visibilityStatus)
         }
@@ -9651,12 +9878,15 @@ extension QConnect {
             try self.validate(self.description, name: "description", parent: name, max: 255)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[a-zA-Z0-9\\s_.,-]+")
+            try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
+            try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
             try self.templateConfiguration?.validate(name: "\(name).templateConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case description = "description"
+            case modelId = "modelId"
             case templateConfiguration = "templateConfiguration"
             case visibilityStatus = "visibilityStatus"
         }
@@ -10591,6 +10821,7 @@ public struct QConnectErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
         case conflictException = "ConflictException"
+        case dependencyFailedException = "DependencyFailedException"
         case preconditionFailedException = "PreconditionFailedException"
         case requestTimeoutException = "RequestTimeoutException"
         case resourceNotFoundException = "ResourceNotFoundException"
@@ -10623,6 +10854,8 @@ public struct QConnectErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
     public static var conflictException: Self { .init(.conflictException) }
+    /// An error occurred while calling a dependency. For example, calling connect:DecribeContact as part of CreateSession with a contactArn.
+    public static var dependencyFailedException: Self { .init(.dependencyFailedException) }
     /// The provided revisionId does not match, indicating the content has been modified since it was last read.
     public static var preconditionFailedException: Self { .init(.preconditionFailedException) }
     /// The request reached the service more than 15 minutes after the date stamp on the request or more than 15 minutes after the request expiration date (such as for pre-signed URLs), or the date stamp on the request is more than 15 minutes in the future.

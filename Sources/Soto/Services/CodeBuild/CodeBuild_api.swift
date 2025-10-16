@@ -568,6 +568,7 @@ public struct CodeBuild: AWSService {
     ///   - filterGroups: An array of arrays of WebhookFilter objects used to determine which webhooks are triggered. At least one WebhookFilter in the array must specify EVENT as its type.  For a build to be triggered, at least one filter group in the filterGroups array must pass. For a filter group to pass, each of its filters must pass.
     ///   - manualCreation: If manualCreation is true, CodeBuild doesn't create a webhook in GitHub and instead returns payloadUrl and  secret values for the webhook. The payloadUrl and secret values in the output can be  used to manually create a webhook within GitHub.   manualCreation is only available for GitHub webhooks.
     ///   - projectName: The name of the CodeBuild project.
+    ///   - pullRequestBuildPolicy: A PullRequestBuildPolicy object that defines comment-based approval requirements for triggering builds on pull requests. This policy helps control when automated builds are executed based on contributor permissions and approval workflows.
     ///   - scopeConfiguration: The scope configuration for global or organization webhooks.  Global or organization webhooks are only available for GitHub and Github Enterprise webhooks.
     ///   - logger: Logger use during operation
     @inlinable
@@ -577,6 +578,7 @@ public struct CodeBuild: AWSService {
         filterGroups: [[WebhookFilter]]? = nil,
         manualCreation: Bool? = nil,
         projectName: String,
+        pullRequestBuildPolicy: PullRequestBuildPolicy? = nil,
         scopeConfiguration: ScopeConfiguration? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateWebhookOutput {
@@ -586,6 +588,7 @@ public struct CodeBuild: AWSService {
             filterGroups: filterGroups, 
             manualCreation: manualCreation, 
             projectName: projectName, 
+            pullRequestBuildPolicy: pullRequestBuildPolicy, 
             scopeConfiguration: scopeConfiguration
         )
         return try await self.createWebhook(input, logger: logger)
@@ -1737,7 +1740,7 @@ public struct CodeBuild: AWSService {
     /// Parameters:
     ///   - artifactsOverride: Build output artifact settings that override, for this build only, the latest ones already defined in the build project.
     ///   - autoRetryLimitOverride: The maximum number of additional automatic retries after a failed build. For example, if the  auto-retry limit is set to 2, CodeBuild will call the RetryBuild API to automatically  retry your build for up to 2 additional times.
-    ///   - buildspecOverride: A buildspec file declaration that overrides the latest one defined  in the build project, for this build only. The buildspec defined on the project is not changed. If this value is set, it can be either an inline buildspec definition, the path to an alternate buildspec file relative to the value of the built-in CODEBUILD_SRC_DIR environment variable, or the path to an S3 bucket. The bucket must be in the same Amazon Web Services Region as the build project. Specify the buildspec file using its ARN (for example, arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or is set to an empty string, the source code must contain a buildspec file in its root directory. For more information, see Buildspec File Name and Storage Location.  Since this property allows you to change the build commands that will run in the container,  you should note that an IAM principal with the ability to call this API and set this parameter  can override the default settings. Moreover, we encourage that you use a trustworthy buildspec location  like a file in your source repository or a Amazon S3 bucket.
+    ///   - buildspecOverride: A buildspec file declaration that overrides the latest one defined  in the build project, for this build only. The buildspec defined on the project is not changed. If this value is set, it can be either an inline buildspec definition, the path to an alternate buildspec file relative to the value of the built-in CODEBUILD_SRC_DIR environment variable, or the path to an S3 bucket. The bucket must be in the same Amazon Web Services Region as the build project. Specify the buildspec file using its ARN (for example, arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or is set to an empty string, the source code must contain a buildspec file in its root directory. For more information, see Buildspec File Name and Storage Location.  Since this property allows you to change the build commands that will run in the container,  you should note that an IAM principal with the ability to call this API and set this parameter  can override the default settings. Moreover, we encourage that you use a trustworthy buildspec location  like a file in your source repository or a Amazon S3 bucket. Alternatively, you can restrict overrides  to the buildspec by using a condition key: Prevent unauthorized modifications to project buildspec.
     ///   - buildStatusConfigOverride: Contains information that defines how the build project reports the build status to the source provider. This option is only used when the source provider is GITHUB, GITHUB_ENTERPRISE, or BITBUCKET.
     ///   - cacheOverride: A ProjectCache object specified for this build that overrides the one defined in the build project.
     ///   - certificateOverride: The name of a certificate for this build that overrides the one specified in the build project.
@@ -2390,6 +2393,7 @@ public struct CodeBuild: AWSService {
     ///   - buildType: Specifies the type of build this webhook will trigger.   RUNNER_BUILDKITE_BUILD is only available for NO_SOURCE source type projects  configured for Buildkite runner builds. For more information about CodeBuild-hosted Buildkite runner builds, see Tutorial: Configure a CodeBuild-hosted Buildkite runner in the CodeBuild user guide.
     ///   - filterGroups:  An array of arrays of WebhookFilter objects used to determine if a webhook event can trigger a build. A filter group must contain at least one EVENT WebhookFilter.
     ///   - projectName: The name of the CodeBuild project.
+    ///   - pullRequestBuildPolicy: A PullRequestBuildPolicy object that defines comment-based approval requirements for triggering builds on pull requests. This policy helps control when automated builds are executed based on contributor permissions and approval workflows.
     ///   - rotateSecret:  A boolean value that specifies whether the associated GitHub repository's secret token should be updated. If you use Bitbucket for your repository, rotateSecret is ignored.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2398,6 +2402,7 @@ public struct CodeBuild: AWSService {
         buildType: WebhookBuildType? = nil,
         filterGroups: [[WebhookFilter]]? = nil,
         projectName: String,
+        pullRequestBuildPolicy: PullRequestBuildPolicy? = nil,
         rotateSecret: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateWebhookOutput {
@@ -2406,6 +2411,7 @@ public struct CodeBuild: AWSService {
             buildType: buildType, 
             filterGroups: filterGroups, 
             projectName: projectName, 
+            pullRequestBuildPolicy: pullRequestBuildPolicy, 
             rotateSecret: rotateSecret
         )
         return try await self.updateWebhook(input, logger: logger)

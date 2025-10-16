@@ -25,6 +25,19 @@ import Foundation
 extension SSOOIDC {
     // MARK: Enums
 
+    public enum AccessDeniedExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case kmsAccessDenied = "KMS_AccessDeniedException"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InvalidRequestExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case kmsDisabledKey = "KMS_DisabledException"
+        case kmsInvalidKeyUsage = "KMS_InvalidKeyUsageException"
+        case kmsInvalidState = "KMS_InvalidStateException"
+        case kmsKeyNotFound = "KMS_NotFoundException"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AccessDeniedException: AWSErrorShape {
@@ -32,16 +45,20 @@ extension SSOOIDC {
         public let error: String?
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
         public let errorDescription: String?
+        /// A string that uniquely identifies a reason for the error.
+        public let reason: AccessDeniedExceptionReason?
 
         @inlinable
-        public init(error: String? = nil, errorDescription: String? = nil) {
+        public init(error: String? = nil, errorDescription: String? = nil, reason: AccessDeniedExceptionReason? = nil) {
             self.error = error
             self.errorDescription = errorDescription
+            self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case error = "error"
             case errorDescription = "error_description"
+            case reason = "reason"
         }
     }
 
@@ -64,7 +81,7 @@ extension SSOOIDC {
     }
 
     public struct AwsAdditionalDetails: AWSDecodableShape {
-        /// STS context assertion that carries a user identifier to the Amazon Web Services service that it calls and can be used to obtain an identity-enhanced IAM role session. This value corresponds to the sts:identity_context claim in the ID token.
+        /// The trusted context assertion is signed and encrypted by STS. It provides access to sts:identity_context claim in the idToken without JWT parsing Identity context comprises information that Amazon Web Services services use to make authorization decisions when they receive requests.
         public let identityContext: String?
 
         @inlinable
@@ -94,7 +111,7 @@ extension SSOOIDC {
         public let redirectUri: String?
         /// Used only when calling this API for the Refresh Token grant type. This token is used to refresh short-lived tokens, such as the access token, that might expire. For more information about the features and limitations of the current IAM Identity Center OIDC implementation, see Considerations for Using this Guide in the IAM Identity Center OIDC API Reference.
         public let refreshToken: String?
-        /// The list of scopes for which authorization is requested. The access token that is issued is limited to the scopes that are granted. If this value is not specified, IAM Identity Center authorizes all scopes that are configured for the client during the call to RegisterClient.
+        /// The list of scopes for which authorization is requested. This parameter has no effect; the access token will always include all scopes configured during client registration.
         public let scope: [String]?
 
         @inlinable
@@ -210,7 +227,7 @@ extension SSOOIDC {
     public struct CreateTokenWithIAMResponse: AWSDecodableShape {
         /// A bearer token to access Amazon Web Services accounts and applications assigned to a user.
         public let accessToken: String?
-        /// A structure containing information from the idToken. Only the identityContext is in it, which is a value extracted from the idToken. This provides direct access to identity information without requiring JWT parsing.
+        /// A structure containing information from IAM Identity Center managed user and group information.
         public let awsAdditionalDetails: AwsAdditionalDetails?
         /// Indicates the time in seconds when an access token will expire.
         public let expiresIn: Int?
@@ -362,16 +379,20 @@ extension SSOOIDC {
         public let error: String?
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
         public let errorDescription: String?
+        /// A string that uniquely identifies a reason for the error.
+        public let reason: InvalidRequestExceptionReason?
 
         @inlinable
-        public init(error: String? = nil, errorDescription: String? = nil) {
+        public init(error: String? = nil, errorDescription: String? = nil, reason: InvalidRequestExceptionReason? = nil) {
             self.error = error
             self.errorDescription = errorDescription
+            self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case error = "error"
             case errorDescription = "error_description"
+            case reason = "reason"
         }
     }
 

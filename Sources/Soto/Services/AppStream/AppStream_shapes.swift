@@ -171,11 +171,13 @@ extension AppStream {
         case failed = "FAILED"
         case pending = "PENDING"
         case pendingQualification = "PENDING_QUALIFICATION"
+        case pendingSyncingApps = "PENDING_SYNCING_APPS"
         case rebooting = "REBOOTING"
         case running = "RUNNING"
         case snapshotting = "SNAPSHOTTING"
         case stopped = "STOPPED"
         case stopping = "STOPPING"
+        case syncingApps = "SYNCING_APPS"
         case updating = "UPDATING"
         case updatingAgent = "UPDATING_AGENT"
         public var description: String { return self.rawValue }
@@ -262,6 +264,17 @@ extension AppStream {
         case active = "ACTIVE"
         case expired = "EXPIRED"
         case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SoftwareDeploymentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failedToInstall = "FAILED_TO_INSTALL"
+        case failedToUninstall = "FAILED_TO_UNINSTALL"
+        case installed = "INSTALLED"
+        case pendingInstallation = "PENDING_INSTALLATION"
+        case pendingUninstallation = "PENDING_UNINSTALLATION"
+        case stagedForInstallation = "STAGED_FOR_INSTALLATION"
+        case stagedForUninstallation = "STAGED_FOR_UNINSTALLATION"
         public var description: String { return self.rawValue }
     }
 
@@ -367,6 +380,44 @@ extension AppStream {
         private enum CodingKeys: String, CodingKey {
             case endpointType = "EndpointType"
             case vpceId = "VpceId"
+        }
+    }
+
+    public struct AdminAppLicenseUsageRecord: AWSDecodableShape {
+        /// The billing period for the license usage record.
+        public let billingPeriod: String?
+        /// The type of license (for example, Microsoft Office).
+        public let licenseType: String?
+        /// The account ID of the owner of the license.
+        public let ownerAWSAccountId: String?
+        /// The date and time when the license was first used.
+        public let subscriptionFirstUsedDate: Date?
+        /// The date and time when the license was last used.
+        public let subscriptionLastUsedDate: Date?
+        /// The ARN of the user who used the license-included application.
+        public let userArn: String?
+        /// The ID of the user who used the license-included application.
+        public let userId: String?
+
+        @inlinable
+        public init(billingPeriod: String? = nil, licenseType: String? = nil, ownerAWSAccountId: String? = nil, subscriptionFirstUsedDate: Date? = nil, subscriptionLastUsedDate: Date? = nil, userArn: String? = nil, userId: String? = nil) {
+            self.billingPeriod = billingPeriod
+            self.licenseType = licenseType
+            self.ownerAWSAccountId = ownerAWSAccountId
+            self.subscriptionFirstUsedDate = subscriptionFirstUsedDate
+            self.subscriptionLastUsedDate = subscriptionLastUsedDate
+            self.userArn = userArn
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billingPeriod = "BillingPeriod"
+            case licenseType = "LicenseType"
+            case ownerAWSAccountId = "OwnerAWSAccountId"
+            case subscriptionFirstUsedDate = "SubscriptionFirstUsedDate"
+            case subscriptionLastUsedDate = "SubscriptionLastUsedDate"
+            case userArn = "UserArn"
+            case userId = "UserId"
         }
     }
 
@@ -788,6 +839,35 @@ extension AppStream {
     }
 
     public struct AssociateFleetResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct AssociateSoftwareToImageBuilderRequest: AWSEncodableShape {
+        /// The name of the target image builder instance.
+        public let imageBuilderName: String?
+        /// The list of license included applications to associate with the image builder. Possible values include the following:   Microsoft_Office_2021_LTSC_Professional_Plus_32Bit   Microsoft_Office_2021_LTSC_Professional_Plus_64Bit   Microsoft_Office_2024_LTSC_Professional_Plus_32Bit   Microsoft_Office_2024_LTSC_Professional_Plus_64Bit   Microsoft_Visio_2021_LTSC_Professional_32Bit   Microsoft_Visio_2021_LTSC_Professional_64Bit   Microsoft_Visio_2024_LTSC_Professional_32Bit   Microsoft_Visio_2024_LTSC_Professional_64Bit   Microsoft_Project_2021_Professional_32Bit   Microsoft_Project_2021_Professional_64Bit   Microsoft_Project_2024_Professional_32Bit   Microsoft_Project_2024_Professional_64Bit   Microsoft_Office_2021_LTSC_Standard_32Bit   Microsoft_Office_2021_LTSC_Standard_64Bit   Microsoft_Office_2024_LTSC_Standard_32Bit   Microsoft_Office_2024_LTSC_Standard_64Bit   Microsoft_Visio_2021_LTSC_Standard_32Bit   Microsoft_Visio_2021_LTSC_Standard_64Bit   Microsoft_Visio_2024_LTSC_Standard_32Bit   Microsoft_Visio_2024_LTSC_Standard_64Bit   Microsoft_Project_2021_Standard_32Bit   Microsoft_Project_2021_Standard_64Bit   Microsoft_Project_2024_Standard_32Bit   Microsoft_Project_2024_Standard_64Bit
+        public let softwareNames: [String]?
+
+        @inlinable
+        public init(imageBuilderName: String? = nil, softwareNames: [String]? = nil) {
+            self.imageBuilderName = imageBuilderName
+            self.softwareNames = softwareNames
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.imageBuilderName, name: "imageBuilderName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.softwareNames?.forEach {
+                try validate($0, name: "softwareNames[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageBuilderName = "ImageBuilderName"
+            case softwareNames = "SoftwareNames"
+        }
+    }
+
+    public struct AssociateSoftwareToImageBuilderResult: AWSDecodableShape {
         public init() {}
     }
 
@@ -1409,7 +1489,7 @@ extension AppStream {
         public let imageArn: String?
         /// The name of the image used to create the fleet.
         public let imageName: String?
-        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.24xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge   The following instance types are available for Elastic fleets:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
+        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.24xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge   The following instance types are available for Elastic fleets:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
         public let instanceType: String?
         /// The maximum concurrent sessions of the Elastic fleet. This is required for Elastic fleets, and not allowed for other fleet types.
         public let maxConcurrentSessions: Int?
@@ -1543,17 +1623,21 @@ extension AppStream {
         public let imageArn: String?
         /// The name of the image used to create the image builder.
         public let imageName: String?
-        /// The instance type to use when launching the image builder. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge
+        /// The instance type to use when launching the image builder. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge
         public let instanceType: String?
         /// A unique name for the image builder.
         public let name: String?
+        /// The list of license included applications to install on the image builder during creation. Possible values include the following:   Microsoft_Office_2021_LTSC_Professional_Plus_32Bit   Microsoft_Office_2021_LTSC_Professional_Plus_64Bit   Microsoft_Office_2024_LTSC_Professional_Plus_32Bit   Microsoft_Office_2024_LTSC_Professional_Plus_64Bit   Microsoft_Visio_2021_LTSC_Professional_32Bit   Microsoft_Visio_2021_LTSC_Professional_64Bit   Microsoft_Visio_2024_LTSC_Professional_32Bit   Microsoft_Visio_2024_LTSC_Professional_64Bit   Microsoft_Project_2021_Professional_32Bit   Microsoft_Project_2021_Professional_64Bit   Microsoft_Project_2024_Professional_32Bit   Microsoft_Project_2024_Professional_64Bit   Microsoft_Office_2021_LTSC_Standard_32Bit   Microsoft_Office_2021_LTSC_Standard_64Bit   Microsoft_Office_2024_LTSC_Standard_32Bit   Microsoft_Office_2024_LTSC_Standard_64Bit   Microsoft_Visio_2021_LTSC_Standard_32Bit   Microsoft_Visio_2021_LTSC_Standard_64Bit   Microsoft_Visio_2024_LTSC_Standard_32Bit   Microsoft_Visio_2024_LTSC_Standard_64Bit   Microsoft_Project_2021_Standard_32Bit   Microsoft_Project_2021_Standard_64Bit   Microsoft_Project_2024_Standard_32Bit   Microsoft_Project_2024_Standard_64Bit
+        public let softwaresToInstall: [String]?
+        /// The list of license included applications to uninstall from the image builder during creation. Possible values include the following:   Microsoft_Office_2021_LTSC_Professional_Plus_32Bit   Microsoft_Office_2021_LTSC_Professional_Plus_64Bit   Microsoft_Office_2024_LTSC_Professional_Plus_32Bit   Microsoft_Office_2024_LTSC_Professional_Plus_64Bit   Microsoft_Visio_2021_LTSC_Professional_32Bit   Microsoft_Visio_2021_LTSC_Professional_64Bit   Microsoft_Visio_2024_LTSC_Professional_32Bit   Microsoft_Visio_2024_LTSC_Professional_64Bit   Microsoft_Project_2021_Professional_32Bit   Microsoft_Project_2021_Professional_64Bit   Microsoft_Project_2024_Professional_32Bit   Microsoft_Project_2024_Professional_64Bit   Microsoft_Office_2021_LTSC_Standard_32Bit   Microsoft_Office_2021_LTSC_Standard_64Bit   Microsoft_Office_2024_LTSC_Standard_32Bit   Microsoft_Office_2024_LTSC_Standard_64Bit   Microsoft_Visio_2021_LTSC_Standard_32Bit   Microsoft_Visio_2021_LTSC_Standard_64Bit   Microsoft_Visio_2024_LTSC_Standard_32Bit   Microsoft_Visio_2024_LTSC_Standard_64Bit   Microsoft_Project_2021_Standard_32Bit   Microsoft_Project_2021_Standard_64Bit   Microsoft_Project_2024_Standard_32Bit   Microsoft_Project_2024_Standard_64Bit
+        public let softwaresToUninstall: [String]?
         /// The tags to associate with the image builder. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ If you do not specify a value, the value is set to an empty string. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
         public let tags: [String: String]?
         /// The VPC configuration for the image builder. You can specify only one subnet.
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(accessEndpoints: [AccessEndpoint]? = nil, appstreamAgentVersion: String? = nil, description: String? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, name: String? = nil, tags: [String: String]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, appstreamAgentVersion: String? = nil, description: String? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, name: String? = nil, softwaresToInstall: [String]? = nil, softwaresToUninstall: [String]? = nil, tags: [String: String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.accessEndpoints = accessEndpoints
             self.appstreamAgentVersion = appstreamAgentVersion
             self.description = description
@@ -1565,6 +1649,8 @@ extension AppStream {
             self.imageName = imageName
             self.instanceType = instanceType
             self.name = name
+            self.softwaresToInstall = softwaresToInstall
+            self.softwaresToUninstall = softwaresToUninstall
             self.tags = tags
             self.vpcConfig = vpcConfig
         }
@@ -1585,6 +1671,12 @@ extension AppStream {
             try self.validate(self.imageName, name: "imageName", parent: name, min: 1)
             try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.softwaresToInstall?.forEach {
+                try validate($0, name: "softwaresToInstall[]", parent: name, min: 1)
+            }
+            try self.softwaresToUninstall?.forEach {
+                try validate($0, name: "softwaresToUninstall[]", parent: name, min: 1)
+            }
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1609,6 +1701,8 @@ extension AppStream {
             case imageName = "ImageName"
             case instanceType = "InstanceType"
             case name = "Name"
+            case softwaresToInstall = "SoftwaresToInstall"
+            case softwaresToUninstall = "SoftwaresToUninstall"
             case tags = "Tags"
             case vpcConfig = "VpcConfig"
         }
@@ -2476,6 +2570,51 @@ extension AppStream {
         }
     }
 
+    public struct DescribeAppLicenseUsageRequest: AWSEncodableShape {
+        /// Billing period for the usage record. Specify the value in yyyy-mm format. For example, for August 2025, use 2025-08.
+        public let billingPeriod: String?
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// Token for pagination of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(billingPeriod: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.billingPeriod = billingPeriod
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.billingPeriod, name: "billingPeriod", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billingPeriod = "BillingPeriod"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeAppLicenseUsageResult: AWSDecodableShape {
+        /// Collection of license usage records.
+        public let appLicenseUsages: [AdminAppLicenseUsageRecord]?
+        /// Token for pagination of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(appLicenseUsages: [AdminAppLicenseUsageRecord]? = nil, nextToken: String? = nil) {
+            self.appLicenseUsages = appLicenseUsages
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appLicenseUsages = "AppLicenseUsages"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct DescribeApplicationFleetAssociationsRequest: AWSEncodableShape {
         /// The ARN of the application.
         public let applicationArn: String?
@@ -2942,6 +3081,55 @@ extension AppStream {
         }
     }
 
+    public struct DescribeSoftwareAssociationsRequest: AWSEncodableShape {
+        /// The ARN of the resource to describe software associations. Possible resources are Image and ImageBuilder.
+        public let associatedResource: String?
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The pagination token to use to retrieve the next page of results for this operation.
+        public let nextToken: String?
+
+        @inlinable
+        public init(associatedResource: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.associatedResource = associatedResource
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.associatedResource, name: "associatedResource", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedResource = "AssociatedResource"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeSoftwareAssociationsResult: AWSDecodableShape {
+        /// The ARN of the resource to describe software associations.
+        public let associatedResource: String?
+        /// The pagination token to use to retrieve the next page of results for this operation.
+        public let nextToken: String?
+        /// Collection of license included applications association details including:   License included application name and version information   Deployment status (SoftwareDeploymentStatus enum)   Error details for failed deployments   Association timestamps
+        public let softwareAssociations: [SoftwareAssociations]?
+
+        @inlinable
+        public init(associatedResource: String? = nil, nextToken: String? = nil, softwareAssociations: [SoftwareAssociations]? = nil) {
+            self.associatedResource = associatedResource
+            self.nextToken = nextToken
+            self.softwareAssociations = softwareAssociations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedResource = "AssociatedResource"
+            case nextToken = "NextToken"
+            case softwareAssociations = "SoftwareAssociations"
+        }
+    }
+
     public struct DescribeStacksRequest: AWSEncodableShape {
         /// The names of the stacks to describe.
         public let names: [String]?
@@ -3330,6 +3518,35 @@ extension AppStream {
         public init() {}
     }
 
+    public struct DisassociateSoftwareFromImageBuilderRequest: AWSEncodableShape {
+        /// The name of the target image builder instance.
+        public let imageBuilderName: String?
+        /// The list of license included applications to disassociate from the image builder. Possible values include the following:   Microsoft_Office_2021_LTSC_Professional_Plus_32Bit   Microsoft_Office_2021_LTSC_Professional_Plus_64Bit   Microsoft_Office_2024_LTSC_Professional_Plus_32Bit   Microsoft_Office_2024_LTSC_Professional_Plus_64Bit   Microsoft_Visio_2021_LTSC_Professional_32Bit   Microsoft_Visio_2021_LTSC_Professional_64Bit   Microsoft_Visio_2024_LTSC_Professional_32Bit   Microsoft_Visio_2024_LTSC_Professional_64Bit   Microsoft_Project_2021_Professional_32Bit   Microsoft_Project_2021_Professional_64Bit   Microsoft_Project_2024_Professional_32Bit   Microsoft_Project_2024_Professional_64Bit   Microsoft_Office_2021_LTSC_Standard_32Bit   Microsoft_Office_2021_LTSC_Standard_64Bit   Microsoft_Office_2024_LTSC_Standard_32Bit   Microsoft_Office_2024_LTSC_Standard_64Bit   Microsoft_Visio_2021_LTSC_Standard_32Bit   Microsoft_Visio_2021_LTSC_Standard_64Bit   Microsoft_Visio_2024_LTSC_Standard_32Bit   Microsoft_Visio_2024_LTSC_Standard_64Bit   Microsoft_Project_2021_Standard_32Bit   Microsoft_Project_2021_Standard_64Bit   Microsoft_Project_2024_Standard_32Bit   Microsoft_Project_2024_Standard_64Bit
+        public let softwareNames: [String]?
+
+        @inlinable
+        public init(imageBuilderName: String? = nil, softwareNames: [String]? = nil) {
+            self.imageBuilderName = imageBuilderName
+            self.softwareNames = softwareNames
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.imageBuilderName, name: "imageBuilderName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.softwareNames?.forEach {
+                try validate($0, name: "softwareNames[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageBuilderName = "ImageBuilderName"
+            case softwareNames = "SoftwareNames"
+        }
+    }
+
+    public struct DisassociateSoftwareFromImageBuilderResult: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DomainJoinInfo: AWSEncodableShape & AWSDecodableShape {
         /// The fully qualified name of the directory (for example, corp.example.com).
         public let directoryName: String?
@@ -3524,7 +3741,7 @@ extension AppStream {
         public let imageArn: String?
         /// The name of the image used to create the fleet.
         public let imageName: String?
-        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge
+        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge
         public let instanceType: String?
         /// The maximum number of concurrent sessions for the fleet.
         public let maxConcurrentSessions: Int?
@@ -3640,7 +3857,7 @@ extension AppStream {
         public let displayName: String?
         /// Indicates whether dynamic app providers are enabled within an AppStream 2.0 image or not.
         public let dynamicAppProvidersEnabled: DynamicAppProvidersEnabled?
-        /// The name of the image builder that was used to create the private image. If the image is shared, this value is null.
+        /// The name of the image builder that was used to create the private image. If the image is shared, copied, or updated by using Managed Image Updates, this value is null.
         public let imageBuilderName: String?
         /// Indicates whether an image builder can be launched from this image.
         public let imageBuilderSupported: Bool?
@@ -3652,6 +3869,8 @@ extension AppStream {
         public let imageSharedWithOthers: ImageSharedWithOthers?
         /// Indicates whether the image is using the latest AppStream 2.0 agent version or not.
         public let latestAppstreamAgentVersion: LatestAppstreamAgentVersion?
+        /// Indicates whether the image includes license-included applications.
+        public let managedSoftwareIncluded: Bool?
         /// The name of the image.
         public let name: String?
         /// The operating system platform of the image.
@@ -3668,7 +3887,7 @@ extension AppStream {
         public let visibility: VisibilityType?
 
         @inlinable
-        public init(applications: [Application]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, baseImageArn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, dynamicAppProvidersEnabled: DynamicAppProvidersEnabled? = nil, imageBuilderName: String? = nil, imageBuilderSupported: Bool? = nil, imageErrors: [ResourceError]? = nil, imagePermissions: ImagePermissions? = nil, imageSharedWithOthers: ImageSharedWithOthers? = nil, latestAppstreamAgentVersion: LatestAppstreamAgentVersion? = nil, name: String? = nil, platform: PlatformType? = nil, publicBaseImageReleasedDate: Date? = nil, state: ImageState? = nil, stateChangeReason: ImageStateChangeReason? = nil, supportedInstanceFamilies: [String]? = nil, visibility: VisibilityType? = nil) {
+        public init(applications: [Application]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, baseImageArn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, dynamicAppProvidersEnabled: DynamicAppProvidersEnabled? = nil, imageBuilderName: String? = nil, imageBuilderSupported: Bool? = nil, imageErrors: [ResourceError]? = nil, imagePermissions: ImagePermissions? = nil, imageSharedWithOthers: ImageSharedWithOthers? = nil, latestAppstreamAgentVersion: LatestAppstreamAgentVersion? = nil, managedSoftwareIncluded: Bool? = nil, name: String? = nil, platform: PlatformType? = nil, publicBaseImageReleasedDate: Date? = nil, state: ImageState? = nil, stateChangeReason: ImageStateChangeReason? = nil, supportedInstanceFamilies: [String]? = nil, visibility: VisibilityType? = nil) {
             self.applications = applications
             self.appstreamAgentVersion = appstreamAgentVersion
             self.arn = arn
@@ -3683,6 +3902,7 @@ extension AppStream {
             self.imagePermissions = imagePermissions
             self.imageSharedWithOthers = imageSharedWithOthers
             self.latestAppstreamAgentVersion = latestAppstreamAgentVersion
+            self.managedSoftwareIncluded = managedSoftwareIncluded
             self.name = name
             self.platform = platform
             self.publicBaseImageReleasedDate = publicBaseImageReleasedDate
@@ -3707,6 +3927,7 @@ extension AppStream {
             case imagePermissions = "ImagePermissions"
             case imageSharedWithOthers = "ImageSharedWithOthers"
             case latestAppstreamAgentVersion = "LatestAppstreamAgentVersion"
+            case managedSoftwareIncluded = "ManagedSoftwareIncluded"
             case name = "Name"
             case platform = "Platform"
             case publicBaseImageReleasedDate = "PublicBaseImageReleasedDate"
@@ -3740,7 +3961,7 @@ extension AppStream {
         public let imageArn: String?
         /// The image builder errors.
         public let imageBuilderErrors: [ResourceError]?
-        /// The instance type for the image builder. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge
+        /// The instance type for the image builder. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge
         public let instanceType: String?
         /// Indicates whether the image builder is using the latest AppStream 2.0 agent version or not.
         public let latestAppstreamAgentVersion: LatestAppstreamAgentVersion?
@@ -4232,6 +4453,28 @@ extension AppStream {
         }
     }
 
+    public struct SoftwareAssociations: AWSDecodableShape {
+        /// The error details for failed deployments of the license-included application.
+        public let deploymentError: [ErrorDetails]?
+        /// The name of the license-included application. Possible values include the following:   Microsoft_Office_2021_LTSC_Professional_Plus_32Bit   Microsoft_Office_2021_LTSC_Professional_Plus_64Bit   Microsoft_Office_2024_LTSC_Professional_Plus_32Bit   Microsoft_Office_2024_LTSC_Professional_Plus_64Bit   Microsoft_Visio_2021_LTSC_Professional_32Bit   Microsoft_Visio_2021_LTSC_Professional_64Bit   Microsoft_Visio_2024_LTSC_Professional_32Bit   Microsoft_Visio_2024_LTSC_Professional_64Bit   Microsoft_Project_2021_Professional_32Bit   Microsoft_Project_2021_Professional_64Bit   Microsoft_Project_2024_Professional_32Bit   Microsoft_Project_2024_Professional_64Bit   Microsoft_Office_2021_LTSC_Standard_32Bit   Microsoft_Office_2021_LTSC_Standard_64Bit   Microsoft_Office_2024_LTSC_Standard_32Bit   Microsoft_Office_2024_LTSC_Standard_64Bit   Microsoft_Visio_2021_LTSC_Standard_32Bit   Microsoft_Visio_2021_LTSC_Standard_64Bit   Microsoft_Visio_2024_LTSC_Standard_32Bit   Microsoft_Visio_2024_LTSC_Standard_64Bit   Microsoft_Project_2021_Standard_32Bit   Microsoft_Project_2021_Standard_64Bit   Microsoft_Project_2024_Standard_32Bit   Microsoft_Project_2024_Standard_64Bit
+        public let softwareName: String?
+        /// The deployment status of the license-included application.
+        public let status: SoftwareDeploymentStatus?
+
+        @inlinable
+        public init(deploymentError: [ErrorDetails]? = nil, softwareName: String? = nil, status: SoftwareDeploymentStatus? = nil) {
+            self.deploymentError = deploymentError
+            self.softwareName = softwareName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentError = "DeploymentError"
+            case softwareName = "SoftwareName"
+            case status = "Status"
+        }
+    }
+
     public struct Stack: AWSDecodableShape {
         /// The list of virtual private cloud (VPC) interface endpoint objects. Users of the stack can connect to AppStream 2.0 only through the specified endpoints.
         public let accessEndpoints: [AccessEndpoint]?
@@ -4405,6 +4648,32 @@ extension AppStream {
         private enum CodingKeys: String, CodingKey {
             case imageBuilder = "ImageBuilder"
         }
+    }
+
+    public struct StartSoftwareDeploymentToImageBuilderRequest: AWSEncodableShape {
+        /// The name of the target image builder instance.
+        public let imageBuilderName: String?
+        /// Whether to retry previously failed license included application deployments.
+        public let retryFailedDeployments: Bool?
+
+        @inlinable
+        public init(imageBuilderName: String? = nil, retryFailedDeployments: Bool? = nil) {
+            self.imageBuilderName = imageBuilderName
+            self.retryFailedDeployments = retryFailedDeployments
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.imageBuilderName, name: "imageBuilderName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageBuilderName = "ImageBuilderName"
+            case retryFailedDeployments = "RetryFailedDeployments"
+        }
+    }
+
+    public struct StartSoftwareDeploymentToImageBuilderResult: AWSDecodableShape {
+        public init() {}
     }
 
     public struct StopAppBlockBuilderRequest: AWSEncodableShape {
@@ -4958,7 +5227,7 @@ extension AppStream {
         public let imageArn: String?
         /// The name of the image used to create the fleet.
         public let imageName: String?
-        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge   The following instance types are available for Elastic fleets:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
+        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge   The following instance types are available for Elastic fleets:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
         public let instanceType: String?
         /// The maximum number of concurrent sessions for a fleet.
         public let maxConcurrentSessions: Int?

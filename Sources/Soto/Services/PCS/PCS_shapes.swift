@@ -64,7 +64,14 @@ extension PCS {
         public var description: String { return self.rawValue }
     }
 
+    public enum NetworkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ipv4 = "IPV4"
+        case ipv6 = "IPV6"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PurchaseOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case capacityBlock = "CAPACITY_BLOCK"
         case ondemand = "ONDEMAND"
         case spot = "SPOT"
         public var description: String { return self.rawValue }
@@ -287,7 +294,7 @@ extension PCS {
     }
 
     public struct ComputeNodeGroup: AWSDecodableShape {
-        /// The ID of the Amazon Machine Image (AMI) that Amazon Web Services PCS uses to launch instances. If not provided, Amazon Web Services PCS uses the AMI ID specified in the custom launch template.
+        /// The ID of the Amazon Machine Image (AMI) that PCS uses to launch instances. If not provided, PCS uses the AMI ID specified in the custom launch template.
         public let amiId: String?
         /// The unique Amazon Resource Name (ARN) of the compute node group.
         public let arn: String
@@ -298,17 +305,17 @@ extension PCS {
         public let customLaunchTemplate: CustomLaunchTemplate
         /// The list of errors that occurred during compute node group provisioning.
         public let errorInfo: [ErrorInfo]?
-        /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission. The resource identifier of the ARN must start with AWSPCS or it must have /aws-pcs/ in its path.  Examples     arn:aws:iam::111122223333:instance-profile/AWSPCS-example-role-1     arn:aws:iam::111122223333:instance-profile/aws-pcs/example-role-2
+        /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission and the role name must start with AWSPCS or must have the path /aws-pcs/. For more information, see IAM instance profiles for PCS in the PCS User Guide.
         public let iamInstanceProfileArn: String
         /// The generated unique ID of the compute node group.
         public let id: String
-        /// A list of EC2 instance configurations that Amazon Web Services PCS can provision in the compute node group.
+        /// A list of EC2 instance configurations that PCS can provision in the compute node group.
         public let instanceConfigs: [InstanceConfig]
         /// The date and time the resource was modified.
         public let modifiedAt: Date
         /// The name that identifies the compute node group.
         public let name: String
-        /// Specifies how EC2 instances are purchased on your behalf. Amazon Web Services PCS supports On-Demand and Spot instances. For more information, see Instance purchasing options in the Amazon Elastic Compute Cloud User Guide. If you don't provide this option, it defaults to On-Demand.
+        /// Specifies how EC2 instances are purchased on your behalf. PCS supports On-Demand Instances, Spot Instances, and Amazon EC2 Capacity Blocks for ML. For more information, see Amazon EC2 billing and purchasing options in the Amazon Elastic Compute Cloud User Guide. For more information about PCS support for Capacity Blocks, see Using Amazon EC2 Capacity Blocks for ML with PCS in the PCS User Guide. If you don't provide this option, it defaults to On-Demand.
         public let purchaseOption: PurchaseOption?
         public let scalingConfiguration: ScalingConfiguration
         public let slurmConfiguration: ComputeNodeGroupSlurmConfiguration?
@@ -530,7 +537,7 @@ extension PCS {
     }
 
     public struct CreateComputeNodeGroupRequest: AWSEncodableShape {
-        ///  The ID of the Amazon Machine Image (AMI) that Amazon Web Services PCS uses to launch compute nodes (Amazon EC2 instances). If you don't provide this value, Amazon Web Services PCS uses the AMI ID specified in the custom launch template.
+        ///  The ID of the Amazon Machine Image (AMI) that PCS uses to launch compute nodes (Amazon EC2 instances). If you don't provide this value, PCS uses the AMI ID specified in the custom launch template.
         public let amiId: String?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
         public let clientToken: String?
@@ -539,11 +546,11 @@ extension PCS {
         /// A name to identify the cluster. Example: MyCluster
         public let computeNodeGroupName: String
         public let customLaunchTemplate: CustomLaunchTemplate
-        /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission. The resource identifier of the ARN must start with AWSPCS or it must have /aws-pcs/ in its path.  Examples     arn:aws:iam::111122223333:instance-profile/AWSPCS-example-role-1     arn:aws:iam::111122223333:instance-profile/aws-pcs/example-role-2
+        /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission and the role name must start with AWSPCS or must have the path /aws-pcs/. For more information, see IAM instance profiles for PCS in the PCS User Guide.
         public let iamInstanceProfileArn: String
-        /// A list of EC2 instance configurations that Amazon Web Services PCS can provision in the compute node group.
+        /// A list of EC2 instance configurations that PCS can provision in the compute node group.
         public let instanceConfigs: [InstanceConfig]
-        /// Specifies how EC2 instances are purchased on your behalf. Amazon Web Services PCS supports On-Demand and Spot instances. For more information, see Instance purchasing options in the Amazon Elastic Compute Cloud User Guide. If you don't provide this option, it defaults to On-Demand.
+        /// Specifies how EC2 instances are purchased on your behalf. PCS supports On-Demand Instances, Spot Instances, and Amazon EC2 Capacity Blocks for ML. For more information, see Amazon EC2 billing and purchasing options in the Amazon Elastic Compute Cloud User Guide. For more information about PCS support for Capacity Blocks, see Using Amazon EC2 Capacity Blocks for ML with PCS in the PCS User Guide. If you don't provide this option, it defaults to On-Demand.
         public let purchaseOption: PurchaseOption?
         /// Specifies the boundaries of the compute node group auto scaling.
         public let scalingConfiguration: ScalingConfigurationRequest
@@ -580,7 +587,7 @@ extension PCS {
             try self.validate(self.computeNodeGroupName, name: "computeNodeGroupName", parent: name, max: 25)
             try self.validate(self.computeNodeGroupName, name: "computeNodeGroupName", parent: name, min: 3)
             try self.validate(self.computeNodeGroupName, name: "computeNodeGroupName", parent: name, pattern: "^(?!pcs_)^[A-Za-z][A-Za-z0-9-]+$")
-            try self.validate(self.iamInstanceProfileArn, name: "iamInstanceProfileArn", parent: name, pattern: "^arn:aws([a-zA-Z-]{0,10})?:iam::[0-9]{12}:instance-profile/[/\\w+=,.@-]{1,128}$")
+            try self.validate(self.iamInstanceProfileArn, name: "iamInstanceProfileArn", parent: name, pattern: "^arn:aws([a-zA-Z-]{0,10})?:iam::[0-9]{12}:instance-profile/([!-~]{1,510}/)?([\\w+=,.@-]{1,128})$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -629,15 +636,18 @@ extension PCS {
         public let computeNodeGroupConfigurations: [ComputeNodeGroupConfiguration]?
         /// A name to identify the queue.
         public let queueName: String
+        /// Additional options related to the Slurm scheduler.
+        public let slurmConfiguration: QueueSlurmConfigurationRequest?
         /// 1 or more tags added to the resource. Each tag consists of a tag key and tag value. The tag value is optional and can be an empty string.
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = CreateQueueRequest.idempotencyToken(), clusterIdentifier: String, computeNodeGroupConfigurations: [ComputeNodeGroupConfiguration]? = nil, queueName: String, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateQueueRequest.idempotencyToken(), clusterIdentifier: String, computeNodeGroupConfigurations: [ComputeNodeGroupConfiguration]? = nil, queueName: String, slurmConfiguration: QueueSlurmConfigurationRequest? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.clusterIdentifier = clusterIdentifier
             self.computeNodeGroupConfigurations = computeNodeGroupConfigurations
             self.queueName = queueName
+            self.slurmConfiguration = slurmConfiguration
             self.tags = tags
         }
 
@@ -662,6 +672,7 @@ extension PCS {
             case clusterIdentifier = "clusterIdentifier"
             case computeNodeGroupConfigurations = "computeNodeGroupConfigurations"
             case queueName = "queueName"
+            case slurmConfiguration = "slurmConfiguration"
             case tags = "tags"
         }
     }
@@ -792,17 +803,20 @@ extension PCS {
     }
 
     public struct Endpoint: AWSDecodableShape {
+        /// The endpoint's IPv6 address. Example: 2001:db8::1
+        public let ipv6Address: String?
         /// The endpoint's connection port number.  Example: 1234
         public let port: String
-        /// The endpoint's private IP address. Example: 2.2.2.2
+        /// For clusters that use IPv4, this is the endpoint's private IP address. Example: 10.1.2.3  For clusters configured to use IPv6, this is an empty string.
         public let privateIpAddress: String
-        /// The endpoint's public IP address. Example: 1.1.1.1
+        /// The endpoint's public IP address. Example: 192.0.2.1
         public let publicIpAddress: String?
         /// Indicates the type of endpoint running at the specific IP address.
         public let type: EndpointType
 
         @inlinable
-        public init(port: String, privateIpAddress: String, publicIpAddress: String? = nil, type: EndpointType) {
+        public init(ipv6Address: String? = nil, port: String, privateIpAddress: String, publicIpAddress: String? = nil, type: EndpointType) {
+            self.ipv6Address = ipv6Address
             self.port = port
             self.privateIpAddress = privateIpAddress
             self.publicIpAddress = publicIpAddress
@@ -810,6 +824,7 @@ extension PCS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case ipv6Address = "ipv6Address"
             case port = "port"
             case privateIpAddress = "privateIpAddress"
             case publicIpAddress = "publicIpAddress"
@@ -836,7 +851,7 @@ extension PCS {
     }
 
     public struct GetClusterRequest: AWSEncodableShape {
-        /// The name or ID of the cluster of the queue.
+        /// The name or ID of the cluster.
         public let clusterIdentifier: String
 
         @inlinable
@@ -940,7 +955,7 @@ extension PCS {
     }
 
     public struct InstanceConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The EC2 instance type that Amazon Web Services PCS can provision in the compute node group.  Example: t2.xlarge
+        /// The EC2 instance type that PCS can provision in the compute node group.  Example: t2.xlarge
         public let instanceType: String?
 
         @inlinable
@@ -1125,31 +1140,38 @@ extension PCS {
     }
 
     public struct Networking: AWSDecodableShape {
-        /// The list of security group IDs associated with the Elastic Network Interface (ENI) created in subnets. The following rules are required:   Inbound rule 1   Protocol: All   Ports: All   Source: Self     Outbound rule 1   Protocol: All   Ports: All   Destination: 0.0.0.0/0 (IPv4)     Outbound rule 2   Protocol: All   Ports: All   Destination: Self
+        /// The IP address version the cluster uses. The default is IPV4.
+        public let networkType: NetworkType?
+        /// The list of security group IDs associated with the Elastic Network Interface (ENI) created in subnets. The following rules are required:   Inbound rule 1   Protocol: All   Ports: All   Source: Self     Outbound rule 1   Protocol: All   Ports: All   Destination: 0.0.0.0/0 (IPv4) or ::/0 (IPv6)     Outbound rule 2   Protocol: All   Ports: All   Destination: Self
         public let securityGroupIds: [String]?
-        /// The ID of the subnet where Amazon Web Services PCS creates an Elastic Network Interface (ENI) to enable communication between managed controllers and Amazon Web Services PCS resources. The subnet must have an available IP address, cannot reside in AWS Outposts, AWS Wavelength, or an AWS Local Zone.  Example: subnet-abcd1234
+        /// The ID of the subnet where PCS creates an Elastic Network Interface (ENI) to enable communication between managed controllers and PCS resources. The subnet must have an available IP address, cannot reside in Outposts, Wavelength, or an Amazon Web Services Local Zone.  Example: subnet-abcd1234
         public let subnetIds: [String]?
 
         @inlinable
-        public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
+        public init(networkType: NetworkType? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
+            self.networkType = networkType
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
 
         private enum CodingKeys: String, CodingKey {
+            case networkType = "networkType"
             case securityGroupIds = "securityGroupIds"
             case subnetIds = "subnetIds"
         }
     }
 
     public struct NetworkingRequest: AWSEncodableShape {
+        /// The IP address version the cluster uses. The default is IPV4.
+        public let networkType: NetworkType?
         /// A list of security group IDs associated with the Elastic Network Interface (ENI) created in subnets.
         public let securityGroupIds: [String]?
-        /// The list of subnet IDs where Amazon Web Services PCS creates an Elastic Network Interface (ENI) to enable communication between managed controllers and Amazon Web Services PCS resources. Subnet IDs have the form subnet-0123456789abcdef0. Subnets can't be in Outposts, Wavelength or an Amazon Web Services Local Zone.  Amazon Web Services PCS currently supports only 1 subnet in this list.
+        /// The list of subnet IDs where PCS creates an Elastic Network Interface (ENI) to enable communication between managed controllers and PCS resources. Subnet IDs have the form subnet-0123456789abcdef0. Subnets can't be in Outposts, Wavelength or an Amazon Web Services Local Zone.  PCS currently supports only 1 subnet in this list.
         public let subnetIds: [String]?
 
         @inlinable
-        public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
+        public init(networkType: NetworkType? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
+            self.networkType = networkType
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -1165,6 +1187,7 @@ extension PCS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case networkType = "networkType"
             case securityGroupIds = "securityGroupIds"
             case subnetIds = "subnetIds"
         }
@@ -1187,11 +1210,13 @@ extension PCS {
         public let modifiedAt: Date
         /// The name that identifies the queue.
         public let name: String
+        /// Additional options related to the Slurm scheduler.
+        public let slurmConfiguration: QueueSlurmConfiguration?
         /// The provisioning status of the queue.  The provisioning status doesn't indicate the overall health of the queue.   The resource enters the SUSPENDING and SUSPENDED states when the scheduler is beyond end of life and we have suspended the cluster. When in these states, you can't use the cluster. The cluster controller is down and all compute instances are terminated. The resources still count toward your service quotas. You can delete a resource if its status is SUSPENDED. For more information, see Frequently asked questions about Slurm versions in PCS in the PCS User Guide.
         public let status: QueueStatus
 
         @inlinable
-        public init(arn: String, clusterId: String, computeNodeGroupConfigurations: [ComputeNodeGroupConfiguration], createdAt: Date, errorInfo: [ErrorInfo]? = nil, id: String, modifiedAt: Date, name: String, status: QueueStatus) {
+        public init(arn: String, clusterId: String, computeNodeGroupConfigurations: [ComputeNodeGroupConfiguration], createdAt: Date, errorInfo: [ErrorInfo]? = nil, id: String, modifiedAt: Date, name: String, slurmConfiguration: QueueSlurmConfiguration? = nil, status: QueueStatus) {
             self.arn = arn
             self.clusterId = clusterId
             self.computeNodeGroupConfigurations = computeNodeGroupConfigurations
@@ -1200,6 +1225,7 @@ extension PCS {
             self.id = id
             self.modifiedAt = modifiedAt
             self.name = name
+            self.slurmConfiguration = slurmConfiguration
             self.status = status
         }
 
@@ -1212,7 +1238,36 @@ extension PCS {
             case id = "id"
             case modifiedAt = "modifiedAt"
             case name = "name"
+            case slurmConfiguration = "slurmConfiguration"
             case status = "status"
+        }
+    }
+
+    public struct QueueSlurmConfiguration: AWSDecodableShape {
+        /// Additional Slurm-specific configuration that directly maps to Slurm settings.
+        public let slurmCustomSettings: [SlurmCustomSetting]?
+
+        @inlinable
+        public init(slurmCustomSettings: [SlurmCustomSetting]? = nil) {
+            self.slurmCustomSettings = slurmCustomSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case slurmCustomSettings = "slurmCustomSettings"
+        }
+    }
+
+    public struct QueueSlurmConfigurationRequest: AWSEncodableShape {
+        /// Additional Slurm-specific configuration that directly maps to Slurm settings.
+        public let slurmCustomSettings: [SlurmCustomSetting]?
+
+        @inlinable
+        public init(slurmCustomSettings: [SlurmCustomSetting]? = nil) {
+            self.slurmCustomSettings = slurmCustomSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case slurmCustomSettings = "slurmCustomSettings"
         }
     }
 
@@ -1359,9 +1414,9 @@ extension PCS {
     }
 
     public struct Scheduler: AWSDecodableShape {
-        /// The software Amazon Web Services PCS uses to manage cluster scaling and job scheduling.
+        /// The software PCS uses to manage cluster scaling and job scheduling.
         public let type: SchedulerType
-        /// The version of the specified scheduling software that Amazon Web Services PCS uses to manage cluster scaling and job scheduling. For more information, see Slurm versions in Amazon Web Services PCS in the Amazon Web Services PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11
+        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. For more information, see Slurm versions in PCS in the PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11
         public let version: String
 
         @inlinable
@@ -1377,9 +1432,9 @@ extension PCS {
     }
 
     public struct SchedulerRequest: AWSEncodableShape {
-        /// The software Amazon Web Services PCS uses to manage cluster scaling and job scheduling.
+        /// The software PCS uses to manage cluster scaling and job scheduling.
         public let type: SchedulerType
-        /// The version of the specified scheduling software that Amazon Web Services PCS uses to manage cluster scaling and job scheduling. For more information, see Slurm versions in Amazon Web Services PCS in the Amazon Web Services PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11
+        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. For more information, see Slurm versions in PCS in the PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11
         public let version: String
 
         @inlinable
@@ -1424,7 +1479,7 @@ extension PCS {
     }
 
     public struct SlurmAuthKey: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the the shared Slurm key.
+        /// The Amazon Resource Name (ARN) of the shared Slurm key.
         public let secretArn: String
         /// The version of the shared Slurm key.
         public let secretVersion: String
@@ -1442,7 +1497,7 @@ extension PCS {
     }
 
     public struct SlurmCustomSetting: AWSEncodableShape & AWSDecodableShape {
-        /// Amazon Web Services PCS supports configuration of the following Slurm parameters:   For clusters      Prolog       Epilog       SelectTypeParameters       For compute node groups      Weight       RealMemory
+        /// PCS supports custom Slurm settings for clusters, compute node groups, and queues. For more information, see Configuring custom Slurm settings in PCS in the PCS User Guide.
         public let parameterName: String
         /// The values for the configured Slurm settings.
         public let parameterValue: String
@@ -1460,7 +1515,7 @@ extension PCS {
     }
 
     public struct SpotOptions: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon EC2 allocation strategy Amazon Web Services PCS uses to provision EC2 instances. Amazon Web Services PCS supports lowest price, capacity optimized, and price capacity optimized. For more information, see Use allocation strategies to determine how EC2 Fleet or Spot Fleet fulfills Spot and On-Demand capacity in the Amazon Elastic Compute Cloud User Guide. If you don't provide this option, it defaults to price capacity optimized.
+        /// The Amazon EC2 allocation strategy PCS uses to provision EC2 instances. PCS supports lowest price, capacity optimized, and price capacity optimized. For more information, see Use allocation strategies to determine how EC2 Fleet or Spot Fleet fulfills Spot and On-Demand capacity in the Amazon Elastic Compute Cloud User Guide. If you don't provide this option, it defaults to price capacity optimized.
         public let allocationStrategy: SpotAllocationStrategy?
 
         @inlinable
@@ -1563,8 +1618,89 @@ extension PCS {
         }
     }
 
+    public struct UpdateAccountingRequest: AWSEncodableShape {
+        /// The default value for all purge settings for slurmdbd.conf. For more information, see the slurmdbd.conf documentation at SchedMD. The default value for defaultPurgeTimeInDays is -1. A value of -1 means there is no purge time and records persist as long as the cluster exists.   0 isn't a valid value.
+        public let defaultPurgeTimeInDays: Int?
+        /// The default value for mode is STANDARD. A value of STANDARD means Slurm accounting is enabled.
+        public let mode: AccountingMode?
+
+        @inlinable
+        public init(defaultPurgeTimeInDays: Int? = nil, mode: AccountingMode? = nil) {
+            self.defaultPurgeTimeInDays = defaultPurgeTimeInDays
+            self.mode = mode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultPurgeTimeInDays = "defaultPurgeTimeInDays"
+            case mode = "mode"
+        }
+    }
+
+    public struct UpdateClusterRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
+        public let clientToken: String?
+        /// The name or ID of the cluster to update.
+        public let clusterIdentifier: String
+        /// Additional options related to the Slurm scheduler.
+        public let slurmConfiguration: UpdateClusterSlurmConfigurationRequest?
+
+        @inlinable
+        public init(clientToken: String? = UpdateClusterRequest.idempotencyToken(), clusterIdentifier: String, slurmConfiguration: UpdateClusterSlurmConfigurationRequest? = nil) {
+            self.clientToken = clientToken
+            self.clusterIdentifier = clusterIdentifier
+            self.slurmConfiguration = slurmConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 8)
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case clusterIdentifier = "clusterIdentifier"
+            case slurmConfiguration = "slurmConfiguration"
+        }
+    }
+
+    public struct UpdateClusterResponse: AWSDecodableShape {
+        public let cluster: Cluster?
+
+        @inlinable
+        public init(cluster: Cluster? = nil) {
+            self.cluster = cluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "cluster"
+        }
+    }
+
+    public struct UpdateClusterSlurmConfigurationRequest: AWSEncodableShape {
+        /// The accounting configuration includes configurable settings for Slurm accounting.
+        public let accounting: UpdateAccountingRequest?
+        /// The time (in seconds) before an idle node is scaled down. Default: 600
+        public let scaleDownIdleTimeInSeconds: Int?
+        /// Additional Slurm-specific configuration that directly maps to Slurm settings.
+        public let slurmCustomSettings: [SlurmCustomSetting]?
+
+        @inlinable
+        public init(accounting: UpdateAccountingRequest? = nil, scaleDownIdleTimeInSeconds: Int? = nil, slurmCustomSettings: [SlurmCustomSetting]? = nil) {
+            self.accounting = accounting
+            self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
+            self.slurmCustomSettings = slurmCustomSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accounting = "accounting"
+            case scaleDownIdleTimeInSeconds = "scaleDownIdleTimeInSeconds"
+            case slurmCustomSettings = "slurmCustomSettings"
+        }
+    }
+
     public struct UpdateComputeNodeGroupRequest: AWSEncodableShape {
-        /// The ID of the Amazon Machine Image (AMI) that Amazon Web Services PCS uses to launch instances. If not provided, Amazon Web Services PCS uses the AMI ID specified in the custom launch template.
+        /// The ID of the Amazon Machine Image (AMI) that PCS uses to launch instances. If not provided, PCS uses the AMI ID specified in the custom launch template.
         public let amiId: String?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
         public let clientToken: String?
@@ -1573,9 +1709,9 @@ extension PCS {
         /// The name or ID of the compute node group.
         public let computeNodeGroupIdentifier: String
         public let customLaunchTemplate: CustomLaunchTemplate?
-        /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission. The resource identifier of the ARN must start with AWSPCS or it must have /aws-pcs/ in its path.  Examples     arn:aws:iam::111122223333:instance-profile/AWSPCS-example-role-1     arn:aws:iam::111122223333:instance-profile/aws-pcs/example-role-2
+        /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission and the role name must start with AWSPCS or must have the path /aws-pcs/. For more information, see IAM instance profiles for PCS in the PCS User Guide.
         public let iamInstanceProfileArn: String?
-        /// Specifies how EC2 instances are purchased on your behalf. Amazon Web Services PCS supports On-Demand and Spot instances. For more information, see Instance purchasing options in the Amazon Elastic Compute Cloud User Guide. If you don't provide this option, it defaults to On-Demand.
+        /// Specifies how EC2 instances are purchased on your behalf. PCS supports On-Demand Instances, Spot Instances, and Amazon EC2 Capacity Blocks for ML. For more information, see Amazon EC2 billing and purchasing options in the Amazon Elastic Compute Cloud User Guide. For more information about PCS support for Capacity Blocks, see Using Amazon EC2 Capacity Blocks for ML with PCS in the PCS User Guide. If you don't provide this option, it defaults to On-Demand.
         public let purchaseOption: PurchaseOption?
         /// Specifies the boundaries of the compute node group auto scaling.
         public let scalingConfiguration: ScalingConfigurationRequest?
@@ -1606,7 +1742,7 @@ extension PCS {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 8)
             try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})$")
             try self.validate(self.computeNodeGroupIdentifier, name: "computeNodeGroupIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,25})$")
-            try self.validate(self.iamInstanceProfileArn, name: "iamInstanceProfileArn", parent: name, pattern: "^arn:aws([a-zA-Z-]{0,10})?:iam::[0-9]{12}:instance-profile/[/\\w+=,.@-]{1,128}$")
+            try self.validate(self.iamInstanceProfileArn, name: "iamInstanceProfileArn", parent: name, pattern: "^arn:aws([a-zA-Z-]{0,10})?:iam::[0-9]{12}:instance-profile/([!-~]{1,510}/)?([\\w+=,.@-]{1,128})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1660,13 +1796,16 @@ extension PCS {
         public let computeNodeGroupConfigurations: [ComputeNodeGroupConfiguration]?
         /// The name or ID of the queue.
         public let queueIdentifier: String
+        /// Additional options related to the Slurm scheduler.
+        public let slurmConfiguration: UpdateQueueSlurmConfigurationRequest?
 
         @inlinable
-        public init(clientToken: String? = UpdateQueueRequest.idempotencyToken(), clusterIdentifier: String, computeNodeGroupConfigurations: [ComputeNodeGroupConfiguration]? = nil, queueIdentifier: String) {
+        public init(clientToken: String? = UpdateQueueRequest.idempotencyToken(), clusterIdentifier: String, computeNodeGroupConfigurations: [ComputeNodeGroupConfiguration]? = nil, queueIdentifier: String, slurmConfiguration: UpdateQueueSlurmConfigurationRequest? = nil) {
             self.clientToken = clientToken
             self.clusterIdentifier = clusterIdentifier
             self.computeNodeGroupConfigurations = computeNodeGroupConfigurations
             self.queueIdentifier = queueIdentifier
+            self.slurmConfiguration = slurmConfiguration
         }
 
         public func validate(name: String) throws {
@@ -1681,6 +1820,7 @@ extension PCS {
             case clusterIdentifier = "clusterIdentifier"
             case computeNodeGroupConfigurations = "computeNodeGroupConfigurations"
             case queueIdentifier = "queueIdentifier"
+            case slurmConfiguration = "slurmConfiguration"
         }
     }
 
@@ -1694,6 +1834,20 @@ extension PCS {
 
         private enum CodingKeys: String, CodingKey {
             case queue = "queue"
+        }
+    }
+
+    public struct UpdateQueueSlurmConfigurationRequest: AWSEncodableShape {
+        /// Additional Slurm-specific configuration that directly maps to Slurm settings.
+        public let slurmCustomSettings: [SlurmCustomSetting]?
+
+        @inlinable
+        public init(slurmCustomSettings: [SlurmCustomSetting]? = nil) {
+            self.slurmCustomSettings = slurmCustomSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case slurmCustomSettings = "slurmCustomSettings"
         }
     }
 
@@ -1773,7 +1927,7 @@ public struct PCSErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// Your request has conflicting operations. This can occur if you're trying to perform more than 1 operation on the same resource at the same time.  Examples    A cluster with the same name already exists.   A cluster isn't in ACTIVE status.   A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.   A queue already exists in a cluster.
     public static var conflictException: Self { .init(.conflictException) }
-    /// Amazon Web Services PCS can't process your request right now. Try again later.
+    /// PCS can't process your request right now. Try again later.
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The requested resource can't be found. The cluster, node group, or queue you're attempting to get, update, list, or delete doesn't exist.  Examples
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }

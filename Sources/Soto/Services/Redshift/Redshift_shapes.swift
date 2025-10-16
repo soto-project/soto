@@ -2540,6 +2540,9 @@ extension Redshift {
     }
 
     public struct CreateRedshiftIdcApplicationMessage: AWSEncodableShape {
+        public struct _SsoTagKeysEncoding: ArrayCoderProperties { public static let member = "TagKey" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
         /// The token issuer list for the Amazon Redshift IAM Identity Center application instance.
         @OptionalCustomCoding<StandardArrayCoder<AuthorizedTokenIssuer>>
         public var authorizedTokenIssuerList: [AuthorizedTokenIssuer]?
@@ -2556,9 +2559,15 @@ extension Redshift {
         /// A collection of service integrations for the Redshift IAM Identity Center application.
         @OptionalCustomCoding<StandardArrayCoder<ServiceIntegrationsUnion>>
         public var serviceIntegrations: [ServiceIntegrationsUnion]?
+        /// A list of tags keys that Redshift Identity Center applications copy to IAM Identity Center. For each input key, the tag corresponding to the key-value pair is propagated.
+        @OptionalCustomCoding<ArrayCoder<_SsoTagKeysEncoding, String>>
+        public var ssoTagKeys: [String]?
+        /// A list of tags.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         @inlinable
-        public init(authorizedTokenIssuerList: [AuthorizedTokenIssuer]? = nil, iamRoleArn: String? = nil, idcDisplayName: String? = nil, idcInstanceArn: String? = nil, identityNamespace: String? = nil, redshiftIdcApplicationName: String? = nil, serviceIntegrations: [ServiceIntegrationsUnion]? = nil) {
+        public init(authorizedTokenIssuerList: [AuthorizedTokenIssuer]? = nil, iamRoleArn: String? = nil, idcDisplayName: String? = nil, idcInstanceArn: String? = nil, identityNamespace: String? = nil, redshiftIdcApplicationName: String? = nil, serviceIntegrations: [ServiceIntegrationsUnion]? = nil, ssoTagKeys: [String]? = nil, tags: [Tag]? = nil) {
             self.authorizedTokenIssuerList = authorizedTokenIssuerList
             self.iamRoleArn = iamRoleArn
             self.idcDisplayName = idcDisplayName
@@ -2566,6 +2575,8 @@ extension Redshift {
             self.identityNamespace = identityNamespace
             self.redshiftIdcApplicationName = redshiftIdcApplicationName
             self.serviceIntegrations = serviceIntegrations
+            self.ssoTagKeys = ssoTagKeys
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -2583,6 +2594,12 @@ extension Redshift {
             try self.validate(self.redshiftIdcApplicationName, name: "redshiftIdcApplicationName", parent: name, max: 63)
             try self.validate(self.redshiftIdcApplicationName, name: "redshiftIdcApplicationName", parent: name, min: 1)
             try self.validate(self.redshiftIdcApplicationName, name: "redshiftIdcApplicationName", parent: name, pattern: "^[a-z][a-z0-9]*(-[a-z0-9]+)*$")
+            try self.ssoTagKeys?.forEach {
+                try validate($0, name: "ssoTagKeys[]", parent: name, max: 2147483647)
+            }
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2593,6 +2610,8 @@ extension Redshift {
             case identityNamespace = "IdentityNamespace"
             case redshiftIdcApplicationName = "RedshiftIdcApplicationName"
             case serviceIntegrations = "ServiceIntegrations"
+            case ssoTagKeys = "SsoTagKeys"
+            case tags = "Tags"
         }
     }
 
@@ -8041,6 +8060,9 @@ extension Redshift {
     }
 
     public struct RedshiftIdcApplication: AWSDecodableShape {
+        public struct _SsoTagKeysEncoding: ArrayCoderProperties { public static let member = "TagKey" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
         /// The authorized token issuer list for the Amazon Redshift IAM Identity Center application.
         @OptionalCustomCoding<StandardArrayCoder<AuthorizedTokenIssuer>>
         public var authorizedTokenIssuerList: [AuthorizedTokenIssuer]?
@@ -8063,9 +8085,15 @@ extension Redshift {
         /// A list of service integrations for the Redshift IAM Identity Center application.
         @OptionalCustomCoding<StandardArrayCoder<ServiceIntegrationsUnion>>
         public var serviceIntegrations: [ServiceIntegrationsUnion]?
+        /// A list of tags keys that Redshift Identity Center applications copy to IAM Identity Center. For each input key, the tag corresponding to the key-value pair is propagated.
+        @OptionalCustomCoding<ArrayCoder<_SsoTagKeysEncoding, String>>
+        public var ssoTagKeys: [String]?
+        /// A list of tags.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         @inlinable
-        public init(authorizedTokenIssuerList: [AuthorizedTokenIssuer]? = nil, iamRoleArn: String? = nil, idcDisplayName: String? = nil, idcInstanceArn: String? = nil, idcManagedApplicationArn: String? = nil, idcOnboardStatus: String? = nil, identityNamespace: String? = nil, redshiftIdcApplicationArn: String? = nil, redshiftIdcApplicationName: String? = nil, serviceIntegrations: [ServiceIntegrationsUnion]? = nil) {
+        public init(authorizedTokenIssuerList: [AuthorizedTokenIssuer]? = nil, iamRoleArn: String? = nil, idcDisplayName: String? = nil, idcInstanceArn: String? = nil, idcManagedApplicationArn: String? = nil, idcOnboardStatus: String? = nil, identityNamespace: String? = nil, redshiftIdcApplicationArn: String? = nil, redshiftIdcApplicationName: String? = nil, serviceIntegrations: [ServiceIntegrationsUnion]? = nil, ssoTagKeys: [String]? = nil, tags: [Tag]? = nil) {
             self.authorizedTokenIssuerList = authorizedTokenIssuerList
             self.iamRoleArn = iamRoleArn
             self.idcDisplayName = idcDisplayName
@@ -8076,6 +8104,8 @@ extension Redshift {
             self.redshiftIdcApplicationArn = redshiftIdcApplicationArn
             self.redshiftIdcApplicationName = redshiftIdcApplicationName
             self.serviceIntegrations = serviceIntegrations
+            self.ssoTagKeys = ssoTagKeys
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8089,6 +8119,8 @@ extension Redshift {
             case redshiftIdcApplicationArn = "RedshiftIdcApplicationArn"
             case redshiftIdcApplicationName = "RedshiftIdcApplicationName"
             case serviceIntegrations = "ServiceIntegrations"
+            case ssoTagKeys = "SsoTagKeys"
+            case tags = "Tags"
         }
     }
 

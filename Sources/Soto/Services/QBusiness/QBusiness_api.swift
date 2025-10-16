@@ -132,6 +132,7 @@ public struct QBusiness: AWSService {
             "ap-southeast-3": "qbusiness-fips.ap-southeast-3.api.aws",
             "ap-southeast-4": "qbusiness-fips.ap-southeast-4.api.aws",
             "ap-southeast-5": "qbusiness-fips.ap-southeast-5.api.aws",
+            "ap-southeast-6": "qbusiness-fips.ap-southeast-6.api.aws",
             "ap-southeast-7": "qbusiness-fips.ap-southeast-7.api.aws",
             "ca-central-1": "qbusiness-fips.ca-central-1.api.aws",
             "ca-west-1": "qbusiness-fips.ca-west-1.api.aws",
@@ -258,7 +259,7 @@ public struct QBusiness: AWSService {
     /// Parameters:
     ///   - applicationId: The identifier of the Amazon Q Business application.
     ///   - dataSourceSyncId: The identifier of the data source sync during which the documents were added.
-    ///   - documents: One or more documents to add to the index.
+    ///   - documents: One or more documents to add to the index.  Ensure that the name of your document doesn't contain any confidential information. Amazon Q Business returns document names in chat responses and citations when relevant.
     ///   - indexId: The identifier of the Amazon Q Business index to add the documents to.
     ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role with permission to access your S3 bucket.
     ///   - logger: Logger use during operation
@@ -681,7 +682,7 @@ public struct QBusiness: AWSService {
     ///   - documentEnrichmentConfiguration: 
     ///   - indexId: The identifier of the index that you want to use with the data source connector.
     ///   - mediaExtractionConfiguration: The configuration for extracting information from media in documents during ingestion.
-    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role with permission to access the data source and required resources.
+    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role with permission to access the data source and required resources. This field is required for all connector types except custom connectors, where it is optional.
     ///   - syncSchedule: Sets the frequency for Amazon Q Business to check the documents in your data source repository and update your index. If you don't set a schedule, Amazon Q Business won't periodically update the index. Specify a cron- format schedule string or an empty string to indicate that the index is updated on demand. You can't specify the Schedule parameter when the Type parameter is set to CUSTOM. If you do, you receive a ValidationException exception.
     ///   - tags: A list of key-value pairs that identify or categorize the data source connector. You can also use tags to help control access to the data source connector. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
     ///   - vpcConfiguration: Configuration information for an Amazon VPC (Virtual Private Cloud) to connect to your data source. For more information, see Using Amazon VPC with Amazon Q Business connectors.
@@ -863,7 +864,7 @@ public struct QBusiness: AWSService {
         return try await self.createRetriever(input, logger: logger)
     }
 
-    /// Subscribes an IAM Identity Center user or a group to a pricing tier for an Amazon Q Business application. Amazon Q Business offers two subscription tiers: Q_LITE and Q_BUSINESS. Subscription tier determines feature access for the user. For more information on subscriptions and pricing tiers, see Amazon Q Business pricing.
+    /// Subscribes an IAM Identity Center user or a group to a pricing tier for an Amazon Q Business application. Amazon Q Business offers two subscription tiers: Q_LITE and Q_BUSINESS. Subscription tier determines feature access for the user. For more information on subscriptions and pricing tiers, see Amazon Q Business pricing.  For an example IAM role policy for assigning subscriptions, see Set up required permissions in the Amazon Q Business User Guide.
     @Sendable
     @inlinable
     public func createSubscription(_ input: CreateSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSubscriptionResponse {
@@ -876,7 +877,7 @@ public struct QBusiness: AWSService {
             logger: logger
         )
     }
-    /// Subscribes an IAM Identity Center user or a group to a pricing tier for an Amazon Q Business application. Amazon Q Business offers two subscription tiers: Q_LITE and Q_BUSINESS. Subscription tier determines feature access for the user. For more information on subscriptions and pricing tiers, see Amazon Q Business pricing.
+    /// Subscribes an IAM Identity Center user or a group to a pricing tier for an Amazon Q Business application. Amazon Q Business offers two subscription tiers: Q_LITE and Q_BUSINESS. Subscription tier determines feature access for the user. For more information on subscriptions and pricing tiers, see Amazon Q Business pricing.  For an example IAM role policy for assigning subscriptions, see Set up required permissions in the Amazon Q Business User Guide.
     ///
     /// Parameters:
     ///   - applicationId: The identifier of the Amazon Q Business application the subscription should be added to.
@@ -961,7 +962,7 @@ public struct QBusiness: AWSService {
     ///   - customizationConfiguration: Sets the custom logo, favicon, font, and color used in the Amazon Q web experience.
     ///   - identityProviderConfiguration: Information about the identity provider (IdP) used to authenticate end users of an Amazon Q Business web experience.
     ///   - origins: Sets the website domain origins that are allowed to embed the Amazon Q Business web experience. The domain origin refers to the base URL for accessing a website including the protocol (http/https), the domain name, and the port number (if specified).   You must only submit a base URL and not a full path. For example, https://docs.aws.amazon.com.
-    ///   - roleArn: The Amazon Resource Name (ARN) of the service role attached to your web experience.  You must provide this value if you're using IAM Identity Center to manage end user access to your application. If you're using legacy identity management to manage user access, you don't need to provide this value.
+    ///   - roleArn: The Amazon Resource Name (ARN) of the service role attached to your web experience.  The roleArn parameter is required when your Amazon Q Business application is created with IAM Identity Center. It is not required for SAML-based applications.
     ///   - samplePromptsControlMode: Determines whether sample prompts are enabled in the web experience for an end user.
     ///   - subtitle: A subtitle to personalize your Amazon Q Business web experience.
     ///   - tags: A list of key-value pairs that identify or categorize your Amazon Q Business web experience. You can also use tags to help control access to the web experience. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
@@ -1622,6 +1623,47 @@ public struct QBusiness: AWSService {
             indexId: indexId
         )
         return try await self.getDataSource(input, logger: logger)
+    }
+
+    /// Retrieves the content of a document that was ingested into Amazon Q Business. This API validates user authorization against document ACLs before returning a pre-signed URL for secure document access. You can download or view source documents referenced in chat responses through the URL.
+    @Sendable
+    @inlinable
+    public func getDocumentContent(_ input: GetDocumentContentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDocumentContentResponse {
+        try await self.client.execute(
+            operation: "GetDocumentContent", 
+            path: "/applications/{applicationId}/index/{indexId}/documents/{documentId}/content", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the content of a document that was ingested into Amazon Q Business. This API validates user authorization against document ACLs before returning a pre-signed URL for secure document access. You can download or view source documents referenced in chat responses through the URL.
+    ///
+    /// Parameters:
+    ///   - applicationId: The unique identifier of the Amazon Q Business application containing the document. This ensures the request is scoped to the correct application environment and its associated security policies.
+    ///   - dataSourceId: The identifier of the data source from which the document was ingested. This field is not present if the document is ingested by directly calling the BatchPutDocument API. If the document is from a file-upload data source, the datasource will be "uploaded-docs-file-stat-datasourceid".
+    ///   - documentId: The unique identifier of the document that is indexed via BatchPutDocument API or file-upload or connector sync. It is also found in chat or chatSync response.
+    ///   - indexId: The identifier of the index where documents are indexed.
+    ///   - outputFormat: Document outputFormat. Defaults to RAW if not selected.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDocumentContent(
+        applicationId: String,
+        dataSourceId: String? = nil,
+        documentId: String,
+        indexId: String,
+        outputFormat: OutputFormat? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDocumentContentResponse {
+        let input = GetDocumentContentRequest(
+            applicationId: applicationId, 
+            dataSourceId: dataSourceId, 
+            documentId: documentId, 
+            indexId: indexId, 
+            outputFormat: outputFormat
+        )
+        return try await self.getDocumentContent(input, logger: logger)
     }
 
     /// Describes a group by group name.

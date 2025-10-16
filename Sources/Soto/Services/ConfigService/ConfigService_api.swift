@@ -264,11 +264,11 @@ public struct ConfigService: AWSService {
     /// 			in this state. If you make a PutConfigRule or
     /// 				DeleteConfigRule request for the rule, you will
     /// 			receive a ResourceInUseException. You can check the state of a rule by using the
-    /// 				DescribeConfigRules request.   Recommendation: Stop recording resource compliance before deleting rules  It is highly recommended that you stop recording for the AWS::Config::ResourceCompliance resource type before you delete rules in your account.
-    /// 				Deleting rules creates CIs for AWS::Config::ResourceCompliance and can affect your Config configuration recorder costs.
-    ///
-    /// 				If you are deleting rules which evaluate a large number of resource types,
-    /// 				this can lead to a spike in the number of CIs recorded. Best practice:   Stop recording AWS::Config::ResourceCompliance    Delete rule(s)   Turn on recording for AWS::Config::ResourceCompliance
+    /// 				DescribeConfigRules request.   Recommendation: Consider excluding the AWS::Config::ResourceCompliance resource type from recording before deleting rules  Deleting rules creates configuration items (CIs) for AWS::Config::ResourceCompliance
+    /// 				that can affect your costs for the configuration recorder. If you are deleting rules which evaluate a large number of resource types,
+    /// 				this can lead to a spike in the number of CIs recorded. To avoid the associated costs, you can opt to disable recording
+    /// 				for the AWS::Config::ResourceCompliance resource type before deleting rules, and re-enable recording after the rules have been deleted. However, since deleting rules is an asynchronous process, it might take an hour or more to complete. During the time
+    /// 				when recording is disabled for AWS::Config::ResourceCompliance, rule evaluations will not be recorded in the associated resource’s history.
     @Sendable
     @inlinable
     public func deleteConfigRule(_ input: DeleteConfigRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -287,11 +287,11 @@ public struct ConfigService: AWSService {
     /// 			in this state. If you make a PutConfigRule or
     /// 				DeleteConfigRule request for the rule, you will
     /// 			receive a ResourceInUseException. You can check the state of a rule by using the
-    /// 				DescribeConfigRules request.   Recommendation: Stop recording resource compliance before deleting rules  It is highly recommended that you stop recording for the AWS::Config::ResourceCompliance resource type before you delete rules in your account.
-    /// 				Deleting rules creates CIs for AWS::Config::ResourceCompliance and can affect your Config configuration recorder costs.
-    ///
-    /// 				If you are deleting rules which evaluate a large number of resource types,
-    /// 				this can lead to a spike in the number of CIs recorded. Best practice:   Stop recording AWS::Config::ResourceCompliance    Delete rule(s)   Turn on recording for AWS::Config::ResourceCompliance
+    /// 				DescribeConfigRules request.   Recommendation: Consider excluding the AWS::Config::ResourceCompliance resource type from recording before deleting rules  Deleting rules creates configuration items (CIs) for AWS::Config::ResourceCompliance
+    /// 				that can affect your costs for the configuration recorder. If you are deleting rules which evaluate a large number of resource types,
+    /// 				this can lead to a spike in the number of CIs recorded. To avoid the associated costs, you can opt to disable recording
+    /// 				for the AWS::Config::ResourceCompliance resource type before deleting rules, and re-enable recording after the rules have been deleted. However, since deleting rules is an asynchronous process, it might take an hour or more to complete. During the time
+    /// 				when recording is disabled for AWS::Config::ResourceCompliance, rule evaluations will not be recorded in the associated resource’s history.
     ///
     /// Parameters:
     ///   - configRuleName: The name of the Config rule that you want to
@@ -379,7 +379,11 @@ public struct ConfigService: AWSService {
 
     /// Deletes the specified conformance pack and all the Config rules, remediation actions, and all evaluation results within that
     /// 			conformance pack. Config sets the conformance pack to DELETE_IN_PROGRESS until the deletion is complete.
-    /// 			You cannot update a conformance pack while it is in this state.
+    /// 			You cannot update a conformance pack while it is in this state.   Recommendation: Consider excluding the AWS::Config::ResourceCompliance resource type from recording before deleting rules  Deleting rules creates configuration items (CIs) for AWS::Config::ResourceCompliance
+    /// 				that can affect your costs for the configuration recorder. If you are deleting rules which evaluate a large number of resource types,
+    /// 				this can lead to a spike in the number of CIs recorded. To avoid the associated costs, you can opt to disable recording
+    /// 				for the AWS::Config::ResourceCompliance resource type before deleting rules, and re-enable recording after the rules have been deleted. However, since deleting rules is an asynchronous process, it might take an hour or more to complete. During the time
+    /// 				when recording is disabled for AWS::Config::ResourceCompliance, rule evaluations will not be recorded in the associated resource’s history.
     @Sendable
     @inlinable
     public func deleteConformancePack(_ input: DeleteConformancePackRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -394,7 +398,11 @@ public struct ConfigService: AWSService {
     }
     /// Deletes the specified conformance pack and all the Config rules, remediation actions, and all evaluation results within that
     /// 			conformance pack. Config sets the conformance pack to DELETE_IN_PROGRESS until the deletion is complete.
-    /// 			You cannot update a conformance pack while it is in this state.
+    /// 			You cannot update a conformance pack while it is in this state.   Recommendation: Consider excluding the AWS::Config::ResourceCompliance resource type from recording before deleting rules  Deleting rules creates configuration items (CIs) for AWS::Config::ResourceCompliance
+    /// 				that can affect your costs for the configuration recorder. If you are deleting rules which evaluate a large number of resource types,
+    /// 				this can lead to a spike in the number of CIs recorded. To avoid the associated costs, you can opt to disable recording
+    /// 				for the AWS::Config::ResourceCompliance resource type before deleting rules, and re-enable recording after the rules have been deleted. However, since deleting rules is an asynchronous process, it might take an hour or more to complete. During the time
+    /// 				when recording is disabled for AWS::Config::ResourceCompliance, rule evaluations will not be recorded in the associated resource’s history.
     ///
     /// Parameters:
     ///   - conformancePackName: Name of the conformance pack you want to delete.
@@ -477,7 +485,11 @@ public struct ConfigService: AWSService {
     /// Deletes the specified organization Config rule and all of its evaluation results from all member accounts in that organization.  Only a management account and a delegated administrator account can delete an organization Config rule.
     /// 		When calling this API with a delegated administrator, you must ensure Organizations
     /// 			ListDelegatedAdministrator permissions are added. Config sets the state of a rule to DELETE_IN_PROGRESS until the deletion is complete.
-    /// 			You cannot update a rule while it is in this state.
+    /// 			You cannot update a rule while it is in this state.   Recommendation: Consider excluding the AWS::Config::ResourceCompliance resource type from recording before deleting rules  Deleting rules creates configuration items (CIs) for AWS::Config::ResourceCompliance
+    /// 				that can affect your costs for the configuration recorder. If you are deleting rules which evaluate a large number of resource types,
+    /// 				this can lead to a spike in the number of CIs recorded. To avoid the associated costs, you can opt to disable recording
+    /// 				for the AWS::Config::ResourceCompliance resource type before deleting rules, and re-enable recording after the rules have been deleted. However, since deleting rules is an asynchronous process, it might take an hour or more to complete. During the time
+    /// 				when recording is disabled for AWS::Config::ResourceCompliance, rule evaluations will not be recorded in the associated resource’s history.
     @Sendable
     @inlinable
     public func deleteOrganizationConfigRule(_ input: DeleteOrganizationConfigRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -493,7 +505,11 @@ public struct ConfigService: AWSService {
     /// Deletes the specified organization Config rule and all of its evaluation results from all member accounts in that organization.  Only a management account and a delegated administrator account can delete an organization Config rule.
     /// 		When calling this API with a delegated administrator, you must ensure Organizations
     /// 			ListDelegatedAdministrator permissions are added. Config sets the state of a rule to DELETE_IN_PROGRESS until the deletion is complete.
-    /// 			You cannot update a rule while it is in this state.
+    /// 			You cannot update a rule while it is in this state.   Recommendation: Consider excluding the AWS::Config::ResourceCompliance resource type from recording before deleting rules  Deleting rules creates configuration items (CIs) for AWS::Config::ResourceCompliance
+    /// 				that can affect your costs for the configuration recorder. If you are deleting rules which evaluate a large number of resource types,
+    /// 				this can lead to a spike in the number of CIs recorded. To avoid the associated costs, you can opt to disable recording
+    /// 				for the AWS::Config::ResourceCompliance resource type before deleting rules, and re-enable recording after the rules have been deleted. However, since deleting rules is an asynchronous process, it might take an hour or more to complete. During the time
+    /// 				when recording is disabled for AWS::Config::ResourceCompliance, rule evaluations will not be recorded in the associated resource’s history.
     ///
     /// Parameters:
     ///   - organizationConfigRuleName: The name of organization Config rule that you want to delete.
@@ -513,7 +529,11 @@ public struct ConfigService: AWSService {
     /// 			all member accounts in that organization.  Only a management account or a delegated administrator account can delete an organization conformance pack.
     /// 	When calling this API with a delegated administrator, you must ensure Organizations
     /// 		ListDelegatedAdministrator permissions are added. Config sets the state of a conformance pack to DELETE_IN_PROGRESS until the deletion is complete.
-    /// 				You cannot update a conformance pack while it is in this state.
+    /// 				You cannot update a conformance pack while it is in this state.    Recommendation: Consider excluding the AWS::Config::ResourceCompliance resource type from recording before deleting rules  Deleting rules creates configuration items (CIs) for AWS::Config::ResourceCompliance
+    /// 				that can affect your costs for the configuration recorder. If you are deleting rules which evaluate a large number of resource types,
+    /// 				this can lead to a spike in the number of CIs recorded. To avoid the associated costs, you can opt to disable recording
+    /// 				for the AWS::Config::ResourceCompliance resource type before deleting rules, and re-enable recording after the rules have been deleted. However, since deleting rules is an asynchronous process, it might take an hour or more to complete. During the time
+    /// 				when recording is disabled for AWS::Config::ResourceCompliance, rule evaluations will not be recorded in the associated resource’s history.
     @Sendable
     @inlinable
     public func deleteOrganizationConformancePack(_ input: DeleteOrganizationConformancePackRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -530,7 +550,11 @@ public struct ConfigService: AWSService {
     /// 			all member accounts in that organization.  Only a management account or a delegated administrator account can delete an organization conformance pack.
     /// 	When calling this API with a delegated administrator, you must ensure Organizations
     /// 		ListDelegatedAdministrator permissions are added. Config sets the state of a conformance pack to DELETE_IN_PROGRESS until the deletion is complete.
-    /// 				You cannot update a conformance pack while it is in this state.
+    /// 				You cannot update a conformance pack while it is in this state.    Recommendation: Consider excluding the AWS::Config::ResourceCompliance resource type from recording before deleting rules  Deleting rules creates configuration items (CIs) for AWS::Config::ResourceCompliance
+    /// 				that can affect your costs for the configuration recorder. If you are deleting rules which evaluate a large number of resource types,
+    /// 				this can lead to a spike in the number of CIs recorded. To avoid the associated costs, you can opt to disable recording
+    /// 				for the AWS::Config::ResourceCompliance resource type before deleting rules, and re-enable recording after the rules have been deleted. However, since deleting rules is an asynchronous process, it might take an hour or more to complete. During the time
+    /// 				when recording is disabled for AWS::Config::ResourceCompliance, rule evaluations will not be recorded in the associated resource’s history.
     ///
     /// Parameters:
     ///   - organizationConformancePackName: The name of organization conformance pack that you want to delete.
@@ -1297,7 +1321,7 @@ public struct ConfigService: AWSService {
     ///
     /// Parameters:
     ///   - arn: The Amazon Resource Name (ARN) of the configuration recorder that you want to specify.
-    ///   - configurationRecorderNames: A list of names of the configuration recorders that you want to specify.
+    ///   - configurationRecorderNames: A list of names of the configuration recorders that you want to specify.  When making a request to this operation, you can only specify one configuration recorder.
     ///   - servicePrincipal: For service-linked configuration recorders, you can use the service principal of the linked Amazon Web Services service to specify the configuration recorder.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2542,14 +2566,12 @@ public struct ConfigService: AWSService {
         return try await self.getOrganizationCustomRulePolicy(input, logger: logger)
     }
 
-    ///  For accurate reporting on the compliance status, you must record the AWS::Config::ResourceCompliance resource type.
-    /// 			For more information, see Selecting Which Resources Config Records.  Returns a list of ConfigurationItems for the specified resource.
-    /// 			The list contains details about each state of the resource
+    ///  For accurate reporting on the compliance status, you must record the AWS::Config::ResourceCompliance resource type. For more information, see Recording Amazon Web Services Resources in the Config Resources Developer Guide.  Returns a list of configurations items (CIs) for the specified resource.  Contents  The list contains details about each state of the resource
     /// 			during the specified time interval. If you specified a retention
-    /// 			period to retain your ConfigurationItems between a
+    /// 			period to retain your CIs between a
     /// 			minimum of 30 days and a maximum of 7 years (2557 days), Config
-    /// 			returns the ConfigurationItems for the specified
-    /// 			retention period.  The response is paginated. By default, Config returns a
+    /// 			returns the CIs for the specified
+    /// 			retention period.   Pagination  The response is paginated. By default, Config returns a
     /// 			limit of 10 configuration items per page. You can customize this
     /// 			number with the limit parameter. The response includes
     /// 			a nextToken string. To get the next page of results,
@@ -2571,14 +2593,12 @@ public struct ConfigService: AWSService {
             logger: logger
         )
     }
-    ///  For accurate reporting on the compliance status, you must record the AWS::Config::ResourceCompliance resource type.
-    /// 			For more information, see Selecting Which Resources Config Records.  Returns a list of ConfigurationItems for the specified resource.
-    /// 			The list contains details about each state of the resource
+    ///  For accurate reporting on the compliance status, you must record the AWS::Config::ResourceCompliance resource type. For more information, see Recording Amazon Web Services Resources in the Config Resources Developer Guide.  Returns a list of configurations items (CIs) for the specified resource.  Contents  The list contains details about each state of the resource
     /// 			during the specified time interval. If you specified a retention
-    /// 			period to retain your ConfigurationItems between a
+    /// 			period to retain your CIs between a
     /// 			minimum of 30 days and a maximum of 7 years (2557 days), Config
-    /// 			returns the ConfigurationItems for the specified
-    /// 			retention period.  The response is paginated. By default, Config returns a
+    /// 			returns the CIs for the specified
+    /// 			retention period.   Pagination  The response is paginated. By default, Config returns a
     /// 			limit of 10 configuration items per page. You can customize this
     /// 			number with the limit parameter. The response includes
     /// 			a nextToken string. To get the next page of results,
@@ -2812,19 +2832,18 @@ public struct ConfigService: AWSService {
         return try await self.listConformancePackComplianceScores(input, logger: logger)
     }
 
-    /// Accepts a resource type and returns a list of resource
-    /// 			identifiers for the resources of that type. A resource identifier
+    /// Returns a list of resource
+    /// 			resource identifiers for the specified resource types for the resources of that type. A resource identifier
     /// 			includes the resource type, ID, and (if available) the custom
     /// 			resource name. The results consist of resources that Config has
     /// 			discovered, including those that Config is not currently
     /// 			recording. You can narrow the results to include only resources that
     /// 			have specific resource IDs or a resource name.  You can specify either resource IDs or a resource name, but
-    /// 				not both, in the same request.  The response is paginated. By default, Config lists 100
-    /// 			resource identifiers on each page. You can customize this number
-    /// 			with the limit parameter. The response includes a
-    /// 				nextToken string. To get the next page of results,
-    /// 			run the request again and specify the string for the
-    /// 				nextToken parameter.
+    /// 				not both, in the same request.    CloudFormation stack recording behavior in Config  When a CloudFormation stack fails to create (for example, it enters the ROLLBACK_FAILED state),
+    /// 				Config does not record a configuration item (CI) for that stack. Configuration items are only recorded for stacks that reach
+    /// 				the following states:    CREATE_COMPLETE     UPDATE_COMPLETE     UPDATE_ROLLBACK_COMPLETE     UPDATE_ROLLBACK_FAILED     DELETE_FAILED     DELETE_COMPLETE    Because no CI is created for a failed stack creation, you won't see configuration history
+    /// 				for that stack in Config, even after the stack is deleted. This helps make sure that Config only
+    /// 				tracks resources that were successfully provisioned.
     @Sendable
     @inlinable
     public func listDiscoveredResources(_ input: ListDiscoveredResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDiscoveredResourcesResponse {
@@ -2837,19 +2856,18 @@ public struct ConfigService: AWSService {
             logger: logger
         )
     }
-    /// Accepts a resource type and returns a list of resource
-    /// 			identifiers for the resources of that type. A resource identifier
+    /// Returns a list of resource
+    /// 			resource identifiers for the specified resource types for the resources of that type. A resource identifier
     /// 			includes the resource type, ID, and (if available) the custom
     /// 			resource name. The results consist of resources that Config has
     /// 			discovered, including those that Config is not currently
     /// 			recording. You can narrow the results to include only resources that
     /// 			have specific resource IDs or a resource name.  You can specify either resource IDs or a resource name, but
-    /// 				not both, in the same request.  The response is paginated. By default, Config lists 100
-    /// 			resource identifiers on each page. You can customize this number
-    /// 			with the limit parameter. The response includes a
-    /// 				nextToken string. To get the next page of results,
-    /// 			run the request again and specify the string for the
-    /// 				nextToken parameter.
+    /// 				not both, in the same request.    CloudFormation stack recording behavior in Config  When a CloudFormation stack fails to create (for example, it enters the ROLLBACK_FAILED state),
+    /// 				Config does not record a configuration item (CI) for that stack. Configuration items are only recorded for stacks that reach
+    /// 				the following states:    CREATE_COMPLETE     UPDATE_COMPLETE     UPDATE_ROLLBACK_COMPLETE     UPDATE_ROLLBACK_FAILED     DELETE_FAILED     DELETE_COMPLETE    Because no CI is created for a failed stack creation, you won't see configuration history
+    /// 				for that stack in Config, even after the stack is deleted. This helps make sure that Config only
+    /// 				tracks resources that were successfully provisioned.
     ///
     /// Parameters:
     ///   - includeDeletedResources: Specifies whether Config includes deleted resources in the
@@ -3206,7 +3224,14 @@ public struct ConfigService: AWSService {
 
     /// Creates or updates a conformance pack. A conformance pack is a collection of Config rules that can be easily deployed in an account and a region and across an organization.
     /// 			For information on how many conformance packs you can have per account,
-    /// 			see  Service Limits in the Config Developer Guide. This API creates a service-linked role AWSServiceRoleForConfigConforms in your account.
+    /// 			see  Service Limits in the Config Developer Guide.  When you use PutConformancePack to deploy conformance packs in your account,
+    /// 				the operation can create Config rules and remediation actions without
+    /// 				requiring config:PutConfigRule or
+    /// 					config:PutRemediationConfigurations permissions in your account IAM
+    /// 				policies. This API uses the AWSServiceRoleForConfigConforms service-linked role in your
+    /// 				account to create conformance pack resources. This service-linked role includes the
+    /// 				permissions to create Config rules and remediation configurations, even
+    /// 				if your account IAM policies explicitly deny these actions.  This API creates a service-linked role AWSServiceRoleForConfigConforms in your account.
     /// 		The service-linked role is created only when the role does not exist in your account.   You must specify only one of the follow parameters: TemplateS3Uri, TemplateBody or TemplateSSMDocumentDetails.
     @Sendable
     @inlinable
@@ -3222,7 +3247,14 @@ public struct ConfigService: AWSService {
     }
     /// Creates or updates a conformance pack. A conformance pack is a collection of Config rules that can be easily deployed in an account and a region and across an organization.
     /// 			For information on how many conformance packs you can have per account,
-    /// 			see  Service Limits in the Config Developer Guide. This API creates a service-linked role AWSServiceRoleForConfigConforms in your account.
+    /// 			see  Service Limits in the Config Developer Guide.  When you use PutConformancePack to deploy conformance packs in your account,
+    /// 				the operation can create Config rules and remediation actions without
+    /// 				requiring config:PutConfigRule or
+    /// 					config:PutRemediationConfigurations permissions in your account IAM
+    /// 				policies. This API uses the AWSServiceRoleForConfigConforms service-linked role in your
+    /// 				account to create conformance pack resources. This service-linked role includes the
+    /// 				permissions to create Config rules and remediation configurations, even
+    /// 				if your account IAM policies explicitly deny these actions.  This API creates a service-linked role AWSServiceRoleForConfigConforms in your account.
     /// 		The service-linked role is created only when the role does not exist in your account.   You must specify only one of the follow parameters: TemplateS3Uri, TemplateBody or TemplateSSMDocumentDetails.
     ///
     /// Parameters:
@@ -3230,7 +3262,7 @@ public struct ConfigService: AWSService {
     ///   - conformancePackName: The unique name of the conformance pack you want to deploy.
     ///   - deliveryS3Bucket: The name of the Amazon S3 bucket where Config stores conformance pack templates.  This field is optional.
     ///   - deliveryS3KeyPrefix: The prefix for the Amazon S3 bucket.   This field is optional.
-    ///   - templateBody: A string containing the full conformance pack template body. The structure containing the template body has a minimum length of 1 byte and a maximum length of 51,200 bytes.  You can use a YAML template with two resource types: Config rule (AWS::Config::ConfigRule) and remediation action (AWS::Config::RemediationConfiguration).
+    ///   - templateBody: A string that contains the full conformance pack template body. The structure containing the template body has a minimum length of 1 byte and a maximum length of 51,200 bytes.  You can use a YAML template with two resource types: Config rule (AWS::Config::ConfigRule) and remediation action (AWS::Config::RemediationConfiguration).
     ///   - templateS3Uri: The location of the file containing the template body (s3://bucketname/prefix). The uri must point to a conformance pack template (max size: 300 KB) that is located in an Amazon S3 bucket in the same Region as the conformance pack.   You must have access to read Amazon S3 bucket.
     ///   - templateSSMDocumentDetails: An object of type TemplateSSMDocumentDetails, which contains the name or the Amazon Resource Name (ARN) of the Amazon Web Services Systems Manager document (SSM document) and the version of the SSM document that is used to create a conformance pack.
     ///   - logger: Logger use during operation
@@ -3449,7 +3481,15 @@ public struct ConfigService: AWSService {
     /// Deploys conformance packs across member accounts in an Amazon Web Services Organization. For information on how many organization conformance packs and how many Config rules you can have per account,
     /// 			see  Service Limits in the Config Developer Guide. Only a management account and a delegated administrator can call this API.
     /// 			When calling this API with a delegated administrator, you must ensure Organizations
-    /// 			ListDelegatedAdministrator permissions are added. An organization can have up to 3 delegated administrators. This API enables organization service access for config-multiaccountsetup.amazonaws.com
+    /// 			ListDelegatedAdministrator permissions are added. An organization can have up to 3 delegated administrators.  When you use PutOrganizationConformancePack to deploy conformance packs across
+    /// 				member accounts, the operation can create Config rules and remediation
+    /// 				actions without requiring config:PutConfigRule or
+    /// 					config:PutRemediationConfigurations permissions in member account
+    /// 				IAM policies. This API uses the AWSServiceRoleForConfigConforms service-linked role in each
+    /// 				member account to create conformance pack resources. This service-linked role
+    /// 				includes the permissions to create Config rules and remediation
+    /// 				configurations, even if member account IAM policies explicitly deny these
+    /// 				actions.  This API enables organization service access for config-multiaccountsetup.amazonaws.com
     /// 			through the EnableAWSServiceAccess action and creates a
     /// 			service-linked role AWSServiceRoleForConfigMultiAccountSetup in the management or delegated administrator account of your organization.
     /// 			The service-linked role is created only when the role does not exist in the caller account.
@@ -3472,7 +3512,15 @@ public struct ConfigService: AWSService {
     /// Deploys conformance packs across member accounts in an Amazon Web Services Organization. For information on how many organization conformance packs and how many Config rules you can have per account,
     /// 			see  Service Limits in the Config Developer Guide. Only a management account and a delegated administrator can call this API.
     /// 			When calling this API with a delegated administrator, you must ensure Organizations
-    /// 			ListDelegatedAdministrator permissions are added. An organization can have up to 3 delegated administrators. This API enables organization service access for config-multiaccountsetup.amazonaws.com
+    /// 			ListDelegatedAdministrator permissions are added. An organization can have up to 3 delegated administrators.  When you use PutOrganizationConformancePack to deploy conformance packs across
+    /// 				member accounts, the operation can create Config rules and remediation
+    /// 				actions without requiring config:PutConfigRule or
+    /// 					config:PutRemediationConfigurations permissions in member account
+    /// 				IAM policies. This API uses the AWSServiceRoleForConfigConforms service-linked role in each
+    /// 				member account to create conformance pack resources. This service-linked role
+    /// 				includes the permissions to create Config rules and remediation
+    /// 				configurations, even if member account IAM policies explicitly deny these
+    /// 				actions.  This API enables organization service access for config-multiaccountsetup.amazonaws.com
     /// 			through the EnableAWSServiceAccess action and creates a
     /// 			service-linked role AWSServiceRoleForConfigMultiAccountSetup in the management or delegated administrator account of your organization.
     /// 			The service-linked role is created only when the role does not exist in the caller account.
@@ -3487,7 +3535,7 @@ public struct ConfigService: AWSService {
     ///   - deliveryS3KeyPrefix: The prefix for the Amazon S3 bucket.  This field is optional.
     ///   - excludedAccounts: A list of Amazon Web Services accounts to be excluded from an organization conformance pack while deploying a conformance pack.
     ///   - organizationConformancePackName: Name of the organization conformance pack you want to create.
-    ///   - templateBody: A string containing full conformance pack template body. Structure containing the template body
+    ///   - templateBody: A string that contains the full conformance pack template body. Structure containing the template body
     ///   - templateS3Uri: Location of file containing the template body. The uri must point to the conformance pack template
     ///   - logger: Logger use during operation
     @inlinable
@@ -3715,7 +3763,7 @@ public struct ConfigService: AWSService {
         return try await self.putRetentionConfiguration(input, logger: logger)
     }
 
-    /// Creates a service-linked configuration recorder that is linked to a specific Amazon Web Services service based on the ServicePrincipal you specify. The configuration recorder's name, recordingGroup, recordingMode, and recordingScope is set by the service that is linked to the configuration recorder. For more information, see  Working with the Configuration Recorder in the Config Developer Guide. This API creates a service-linked role AWSServiceRoleForConfig in your account. The service-linked role is created only when the role does not exist in your account.   The recording scope determines if you receive configuration items  The recording scope is set by the service that is linked to the configuration recorder and determines whether you receive configuration items (CIs) in the delivery channel. If the recording scope is internal, you will not receive CIs in the delivery channel.  Tags are added at creation and cannot be updated with this operation  Use TagResource and UntagResource to update tags after creation.
+    /// Creates a service-linked configuration recorder that is linked to a specific Amazon Web Services service based on the ServicePrincipal you specify. The configuration recorder's name, recordingGroup, recordingMode, and recordingScope is set by the service that is linked to the configuration recorder. For more information and a list of supported services/service principals, see  Working with the Configuration Recorder in the Config Developer Guide. This API creates a service-linked role AWSServiceRoleForConfig in your account. The service-linked role is created only when the role does not exist in your account.   The recording scope determines if you receive configuration items  The recording scope is set by the service that is linked to the configuration recorder and determines whether you receive configuration items (CIs) in the delivery channel. If the recording scope is internal, you will not receive CIs in the delivery channel.  Tags are added at creation and cannot be updated with this operation  Use TagResource and UntagResource to update tags after creation.
     @Sendable
     @inlinable
     public func putServiceLinkedConfigurationRecorder(_ input: PutServiceLinkedConfigurationRecorderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutServiceLinkedConfigurationRecorderResponse {
@@ -3728,7 +3776,7 @@ public struct ConfigService: AWSService {
             logger: logger
         )
     }
-    /// Creates a service-linked configuration recorder that is linked to a specific Amazon Web Services service based on the ServicePrincipal you specify. The configuration recorder's name, recordingGroup, recordingMode, and recordingScope is set by the service that is linked to the configuration recorder. For more information, see  Working with the Configuration Recorder in the Config Developer Guide. This API creates a service-linked role AWSServiceRoleForConfig in your account. The service-linked role is created only when the role does not exist in your account.   The recording scope determines if you receive configuration items  The recording scope is set by the service that is linked to the configuration recorder and determines whether you receive configuration items (CIs) in the delivery channel. If the recording scope is internal, you will not receive CIs in the delivery channel.  Tags are added at creation and cannot be updated with this operation  Use TagResource and UntagResource to update tags after creation.
+    /// Creates a service-linked configuration recorder that is linked to a specific Amazon Web Services service based on the ServicePrincipal you specify. The configuration recorder's name, recordingGroup, recordingMode, and recordingScope is set by the service that is linked to the configuration recorder. For more information and a list of supported services/service principals, see  Working with the Configuration Recorder in the Config Developer Guide. This API creates a service-linked role AWSServiceRoleForConfig in your account. The service-linked role is created only when the role does not exist in your account.   The recording scope determines if you receive configuration items  The recording scope is set by the service that is linked to the configuration recorder and determines whether you receive configuration items (CIs) in the delivery channel. If the recording scope is internal, you will not receive CIs in the delivery channel.  Tags are added at creation and cannot be updated with this operation  Use TagResource and UntagResource to update tags after creation.
     ///
     /// Parameters:
     ///   - servicePrincipal: The service principal of the Amazon Web Services service for the service-linked configuration recorder that you want to create.
@@ -4033,7 +4081,7 @@ public struct ConfigService: AWSService {
     /// Parameters:
     ///   - clientToken: A client token is a unique, case-sensitive string of up to 64 ASCII characters.
     ///   - evaluationContext: Returns an EvaluationContext object.
-    ///   - evaluationMode: The mode of an evaluation. The valid values for this API are DETECTIVE and PROACTIVE.
+    ///   - evaluationMode: The mode of an evaluation.  The only valid value for this API is PROACTIVE.
     ///   - evaluationTimeout: The timeout for an evaluation. The default is 900 seconds. You cannot specify a number greater than 3600. If you specify 0, Config uses the default.
     ///   - resourceDetails: Returns a ResourceDetails object.
     ///   - logger: Logger use during operation

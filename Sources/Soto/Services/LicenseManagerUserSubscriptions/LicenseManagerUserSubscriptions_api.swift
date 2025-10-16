@@ -24,8 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS LicenseManagerUserSubscriptions service.
 ///
-/// With License Manager, you can create user-based subscriptions to utilize licensed software with
-/// 		a per user subscription fee on Amazon EC2 instances.
+/// With License Manager, you can create user-based subscriptions to utilize licensed software with a per user subscription fee on Amazon EC2 instances.
 public struct LicenseManagerUserSubscriptions: AWSService {
     // MARK: Member variables
 
@@ -89,9 +88,7 @@ public struct LicenseManagerUserSubscriptions: AWSService {
 
     // MARK: API Calls
 
-    /// Associates the user to an EC2 instance to utilize user-based subscriptions.  Your estimated bill for charges on the number of users and related costs will take 48
-    /// 			hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see Viewing your
-    /// 				monthly charges in the Amazon Web Services Billing User Guide.
+    /// Associates the user to an EC2 instance to utilize user-based subscriptions.  Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see Viewing your monthly charges in the Amazon Web Services Billing User Guide.
     @Sendable
     @inlinable
     public func associateUser(_ input: AssociateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateUserResponse {
@@ -104,12 +101,10 @@ public struct LicenseManagerUserSubscriptions: AWSService {
             logger: logger
         )
     }
-    /// Associates the user to an EC2 instance to utilize user-based subscriptions.  Your estimated bill for charges on the number of users and related costs will take 48
-    /// 			hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see Viewing your
-    /// 				monthly charges in the Amazon Web Services Billing User Guide.
+    /// Associates the user to an EC2 instance to utilize user-based subscriptions.  Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see Viewing your monthly charges in the Amazon Web Services Billing User Guide.
     ///
     /// Parameters:
-    ///   - domain: The domain name of the  Active Directory that contains information for the user to associate.
+    ///   - domain: The domain name of the Active Directory that contains information for the user to associate.
     ///   - identityProvider: The identity provider for the user.
     ///   - instanceId: The ID of the EC2 instance that provides the user-based subscription.
     ///   - tags: The tags that apply for the user association.
@@ -150,8 +145,8 @@ public struct LicenseManagerUserSubscriptions: AWSService {
     /// Creates a network endpoint for the Remote Desktop Services (RDS) license server.
     ///
     /// Parameters:
-    ///   - identityProviderArn: The Amazon Resource Name (ARN) that identifies the IdentityProvider resource that contains details
-    ///   - licenseServerSettings: The LicenseServerSettings resource to create for the endpoint. The
+    ///   - identityProviderArn: The Amazon Resource Name (ARN) that identifies the IdentityProvider resource that contains details about a registered identity provider. In the case of Active Directory, that can be a self-managed Active Directory or an Amazon Web Services Managed Active Directory that contains user identity details.
+    ///   - licenseServerSettings: The LicenseServerSettings resource to create for the endpoint. The settings include the type of license server and the Secrets Manager secret that enables administrators to add or remove users associated with the license server.
     ///   - tags: The tags that apply for the license server endpoint.
     ///   - logger: Logger use during operation
     @inlinable
@@ -185,7 +180,7 @@ public struct LicenseManagerUserSubscriptions: AWSService {
     /// Deletes a LicenseServerEndpoint resource.
     ///
     /// Parameters:
-    ///   - licenseServerEndpointArn: The Amazon Resource Name (ARN) that identifies the LicenseServerEndpoint
+    ///   - licenseServerEndpointArn: The Amazon Resource Name (ARN) that identifies the LicenseServerEndpoint resource to delete.
     ///   - serverType: The type of License Server that the delete request refers to.
     ///   - logger: Logger use during operation
     @inlinable
@@ -219,7 +214,7 @@ public struct LicenseManagerUserSubscriptions: AWSService {
     /// Parameters:
     ///   - identityProvider: An object that specifies details for the Active Directory identity provider.
     ///   - identityProviderArn: The Amazon Resource Name (ARN) that identifies the identity provider to deregister.
-    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS |
+    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
     ///   - logger: Logger use during operation
     @inlinable
     public func deregisterIdentityProvider(
@@ -252,7 +247,7 @@ public struct LicenseManagerUserSubscriptions: AWSService {
     /// Disassociates the user from an EC2 instance providing user-based subscriptions.
     ///
     /// Parameters:
-    ///   - domain: The domain name of the  Active Directory that contains information for the user to disassociate.
+    ///   - domain: The domain name of the Active Directory that contains information for the user to disassociate.
     ///   - identityProvider: An object that specifies details for the Active Directory identity provider.
     ///   - instanceId: The ID of the EC2 instance which provides user-based subscriptions.
     ///   - instanceUserArn: The Amazon Resource Name (ARN) of the user to disassociate from the EC2 instance.
@@ -295,7 +290,7 @@ public struct LicenseManagerUserSubscriptions: AWSService {
     /// Parameters:
     ///   - filters: You can use the following filters to streamline results:   Product   DirectoryId
     ///   - maxResults: The maximum number of results to return from a single request.
-    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
+    ///   - nextToken: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
     ///   - logger: Logger use during operation
     @inlinable
     public func listIdentityProviders(
@@ -330,7 +325,7 @@ public struct LicenseManagerUserSubscriptions: AWSService {
     /// Parameters:
     ///   - filters: You can use the following filters to streamline results:   Status   InstanceId
     ///   - maxResults: The maximum number of results to return from a single request.
-    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
+    ///   - nextToken: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
     ///   - logger: Logger use during operation
     @inlinable
     public func listInstances(
@@ -365,7 +360,7 @@ public struct LicenseManagerUserSubscriptions: AWSService {
     /// Parameters:
     ///   - filters: You can use the following filters to streamline results:   IdentityProviderArn
     ///   - maxResults: The maximum number of results to return from a single request.
-    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
+    ///   - nextToken: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
     ///   - logger: Logger use during operation
     @inlinable
     public func listLicenseServerEndpoints(
@@ -401,8 +396,8 @@ public struct LicenseManagerUserSubscriptions: AWSService {
     ///   - filters: You can use the following filters to streamline results:   Status   Username   Domain
     ///   - identityProvider: An object that specifies details for the identity provider.
     ///   - maxResults: The maximum number of results to return from a single request.
-    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
-    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS |
+    ///   - nextToken: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
+    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
     ///   - logger: Logger use during operation
     @inlinable
     public func listProductSubscriptions(
@@ -472,7 +467,7 @@ public struct LicenseManagerUserSubscriptions: AWSService {
     ///   - identityProvider: An object that specifies details for the identity provider.
     ///   - instanceId: The ID of the EC2 instance, which provides user-based subscriptions.
     ///   - maxResults: The maximum number of results to return from a single request.
-    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
+    ///   - nextToken: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
     ///   - logger: Logger use during operation
     @inlinable
     public func listUserAssociations(
@@ -510,8 +505,8 @@ public struct LicenseManagerUserSubscriptions: AWSService {
     ///
     /// Parameters:
     ///   - identityProvider: An object that specifies details for the identity provider to register.
-    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS |
-    ///   - settings: The registered identity provider’s product related configuration
+    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
+    ///   - settings: The registered identity provider’s product related configuration settings such as the subnets to provision VPC endpoints.
     ///   - tags: The tags that apply to the identity provider's registration.
     ///   - logger: Logger use during operation
     @inlinable
@@ -531,9 +526,7 @@ public struct LicenseManagerUserSubscriptions: AWSService {
         return try await self.registerIdentityProvider(input, logger: logger)
     }
 
-    /// Starts a product subscription for a user with the specified identity provider.  Your estimated bill for charges on the number of users and related costs will take 48
-    /// 			hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see Viewing your
-    /// 				monthly charges in the Amazon Web Services Billing User Guide.
+    /// Starts a product subscription for a user with the specified identity provider.  Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see Viewing your monthly charges in the Amazon Web Services Billing User Guide.
     @Sendable
     @inlinable
     public func startProductSubscription(_ input: StartProductSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartProductSubscriptionResponse {
@@ -546,14 +539,12 @@ public struct LicenseManagerUserSubscriptions: AWSService {
             logger: logger
         )
     }
-    /// Starts a product subscription for a user with the specified identity provider.  Your estimated bill for charges on the number of users and related costs will take 48
-    /// 			hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see Viewing your
-    /// 				monthly charges in the Amazon Web Services Billing User Guide.
+    /// Starts a product subscription for a user with the specified identity provider.  Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see Viewing your monthly charges in the Amazon Web Services Billing User Guide.
     ///
     /// Parameters:
-    ///   - domain: The domain name of the  Active Directory that contains the user for whom to start the product
+    ///   - domain: The domain name of the Active Directory that contains the user for whom to start the product subscription.
     ///   - identityProvider: An object that specifies details for the identity provider.
-    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS |
+    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
     ///   - tags: The tags that apply to the product subscription.
     ///   - username: The user name from the identity provider of the user.
     ///   - logger: Logger use during operation
@@ -592,9 +583,9 @@ public struct LicenseManagerUserSubscriptions: AWSService {
     /// Stops a product subscription for a user with the specified identity provider.
     ///
     /// Parameters:
-    ///   - domain: The domain name of the  Active Directory that contains the user for whom to stop the product
+    ///   - domain: The domain name of the Active Directory that contains the user for whom to stop the product subscription.
     ///   - identityProvider: An object that specifies details for the identity provider.
-    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS |
+    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
     ///   - productUserArn: The Amazon Resource Name (ARN) of the product user.
     ///   - username: The user name from the identity provider for the user.
     ///   - logger: Logger use during operation
@@ -681,8 +672,7 @@ public struct LicenseManagerUserSubscriptions: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Updates additional product configuration settings for the registered identity
-    /// 			provider.
+    /// Updates additional product configuration settings for the registered identity provider.
     @Sendable
     @inlinable
     public func updateIdentityProviderSettings(_ input: UpdateIdentityProviderSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIdentityProviderSettingsResponse {
@@ -695,14 +685,13 @@ public struct LicenseManagerUserSubscriptions: AWSService {
             logger: logger
         )
     }
-    /// Updates additional product configuration settings for the registered identity
-    /// 			provider.
+    /// Updates additional product configuration settings for the registered identity provider.
     ///
     /// Parameters:
     ///   - identityProvider: 
     ///   - identityProviderArn: The Amazon Resource Name (ARN) of the identity provider to update.
-    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS |
-    ///   - updateSettings: Updates the registered identity provider’s product related configuration settings. You can
+    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
+    ///   - updateSettings: Updates the registered identity provider’s product related configuration settings. You can update any combination of settings in a single operation such as the:   Subnets which you want to add to provision VPC endpoints.   Subnets which you want to remove the VPC endpoints from.   Security group ID which permits traffic to the VPC endpoints.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateIdentityProviderSettings(
@@ -870,7 +859,7 @@ extension LicenseManagerUserSubscriptions {
     ///   - filters: You can use the following filters to streamline results:   Status   Username   Domain
     ///   - identityProvider: An object that specifies details for the identity provider.
     ///   - maxResults: The maximum number of results to return from a single request.
-    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS |
+    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
     ///   - logger: Logger used for logging
     @inlinable
     public func listProductSubscriptionsPaginator(

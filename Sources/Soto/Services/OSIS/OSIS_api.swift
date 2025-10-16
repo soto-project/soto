@@ -102,6 +102,7 @@ public struct OSIS: AWSService {
     ///   - minUnits: The minimum pipeline capacity, in Ingestion Compute Units (ICUs).
     ///   - pipelineConfigurationBody: The pipeline configuration in YAML format. The command accepts the pipeline configuration as a string or within a .yaml file. If you provide the configuration as a string, each new line must be escaped with \n.
     ///   - pipelineName: The name of the OpenSearch Ingestion pipeline to create. Pipeline names are unique across the pipelines owned by an account within an Amazon Web Services Region.
+    ///   - pipelineRoleArn: The Amazon Resource Name (ARN) of the IAM role that grants the pipeline permission to access Amazon Web Services resources.
     ///   - tags: List of tags to add to the pipeline upon creation.
     ///   - vpcOptions: Container for the values required to configure VPC access for the pipeline. If you don't specify these values, OpenSearch Ingestion creates the pipeline with a public endpoint.
     ///   - logger: Logger use during operation
@@ -114,6 +115,7 @@ public struct OSIS: AWSService {
         minUnits: Int,
         pipelineConfigurationBody: String,
         pipelineName: String,
+        pipelineRoleArn: String? = nil,
         tags: [Tag]? = nil,
         vpcOptions: VpcOptions? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -126,10 +128,43 @@ public struct OSIS: AWSService {
             minUnits: minUnits, 
             pipelineConfigurationBody: pipelineConfigurationBody, 
             pipelineName: pipelineName, 
+            pipelineRoleArn: pipelineRoleArn, 
             tags: tags, 
             vpcOptions: vpcOptions
         )
         return try await self.createPipeline(input, logger: logger)
+    }
+
+    /// Creates a VPC endpoint for an OpenSearch Ingestion pipeline. Pipeline endpoints allow you to ingest data from your VPC into pipelines that you have access to.
+    @Sendable
+    @inlinable
+    public func createPipelineEndpoint(_ input: CreatePipelineEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePipelineEndpointResponse {
+        try await self.client.execute(
+            operation: "CreatePipelineEndpoint", 
+            path: "/2022-01-01/osis/createPipelineEndpoint", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a VPC endpoint for an OpenSearch Ingestion pipeline. Pipeline endpoints allow you to ingest data from your VPC into pipelines that you have access to.
+    ///
+    /// Parameters:
+    ///   - pipelineArn: The Amazon Resource Name (ARN) of the pipeline to create the endpoint for.
+    ///   - vpcOptions: Container for the VPC configuration for the pipeline endpoint, including subnet IDs and security group IDs.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createPipelineEndpoint(
+        pipelineArn: String,
+        vpcOptions: PipelineEndpointVpcOptions,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreatePipelineEndpointResponse {
+        let input = CreatePipelineEndpointRequest(
+            pipelineArn: pipelineArn, 
+            vpcOptions: vpcOptions
+        )
+        return try await self.createPipelineEndpoint(input, logger: logger)
     }
 
     /// Deletes an OpenSearch Ingestion pipeline. For more information, see Deleting Amazon OpenSearch Ingestion pipelines.
@@ -159,6 +194,64 @@ public struct OSIS: AWSService {
             pipelineName: pipelineName
         )
         return try await self.deletePipeline(input, logger: logger)
+    }
+
+    /// Deletes a VPC endpoint for an OpenSearch Ingestion pipeline.
+    @Sendable
+    @inlinable
+    public func deletePipelineEndpoint(_ input: DeletePipelineEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePipelineEndpointResponse {
+        try await self.client.execute(
+            operation: "DeletePipelineEndpoint", 
+            path: "/2022-01-01/osis/deletePipelineEndpoint/{EndpointId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a VPC endpoint for an OpenSearch Ingestion pipeline.
+    ///
+    /// Parameters:
+    ///   - endpointId: The unique identifier of the pipeline endpoint to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deletePipelineEndpoint(
+        endpointId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeletePipelineEndpointResponse {
+        let input = DeletePipelineEndpointRequest(
+            endpointId: endpointId
+        )
+        return try await self.deletePipelineEndpoint(input, logger: logger)
+    }
+
+    /// Deletes a resource-based policy from an OpenSearch Ingestion resource.
+    @Sendable
+    @inlinable
+    public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourcePolicyResponse {
+        try await self.client.execute(
+            operation: "DeleteResourcePolicy", 
+            path: "/2022-01-01/osis/resourcePolicy/{ResourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a resource-based policy from an OpenSearch Ingestion resource.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource from which to delete the policy.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteResourcePolicy(
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteResourcePolicyResponse {
+        let input = DeleteResourcePolicyRequest(
+            resourceArn: resourceArn
+        )
+        return try await self.deleteResourcePolicy(input, logger: logger)
     }
 
     /// Retrieves information about an OpenSearch Ingestion pipeline.
@@ -251,6 +344,35 @@ public struct OSIS: AWSService {
         return try await self.getPipelineChangeProgress(input, logger: logger)
     }
 
+    /// Retrieves the resource-based policy attached to an OpenSearch Ingestion resource.
+    @Sendable
+    @inlinable
+    public func getResourcePolicy(_ input: GetResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePolicyResponse {
+        try await self.client.execute(
+            operation: "GetResourcePolicy", 
+            path: "/2022-01-01/osis/resourcePolicy/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the resource-based policy attached to an OpenSearch Ingestion resource.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource for which to retrieve the policy.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getResourcePolicy(
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetResourcePolicyResponse {
+        let input = GetResourcePolicyRequest(
+            resourceArn: resourceArn
+        )
+        return try await self.getResourcePolicy(input, logger: logger)
+    }
+
     /// Retrieves a list of all available blueprints for Data Prepper. For more information, see Using blueprints to create a pipeline.
     @Sendable
     @inlinable
@@ -275,6 +397,70 @@ public struct OSIS: AWSService {
         let input = ListPipelineBlueprintsRequest(
         )
         return try await self.listPipelineBlueprints(input, logger: logger)
+    }
+
+    /// Lists the pipeline endpoints connected to pipelines in your account.
+    @Sendable
+    @inlinable
+    public func listPipelineEndpointConnections(_ input: ListPipelineEndpointConnectionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPipelineEndpointConnectionsResponse {
+        try await self.client.execute(
+            operation: "ListPipelineEndpointConnections", 
+            path: "/2022-01-01/osis/listPipelineEndpointConnections", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the pipeline endpoints connected to pipelines in your account.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of pipeline endpoint connections to return in the response.
+    ///   - nextToken: If your initial ListPipelineEndpointConnections operation returns a nextToken, you can include the returned nextToken in subsequent ListPipelineEndpointConnections operations, which returns results in the next page.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listPipelineEndpointConnections(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListPipelineEndpointConnectionsResponse {
+        let input = ListPipelineEndpointConnectionsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listPipelineEndpointConnections(input, logger: logger)
+    }
+
+    /// Lists all pipeline endpoints in your account.
+    @Sendable
+    @inlinable
+    public func listPipelineEndpoints(_ input: ListPipelineEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPipelineEndpointsResponse {
+        try await self.client.execute(
+            operation: "ListPipelineEndpoints", 
+            path: "/2022-01-01/osis/listPipelineEndpoints", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all pipeline endpoints in your account.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of pipeline endpoints to return in the response.
+    ///   - nextToken: If your initial ListPipelineEndpoints operation returns a NextToken, you can include the returned NextToken in subsequent ListPipelineEndpoints operations, which returns results in the next page.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listPipelineEndpoints(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListPipelineEndpointsResponse {
+        let input = ListPipelineEndpointsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listPipelineEndpoints(input, logger: logger)
     }
 
     /// Lists all OpenSearch Ingestion pipelines in the current Amazon Web Services account and Region. For more information, see Viewing Amazon OpenSearch Ingestion pipelines.
@@ -336,6 +522,70 @@ public struct OSIS: AWSService {
             arn: arn
         )
         return try await self.listTagsForResource(input, logger: logger)
+    }
+
+    /// Attaches a resource-based policy to an OpenSearch Ingestion resource. Resource-based policies grant permissions to principals to perform actions on the resource.
+    @Sendable
+    @inlinable
+    public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePolicyResponse {
+        try await self.client.execute(
+            operation: "PutResourcePolicy", 
+            path: "/2022-01-01/osis/resourcePolicy/{ResourceArn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Attaches a resource-based policy to an OpenSearch Ingestion resource. Resource-based policies grant permissions to principals to perform actions on the resource.
+    ///
+    /// Parameters:
+    ///   - policy: The resource-based policy document in JSON format.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource to attach the policy to.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putResourcePolicy(
+        policy: String,
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutResourcePolicyResponse {
+        let input = PutResourcePolicyRequest(
+            policy: policy, 
+            resourceArn: resourceArn
+        )
+        return try await self.putResourcePolicy(input, logger: logger)
+    }
+
+    /// Revokes pipeline endpoints from specified endpoint IDs.
+    @Sendable
+    @inlinable
+    public func revokePipelineEndpointConnections(_ input: RevokePipelineEndpointConnectionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RevokePipelineEndpointConnectionsResponse {
+        try await self.client.execute(
+            operation: "RevokePipelineEndpointConnections", 
+            path: "/2022-01-01/osis/revokePipelineEndpointConnections", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Revokes pipeline endpoints from specified endpoint IDs.
+    ///
+    /// Parameters:
+    ///   - endpointIds: A list of endpoint IDs for which to revoke access to the pipeline.
+    ///   - pipelineArn: The Amazon Resource Name (ARN) of the pipeline from which to revoke endpoint connections.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func revokePipelineEndpointConnections(
+        endpointIds: [String],
+        pipelineArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RevokePipelineEndpointConnectionsResponse {
+        let input = RevokePipelineEndpointConnectionsRequest(
+            endpointIds: endpointIds, 
+            pipelineArn: pipelineArn
+        )
+        return try await self.revokePipelineEndpointConnections(input, logger: logger)
     }
 
     /// Starts an OpenSearch Ingestion pipeline. For more information, see Starting an OpenSearch Ingestion pipeline.
@@ -483,6 +733,7 @@ public struct OSIS: AWSService {
     ///   - minUnits: The minimum pipeline capacity, in Ingestion Compute Units (ICUs).
     ///   - pipelineConfigurationBody: The pipeline configuration in YAML format. The command accepts the pipeline configuration as a string or within a .yaml file. If you provide the configuration as a string, each new line must be escaped with \n.
     ///   - pipelineName: The name of the pipeline to update.
+    ///   - pipelineRoleArn: The Amazon Resource Name (ARN) of the IAM role that grants the pipeline permission to access Amazon Web Services resources.
     ///   - logger: Logger use during operation
     @inlinable
     public func updatePipeline(
@@ -493,6 +744,7 @@ public struct OSIS: AWSService {
         minUnits: Int? = nil,
         pipelineConfigurationBody: String? = nil,
         pipelineName: String,
+        pipelineRoleArn: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdatePipelineResponse {
         let input = UpdatePipelineRequest(
@@ -502,7 +754,8 @@ public struct OSIS: AWSService {
             maxUnits: maxUnits, 
             minUnits: minUnits, 
             pipelineConfigurationBody: pipelineConfigurationBody, 
-            pipelineName: pipelineName
+            pipelineName: pipelineName, 
+            pipelineRoleArn: pipelineRoleArn
         )
         return try await self.updatePipeline(input, logger: logger)
     }
@@ -550,6 +803,74 @@ extension OSIS {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension OSIS {
+    /// Return PaginatorSequence for operation ``listPipelineEndpointConnections(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPipelineEndpointConnectionsPaginator(
+        _ input: ListPipelineEndpointConnectionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPipelineEndpointConnectionsRequest, ListPipelineEndpointConnectionsResponse> {
+        return .init(
+            input: input,
+            command: self.listPipelineEndpointConnections,
+            inputKey: \ListPipelineEndpointConnectionsRequest.nextToken,
+            outputKey: \ListPipelineEndpointConnectionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listPipelineEndpointConnections(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of pipeline endpoint connections to return in the response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPipelineEndpointConnectionsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListPipelineEndpointConnectionsRequest, ListPipelineEndpointConnectionsResponse> {
+        let input = ListPipelineEndpointConnectionsRequest(
+            maxResults: maxResults
+        )
+        return self.listPipelineEndpointConnectionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listPipelineEndpoints(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPipelineEndpointsPaginator(
+        _ input: ListPipelineEndpointsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPipelineEndpointsRequest, ListPipelineEndpointsResponse> {
+        return .init(
+            input: input,
+            command: self.listPipelineEndpoints,
+            inputKey: \ListPipelineEndpointsRequest.nextToken,
+            outputKey: \ListPipelineEndpointsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listPipelineEndpoints(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of pipeline endpoints to return in the response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPipelineEndpointsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListPipelineEndpointsRequest, ListPipelineEndpointsResponse> {
+        let input = ListPipelineEndpointsRequest(
+            maxResults: maxResults
+        )
+        return self.listPipelineEndpointsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listPipelines(_:logger:)``.
     ///
     /// - Parameters:
@@ -582,6 +903,26 @@ extension OSIS {
             maxResults: maxResults
         )
         return self.listPipelinesPaginator(input, logger: logger)
+    }
+}
+
+extension OSIS.ListPipelineEndpointConnectionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> OSIS.ListPipelineEndpointConnectionsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension OSIS.ListPipelineEndpointsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> OSIS.ListPipelineEndpointsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
     }
 }
 

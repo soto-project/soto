@@ -788,7 +788,7 @@ extension AppRunner {
     public struct CreateVpcConnectorRequest: AWSEncodableShape {
         /// A list of IDs of security groups that App Runner should use for access to Amazon Web Services resources under the specified subnets. If not specified, App Runner uses the default security group of the Amazon VPC. The default security group allows all outbound traffic.
         public let securityGroups: [String]?
-        /// A list of IDs of subnets that App Runner should use when it associates your service with a custom Amazon VPC. Specify IDs of subnets of a single Amazon VPC. App Runner determines the Amazon VPC from the subnets you specify.   App Runner currently only provides support for IPv4.
+        /// A list of IDs of subnets that App Runner should use when it associates your service with a custom Amazon VPC. Specify IDs of subnets of a single Amazon VPC. App Runner determines the Amazon VPC from the subnets you specify.   App Runner only supports subnets of IP address type IPv4 and dual stack (IPv4 and IPv6).
         public let subnets: [String]
         /// A list of metadata items that you can associate with your VPC connector resource. A tag is a key-value pair.
         public let tags: [Tag]?
@@ -2117,7 +2117,7 @@ extension AppRunner {
         public let egressConfiguration: EgressConfiguration?
         /// Network configuration settings for inbound message traffic.
         public let ingressConfiguration: IngressConfiguration?
-        /// App Runner provides you with the option to choose between Internet Protocol version 4 (IPv4) and dual stack (IPv4 and IPv6)  for your incoming public network configuration. This is an optional parameter.  If you do not specify an IpAddressType, it defaults to select IPv4.   Currently, App Runner supports dual stack for only Public endpoint. Only IPv4 is supported for Private endpoint.  If you update a service that's using dual-stack Public endpoint to a Private endpoint, your App Runner service will default to support only IPv4 for Private endpoint and fail to receive traffic originating from IPv6 endpoint.
+        /// App Runner provides you with the option to choose between IPv4 and dual stack (IPv4 and IPv6).  This is an optional parameter. If you do not specify an IpAddressType, it defaults to select IPv4.
         public let ipAddressType: IpAddressType?
 
         @inlinable

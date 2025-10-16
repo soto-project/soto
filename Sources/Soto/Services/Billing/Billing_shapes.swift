@@ -25,6 +25,26 @@ import Foundation
 extension Billing {
     // MARK: Enums
 
+    public enum BillingViewStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case creating = "CREATING"
+        case healthy = "HEALTHY"
+        case unhealthy = "UNHEALTHY"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BillingViewStatusReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aggregateSource = "AGGREGATE_SOURCE"
+        case cyclicDependency = "CYCLIC_DEPENDENCY"
+        case sourceViewAccessDenied = "SOURCE_VIEW_ACCESS_DENIED"
+        case sourceViewDepthExceeded = "SOURCE_VIEW_DEPTH_EXCEEDED"
+        case sourceViewNotFound = "SOURCE_VIEW_NOT_FOUND"
+        case sourceViewUnhealthy = "SOURCE_VIEW_UNHEALTHY"
+        case sourceViewUpdating = "SOURCE_VIEW_UPDATING"
+        case viewOwnerNotManagementAccount = "VIEW_OWNER_NOT_MANAGEMENT_ACCOUNT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BillingViewType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case billingGroup = "BILLING_GROUP"
         case custom = "CUSTOM"
@@ -65,6 +85,47 @@ extension Billing {
         }
     }
 
+    public struct AssociateSourceViewsRequest: AWSEncodableShape {
+        ///  The Amazon Resource Name (ARN) of the billing view to associate source views with.
+        public let arn: String
+        ///  A list of ARNs of the source billing views to associate.
+        public let sourceViews: [String]
+
+        @inlinable
+        public init(arn: String, sourceViews: [String]) {
+            self.arn = arn
+            self.sourceViews = sourceViews
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\\+=\\.\\-@]{0,75}[a-zA-Z0-9]$")
+            try self.sourceViews.forEach {
+                try validate($0, name: "sourceViews[]", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\\+=\\.\\-@]{0,75}[a-zA-Z0-9]$")
+            }
+            try self.validate(self.sourceViews, name: "sourceViews", parent: name, max: 10)
+            try self.validate(self.sourceViews, name: "sourceViews", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case sourceViews = "sourceViews"
+        }
+    }
+
+    public struct AssociateSourceViewsResponse: AWSDecodableShape {
+        ///  The ARN of the billing view that the source views were associated with.
+        public let arn: String
+
+        @inlinable
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
     public struct BillingViewElement: AWSDecodableShape {
         ///  The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
         public let arn: String?
@@ -74,25 +135,40 @@ extension Billing {
         public let createdAt: Date?
         ///  See Expression. Billing view only supports LINKED_ACCOUNT and Tags.
         public let dataFilterExpression: Expression?
+        ///  The number of billing views that use this billing view as a source.
+        public let derivedViewCount: Int?
         ///  The description of the billing view.
         public let description: String?
-        ///  A list of names of the billing view.
+        ///  The current health status of the billing view.
+        public let healthStatus: BillingViewHealthStatus?
+        ///  The account name of the billing view.
         public let name: String?
-        ///  The list of owners of the billing view.
+        /// The account owner of the billing view.
         public let ownerAccountId: String?
+        ///  The Amazon Web Services account ID that owns the source billing view, if this is a derived billing view.
+        public let sourceAccountId: String?
+        ///  The number of source views associated with this billing view.
+        public let sourceViewCount: Int?
         /// The time when the billing view was last updated.
         public let updatedAt: Date?
+        ///  The timestamp of when the billing view definition was last updated.
+        public let viewDefinitionLastUpdatedAt: Date?
 
         @inlinable
-        public init(arn: String? = nil, billingViewType: BillingViewType? = nil, createdAt: Date? = nil, dataFilterExpression: Expression? = nil, description: String? = nil, name: String? = nil, ownerAccountId: String? = nil, updatedAt: Date? = nil) {
+        public init(arn: String? = nil, billingViewType: BillingViewType? = nil, createdAt: Date? = nil, dataFilterExpression: Expression? = nil, derivedViewCount: Int? = nil, description: String? = nil, healthStatus: BillingViewHealthStatus? = nil, name: String? = nil, ownerAccountId: String? = nil, sourceAccountId: String? = nil, sourceViewCount: Int? = nil, updatedAt: Date? = nil, viewDefinitionLastUpdatedAt: Date? = nil) {
             self.arn = arn
             self.billingViewType = billingViewType
             self.createdAt = createdAt
             self.dataFilterExpression = dataFilterExpression
+            self.derivedViewCount = derivedViewCount
             self.description = description
+            self.healthStatus = healthStatus
             self.name = name
             self.ownerAccountId = ownerAccountId
+            self.sourceAccountId = sourceAccountId
+            self.sourceViewCount = sourceViewCount
             self.updatedAt = updatedAt
+            self.viewDefinitionLastUpdatedAt = viewDefinitionLastUpdatedAt
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -100,10 +176,33 @@ extension Billing {
             case billingViewType = "billingViewType"
             case createdAt = "createdAt"
             case dataFilterExpression = "dataFilterExpression"
+            case derivedViewCount = "derivedViewCount"
             case description = "description"
+            case healthStatus = "healthStatus"
             case name = "name"
             case ownerAccountId = "ownerAccountId"
+            case sourceAccountId = "sourceAccountId"
+            case sourceViewCount = "sourceViewCount"
             case updatedAt = "updatedAt"
+            case viewDefinitionLastUpdatedAt = "viewDefinitionLastUpdatedAt"
+        }
+    }
+
+    public struct BillingViewHealthStatus: AWSDecodableShape {
+        /// The current health status code of the billing view.
+        public let statusCode: BillingViewStatus?
+        /// A list of reasons explaining the current health status, if applicable.
+        public let statusReasons: [BillingViewStatusReason]?
+
+        @inlinable
+        public init(statusCode: BillingViewStatus? = nil, statusReasons: [BillingViewStatusReason]? = nil) {
+            self.statusCode = statusCode
+            self.statusReasons = statusReasons
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statusCode = "statusCode"
+            case statusReasons = "statusReasons"
         }
     }
 
@@ -114,26 +213,34 @@ extension Billing {
         public let billingViewType: BillingViewType?
         ///  The description of the billing view.
         public let description: String?
+        ///  The current health status of the billing view.
+        public let healthStatus: BillingViewHealthStatus?
         ///  A list of names of the Billing view.
         public let name: String?
         ///  The list of owners of the Billing view.
         public let ownerAccountId: String?
+        ///  The Amazon Web Services account ID that owns the source billing view, if this is a derived billing view.
+        public let sourceAccountId: String?
 
         @inlinable
-        public init(arn: String? = nil, billingViewType: BillingViewType? = nil, description: String? = nil, name: String? = nil, ownerAccountId: String? = nil) {
+        public init(arn: String? = nil, billingViewType: BillingViewType? = nil, description: String? = nil, healthStatus: BillingViewHealthStatus? = nil, name: String? = nil, ownerAccountId: String? = nil, sourceAccountId: String? = nil) {
             self.arn = arn
             self.billingViewType = billingViewType
             self.description = description
+            self.healthStatus = healthStatus
             self.name = name
             self.ownerAccountId = ownerAccountId
+            self.sourceAccountId = sourceAccountId
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case billingViewType = "billingViewType"
             case description = "description"
+            case healthStatus = "healthStatus"
             case name = "name"
             case ownerAccountId = "ownerAccountId"
+            case sourceAccountId = "sourceAccountId"
         }
     }
 
@@ -206,9 +313,9 @@ extension Billing {
             }
             try self.validate(self.resourceTags, name: "resourceTags", parent: name, max: 200)
             try self.sourceViews.forEach {
-                try validate($0, name: "sourceViews[]", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\\+=\\.\\-@]{0,59}[a-zA-Z0-9]$")
+                try validate($0, name: "sourceViews[]", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\\+=\\.\\-@]{0,75}[a-zA-Z0-9]$")
             }
-            try self.validate(self.sourceViews, name: "sourceViews", parent: name, max: 1)
+            try self.validate(self.sourceViews, name: "sourceViews", parent: name, max: 10)
             try self.validate(self.sourceViews, name: "sourceViews", parent: name, min: 1)
         }
 
@@ -242,18 +349,22 @@ extension Billing {
     public struct DeleteBillingViewRequest: AWSEncodableShape {
         ///  The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
         public let arn: String
+        ///  If set to true, forces deletion of the billing view even if it has derived resources (e.g. other billing views or budgets). Use with caution as this may break dependent resources.
+        public let force: Bool?
 
         @inlinable
-        public init(arn: String) {
+        public init(arn: String, force: Bool? = nil) {
             self.arn = arn
+            self.force = force
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\\+=\\.\\-@]{0,59}[a-zA-Z0-9]$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\\+=\\.\\-@]{0,75}[a-zA-Z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case force = "force"
         }
     }
 
@@ -298,16 +409,60 @@ extension Billing {
         }
     }
 
+    public struct DisassociateSourceViewsRequest: AWSEncodableShape {
+        ///  The Amazon Resource Name (ARN) of the billing view to disassociate source views from.
+        public let arn: String
+        ///  A list of ARNs of the source billing views to disassociate.
+        public let sourceViews: [String]
+
+        @inlinable
+        public init(arn: String, sourceViews: [String]) {
+            self.arn = arn
+            self.sourceViews = sourceViews
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\\+=\\.\\-@]{0,75}[a-zA-Z0-9]$")
+            try self.sourceViews.forEach {
+                try validate($0, name: "sourceViews[]", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\\+=\\.\\-@]{0,75}[a-zA-Z0-9]$")
+            }
+            try self.validate(self.sourceViews, name: "sourceViews", parent: name, max: 10)
+            try self.validate(self.sourceViews, name: "sourceViews", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case sourceViews = "sourceViews"
+        }
+    }
+
+    public struct DisassociateSourceViewsResponse: AWSDecodableShape {
+        ///  The ARN of the billing view that the source views were disassociated from.
+        public let arn: String
+
+        @inlinable
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
     public struct Expression: AWSEncodableShape & AWSDecodableShape {
         ///  The specific Dimension to use for Expression.
         public let dimensions: DimensionValues?
         ///  The specific Tag to use for Expression.
         public let tags: TagValues?
+        ///  Specifies a time range filter for the billing view data.
+        public let timeRange: TimeRange?
 
         @inlinable
-        public init(dimensions: DimensionValues? = nil, tags: TagValues? = nil) {
+        public init(dimensions: DimensionValues? = nil, tags: TagValues? = nil, timeRange: TimeRange? = nil) {
             self.dimensions = dimensions
             self.tags = tags
+            self.timeRange = timeRange
         }
 
         public func validate(name: String) throws {
@@ -318,6 +473,7 @@ extension Billing {
         private enum CodingKeys: String, CodingKey {
             case dimensions = "dimensions"
             case tags = "tags"
+            case timeRange = "timeRange"
         }
     }
 
@@ -331,7 +487,7 @@ extension Billing {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\\+=\\.\\-@]{0,59}[a-zA-Z0-9]$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\\+=\\.\\-@]{0,75}[a-zA-Z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -402,20 +558,23 @@ extension Billing {
         public let nextToken: String?
         ///  The list of owners of the billing view.
         public let ownerAccountId: String?
+        ///  Filters the results to include only billing views that use the specified account as a source.
+        public let sourceAccountId: String?
 
         @inlinable
-        public init(activeTimeRange: ActiveTimeRange? = nil, arns: [String]? = nil, billingViewTypes: [BillingViewType]? = nil, maxResults: Int? = nil, nextToken: String? = nil, ownerAccountId: String? = nil) {
+        public init(activeTimeRange: ActiveTimeRange? = nil, arns: [String]? = nil, billingViewTypes: [BillingViewType]? = nil, maxResults: Int? = nil, nextToken: String? = nil, ownerAccountId: String? = nil, sourceAccountId: String? = nil) {
             self.activeTimeRange = activeTimeRange
             self.arns = arns
             self.billingViewTypes = billingViewTypes
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.ownerAccountId = ownerAccountId
+            self.sourceAccountId = sourceAccountId
         }
 
         public func validate(name: String) throws {
             try self.arns?.forEach {
-                try validate($0, name: "arns[]", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\\+=\\.\\-@]{0,59}[a-zA-Z0-9]$")
+                try validate($0, name: "arns[]", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\\+=\\.\\-@]{0,75}[a-zA-Z0-9]$")
             }
             try self.validate(self.arns, name: "arns", parent: name, max: 10)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
@@ -423,6 +582,7 @@ extension Billing {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2047)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.ownerAccountId, name: "ownerAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.sourceAccountId, name: "sourceAccountId", parent: name, pattern: "^[0-9]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -432,6 +592,7 @@ extension Billing {
             case maxResults = "maxResults"
             case nextToken = "nextToken"
             case ownerAccountId = "ownerAccountId"
+            case sourceAccountId = "sourceAccountId"
         }
     }
 
@@ -469,7 +630,7 @@ extension Billing {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\\+=\\.\\-@]{0,59}[a-zA-Z0-9]$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\\+=\\.\\-@]{0,75}[a-zA-Z0-9]$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2047)
@@ -666,6 +827,24 @@ extension Billing {
         }
     }
 
+    public struct TimeRange: AWSEncodableShape & AWSDecodableShape {
+        ///  The inclusive start date of the time range.
+        public let beginDateInclusive: Date?
+        ///  The inclusive end date of the time range.
+        public let endDateInclusive: Date?
+
+        @inlinable
+        public init(beginDateInclusive: Date? = nil, endDateInclusive: Date? = nil) {
+            self.beginDateInclusive = beginDateInclusive
+            self.endDateInclusive = endDateInclusive
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case beginDateInclusive = "beginDateInclusive"
+            case endDateInclusive = "endDateInclusive"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         ///  The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
@@ -716,7 +895,7 @@ extension Billing {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\\+=\\.\\-@]{0,59}[a-zA-Z0-9]$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\\+=\\.\\-@]{0,75}[a-zA-Z0-9]$")
             try self.dataFilterExpression?.validate(name: "\(name).dataFilterExpression")
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, pattern: "^([ a-zA-Z0-9_\\+=\\.\\-@]+)?$")
@@ -797,6 +976,7 @@ extension Billing {
 public struct BillingErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
+        case billingViewHealthStatusException = "BillingViewHealthStatusException"
         case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
         case resourceNotFoundException = "ResourceNotFoundException"
@@ -825,6 +1005,8 @@ public struct BillingErrorType: AWSErrorType {
 
     /// You don't have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    ///  Exception thrown when a billing view's health status prevents an operation from being performed. This may occur if the billing view is in a state other than HEALTHY.
+    public static var billingViewHealthStatusException: Self { .init(.billingViewHealthStatusException) }
     ///  The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
     public static var conflictException: Self { .init(.conflictException) }
     /// The request processing failed because of an unknown error, exception, or failure.

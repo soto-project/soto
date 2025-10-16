@@ -79,7 +79,45 @@ public struct Evs: AWSService {
 
     // MARK: API Calls
 
-    /// Creates an Amazon EVS environment that runs VCF software, such as SDDC Manager, NSX Manager, and vCenter Server. During environment creation, Amazon EVS performs validations on DNS settings, provisions VLAN subnets and hosts, and deploys the supplied version of VCF. It can take several hours to create an environment. After the deployment completes, you can configure VCF according to your unique requirements.  You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironment action. This results in a ValidationException response.   EC2 instances created through Amazon EVS do not support associating an IAM instance profile.
+    /// Associates an Elastic IP address with a public HCX VLAN. This operation is only allowed for public HCX VLANs at this time.
+    @Sendable
+    @inlinable
+    public func associateEipToVlan(_ input: AssociateEipToVlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateEipToVlanResponse {
+        try await self.client.execute(
+            operation: "AssociateEipToVlan", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates an Elastic IP address with a public HCX VLAN. This operation is only allowed for public HCX VLANs at this time.
+    ///
+    /// Parameters:
+    ///   - allocationId: The Elastic IP address allocation ID.
+    ///   - clientToken:  This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect.  A unique, case-sensitive identifier that you provide to ensure the idempotency of the environment creation request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
+    ///   - environmentId: A unique ID for the environment containing the VLAN that the Elastic IP address associates with.
+    ///   - vlanName: The name of the VLAN. hcx is the only accepted VLAN name at this time.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateEipToVlan(
+        allocationId: String,
+        clientToken: String? = AssociateEipToVlanRequest.idempotencyToken(),
+        environmentId: String,
+        vlanName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AssociateEipToVlanResponse {
+        let input = AssociateEipToVlanRequest(
+            allocationId: allocationId, 
+            clientToken: clientToken, 
+            environmentId: environmentId, 
+            vlanName: vlanName
+        )
+        return try await self.associateEipToVlan(input, logger: logger)
+    }
+
+    /// Creates an Amazon EVS environment that runs VCF software, such as SDDC Manager, NSX Manager, and vCenter Server. During environment creation, Amazon EVS performs validations on DNS settings, provisions VLAN subnets and hosts, and deploys the supplied version of VCF. It can take several hours to create an environment. After the deployment completes, you can configure VCF in the vSphere user interface according to your needs.  You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironment action. This results in a ValidationException response.
     @Sendable
     @inlinable
     public func createEnvironment(_ input: CreateEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEnvironmentResponse {
@@ -92,24 +130,24 @@ public struct Evs: AWSService {
             logger: logger
         )
     }
-    /// Creates an Amazon EVS environment that runs VCF software, such as SDDC Manager, NSX Manager, and vCenter Server. During environment creation, Amazon EVS performs validations on DNS settings, provisions VLAN subnets and hosts, and deploys the supplied version of VCF. It can take several hours to create an environment. After the deployment completes, you can configure VCF according to your unique requirements.  You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironment action. This results in a ValidationException response.   EC2 instances created through Amazon EVS do not support associating an IAM instance profile.
+    /// Creates an Amazon EVS environment that runs VCF software, such as SDDC Manager, NSX Manager, and vCenter Server. During environment creation, Amazon EVS performs validations on DNS settings, provisions VLAN subnets and hosts, and deploys the supplied version of VCF. It can take several hours to create an environment. After the deployment completes, you can configure VCF in the vSphere user interface according to your needs.  You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironment action. This results in a ValidationException response.
     ///
     /// Parameters:
     ///   - clientToken:  This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect.  A unique, case-sensitive identifier that you provide to ensure the idempotency of the environment creation request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
-    ///   - connectivityInfo:  The connectivity configuration for the environment. Amazon EVS requires that you specify two route server peer IDs. During environment creation, the route server endpoints peer with the NSX edges over the NSX, providing BGP dynamic routing for overlay networks.
+    ///   - connectivityInfo:  The connectivity configuration for the environment. Amazon EVS requires that you specify two route server peer IDs. During environment creation, the route server endpoints peer with the NSX edges over the NSX uplink subnet, providing BGP-based dynamic routing for overlay networks.
     ///   - environmentName: The name to give to your environment. The name can contain only alphanumeric characters (case-sensitive), hyphens, and underscores. It must start with an alphanumeric character, and can't be longer than 100 characters. The name must be unique within the Amazon Web Services Region and Amazon Web Services account that you're creating the environment in.
-    ///   - hosts: The ESXi hosts to add to the environment. Amazon EVS requires that you provide details for a minimum of 4 hosts during environment creation. For each host, you must provide the desired hostname, EC2 SSH key, and EC2 instance type. Optionally, you can also provide a partition or cluster placement group to use, or use Amazon EC2 Dedicated Hosts.
-    ///   - initialVlans: The initial VLAN subnets for the environment. You must specify a non-overlapping CIDR block for each VLAN subnet.
+    ///   - hosts: The ESXi hosts to add to the environment. Amazon EVS requires that you provide details for a minimum of 4 hosts during environment creation. For each host, you must provide the desired hostname, EC2 SSH keypair name, and EC2 instance type. Optionally, you can also provide a partition or cluster placement group to use, or use Amazon EC2 Dedicated Hosts.
+    ///   - initialVlans: The initial VLAN subnets for the Amazon EVS environment.  For each Amazon EVS VLAN subnet, you must specify a non-overlapping CIDR block. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24.
     ///   - kmsKeyId: A unique ID for the customer-managed KMS key that is used to encrypt the VCF credential pairs for SDDC Manager, NSX Manager, and vCenter appliances. These credentials are stored in Amazon Web Services Secrets Manager.
-    ///   - licenseInfo: The license information that Amazon EVS requires to create an environment. Amazon EVS requires two license keys: a VCF solution key and a vSAN license key. VCF licenses must have sufficient core entitlements to cover vCPU core and vSAN storage capacity needs. VCF licenses can be used for only one Amazon EVS environment. Amazon EVS does not support reuse of VCF licenses for multiple environments. VCF license information can be retrieved from the Broadcom portal.
+    ///   - licenseInfo: The license information that Amazon EVS requires to create an environment. Amazon EVS requires two license keys: a VCF solution key and a vSAN license key. The VCF solution key must cover a minimum of 256 cores. The vSAN license key must provide at least 110 TiB of vSAN capacity. VCF licenses can be used for only one Amazon EVS environment. Amazon EVS does not support reuse of VCF licenses for multiple environments. VCF license information can be retrieved from the Broadcom portal.
     ///   - serviceAccessSecurityGroups: The security group that controls communication between the Amazon EVS control plane and VPC. The default security group is used if a custom security group isn't specified. The security group should allow access to the following.   TCP/UDP access to the DNS servers   HTTPS/SSH access to the host management VLAN subnet   HTTPS/SSH access to the Management VM VLAN subnet   You should avoid modifying the security group rules after deployment, as this can break the persistent connection between the Amazon EVS control plane and VPC. This can cause future environment actions like adding or removing hosts to fail.
     ///   - serviceAccessSubnetId: The subnet that is used to establish connectivity between the Amazon EVS control plane and VPC. Amazon EVS uses this subnet to validate mandatory DNS records for your VCF appliances and hosts and create the environment.
     ///   - siteId: The Broadcom Site ID that is allocated to you as part of your electronic software delivery. This ID allows customer access to the Broadcom portal, and is provided to you by Broadcom at the close of your software contract or contract renewal. Amazon EVS uses the Broadcom Site ID that you provide to meet Broadcom VCF license usage reporting requirements for Amazon EVS.
     ///   - tags: Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
-    ///   - termsAccepted: Customer confirmation that the customer has purchased and maintains sufficient VCF software licenses to cover all physical processor cores in the environment, in compliance with VMware's licensing requirements and terms of use.
+    ///   - termsAccepted: Customer confirmation that the customer has purchased and will continue to maintain the required number of VCF software licenses to cover all physical processor cores in the Amazon EVS environment. Information about your VCF software in Amazon EVS will be shared with Broadcom to verify license compliance. Amazon EVS does not validate license keys. To validate license keys, visit the Broadcom support portal.
     ///   - vcfHostnames: The DNS hostnames for the virtual machines that host the VCF management appliances. Amazon EVS requires that you provide DNS hostnames for the following appliances: vCenter, NSX Manager, SDDC Manager, and Cloud Builder.
     ///   - vcfVersion:  The VCF version to use for the environment. Amazon EVS only supports VCF version 5.2.1 at this time.
-    ///   - vpcId: A unique ID for the VPC that connects to the environment control plane for service access. Amazon EVS requires that all VPC subnets exist in a single Availability Zone in a Region where the service is available. The VPC that you select must have a valid DHCP option set with domain name, at least two DNS servers, and an NTP server. These settings are used to configure your VCF appliances and hosts. If you plan to use HCX over the internet, choose a VPC that has a primary CIDR block and a /28 secondary CIDR block from an IPAM pool. Make sure that your VPC also has an attached internet gateway. Amazon EVS does not support the following Amazon Web Services networking options for NSX overlay connectivity: cross-Region VPC peering, Amazon S3 gateway endpoints, or Amazon Web Services Direct Connect virtual private gateway associations.
+    ///   - vpcId: A unique ID for the VPC that the environment is deployed inside. Amazon EVS requires that all VPC subnets exist in a single Availability Zone in a Region where the service is available. The VPC that you specify must have a valid DHCP option set with domain name, at least two DNS servers, and an NTP server. These settings are used to configure your VCF appliances and hosts. The VPC cannot be used with any other deployed Amazon EVS environment. Amazon EVS does not provide multi-VPC support for environments at this time. Amazon EVS does not support the following Amazon Web Services networking options for NSX overlay connectivity: cross-Region VPC peering, Amazon S3 gateway endpoints, or Amazon Web Services Direct Connect virtual private gateway associations.  Ensure that you specify a VPC that is adequately sized to accommodate the {evws} subnets.
     ///   - logger: Logger use during operation
     @inlinable
     public func createEnvironment(
@@ -150,7 +188,7 @@ public struct Evs: AWSService {
         return try await self.createEnvironment(input, logger: logger)
     }
 
-    /// Creates an ESXi host and adds it to an Amazon EVS environment. Amazon EVS supports 4-16 hosts per environment. This action can only be used after the Amazon EVS environment is deployed. All Amazon EVS hosts are created with the latest AMI release version for the respective VCF version of the environment. You can use the dedicatedHostId parameter to specify an Amazon EC2 Dedicated Host for ESXi host creation.  You can use the placementGroupId parameter to specify a cluster or partition placement group to launch EC2 instances into.  You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironmentHost action. This results in a ValidationException response.   EC2 instances created through Amazon EVS do not support associating an IAM instance profile.
+    /// Creates an ESXi host and adds it to an Amazon EVS environment. Amazon EVS supports 4-16 hosts per environment. This action can only be used after the Amazon EVS environment is deployed. You can use the dedicatedHostId parameter to specify an Amazon EC2 Dedicated Host for ESXi host creation.  You can use the placementGroupId parameter to specify a cluster or partition placement group to launch EC2 instances into.  You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironmentHost action. This results in a ValidationException response.
     @Sendable
     @inlinable
     public func createEnvironmentHost(_ input: CreateEnvironmentHostRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEnvironmentHostResponse {
@@ -163,7 +201,7 @@ public struct Evs: AWSService {
             logger: logger
         )
     }
-    /// Creates an ESXi host and adds it to an Amazon EVS environment. Amazon EVS supports 4-16 hosts per environment. This action can only be used after the Amazon EVS environment is deployed. All Amazon EVS hosts are created with the latest AMI release version for the respective VCF version of the environment. You can use the dedicatedHostId parameter to specify an Amazon EC2 Dedicated Host for ESXi host creation.  You can use the placementGroupId parameter to specify a cluster or partition placement group to launch EC2 instances into.  You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironmentHost action. This results in a ValidationException response.   EC2 instances created through Amazon EVS do not support associating an IAM instance profile.
+    /// Creates an ESXi host and adds it to an Amazon EVS environment. Amazon EVS supports 4-16 hosts per environment. This action can only be used after the Amazon EVS environment is deployed. You can use the dedicatedHostId parameter to specify an Amazon EC2 Dedicated Host for ESXi host creation.  You can use the placementGroupId parameter to specify a cluster or partition placement group to launch EC2 instances into.  You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironmentHost action. This results in a ValidationException response.
     ///
     /// Parameters:
     ///   - clientToken:  This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect.  A unique, case-sensitive identifier that you provide to ensure the idempotency of the host creation request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
@@ -185,7 +223,7 @@ public struct Evs: AWSService {
         return try await self.createEnvironmentHost(input, logger: logger)
     }
 
-    /// Deletes an Amazon EVS environment. Amazon EVS environments will only be enabled for deletion once the hosts are deleted. You can delete hosts using the DeleteEnvironmentHost action. Environment deletion also deletes the associated Amazon EVS VLAN subnets. Other associated Amazon Web Services resources are not deleted. These resources may continue to incur costs.
+    /// Deletes an Amazon EVS environment. Amazon EVS environments will only be enabled for deletion once the hosts are deleted. You can delete hosts using the DeleteEnvironmentHost action. Environment deletion also deletes the associated Amazon EVS VLAN subnets and Amazon Web Services Secrets Manager secrets that Amazon EVS created. Amazon Web Services resources that you create are not deleted. These resources may continue to incur costs.
     @Sendable
     @inlinable
     public func deleteEnvironment(_ input: DeleteEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEnvironmentResponse {
@@ -198,7 +236,7 @@ public struct Evs: AWSService {
             logger: logger
         )
     }
-    /// Deletes an Amazon EVS environment. Amazon EVS environments will only be enabled for deletion once the hosts are deleted. You can delete hosts using the DeleteEnvironmentHost action. Environment deletion also deletes the associated Amazon EVS VLAN subnets. Other associated Amazon Web Services resources are not deleted. These resources may continue to incur costs.
+    /// Deletes an Amazon EVS environment. Amazon EVS environments will only be enabled for deletion once the hosts are deleted. You can delete hosts using the DeleteEnvironmentHost action. Environment deletion also deletes the associated Amazon EVS VLAN subnets and Amazon Web Services Secrets Manager secrets that Amazon EVS created. Amazon Web Services resources that you create are not deleted. These resources may continue to incur costs.
     ///
     /// Parameters:
     ///   - clientToken:  This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect.  A unique, case-sensitive identifier that you provide to ensure the idempotency of the environment deletion request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
@@ -250,6 +288,44 @@ public struct Evs: AWSService {
             hostName: hostName
         )
         return try await self.deleteEnvironmentHost(input, logger: logger)
+    }
+
+    /// Disassociates an Elastic IP address from a public HCX VLAN. This operation is only allowed for public HCX VLANs at this time.
+    @Sendable
+    @inlinable
+    public func disassociateEipFromVlan(_ input: DisassociateEipFromVlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateEipFromVlanResponse {
+        try await self.client.execute(
+            operation: "DisassociateEipFromVlan", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disassociates an Elastic IP address from a public HCX VLAN. This operation is only allowed for public HCX VLANs at this time.
+    ///
+    /// Parameters:
+    ///   - associationId:  A unique ID for the Elastic IP address association.
+    ///   - clientToken:  This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect.  A unique, case-sensitive identifier that you provide to ensure the idempotency of the environment creation request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
+    ///   - environmentId: A unique ID for the environment containing the VLAN that the Elastic IP address disassociates from.
+    ///   - vlanName: The name of the VLAN. hcx is the only accepted VLAN name at this time.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateEipFromVlan(
+        associationId: String,
+        clientToken: String? = DisassociateEipFromVlanRequest.idempotencyToken(),
+        environmentId: String,
+        vlanName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisassociateEipFromVlanResponse {
+        let input = DisassociateEipFromVlanRequest(
+            associationId: associationId, 
+            clientToken: clientToken, 
+            environmentId: environmentId, 
+            vlanName: vlanName
+        )
+        return try await self.disassociateEipFromVlan(input, logger: logger)
     }
 
     /// Returns a description of the specified environment.

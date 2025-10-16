@@ -175,7 +175,7 @@ public struct Outposts: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createOrder(
-        lineItems: [LineItemRequest],
+        lineItems: [LineItemRequest]? = nil,
         outpostIdentifier: String,
         paymentOption: PaymentOption,
         paymentTerm: PaymentTerm? = nil,
@@ -1096,6 +1096,38 @@ public struct Outposts: AWSService {
             networkInterfaceDeviceIndex: networkInterfaceDeviceIndex
         )
         return try await self.startConnection(input, logger: logger)
+    }
+
+    /// Starts the decommission process to return the Outposts racks or servers.
+    @Sendable
+    @inlinable
+    public func startOutpostDecommission(_ input: StartOutpostDecommissionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartOutpostDecommissionOutput {
+        try await self.client.execute(
+            operation: "StartOutpostDecommission", 
+            path: "/outposts/{OutpostIdentifier}/decommission", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts the decommission process to return the Outposts racks or servers.
+    ///
+    /// Parameters:
+    ///   - outpostIdentifier: The ID or ARN of the Outpost that you want to decommission.
+    ///   - validateOnly: Validates the request without starting the decommission process.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startOutpostDecommission(
+        outpostIdentifier: String,
+        validateOnly: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartOutpostDecommissionOutput {
+        let input = StartOutpostDecommissionInput(
+            outpostIdentifier: outpostIdentifier, 
+            validateOnly: validateOnly
+        )
+        return try await self.startOutpostDecommission(input, logger: logger)
     }
 
     /// Adds tags to the specified resource.

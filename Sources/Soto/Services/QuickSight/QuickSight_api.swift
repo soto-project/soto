@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS QuickSight service.
 ///
-/// Amazon QuickSight API Reference Amazon QuickSight is a fully managed, serverless business intelligence service for the Amazon Web Services Cloud that makes it easy to extend data and insights to every user in your organization. This API reference contains documentation for a programming interface that you can use to manage Amazon QuickSight.
+/// Amazon QuickSight API Reference Amazon Quick Sight is a fully managed, serverless business intelligence service for the Amazon Web Services Cloud that makes it easy to extend data and insights to every user in your organization. This API reference contains documentation for a programming interface that you can use to manage Amazon Quick Sight.
 public struct QuickSight: AWSService {
     // MARK: Member variables
 
@@ -183,7 +183,7 @@ public struct QuickSight: AWSService {
         return try await self.cancelIngestion(input, logger: logger)
     }
 
-    /// Creates Amazon QuickSight customizations for the current Amazon Web Services Region. Currently, you can add a custom default theme by using the CreateAccountCustomization or UpdateAccountCustomization API operation. To further customize Amazon QuickSight by removing Amazon QuickSight sample assets and videos for all new users, see Customizing Amazon QuickSight in the Amazon QuickSight User Guide.  You can create customizations for your Amazon Web Services account or, if you specify a namespace, for a QuickSight namespace instead. Customizations that apply to a namespace always override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation. Before you use the CreateAccountCustomization API operation to add a theme as the namespace default, make sure that you first share the theme with the namespace. If you don't share it with the namespace, the theme isn't visible to your users even if you make it the default theme. To check if the theme is shared, view the current permissions by using the  DescribeThemePermissions  API operation. To share the theme, grant permissions by using the  UpdateThemePermissions  API operation.
+    /// Creates Amazon Quick Sight customizations. Currently, you can add a custom default theme by using the CreateAccountCustomization or UpdateAccountCustomization API operation. To further customize Amazon Quick Sight by removing Amazon Quick Sight sample assets and videos for all new users, see Customizing Quick Sight in the Amazon Quick Sight User Guide.  You can create customizations for your Amazon Web Services account or, if you specify a namespace, for a Quick Sight namespace instead. Customizations that apply to a namespace always override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation. Before you use the CreateAccountCustomization API operation to add a theme as the namespace default, make sure that you first share the theme with the namespace. If you don't share it with the namespace, the theme isn't visible to your users even if you make it the default theme. To check if the theme is shared, view the current permissions by using the  DescribeThemePermissions  API operation. To share the theme, grant permissions by using the  UpdateThemePermissions  API operation.
     @Sendable
     @inlinable
     public func createAccountCustomization(_ input: CreateAccountCustomizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAccountCustomizationResponse {
@@ -196,12 +196,12 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Creates Amazon QuickSight customizations for the current Amazon Web Services Region. Currently, you can add a custom default theme by using the CreateAccountCustomization or UpdateAccountCustomization API operation. To further customize Amazon QuickSight by removing Amazon QuickSight sample assets and videos for all new users, see Customizing Amazon QuickSight in the Amazon QuickSight User Guide.  You can create customizations for your Amazon Web Services account or, if you specify a namespace, for a QuickSight namespace instead. Customizations that apply to a namespace always override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation. Before you use the CreateAccountCustomization API operation to add a theme as the namespace default, make sure that you first share the theme with the namespace. If you don't share it with the namespace, the theme isn't visible to your users even if you make it the default theme. To check if the theme is shared, view the current permissions by using the  DescribeThemePermissions  API operation. To share the theme, grant permissions by using the  UpdateThemePermissions  API operation.
+    /// Creates Amazon Quick Sight customizations. Currently, you can add a custom default theme by using the CreateAccountCustomization or UpdateAccountCustomization API operation. To further customize Amazon Quick Sight by removing Amazon Quick Sight sample assets and videos for all new users, see Customizing Quick Sight in the Amazon Quick Sight User Guide.  You can create customizations for your Amazon Web Services account or, if you specify a namespace, for a Quick Sight namespace instead. Customizations that apply to a namespace always override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation. Before you use the CreateAccountCustomization API operation to add a theme as the namespace default, make sure that you first share the theme with the namespace. If you don't share it with the namespace, the theme isn't visible to your users even if you make it the default theme. To check if the theme is shared, view the current permissions by using the  DescribeThemePermissions  API operation. To share the theme, grant permissions by using the  UpdateThemePermissions  API operation.
     ///
     /// Parameters:
-    ///   - accountCustomization: The Amazon QuickSight customizations you're adding in the current Amazon Web Services Region. You can add these to an Amazon Web Services account and a QuickSight namespace.  For example, you can add a default theme by setting AccountCustomization to the midnight theme: "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight::aws:theme/MIDNIGHT" }. Or, you can add a custom theme by specifying "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight:us-west-2:111122223333:theme/bdb844d0-0fe9-4d9d-b520-0fe602d93639" }.
-    ///   - awsAccountId: The ID for the Amazon Web Services account that you want to customize Amazon QuickSight for.
-    ///   - namespace: The Amazon QuickSight namespace that you want to add customizations to.
+    ///   - accountCustomization: The Quick Sight customizations you're adding. You can add these to an Amazon Web Services account and a QuickSight namespace.  For example, you can add a default theme by setting AccountCustomization to the midnight theme: "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight::aws:theme/MIDNIGHT" }. Or, you can add a custom theme by specifying "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight:us-west-2:111122223333:theme/bdb844d0-0fe9-4d9d-b520-0fe602d93639" }.
+    ///   - awsAccountId: The ID for the Amazon Web Services account that you want to customize Quick Sight for.
+    ///   - namespace: The Quick Sight namespace that you want to add customizations to.
     ///   - tags: A list of the tags that you want to attach to this resource.
     ///   - logger: Logger use during operation
     @inlinable
@@ -221,7 +221,7 @@ public struct QuickSight: AWSService {
         return try await self.createAccountCustomization(input, logger: logger)
     }
 
-    /// Creates an Amazon QuickSight account, or subscribes to Amazon QuickSight Q. The Amazon Web Services Region for the account is derived from what is configured in the CLI or SDK. Before you use this operation, make sure that you can connect to an existing Amazon Web Services account. If you don't have an Amazon Web Services account, see Sign up for Amazon Web Services in the Amazon QuickSight User Guide. The person who signs up for Amazon QuickSight needs to have the correct Identity and Access Management (IAM) permissions. For more information, see IAM Policy Examples for Amazon QuickSight in the Amazon QuickSight User Guide. If your IAM policy includes both the Subscribe and CreateAccountSubscription actions, make sure that both actions are set to Allow. If either action is set to Deny, the Deny action prevails and your API call fails. You can't pass an existing IAM role to access other Amazon Web Services services using this API operation. To pass your existing IAM role to Amazon QuickSight, see Passing IAM roles to Amazon QuickSight in the Amazon QuickSight User Guide. You can't set default resource access on the new account from the Amazon QuickSight API. Instead, add default resource access from the Amazon QuickSight console. For more information about setting default resource access to Amazon Web Services services, see Setting default resource access to Amazon Web Services services in the Amazon QuickSight User Guide.
+    /// Creates an Amazon Quick Sight account, or subscribes to Amazon Quick Sight Q. The Amazon Web Services Region for the account is derived from what is configured in the CLI or SDK. Before you use this operation, make sure that you can connect to an existing Amazon Web Services account. If you don't have an Amazon Web Services account, see Sign up for Amazon Web Services in the Amazon Quick Sight User Guide. The person who signs up for Amazon Quick Sight needs to have the correct Identity and Access Management (IAM) permissions. For more information, see IAM Policy Examples for Amazon Quick Sight in the Amazon Quick Sight User Guide. If your IAM policy includes both the Subscribe and CreateAccountSubscription actions, make sure that both actions are set to Allow. If either action is set to Deny, the Deny action prevails and your API call fails. You can't pass an existing IAM role to access other Amazon Web Services services using this API operation. To pass your existing IAM role to Amazon Quick Sight, see Passing IAM roles to Amazon Quick Sight in the Amazon Quick Sight User Guide. You can't set default resource access on the new account from the Amazon Quick Sight API. Instead, add default resource access from the Amazon Quick Sight console. For more information about setting default resource access to Amazon Web Services services, see Setting default resource access to Amazon Web Services services in the Amazon Quick Sight User Guide.
     @Sendable
     @inlinable
     public func createAccountSubscription(_ input: CreateAccountSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAccountSubscriptionResponse {
@@ -234,28 +234,28 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Creates an Amazon QuickSight account, or subscribes to Amazon QuickSight Q. The Amazon Web Services Region for the account is derived from what is configured in the CLI or SDK. Before you use this operation, make sure that you can connect to an existing Amazon Web Services account. If you don't have an Amazon Web Services account, see Sign up for Amazon Web Services in the Amazon QuickSight User Guide. The person who signs up for Amazon QuickSight needs to have the correct Identity and Access Management (IAM) permissions. For more information, see IAM Policy Examples for Amazon QuickSight in the Amazon QuickSight User Guide. If your IAM policy includes both the Subscribe and CreateAccountSubscription actions, make sure that both actions are set to Allow. If either action is set to Deny, the Deny action prevails and your API call fails. You can't pass an existing IAM role to access other Amazon Web Services services using this API operation. To pass your existing IAM role to Amazon QuickSight, see Passing IAM roles to Amazon QuickSight in the Amazon QuickSight User Guide. You can't set default resource access on the new account from the Amazon QuickSight API. Instead, add default resource access from the Amazon QuickSight console. For more information about setting default resource access to Amazon Web Services services, see Setting default resource access to Amazon Web Services services in the Amazon QuickSight User Guide.
+    /// Creates an Amazon Quick Sight account, or subscribes to Amazon Quick Sight Q. The Amazon Web Services Region for the account is derived from what is configured in the CLI or SDK. Before you use this operation, make sure that you can connect to an existing Amazon Web Services account. If you don't have an Amazon Web Services account, see Sign up for Amazon Web Services in the Amazon Quick Sight User Guide. The person who signs up for Amazon Quick Sight needs to have the correct Identity and Access Management (IAM) permissions. For more information, see IAM Policy Examples for Amazon Quick Sight in the Amazon Quick Sight User Guide. If your IAM policy includes both the Subscribe and CreateAccountSubscription actions, make sure that both actions are set to Allow. If either action is set to Deny, the Deny action prevails and your API call fails. You can't pass an existing IAM role to access other Amazon Web Services services using this API operation. To pass your existing IAM role to Amazon Quick Sight, see Passing IAM roles to Amazon Quick Sight in the Amazon Quick Sight User Guide. You can't set default resource access on the new account from the Amazon Quick Sight API. Instead, add default resource access from the Amazon Quick Sight console. For more information about setting default resource access to Amazon Web Services services, see Setting default resource access to Amazon Web Services services in the Amazon Quick Sight User Guide.
     ///
     /// Parameters:
-    ///   - accountName: The name of your Amazon QuickSight account. This name is unique over all of Amazon Web Services, and it appears only when users sign in. You can't change AccountName value after the Amazon QuickSight account is created.
-    ///   - activeDirectoryName: The name of your Active Directory. This field is required if ACTIVE_DIRECTORY is the selected authentication method of the new Amazon QuickSight account.
-    ///   - adminGroup: The admin group associated with your Active Directory or IAM Identity Center account. Either this field or the AdminProGroup field is required if ACTIVE_DIRECTORY or IAM_IDENTITY_CENTER is the selected authentication method of the new Amazon QuickSight account. For more information about using IAM Identity Center in Amazon QuickSight, see Using IAM Identity Center with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see Using Active Directory with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide.
-    ///   - adminProGroup: The admin pro group associated with your Active Directory or IAM Identity Center account. Either this field or the AdminGroup field is required if ACTIVE_DIRECTORY or IAM_IDENTITY_CENTER is the selected authentication method of the new Amazon QuickSight account. For more information about using IAM Identity Center in Amazon QuickSight, see Using IAM Identity Center with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see Using Active Directory with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide.
-    ///   - authenticationMethod: The method that you want to use to authenticate your Amazon QuickSight account. If you choose ACTIVE_DIRECTORY, provide an ActiveDirectoryName and an AdminGroup associated with your Active Directory. If you choose IAM_IDENTITY_CENTER, provide an AdminGroup associated with your IAM Identity Center account.
-    ///   - authorGroup: The author group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon QuickSight, see Using IAM Identity Center with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see Using Active Directory with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide.
-    ///   - authorProGroup: The author pro group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon QuickSight, see Using IAM Identity Center with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see Using Active Directory with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide.
-    ///   - awsAccountId: The Amazon Web Services account ID of the account that you're using to create your Amazon QuickSight account.
-    ///   - contactNumber: A 10-digit phone number for the author of the Amazon QuickSight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon QuickSight account.
-    ///   - directoryId: The ID of the Active Directory that is associated with your Amazon QuickSight account.
-    ///   - edition: The edition of Amazon QuickSight that you want your account to have. Currently, you can choose from ENTERPRISE or ENTERPRISE_AND_Q. If you choose ENTERPRISE_AND_Q, the following parameters are required:    FirstName     LastName     EmailAddress     ContactNumber
-    ///   - emailAddress: The email address of the author of the Amazon QuickSight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon QuickSight account.
-    ///   - firstName: The first name of the author of the Amazon QuickSight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon QuickSight account.
+    ///   - accountName: The name of your Amazon Quick Sight account. This name is unique over all of Amazon Web Services, and it appears only when users sign in. You can't change AccountName value after the Amazon Quick Sight account is created.
+    ///   - activeDirectoryName: The name of your Active Directory. This field is required if ACTIVE_DIRECTORY is the selected authentication method of the new Quick Sight account.
+    ///   - adminGroup: The admin group associated with your Active Directory or IAM Identity Center account. Either this field or the AdminProGroup field is required if ACTIVE_DIRECTORY or IAM_IDENTITY_CENTER is the selected authentication method of the new Quick Sight account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. For more information about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide.
+    ///   - adminProGroup: The admin pro group associated with your Active Directory or IAM Identity Center account. Either this field or the AdminGroup field is required if ACTIVE_DIRECTORY or IAM_IDENTITY_CENTER is the selected authentication method of the new Quick Sight account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. For more information about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide.
+    ///   - authenticationMethod: The method that you want to use to authenticate your Quick Sight account. If you choose ACTIVE_DIRECTORY, provide an ActiveDirectoryName and an AdminGroup associated with your Active Directory. If you choose IAM_IDENTITY_CENTER, provide an AdminGroup associated with your IAM Identity Center account.
+    ///   - authorGroup: The author group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. For more information about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide.
+    ///   - authorProGroup: The author pro group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. For more information about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide.
+    ///   - awsAccountId: The Amazon Web Services account ID of the account that you're using to create your Quick Sight account.
+    ///   - contactNumber: A 10-digit phone number for the author of the Amazon Quick Sight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon Quick Sight account.
+    ///   - directoryId: The ID of the Active Directory that is associated with your Quick Sight account.
+    ///   - edition: The edition of Amazon Quick Sight that you want your account to have. Currently, you can choose from ENTERPRISE or ENTERPRISE_AND_Q. If you choose ENTERPRISE_AND_Q, the following parameters are required:    FirstName     LastName     EmailAddress     ContactNumber
+    ///   - emailAddress: The email address of the author of the Amazon Quick Sight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon Quick Sight account.
+    ///   - firstName: The first name of the author of the Amazon Quick Sight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon Quick Sight account.
     ///   - iamIdentityCenterInstanceArn: The Amazon Resource Name (ARN) for the IAM Identity Center instance.
-    ///   - lastName: The last name of the author of the Amazon QuickSight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon QuickSight account.
-    ///   - notificationEmail: The email address that you want Amazon QuickSight to send notifications to regarding your Amazon QuickSight account or Amazon QuickSight subscription.
-    ///   - readerGroup: The reader group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon QuickSight, see Using IAM Identity Center with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see Using Active Directory with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide.
-    ///   - readerProGroup: The reader pro group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon QuickSight, see Using IAM Identity Center with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see Using Active Directory with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide.
-    ///   - realm: The realm of the Active Directory that is associated with your Amazon QuickSight account. This field is required if ACTIVE_DIRECTORY is the selected authentication method of the new Amazon QuickSight account.
+    ///   - lastName: The last name of the author of the Amazon Quick Sight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon Quick Sight account.
+    ///   - notificationEmail: The email address that you want Quick Sight to send notifications to regarding your Quick Sight account or Quick Sight subscription.
+    ///   - readerGroup: The reader group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. For more information about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide.
+    ///   - readerProGroup: The reader pro group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon Quick Sight, see Using IAM Identity Center with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide. For more information about using Active Directory in Amazon Quick Sight, see Using Active Directory with Amazon Quick Sight Enterprise Edition in the Amazon Quick Sight User Guide.
+    ///   - realm: The realm of the Active Directory that is associated with your Quick Sight account. This field is required if ACTIVE_DIRECTORY is the selected authentication method of the new Quick Sight account.
     ///   - logger: Logger use during operation
     @inlinable
     public func createAccountSubscription(
@@ -304,7 +304,64 @@ public struct QuickSight: AWSService {
         return try await self.createAccountSubscription(input, logger: logger)
     }
 
-    /// Creates an analysis in Amazon QuickSight.  Analyses can be created either from a template or from an AnalysisDefinition.
+    /// Creates an action connector that enables Amazon Quick Sight to connect to external services and perform actions.
+    /// 	          Action connectors support various authentication methods and can be configured with specific actions from supported connector types
+    /// 	          like Amazon S3, Salesforce, JIRA.
+    @Sendable
+    @inlinable
+    public func createActionConnector(_ input: CreateActionConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateActionConnectorResponse {
+        try await self.client.execute(
+            operation: "CreateActionConnector", 
+            path: "/accounts/{AwsAccountId}/action-connectors", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an action connector that enables Amazon Quick Sight to connect to external services and perform actions.
+    /// 	          Action connectors support various authentication methods and can be configured with specific actions from supported connector types
+    /// 	          like Amazon S3, Salesforce, JIRA.
+    ///
+    /// Parameters:
+    ///   - actionConnectorId: A unique identifier for the action connector. This ID must be unique within the Amazon Web Services account. The ActionConnectorId must not
+    ///   - authenticationConfig: The authentication configuration for connecting to the external service. This includes the authentication type, base URL, and authentication metadata such as client credentials or API keys.
+    ///   - awsAccountId: The Amazon Web Services account ID associated with the action connector.
+    ///   - description: An optional description of the action connector.
+    ///   - name: A descriptive name for the action connector.
+    ///   - permissions: The permissions configuration that defines which users, groups, or namespaces can access this action connector and what operations they can perform.
+    ///   - tags: A list of tags to apply to the action connector for resource management and organization.
+    ///   - type: The type of action connector.
+    ///   - vpcConnectionArn: The ARN of the VPC connection to use for secure connectivity to the external service.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createActionConnector(
+        actionConnectorId: String,
+        authenticationConfig: AuthConfig,
+        awsAccountId: String,
+        description: String? = nil,
+        name: String,
+        permissions: [ResourcePermission]? = nil,
+        tags: [Tag]? = nil,
+        type: ActionConnectorType,
+        vpcConnectionArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateActionConnectorResponse {
+        let input = CreateActionConnectorRequest(
+            actionConnectorId: actionConnectorId, 
+            authenticationConfig: authenticationConfig, 
+            awsAccountId: awsAccountId, 
+            description: description, 
+            name: name, 
+            permissions: permissions, 
+            tags: tags, 
+            type: type, 
+            vpcConnectionArn: vpcConnectionArn
+        )
+        return try await self.createActionConnector(input, logger: logger)
+    }
+
+    /// Creates an analysis in Amazon Quick Sight. Analyses can be created either from a template or from an AnalysisDefinition.
     @Sendable
     @inlinable
     public func createAnalysis(_ input: CreateAnalysisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAnalysisResponse {
@@ -317,19 +374,19 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Creates an analysis in Amazon QuickSight.  Analyses can be created either from a template or from an AnalysisDefinition.
+    /// Creates an analysis in Amazon Quick Sight. Analyses can be created either from a template or from an AnalysisDefinition.
     ///
     /// Parameters:
     ///   - analysisId: The ID for the analysis that you're creating. This ID displays in the URL of the analysis.
     ///   - awsAccountId: The ID of the Amazon Web Services account where you are creating an analysis.
     ///   - definition: The definition of an analysis. A definition is the data model of all features in a Dashboard, Template, or Analysis. Either a SourceEntity or a Definition must be provided in  order for the request to be valid.
-    ///   - folderArns: When you create the analysis, Amazon QuickSight adds the analysis to these folders.
-    ///   - name: A descriptive name for the analysis that you're creating. This name displays for the analysis in the Amazon QuickSight console.
+    ///   - folderArns: When you create the analysis, Amazon Quick Sight adds the analysis to these folders.
+    ///   - name: A descriptive name for the analysis that you're creating. This name displays for the analysis in the Amazon Quick Sight console.
     ///   - parameters: The parameter names and override values that you want to use. An analysis can have  any parameter type, and some parameters might accept multiple values.
     ///   - permissions: A structure that describes the principals and the resource-level permissions on an analysis. You can use the Permissions structure to grant permissions by providing a list of Identity and Access Management (IAM) action information for each principal listed by Amazon Resource Name (ARN).  To specify no permissions, omit Permissions.
     ///   - sourceEntity: A source entity to use for the analysis that you're creating. This metadata structure contains details that describe a source template and one or more datasets. Either a SourceEntity or a Definition must be provided in  order for the request to be valid.
     ///   - tags: Contains a map of the key-value pairs for the resource tag or tags assigned to the analysis.
-    ///   - themeArn: The ARN for the theme to apply to the analysis that you're creating. To see the theme in the Amazon QuickSight console, make sure that you have access to it.
+    ///   - themeArn: The ARN for the theme to apply to the analysis that you're creating. To see the theme in the Amazon Quick Sight console, make sure that you have access to it.
     ///   - validationStrategy: The option to relax the validation needed to create an analysis with definition objects. This skips the validation step for specific errors.
     ///   - logger: Logger use during operation
     @inlinable
@@ -363,7 +420,7 @@ public struct QuickSight: AWSService {
         return try await self.createAnalysis(input, logger: logger)
     }
 
-    /// Creates an Amazon QuickSight brand.
+    /// Creates an Quick Sight brand.
     @Sendable
     @inlinable
     public func createBrand(_ input: CreateBrandRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBrandResponse {
@@ -376,12 +433,12 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Creates an Amazon QuickSight brand.
+    /// Creates an Quick Sight brand.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that owns the brand.
     ///   - brandDefinition: The definition of the brand.
-    ///   - brandId: The ID of the Amazon QuickSight brand.
+    ///   - brandId: The ID of the QuickSight brand.
     ///   - tags: A map of the key-value pairs that are assigned to the brand.
     ///   - logger: Logger use during operation
     @inlinable
@@ -439,7 +496,7 @@ public struct QuickSight: AWSService {
         return try await self.createCustomPermissions(input, logger: logger)
     }
 
-    /// Creates a dashboard from either a template or directly with a DashboardDefinition. To first create a template, see the   CreateTemplate  API operation. A dashboard is an entity in Amazon QuickSight that identifies Amazon QuickSight reports, created from analyses. You can share Amazon QuickSight dashboards. With the right permissions, you can create scheduled email reports from them. If you have the correct permissions, you can create a dashboard from a template that exists in a different Amazon Web Services account.
+    /// Creates a dashboard from either a template or directly with a DashboardDefinition. To first create a template, see the  CreateTemplate API operation. A dashboard is an entity in Amazon Quick Sight that identifies Amazon Quick Sight reports, created from analyses. You can share Amazon Quick Sight dashboards. With the right permissions, you can create scheduled email reports from them. If you have the correct permissions, you can create a dashboard from a template that exists in a different Amazon Web Services account.
     @Sendable
     @inlinable
     public func createDashboard(_ input: CreateDashboardRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDashboardResponse {
@@ -452,20 +509,20 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Creates a dashboard from either a template or directly with a DashboardDefinition. To first create a template, see the   CreateTemplate  API operation. A dashboard is an entity in Amazon QuickSight that identifies Amazon QuickSight reports, created from analyses. You can share Amazon QuickSight dashboards. With the right permissions, you can create scheduled email reports from them. If you have the correct permissions, you can create a dashboard from a template that exists in a different Amazon Web Services account.
+    /// Creates a dashboard from either a template or directly with a DashboardDefinition. To first create a template, see the  CreateTemplate API operation. A dashboard is an entity in Amazon Quick Sight that identifies Amazon Quick Sight reports, created from analyses. You can share Amazon Quick Sight dashboards. With the right permissions, you can create scheduled email reports from them. If you have the correct permissions, you can create a dashboard from a template that exists in a different Amazon Web Services account.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account where you want to create the dashboard.
     ///   - dashboardId: The ID for the dashboard, also added to the IAM policy.
-    ///   - dashboardPublishOptions: Options for publishing the dashboard when you create it:    AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, Amazon QuickSight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.     AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .CSV format isn't enabled when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.
-    ///   - definition: The definition of a dashboard. A definition is the data model of all features in a Dashboard, Template, or Analysis. Either a SourceEntity or a Definition must be provided in  order for the request to be valid.
-    ///   - folderArns: When you create the dashboard, Amazon QuickSight adds the dashboard to these folders.
+    ///   - dashboardPublishOptions: Options for publishing the dashboard when you create it:    AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, Amazon Quick Sight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.     AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .CSV format isn't enabled when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.     AvailabilityStatus for QuickSuiteActionsOption - This status can be either ENABLED or DISABLED. Features related to Actions in Amazon Quick Suite on dashboards are disabled when this is set to DISABLED. This option is DISABLED by default.    AvailabilityStatus for ExecutiveSummaryOption - This status can be either ENABLED or DISABLED. The option to build an executive summary is disabled when this is set to DISABLED. This option is ENABLED by default.    AvailabilityStatus for DataStoriesSharingOption - This status can be either ENABLED or DISABLED. The option to share a data story is disabled when this is set to DISABLED. This option is ENABLED by default.
+    ///   - definition: The definition of a dashboard. A definition is the data model of all features in a Dashboard, Template, or Analysis. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
+    ///   - folderArns: When you create the dashboard, Amazon Quick Sight adds the dashboard to these folders.
     ///   - linkEntities: A list of analysis Amazon Resource Names (ARNs) to be linked to the dashboard.
     ///   - linkSharingConfiguration: A structure that contains the permissions of a shareable link to the dashboard.
     ///   - name: The display name of the dashboard.
     ///   - parameters: The parameters for the creation of the dashboard, which you want to use to override the default settings. A dashboard can have any type of parameters, and some parameters might accept multiple values.
     ///   - permissions: A structure that contains the permissions of the dashboard. You can use this structure for granting permissions by providing a list of IAM action information for each principal ARN.  To specify no permissions, omit the permissions list.
-    ///   - sourceEntity: The entity that you are using as a source when you create the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only create a dashboard from a template, so you use a SourceTemplate entity. If you need to create a dashboard from an analysis, first convert the analysis to a template by using the  CreateTemplate  API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplateARN can contain any Amazon Web Services account and any Amazon QuickSight-supported Amazon Web Services Region.  Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.  Either a SourceEntity or a Definition must be provided in  order for the request to be valid.
+    ///   - sourceEntity: The entity that you are using as a source when you create the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only create a dashboard from a template, so you use a SourceTemplate entity. If you need to create a dashboard from an analysis, first convert the analysis to a template by using the  CreateTemplate API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplateARN can contain any Amazon Web Services account and any Amazon Quick Sight-supported Amazon Web Services Region.  Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.  Either a SourceEntity or a Definition must be provided in order for the request to be valid.
     ///   - tags: Contains a map of the key-value pairs for the resource tag or tags assigned to the dashboard.
     ///   - themeArn: The Amazon Resource Name (ARN) of the theme that is being used for this dashboard. If you add a value for this field, it overrides the value that is used in the source entity. The theme ARN must exist in the same Amazon Web Services account where you create the dashboard.
     ///   - validationStrategy: The option to relax the validation needed to create a dashboard with definition objects. This option skips the validation step for specific errors.
@@ -510,7 +567,8 @@ public struct QuickSight: AWSService {
         return try await self.createDashboard(input, logger: logger)
     }
 
-    /// Creates a dataset. This operation doesn't support datasets that include uploaded files as a source.
+    /// Creates a dataset. This operation doesn't support datasets that include uploaded files
+    /// 			as a source.
     @Sendable
     @inlinable
     public func createDataSet(_ input: CreateDataSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataSetResponse {
@@ -523,27 +581,28 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Creates a dataset. This operation doesn't support datasets that include uploaded files as a source.
+    /// Creates a dataset. This operation doesn't support datasets that include uploaded files
+    /// 			as a source.
     ///
     /// Parameters:
     ///   - awsAccountId: The Amazon Web Services account ID.
-    ///   - columnGroups: Groupings of columns that work together in certain Amazon QuickSight features. Currently, only geospatial hierarchy is supported.
+    ///   - columnGroups: Groupings of columns that work together in certain Amazon Quick Sight features.
     ///   - columnLevelPermissionRules: A set of one or more definitions of a  ColumnLevelPermissionRule .
     ///   - dataSetId: An ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
     ///   - datasetParameters: The parameter declarations of the dataset.
     ///   - dataSetUsageConfiguration: 
     ///   - fieldFolders: The folder that contains fields and nested subfolders for your dataset.
-    ///   - folderArns: When you create the dataset, Amazon QuickSight adds the dataset to these folders.
+    ///   - folderArns: When you create the dataset, Amazon Quick Sight adds the dataset to these
     ///   - importMode: Indicates whether you want to import the data into SPICE.
-    ///   - logicalTableMap: Configures the combination and transformation of the data from the physical tables.
+    ///   - logicalTableMap: Configures the combination and transformation of the data from the physical
     ///   - name: The display name for the dataset.
-    ///   - performanceConfiguration: The configuration for the performance optimization of the dataset that contains a UniqueKey configuration.
+    ///   - performanceConfiguration: The configuration for the performance optimization of the dataset that contains a
     ///   - permissions: A list of resource permissions on the dataset.
     ///   - physicalTableMap: Declares the physical tables that are available in the underlying data sources.
     ///   - rowLevelPermissionDataSet: The row-level security configuration for the data that you want to create.
-    ///   - rowLevelPermissionTagConfiguration: The configuration of tags on a dataset to set row-level security. Row-level security tags are currently supported for anonymous embedding only.
-    ///   - tags: Contains a map of the key-value pairs for the resource tag or tags assigned to the dataset.
-    ///   - useAs: The usage of the dataset. RLS_RULES must be specified for RLS permission datasets.
+    ///   - rowLevelPermissionTagConfiguration: The configuration of tags on a dataset to set row-level security. Row-level security
+    ///   - tags: Contains a map of the key-value pairs for the resource tag or tags assigned to the
+    ///   - useAs: The usage of the dataset. RLS_RULES must be specified for RLS permission
     ///   - logger: Logger use during operation
     @inlinable
     public func createDataSet(
@@ -607,16 +666,16 @@ public struct QuickSight: AWSService {
     ///
     /// Parameters:
     ///   - awsAccountId: The Amazon Web Services account ID.
-    ///   - credentials: The credentials Amazon QuickSight that uses to connect to your underlying source. Currently, only
-    ///   - dataSourceId: An ID for the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
-    ///   - dataSourceParameters: The parameters that Amazon QuickSight uses to connect to your underlying source.
-    ///   - folderArns: When you create the data source, Amazon QuickSight adds the data source to these folders.
+    ///   - credentials: The credentials Amazon Quick Sight that uses to connect to your underlying source.
+    ///   - dataSourceId: An ID for the data source. This ID is unique per Amazon Web Services Region for each
+    ///   - dataSourceParameters: The parameters that Amazon Quick Sight uses to connect to your underlying
+    ///   - folderArns: When you create the data source, Amazon Quick Sight adds the data source to these
     ///   - name: A display name for the data source.
     ///   - permissions: A list of resource permissions on the data source.
-    ///   - sslProperties: Secure Socket Layer (SSL) properties that apply when Amazon QuickSight connects to your underlying source.
-    ///   - tags: Contains a map of the key-value pairs for the resource tag or tags assigned to the data source.
-    ///   - type: The type of the data source. To return a
-    ///   - vpcConnectionProperties: Use this parameter only when you want Amazon QuickSight to use a VPC connection when connecting to
+    ///   - sslProperties: Secure Socket Layer (SSL) properties that apply when Amazon Quick Sight connects to
+    ///   - tags: Contains a map of the key-value pairs for the resource tag or tags assigned to the
+    ///   - type: The type of the data source. To return a list of all data sources, use
+    ///   - vpcConnectionProperties: Use this parameter only when you want Amazon Quick Sight to use a VPC connection when
     ///   - logger: Logger use during operation
     @inlinable
     public func createDataSource(
@@ -737,7 +796,7 @@ public struct QuickSight: AWSService {
         return try await self.createFolderMembership(input, logger: logger)
     }
 
-    /// Use the CreateGroup operation to create a group in   Amazon QuickSight. You can create up to 10,000 groups in a namespace. If you want to create more than 10,000 groups in a namespace, contact Amazon Web Services Support. The permissions resource is
+    /// Use the CreateGroup operation to create a group in   Quick Sight. You can create up to 10,000 groups in a namespace. If you want to create more than 10,000 groups in a namespace, contact Amazon Web Services Support. The permissions resource is
     /// 					arn:aws:quicksight:::group/default/ . The response is a group object.
     @Sendable
     @inlinable
@@ -751,7 +810,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Use the CreateGroup operation to create a group in   Amazon QuickSight. You can create up to 10,000 groups in a namespace. If you want to create more than 10,000 groups in a namespace, contact Amazon Web Services Support. The permissions resource is
+    /// Use the CreateGroup operation to create a group in   Quick Sight. You can create up to 10,000 groups in a namespace. If you want to create more than 10,000 groups in a namespace, contact Amazon Web Services Support. The permissions resource is
     /// 					arn:aws:quicksight:::group/default/ . The response is a group object.
     ///
     /// Parameters:
@@ -777,7 +836,7 @@ public struct QuickSight: AWSService {
         return try await self.createGroup(input, logger: logger)
     }
 
-    /// Adds an Amazon QuickSight user to an Amazon QuickSight group.
+    /// Adds an Amazon Quick Sight user to an Amazon Quick Sight group.
     @Sendable
     @inlinable
     public func createGroupMembership(_ input: CreateGroupMembershipRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGroupMembershipResponse {
@@ -790,7 +849,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Adds an Amazon QuickSight user to an Amazon QuickSight group.
+    /// Adds an Amazon Quick Sight user to an Amazon Quick Sight group.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the
@@ -817,7 +876,7 @@ public struct QuickSight: AWSService {
 
     /// Creates an assignment with one specified IAM policy, identified by its
     /// 			Amazon Resource Name (ARN). This policy assignment is attached to the specified groups
-    /// 			or users of Amazon QuickSight. Assignment names are unique per Amazon Web Services
+    /// 			or users of Amazon Quick Sight. Assignment names are unique per Amazon Web Services
     /// 			account. To avoid overwriting rules in other namespaces, use assignment names that are
     /// 			unique.
     @Sendable
@@ -834,17 +893,17 @@ public struct QuickSight: AWSService {
     }
     /// Creates an assignment with one specified IAM policy, identified by its
     /// 			Amazon Resource Name (ARN). This policy assignment is attached to the specified groups
-    /// 			or users of Amazon QuickSight. Assignment names are unique per Amazon Web Services
+    /// 			or users of Amazon Quick Sight. Assignment names are unique per Amazon Web Services
     /// 			account. To avoid overwriting rules in other namespaces, use assignment names that are
     /// 			unique.
     ///
     /// Parameters:
     ///   - assignmentName: The name of the assignment, also called a rule.
     ///   - assignmentStatus: The status of the assignment. Possible values are as follows:    ENABLED - Anything specified in this assignment is used when
-    ///   - awsAccountId: The ID of the Amazon Web Services account where you want to assign an IAM policy to Amazon QuickSight users or groups.
-    ///   - identities: The Amazon QuickSight users, groups, or both that you want to assign the policy
+    ///   - awsAccountId: The ID of the Amazon Web Services account where you want to assign an IAM policy to Amazon Quick Sight users or groups.
+    ///   - identities: The Amazon Quick Sight users, groups, or both that you want to assign the policy
     ///   - namespace: The namespace that contains the assignment.
-    ///   - policyArn: The ARN for the IAM policy to apply to the Amazon QuickSight users and
+    ///   - policyArn: The ARN for the IAM policy to apply to the Amazon Quick Sight users and
     ///   - logger: Logger use during operation
     @inlinable
     public func createIAMPolicyAssignment(
@@ -915,7 +974,7 @@ public struct QuickSight: AWSService {
         return try await self.createIngestion(input, logger: logger)
     }
 
-    /// (Enterprise edition only) Creates a new namespace for you to use with Amazon QuickSight. A namespace allows you to isolate the Amazon QuickSight users and groups that are registered for that namespace. Users that access the namespace can share assets only with other users or groups in the same namespace. They can't see users and groups in other namespaces. You can create a namespace after your Amazon Web Services account is subscribed to Amazon QuickSight. The namespace must be unique within the Amazon Web Services account. By default, there is a limit of 100 namespaces per Amazon Web Services account. To increase your limit, create a ticket with Amazon Web ServicesSupport.
+    /// (Enterprise edition only) Creates a new namespace for you to use with Amazon Quick Sight. A namespace allows you to isolate the Quick Sight users and groups that are registered for that namespace. Users that access the namespace can share assets only with other users or groups in the same namespace. They can't see users and groups in other namespaces. You can create a namespace after your Amazon Web Services account is subscribed to Quick Sight. The namespace must be unique within the Amazon Web Services account. By default, there is a limit of 100 namespaces per Amazon Web Services account. To increase your limit, create a ticket with Amazon Web Services Support.
     @Sendable
     @inlinable
     public func createNamespace(_ input: CreateNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNamespaceResponse {
@@ -928,10 +987,10 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// (Enterprise edition only) Creates a new namespace for you to use with Amazon QuickSight. A namespace allows you to isolate the Amazon QuickSight users and groups that are registered for that namespace. Users that access the namespace can share assets only with other users or groups in the same namespace. They can't see users and groups in other namespaces. You can create a namespace after your Amazon Web Services account is subscribed to Amazon QuickSight. The namespace must be unique within the Amazon Web Services account. By default, there is a limit of 100 namespaces per Amazon Web Services account. To increase your limit, create a ticket with Amazon Web ServicesSupport.
+    /// (Enterprise edition only) Creates a new namespace for you to use with Amazon Quick Sight. A namespace allows you to isolate the Quick Sight users and groups that are registered for that namespace. Users that access the namespace can share assets only with other users or groups in the same namespace. They can't see users and groups in other namespaces. You can create a namespace after your Amazon Web Services account is subscribed to Quick Sight. The namespace must be unique within the Amazon Web Services account. By default, there is a limit of 100 namespaces per Amazon Web Services account. To increase your limit, create a ticket with Amazon Web Services Support.
     ///
     /// Parameters:
-    ///   - awsAccountId: The ID for the Amazon Web Services account that you want to create the Amazon QuickSight namespace in.
+    ///   - awsAccountId: The ID for the Amazon Web Services account that you want to create the Quick Sight namespace in.
     ///   - identityStore: Specifies the type of your user identity directory. Currently, this supports users with an identity type of QUICKSIGHT.
     ///   - namespace: The name that you want to use to describe the new namespace.
     ///   - tags: The tags that you want to associate with the namespace that you're creating.
@@ -988,7 +1047,7 @@ public struct QuickSight: AWSService {
         return try await self.createRefreshSchedule(input, logger: logger)
     }
 
-    /// Use CreateRoleMembership to add an existing Amazon QuickSight group to an existing role.
+    /// Use CreateRoleMembership to add an existing Quick Sight group to an existing role.
     @Sendable
     @inlinable
     public func createRoleMembership(_ input: CreateRoleMembershipRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRoleMembershipResponse {
@@ -1001,10 +1060,10 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Use CreateRoleMembership to add an existing Amazon QuickSight group to an existing role.
+    /// Use CreateRoleMembership to add an existing Quick Sight group to an existing role.
     ///
     /// Parameters:
-    ///   - awsAccountId: The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon QuickSight account.
+    ///   - awsAccountId: The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon Quick Sight account.
     ///   - memberName: The name of the group that you want to add to the role.
     ///   - namespace: The namespace that the role belongs to.
     ///   - role: The role that you want to add a group to.
@@ -1026,8 +1085,8 @@ public struct QuickSight: AWSService {
         return try await self.createRoleMembership(input, logger: logger)
     }
 
-    /// Creates a template either from a TemplateDefinition or from an existing Amazon QuickSight analysis or template. You can use the resulting
-    /// 			template to create additional dashboards, templates, or analyses. A template is an entity in Amazon QuickSight that encapsulates the metadata
+    /// Creates a template either from a TemplateDefinition or from an existing Quick Sight analysis or template. You can use the resulting
+    /// 			template to create additional dashboards, templates, or analyses. A template is an entity in Quick Sight that encapsulates the metadata
     /// 			required to create an analysis and that you can use to create s dashboard. A template adds
     /// 			a layer of abstraction by using placeholders to replace the dataset associated with the
     /// 			analysis. You can use templates to create dashboards by replacing dataset placeholders
@@ -1045,8 +1104,8 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Creates a template either from a TemplateDefinition or from an existing Amazon QuickSight analysis or template. You can use the resulting
-    /// 			template to create additional dashboards, templates, or analyses. A template is an entity in Amazon QuickSight that encapsulates the metadata
+    /// Creates a template either from a TemplateDefinition or from an existing Quick Sight analysis or template. You can use the resulting
+    /// 			template to create additional dashboards, templates, or analyses. A template is an entity in Quick Sight that encapsulates the metadata
     /// 			required to create an analysis and that you can use to create s dashboard. A template adds
     /// 			a layer of abstraction by using placeholders to replace the dataset associated with the
     /// 			analysis. You can use templates to create dashboards by replacing dataset placeholders
@@ -1054,7 +1113,7 @@ public struct QuickSight: AWSService {
     /// 			and template.
     ///
     /// Parameters:
-    ///   - awsAccountId: The ID for the Amazon Web Services account that the group is in. You use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+    ///   - awsAccountId: The ID for the Amazon Web Services account that the group is in. You use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
     ///   - definition: The definition of a template. A definition is the data model of all features in a Dashboard, Template, or Analysis. Either a SourceEntity or a Definition must be provided in
     ///   - name: A display name for the template.
     ///   - permissions: A list of resource permissions to be set on the template.
@@ -1131,7 +1190,7 @@ public struct QuickSight: AWSService {
 
     /// Creates a theme. A theme is set of configuration options for color and layout.
     /// 			Themes apply to analyses and dashboards. For more information, see Using
-    /// 			Themes in Amazon QuickSight in the Amazon QuickSight User Guide.
+    /// 			Themes in Amazon Quick Sight in the Amazon Quick Sight User Guide.
     @Sendable
     @inlinable
     public func createTheme(_ input: CreateThemeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateThemeResponse {
@@ -1146,7 +1205,7 @@ public struct QuickSight: AWSService {
     }
     /// Creates a theme. A theme is set of configuration options for color and layout.
     /// 			Themes apply to analyses and dashboards. For more information, see Using
-    /// 			Themes in Amazon QuickSight in the Amazon QuickSight User Guide.
+    /// 			Themes in Amazon Quick Sight in the Amazon Quick Sight User Guide.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account where you want to store the new theme.
@@ -1356,7 +1415,36 @@ public struct QuickSight: AWSService {
         return try await self.createVPCConnection(input, logger: logger)
     }
 
-    /// Deletes all Amazon QuickSight customizations in this Amazon Web Services Region for the specified Amazon Web Services account and Amazon QuickSight namespace.
+    /// Unapplies a custom permissions profile from an account.
+    @Sendable
+    @inlinable
+    public func deleteAccountCustomPermission(_ input: DeleteAccountCustomPermissionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAccountCustomPermissionResponse {
+        try await self.client.execute(
+            operation: "DeleteAccountCustomPermission", 
+            path: "/accounts/{AwsAccountId}/custom-permission", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Unapplies a custom permissions profile from an account.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account from which you want to unapply the custom permissions profile.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAccountCustomPermission(
+        awsAccountId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteAccountCustomPermissionResponse {
+        let input = DeleteAccountCustomPermissionRequest(
+            awsAccountId: awsAccountId
+        )
+        return try await self.deleteAccountCustomPermission(input, logger: logger)
+    }
+
+    ///  This API permanently deletes all Quick Sight customizations for the specified Amazon Web Services account and namespace. When you delete account customizations:   All customizations are removed including themes, branding, and visual settings   This action cannot be undone through the API   Users will see default Quick Sight styling after customizations are deleted    Before proceeding: Ensure you have backups of any custom themes or branding elements you may want to recreate.  Deletes all Amazon Quick Sight customizations for the specified Amazon Web Services account and Quick Sight namespace.
     @Sendable
     @inlinable
     public func deleteAccountCustomization(_ input: DeleteAccountCustomizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAccountCustomizationResponse {
@@ -1369,11 +1457,11 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Deletes all Amazon QuickSight customizations in this Amazon Web Services Region for the specified Amazon Web Services account and Amazon QuickSight namespace.
+    ///  This API permanently deletes all Quick Sight customizations for the specified Amazon Web Services account and namespace. When you delete account customizations:   All customizations are removed including themes, branding, and visual settings   This action cannot be undone through the API   Users will see default Quick Sight styling after customizations are deleted    Before proceeding: Ensure you have backups of any custom themes or branding elements you may want to recreate.  Deletes all Amazon Quick Sight customizations for the specified Amazon Web Services account and Quick Sight namespace.
     ///
     /// Parameters:
-    ///   - awsAccountId: The ID for the Amazon Web Services account that you want to delete Amazon QuickSight customizations from in this Amazon Web Services Region.
-    ///   - namespace: The Amazon QuickSight namespace that you're deleting the customizations from.
+    ///   - awsAccountId: The ID for the Amazon Web Services account that you want to delete Quick Sight customizations from.
+    ///   - namespace: The Quick Sight namespace that you're deleting the customizations from.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteAccountCustomization(
@@ -1388,7 +1476,7 @@ public struct QuickSight: AWSService {
         return try await self.deleteAccountCustomization(input, logger: logger)
     }
 
-    /// Use the DeleteAccountSubscription operation to delete an Amazon QuickSight account. This operation will result in an error message if you have configured your account termination protection settings to True. To change this setting and delete your account, call the UpdateAccountSettings API and set the value of the TerminationProtectionEnabled parameter to False, then make another call to the DeleteAccountSubscription API.
+    ///  Deleting your Quick Sight account subscription has permanent, irreversible consequences across all Amazon Web Services regions:   Global deletion – Running this operation from any single region will delete your Quick Sight account and all data in every Amazon Web Services region where you have Quick Sight resources.   Complete data loss – All dashboards, analyses, datasets, data sources, and custom visuals will be permanently deleted across all regions.   Embedded content failure – All embedded dashboards and visuals in your applications will immediately stop working and display errors to end users.   Shared resources removed – All shared dashboards, folders, and resources will become inaccessible to other users and external recipients.   User access terminated – All Quick Sight users in your account will lose access immediately, including authors, readers, and administrators.    No recovery possible – Once deleted, your Quick Sight account and all associated data cannot be restored.   Consider exporting critical dashboards and data before proceeding with account deletion.  Use the DeleteAccountSubscription operation to delete an Quick Sight account. This operation will result in an error message if you have configured your account termination protection settings to True. To change this setting and delete your account, call the UpdateAccountSettings API and set the value of the TerminationProtectionEnabled parameter to False, then make another call to the DeleteAccountSubscription API.
     @Sendable
     @inlinable
     public func deleteAccountSubscription(_ input: DeleteAccountSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAccountSubscriptionResponse {
@@ -1401,7 +1489,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Use the DeleteAccountSubscription operation to delete an Amazon QuickSight account. This operation will result in an error message if you have configured your account termination protection settings to True. To change this setting and delete your account, call the UpdateAccountSettings API and set the value of the TerminationProtectionEnabled parameter to False, then make another call to the DeleteAccountSubscription API.
+    ///  Deleting your Quick Sight account subscription has permanent, irreversible consequences across all Amazon Web Services regions:   Global deletion – Running this operation from any single region will delete your Quick Sight account and all data in every Amazon Web Services region where you have Quick Sight resources.   Complete data loss – All dashboards, analyses, datasets, data sources, and custom visuals will be permanently deleted across all regions.   Embedded content failure – All embedded dashboards and visuals in your applications will immediately stop working and display errors to end users.   Shared resources removed – All shared dashboards, folders, and resources will become inaccessible to other users and external recipients.   User access terminated – All Quick Sight users in your account will lose access immediately, including authors, readers, and administrators.    No recovery possible – Once deleted, your Quick Sight account and all associated data cannot be restored.   Consider exporting critical dashboards and data before proceeding with account deletion.  Use the DeleteAccountSubscription operation to delete an Quick Sight account. This operation will result in an error message if you have configured your account termination protection settings to True. To change this setting and delete your account, call the UpdateAccountSettings API and set the value of the TerminationProtectionEnabled parameter to False, then make another call to the DeleteAccountSubscription API.
     ///
     /// Parameters:
     ///   - awsAccountId: The Amazon Web Services account ID of the account that you want to delete.
@@ -1417,7 +1505,39 @@ public struct QuickSight: AWSService {
         return try await self.deleteAccountSubscription(input, logger: logger)
     }
 
-    /// Deletes an analysis from Amazon QuickSight. You can optionally include a recovery window during which you can restore the analysis. If you don't specify a recovery window value, the operation defaults to 30 days. Amazon QuickSight attaches a DeletionTime stamp to the response that specifies the end of the recovery window. At the end of the recovery window, Amazon QuickSight deletes the analysis permanently. At any time before recovery window ends, you can use the RestoreAnalysis API operation to remove the DeletionTime stamp and cancel the deletion of the analysis. The analysis remains visible in the API until it's deleted, so you can describe it but you can't make a template from it. An analysis that's scheduled for deletion isn't accessible in the Amazon QuickSight console. To access it in the console, restore it. Deleting an analysis doesn't delete the dashboards that you publish from it.
+    /// Hard deletes an action connector, making it unrecoverable. This operation removes the connector and all its associated configurations. Any resources currently using this action connector will no longer be able to perform actions through it.
+    @Sendable
+    @inlinable
+    public func deleteActionConnector(_ input: DeleteActionConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteActionConnectorResponse {
+        try await self.client.execute(
+            operation: "DeleteActionConnector", 
+            path: "/accounts/{AwsAccountId}/action-connectors/{ActionConnectorId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Hard deletes an action connector, making it unrecoverable. This operation removes the connector and all its associated configurations. Any resources currently using this action connector will no longer be able to perform actions through it.
+    ///
+    /// Parameters:
+    ///   - actionConnectorId: The unique identifier of the action connector to delete.
+    ///   - awsAccountId: The Amazon Web Services account ID that contains the action connector to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteActionConnector(
+        actionConnectorId: String,
+        awsAccountId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteActionConnectorResponse {
+        let input = DeleteActionConnectorRequest(
+            actionConnectorId: actionConnectorId, 
+            awsAccountId: awsAccountId
+        )
+        return try await self.deleteActionConnector(input, logger: logger)
+    }
+
+    /// Deletes an analysis from Amazon Quick Sight. You can optionally include a recovery window during which you can restore the analysis. If you don't specify a recovery window value, the operation defaults to 30 days. Amazon Quick Sight attaches a DeletionTime stamp to the response that specifies the end of the recovery window. At the end of the recovery window, Amazon Quick Sight deletes the analysis permanently. At any time before recovery window ends, you can use the RestoreAnalysis API operation to remove the DeletionTime stamp and cancel the deletion of the analysis. The analysis remains visible in the API until it's deleted, so you can describe it but you can't make a template from it. An analysis that's scheduled for deletion isn't accessible in the Amazon Quick Sight console. To access it in the console, restore it. Deleting an analysis doesn't delete the dashboards that you publish from it.
     @Sendable
     @inlinable
     public func deleteAnalysis(_ input: DeleteAnalysisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAnalysisResponse {
@@ -1430,13 +1550,13 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Deletes an analysis from Amazon QuickSight. You can optionally include a recovery window during which you can restore the analysis. If you don't specify a recovery window value, the operation defaults to 30 days. Amazon QuickSight attaches a DeletionTime stamp to the response that specifies the end of the recovery window. At the end of the recovery window, Amazon QuickSight deletes the analysis permanently. At any time before recovery window ends, you can use the RestoreAnalysis API operation to remove the DeletionTime stamp and cancel the deletion of the analysis. The analysis remains visible in the API until it's deleted, so you can describe it but you can't make a template from it. An analysis that's scheduled for deletion isn't accessible in the Amazon QuickSight console. To access it in the console, restore it. Deleting an analysis doesn't delete the dashboards that you publish from it.
+    /// Deletes an analysis from Amazon Quick Sight. You can optionally include a recovery window during which you can restore the analysis. If you don't specify a recovery window value, the operation defaults to 30 days. Amazon Quick Sight attaches a DeletionTime stamp to the response that specifies the end of the recovery window. At the end of the recovery window, Amazon Quick Sight deletes the analysis permanently. At any time before recovery window ends, you can use the RestoreAnalysis API operation to remove the DeletionTime stamp and cancel the deletion of the analysis. The analysis remains visible in the API until it's deleted, so you can describe it but you can't make a template from it. An analysis that's scheduled for deletion isn't accessible in the Amazon Quick Sight console. To access it in the console, restore it. Deleting an analysis doesn't delete the dashboards that you publish from it.
     ///
     /// Parameters:
     ///   - analysisId: The ID of the analysis that you're deleting.
     ///   - awsAccountId: The ID of the Amazon Web Services account where you want to delete an analysis.
     ///   - forceDeleteWithoutRecovery: This option defaults to the value NoForceDeleteWithoutRecovery. To immediately delete the analysis, add the ForceDeleteWithoutRecovery option. You can't restore an analysis after it's deleted.
-    ///   - recoveryWindowInDays: A value that specifies the number of days that Amazon QuickSight waits before it deletes the analysis. You can't use this parameter with the ForceDeleteWithoutRecovery option in the same API call. The default value is 30.
+    ///   - recoveryWindowInDays: A value that specifies the number of days that Amazon Quick Sight waits before it deletes the analysis. You can't use this parameter with the ForceDeleteWithoutRecovery option in the same API call. The default value is 30.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteAnalysis(
@@ -1455,7 +1575,7 @@ public struct QuickSight: AWSService {
         return try await self.deleteAnalysis(input, logger: logger)
     }
 
-    /// Deletes an Amazon QuickSight brand.
+    ///  This API permanently deletes the specified Quick Sight brand. When you delete a brand:   The brand and all its associated branding elements are permanently removed   Any applications or dashboards using this brand will revert to default styling   This action cannot be undone through the API    Before proceeding: Verify that the brand is no longer needed and consider the impact on any applications currently using this brand.  Deletes an Quick Sight brand.
     @Sendable
     @inlinable
     public func deleteBrand(_ input: DeleteBrandRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBrandResponse {
@@ -1468,11 +1588,11 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Deletes an Amazon QuickSight brand.
+    ///  This API permanently deletes the specified Quick Sight brand. When you delete a brand:   The brand and all its associated branding elements are permanently removed   Any applications or dashboards using this brand will revert to default styling   This action cannot be undone through the API    Before proceeding: Verify that the brand is no longer needed and consider the impact on any applications currently using this brand.  Deletes an Quick Sight brand.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that owns the brand.
-    ///   - brandId: The ID of the Amazon QuickSight brand.
+    ///   - brandId: The ID of the QuickSight brand.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteBrand(
@@ -1647,8 +1767,8 @@ public struct QuickSight: AWSService {
         return try await self.deleteDataSetRefreshProperties(input, logger: logger)
     }
 
-    /// Deletes the data source permanently. This operation breaks
-    /// 			all the datasets that reference the deleted data source.
+    /// Deletes the data source permanently. This operation breaks all the datasets that
+    /// 			reference the deleted data source.
     @Sendable
     @inlinable
     public func deleteDataSource(_ input: DeleteDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataSourceResponse {
@@ -1661,12 +1781,12 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Deletes the data source permanently. This operation breaks
-    /// 			all the datasets that reference the deleted data source.
+    /// Deletes the data source permanently. This operation breaks all the datasets that
+    /// 			reference the deleted data source.
     ///
     /// Parameters:
     ///   - awsAccountId: The Amazon Web Services account ID.
-    ///   - dataSourceId: The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    ///   - dataSourceId: The ID of the data source. This ID is unique per Amazon Web Services Region for each
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteDataSource(
@@ -1681,7 +1801,7 @@ public struct QuickSight: AWSService {
         return try await self.deleteDataSource(input, logger: logger)
     }
 
-    /// Deletes a linked Amazon Q Business application from an Amazon QuickSight account
+    /// Deletes a linked Amazon Q Business application from an Quick Sight account
     @Sendable
     @inlinable
     public func deleteDefaultQBusinessApplication(_ input: DeleteDefaultQBusinessApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDefaultQBusinessApplicationResponse {
@@ -1694,11 +1814,11 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Deletes a linked Amazon Q Business application from an Amazon QuickSight account
+    /// Deletes a linked Amazon Q Business application from an Quick Sight account
     ///
     /// Parameters:
-    ///   - awsAccountId: The ID of the Amazon QuickSight account that you want to disconnect from a Amazon Q Business application.
-    ///   - namespace: The Amazon QuickSight namespace that you want to delete a linked Amazon Q Business application from. If this field is left blank, the Amazon Q Business application is deleted from the default namespace. Currently, the default namespace is the only valid value for this parameter.
+    ///   - awsAccountId: The ID of the Quick Sight account that you want to disconnect from a Amazon Q Business application.
+    ///   - namespace: The Quick Sight namespace that you want to delete a linked Amazon Q Business application from. If this field is left blank, the Amazon Q Business application is deleted from the default namespace. Currently, the default namespace is the only valid value for this parameter.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteDefaultQBusinessApplication(
@@ -1783,7 +1903,7 @@ public struct QuickSight: AWSService {
         return try await self.deleteFolderMembership(input, logger: logger)
     }
 
-    /// Removes a user group from Amazon QuickSight.
+    /// Removes a user group from Amazon Quick Sight.
     @Sendable
     @inlinable
     public func deleteGroup(_ input: DeleteGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGroupResponse {
@@ -1796,7 +1916,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Removes a user group from Amazon QuickSight.
+    /// Removes a user group from Amazon Quick Sight.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the
@@ -1891,7 +2011,7 @@ public struct QuickSight: AWSService {
         return try await self.deleteIAMPolicyAssignment(input, logger: logger)
     }
 
-    /// Deletes all access scopes and authorized targets that are associated with a service from the Amazon QuickSight IAM Identity Center application. This operation is only supported for Amazon QuickSight accounts that use IAM Identity Center.
+    /// Deletes all access scopes and authorized targets that are associated with a service from the Quick Sight IAM Identity Center application. This operation is only supported for Quick Sight accounts that use IAM Identity Center.
     @Sendable
     @inlinable
     public func deleteIdentityPropagationConfig(_ input: DeleteIdentityPropagationConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIdentityPropagationConfigResponse {
@@ -1904,7 +2024,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Deletes all access scopes and authorized targets that are associated with a service from the Amazon QuickSight IAM Identity Center application. This operation is only supported for Amazon QuickSight accounts that use IAM Identity Center.
+    /// Deletes all access scopes and authorized targets that are associated with a service from the Quick Sight IAM Identity Center application. This operation is only supported for Quick Sight accounts that use IAM Identity Center.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that you want to delete an identity propagation configuration from.
@@ -1939,7 +2059,7 @@ public struct QuickSight: AWSService {
     /// Deletes a namespace and the users and groups that are associated with the namespace. This is an asynchronous process. Assets including dashboards, analyses, datasets and data sources are not  deleted. To delete these assets, you use the API operations for the relevant asset.
     ///
     /// Parameters:
-    ///   - awsAccountId: The ID for the Amazon Web Services account that you want to delete the Amazon QuickSight namespace from.
+    ///   - awsAccountId: The ID for the Amazon Web Services account that you want to delete the Quick Sight namespace from.
     ///   - namespace: The namespace that you want to delete.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2006,7 +2126,7 @@ public struct QuickSight: AWSService {
     /// Removes custom permissions from the role.
     ///
     /// Parameters:
-    ///   - awsAccountId: The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+    ///   - awsAccountId: The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
     ///   - namespace: The namespace that includes the role.
     ///   - role: The role that you want to remove permissions from.
     ///   - logger: Logger use during operation
@@ -2041,7 +2161,7 @@ public struct QuickSight: AWSService {
     /// Removes a group from a role.
     ///
     /// Parameters:
-    ///   - awsAccountId: The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon QuickSight account.
+    ///   - awsAccountId: The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon Quick Sight account.
     ///   - memberName: The name of the group.
     ///   - namespace: The namespace that contains the role.
     ///   - role: The role that you want to remove permissions from.
@@ -2276,7 +2396,7 @@ public struct QuickSight: AWSService {
         return try await self.deleteTopicRefreshSchedule(input, logger: logger)
     }
 
-    /// Deletes the Amazon QuickSight user that is associated with the identity of the
+    /// Deletes the Amazon Quick Sight user that is associated with the identity of the
     /// 			IAM user or role that's making the call. The IAM user
     /// 			isn't deleted as a result of this call.
     @Sendable
@@ -2291,7 +2411,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Deletes the Amazon QuickSight user that is associated with the identity of the
+    /// Deletes the Amazon Quick Sight user that is associated with the identity of the
     /// 			IAM user or role that's making the call. The IAM user
     /// 			isn't deleted as a result of this call.
     ///
@@ -2417,7 +2537,36 @@ public struct QuickSight: AWSService {
         return try await self.deleteVPCConnection(input, logger: logger)
     }
 
-    /// Describes the customizations associated with the provided Amazon Web Services account and Amazon Amazon QuickSight namespace in an Amazon Web Services Region. The Amazon QuickSight console evaluates which customizations to apply by running this API operation with the Resolved flag included.  To determine what customizations display when you run this command, it can help to visualize the relationship of the entities involved.     Amazon Web Services account - The Amazon Web Services account exists at the top of the hierarchy. It has the potential to use all of the Amazon Web Services Regions and Amazon Web Services Services. When you subscribe to Amazon QuickSight, you choose one Amazon Web Services Region to use as your home Region. That's where your free SPICE capacity is located. You can use Amazon QuickSight in any supported Amazon Web Services Region.     Amazon Web Services Region - In each Amazon Web Services Region where you sign in to Amazon QuickSight at least once, Amazon QuickSight acts as a separate instance of the same service. If you have a user directory, it resides in us-east-1, which is the US East (N. Virginia). Generally speaking, these users have access to Amazon QuickSight in any Amazon Web Services Region, unless they are constrained to a namespace.  To run the command in a different Amazon Web Services Region, you change your Region settings. If you're using the CLI, you can use one of the following options:   Use command line options.    Use named profiles.    Run aws configure to change your default Amazon Web Services Region. Use Enter to key the same settings for your keys. For more information, see Configuring the CLI.      Namespace - A QuickSight namespace is a partition that contains users and assets (data sources, datasets, dashboards, and so on). To access assets that are in a specific namespace, users and groups must also be part of the same namespace. People who share a namespace are completely isolated from users and assets in other namespaces, even if they are in the same Amazon Web Services account and Amazon Web Services Region.    Applied customizations -  Within an Amazon Web Services Region, a set of Amazon QuickSight customizations can apply to an Amazon Web Services account or to a namespace. Settings that you apply to a namespace override settings that you apply to an Amazon Web Services account. All settings are isolated to a single Amazon Web Services Region. To apply them in other Amazon Web Services Regions, run the CreateAccountCustomization command in each Amazon Web Services Region where you want to apply the same customizations.
+    /// Describes the custom permissions profile that is applied to an account.
+    @Sendable
+    @inlinable
+    public func describeAccountCustomPermission(_ input: DescribeAccountCustomPermissionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountCustomPermissionResponse {
+        try await self.client.execute(
+            operation: "DescribeAccountCustomPermission", 
+            path: "/accounts/{AwsAccountId}/custom-permission", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the custom permissions profile that is applied to an account.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account for which you want to describe the applied custom permissions profile.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeAccountCustomPermission(
+        awsAccountId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeAccountCustomPermissionResponse {
+        let input = DescribeAccountCustomPermissionRequest(
+            awsAccountId: awsAccountId
+        )
+        return try await self.describeAccountCustomPermission(input, logger: logger)
+    }
+
+    /// Describes the customizations associated with the provided Amazon Web Services account and Amazon Quick Sight namespace. The Quick Sight console evaluates which customizations to apply by running this API operation with the Resolved flag included.  To determine what customizations display when you run this command, it can help to visualize the relationship of the entities involved.     Amazon Web Services account - The Amazon Web Services account exists at the top of the hierarchy. It has the potential to use all of the Amazon Web Services Regions and Amazon Web Services Services. When you subscribe to Quick Sight, you choose one Amazon Web Services Region to use as your home Region. That's where your free SPICE capacity is located. You can use Quick Sight in any supported Amazon Web Services Region.     Amazon Web Services Region - You can sign in to Quick Sight in any Amazon Web Services Region. If you have a user directory, it resides in us-east-1, which is US East (N. Virginia). Generally speaking, these users have access to Quick Sight in any Amazon Web Services Region, unless they are constrained to a namespace.  To run the command in a different Amazon Web Services Region, you change your Region settings. If you're using the CLI, you can use one of the following options:   Use command line options.    Use named profiles.    Run aws configure to change your default Amazon Web Services Region. Use Enter to key the same settings for your keys. For more information, see Configuring the CLI.      Namespace - A Quick Sight namespace is a partition that contains users and assets (data sources, datasets, dashboards, and so on). To access assets that are in a specific namespace, users and groups must also be part of the same namespace. People who share a namespace are completely isolated from users and assets in other namespaces, even if they are in the same Amazon Web Services account and Amazon Web Services Region.    Applied customizations - Quick Sight customizations can apply to an Amazon Web Services account or to a namespace. Settings that you apply to a namespace override settings that you apply to an Amazon Web Services account.
     @Sendable
     @inlinable
     public func describeAccountCustomization(_ input: DescribeAccountCustomizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountCustomizationResponse {
@@ -2430,12 +2579,12 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Describes the customizations associated with the provided Amazon Web Services account and Amazon Amazon QuickSight namespace in an Amazon Web Services Region. The Amazon QuickSight console evaluates which customizations to apply by running this API operation with the Resolved flag included.  To determine what customizations display when you run this command, it can help to visualize the relationship of the entities involved.     Amazon Web Services account - The Amazon Web Services account exists at the top of the hierarchy. It has the potential to use all of the Amazon Web Services Regions and Amazon Web Services Services. When you subscribe to Amazon QuickSight, you choose one Amazon Web Services Region to use as your home Region. That's where your free SPICE capacity is located. You can use Amazon QuickSight in any supported Amazon Web Services Region.     Amazon Web Services Region - In each Amazon Web Services Region where you sign in to Amazon QuickSight at least once, Amazon QuickSight acts as a separate instance of the same service. If you have a user directory, it resides in us-east-1, which is the US East (N. Virginia). Generally speaking, these users have access to Amazon QuickSight in any Amazon Web Services Region, unless they are constrained to a namespace.  To run the command in a different Amazon Web Services Region, you change your Region settings. If you're using the CLI, you can use one of the following options:   Use command line options.    Use named profiles.    Run aws configure to change your default Amazon Web Services Region. Use Enter to key the same settings for your keys. For more information, see Configuring the CLI.      Namespace - A QuickSight namespace is a partition that contains users and assets (data sources, datasets, dashboards, and so on). To access assets that are in a specific namespace, users and groups must also be part of the same namespace. People who share a namespace are completely isolated from users and assets in other namespaces, even if they are in the same Amazon Web Services account and Amazon Web Services Region.    Applied customizations -  Within an Amazon Web Services Region, a set of Amazon QuickSight customizations can apply to an Amazon Web Services account or to a namespace. Settings that you apply to a namespace override settings that you apply to an Amazon Web Services account. All settings are isolated to a single Amazon Web Services Region. To apply them in other Amazon Web Services Regions, run the CreateAccountCustomization command in each Amazon Web Services Region where you want to apply the same customizations.
+    /// Describes the customizations associated with the provided Amazon Web Services account and Amazon Quick Sight namespace. The Quick Sight console evaluates which customizations to apply by running this API operation with the Resolved flag included.  To determine what customizations display when you run this command, it can help to visualize the relationship of the entities involved.     Amazon Web Services account - The Amazon Web Services account exists at the top of the hierarchy. It has the potential to use all of the Amazon Web Services Regions and Amazon Web Services Services. When you subscribe to Quick Sight, you choose one Amazon Web Services Region to use as your home Region. That's where your free SPICE capacity is located. You can use Quick Sight in any supported Amazon Web Services Region.     Amazon Web Services Region - You can sign in to Quick Sight in any Amazon Web Services Region. If you have a user directory, it resides in us-east-1, which is US East (N. Virginia). Generally speaking, these users have access to Quick Sight in any Amazon Web Services Region, unless they are constrained to a namespace.  To run the command in a different Amazon Web Services Region, you change your Region settings. If you're using the CLI, you can use one of the following options:   Use command line options.    Use named profiles.    Run aws configure to change your default Amazon Web Services Region. Use Enter to key the same settings for your keys. For more information, see Configuring the CLI.      Namespace - A Quick Sight namespace is a partition that contains users and assets (data sources, datasets, dashboards, and so on). To access assets that are in a specific namespace, users and groups must also be part of the same namespace. People who share a namespace are completely isolated from users and assets in other namespaces, even if they are in the same Amazon Web Services account and Amazon Web Services Region.    Applied customizations - Quick Sight customizations can apply to an Amazon Web Services account or to a namespace. Settings that you apply to a namespace override settings that you apply to an Amazon Web Services account.
     ///
     /// Parameters:
-    ///   - awsAccountId: The ID for the Amazon Web Services account that you want to describe Amazon QuickSight customizations for.
-    ///   - namespace: The Amazon QuickSight namespace that you want to describe Amazon QuickSight customizations for.
-    ///   - resolved: The Resolved flag works with the other parameters to determine which view of Amazon QuickSight customizations is returned. You can add this flag to your command to use the same view that Amazon QuickSight uses to identify which customizations to apply to the console. Omit this flag, or set it to no-resolved, to reveal customizations that are configured at different levels.
+    ///   - awsAccountId: The ID for the Amazon Web Services account that you want to describe Quick Sight customizations for.
+    ///   - namespace: The Quick Sight namespace that you want to describe Quick Sight customizations for.
+    ///   - resolved: The Resolved flag works with the other parameters to determine which view of Quick Sight customizations is returned. You can add this flag to your command to use the same view that Quick Sight uses to identify which customizations to apply to the console. Omit this flag, or set it to no-resolved, to reveal customizations that are configured at different levels.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeAccountCustomization(
@@ -2452,7 +2601,7 @@ public struct QuickSight: AWSService {
         return try await self.describeAccountCustomization(input, logger: logger)
     }
 
-    /// Describes the settings that were used when your Amazon QuickSight subscription was first created in this Amazon Web Services account.
+    /// Describes the settings that were used when your Quick Sight subscription was first created in this Amazon Web Services account.
     @Sendable
     @inlinable
     public func describeAccountSettings(_ input: DescribeAccountSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountSettingsResponse {
@@ -2465,7 +2614,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Describes the settings that were used when your Amazon QuickSight subscription was first created in this Amazon Web Services account.
+    /// Describes the settings that were used when your Quick Sight subscription was first created in this Amazon Web Services account.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID for the Amazon Web Services account that contains the settings that you want to list.
@@ -2481,7 +2630,7 @@ public struct QuickSight: AWSService {
         return try await self.describeAccountSettings(input, logger: logger)
     }
 
-    /// Use the DescribeAccountSubscription operation to receive a description of an Amazon QuickSight account's subscription. A successful API call returns an AccountInfo object that includes an account's name, subscription status, authentication type, edition, and notification email address.
+    /// Use the DescribeAccountSubscription operation to receive a description of an Quick Sight account's subscription. A successful API call returns an AccountInfo object that includes an account's name, subscription status, authentication type, edition, and notification email address.
     @Sendable
     @inlinable
     public func describeAccountSubscription(_ input: DescribeAccountSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountSubscriptionResponse {
@@ -2494,10 +2643,10 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Use the DescribeAccountSubscription operation to receive a description of an Amazon QuickSight account's subscription. A successful API call returns an AccountInfo object that includes an account's name, subscription status, authentication type, edition, and notification email address.
+    /// Use the DescribeAccountSubscription operation to receive a description of an Quick Sight account's subscription. A successful API call returns an AccountInfo object that includes an account's name, subscription status, authentication type, edition, and notification email address.
     ///
     /// Parameters:
-    ///   - awsAccountId: The Amazon Web Services account ID associated with your Amazon QuickSight account.
+    ///   - awsAccountId: The Amazon Web Services account ID associated with your Quick Sight account.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeAccountSubscription(
@@ -2508,6 +2657,70 @@ public struct QuickSight: AWSService {
             awsAccountId: awsAccountId
         )
         return try await self.describeAccountSubscription(input, logger: logger)
+    }
+
+    /// Retrieves detailed information about an action connector, including its configuration, authentication settings, enabled actions, and current status.
+    @Sendable
+    @inlinable
+    public func describeActionConnector(_ input: DescribeActionConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeActionConnectorResponse {
+        try await self.client.execute(
+            operation: "DescribeActionConnector", 
+            path: "/accounts/{AwsAccountId}/action-connectors/{ActionConnectorId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about an action connector, including its configuration, authentication settings, enabled actions, and current status.
+    ///
+    /// Parameters:
+    ///   - actionConnectorId: The unique identifier of the action connector to describe.
+    ///   - awsAccountId: The Amazon Web Services account ID that contains the action connector.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeActionConnector(
+        actionConnectorId: String,
+        awsAccountId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeActionConnectorResponse {
+        let input = DescribeActionConnectorRequest(
+            actionConnectorId: actionConnectorId, 
+            awsAccountId: awsAccountId
+        )
+        return try await self.describeActionConnector(input, logger: logger)
+    }
+
+    /// Retrieves the permissions configuration for an action connector, showing which users, groups, and namespaces have access and what operations they can perform.
+    @Sendable
+    @inlinable
+    public func describeActionConnectorPermissions(_ input: DescribeActionConnectorPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeActionConnectorPermissionsResponse {
+        try await self.client.execute(
+            operation: "DescribeActionConnectorPermissions", 
+            path: "/accounts/{AwsAccountId}/action-connectors/{ActionConnectorId}/permissions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the permissions configuration for an action connector, showing which users, groups, and namespaces have access and what operations they can perform.
+    ///
+    /// Parameters:
+    ///   - actionConnectorId: The unique identifier of the action connector whose permissions you want to describe.
+    ///   - awsAccountId: The Amazon Web Services account ID that contains the action connector.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeActionConnectorPermissions(
+        actionConnectorId: String,
+        awsAccountId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeActionConnectorPermissionsResponse {
+        let input = DescribeActionConnectorPermissionsRequest(
+            actionConnectorId: actionConnectorId, 
+            awsAccountId: awsAccountId
+        )
+        return try await self.describeActionConnectorPermissions(input, logger: logger)
     }
 
     /// Provides a summary of the metadata for an analysis.
@@ -2687,7 +2900,7 @@ public struct QuickSight: AWSService {
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that owns the brand.
-    ///   - brandId: The ID of the Amazon QuickSight brand.
+    ///   - brandId: The ID of the QuickSight brand.
     ///   - versionId: The ID of the specific version. The default value is the latest version.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2751,7 +2964,7 @@ public struct QuickSight: AWSService {
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that owns the brand.
-    ///   - brandId: The ID of the Amazon QuickSight brand.
+    ///   - brandId: The ID of the QuickSight brand.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeBrandPublishedVersion(
@@ -3005,7 +3218,8 @@ public struct QuickSight: AWSService {
         return try await self.describeDashboardsQAConfiguration(input, logger: logger)
     }
 
-    /// Describes a dataset. This operation doesn't support datasets that include uploaded files as a source.
+    /// Describes a dataset. This operation doesn't support datasets that include uploaded
+    /// 			files as a source.
     @Sendable
     @inlinable
     public func describeDataSet(_ input: DescribeDataSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDataSetResponse {
@@ -3018,7 +3232,8 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Describes a dataset. This operation doesn't support datasets that include uploaded files as a source.
+    /// Describes a dataset. This operation doesn't support datasets that include uploaded
+    /// 			files as a source.
     ///
     /// Parameters:
     ///   - awsAccountId: The Amazon Web Services account ID.
@@ -3037,7 +3252,8 @@ public struct QuickSight: AWSService {
         return try await self.describeDataSet(input, logger: logger)
     }
 
-    /// Describes the permissions on a dataset. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
+    /// Describes the permissions on a dataset. The permissions resource is
+    /// 				arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
     @Sendable
     @inlinable
     public func describeDataSetPermissions(_ input: DescribeDataSetPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDataSetPermissionsResponse {
@@ -3050,7 +3266,8 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Describes the permissions on a dataset. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
+    /// Describes the permissions on a dataset. The permissions resource is
+    /// 				arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
     ///
     /// Parameters:
     ///   - awsAccountId: The Amazon Web Services account ID.
@@ -3118,7 +3335,7 @@ public struct QuickSight: AWSService {
     ///
     /// Parameters:
     ///   - awsAccountId: The Amazon Web Services account ID.
-    ///   - dataSourceId: The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    ///   - dataSourceId: The ID of the data source. This ID is unique per Amazon Web Services Region for each
     ///   - logger: Logger use during operation
     @inlinable
     public func describeDataSource(
@@ -3150,7 +3367,7 @@ public struct QuickSight: AWSService {
     ///
     /// Parameters:
     ///   - awsAccountId: The Amazon Web Services account ID.
-    ///   - dataSourceId: The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    ///   - dataSourceId: The ID of the data source. This ID is unique per Amazon Web Services Region for each
     ///   - logger: Logger use during operation
     @inlinable
     public func describeDataSourcePermissions(
@@ -3165,7 +3382,7 @@ public struct QuickSight: AWSService {
         return try await self.describeDataSourcePermissions(input, logger: logger)
     }
 
-    /// Describes a Amazon Q Business application that is linked to an Amazon QuickSight account.
+    /// Describes a Amazon Q Business application that is linked to an Quick Sight account.
     @Sendable
     @inlinable
     public func describeDefaultQBusinessApplication(_ input: DescribeDefaultQBusinessApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDefaultQBusinessApplicationResponse {
@@ -3178,11 +3395,11 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Describes a Amazon Q Business application that is linked to an Amazon QuickSight account.
+    /// Describes a Amazon Q Business application that is linked to an Quick Sight account.
     ///
     /// Parameters:
-    ///   - awsAccountId: The ID of the Amazon QuickSight account that is linked to the Amazon Q Business application that you want described.
-    ///   - namespace: The Amazon QuickSight namespace that contains the linked Amazon Q Business application. If this field is left blank, the default namespace is used. Currently, the default namespace is the only valid value for this parameter.
+    ///   - awsAccountId: The ID of the Quick Sight account that is linked to the Amazon Q Business application that you want described.
+    ///   - namespace: The Quick Sight namespace that contains the linked Amazon Q Business application. If this field is left blank, the default namespace is used. Currently, the default namespace is the only valid value for this parameter.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeDefaultQBusinessApplication(
@@ -3311,7 +3528,7 @@ public struct QuickSight: AWSService {
         return try await self.describeFolderResolvedPermissions(input, logger: logger)
     }
 
-    /// Returns an Amazon QuickSight group's description and Amazon Resource Name (ARN).
+    /// Returns an Amazon Quick Sight group's description and Amazon Resource Name (ARN).
     @Sendable
     @inlinable
     public func describeGroup(_ input: DescribeGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGroupResponse {
@@ -3324,7 +3541,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Returns an Amazon QuickSight group's description and Amazon Resource Name (ARN).
+    /// Returns an Amazon Quick Sight group's description and Amazon Resource Name (ARN).
     ///
     /// Parameters:
     ///   - awsAccountId: The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the
@@ -3366,7 +3583,7 @@ public struct QuickSight: AWSService {
     /// 			group, an associated GroupMember object is returned.
     ///
     /// Parameters:
-    ///   - awsAccountId: The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the  Amazon Web Services account that contains your Amazon QuickSight account.
+    ///   - awsAccountId: The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the  Amazon Web Services account that contains your Amazon Quick Sight account.
     ///   - groupName: The name of the group that you want to search.
     ///   - memberName: The user name of the user that you want to search for.
     ///   - namespace: The namespace that includes the group you are searching within.
@@ -3489,7 +3706,7 @@ public struct QuickSight: AWSService {
         return try await self.describeIpRestriction(input, logger: logger)
     }
 
-    /// Describes all customer managed key registrations in a Amazon QuickSight account.
+    /// Describes all customer managed key registrations in a Quick Sight account.
     @Sendable
     @inlinable
     public func describeKeyRegistration(_ input: DescribeKeyRegistrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeKeyRegistrationResponse {
@@ -3502,7 +3719,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Describes all customer managed key registrations in a Amazon QuickSight account.
+    /// Describes all customer managed key registrations in a Quick Sight account.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that contains the customer managed key registration that you want to describe.
@@ -3537,7 +3754,7 @@ public struct QuickSight: AWSService {
     /// Describes the current namespace.
     ///
     /// Parameters:
-    ///   - awsAccountId: The ID for the Amazon Web Services account that contains the Amazon QuickSight namespace that you want to describe.
+    ///   - awsAccountId: The ID for the Amazon Web Services account that contains the Quick Sight namespace that you want to describe.
     ///   - namespace: The namespace that you want to describe.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3582,7 +3799,7 @@ public struct QuickSight: AWSService {
         return try await self.describeQPersonalizationConfiguration(input, logger: logger)
     }
 
-    /// Describes the state of a Amazon QuickSight Q Search configuration.
+    /// Describes the state of a Quick Sight Q Search configuration.
     @Sendable
     @inlinable
     public func describeQuickSightQSearchConfiguration(_ input: DescribeQuickSightQSearchConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeQuickSightQSearchConfigurationResponse {
@@ -3595,10 +3812,10 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Describes the state of a Amazon QuickSight Q Search configuration.
+    /// Describes the state of a Quick Sight Q Search configuration.
     ///
     /// Parameters:
-    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the Amazon QuickSight Q Search configuration that the user wants described.
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the Quick Sight Q Search configuration that the user wants described.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeQuickSightQSearchConfiguration(
@@ -3662,7 +3879,7 @@ public struct QuickSight: AWSService {
     /// Describes all custom permissions that are  mapped to a role.
     ///
     /// Parameters:
-    ///   - awsAccountId: The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon QuickSight account.
+    ///   - awsAccountId: The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon Quick Sight account.
     ///   - namespace: The namespace that contains the role.
     ///   - role: The name of the role whose permissions you want described.
     ///   - logger: Logger use during operation
@@ -4152,13 +4369,13 @@ public struct QuickSight: AWSService {
     /// Generates an embed URL that you can use to embed an Amazon QuickSight dashboard or visual in your website, without having to register any reader users. Before you use this action, make sure that you have configured the dashboards and permissions. The following rules apply to the generated URL:   It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again.   The URL validity period should not be confused with the actual session lifetime that can be customized using the  SessionLifetimeInMinutes parameter. The resulting user session is valid for 15 minutes (minimum) to 10 hours (maximum). The default session duration is 10 hours.   You are charged only when the URL is used or there is interaction with Amazon QuickSight.   For more information, see Embedded Analytics in the Amazon QuickSight User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon QuickSight Developer Portal.
     ///
     /// Parameters:
-    ///   - allowedDomains: The domains that you want to add to the allow list for access to the generated URL that is then embedded. This optional parameter overrides the static domains that are configured in the Manage QuickSight menu in the Amazon QuickSight console. Instead, it allows only the domains that you include in this parameter. You can list up to three domains or subdomains in each API call. To include all subdomains under a specific domain to the allow list, use *. For example, https://*.sapp.amazon.com includes all subdomains under https://sapp.amazon.com.
-    ///   - authorizedResourceArns: The Amazon Resource Names (ARNs) for the Amazon QuickSight resources that the user is authorized to access during the lifetime of the session. If you choose Dashboard embedding experience, pass the list of dashboard ARNs in the account that you want the user to be able to view. If you want to make changes to the theme of your embedded content, pass a list of theme ARNs that the anonymous users need access to. Currently, you can pass up to 25 theme ARNs in each API call.
+    ///   - allowedDomains: The domains that you want to add to the allow list for access to the generated URL that is then embedded. This optional parameter overrides the static domains that are configured in the Manage Quick Sight menu in the Amazon Quick Sight console. Instead, it allows only the domains that you include in this parameter. You can list up to three domains or subdomains in each API call. To include all subdomains under a specific domain to the allow list, use *. For example, https://*.sapp.amazon.com includes all subdomains under https://sapp.amazon.com.
+    ///   - authorizedResourceArns: The Amazon Resource Names (ARNs) for the Quick Sight resources that the user is authorized to access during the lifetime of the session. If you choose Dashboard embedding experience, pass the list of dashboard ARNs in the account that you want the user to be able to view. If you want to make changes to the theme of your embedded content, pass a list of theme ARNs that the anonymous users need access to. Currently, you can pass up to 25 theme ARNs in each API call.
     ///   - awsAccountId: The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
     ///   - experienceConfiguration: The configuration of the experience that you are embedding.
-    ///   - namespace: The Amazon QuickSight namespace that the anonymous user virtually belongs to. If you are not using an Amazon QuickSight custom namespace, set this to default.
+    ///   - namespace: The Amazon Quick Sight namespace that the anonymous user virtually belongs to. If you are not using an Amazon QuickSight custom namespace, set this to default.
     ///   - sessionLifetimeInMinutes: How many minutes the session is valid. The session lifetime must be in [15-600] minutes range.
-    ///   - sessionTags: The session tags used for row-level security. Before you use this parameter, make sure that you have configured the relevant datasets using the DataSet$RowLevelPermissionTagConfiguration parameter so that session tags can be used to provide row-level security. These are not the tags used for the Amazon Web Services resource tagging feature. For more information, see Using Row-Level Security (RLS) with Tagsin the Amazon QuickSight User Guide.
+    ///   - sessionTags: The session tags used for row-level security. Before you use this parameter, make sure that you have configured the relevant datasets using the DataSet$RowLevelPermissionTagConfiguration parameter so that session tags can be used to provide row-level security. These are not the tags used for the Amazon Web Services resource tagging feature. For more information, see Using Row-Level Security (RLS) with Tagsin the Amazon Quick Sight User Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func generateEmbedUrlForAnonymousUser(
@@ -4183,7 +4400,7 @@ public struct QuickSight: AWSService {
         return try await self.generateEmbedUrlForAnonymousUser(input, logger: logger)
     }
 
-    /// Generates an embed URL that you can use to embed an Amazon QuickSight experience in your website. This action can be used for any type of user registered in an Amazon QuickSight account.  Before you use this action, make sure that you have configured the relevant Amazon QuickSight resource and permissions. The following rules apply to the generated URL:   It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again.   The URL validity period should not be confused with the actual session lifetime that can be customized using the  SessionLifetimeInMinutes parameter. The resulting user session is valid for 15 minutes (minimum) to 10 hours (maximum). The default session duration is 10 hours.   You are charged only when the URL is used or there is interaction with Amazon QuickSight.   For more information, see Embedded Analytics in the Amazon QuickSight User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon QuickSight Developer Portal.
+    /// Generates an embed URL that you can use to embed an Amazon QuickSight experience in your website. This action can be used for any type of user registered in an Amazon QuickSight account. Before you use this action, make sure that you have configured the relevant Amazon QuickSight resource and permissions. The following rules apply to the generated URL:   It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again.   The URL validity period should not be confused with the actual session lifetime that can be customized using the  SessionLifetimeInMinutes parameter. The resulting user session is valid for 15 minutes (minimum) to 10 hours (maximum). The default session duration is 10 hours.   You are charged only when the URL is used or there is interaction with Amazon QuickSight.   For more information, see Embedded Analytics in the Amazon QuickSight User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon QuickSight Developer Portal.
     @Sendable
     @inlinable
     public func generateEmbedUrlForRegisteredUser(_ input: GenerateEmbedUrlForRegisteredUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GenerateEmbedUrlForRegisteredUserResponse {
@@ -4196,12 +4413,12 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Generates an embed URL that you can use to embed an Amazon QuickSight experience in your website. This action can be used for any type of user registered in an Amazon QuickSight account.  Before you use this action, make sure that you have configured the relevant Amazon QuickSight resource and permissions. The following rules apply to the generated URL:   It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again.   The URL validity period should not be confused with the actual session lifetime that can be customized using the  SessionLifetimeInMinutes parameter. The resulting user session is valid for 15 minutes (minimum) to 10 hours (maximum). The default session duration is 10 hours.   You are charged only when the URL is used or there is interaction with Amazon QuickSight.   For more information, see Embedded Analytics in the Amazon QuickSight User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon QuickSight Developer Portal.
+    /// Generates an embed URL that you can use to embed an Amazon QuickSight experience in your website. This action can be used for any type of user registered in an Amazon QuickSight account. Before you use this action, make sure that you have configured the relevant Amazon QuickSight resource and permissions. The following rules apply to the generated URL:   It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again.   The URL validity period should not be confused with the actual session lifetime that can be customized using the  SessionLifetimeInMinutes parameter. The resulting user session is valid for 15 minutes (minimum) to 10 hours (maximum). The default session duration is 10 hours.   You are charged only when the URL is used or there is interaction with Amazon QuickSight.   For more information, see Embedded Analytics in the Amazon QuickSight User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon QuickSight Developer Portal.
     ///
     /// Parameters:
-    ///   - allowedDomains: The domains that you want to add to the allow list for access to the generated URL that  is then embedded. This optional parameter overrides the static domains that are  configured in the Manage QuickSight menu in the Amazon QuickSight console. Instead, it  allows only the domains that you include in this parameter. You can list up to three  domains or subdomains in each API call. To include all subdomains under a specific domain to the allow list, use *. For example, https://*.sapp.amazon.com includes all subdomains under https://sapp.amazon.com.
+    ///   - allowedDomains: The domains that you want to add to the allow list for access to the generated URL that is then embedded. This optional parameter overrides the static domains that are configured in the Manage Quick Sight menu in the Amazon Quick Sight console. Instead, it allows only the domains that you include in this parameter. You can list up to three domains or subdomains in each API call. To include all subdomains under a specific domain to the allow list, use *. For example, https://*.sapp.amazon.com includes all subdomains under https://sapp.amazon.com.
     ///   - awsAccountId: The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
-    ///   - experienceConfiguration: The experience that you want to embed. For registered users, you can embed Amazon QuickSight dashboards, Amazon QuickSight visuals, the Amazon QuickSight Q search bar, the Amazon QuickSight Generative Q&A experience, or the entire Amazon QuickSight console.
+    ///   - experienceConfiguration: The experience that you want to embed. For registered users, you can embed QuickSight dashboards, Amazon Quick Sight visuals, the Amazon Quick Sight Q search bar, the Amazon Quick Sight Generative Q&A experience, or the entire Amazon Quick Sight console.
     ///   - sessionLifetimeInMinutes: How many minutes the session is valid. The session lifetime must be in [15-600] minutes range.
     ///   - userArn: The Amazon Resource Name for the registered user.
     ///   - logger: Logger use during operation
@@ -4224,7 +4441,7 @@ public struct QuickSight: AWSService {
         return try await self.generateEmbedUrlForRegisteredUser(input, logger: logger)
     }
 
-    /// Generates an embed URL that you can use to embed an Amazon QuickSight experience in your website. This action can be used for any type of user that is registered in an Amazon QuickSight account that uses IAM Identity Center for authentication. This API requires identity-enhanced IAM Role sessions for the authenticated user that the API call is being made for. This API uses trusted identity propagation to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have trusted Identity Propagation enabled for Amazon QuickSight with the scope value set to quicksight:read. Before you use this action, make sure that you have configured the relevant Amazon QuickSight resource and permissions.
+    /// Generates an embed URL that you can use to embed an Amazon Quick Sight experience in your website. This action can be used for any type of user that is registered in an Amazon Quick Sight account that uses IAM Identity Center for authentication. This API requires identity-enhanced IAM Role sessions for the authenticated user that the API call is being made for. This API uses trusted identity propagation to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have trusted Identity Propagation enabled for Amazon Quick Sight with the scope value set to quicksight:read. Before you use this action, make sure that you have configured the relevant Amazon Quick Sight resource and permissions.
     @Sendable
     @inlinable
     public func generateEmbedUrlForRegisteredUserWithIdentity(_ input: GenerateEmbedUrlForRegisteredUserWithIdentityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GenerateEmbedUrlForRegisteredUserWithIdentityResponse {
@@ -4237,7 +4454,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Generates an embed URL that you can use to embed an Amazon QuickSight experience in your website. This action can be used for any type of user that is registered in an Amazon QuickSight account that uses IAM Identity Center for authentication. This API requires identity-enhanced IAM Role sessions for the authenticated user that the API call is being made for. This API uses trusted identity propagation to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have trusted Identity Propagation enabled for Amazon QuickSight with the scope value set to quicksight:read. Before you use this action, make sure that you have configured the relevant Amazon QuickSight resource and permissions.
+    /// Generates an embed URL that you can use to embed an Amazon Quick Sight experience in your website. This action can be used for any type of user that is registered in an Amazon Quick Sight account that uses IAM Identity Center for authentication. This API requires identity-enhanced IAM Role sessions for the authenticated user that the API call is being made for. This API uses trusted identity propagation to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have trusted Identity Propagation enabled for Amazon Quick Sight with the scope value set to quicksight:read. Before you use this action, make sure that you have configured the relevant Amazon Quick Sight resource and permissions.
     ///
     /// Parameters:
     ///   - allowedDomains: A list of domains to be allowed to generate the embed URL.
@@ -4262,7 +4479,7 @@ public struct QuickSight: AWSService {
         return try await self.generateEmbedUrlForRegisteredUserWithIdentity(input, logger: logger)
     }
 
-    /// Generates a temporary session URL and authorization code(bearer token) that you can use to embed an Amazon QuickSight read-only dashboard in your website or application. Before you use this command, make sure that you have configured the dashboards and permissions.  Currently, you can use GetDashboardEmbedURL only from the server, not from the user's browser. The following rules apply to the generated URL:   They must be used together.   They can be used one time only.   They are valid for 5 minutes after you run this command.   You are charged only when the URL is used or there is interaction with Amazon QuickSight.   The resulting user session is valid for 15 minutes (default) up to 10 hours (maximum). You can use the optional SessionLifetimeInMinutes parameter to customize session duration.   For more information, see Embedding Analytics Using GetDashboardEmbedUrl in the Amazon QuickSight User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon QuickSight Developer Portal.
+    /// Generates a temporary session URL and authorization code(bearer token) that you can use to embed an Amazon Quick Sight read-only dashboard in your website or application. Before you use this command, make sure that you have configured the dashboards and permissions.  Currently, you can use GetDashboardEmbedURL only from the server, not from the user's browser. The following rules apply to the generated URL:   They must be used together.   They can be used one time only.   They are valid for 5 minutes after you run this command.   You are charged only when the URL is used or there is interaction with QuickSight.   The resulting user session is valid for 15 minutes (default) up to 10 hours (maximum). You can use the optional SessionLifetimeInMinutes parameter to customize session duration.   For more information, see Embedding Analytics Using GetDashboardEmbedUrl in the Amazon QuickSight User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon QuickSight Developer Portal.
     @Sendable
     @inlinable
     public func getDashboardEmbedUrl(_ input: GetDashboardEmbedUrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDashboardEmbedUrlResponse {
@@ -4275,19 +4492,19 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Generates a temporary session URL and authorization code(bearer token) that you can use to embed an Amazon QuickSight read-only dashboard in your website or application. Before you use this command, make sure that you have configured the dashboards and permissions.  Currently, you can use GetDashboardEmbedURL only from the server, not from the user's browser. The following rules apply to the generated URL:   They must be used together.   They can be used one time only.   They are valid for 5 minutes after you run this command.   You are charged only when the URL is used or there is interaction with Amazon QuickSight.   The resulting user session is valid for 15 minutes (default) up to 10 hours (maximum). You can use the optional SessionLifetimeInMinutes parameter to customize session duration.   For more information, see Embedding Analytics Using GetDashboardEmbedUrl in the Amazon QuickSight User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon QuickSight Developer Portal.
+    /// Generates a temporary session URL and authorization code(bearer token) that you can use to embed an Amazon Quick Sight read-only dashboard in your website or application. Before you use this command, make sure that you have configured the dashboards and permissions.  Currently, you can use GetDashboardEmbedURL only from the server, not from the user's browser. The following rules apply to the generated URL:   They must be used together.   They can be used one time only.   They are valid for 5 minutes after you run this command.   You are charged only when the URL is used or there is interaction with QuickSight.   The resulting user session is valid for 15 minutes (default) up to 10 hours (maximum). You can use the optional SessionLifetimeInMinutes parameter to customize session duration.   For more information, see Embedding Analytics Using GetDashboardEmbedUrl in the Amazon QuickSight User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon QuickSight Developer Portal.
     ///
     /// Parameters:
-    ///   - additionalDashboardIds: A list of one or more dashboard IDs that you want anonymous users to have tempporary access to. Currently, the IdentityType parameter must be set to ANONYMOUS because other identity types authenticate as Amazon QuickSight or IAM users. For example, if you set "--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3 identity-type ANONYMOUS", the session can access all three dashboards.
+    ///   - additionalDashboardIds: A list of one or more dashboard IDs that you want anonymous users to have tempporary access to. Currently, the IdentityType parameter must be set to ANONYMOUS because other identity types authenticate as QuickSight or IAM users. For example, if you set "--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3 identity-type ANONYMOUS", the session can access all three dashboards.
     ///   - awsAccountId: The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
     ///   - dashboardId: The ID for the dashboard, also added to the Identity and Access Management (IAM) policy.
     ///   - identityType: The authentication method that the user uses to sign in.
-    ///   - namespace: The Amazon QuickSight namespace that contains the dashboard IDs in this request. 	   If you're not using a custom namespace, set Namespace = default.
-    ///   - resetDisabled: Remove the reset button on the embedded dashboard. The default is FALSE, which enables the
+    ///   - namespace: The Amazon Quick Sight namespace that contains the dashboard IDs in this request. If you're not using a custom namespace, set Namespace = default.
+    ///   - resetDisabled: Remove the reset button on the embedded dashboard. The default is FALSE, which enables the reset button.
     ///   - sessionLifetimeInMinutes: How many minutes the session is valid. The session lifetime must be 15-600 minutes.
-    ///   - statePersistenceEnabled: Adds persistence of state for the user session in an embedded dashboard. Persistence applies to the sheet and the parameter settings. These are control settings that the dashboard subscriber (Amazon QuickSight reader) chooses while viewing the dashboard. If this is set to TRUE, the settings are the same when the subscriber reopens the same dashboard URL. The state is stored in Amazon QuickSight, not in a browser cookie. If this is set to FALSE, the state of the user session is not persisted. The default is FALSE.
-    ///   - undoRedoDisabled: Remove the undo/redo button on the embedded dashboard. The default is FALSE, which enables
-    ///   - userArn: The Amazon QuickSight user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type.
+    ///   - statePersistenceEnabled: Adds persistence of state for the user session in an embedded dashboard. Persistence applies to the sheet and the parameter settings. These are control settings that the dashboard subscriber (Amazon Quick Sight reader) chooses while viewing the dashboard. If this is set to TRUE, the settings are the same when the subscriber reopens the same dashboard URL. The state is stored in Amazon Quick Sight, not in a browser cookie. If this is set to FALSE, the state of the user session is not persisted. The default is FALSE.
+    ///   - undoRedoDisabled: Remove the undo/redo button on the embedded dashboard. The default is FALSE, which enables the undo/redo button.
+    ///   - userArn: The Amazon QuickSight user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any Amazon QuickSight users in your account (readers, authors, or admins) authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation.   Omit this parameter for users in the third group – IAM users and IAM role-based sessions.
     ///   - logger: Logger use during operation
     @inlinable
     public func getDashboardEmbedUrl(
@@ -4318,7 +4535,71 @@ public struct QuickSight: AWSService {
         return try await self.getDashboardEmbedUrl(input, logger: logger)
     }
 
-    /// Generates a session URL and authorization code that you can use to embed the Amazon Amazon QuickSight console in your web server code. Use GetSessionEmbedUrl where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who access an embedded Amazon QuickSight console need belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the  UpdateUser API operation. Use  RegisterUser  API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon QuickSight User Guide:    Embedding Analytics     Customizing Access to the Amazon QuickSight Console
+    /// Retrieves the metadata of a flow, not including its definition specifying the steps.
+    @Sendable
+    @inlinable
+    public func getFlowMetadata(_ input: GetFlowMetadataInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFlowMetadataOutput {
+        try await self.client.execute(
+            operation: "GetFlowMetadata", 
+            path: "/accounts/{AwsAccountId}/flows/{FlowId}/metadata", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the metadata of a flow, not including its definition specifying the steps.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the flow that you are getting metadata for.
+    ///   - flowId: The unique identifier of the flow.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getFlowMetadata(
+        awsAccountId: String,
+        flowId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetFlowMetadataOutput {
+        let input = GetFlowMetadataInput(
+            awsAccountId: awsAccountId, 
+            flowId: flowId
+        )
+        return try await self.getFlowMetadata(input, logger: logger)
+    }
+
+    /// Get permissions for a flow.
+    @Sendable
+    @inlinable
+    public func getFlowPermissions(_ input: GetFlowPermissionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFlowPermissionsOutput {
+        try await self.client.execute(
+            operation: "GetFlowPermissions", 
+            path: "/accounts/{AwsAccountId}/flows/{FlowId}/permissions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Get permissions for a flow.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the flow that you are getting permissions for.
+    ///   - flowId: The unique identifier of the flow to get permissions from.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getFlowPermissions(
+        awsAccountId: String,
+        flowId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetFlowPermissionsOutput {
+        let input = GetFlowPermissionsInput(
+            awsAccountId: awsAccountId, 
+            flowId: flowId
+        )
+        return try await self.getFlowPermissions(input, logger: logger)
+    }
+
+    /// Generates a session URL and authorization code that you can use to embed the Amazon Amazon Quick Sight console in your web server code. Use GetSessionEmbedUrl where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who access an embedded Amazon Quick Sight console need belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the  UpdateUser API operation. Use  RegisterUser API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon QuickSight User Guide:    Embedding Analytics     Customizing Access to the Amazon QuickSight Console
     @Sendable
     @inlinable
     public func getSessionEmbedUrl(_ input: GetSessionEmbedUrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSessionEmbedUrlResponse {
@@ -4331,13 +4612,13 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Generates a session URL and authorization code that you can use to embed the Amazon Amazon QuickSight console in your web server code. Use GetSessionEmbedUrl where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who access an embedded Amazon QuickSight console need belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the  UpdateUser API operation. Use  RegisterUser  API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon QuickSight User Guide:    Embedding Analytics     Customizing Access to the Amazon QuickSight Console
+    /// Generates a session URL and authorization code that you can use to embed the Amazon Amazon Quick Sight console in your web server code. Use GetSessionEmbedUrl where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who access an embedded Amazon Quick Sight console need belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the  UpdateUser API operation. Use  RegisterUser API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon QuickSight User Guide:    Embedding Analytics     Customizing Access to the Amazon QuickSight Console
     ///
     /// Parameters:
-    ///   - awsAccountId: The ID for the Amazon Web Services account associated with your Amazon QuickSight subscription.
-    ///   - entryPoint: The URL you use to access the embedded session. The entry point URL is constrained to the following paths:    /start     /start/analyses     /start/dashboards     /start/favorites     /dashboards/DashboardId - where DashboardId is the actual ID key from the Amazon QuickSight console URL of the dashboard    /analyses/AnalysisId - where AnalysisId is the actual ID key from the Amazon QuickSight console URL of the analysis
+    ///   - awsAccountId: The ID for the Amazon Web Services account associated with your Amazon Quick Sight subscription.
+    ///   - entryPoint: The URL you use to access the embedded session. The entry point URL is constrained to the following paths:    /start     /start/analyses     /start/dashboards     /start/favorites     /dashboards/DashboardId - where DashboardId is the actual ID key from the Amazon Quick Sight console URL of the dashboard    /analyses/AnalysisId - where AnalysisId is the actual ID key from the Amazon Quick Sight console URL of the analysis
     ///   - sessionLifetimeInMinutes: How many minutes the session is valid. The session lifetime must be 15-600 minutes.
-    ///   - userArn: The Amazon QuickSight user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type.
+    ///   - userArn: The Amazon QuickSight user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any type of Amazon QuickSight users in your account (readers, authors, or admins). They need to be authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation   Omit this parameter for users in the third group, IAM users and IAM role-based sessions.
     ///   - logger: Logger use during operation
     @inlinable
     public func getSessionEmbedUrl(
@@ -4356,7 +4637,42 @@ public struct QuickSight: AWSService {
         return try await self.getSessionEmbedUrl(input, logger: logger)
     }
 
-    /// Lists Amazon QuickSight analyses that exist in the specified Amazon Web Services account.
+    /// Lists all action connectors in the specified Amazon Web Services account. Returns summary information for each connector including its name, type, creation time, and status.
+    @Sendable
+    @inlinable
+    public func listActionConnectors(_ input: ListActionConnectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListActionConnectorsResponse {
+        try await self.client.execute(
+            operation: "ListActionConnectors", 
+            path: "/accounts/{AwsAccountId}/action-connectors", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all action connectors in the specified Amazon Web Services account. Returns summary information for each connector including its name, type, creation time, and status.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The Amazon Web Services account ID for which to list action connectors.
+    ///   - maxResults: The maximum number of action connectors to return in a single response. Valid range is 1 to 100.
+    ///   - nextToken: A pagination token to retrieve the next set of results. Use the token returned from a previous call to continue listing action connectors.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listActionConnectors(
+        awsAccountId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListActionConnectorsResponse {
+        let input = ListActionConnectorsRequest(
+            awsAccountId: awsAccountId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listActionConnectors(input, logger: logger)
+    }
+
+    /// Lists Amazon Quick Sight analyses that exist in the specified Amazon Web Services account.
     @Sendable
     @inlinable
     public func listAnalyses(_ input: ListAnalysesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAnalysesResponse {
@@ -4369,7 +4685,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Lists Amazon QuickSight analyses that exist in the specified Amazon Web Services account.
+    /// Lists Amazon Quick Sight analyses that exist in the specified Amazon Web Services account.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that contains the analyses.
@@ -4461,7 +4777,7 @@ public struct QuickSight: AWSService {
         return try await self.listAssetBundleImportJobs(input, logger: logger)
     }
 
-    /// Lists all brands in an Amazon QuickSight account.
+    /// Lists all brands in an Quick Sight account.
     @Sendable
     @inlinable
     public func listBrands(_ input: ListBrandsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBrandsResponse {
@@ -4474,7 +4790,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Lists all brands in an Amazon QuickSight account.
+    /// Lists all brands in an Quick Sight account.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that owns the brands that you want to list.
@@ -4531,7 +4847,7 @@ public struct QuickSight: AWSService {
         return try await self.listCustomPermissions(input, logger: logger)
     }
 
-    /// Lists all the versions of the dashboards in the Amazon QuickSight subscription.
+    /// Lists all the versions of the dashboards in the Amazon Quick Sight subscription.
     @Sendable
     @inlinable
     public func listDashboardVersions(_ input: ListDashboardVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDashboardVersionsResponse {
@@ -4544,7 +4860,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Lists all the versions of the dashboards in the Amazon QuickSight subscription.
+    /// Lists all the versions of the dashboards in the Amazon Quick Sight subscription.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that contains the dashboard that you're listing versions for.
@@ -4604,7 +4920,9 @@ public struct QuickSight: AWSService {
         return try await self.listDashboards(input, logger: logger)
     }
 
-    /// Lists all of the datasets belonging to the current Amazon Web Services account in an Amazon Web Services Region. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/*.
+    /// Lists all of the datasets belonging to the current Amazon Web Services account in an
+    /// 				Amazon Web Services Region. The permissions resource is
+    /// 				arn:aws:quicksight:region:aws-account-id:dataset/*.
     @Sendable
     @inlinable
     public func listDataSets(_ input: ListDataSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataSetsResponse {
@@ -4617,7 +4935,9 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Lists all of the datasets belonging to the current Amazon Web Services account in an Amazon Web Services Region. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/*.
+    /// Lists all of the datasets belonging to the current Amazon Web Services account in an
+    /// 				Amazon Web Services Region. The permissions resource is
+    /// 				arn:aws:quicksight:region:aws-account-id:dataset/*.
     ///
     /// Parameters:
     ///   - awsAccountId: The Amazon Web Services account ID.
@@ -4672,6 +4992,41 @@ public struct QuickSight: AWSService {
             nextToken: nextToken
         )
         return try await self.listDataSources(input, logger: logger)
+    }
+
+    /// Lists flows in an Amazon Web Services account.
+    @Sendable
+    @inlinable
+    public func listFlows(_ input: ListFlowsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFlowsOutput {
+        try await self.client.execute(
+            operation: "ListFlows", 
+            path: "/accounts/{AwsAccountId}/flows", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists flows in an Amazon Web Services account.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the flow list that you are getting.
+    ///   - maxResults: The maximum number of results to be returned per request.
+    ///   - nextToken: The token to request the next set of results, or null if you want to retrieve the first set.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listFlows(
+        awsAccountId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListFlowsOutput {
+        let input = ListFlowsInput(
+            awsAccountId: awsAccountId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listFlows(input, logger: logger)
     }
 
     /// List all assets (DASHBOARD, ANALYSIS, and DATASET) in a folder.
@@ -4826,7 +5181,7 @@ public struct QuickSight: AWSService {
         return try await self.listGroupMemberships(input, logger: logger)
     }
 
-    /// Lists all user groups in Amazon QuickSight.
+    /// Lists all user groups in Amazon Quick Sight.
     @Sendable
     @inlinable
     public func listGroups(_ input: ListGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGroupsResponse {
@@ -4839,7 +5194,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Lists all user groups in Amazon QuickSight.
+    /// Lists all user groups in Amazon Quick Sight.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the
@@ -4865,7 +5220,7 @@ public struct QuickSight: AWSService {
     }
 
     /// Lists the
-    /// 			IAM policy assignments in the current Amazon QuickSight
+    /// 			IAM policy assignments in the current Amazon Quick Sight
     /// 			account.
     @Sendable
     @inlinable
@@ -4880,7 +5235,7 @@ public struct QuickSight: AWSService {
         )
     }
     /// Lists the
-    /// 			IAM policy assignments in the current Amazon QuickSight
+    /// 			IAM policy assignments in the current Amazon Quick Sight
     /// 			account.
     ///
     /// Parameters:
@@ -4962,7 +5317,7 @@ public struct QuickSight: AWSService {
         return try await self.listIAMPolicyAssignmentsForUser(input, logger: logger)
     }
 
-    /// Lists all services and authorized targets that the Amazon QuickSight IAM Identity Center application can access. This operation is only supported for Amazon QuickSight accounts that use IAM Identity Center.
+    /// Lists all services and authorized targets that the Quick Sight IAM Identity Center application can access. This operation is only supported for Quick Sight accounts that use IAM Identity Center.
     @Sendable
     @inlinable
     public func listIdentityPropagationConfigs(_ input: ListIdentityPropagationConfigsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIdentityPropagationConfigsResponse {
@@ -4975,7 +5330,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Lists all services and authorized targets that the Amazon QuickSight IAM Identity Center application can access. This operation is only supported for Amazon QuickSight accounts that use IAM Identity Center.
+    /// Lists all services and authorized targets that the Quick Sight IAM Identity Center application can access. This operation is only supported for Quick Sight accounts that use IAM Identity Center.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that contain the identity propagation configurations of.
@@ -5051,7 +5406,7 @@ public struct QuickSight: AWSService {
     /// Lists the namespaces for the specified Amazon Web Services account. This operation doesn't list deleted namespaces.
     ///
     /// Parameters:
-    ///   - awsAccountId: The ID for the Amazon Web Services account that contains the Amazon QuickSight namespaces that you want to list.
+    ///   - awsAccountId: The ID for the Amazon Web Services account that contains the Quick Sight namespaces that you want to list.
     ///   - maxResults: The maximum number of results to return.
     ///   - nextToken: A unique pagination token that can be used in a subsequent request. You will receive a pagination token in the response body of a previous ListNameSpaces API call if there is more data that can be returned. To receive the data, make another ListNamespaces API call with the returned token to retrieve the next page of data. Each token is valid for 24 hours. If you try to make a ListNamespaces API call with an expired token, you will receive a HTTP 400 InvalidNextTokenException error.
     ///   - logger: Logger use during operation
@@ -5118,7 +5473,7 @@ public struct QuickSight: AWSService {
     /// Lists all groups that are associated with a role.
     ///
     /// Parameters:
-    ///   - awsAccountId: The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon QuickSight account.
+    ///   - awsAccountId: The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon Quick Sight account.
     ///   - maxResults: The maximum number of results to return.
     ///   - namespace: The namespace that includes the role.
     ///   - nextToken: A pagination token that can be used in a subsequent request.
@@ -5159,7 +5514,7 @@ public struct QuickSight: AWSService {
     /// Lists the tags assigned to a resource.
     ///
     /// Parameters:
-    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource that you want a list of tags for.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource that you want a list of tags
     ///   - logger: Logger use during operation
     @inlinable
     public func listTagsForResource(
@@ -5210,7 +5565,7 @@ public struct QuickSight: AWSService {
         return try await self.listTemplateAliases(input, logger: logger)
     }
 
-    /// Lists all the versions of the templates in the current Amazon QuickSight account.
+    /// Lists all the versions of the templates in the current Amazon Quick Sight account.
     @Sendable
     @inlinable
     public func listTemplateVersions(_ input: ListTemplateVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTemplateVersionsResponse {
@@ -5223,7 +5578,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Lists all the versions of the templates in the current Amazon QuickSight account.
+    /// Lists all the versions of the templates in the current Amazon Quick Sight account.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that contains the templates that you're listing.
@@ -5248,7 +5603,7 @@ public struct QuickSight: AWSService {
         return try await self.listTemplateVersions(input, logger: logger)
     }
 
-    /// Lists all the templates in the current Amazon QuickSight account.
+    /// Lists all the templates in the current Amazon Quick Sight account.
     @Sendable
     @inlinable
     public func listTemplates(_ input: ListTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTemplatesResponse {
@@ -5261,7 +5616,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Lists all the templates in the current Amazon QuickSight account.
+    /// Lists all the templates in the current Amazon Quick Sight account.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that contains the templates that you're listing.
@@ -5378,7 +5733,7 @@ public struct QuickSight: AWSService {
     ///   - awsAccountId: The ID of the Amazon Web Services account that contains the themes that you're listing.
     ///   - maxResults: The maximum number of results to be returned per request.
     ///   - nextToken: The token for the next set of results, or null if there are no more results.
-    ///   - type: The type of themes that you want to list. Valid options include the following:    ALL (default)- Display all existing themes.    CUSTOM - Display only the themes created by people using Amazon QuickSight.    QUICKSIGHT - Display only the starting themes defined by Amazon QuickSight.
+    ///   - type: The type of themes that you want to list. Valid options include the following:    ALL (default)- Display all existing themes.    CUSTOM - Display only the themes created by people using Amazon Quick Sight.    QUICKSIGHT - Display only the starting themes defined by Quick Sight.
     ///   - logger: Logger use during operation
     @inlinable
     public func listThemes(
@@ -5496,7 +5851,7 @@ public struct QuickSight: AWSService {
         return try await self.listTopics(input, logger: logger)
     }
 
-    /// Lists the Amazon QuickSight groups that an Amazon QuickSight user is a member of.
+    /// Lists the Amazon Quick Sight groups that an Amazon Quick Sight user is a member of.
     @Sendable
     @inlinable
     public func listUserGroups(_ input: ListUserGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUserGroupsResponse {
@@ -5509,14 +5864,14 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Lists the Amazon QuickSight groups that an Amazon QuickSight user is a member of.
+    /// Lists the Amazon Quick Sight groups that an Amazon Quick Sight user is a member of.
     ///
     /// Parameters:
     ///   - awsAccountId: The Amazon Web Services account ID that the user is in. Currently, you use the ID for the Amazon Web Services account
     ///   - maxResults: The maximum number of results to return from this request.
     ///   - namespace: The namespace. Currently, you should set this to default.
     ///   - nextToken: A pagination token that can be used in a subsequent request.
-    ///   - userName: The Amazon QuickSight user name that you want to list group memberships for.
+    ///   - userName: The Amazon Quick Sight user name that you want to list group memberships for.
     ///   - logger: Logger use during operation
     @inlinable
     public func listUserGroups(
@@ -5537,7 +5892,7 @@ public struct QuickSight: AWSService {
         return try await self.listUserGroups(input, logger: logger)
     }
 
-    /// Returns a list of all of the Amazon QuickSight users belonging to this account.
+    /// Returns a list of all of the Amazon Quick Sight users belonging to this account.
     @Sendable
     @inlinable
     public func listUsers(_ input: ListUsersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUsersResponse {
@@ -5550,7 +5905,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of all of the Amazon QuickSight users belonging to this account.
+    /// Returns a list of all of the Amazon Quick Sight users belonging to this account.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the
@@ -5612,7 +5967,7 @@ public struct QuickSight: AWSService {
         return try await self.listVPCConnections(input, logger: logger)
     }
 
-    /// Predicts existing visuals or generates new visuals to answer a given query. This API uses trusted identity propagation to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have trusted Identity Propagation enabled for Amazon QuickSight with the scope value set to quicksight:read. Before you use this action, make sure that you have configured the relevant Amazon QuickSight resource and permissions. We recommend enabling the QSearchStatus API to unlock the full potential of PredictQnA. When QSearchStatus is enabled, it first checks the specified dashboard for any existing visuals that match the question. If no matching visuals are found, PredictQnA uses generative Q&A to provide an answer. To update the QSearchStatus, see UpdateQuickSightQSearchConfiguration.
+    /// Predicts existing visuals or generates new visuals to answer a given query. This API uses trusted identity propagation to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have trusted Identity Propagation enabled for QuickSight with the scope value set to quicksight:read. Before you use this action, make sure that you have configured the relevant QuickSight resource and permissions. We recommend enabling the QSearchStatus API to unlock the full potential of PredictQnA. When QSearchStatus is enabled, it first checks the specified dashboard for any existing visuals that match the question. If no matching visuals are found, PredictQnA uses generative Q&A to provide an answer. To update the QSearchStatus, see UpdateQuickSightQSearchConfiguration.
     @Sendable
     @inlinable
     public func predictQAResults(_ input: PredictQAResultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PredictQAResultsResponse {
@@ -5625,7 +5980,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Predicts existing visuals or generates new visuals to answer a given query. This API uses trusted identity propagation to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have trusted Identity Propagation enabled for Amazon QuickSight with the scope value set to quicksight:read. Before you use this action, make sure that you have configured the relevant Amazon QuickSight resource and permissions. We recommend enabling the QSearchStatus API to unlock the full potential of PredictQnA. When QSearchStatus is enabled, it first checks the specified dashboard for any existing visuals that match the question. If no matching visuals are found, PredictQnA uses generative Q&A to provide an answer. To update the QSearchStatus, see UpdateQuickSightQSearchConfiguration.
+    /// Predicts existing visuals or generates new visuals to answer a given query. This API uses trusted identity propagation to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have trusted Identity Propagation enabled for QuickSight with the scope value set to quicksight:read. Before you use this action, make sure that you have configured the relevant QuickSight resource and permissions. We recommend enabling the QSearchStatus API to unlock the full potential of PredictQnA. When QSearchStatus is enabled, it first checks the specified dashboard for any existing visuals that match the question. If no matching visuals are found, PredictQnA uses generative Q&A to provide an answer. To update the QSearchStatus, see UpdateQuickSightQSearchConfiguration.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that the user wants to execute Predict QA results in.
@@ -5688,7 +6043,7 @@ public struct QuickSight: AWSService {
         return try await self.putDataSetRefreshProperties(input, logger: logger)
     }
 
-    /// Creates an Amazon QuickSight user whose identity is associated with the Identity and Access Management (IAM) identity or role specified in the request. When you register a new user from the Amazon QuickSight API, Amazon QuickSight generates a registration URL. The user accesses this registration URL to create their account. Amazon QuickSight doesn't send a registration email to users who are registered from the Amazon QuickSight API. If you want new users to receive a registration email, then add those users in the Amazon QuickSight console. For more information on registering a new user in the Amazon QuickSight console, see  Inviting users to access Amazon QuickSight.
+    /// Creates an Amazon Quick Sight user whose identity is associated with the Identity and Access Management (IAM) identity or role specified in the request. When you register a new user from the Quick Sight API, Quick Sight generates a registration URL. The user accesses this registration URL to create their account. Quick Sight doesn't send a registration email to users who are registered from the Quick Sight API. If you want new users to receive a registration email, then add those users in the Quick Sight console. For more information on registering a new user in the Quick Sight console, see  Inviting users to access Quick Sight.
     @Sendable
     @inlinable
     public func registerUser(_ input: RegisterUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterUserResponse {
@@ -5701,22 +6056,22 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Creates an Amazon QuickSight user whose identity is associated with the Identity and Access Management (IAM) identity or role specified in the request. When you register a new user from the Amazon QuickSight API, Amazon QuickSight generates a registration URL. The user accesses this registration URL to create their account. Amazon QuickSight doesn't send a registration email to users who are registered from the Amazon QuickSight API. If you want new users to receive a registration email, then add those users in the Amazon QuickSight console. For more information on registering a new user in the Amazon QuickSight console, see  Inviting users to access Amazon QuickSight.
+    /// Creates an Amazon Quick Sight user whose identity is associated with the Identity and Access Management (IAM) identity or role specified in the request. When you register a new user from the Quick Sight API, Quick Sight generates a registration URL. The user accesses this registration URL to create their account. Quick Sight doesn't send a registration email to users who are registered from the Quick Sight API. If you want new users to receive a registration email, then add those users in the Quick Sight console. For more information on registering a new user in the Quick Sight console, see  Inviting users to access Quick Sight.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the
-    ///   - customFederationProviderUrl: The URL of the custom OpenID Connect (OIDC) provider that provides identity to let a user federate into Amazon QuickSight with an associated Identity and Access Management(IAM) role. This parameter should only be used when ExternalLoginFederationProviderType parameter is set to CUSTOM_OIDC.
-    ///   - customPermissionsName: (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:   Create and update data sources   Create and update datasets   Create and update email reports   Subscribe to email reports   To add custom permissions to an existing user, use  UpdateUser instead. A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the Amazon QuickSight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a Amazon QuickSight user.  Amazon QuickSight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning Amazon QuickSight users to one of the default security cohorts in Amazon QuickSight (admin, author, reader, admin pro, author pro, reader pro). This feature is available only to Amazon QuickSight Enterprise edition subscriptions.
+    ///   - customFederationProviderUrl: The URL of the custom OpenID Connect (OIDC) provider that provides identity to let a user federate into Quick Sight with an associated Identity and Access Management(IAM) role. This parameter should only be used when ExternalLoginFederationProviderType parameter is set to CUSTOM_OIDC.
+    ///   - customPermissionsName: (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:   Create and update data sources   Create and update datasets   Create and update email reports   Subscribe to email reports   To add custom permissions to an existing user, use  UpdateUser instead. A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the Quick Sight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a Quick Sight user.  Quick Sight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning Quick Sight users to one of the default security cohorts in Quick Sight (admin, author, reader, admin pro, author pro, reader pro). This feature is available only to Quick Sight Enterprise edition subscriptions.
     ///   - email: The email address of the user that you want to register.
-    ///   - externalLoginFederationProviderType: The type of supported external login provider that provides identity to let a user federate into Amazon QuickSight with an associated Identity and Access Management(IAM) role. The type of supported external login provider can be one of the following.    COGNITO: Amazon Cognito. The provider URL is cognito-identity.amazonaws.com. When choosing the COGNITO provider type, don’t use the "CustomFederationProviderUrl" parameter which is only needed when the external provider is custom.    CUSTOM_OIDC: Custom OpenID Connect (OIDC) provider. When choosing CUSTOM_OIDC type, use the CustomFederationProviderUrl parameter to provide the custom OIDC provider URL.
+    ///   - externalLoginFederationProviderType: The type of supported external login provider that provides identity to let a user federate into Amazon Quick Sight with an associated Identity and Access Management(IAM) role. The type of supported external login provider can be one of the following.    COGNITO: Amazon Cognito. The provider URL is cognito-identity.amazonaws.com. When choosing the COGNITO provider type, don’t use the "CustomFederationProviderUrl" parameter which is only needed when the external provider is custom.    CUSTOM_OIDC: Custom OpenID Connect (OIDC) provider. When choosing CUSTOM_OIDC type, use the CustomFederationProviderUrl parameter to provide the custom OIDC provider URL.
     ///   - externalLoginId: The identity ID for a user in the external login provider.
-    ///   - iamArn: The ARN of the IAM user or role that you are registering with Amazon QuickSight.
-    ///   - identityType: The identity type that your Amazon QuickSight account uses to manage the identity of users.
+    ///   - iamArn: The ARN of the IAM user or role that you are registering with Amazon Quick Sight.
+    ///   - identityType: The identity type that your Quick Sight account uses to manage the identity of users.
     ///   - namespace: The namespace. Currently, you should set this to default.
     ///   - sessionName: You need to use this parameter only when you register one or more users using an assumed
     ///   - tags: The tags to associate with the user.
-    ///   - userName: The Amazon QuickSight user name that you want to create for the user you are
-    ///   - userRole: The Amazon QuickSight role for the user. The user role can be one of the
+    ///   - userName: The Amazon Quick Sight user name that you want to create for the user you are
+    ///   - userRole: The Amazon Quick Sight role for the user. The user role can be one of the
     ///   - logger: Logger use during operation
     @inlinable
     public func registerUser(
@@ -5786,6 +6141,44 @@ public struct QuickSight: AWSService {
             restoreToFolders: restoreToFolders
         )
         return try await self.restoreAnalysis(input, logger: logger)
+    }
+
+    /// Searches for action connectors in the specified Amazon Web Services account using filters. You can search by connector name, type, or user permissions.
+    @Sendable
+    @inlinable
+    public func searchActionConnectors(_ input: SearchActionConnectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchActionConnectorsResponse {
+        try await self.client.execute(
+            operation: "SearchActionConnectors", 
+            path: "/accounts/{AwsAccountId}/search/action-connectors", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Searches for action connectors in the specified Amazon Web Services account using filters. You can search by connector name, type, or user permissions.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The Amazon Web Services account ID in which to search for action connectors.
+    ///   - filters: The search filters to apply. You can filter by connector name, type, or user permissions. Maximum of one filter is supported.
+    ///   - maxResults: The maximum number of action connectors to return in a single response. Valid range is 1 to 100.
+    ///   - nextToken: A pagination token to retrieve the next set of results. Use the token returned from a previous call to continue searching.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func searchActionConnectors(
+        awsAccountId: String,
+        filters: [ActionConnectorSearchFilter],
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SearchActionConnectorsResponse {
+        let input = SearchActionConnectorsRequest(
+            awsAccountId: awsAccountId, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.searchActionConnectors(input, logger: logger)
     }
 
     /// Searches for analyses that belong to the user specified in the filter.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
@@ -5864,7 +6257,8 @@ public struct QuickSight: AWSService {
         return try await self.searchDashboards(input, logger: logger)
     }
 
-    /// Use the SearchDataSets operation to search for datasets that belong to an account.
+    /// Use the SearchDataSets operation to search for datasets that belong to an
+    /// 			account.
     @Sendable
     @inlinable
     public func searchDataSets(_ input: SearchDataSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchDataSetsResponse {
@@ -5877,7 +6271,8 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Use the SearchDataSets operation to search for datasets that belong to an account.
+    /// Use the SearchDataSets operation to search for datasets that belong to an
+    /// 			account.
     ///
     /// Parameters:
     ///   - awsAccountId: The Amazon Web Services account ID.
@@ -5902,7 +6297,8 @@ public struct QuickSight: AWSService {
         return try await self.searchDataSets(input, logger: logger)
     }
 
-    /// Use the SearchDataSources operation to search for data sources that belong to an account.
+    /// Use the SearchDataSources operation to search for data sources that
+    /// 			belong to an account.
     @Sendable
     @inlinable
     public func searchDataSources(_ input: SearchDataSourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchDataSourcesResponse {
@@ -5915,7 +6311,8 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Use the SearchDataSources operation to search for data sources that belong to an account.
+    /// Use the SearchDataSources operation to search for data sources that
+    /// 			belong to an account.
     ///
     /// Parameters:
     ///   - awsAccountId: The Amazon Web Services account ID.
@@ -5938,6 +6335,44 @@ public struct QuickSight: AWSService {
             nextToken: nextToken
         )
         return try await self.searchDataSources(input, logger: logger)
+    }
+
+    /// Search for the flows in an Amazon Web Services account.
+    @Sendable
+    @inlinable
+    public func searchFlows(_ input: SearchFlowsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchFlowsOutput {
+        try await self.client.execute(
+            operation: "SearchFlows", 
+            path: "/accounts/{AwsAccountId}/flows/searchFlows", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Search for the flows in an Amazon Web Services account.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account where you are searching for flows from.
+    ///   - filters: The filters applied to the search when searching for flows in the Amazon Web Services account.
+    ///   - maxResults: The maximum number of results to be returned per request.
+    ///   - nextToken: The token to request the next set of results, or null if you want to retrieve the first set.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func searchFlows(
+        awsAccountId: String,
+        filters: [SearchFlowsFilter],
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SearchFlowsOutput {
+        let input = SearchFlowsInput(
+            awsAccountId: awsAccountId, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.searchFlows(input, logger: logger)
     }
 
     /// Searches the subfolders in a folder.
@@ -5978,7 +6413,7 @@ public struct QuickSight: AWSService {
         return try await self.searchFolders(input, logger: logger)
     }
 
-    /// Use the SearchGroups operation to search groups in a specified Amazon QuickSight namespace using the supplied filters.
+    /// Use the SearchGroups operation to search groups in a specified Quick Sight namespace using the supplied filters.
     @Sendable
     @inlinable
     public func searchGroups(_ input: SearchGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchGroupsResponse {
@@ -5991,10 +6426,10 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Use the SearchGroups operation to search groups in a specified Amazon QuickSight namespace using the supplied filters.
+    /// Use the SearchGroups operation to search groups in a specified Quick Sight namespace using the supplied filters.
     ///
     /// Parameters:
-    ///   - awsAccountId: The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+    ///   - awsAccountId: The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
     ///   - filters: The structure for the search filters that you want to apply to your search.
     ///   - maxResults: The maximum number of results to return from this request.
     ///   - namespace: The namespace that you want to search.
@@ -6019,7 +6454,7 @@ public struct QuickSight: AWSService {
         return try await self.searchGroups(input, logger: logger)
     }
 
-    /// Searches for any Q topic that exists in an Amazon QuickSight account.
+    /// Searches for any Q topic that exists in an QuickSight account.
     @Sendable
     @inlinable
     public func searchTopics(_ input: SearchTopicsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchTopicsResponse {
@@ -6032,7 +6467,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Searches for any Q topic that exists in an Amazon QuickSight account.
+    /// Searches for any Q topic that exists in an QuickSight account.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that contains the topic that you want to find.
@@ -6057,7 +6492,7 @@ public struct QuickSight: AWSService {
         return try await self.searchTopics(input, logger: logger)
     }
 
-    /// Starts an Asset Bundle export job. An Asset Bundle export job exports specified Amazon QuickSight assets. You can also choose to export any asset dependencies in the same job. Export jobs run asynchronously and can be polled with a DescribeAssetBundleExportJob API call. When a job is successfully completed, a download URL that contains the exported assets is returned. The URL is valid for 5 minutes and can be refreshed with a DescribeAssetBundleExportJob API call. Each Amazon QuickSight account can run up to 5 export jobs concurrently. The API caller must have the necessary permissions in their IAM role to access each resource before the resources can be exported.
+    /// Starts an Asset Bundle export job. An Asset Bundle export job exports specified Amazon Quick Sight assets. You can also choose to export any asset dependencies in the same job. Export jobs run asynchronously and can be polled with a DescribeAssetBundleExportJob API call. When a job is successfully completed, a download URL that contains the exported assets is returned. The URL is valid for 5 minutes and can be refreshed with a DescribeAssetBundleExportJob API call. Each Amazon Quick Sight account can run up to 5 export jobs concurrently. The API caller must have the necessary permissions in their IAM role to access each resource before the resources can be exported.
     @Sendable
     @inlinable
     public func startAssetBundleExportJob(_ input: StartAssetBundleExportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAssetBundleExportJobResponse {
@@ -6070,7 +6505,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Starts an Asset Bundle export job. An Asset Bundle export job exports specified Amazon QuickSight assets. You can also choose to export any asset dependencies in the same job. Export jobs run asynchronously and can be polled with a DescribeAssetBundleExportJob API call. When a job is successfully completed, a download URL that contains the exported assets is returned. The URL is valid for 5 minutes and can be refreshed with a DescribeAssetBundleExportJob API call. Each Amazon QuickSight account can run up to 5 export jobs concurrently. The API caller must have the necessary permissions in their IAM role to access each resource before the resources can be exported.
+    /// Starts an Asset Bundle export job. An Asset Bundle export job exports specified Amazon Quick Sight assets. You can also choose to export any asset dependencies in the same job. Export jobs run asynchronously and can be polled with a DescribeAssetBundleExportJob API call. When a job is successfully completed, a download URL that contains the exported assets is returned. The URL is valid for 5 minutes and can be refreshed with a DescribeAssetBundleExportJob API call. Each Amazon Quick Sight account can run up to 5 export jobs concurrently. The API caller must have the necessary permissions in their IAM role to access each resource before the resources can be exported.
     ///
     /// Parameters:
     ///   - assetBundleExportJobId: The ID of the job. This ID is unique while the job is running. After the job is completed, you can reuse this ID for another job.
@@ -6116,7 +6551,7 @@ public struct QuickSight: AWSService {
         return try await self.startAssetBundleExportJob(input, logger: logger)
     }
 
-    /// Starts an Asset Bundle import job. An Asset Bundle import job imports specified Amazon QuickSight assets into an Amazon QuickSight account. You can also choose to import a naming prefix and specified configuration overrides. The assets that are contained in the bundle file that you provide are used to create or update a new or existing asset in your Amazon QuickSight account. Each Amazon QuickSight account can run up to 5 import jobs concurrently. The API caller must have the necessary "create", "describe", and "update" permissions in their IAM role to access each resource type that is contained in the bundle file before the resources can be imported.
+    /// Starts an Asset Bundle import job. An Asset Bundle import job imports specified Amazon Quick Sight assets into an Amazon Quick Sight account. You can also choose to import a naming prefix and specified configuration overrides. The assets that are contained in the bundle file that you provide are used to create or update a new or existing asset in your Amazon Quick Sight account. Each Amazon Quick Sight account can run up to 5 import jobs concurrently. The API caller must have the necessary "create", "describe", and "update" permissions in their IAM role to access each resource type that is contained in the bundle file before the resources can be imported.
     @Sendable
     @inlinable
     public func startAssetBundleImportJob(_ input: StartAssetBundleImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAssetBundleImportJobResponse {
@@ -6129,13 +6564,13 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Starts an Asset Bundle import job. An Asset Bundle import job imports specified Amazon QuickSight assets into an Amazon QuickSight account. You can also choose to import a naming prefix and specified configuration overrides. The assets that are contained in the bundle file that you provide are used to create or update a new or existing asset in your Amazon QuickSight account. Each Amazon QuickSight account can run up to 5 import jobs concurrently. The API caller must have the necessary "create", "describe", and "update" permissions in their IAM role to access each resource type that is contained in the bundle file before the resources can be imported.
+    /// Starts an Asset Bundle import job. An Asset Bundle import job imports specified Amazon Quick Sight assets into an Amazon Quick Sight account. You can also choose to import a naming prefix and specified configuration overrides. The assets that are contained in the bundle file that you provide are used to create or update a new or existing asset in your Amazon Quick Sight account. Each Amazon Quick Sight account can run up to 5 import jobs concurrently. The API caller must have the necessary "create", "describe", and "update" permissions in their IAM role to access each resource type that is contained in the bundle file before the resources can be imported.
     ///
     /// Parameters:
     ///   - assetBundleImportJobId: The ID of the job. This ID is unique while the job is running. After the job is completed, you can reuse this ID for another job.
     ///   - assetBundleImportSource: The source of the asset bundle zip file that contains the data that you want to import. The file must be in QUICKSIGHT_JSON format.
     ///   - awsAccountId: The ID of the Amazon Web Services account to import assets into.
-    ///   - failureAction: The failure action for the import job. If you choose ROLLBACK, failed  import jobs will attempt to  undo any asset changes caused by the failed job. If you choose DO_NOTHING, failed import jobs will not attempt to roll back any asset changes caused by the failed job, possibly keeping the Amazon QuickSight account in an inconsistent state.
+    ///   - failureAction: The failure action for the import job. If you choose ROLLBACK, failed import jobs will attempt to undo any asset changes caused by the failed job. If you choose DO_NOTHING, failed import jobs will not attempt to roll back any asset changes caused by the failed job, possibly keeping the Amazon Quick Sight account in an inconsistent state.
     ///   - overrideParameters: Optional overrides that are applied to the resource configuration before import.
     ///   - overridePermissions: Optional permission overrides that are applied to the resource configuration before import.
     ///   - overrideTags: Optional tag overrides that are applied to the resource configuration before import.
@@ -6166,7 +6601,7 @@ public struct QuickSight: AWSService {
         return try await self.startAssetBundleImportJob(input, logger: logger)
     }
 
-    /// Starts an asynchronous job that generates a snapshot of a dashboard's output. You can request one or several of the following format configurations in each API call.   1 Paginated PDF   1 Excel workbook that includes up to 5 table or pivot table visuals   5 CSVs from table or pivot table visuals   The status of a submitted job can be polled with the DescribeDashboardSnapshotJob API. When you call the  DescribeDashboardSnapshotJob API, check the JobStatus field in the response. Once the job reaches a COMPLETED or FAILED status, use the DescribeDashboardSnapshotJobResult API to obtain the URLs for the generated files. If the job fails, the DescribeDashboardSnapshotJobResult API returns detailed information about the error that occurred.  StartDashboardSnapshotJob API throttling  Amazon QuickSight utilizes API throttling to create a more consistent user experience within a time span for customers when they call the StartDashboardSnapshotJob. By default, 12 jobs can run simlutaneously in one Amazon Web Services account and users can submit up 10 API requests per second before an account is throttled. If an overwhelming number of API requests are made by the same user in a short period of time, Amazon QuickSight throttles the API calls to maintin an optimal experience and reliability for all Amazon QuickSight users.  Common throttling scenarios  The following list provides information about the most commin throttling scenarios that can occur.    A large number of SnapshotExport API jobs are running simultaneously on an Amazon Web Services account. When a new StartDashboardSnapshotJob is created and there are already 12 jobs with the RUNNING status, the new job request fails and returns a LimitExceededException error. Wait for a current job to comlpete before you resubmit the new job.    A large number of API requests are submitted on an Amazon Web Services account. When a user makes more than 10 API calls to the Amazon QuickSight API in one second, a ThrottlingException is returned.   If your use case requires a higher throttling limit, contact your account admin or Amazon Web ServicesSupport to explore options to tailor a more optimal expereince for your account.  Best practices to handle throttling  If your use case projects high levels of API traffic, try to reduce the degree of frequency and parallelism of API calls as much as you can to avoid throttling. You can also perform a timing test to calculate an estimate for the total processing time of your projected load that stays within the throttling limits of the Amazon QuickSight APIs. For example, if your projected traffic is 100 snapshot jobs before 12:00 PM per day, start 12 jobs in parallel and measure the amount of time it takes to proccess all 12 jobs. Once you obtain the result, multiply the duration by 9, for example (12 minutes * 9 = 108 minutes). Use the new result to determine the latest time at which the jobs need to be started to meet your target deadline. The time that it takes to process a job can be impacted by the following factors:   The dataset type (Direct Query or SPICE).   The size of the dataset.   The complexity of the calculated fields that are used in the dashboard.   The number of visuals that are on a sheet.   The types of visuals that are on the sheet.   The number of formats and snapshots that are requested in the job configuration.   The size of the generated snapshots.
+    /// Starts an asynchronous job that generates a snapshot of a dashboard's output. You can request one or several of the following format configurations in each API call.   1 Paginated PDF   1 Excel workbook that includes up to 5 table or pivot table visuals   5 CSVs from table or pivot table visuals   The status of a submitted job can be polled with the DescribeDashboardSnapshotJob API. When you call the  DescribeDashboardSnapshotJob API, check the JobStatus field in the response. Once the job reaches a COMPLETED or FAILED status, use the DescribeDashboardSnapshotJobResult API to obtain the URLs for the generated files. If the job fails, the DescribeDashboardSnapshotJobResult API returns detailed information about the error that occurred.  StartDashboardSnapshotJob API throttling  Quick Sight utilizes API throttling to create a more consistent user experience within a time span for customers when they call the StartDashboardSnapshotJob. By default, 12 jobs can run simlutaneously in one Amazon Web Services account and users can submit up 10 API requests per second before an account is throttled. If an overwhelming number of API requests are made by the same user in a short period of time, Quick Sight throttles the API calls to maintin an optimal experience and reliability for all Quick Sight users.  Common throttling scenarios  The following list provides information about the most commin throttling scenarios that can occur.    A large number of SnapshotExport API jobs are running simultaneously on an Amazon Web Services account. When a new StartDashboardSnapshotJob is created and there are already 12 jobs with the RUNNING status, the new job request fails and returns a LimitExceededException error. Wait for a current job to comlpete before you resubmit the new job.    A large number of API requests are submitted on an Amazon Web Services account. When a user makes more than 10 API calls to the Quick Sight API in one second, a ThrottlingException is returned.   If your use case requires a higher throttling limit, contact your account admin or Amazon Web ServicesSupport to explore options to tailor a more optimal expereince for your account.  Best practices to handle throttling  If your use case projects high levels of API traffic, try to reduce the degree of frequency and parallelism of API calls as much as you can to avoid throttling. You can also perform a timing test to calculate an estimate for the total processing time of your projected load that stays within the throttling limits of the Quick Sight APIs. For example, if your projected traffic is 100 snapshot jobs before 12:00 PM per day, start 12 jobs in parallel and measure the amount of time it takes to proccess all 12 jobs. Once you obtain the result, multiply the duration by 9, for example (12 minutes * 9 = 108 minutes). Use the new result to determine the latest time at which the jobs need to be started to meet your target deadline. The time that it takes to process a job can be impacted by the following factors:   The dataset type (Direct Query or SPICE).   The size of the dataset.   The complexity of the calculated fields that are used in the dashboard.   The number of visuals that are on a sheet.   The types of visuals that are on the sheet.   The number of formats and snapshots that are requested in the job configuration.   The size of the generated snapshots.
     @Sendable
     @inlinable
     public func startDashboardSnapshotJob(_ input: StartDashboardSnapshotJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDashboardSnapshotJobResponse {
@@ -6179,14 +6614,14 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Starts an asynchronous job that generates a snapshot of a dashboard's output. You can request one or several of the following format configurations in each API call.   1 Paginated PDF   1 Excel workbook that includes up to 5 table or pivot table visuals   5 CSVs from table or pivot table visuals   The status of a submitted job can be polled with the DescribeDashboardSnapshotJob API. When you call the  DescribeDashboardSnapshotJob API, check the JobStatus field in the response. Once the job reaches a COMPLETED or FAILED status, use the DescribeDashboardSnapshotJobResult API to obtain the URLs for the generated files. If the job fails, the DescribeDashboardSnapshotJobResult API returns detailed information about the error that occurred.  StartDashboardSnapshotJob API throttling  Amazon QuickSight utilizes API throttling to create a more consistent user experience within a time span for customers when they call the StartDashboardSnapshotJob. By default, 12 jobs can run simlutaneously in one Amazon Web Services account and users can submit up 10 API requests per second before an account is throttled. If an overwhelming number of API requests are made by the same user in a short period of time, Amazon QuickSight throttles the API calls to maintin an optimal experience and reliability for all Amazon QuickSight users.  Common throttling scenarios  The following list provides information about the most commin throttling scenarios that can occur.    A large number of SnapshotExport API jobs are running simultaneously on an Amazon Web Services account. When a new StartDashboardSnapshotJob is created and there are already 12 jobs with the RUNNING status, the new job request fails and returns a LimitExceededException error. Wait for a current job to comlpete before you resubmit the new job.    A large number of API requests are submitted on an Amazon Web Services account. When a user makes more than 10 API calls to the Amazon QuickSight API in one second, a ThrottlingException is returned.   If your use case requires a higher throttling limit, contact your account admin or Amazon Web ServicesSupport to explore options to tailor a more optimal expereince for your account.  Best practices to handle throttling  If your use case projects high levels of API traffic, try to reduce the degree of frequency and parallelism of API calls as much as you can to avoid throttling. You can also perform a timing test to calculate an estimate for the total processing time of your projected load that stays within the throttling limits of the Amazon QuickSight APIs. For example, if your projected traffic is 100 snapshot jobs before 12:00 PM per day, start 12 jobs in parallel and measure the amount of time it takes to proccess all 12 jobs. Once you obtain the result, multiply the duration by 9, for example (12 minutes * 9 = 108 minutes). Use the new result to determine the latest time at which the jobs need to be started to meet your target deadline. The time that it takes to process a job can be impacted by the following factors:   The dataset type (Direct Query or SPICE).   The size of the dataset.   The complexity of the calculated fields that are used in the dashboard.   The number of visuals that are on a sheet.   The types of visuals that are on the sheet.   The number of formats and snapshots that are requested in the job configuration.   The size of the generated snapshots.
+    /// Starts an asynchronous job that generates a snapshot of a dashboard's output. You can request one or several of the following format configurations in each API call.   1 Paginated PDF   1 Excel workbook that includes up to 5 table or pivot table visuals   5 CSVs from table or pivot table visuals   The status of a submitted job can be polled with the DescribeDashboardSnapshotJob API. When you call the  DescribeDashboardSnapshotJob API, check the JobStatus field in the response. Once the job reaches a COMPLETED or FAILED status, use the DescribeDashboardSnapshotJobResult API to obtain the URLs for the generated files. If the job fails, the DescribeDashboardSnapshotJobResult API returns detailed information about the error that occurred.  StartDashboardSnapshotJob API throttling  Quick Sight utilizes API throttling to create a more consistent user experience within a time span for customers when they call the StartDashboardSnapshotJob. By default, 12 jobs can run simlutaneously in one Amazon Web Services account and users can submit up 10 API requests per second before an account is throttled. If an overwhelming number of API requests are made by the same user in a short period of time, Quick Sight throttles the API calls to maintin an optimal experience and reliability for all Quick Sight users.  Common throttling scenarios  The following list provides information about the most commin throttling scenarios that can occur.    A large number of SnapshotExport API jobs are running simultaneously on an Amazon Web Services account. When a new StartDashboardSnapshotJob is created and there are already 12 jobs with the RUNNING status, the new job request fails and returns a LimitExceededException error. Wait for a current job to comlpete before you resubmit the new job.    A large number of API requests are submitted on an Amazon Web Services account. When a user makes more than 10 API calls to the Quick Sight API in one second, a ThrottlingException is returned.   If your use case requires a higher throttling limit, contact your account admin or Amazon Web ServicesSupport to explore options to tailor a more optimal expereince for your account.  Best practices to handle throttling  If your use case projects high levels of API traffic, try to reduce the degree of frequency and parallelism of API calls as much as you can to avoid throttling. You can also perform a timing test to calculate an estimate for the total processing time of your projected load that stays within the throttling limits of the Quick Sight APIs. For example, if your projected traffic is 100 snapshot jobs before 12:00 PM per day, start 12 jobs in parallel and measure the amount of time it takes to proccess all 12 jobs. Once you obtain the result, multiply the duration by 9, for example (12 minutes * 9 = 108 minutes). Use the new result to determine the latest time at which the jobs need to be started to meet your target deadline. The time that it takes to process a job can be impacted by the following factors:   The dataset type (Direct Query or SPICE).   The size of the dataset.   The complexity of the calculated fields that are used in the dashboard.   The number of visuals that are on a sheet.   The types of visuals that are on the sheet.   The number of formats and snapshots that are requested in the job configuration.   The size of the generated snapshots.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that the dashboard snapshot job is executed in.
     ///   - dashboardId: The ID of the dashboard that you want to start a snapshot job for.
     ///   - snapshotConfiguration: A structure that describes the configuration of the dashboard snapshot.
     ///   - snapshotJobId: An ID for the dashboard snapshot job. This ID is unique to the dashboard while the job is running. This ID can be used to poll the status of a job with a DescribeDashboardSnapshotJob while the job runs. You can reuse this ID for another job 24 hours after the current job is completed.
-    ///   - userConfiguration:  A structure that contains information about the anonymous users that the generated snapshot is for. This API will not return information about registered Amazon QuickSight.
+    ///   - userConfiguration:  A structure that contains information about the anonymous users that the generated snapshot is for. This API will not return information about registered Amazon Quick Sight.
     ///   - logger: Logger use during operation
     @inlinable
     public func startDashboardSnapshotJob(
@@ -6207,7 +6642,7 @@ public struct QuickSight: AWSService {
         return try await self.startDashboardSnapshotJob(input, logger: logger)
     }
 
-    /// Starts an asynchronous job that runs an existing dashboard schedule and sends the dashboard snapshot through email.  Only one job can run simultaneously in a given schedule. Repeated requests are skipped with a 202 HTTP status code. For more information, see Scheduling and sending Amazon QuickSight reports by email and Configuring email report settings for a Amazon QuickSight dashboard in the Amazon QuickSight User Guide.
+    /// Starts an asynchronous job that runs an existing dashboard schedule and sends the dashboard snapshot through email.  Only one job can run simultaneously in a given schedule. Repeated requests are skipped with a 202 HTTP status code. For more information, see Scheduling and sending Amazon Quick Sight reports by email and Configuring email report settings for a Amazon Quick Sight dashboard in the Amazon Quick Sight User Guide.
     @Sendable
     @inlinable
     public func startDashboardSnapshotJobSchedule(_ input: StartDashboardSnapshotJobScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDashboardSnapshotJobScheduleResponse {
@@ -6220,12 +6655,12 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Starts an asynchronous job that runs an existing dashboard schedule and sends the dashboard snapshot through email.  Only one job can run simultaneously in a given schedule. Repeated requests are skipped with a 202 HTTP status code. For more information, see Scheduling and sending Amazon QuickSight reports by email and Configuring email report settings for a Amazon QuickSight dashboard in the Amazon QuickSight User Guide.
+    /// Starts an asynchronous job that runs an existing dashboard schedule and sends the dashboard snapshot through email.  Only one job can run simultaneously in a given schedule. Repeated requests are skipped with a 202 HTTP status code. For more information, see Scheduling and sending Amazon Quick Sight reports by email and Configuring email report settings for a Amazon Quick Sight dashboard in the Amazon Quick Sight User Guide.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that the dashboard snapshot job is executed in.
     ///   - dashboardId: The ID of the dashboard that you want to start a snapshot job schedule for.
-    ///   - scheduleId: The ID of the schedule that you want to start a snapshot job schedule for. The schedule ID can be found in the Amazon QuickSight console in the Schedules pane of the dashboard that the schedule is configured for.
+    ///   - scheduleId: The ID of the schedule that you want to start a snapshot job schedule for. The schedule ID can be found in the Amazon Quick Sight console in the Schedules pane of the dashboard that the schedule is configured for.
     ///   - logger: Logger use during operation
     @inlinable
     public func startDashboardSnapshotJobSchedule(
@@ -6242,15 +6677,17 @@ public struct QuickSight: AWSService {
         return try await self.startDashboardSnapshotJobSchedule(input, logger: logger)
     }
 
-    /// Assigns one or more tags (key-value pairs) to the specified Amazon QuickSight resource.  Tags can help you organize and categorize your resources. You can also use them to
+    /// Assigns one or more tags (key-value pairs) to the specified Amazon Quick Sight
+    /// 			resource.  Tags can help you organize and categorize your resources. You can also use them to
     /// 			scope user permissions, by granting a user permission to access or change only resources
     /// 			with certain tag values. You can use the TagResource operation with a
     /// 			resource that already has tags. If you specify a new tag key for the resource, this tag
     /// 			is appended to the list of tags associated with the resource. If you specify a tag key
     /// 			that is already associated with the resource, the new tag value that you specify
-    /// 			replaces the previous value for that tag. You can associate as many as 50 tags with a resource. Amazon QuickSight supports tagging on data
-    /// 			set, data source, dashboard, template, topic, and user.  Tagging for Amazon QuickSight works in a similar way to tagging for other Amazon Web Services services, except for
-    /// 			the following:   Tags are used to track costs for users in Amazon QuickSight. You can't tag other resources that Amazon QuickSight costs are based on, such as storage capacoty (SPICE), session usage, alert consumption, or reporting units.   Amazon QuickSight doesn't currently support the tag editor for Resource Groups.
+    /// 			replaces the previous value for that tag. You can associate as many as 50 tags with a resource. Amazon Quick Sight supports
+    /// 			tagging on data set, data source, dashboard, template, topic, and user.  Tagging for Amazon Quick Sight works in a similar way to tagging for other Amazon Web Services services, except for the following:   Tags are used to track costs for users in Amazon Quick Sight. You can't
+    /// 					tag other resources that Amazon Quick Sight costs are based on, such as storage
+    /// 					capacoty (SPICE), session usage, alert consumption, or reporting units.   Amazon Quick Sight doesn't currently support the tag editor for Resource Groups.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -6263,19 +6700,21 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Assigns one or more tags (key-value pairs) to the specified Amazon QuickSight resource.  Tags can help you organize and categorize your resources. You can also use them to
+    /// Assigns one or more tags (key-value pairs) to the specified Amazon Quick Sight
+    /// 			resource.  Tags can help you organize and categorize your resources. You can also use them to
     /// 			scope user permissions, by granting a user permission to access or change only resources
     /// 			with certain tag values. You can use the TagResource operation with a
     /// 			resource that already has tags. If you specify a new tag key for the resource, this tag
     /// 			is appended to the list of tags associated with the resource. If you specify a tag key
     /// 			that is already associated with the resource, the new tag value that you specify
-    /// 			replaces the previous value for that tag. You can associate as many as 50 tags with a resource. Amazon QuickSight supports tagging on data
-    /// 			set, data source, dashboard, template, topic, and user.  Tagging for Amazon QuickSight works in a similar way to tagging for other Amazon Web Services services, except for
-    /// 			the following:   Tags are used to track costs for users in Amazon QuickSight. You can't tag other resources that Amazon QuickSight costs are based on, such as storage capacoty (SPICE), session usage, alert consumption, or reporting units.   Amazon QuickSight doesn't currently support the tag editor for Resource Groups.
+    /// 			replaces the previous value for that tag. You can associate as many as 50 tags with a resource. Amazon Quick Sight supports
+    /// 			tagging on data set, data source, dashboard, template, topic, and user.  Tagging for Amazon Quick Sight works in a similar way to tagging for other Amazon Web Services services, except for the following:   Tags are used to track costs for users in Amazon Quick Sight. You can't
+    /// 					tag other resources that Amazon Quick Sight costs are based on, such as storage
+    /// 					capacoty (SPICE), session usage, alert consumption, or reporting units.   Amazon Quick Sight doesn't currently support the tag editor for Resource Groups.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource that you want to tag.
-    ///   - tags: Contains a map of the key-value pairs for the resource tag or tags assigned to the resource.
+    ///   - tags: Contains a map of the key-value pairs for the resource tag or tags assigned to the
     ///   - logger: Logger use during operation
     @inlinable
     public func tagResource(
@@ -6307,7 +6746,7 @@ public struct QuickSight: AWSService {
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource that you want to untag.
-    ///   - tagKeys: The keys of the key-value pairs for the resource tag or tags assigned to the resource.
+    ///   - tagKeys: The keys of the key-value pairs for the resource tag or tags assigned to the
     ///   - logger: Logger use during operation
     @inlinable
     public func untagResource(
@@ -6322,7 +6761,39 @@ public struct QuickSight: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Updates Amazon QuickSight customizations for the current Amazon Web Services Region. Currently, the only customization that you can use is a theme. You can use customizations for your Amazon Web Services account or, if you specify a namespace, for a Amazon QuickSight namespace instead. Customizations that apply to a namespace override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation.
+    /// Applies a custom permissions profile to an account.
+    @Sendable
+    @inlinable
+    public func updateAccountCustomPermission(_ input: UpdateAccountCustomPermissionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAccountCustomPermissionResponse {
+        try await self.client.execute(
+            operation: "UpdateAccountCustomPermission", 
+            path: "/accounts/{AwsAccountId}/custom-permission", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Applies a custom permissions profile to an account.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account for which you want to apply a custom permissions profile.
+    ///   - customPermissionsName: The name of the custom permissions profile that you want to apply to an account.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAccountCustomPermission(
+        awsAccountId: String,
+        customPermissionsName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateAccountCustomPermissionResponse {
+        let input = UpdateAccountCustomPermissionRequest(
+            awsAccountId: awsAccountId, 
+            customPermissionsName: customPermissionsName
+        )
+        return try await self.updateAccountCustomPermission(input, logger: logger)
+    }
+
+    /// Updates Amazon Quick Sight customizations. Currently, the only customization that you can use is a theme. You can use customizations for your Amazon Web Services account or, if you specify a namespace, for a Quick Sight namespace instead. Customizations that apply to a namespace override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation.
     @Sendable
     @inlinable
     public func updateAccountCustomization(_ input: UpdateAccountCustomizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAccountCustomizationResponse {
@@ -6335,12 +6806,12 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Updates Amazon QuickSight customizations for the current Amazon Web Services Region. Currently, the only customization that you can use is a theme. You can use customizations for your Amazon Web Services account or, if you specify a namespace, for a Amazon QuickSight namespace instead. Customizations that apply to a namespace override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation.
+    /// Updates Amazon Quick Sight customizations. Currently, the only customization that you can use is a theme. You can use customizations for your Amazon Web Services account or, if you specify a namespace, for a Quick Sight namespace instead. Customizations that apply to a namespace override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation.
     ///
     /// Parameters:
-    ///   - accountCustomization: The Amazon QuickSight customizations you're updating in the current Amazon Web Services Region.
-    ///   - awsAccountId: The ID for the Amazon Web Services account that you want to update Amazon QuickSight customizations for.
-    ///   - namespace: The namespace that you want to update Amazon QuickSight customizations for.
+    ///   - accountCustomization: The Quick Sight customizations you're updating.
+    ///   - awsAccountId: The ID for the Amazon Web Services account that you want to update Quick Sight customizations for.
+    ///   - namespace: The namespace that you want to update Quick Sight customizations for.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateAccountCustomization(
@@ -6357,7 +6828,7 @@ public struct QuickSight: AWSService {
         return try await self.updateAccountCustomization(input, logger: logger)
     }
 
-    /// Updates the Amazon QuickSight settings in your Amazon Web Services account.
+    /// Updates the Amazon Quick Sight settings in your Amazon Web Services account.
     @Sendable
     @inlinable
     public func updateAccountSettings(_ input: UpdateAccountSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAccountSettingsResponse {
@@ -6370,13 +6841,13 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Updates the Amazon QuickSight settings in your Amazon Web Services account.
+    /// Updates the Amazon Quick Sight settings in your Amazon Web Services account.
     ///
     /// Parameters:
-    ///   - awsAccountId: The ID for the Amazon Web Services account that contains the Amazon QuickSight settings that you want to list.
-    ///   - defaultNamespace: The default namespace for this Amazon Web Services account. Currently, the default is default. IAM users that register for the first time with Amazon QuickSight provide an email address that becomes associated with the default namespace.
-    ///   - notificationEmail: The email address that you want Amazon QuickSight to send notifications to regarding your Amazon Web Services account or Amazon QuickSight subscription.
-    ///   - terminationProtectionEnabled: A boolean value that determines whether or not an Amazon QuickSight account can be deleted. A True value doesn't allow the account to be deleted and results in an error message if a user tries to make a DeleteAccountSubscription request. A False value will allow the account to be deleted.
+    ///   - awsAccountId: The ID for the Amazon Web Services account that contains the Quick Sight settings that you want to list.
+    ///   - defaultNamespace: The default namespace for this Amazon Web Services account. Currently, the default is default. IAM users that register for the first time with Amazon Quick Sight provide an email address that becomes associated with the default namespace.
+    ///   - notificationEmail: The email address that you want Quick Sight to send notifications to regarding your Amazon Web Services account or Quick Sight subscription.
+    ///   - terminationProtectionEnabled: A boolean value that determines whether or not an Quick Sight account can be deleted. A True value doesn't allow the account to be deleted and results in an error message if a user tries to make a DeleteAccountSubscription request. A False value will allow the account to be deleted.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateAccountSettings(
@@ -6395,7 +6866,93 @@ public struct QuickSight: AWSService {
         return try await self.updateAccountSettings(input, logger: logger)
     }
 
-    /// Updates an analysis in Amazon QuickSight
+    /// Updates an existing action connector with new configuration details, authentication settings, or enabled actions.
+    /// 	          You can modify the connector's name, description, authentication configuration, and which actions are enabled. For more information,
+    /// 	          https://docs.aws.amazon.com/quicksuite/latest/userguide/quick-action-auth.html.
+    @Sendable
+    @inlinable
+    public func updateActionConnector(_ input: UpdateActionConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateActionConnectorResponse {
+        try await self.client.execute(
+            operation: "UpdateActionConnector", 
+            path: "/accounts/{AwsAccountId}/action-connectors/{ActionConnectorId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing action connector with new configuration details, authentication settings, or enabled actions.
+    /// 	          You can modify the connector's name, description, authentication configuration, and which actions are enabled. For more information,
+    /// 	          https://docs.aws.amazon.com/quicksuite/latest/userguide/quick-action-auth.html.
+    ///
+    /// Parameters:
+    ///   - actionConnectorId: The unique identifier of the action connector to update.
+    ///   - authenticationConfig: The updated authentication configuration for connecting to the external service.
+    ///   - awsAccountId: The Amazon Web Services account ID that contains the action connector to update.
+    ///   - description: The updated description of the action connector.
+    ///   - name: The new name for the action connector.
+    ///   - vpcConnectionArn: The updated ARN of the VPC connection to use for secure connectivity.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateActionConnector(
+        actionConnectorId: String,
+        authenticationConfig: AuthConfig,
+        awsAccountId: String,
+        description: String? = nil,
+        name: String,
+        vpcConnectionArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateActionConnectorResponse {
+        let input = UpdateActionConnectorRequest(
+            actionConnectorId: actionConnectorId, 
+            authenticationConfig: authenticationConfig, 
+            awsAccountId: awsAccountId, 
+            description: description, 
+            name: name, 
+            vpcConnectionArn: vpcConnectionArn
+        )
+        return try await self.updateActionConnector(input, logger: logger)
+    }
+
+    /// Updates the permissions for an action connector by granting or revoking access for specific users and groups. You can control who can view, use, or manage the action connector.
+    @Sendable
+    @inlinable
+    public func updateActionConnectorPermissions(_ input: UpdateActionConnectorPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateActionConnectorPermissionsResponse {
+        try await self.client.execute(
+            operation: "UpdateActionConnectorPermissions", 
+            path: "/accounts/{AwsAccountId}/action-connectors/{ActionConnectorId}/permissions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the permissions for an action connector by granting or revoking access for specific users and groups. You can control who can view, use, or manage the action connector.
+    ///
+    /// Parameters:
+    ///   - actionConnectorId: The unique identifier of the action connector whose permissions you want to update.
+    ///   - awsAccountId: The Amazon Web Services account ID that contains the action connector.
+    ///   - grantPermissions: The permissions to grant to users and groups for this action connector.
+    ///   - revokePermissions: The permissions to revoke from users and groups for this action connector.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateActionConnectorPermissions(
+        actionConnectorId: String,
+        awsAccountId: String,
+        grantPermissions: [ResourcePermission]? = nil,
+        revokePermissions: [ResourcePermission]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateActionConnectorPermissionsResponse {
+        let input = UpdateActionConnectorPermissionsRequest(
+            actionConnectorId: actionConnectorId, 
+            awsAccountId: awsAccountId, 
+            grantPermissions: grantPermissions, 
+            revokePermissions: revokePermissions
+        )
+        return try await self.updateActionConnectorPermissions(input, logger: logger)
+    }
+
+    /// Updates an analysis in Amazon Quick Sight
     @Sendable
     @inlinable
     public func updateAnalysis(_ input: UpdateAnalysisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAnalysisResponse {
@@ -6408,16 +6965,16 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Updates an analysis in Amazon QuickSight
+    /// Updates an analysis in Amazon Quick Sight
     ///
     /// Parameters:
     ///   - analysisId: The ID for the analysis that you're updating. This ID displays in the URL of the analysis.
     ///   - awsAccountId: The ID of the Amazon Web Services account that contains the analysis that you're updating.
     ///   - definition: The definition of an analysis. A definition is the data model of all features in a Dashboard, Template, or Analysis.
-    ///   - name: A descriptive name for the analysis that you're updating. This name displays for the analysis in the Amazon QuickSight console.
+    ///   - name: A descriptive name for the analysis that you're updating. This name displays for the analysis in the Amazon Quick Sight console.
     ///   - parameters: The parameter names and override values that you want to use. An analysis can have  any parameter type, and some parameters might accept multiple values.
     ///   - sourceEntity: A source entity to use for the analysis that you're updating. This metadata structure contains details that describe a source template and one or more datasets.
-    ///   - themeArn: The Amazon Resource Name (ARN) for the theme to apply to the analysis that you're creating. To see the theme in the Amazon QuickSight console, make sure that you have access to it.
+    ///   - themeArn: The Amazon Resource Name (ARN) for the theme to apply to the analysis that you're creating. To see the theme in the Amazon Quick Sight console, make sure that you have access to it.
     ///   - validationStrategy: The option to relax the validation needed to update an analysis with definition objects. This skips the validation step for specific errors.
     ///   - logger: Logger use during operation
     @inlinable
@@ -6483,7 +7040,7 @@ public struct QuickSight: AWSService {
         return try await self.updateAnalysisPermissions(input, logger: logger)
     }
 
-    /// Updates an Amazon QuickSight application with a token exchange grant. This operation only supports Amazon QuickSight applications that are registered with IAM Identity Center.
+    /// Updates an QuickSight application with a token exchange grant. This operation only supports QuickSight applications that are registered with IAM Identity Center.
     @Sendable
     @inlinable
     public func updateApplicationWithTokenExchangeGrant(_ input: UpdateApplicationWithTokenExchangeGrantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateApplicationWithTokenExchangeGrantResponse {
@@ -6496,11 +7053,11 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Updates an Amazon QuickSight application with a token exchange grant. This operation only supports Amazon QuickSight applications that are registered with IAM Identity Center.
+    /// Updates an QuickSight application with a token exchange grant. This operation only supports QuickSight applications that are registered with IAM Identity Center.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account to be updated with a token exchange grant.
-    ///   - namespace: The namespace of the Amazon QuickSight application.
+    ///   - namespace: The namespace of the QuickSight application.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateApplicationWithTokenExchangeGrant(
@@ -6533,7 +7090,7 @@ public struct QuickSight: AWSService {
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that owns the brand.
     ///   - brandDefinition: The definition of the brand.
-    ///   - brandId: The ID of the Amazon QuickSight brand.
+    ///   - brandId: The ID of the QuickSight brand.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateBrand(
@@ -6599,7 +7156,7 @@ public struct QuickSight: AWSService {
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that owns the brand.
-    ///   - brandId: The ID of the Amazon QuickSight brand.
+    ///   - brandId: The ID of the QuickSight brand.
     ///   - versionId: The ID of the published version.
     ///   - logger: Logger use during operation
     @inlinable
@@ -6652,7 +7209,7 @@ public struct QuickSight: AWSService {
         return try await self.updateCustomPermissions(input, logger: logger)
     }
 
-    /// Updates a dashboard in an Amazon Web Services account.  Updating a Dashboard creates a new dashboard version but does not immediately publish the new version.  You can update the published version of a dashboard by using the  UpdateDashboardPublishedVersion API operation.
+    /// Updates a dashboard in an Amazon Web Services account.  Updating a Dashboard creates a new dashboard version but does not immediately publish the new version. You can update the published version of a dashboard by using the  UpdateDashboardPublishedVersion API operation.
     @Sendable
     @inlinable
     public func updateDashboard(_ input: UpdateDashboardRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDashboardResponse {
@@ -6665,16 +7222,16 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Updates a dashboard in an Amazon Web Services account.  Updating a Dashboard creates a new dashboard version but does not immediately publish the new version.  You can update the published version of a dashboard by using the  UpdateDashboardPublishedVersion API operation.
+    /// Updates a dashboard in an Amazon Web Services account.  Updating a Dashboard creates a new dashboard version but does not immediately publish the new version. You can update the published version of a dashboard by using the  UpdateDashboardPublishedVersion API operation.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that contains the dashboard that you're updating.
     ///   - dashboardId: The ID for the dashboard.
-    ///   - dashboardPublishOptions: Options for publishing the dashboard when you create it:    AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, Amazon QuickSight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.     AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .CSV format isn't enabled when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.
+    ///   - dashboardPublishOptions: Options for publishing the dashboard when you create it:    AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, Amazon Quick Sight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.     AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .CSV format isn't enabled when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.     AvailabilityStatus for QuickSuiteActionsOption - This status can be either ENABLED or DISABLED. Features related to Actions in Amazon Quick Suite on dashboards are disabled when this is set to DISABLED. This option is DISABLED by default.    AvailabilityStatus for ExecutiveSummaryOption - This status can be either ENABLED or DISABLED. The option to build an executive summary is disabled when this is set to DISABLED. This option is ENABLED by default.    AvailabilityStatus for DataStoriesSharingOption - This status can be either ENABLED or DISABLED. The option to share a data story is disabled when this is set to DISABLED. This option is ENABLED by default.
     ///   - definition: The definition of a dashboard. A definition is the data model of all features in a Dashboard, Template, or Analysis.
     ///   - name: The display name of the dashboard.
     ///   - parameters: A structure that contains the parameters of the dashboard. These are parameter overrides for a dashboard. A dashboard can have any type of parameters, and some parameters might accept multiple values.
-    ///   - sourceEntity: The entity that you are using as a source when you update the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only update a dashboard from a template, so you use a SourceTemplate entity. If you need to update a dashboard from an analysis, first convert the analysis to a template by using the  CreateTemplate API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplate ARN can contain any Amazon Web Services account and any Amazon QuickSight-supported Amazon Web Services Region.  Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.
+    ///   - sourceEntity: The entity that you are using as a source when you update the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only update a dashboard from a template, so you use a SourceTemplate entity. If you need to update a dashboard from an analysis, first convert the analysis to a template by using the  CreateTemplate API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplate ARN can contain any Amazon Web Services account and any Amazon Quick Sight-supported Amazon Web Services Region.  Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.
     ///   - themeArn: The Amazon Resource Name (ARN) of the theme that is being used for this dashboard. If you add a value for this field, it overrides the value that was originally associated with the entity. The theme ARN must exist in the same Amazon Web Services account where you create the dashboard.
     ///   - validationStrategy: The option to relax the validation needed to update a dashboard with definition objects. This skips the validation step for specific errors.
     ///   - versionDescription: A description for the first version of the dashboard being created.
@@ -6854,7 +7411,8 @@ public struct QuickSight: AWSService {
         return try await self.updateDashboardsQAConfiguration(input, logger: logger)
     }
 
-    /// Updates a dataset. This operation doesn't support datasets that include uploaded files as a source. Partial updates are not supported by this operation.
+    /// Updates a dataset. This operation doesn't support datasets that include uploaded files
+    /// 			as a source. Partial updates are not supported by this operation.
     @Sendable
     @inlinable
     public func updateDataSet(_ input: UpdateDataSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataSetResponse {
@@ -6867,23 +7425,24 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Updates a dataset. This operation doesn't support datasets that include uploaded files as a source. Partial updates are not supported by this operation.
+    /// Updates a dataset. This operation doesn't support datasets that include uploaded files
+    /// 			as a source. Partial updates are not supported by this operation.
     ///
     /// Parameters:
     ///   - awsAccountId: The Amazon Web Services account ID.
-    ///   - columnGroups: Groupings of columns that work together in certain Amazon QuickSight features. Currently, only geospatial hierarchy is supported.
+    ///   - columnGroups: Groupings of columns that work together in certain Amazon Quick Sight features.
     ///   - columnLevelPermissionRules: A set of one or more definitions of a  ColumnLevelPermissionRule .
-    ///   - dataSetId: The ID for the dataset that you want to update. This ID is unique per Amazon Web Services Region for each
+    ///   - dataSetId: The ID for the dataset that you want to update. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
     ///   - datasetParameters: The parameter declarations of the dataset.
     ///   - dataSetUsageConfiguration: 
     ///   - fieldFolders: The folder that contains fields and nested subfolders for your dataset.
     ///   - importMode: Indicates whether you want to import the data into SPICE.
-    ///   - logicalTableMap: Configures the combination and transformation of the data from the physical tables.
+    ///   - logicalTableMap: Configures the combination and transformation of the data from the physical
     ///   - name: The display name for the dataset.
-    ///   - performanceConfiguration: The configuration for the performance optimization of the dataset that contains a UniqueKey configuration.
+    ///   - performanceConfiguration: The configuration for the performance optimization of the dataset that contains a
     ///   - physicalTableMap: Declares the physical tables that are available in the underlying data sources.
     ///   - rowLevelPermissionDataSet: The row-level security configuration for the data you want to create.
-    ///   - rowLevelPermissionTagConfiguration: The configuration of tags on a dataset to set row-level security. Row-level security tags are currently supported for anonymous embedding only.
+    ///   - rowLevelPermissionTagConfiguration: The configuration of tags on a dataset to set row-level security. Row-level security
     ///   - logger: Logger use during operation
     @inlinable
     public func updateDataSet(
@@ -6922,7 +7481,8 @@ public struct QuickSight: AWSService {
         return try await self.updateDataSet(input, logger: logger)
     }
 
-    /// Updates the permissions on a dataset. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
+    /// Updates the permissions on a dataset. The permissions resource is
+    /// 				arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
     @Sendable
     @inlinable
     public func updateDataSetPermissions(_ input: UpdateDataSetPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataSetPermissionsResponse {
@@ -6935,7 +7495,8 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Updates the permissions on a dataset. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
+    /// Updates the permissions on a dataset. The permissions resource is
+    /// 				arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
     ///
     /// Parameters:
     ///   - awsAccountId: The Amazon Web Services account ID.
@@ -6977,12 +7538,12 @@ public struct QuickSight: AWSService {
     ///
     /// Parameters:
     ///   - awsAccountId: The Amazon Web Services account ID.
-    ///   - credentials: The credentials that Amazon QuickSight that uses to connect to your underlying source. Currently,
-    ///   - dataSourceId: The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
-    ///   - dataSourceParameters: The parameters that Amazon QuickSight uses to connect to your underlying source.
+    ///   - credentials: The credentials that Amazon Quick Sight that uses to connect to your underlying source.
+    ///   - dataSourceId: The ID of the data source. This ID is unique per Amazon Web Services Region for each
+    ///   - dataSourceParameters: The parameters that Amazon Quick Sight uses to connect to your underlying
     ///   - name: A display name for the data source.
-    ///   - sslProperties: Secure Socket Layer (SSL) properties that apply when Amazon QuickSight connects to your underlying
-    ///   - vpcConnectionProperties: Use this parameter only when you want Amazon QuickSight to use a VPC connection when connecting to
+    ///   - sslProperties: Secure Socket Layer (SSL) properties that apply when Amazon Quick Sight connects to
+    ///   - vpcConnectionProperties: Use this parameter only when you want Amazon Quick Sight to use a VPC connection when
     ///   - logger: Logger use during operation
     @inlinable
     public func updateDataSource(
@@ -7024,7 +7585,7 @@ public struct QuickSight: AWSService {
     ///
     /// Parameters:
     ///   - awsAccountId: The Amazon Web Services account ID.
-    ///   - dataSourceId: The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    ///   - dataSourceId: The ID of the data source. This ID is unique per Amazon Web Services Region for each
     ///   - grantPermissions: A list of resource permissions that you want to grant on the data source.
     ///   - revokePermissions: A list of resource permissions that you want to revoke on the data source.
     ///   - logger: Logger use during operation
@@ -7045,7 +7606,7 @@ public struct QuickSight: AWSService {
         return try await self.updateDataSourcePermissions(input, logger: logger)
     }
 
-    /// Updates a Amazon Q Business application that is linked to a Amazon QuickSight account.
+    /// Updates a Amazon Q Business application that is linked to a Quick Sight account.
     @Sendable
     @inlinable
     public func updateDefaultQBusinessApplication(_ input: UpdateDefaultQBusinessApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDefaultQBusinessApplicationResponse {
@@ -7058,12 +7619,12 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Updates a Amazon Q Business application that is linked to a Amazon QuickSight account.
+    /// Updates a Amazon Q Business application that is linked to a Quick Sight account.
     ///
     /// Parameters:
     ///   - applicationId: The ID of the Amazon Q Business application that you want to update.
-    ///   - awsAccountId: The ID of the Amazon QuickSight account that is connected to the Amazon Q Business application that you want to update.
-    ///   - namespace: The Amazon QuickSight namespace that contains the linked Amazon Q Business application. If this field is left blank, the default namespace is used. Currently, the default namespace is the only valid value for this parameter.
+    ///   - awsAccountId: The ID of the Quick Sight account that is connected to the Amazon Q Business application that you want to update.
+    ///   - namespace: The Quick Sight namespace that contains the linked Amazon Q Business application. If this field is left blank, the default namespace is used. Currently, the default namespace is the only valid value for this parameter.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateDefaultQBusinessApplication(
@@ -7078,6 +7639,44 @@ public struct QuickSight: AWSService {
             namespace: namespace
         )
         return try await self.updateDefaultQBusinessApplication(input, logger: logger)
+    }
+
+    /// Updates permissions against principals on a flow.
+    @Sendable
+    @inlinable
+    public func updateFlowPermissions(_ input: UpdateFlowPermissionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFlowPermissionsOutput {
+        try await self.client.execute(
+            operation: "UpdateFlowPermissions", 
+            path: "/accounts/{AwsAccountId}/flows/{FlowId}/permissions", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates permissions against principals on a flow.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the flow you are updating permissions against.
+    ///   - flowId: The unique identifier of the flow to update permissions for.
+    ///   - grantPermissions: The permissions that you want to grant on this flow.
+    ///   - revokePermissions: The permissions that you want to revoke from this flow.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateFlowPermissions(
+        awsAccountId: String,
+        flowId: String,
+        grantPermissions: [Permission]? = nil,
+        revokePermissions: [Permission]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateFlowPermissionsOutput {
+        let input = UpdateFlowPermissionsInput(
+            awsAccountId: awsAccountId, 
+            flowId: flowId, 
+            grantPermissions: grantPermissions, 
+            revokePermissions: revokePermissions
+        )
+        return try await self.updateFlowPermissions(input, logger: logger)
     }
 
     /// Updates the name of a folder.
@@ -7214,9 +7813,9 @@ public struct QuickSight: AWSService {
     ///   - assignmentName: The name of the assignment, also called a rule.
     ///   - assignmentStatus: The status of the assignment. Possible values are as follows:    ENABLED - Anything specified in this assignment is used when
     ///   - awsAccountId: The ID of the Amazon Web Services account that contains the IAM policy
-    ///   - identities: The Amazon QuickSight users, groups, or both that you want to assign the policy
+    ///   - identities: The Amazon Quick Sight users, groups, or both that you want to assign the policy
     ///   - namespace: The namespace of the assignment.
-    ///   - policyArn: The ARN for the IAM policy to apply to the Amazon QuickSight users and
+    ///   - policyArn: The ARN for the IAM policy to apply to the Amazon Quick Sight users and
     ///   - logger: Logger use during operation
     @inlinable
     public func updateIAMPolicyAssignment(
@@ -7239,7 +7838,7 @@ public struct QuickSight: AWSService {
         return try await self.updateIAMPolicyAssignment(input, logger: logger)
     }
 
-    /// Adds or updates services and authorized targets to configure what the Amazon QuickSight IAM Identity Center application can access. This operation is only supported for Amazon QuickSight accounts using IAM Identity Center
+    /// Adds or updates services and authorized targets to configure what the Quick Sight IAM Identity Center application can access. This operation is only supported for Quick Sight accounts using IAM Identity Center
     @Sendable
     @inlinable
     public func updateIdentityPropagationConfig(_ input: UpdateIdentityPropagationConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIdentityPropagationConfigResponse {
@@ -7252,7 +7851,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Adds or updates services and authorized targets to configure what the Amazon QuickSight IAM Identity Center application can access. This operation is only supported for Amazon QuickSight accounts using IAM Identity Center
+    /// Adds or updates services and authorized targets to configure what the Quick Sight IAM Identity Center application can access. This operation is only supported for Quick Sight accounts using IAM Identity Center
     ///
     /// Parameters:
     ///   - authorizedTargets: Specifies a list of application ARNs that represent the authorized targets for a service.
@@ -7315,7 +7914,7 @@ public struct QuickSight: AWSService {
         return try await self.updateIpRestriction(input, logger: logger)
     }
 
-    /// Updates a customer managed key in a Amazon QuickSight account.
+    /// Updates a customer managed key in a Quick Sight account.
     @Sendable
     @inlinable
     public func updateKeyRegistration(_ input: UpdateKeyRegistrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateKeyRegistrationResponse {
@@ -7328,11 +7927,11 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Updates a customer managed key in a Amazon QuickSight account.
+    /// Updates a customer managed key in a Quick Sight account.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that contains the customer managed key registration that you want to update.
-    ///   - keyRegistration: A list of RegisteredCustomerManagedKey objects to be updated to the Amazon QuickSight account.
+    ///   - keyRegistration: A list of RegisteredCustomerManagedKey objects to be updated to the Quick Sight account.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateKeyRegistration(
@@ -7347,7 +7946,7 @@ public struct QuickSight: AWSService {
         return try await self.updateKeyRegistration(input, logger: logger)
     }
 
-    /// Use the UpdatePublicSharingSettings operation to turn on or turn off the public sharing settings of an Amazon QuickSight dashboard. To use this operation, turn on session capacity pricing for your Amazon QuickSight account. Before you can turn on public sharing on your account, make sure to give public sharing permissions to an administrative user in the Identity and Access Management (IAM) console. For more information on using IAM with Amazon QuickSight, see Using Amazon QuickSight with IAM in the Amazon QuickSight User Guide.
+    ///  This API controls public sharing settings for your entire Quick Sight account, affecting data security and access. When you enable public sharing:   Dashboards can be shared publicly   This setting affects your entire Amazon Web Services account and all Quick Sight users    Before proceeding: Ensure you understand the security implications and have proper IAM permissions configured.  Use the UpdatePublicSharingSettings operation to turn on or turn off the public sharing settings of an Amazon Quick Sight dashboard. To use this operation, turn on session capacity pricing for your Amazon Quick Sight account. Before you can turn on public sharing on your account, make sure to give public sharing permissions to an administrative user in the Identity and Access Management (IAM) console. For more information on using IAM with Amazon Quick Sight, see Using QuickSight with IAM in the Amazon Quick Sight User Guide.
     @Sendable
     @inlinable
     public func updatePublicSharingSettings(_ input: UpdatePublicSharingSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePublicSharingSettingsResponse {
@@ -7360,11 +7959,11 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Use the UpdatePublicSharingSettings operation to turn on or turn off the public sharing settings of an Amazon QuickSight dashboard. To use this operation, turn on session capacity pricing for your Amazon QuickSight account. Before you can turn on public sharing on your account, make sure to give public sharing permissions to an administrative user in the Identity and Access Management (IAM) console. For more information on using IAM with Amazon QuickSight, see Using Amazon QuickSight with IAM in the Amazon QuickSight User Guide.
+    ///  This API controls public sharing settings for your entire Quick Sight account, affecting data security and access. When you enable public sharing:   Dashboards can be shared publicly   This setting affects your entire Amazon Web Services account and all Quick Sight users    Before proceeding: Ensure you understand the security implications and have proper IAM permissions configured.  Use the UpdatePublicSharingSettings operation to turn on or turn off the public sharing settings of an Amazon Quick Sight dashboard. To use this operation, turn on session capacity pricing for your Amazon Quick Sight account. Before you can turn on public sharing on your account, make sure to give public sharing permissions to an administrative user in the Identity and Access Management (IAM) console. For more information on using IAM with Amazon Quick Sight, see Using QuickSight with IAM in the Amazon Quick Sight User Guide.
     ///
     /// Parameters:
-    ///   - awsAccountId: The Amazon Web Services account ID associated with your Amazon QuickSight subscription.
-    ///   - publicSharingEnabled: A Boolean value that indicates whether public sharing is turned on for an Amazon QuickSight account.
+    ///   - awsAccountId: The Amazon Web Services account ID associated with your Amazon Quick Sight subscription.
+    ///   - publicSharingEnabled: A Boolean value that indicates whether public sharing is turned on for an QuickSight account.
     ///   - logger: Logger use during operation
     @inlinable
     public func updatePublicSharingSettings(
@@ -7396,7 +7995,7 @@ public struct QuickSight: AWSService {
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account account that contains the personalization configuration that the user wants to update.
-    ///   - personalizationMode: An option to allow Amazon QuickSight to customize data stories with user specific metadata, specifically location and job information, in your IAM Identity Center instance.
+    ///   - personalizationMode: An option to allow Amazon Quick Sight to customize data stories with user specific metadata, specifically location and job information, in your IAM Identity Center instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateQPersonalizationConfiguration(
@@ -7411,7 +8010,7 @@ public struct QuickSight: AWSService {
         return try await self.updateQPersonalizationConfiguration(input, logger: logger)
     }
 
-    /// Updates the state of a Amazon QuickSight Q Search configuration.
+    /// Updates the state of a Quick Sight Q Search configuration.
     @Sendable
     @inlinable
     public func updateQuickSightQSearchConfiguration(_ input: UpdateQuickSightQSearchConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateQuickSightQSearchConfigurationResponse {
@@ -7424,11 +8023,11 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Updates the state of a Amazon QuickSight Q Search configuration.
+    /// Updates the state of a Quick Sight Q Search configuration.
     ///
     /// Parameters:
-    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the Amazon QuickSight Q Search configuration that you want to update.
-    ///   - qSearchStatus: The status of the Amazon QuickSight Q Search configuration that the user wants to update.
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the Quick Sight Q Search configuration that you want to update.
+    ///   - qSearchStatus: The status of the Quick Sight Q Search configuration that the user wants to update.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateQuickSightQSearchConfiguration(
@@ -7494,7 +8093,7 @@ public struct QuickSight: AWSService {
     /// Updates the custom permissions that are associated with a role.
     ///
     /// Parameters:
-    ///   - awsAccountId: The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon QuickSight account.
+    ///   - awsAccountId: The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon Quick Sight account.
     ///   - customPermissionsName: The name of the custom permission that you want to update the role with.
     ///   - namespace: The namespace that contains the role that you want to update.
     ///   - role: The name of role tht you want to update.
@@ -7516,7 +8115,7 @@ public struct QuickSight: AWSService {
         return try await self.updateRoleCustomPermission(input, logger: logger)
     }
 
-    /// Updates the SPICE capacity configuration for a Amazon QuickSight account.
+    /// Updates the SPICE capacity configuration for a Quick Sight account.
     @Sendable
     @inlinable
     public func updateSPICECapacityConfiguration(_ input: UpdateSPICECapacityConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSPICECapacityConfigurationResponse {
@@ -7529,7 +8128,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Updates the SPICE capacity configuration for a Amazon QuickSight account.
+    /// Updates the SPICE capacity configuration for a Quick Sight account.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that contains the SPICE configuration that you want to update.
@@ -7548,7 +8147,7 @@ public struct QuickSight: AWSService {
         return try await self.updateSPICECapacityConfiguration(input, logger: logger)
     }
 
-    /// Updates a template from an existing Amazon QuickSight analysis or another template.
+    /// Updates a template from an existing Amazon Quick Sight analysis or another template.
     @Sendable
     @inlinable
     public func updateTemplate(_ input: UpdateTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTemplateResponse {
@@ -7561,7 +8160,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Updates a template from an existing Amazon QuickSight analysis or another template.
+    /// Updates a template from an existing Amazon Quick Sight analysis or another template.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that contains the template that you're updating.
@@ -7688,7 +8287,7 @@ public struct QuickSight: AWSService {
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that contains the theme that you're updating.
-    ///   - baseThemeId: The theme ID, defined by Amazon QuickSight, that a custom theme inherits from.
+    ///   - baseThemeId: The theme ID, defined by Amazon Quick Sight, that a custom theme inherits from.
     ///   - configuration: The theme configuration, which contains the theme display properties.
     ///   - name: The name for the theme.
     ///   - themeId: The ID for the theme.
@@ -7909,7 +8508,7 @@ public struct QuickSight: AWSService {
         return try await self.updateTopicRefreshSchedule(input, logger: logger)
     }
 
-    /// Updates an Amazon QuickSight user.
+    /// Updates an Amazon Quick Sight user.
     @Sendable
     @inlinable
     public func updateUser(_ input: UpdateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateUserResponse {
@@ -7922,19 +8521,19 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Updates an Amazon QuickSight user.
+    /// Updates an Amazon Quick Sight user.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the
-    ///   - customFederationProviderUrl: The URL of the custom OpenID Connect (OIDC) provider that provides identity to let a user federate into Amazon QuickSight with an associated Identity and Access Management(IAM) role. This parameter should only be used when ExternalLoginFederationProviderType parameter is set to CUSTOM_OIDC.
-    ///   - customPermissionsName: (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:   Create and update data sources   Create and update datasets   Create and update email reports   Subscribe to email reports   A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the Amazon QuickSight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a Amazon QuickSight user.  Amazon QuickSight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning Amazon QuickSight users to one of the default security cohorts in Amazon QuickSight (admin, author, reader). This feature is available only to Amazon QuickSight Enterprise edition subscriptions.
+    ///   - customFederationProviderUrl: The URL of the custom OpenID Connect (OIDC) provider that provides identity to let a user federate into Quick Sight with an associated Identity and Access Management(IAM) role. This parameter should only be used when ExternalLoginFederationProviderType parameter is set to CUSTOM_OIDC.
+    ///   - customPermissionsName: (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:   Create and update data sources   Create and update datasets   Create and update email reports   Subscribe to email reports   A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the Quick Sight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a Quick Sight user.  Quick Sight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning Quick Sight users to one of the default security cohorts in Quick Sight (admin, author, reader). This feature is available only to Quick Sight Enterprise edition subscriptions.
     ///   - email: The email address of the user that you want to update.
-    ///   - externalLoginFederationProviderType: The type of supported external login provider that provides identity to let a user federate into Amazon QuickSight with an associated Identity and Access Management(IAM) role. The type of supported external login provider can be one of the following.    COGNITO: Amazon Cognito. The provider URL is cognito-identity.amazonaws.com. When choosing the COGNITO provider type, don’t use the "CustomFederationProviderUrl" parameter which is only needed when the external provider is custom.    CUSTOM_OIDC: Custom OpenID Connect (OIDC) provider. When choosing CUSTOM_OIDC type, use the CustomFederationProviderUrl parameter to provide the custom OIDC provider URL.    NONE: This clears all the previously saved external login information for a user. Use the  DescribeUser  API operation to check the external login information.
+    ///   - externalLoginFederationProviderType: The type of supported external login provider that provides identity to let a user federate into Quick Sight with an associated Identity and Access Management(IAM) role. The type of supported external login provider can be one of the following.    COGNITO: Amazon Cognito. The provider URL is cognito-identity.amazonaws.com. When choosing the COGNITO provider type, don’t use the "CustomFederationProviderUrl" parameter which is only needed when the external provider is custom.    CUSTOM_OIDC: Custom OpenID Connect (OIDC) provider. When choosing CUSTOM_OIDC type, use the CustomFederationProviderUrl parameter to provide the custom OIDC provider URL.    NONE: This clears all the previously saved external login information for a user. Use the  DescribeUser  API operation to check the external login information.
     ///   - externalLoginId: The identity ID for a user in the external login provider.
     ///   - namespace: The namespace. Currently, you should set this to default.
-    ///   - role: The Amazon QuickSight role of the user. The role can be one of the
+    ///   - role: The Amazon Quick Sight role of the user. The role can be one of the
     ///   - unapplyCustomPermissions: A flag that you use to indicate that you want to remove all custom permissions from this user. Using this parameter resets the user to the state it was in before a custom permissions profile was applied. This parameter defaults to NULL and it doesn't accept any other value.
-    ///   - userName: The Amazon QuickSight user name that you want to update.
+    ///   - userName: The Amazon Quick Sight user name that you want to update.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateUser(
@@ -8148,6 +8747,43 @@ extension QuickSight {
             namespace: namespace
         )
         return self.describeFolderResolvedPermissionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listActionConnectors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listActionConnectorsPaginator(
+        _ input: ListActionConnectorsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListActionConnectorsRequest, ListActionConnectorsResponse> {
+        return .init(
+            input: input,
+            command: self.listActionConnectors,
+            inputKey: \ListActionConnectorsRequest.nextToken,
+            outputKey: \ListActionConnectorsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listActionConnectors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - awsAccountId: The Amazon Web Services account ID for which to list action connectors.
+    ///   - maxResults: The maximum number of action connectors to return in a single response. Valid range is 1 to 100.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listActionConnectorsPaginator(
+        awsAccountId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListActionConnectorsRequest, ListActionConnectorsResponse> {
+        let input = ListActionConnectorsRequest(
+            awsAccountId: awsAccountId, 
+            maxResults: maxResults
+        )
+        return self.listActionConnectorsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listAnalyses(_:logger:)``.
@@ -8484,6 +9120,43 @@ extension QuickSight {
             maxResults: maxResults
         )
         return self.listDataSourcesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listFlows(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFlowsPaginator(
+        _ input: ListFlowsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFlowsInput, ListFlowsOutput> {
+        return .init(
+            input: input,
+            command: self.listFlows,
+            inputKey: \ListFlowsInput.nextToken,
+            outputKey: \ListFlowsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listFlows(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the flow list that you are getting.
+    ///   - maxResults: The maximum number of results to be returned per request.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFlowsPaginator(
+        awsAccountId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListFlowsInput, ListFlowsOutput> {
+        let input = ListFlowsInput(
+            awsAccountId: awsAccountId, 
+            maxResults: maxResults
+        )
+        return self.listFlowsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listFolderMembers(_:logger:)``.
@@ -8833,7 +9506,7 @@ extension QuickSight {
     /// Return PaginatorSequence for operation ``listNamespaces(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - awsAccountId: The ID for the Amazon Web Services account that contains the Amazon QuickSight namespaces that you want to list.
+    ///   - awsAccountId: The ID for the Amazon Web Services account that contains the Quick Sight namespaces that you want to list.
     ///   - maxResults: The maximum number of results to return.
     ///   - logger: Logger used for logging
     @inlinable
@@ -8870,7 +9543,7 @@ extension QuickSight {
     /// Return PaginatorSequence for operation ``listRoleMemberships(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - awsAccountId: The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon QuickSight account.
+    ///   - awsAccountId: The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon Quick Sight account.
     ///   - maxResults: The maximum number of results to return.
     ///   - namespace: The namespace that includes the role.
     ///   - role: The name of the role.
@@ -9072,7 +9745,7 @@ extension QuickSight {
     /// - Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that contains the themes that you're listing.
     ///   - maxResults: The maximum number of results to be returned per request.
-    ///   - type: The type of themes that you want to list. Valid options include the following:    ALL (default)- Display all existing themes.    CUSTOM - Display only the themes created by people using Amazon QuickSight.    QUICKSIGHT - Display only the starting themes defined by Amazon QuickSight.
+    ///   - type: The type of themes that you want to list. Valid options include the following:    ALL (default)- Display all existing themes.    CUSTOM - Display only the themes created by people using Amazon Quick Sight.    QUICKSIGHT - Display only the starting themes defined by Quick Sight.
     ///   - logger: Logger used for logging
     @inlinable
     public func listThemesPaginator(
@@ -9150,7 +9823,7 @@ extension QuickSight {
     ///   - awsAccountId: The Amazon Web Services account ID that the user is in. Currently, you use the ID for the Amazon Web Services account
     ///   - maxResults: The maximum number of results to return from this request.
     ///   - namespace: The namespace. Currently, you should set this to default.
-    ///   - userName: The Amazon QuickSight user name that you want to list group memberships for.
+    ///   - userName: The Amazon Quick Sight user name that you want to list group memberships for.
     ///   - logger: Logger used for logging
     @inlinable
     public func listUserGroupsPaginator(
@@ -9244,6 +9917,46 @@ extension QuickSight {
             maxResults: maxResults
         )
         return self.listVPCConnectionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``searchActionConnectors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchActionConnectorsPaginator(
+        _ input: SearchActionConnectorsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchActionConnectorsRequest, SearchActionConnectorsResponse> {
+        return .init(
+            input: input,
+            command: self.searchActionConnectors,
+            inputKey: \SearchActionConnectorsRequest.nextToken,
+            outputKey: \SearchActionConnectorsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``searchActionConnectors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - awsAccountId: The Amazon Web Services account ID in which to search for action connectors.
+    ///   - filters: The search filters to apply. You can filter by connector name, type, or user permissions. Maximum of one filter is supported.
+    ///   - maxResults: The maximum number of action connectors to return in a single response. Valid range is 1 to 100.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchActionConnectorsPaginator(
+        awsAccountId: String,
+        filters: [ActionConnectorSearchFilter],
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<SearchActionConnectorsRequest, SearchActionConnectorsResponse> {
+        let input = SearchActionConnectorsRequest(
+            awsAccountId: awsAccountId, 
+            filters: filters, 
+            maxResults: maxResults
+        )
+        return self.searchActionConnectorsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``searchAnalyses(_:logger:)``.
@@ -9406,6 +10119,46 @@ extension QuickSight {
         return self.searchDataSourcesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``searchFlows(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchFlowsPaginator(
+        _ input: SearchFlowsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchFlowsInput, SearchFlowsOutput> {
+        return .init(
+            input: input,
+            command: self.searchFlows,
+            inputKey: \SearchFlowsInput.nextToken,
+            outputKey: \SearchFlowsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``searchFlows(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account where you are searching for flows from.
+    ///   - filters: The filters applied to the search when searching for flows in the Amazon Web Services account.
+    ///   - maxResults: The maximum number of results to be returned per request.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchFlowsPaginator(
+        awsAccountId: String,
+        filters: [SearchFlowsFilter],
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<SearchFlowsInput, SearchFlowsOutput> {
+        let input = SearchFlowsInput(
+            awsAccountId: awsAccountId, 
+            filters: filters, 
+            maxResults: maxResults
+        )
+        return self.searchFlowsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``searchFolders(_:logger:)``.
     ///
     /// - Parameters:
@@ -9467,7 +10220,7 @@ extension QuickSight {
     /// Return PaginatorSequence for operation ``searchGroups(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - awsAccountId: The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+    ///   - awsAccountId: The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
     ///   - filters: The structure for the search filters that you want to apply to your search.
     ///   - maxResults: The maximum number of results to return from this request.
     ///   - namespace: The namespace that you want to search.
@@ -9551,6 +10304,17 @@ extension QuickSight.DescribeFolderResolvedPermissionsRequest: AWSPaginateToken 
             folderId: self.folderId,
             maxResults: self.maxResults,
             namespace: self.namespace,
+            nextToken: token
+        )
+    }
+}
+
+extension QuickSight.ListActionConnectorsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QuickSight.ListActionConnectorsRequest {
+        return .init(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
             nextToken: token
         )
     }
@@ -9648,6 +10412,17 @@ extension QuickSight.ListDataSetsRequest: AWSPaginateToken {
 extension QuickSight.ListDataSourcesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> QuickSight.ListDataSourcesRequest {
+        return .init(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension QuickSight.ListFlowsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QuickSight.ListFlowsInput {
         return .init(
             awsAccountId: self.awsAccountId,
             maxResults: self.maxResults,
@@ -9884,6 +10659,18 @@ extension QuickSight.ListVPCConnectionsRequest: AWSPaginateToken {
     }
 }
 
+extension QuickSight.SearchActionConnectorsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QuickSight.SearchActionConnectorsRequest {
+        return .init(
+            awsAccountId: self.awsAccountId,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension QuickSight.SearchAnalysesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> QuickSight.SearchAnalysesRequest {
@@ -9923,6 +10710,18 @@ extension QuickSight.SearchDataSetsRequest: AWSPaginateToken {
 extension QuickSight.SearchDataSourcesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> QuickSight.SearchDataSourcesRequest {
+        return .init(
+            awsAccountId: self.awsAccountId,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension QuickSight.SearchFlowsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QuickSight.SearchFlowsInput {
         return .init(
             awsAccountId: self.awsAccountId,
             filters: self.filters,

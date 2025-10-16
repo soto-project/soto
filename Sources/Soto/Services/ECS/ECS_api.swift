@@ -101,12 +101,7 @@ public struct ECS: AWSService {
 
     // MARK: API Calls
 
-    /// Creates a new capacity provider. Capacity providers are associated with an Amazon ECS
-    /// 			cluster and are used in capacity provider strategies to facilitate cluster auto
-    /// 			scaling. Only capacity providers that use an Auto Scaling group can be created. Amazon ECS tasks on
-    /// 			Fargate use the FARGATE and FARGATE_SPOT capacity providers.
-    /// 			These providers are available to all accounts in the Amazon Web Services Regions that Fargate
-    /// 			supports.
+    /// Creates a capacity provider. Capacity providers are associated with a cluster and are used in capacity provider strategies to facilitate cluster auto scaling. You can create capacity providers for Amazon ECS Managed Instances and EC2 instances. Fargate has the predefined FARGATE and FARGATE_SPOT capacity providers.
     @Sendable
     @inlinable
     public func createCapacityProvider(_ input: CreateCapacityProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCapacityProviderResponse {
@@ -119,27 +114,28 @@ public struct ECS: AWSService {
             logger: logger
         )
     }
-    /// Creates a new capacity provider. Capacity providers are associated with an Amazon ECS
-    /// 			cluster and are used in capacity provider strategies to facilitate cluster auto
-    /// 			scaling. Only capacity providers that use an Auto Scaling group can be created. Amazon ECS tasks on
-    /// 			Fargate use the FARGATE and FARGATE_SPOT capacity providers.
-    /// 			These providers are available to all accounts in the Amazon Web Services Regions that Fargate
-    /// 			supports.
+    /// Creates a capacity provider. Capacity providers are associated with a cluster and are used in capacity provider strategies to facilitate cluster auto scaling. You can create capacity providers for Amazon ECS Managed Instances and EC2 instances. Fargate has the predefined FARGATE and FARGATE_SPOT capacity providers.
     ///
     /// Parameters:
     ///   - autoScalingGroupProvider: The details of the Auto Scaling group for the capacity provider.
+    ///   - cluster: The name of the cluster to associate with the capacity provider. When you create a capacity provider with Amazon ECS Managed Instances, it becomes available only within the specified cluster.
+    ///   - managedInstancesProvider: The configuration for the Amazon ECS Managed Instances provider. This configuration specifies how Amazon ECS manages Amazon EC2 instances on your behalf, including the infrastructure role, instance launch template, and tag propagation settings.
     ///   - name: The name of the capacity provider. Up to 255 characters are allowed. They include
     ///   - tags: The metadata that you apply to the capacity provider to categorize and organize them
     ///   - logger: Logger use during operation
     @inlinable
     public func createCapacityProvider(
-        autoScalingGroupProvider: AutoScalingGroupProvider,
+        autoScalingGroupProvider: AutoScalingGroupProvider? = nil,
+        cluster: String? = nil,
+        managedInstancesProvider: CreateManagedInstancesProviderConfiguration? = nil,
         name: String,
         tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateCapacityProviderResponse {
         let input = CreateCapacityProviderRequest(
             autoScalingGroupProvider: autoScalingGroupProvider, 
+            cluster: cluster, 
+            managedInstancesProvider: managedInstancesProvider, 
             name: name, 
             tags: tags
         )
@@ -362,7 +358,7 @@ public struct ECS: AWSService {
     ///   - desiredCount: The number of instantiations of the specified task definition to place and keep
     ///   - enableECSManagedTags: Specifies whether to turn on Amazon ECS managed tags for the tasks within the service. For
     ///   - enableExecuteCommand: Determines whether the execute command functionality is turned on for the service. If
-    ///   - healthCheckGracePeriodSeconds: The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy
+    ///   - healthCheckGracePeriodSeconds: The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If you do not specify a health check grace period value, the default value of 0 is used. If you do not use any of the health checks, then healthCheckGracePeriodSeconds is unused. If your service has more running tasks than desired, unhealthy tasks in the grace period might be stopped to reach the desired count.
     ///   - launchType: The infrastructure that you run your service on. For more information, see Amazon ECS
     ///   - loadBalancers: A load balancer object representing the load balancers to use with your service. For
     ///   - networkConfiguration: The network configuration for the service. This parameter is required for task
@@ -615,14 +611,17 @@ public struct ECS: AWSService {
     ///
     /// Parameters:
     ///   - capacityProvider: The short name or full Amazon Resource Name (ARN) of the capacity provider to delete.
+    ///   - cluster: The name of the cluster that contains the capacity provider to delete. Managed instances capacity providers are cluster-scoped and can only be deleted from their associated cluster.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteCapacityProvider(
         capacityProvider: String,
+        cluster: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DeleteCapacityProviderResponse {
         let input = DeleteCapacityProviderRequest(
-            capacityProvider: capacityProvider
+            capacityProvider: capacityProvider, 
+            cluster: cluster
         )
         return try await self.deleteCapacityProvider(input, logger: logger)
     }
@@ -945,6 +944,7 @@ public struct ECS: AWSService {
     ///
     /// Parameters:
     ///   - capacityProviders: The short name or full Amazon Resource Name (ARN) of one or more capacity providers. Up to
+    ///   - cluster: The name of the cluster to describe capacity providers for. When specified, only capacity providers associated with this cluster are returned, including Amazon ECS Managed Instances capacity providers.
     ///   - include: Specifies whether or not you want to see the resource tags for the capacity provider.
     ///   - maxResults: The maximum number of account setting results returned by
     ///   - nextToken: The nextToken value returned from a previous paginated
@@ -952,6 +952,7 @@ public struct ECS: AWSService {
     @inlinable
     public func describeCapacityProviders(
         capacityProviders: [String]? = nil,
+        cluster: String? = nil,
         include: [CapacityProviderField]? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
@@ -959,6 +960,7 @@ public struct ECS: AWSService {
     ) async throws -> DescribeCapacityProvidersResponse {
         let input = DescribeCapacityProvidersRequest(
             capacityProviders: capacityProviders, 
+            cluster: cluster, 
             include: include, 
             maxResults: maxResults, 
             nextToken: nextToken
@@ -1986,7 +1988,7 @@ public struct ECS: AWSService {
     /// 			launch type is specified, then the cluster's default capacity provider strategy is used.
     /// 			We recommend that you define a default capacity provider strategy for your cluster.
     /// 			However, you must specify an empty array ([]) to bypass defining a default
-    /// 			strategy.
+    /// 			strategy. Amazon ECS Managed Instances doesn't support this, because when you create a capacity provider with Amazon ECS Managed Instances, it becomes available only within the specified cluster.
     @Sendable
     @inlinable
     public func putClusterCapacityProviders(_ input: PutClusterCapacityProvidersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutClusterCapacityProvidersResponse {
@@ -2010,7 +2012,7 @@ public struct ECS: AWSService {
     /// 			launch type is specified, then the cluster's default capacity provider strategy is used.
     /// 			We recommend that you define a default capacity provider strategy for your cluster.
     /// 			However, you must specify an empty array ([]) to bypass defining a default
-    /// 			strategy.
+    /// 			strategy. Amazon ECS Managed Instances doesn't support this, because when you create a capacity provider with Amazon ECS Managed Instances, it becomes available only within the specified cluster.
     ///
     /// Parameters:
     ///   - capacityProviders: The name of one or more capacity providers to associate with the cluster. If specifying a capacity provider that uses an Auto Scaling group, the capacity
@@ -2698,7 +2700,7 @@ public struct ECS: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Modifies the parameters for a capacity provider.
+    /// Modifies the parameters for a capacity provider. These changes only apply to new Amazon ECS Managed Instances, or EC2 instances, not existing ones.
     @Sendable
     @inlinable
     public func updateCapacityProvider(_ input: UpdateCapacityProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCapacityProviderResponse {
@@ -2711,20 +2713,26 @@ public struct ECS: AWSService {
             logger: logger
         )
     }
-    /// Modifies the parameters for a capacity provider.
+    /// Modifies the parameters for a capacity provider. These changes only apply to new Amazon ECS Managed Instances, or EC2 instances, not existing ones.
     ///
     /// Parameters:
     ///   - autoScalingGroupProvider: An object that represent the parameters to update for the Auto Scaling group capacity
+    ///   - cluster: The name of the cluster that contains the capacity provider to update. Managed instances capacity providers are cluster-scoped and can only be updated within their associated cluster.
+    ///   - managedInstancesProvider: The updated configuration for the Amazon ECS Managed Instances provider. You can modify the infrastructure role, instance launch template, and tag propagation settings. Changes take effect for new instances launched after the update.
     ///   - name: The name of the capacity provider to update.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateCapacityProvider(
-        autoScalingGroupProvider: AutoScalingGroupProviderUpdate,
+        autoScalingGroupProvider: AutoScalingGroupProviderUpdate? = nil,
+        cluster: String? = nil,
+        managedInstancesProvider: UpdateManagedInstancesProviderConfiguration? = nil,
         name: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateCapacityProviderResponse {
         let input = UpdateCapacityProviderRequest(
             autoScalingGroupProvider: autoScalingGroupProvider, 
+            cluster: cluster, 
+            managedInstancesProvider: managedInstancesProvider, 
             name: name
         )
         return try await self.updateCapacityProvider(input, logger: logger)
@@ -3110,7 +3118,7 @@ public struct ECS: AWSService {
     ///   - forceNewDeployment: Determines whether to force a new deployment of the service. By default, deployments
     ///   - healthCheckGracePeriodSeconds: The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy
     ///   - loadBalancers:  You must have a service-linked role when you update this property  A list of Elastic Load Balancing load balancer objects. It contains the load balancer name, the
-    ///   - networkConfiguration: An object representing the network configuration for the service.
+    ///   - networkConfiguration: An object representing the network configuration for the service. This parameter triggers a new service deployment.
     ///   - placementConstraints: An array of task placement constraint objects to update the service to use. If no
     ///   - placementStrategy: The task placement strategy objects to update the service to use. If no value is
     ///   - platformVersion: The platform version that your tasks in the service run on. A platform version is only

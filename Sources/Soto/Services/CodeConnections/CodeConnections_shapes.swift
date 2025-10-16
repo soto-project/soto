@@ -44,6 +44,7 @@ extension CodeConnections {
     }
 
     public enum ProviderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case azureDevOps = "AzureDevOps"
         case bitbucket = "Bitbucket"
         case github = "GitHub"
         case githubEnterpriseServer = "GitHubEnterpriseServer"
@@ -95,7 +96,7 @@ extension CodeConnections {
     // MARK: Shapes
 
     public struct Connection: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the connection. The ARN is used as the connection reference when the connection is shared between Amazon Web Servicesservices.  The ARN is never reused if the connection is deleted.
+        /// The Amazon Resource Name (ARN) of the connection. The ARN is used as the connection reference when the connection is shared between Amazon Web Services services.  The ARN is never reused if the connection is deleted.
         public let connectionArn: String?
         /// The name of the connection. Connection names must be unique in an Amazon Web Services account.
         public let connectionName: String?

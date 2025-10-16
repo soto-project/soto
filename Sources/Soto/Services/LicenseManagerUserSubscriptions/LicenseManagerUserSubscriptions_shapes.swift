@@ -58,21 +58,21 @@ extension LicenseManagerUserSubscriptions {
     // MARK: Shapes
 
     public struct ActiveDirectoryIdentityProvider: AWSEncodableShape & AWSDecodableShape {
-        /// The ActiveDirectorySettings resource contains details about
-        /// 			the Active Directory, including network access details such as domain name and IP
-        /// 			addresses, and the credential provider for user administration.
+        /// The ActiveDirectorySettings resource contains details about the Active Directory, including network access details such as domain name and IP addresses, and the credential provider for user administration.
         public let activeDirectorySettings: ActiveDirectorySettings?
-        /// The type of Active Directory – either a self-managed Active Directory or an
-        /// 			Amazon Web Services Managed Active Directory.
+        /// The type of Active Directory – either a self-managed Active Directory or an Amazon Web Services Managed Active Directory.
         public let activeDirectoryType: ActiveDirectoryType?
         /// The directory ID for an Active Directory identity provider.
         public let directoryId: String?
+        /// Whether this directory is shared from an Amazon Web Services Managed Active Directory. The default value is false.
+        public let isSharedActiveDirectory: Bool?
 
         @inlinable
-        public init(activeDirectorySettings: ActiveDirectorySettings? = nil, activeDirectoryType: ActiveDirectoryType? = nil, directoryId: String? = nil) {
+        public init(activeDirectorySettings: ActiveDirectorySettings? = nil, activeDirectoryType: ActiveDirectoryType? = nil, directoryId: String? = nil, isSharedActiveDirectory: Bool? = nil) {
             self.activeDirectorySettings = activeDirectorySettings
             self.activeDirectoryType = activeDirectoryType
             self.directoryId = directoryId
+            self.isSharedActiveDirectory = isSharedActiveDirectory
         }
 
         public func validate(name: String) throws {
@@ -84,25 +84,27 @@ extension LicenseManagerUserSubscriptions {
             case activeDirectorySettings = "ActiveDirectorySettings"
             case activeDirectoryType = "ActiveDirectoryType"
             case directoryId = "DirectoryId"
+            case isSharedActiveDirectory = "IsSharedActiveDirectory"
         }
     }
 
     public struct ActiveDirectorySettings: AWSEncodableShape & AWSDecodableShape {
-        /// Points to the CredentialsProvider resource that contains
-        /// 			information about the credential provider for user administration.
+        /// Points to the CredentialsProvider resource that contains information about the credential provider for user administration.
         public let domainCredentialsProvider: CredentialsProvider?
         /// A list of domain IPv4 addresses that are used for the Active Directory.
         public let domainIpv4List: [String]?
+        /// A list of domain IPv6 addresses that are used for the Active Directory.
+        public let domainIpv6List: [String]?
         /// The domain name for the Active Directory.
         public let domainName: String?
-        /// The DomainNetworkSettings resource contains an array of
-        /// 			subnets that apply for the Active Directory.
+        /// The DomainNetworkSettings resource contains an array of subnets that apply for the Active Directory.
         public let domainNetworkSettings: DomainNetworkSettings?
 
         @inlinable
-        public init(domainCredentialsProvider: CredentialsProvider? = nil, domainIpv4List: [String]? = nil, domainName: String? = nil, domainNetworkSettings: DomainNetworkSettings? = nil) {
+        public init(domainCredentialsProvider: CredentialsProvider? = nil, domainIpv4List: [String]? = nil, domainIpv6List: [String]? = nil, domainName: String? = nil, domainNetworkSettings: DomainNetworkSettings? = nil) {
             self.domainCredentialsProvider = domainCredentialsProvider
             self.domainIpv4List = domainIpv4List
+            self.domainIpv6List = domainIpv6List
             self.domainName = domainName
             self.domainNetworkSettings = domainNetworkSettings
         }
@@ -111,19 +113,23 @@ extension LicenseManagerUserSubscriptions {
             try self.domainIpv4List?.forEach {
                 try validate($0, name: "domainIpv4List[]", parent: name, pattern: "^(?:(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])(\\.(?!$)|$)){4}$")
             }
+            try self.domainIpv6List?.forEach {
+                try validate($0, name: "domainIpv6List[]", parent: name, pattern: "^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|::|::[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}$")
+            }
             try self.domainNetworkSettings?.validate(name: "\(name).domainNetworkSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
             case domainCredentialsProvider = "DomainCredentialsProvider"
             case domainIpv4List = "DomainIpv4List"
+            case domainIpv6List = "DomainIpv6List"
             case domainName = "DomainName"
             case domainNetworkSettings = "DomainNetworkSettings"
         }
     }
 
     public struct AssociateUserRequest: AWSEncodableShape {
-        /// The domain name of the  Active Directory that contains information for the user to associate.
+        /// The domain name of the Active Directory that contains information for the user to associate.
         public let domain: String?
         /// The identity provider for the user.
         public let identityProvider: IdentityProvider
@@ -172,14 +178,9 @@ extension LicenseManagerUserSubscriptions {
     }
 
     public struct CreateLicenseServerEndpointRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) that identifies the IdentityProvider resource that contains details
-        /// 			about a registered identity provider. In the case of Active Directory, that can be
-        /// 			a self-managed Active Directory or an Amazon Web Services Managed Active Directory that contains user identity details.
+        /// The Amazon Resource Name (ARN) that identifies the IdentityProvider resource that contains details about a registered identity provider. In the case of Active Directory, that can be a self-managed Active Directory or an Amazon Web Services Managed Active Directory that contains user identity details.
         public let identityProviderArn: String
-        /// The LicenseServerSettings resource to create for the endpoint. The
-        /// 			settings include the type of license server and the Secrets Manager secret that
-        /// 			enables administrators to add or remove users associated with the
-        /// 			license server.
+        /// The LicenseServerSettings resource to create for the endpoint. The settings include the type of license server and the Secrets Manager secret that enables administrators to add or remove users associated with the license server.
         public let licenseServerSettings: LicenseServerSettings
         /// The tags that apply for the license server endpoint.
         public let tags: [String: String]?
@@ -222,8 +223,7 @@ extension LicenseManagerUserSubscriptions {
     }
 
     public struct DeleteLicenseServerEndpointRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) that identifies the LicenseServerEndpoint
-        /// 			resource to delete.
+        /// The Amazon Resource Name (ARN) that identifies the LicenseServerEndpoint resource to delete.
         public let licenseServerEndpointArn: String
         /// The type of License Server that the delete request refers to.
         public let serverType: ServerType
@@ -263,8 +263,7 @@ extension LicenseManagerUserSubscriptions {
         public let identityProvider: IdentityProvider?
         /// The Amazon Resource Name (ARN) that identifies the identity provider to deregister.
         public let identityProviderArn: String?
-        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS |
-        /// REMOTE_DESKTOP_SERVICES
+        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
         public let product: String?
 
         @inlinable
@@ -301,7 +300,7 @@ extension LicenseManagerUserSubscriptions {
     }
 
     public struct DisassociateUserRequest: AWSEncodableShape {
-        /// The domain name of the  Active Directory that contains information for the user to disassociate.
+        /// The domain name of the Active Directory that contains information for the user to disassociate.
         public let domain: String?
         /// An object that specifies details for the Active Directory identity provider.
         public let identityProvider: IdentityProvider?
@@ -394,25 +393,25 @@ extension LicenseManagerUserSubscriptions {
     public struct IdentityProviderSummary: AWSDecodableShape {
         /// The failure message associated with an identity provider.
         public let failureMessage: String?
-        /// The IdentityProvider resource contains information about
-        /// 			an identity provider.
+        /// The IdentityProvider resource contains information about an identity provider.
         public let identityProvider: IdentityProvider
         /// The Amazon Resource Name (ARN) of the identity provider.
         public let identityProviderArn: String?
+        /// The AWS Account ID of the owner of this resource.
+        public let ownerAccountId: String?
         /// The name of the user-based subscription product.
         public let product: String
-        /// The Settings resource contains details about the registered
-        /// 			identity provider’s product related configuration settings, such as the
-        /// 			subnets to provision VPC endpoints.
+        /// The Settings resource contains details about the registered identity provider’s product related configuration settings, such as the subnets to provision VPC endpoints.
         public let settings: Settings
         /// The status of the identity provider.
         public let status: String
 
         @inlinable
-        public init(failureMessage: String? = nil, identityProvider: IdentityProvider, identityProviderArn: String? = nil, product: String, settings: Settings, status: String) {
+        public init(failureMessage: String? = nil, identityProvider: IdentityProvider, identityProviderArn: String? = nil, ownerAccountId: String? = nil, product: String, settings: Settings, status: String) {
             self.failureMessage = failureMessage
             self.identityProvider = identityProvider
             self.identityProviderArn = identityProviderArn
+            self.ownerAccountId = ownerAccountId
             self.product = product
             self.settings = settings
             self.status = status
@@ -422,6 +421,7 @@ extension LicenseManagerUserSubscriptions {
             case failureMessage = "FailureMessage"
             case identityProvider = "IdentityProvider"
             case identityProviderArn = "IdentityProviderArn"
+            case ownerAccountId = "OwnerAccountId"
             case product = "Product"
             case settings = "Settings"
             case status = "Status"
@@ -429,10 +429,14 @@ extension LicenseManagerUserSubscriptions {
     }
 
     public struct InstanceSummary: AWSDecodableShape {
+        /// The IdentityProvider resource specifies details about the identity provider.
+        public let identityProvider: IdentityProvider?
         /// The ID of the EC2 instance, which provides user-based subscriptions.
         public let instanceId: String
         /// The date of the last status check.
         public let lastStatusCheckDate: String?
+        /// The AWS Account ID of the owner of this resource.
+        public let ownerAccountId: String?
         /// A list of provided user-based subscription products.
         public let products: [String]
         /// The status of an EC2 instance resource.
@@ -441,17 +445,21 @@ extension LicenseManagerUserSubscriptions {
         public let statusMessage: String?
 
         @inlinable
-        public init(instanceId: String, lastStatusCheckDate: String? = nil, products: [String], status: String, statusMessage: String? = nil) {
+        public init(identityProvider: IdentityProvider? = nil, instanceId: String, lastStatusCheckDate: String? = nil, ownerAccountId: String? = nil, products: [String], status: String, statusMessage: String? = nil) {
+            self.identityProvider = identityProvider
             self.instanceId = instanceId
             self.lastStatusCheckDate = lastStatusCheckDate
+            self.ownerAccountId = ownerAccountId
             self.products = products
             self.status = status
             self.statusMessage = statusMessage
         }
 
         private enum CodingKeys: String, CodingKey {
+            case identityProvider = "IdentityProvider"
             case instanceId = "InstanceId"
             case lastStatusCheckDate = "LastStatusCheckDate"
+            case ownerAccountId = "OwnerAccountId"
             case products = "Products"
             case status = "Status"
             case statusMessage = "StatusMessage"
@@ -463,10 +471,9 @@ extension LicenseManagerUserSubscriptions {
         public let associationDate: String?
         /// The date a user was disassociated from an EC2 instance.
         public let disassociationDate: String?
-        /// The domain name of the  Active Directory that contains the user information for the product subscription.
+        /// The domain name of the Active Directory that contains the user information for the product subscription.
         public let domain: String?
-        /// The IdentityProvider resource specifies details
-        /// 			about the identity provider.
+        /// The IdentityProvider resource specifies details about the identity provider.
         public let identityProvider: IdentityProvider
         /// The ID of the EC2 instance that provides user-based subscriptions.
         public let instanceId: String
@@ -508,23 +515,25 @@ extension LicenseManagerUserSubscriptions {
     public struct LicenseServer: AWSDecodableShape {
         /// The health status of the RDS license server.
         public let healthStatus: LicenseServerHealthStatus?
-        /// A list of domain IPv4 addresses that are used for the RDS
-        /// 			license server.
+        /// A list of domain IPv4 addresses that are used for the RDS license server.
         public let ipv4Address: String?
-        /// The current state of the provisioning process for the RDS
-        /// 			license server.
+        /// A list of domain IPv6 addresses that are used for the RDS license server.
+        public let ipv6Address: String?
+        /// The current state of the provisioning process for the RDS license server.
         public let provisioningStatus: LicenseServerEndpointProvisioningStatus?
 
         @inlinable
-        public init(healthStatus: LicenseServerHealthStatus? = nil, ipv4Address: String? = nil, provisioningStatus: LicenseServerEndpointProvisioningStatus? = nil) {
+        public init(healthStatus: LicenseServerHealthStatus? = nil, ipv4Address: String? = nil, ipv6Address: String? = nil, provisioningStatus: LicenseServerEndpointProvisioningStatus? = nil) {
             self.healthStatus = healthStatus
             self.ipv4Address = ipv4Address
+            self.ipv6Address = ipv6Address
             self.provisioningStatus = provisioningStatus
         }
 
         private enum CodingKeys: String, CodingKey {
             case healthStatus = "HealthStatus"
             case ipv4Address = "Ipv4Address"
+            case ipv6Address = "Ipv6Address"
             case provisioningStatus = "ProvisioningStatus"
         }
     }
@@ -532,22 +541,17 @@ extension LicenseManagerUserSubscriptions {
     public struct LicenseServerEndpoint: AWSDecodableShape {
         /// The timestamp when License Manager created the license server endpoint.
         public let creationTime: Date?
-        /// The Amazon Resource Name (ARN) of the identity provider that's associated with
-        /// 			the RDS license server endpoint.
+        /// The Amazon Resource Name (ARN) of the identity provider that's associated with the RDS license server endpoint.
         public let identityProviderArn: String?
-        /// The ARN of the ServerEndpoint resource for the RDS
-        /// 			license server.
+        /// The ARN of the ServerEndpoint resource for the RDS license server.
         public let licenseServerEndpointArn: String?
         /// The ID of the license server endpoint.
         public let licenseServerEndpointId: String?
-        /// The current state of the provisioning process for the RDS license
-        /// 			server endpoint
+        /// The current state of the provisioning process for the RDS license server endpoint
         public let licenseServerEndpointProvisioningStatus: LicenseServerEndpointProvisioningStatus?
-        /// An array of LicenseServer resources that represent the
-        /// 			license servers that are accessed through this endpoint.
+        /// An array of LicenseServer resources that represent the license servers that are accessed through this endpoint.
         public let licenseServers: [LicenseServer]?
-        /// The ServerEndpoint resource contains the network
-        /// 			address of the RDS license server endpoint.
+        /// The ServerEndpoint resource contains the network address of the RDS license server endpoint.
         public let serverEndpoint: ServerEndpoint?
         /// The type of license server.
         public let serverType: ServerType?
@@ -581,8 +585,7 @@ extension LicenseManagerUserSubscriptions {
     }
 
     public struct LicenseServerSettings: AWSEncodableShape {
-        /// The ServerSettings resource contains the settings for your
-        /// 			server.
+        /// The ServerSettings resource contains the settings for your server.
         public let serverSettings: ServerSettings
         /// The type of license server.
         public let serverType: ServerType
@@ -604,8 +607,7 @@ extension LicenseManagerUserSubscriptions {
         public let filters: [Filter]?
         /// The maximum number of results to return from a single request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the nextToken
-        /// 	from a previously truncated response.
+        /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
         public let nextToken: String?
 
         @inlinable
@@ -623,12 +625,9 @@ extension LicenseManagerUserSubscriptions {
     }
 
     public struct ListIdentityProvidersResponse: AWSDecodableShape {
-        /// An array of IdentityProviderSummary resources that contain
-        /// 			details about the Active Directory identity providers that meet the request criteria.
+        /// An array of IdentityProviderSummary resources that contain details about the Active Directory identity providers that meet the request criteria.
         public let identityProviderSummaries: [IdentityProviderSummary]
-        /// The next token used for paginated responses. When this field isn't empty,
-        /// 	there are additional elements that the service hasn't included in this request. Use this token
-        /// 		with the next request to retrieve additional objects.
+        /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service hasn't included in this request. Use this token with the next request to retrieve additional objects.
         public let nextToken: String?
 
         @inlinable
@@ -648,8 +647,7 @@ extension LicenseManagerUserSubscriptions {
         public let filters: [Filter]?
         /// The maximum number of results to return from a single request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the nextToken
-        /// 	from a previously truncated response.
+        /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
         public let nextToken: String?
 
         @inlinable
@@ -667,13 +665,9 @@ extension LicenseManagerUserSubscriptions {
     }
 
     public struct ListInstancesResponse: AWSDecodableShape {
-        /// An array of InstanceSummary resources that contain details
-        /// 			about the instances that provide user-based subscriptions and also meet the
-        /// 			request criteria.
+        /// An array of InstanceSummary resources that contain details about the instances that provide user-based subscriptions and also meet the request criteria.
         public let instanceSummaries: [InstanceSummary]?
-        /// The next token used for paginated responses. When this field isn't empty,
-        /// 	there are additional elements that the service hasn't included in this request. Use this token
-        /// 		with the next request to retrieve additional objects.
+        /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service hasn't included in this request. Use this token with the next request to retrieve additional objects.
         public let nextToken: String?
 
         @inlinable
@@ -693,8 +687,7 @@ extension LicenseManagerUserSubscriptions {
         public let filters: [Filter]?
         /// The maximum number of results to return from a single request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the nextToken
-        /// 	from a previously truncated response.
+        /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
         public let nextToken: String?
 
         @inlinable
@@ -712,13 +705,9 @@ extension LicenseManagerUserSubscriptions {
     }
 
     public struct ListLicenseServerEndpointsResponse: AWSDecodableShape {
-        /// An array of LicenseServerEndpoint resources that
-        /// 			contain detailed information about the RDS License Servers that meet
-        /// 			the request criteria.
+        /// An array of LicenseServerEndpoint resources that contain detailed information about the RDS License Servers that meet the request criteria.
         public let licenseServerEndpoints: [LicenseServerEndpoint]?
-        /// The next token used for paginated responses. When this field isn't empty,
-        /// 	there are additional elements that the service hasn't included in this request. Use this token
-        /// 		with the next request to retrieve additional objects.
+        /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service hasn't included in this request. Use this token with the next request to retrieve additional objects.
         public let nextToken: String?
 
         @inlinable
@@ -740,11 +729,9 @@ extension LicenseManagerUserSubscriptions {
         public let identityProvider: IdentityProvider
         /// The maximum number of results to return from a single request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the nextToken
-        /// 	from a previously truncated response.
+        /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
         public let nextToken: String?
-        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS |
-        /// REMOTE_DESKTOP_SERVICES
+        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
         public let product: String?
 
         @inlinable
@@ -770,9 +757,7 @@ extension LicenseManagerUserSubscriptions {
     }
 
     public struct ListProductSubscriptionsResponse: AWSDecodableShape {
-        /// The next token used for paginated responses. When this field isn't empty,
-        /// 	there are additional elements that the service hasn't included in this request. Use this token
-        /// 		with the next request to retrieve additional objects.
+        /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service hasn't included in this request. Use this token with the next request to retrieve additional objects.
         public let nextToken: String?
         /// Metadata that describes the list product subscriptions operation.
         public let productUserSummaries: [ProductUserSummary]?
@@ -834,8 +819,7 @@ extension LicenseManagerUserSubscriptions {
         public let instanceId: String
         /// The maximum number of results to return from a single request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the nextToken
-        /// 	from a previously truncated response.
+        /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
         public let nextToken: String?
 
         @inlinable
@@ -863,9 +847,7 @@ extension LicenseManagerUserSubscriptions {
     public struct ListUserAssociationsResponse: AWSDecodableShape {
         /// Metadata that describes the list user association operation.
         public let instanceUserSummaries: [InstanceUserSummary]?
-        /// The next token used for paginated responses. When this field isn't empty,
-        /// 	there are additional elements that the service hasn't included in this request. Use this token
-        /// 		with the next request to retrieve additional objects.
+        /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service hasn't included in this request. Use this token with the next request to retrieve additional objects.
         public let nextToken: String?
 
         @inlinable
@@ -881,7 +863,7 @@ extension LicenseManagerUserSubscriptions {
     }
 
     public struct ProductUserSummary: AWSDecodableShape {
-        /// The domain name of the  Active Directory that contains the user information for the product subscription.
+        /// The domain name of the Active Directory that contains the user information for the product subscription.
         public let domain: String?
         /// An object that specifies details for the identity provider.
         public let identityProvider: IdentityProvider
@@ -927,8 +909,7 @@ extension LicenseManagerUserSubscriptions {
     }
 
     public struct RdsSalSettings: AWSEncodableShape {
-        /// The CredentialsProvider resource contains a reference to
-        /// 			the credentials provider that's used for RDS license server user administration.
+        /// The CredentialsProvider resource contains a reference to the credentials provider that's used for RDS license server user administration.
         public let rdsSalCredentialsProvider: CredentialsProvider
 
         @inlinable
@@ -944,11 +925,9 @@ extension LicenseManagerUserSubscriptions {
     public struct RegisterIdentityProviderRequest: AWSEncodableShape {
         /// An object that specifies details for the identity provider to register.
         public let identityProvider: IdentityProvider
-        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS |
-        /// REMOTE_DESKTOP_SERVICES
+        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
         public let product: String
-        /// The registered identity provider’s product related configuration
-        /// 			settings such as the subnets to provision VPC endpoints.
+        /// The registered identity provider’s product related configuration settings such as the subnets to provision VPC endpoints.
         public let settings: Settings?
         /// The tags that apply to the identity provider's registration.
         public let tags: [String: String]?
@@ -1018,8 +997,7 @@ extension LicenseManagerUserSubscriptions {
     }
 
     public struct Settings: AWSEncodableShape & AWSDecodableShape {
-        /// A security group ID that allows inbound TCP port 1688 communication between resources in
-        /// 			your VPC and the VPC endpoint for activation servers.
+        /// A security group ID that allows inbound TCP port 1688 communication between resources in your VPC and the VPC endpoint for activation servers.
         public let securityGroupId: String
         /// The subnets defined for the registered identity provider.
         public let subnets: [String]
@@ -1046,13 +1024,11 @@ extension LicenseManagerUserSubscriptions {
     }
 
     public struct StartProductSubscriptionRequest: AWSEncodableShape {
-        /// The domain name of the  Active Directory that contains the user for whom to start the product
-        /// 			subscription.
+        /// The domain name of the Active Directory that contains the user for whom to start the product subscription.
         public let domain: String?
         /// An object that specifies details for the identity provider.
         public let identityProvider: IdentityProvider
-        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS |
-        /// REMOTE_DESKTOP_SERVICES
+        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
         public let product: String
         /// The tags that apply to the product subscription.
         public let tags: [String: String]?
@@ -1097,13 +1073,11 @@ extension LicenseManagerUserSubscriptions {
     }
 
     public struct StopProductSubscriptionRequest: AWSEncodableShape {
-        /// The domain name of the  Active Directory that contains the user for whom to stop the product
-        /// 			subscription.
+        /// The domain name of the Active Directory that contains the user for whom to stop the product subscription.
         public let domain: String?
         /// An object that specifies details for the identity provider.
         public let identityProvider: IdentityProvider?
-        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS |
-        /// REMOTE_DESKTOP_SERVICES
+        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
         public let product: String?
         /// The Amazon Resource Name (ARN) of the product user.
         public let productUserArn: String?
@@ -1215,11 +1189,9 @@ extension LicenseManagerUserSubscriptions {
         public let identityProvider: IdentityProvider?
         /// The Amazon Resource Name (ARN) of the identity provider to update.
         public let identityProviderArn: String?
-        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS |
-        /// REMOTE_DESKTOP_SERVICES
+        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
         public let product: String?
-        /// Updates the registered identity provider’s product related configuration settings. You can
-        /// 			update any combination of settings in a single operation such as the:   Subnets which you want to add to provision VPC endpoints.   Subnets which you want to remove the VPC endpoints from.   Security group ID which permits traffic to the VPC endpoints.
+        /// Updates the registered identity provider’s product related configuration settings. You can update any combination of settings in a single operation such as the:   Subnets which you want to add to provision VPC endpoints.   Subnets which you want to remove the VPC endpoints from.   Security group ID which permits traffic to the VPC endpoints.
         public let updateSettings: UpdateSettings
 
         @inlinable
@@ -1258,13 +1230,11 @@ extension LicenseManagerUserSubscriptions {
     }
 
     public struct UpdateSettings: AWSEncodableShape {
-        /// The ID of one or more subnets in which License Manager will create a VPC endpoint for products that
-        /// 			require connectivity to activation servers.
+        /// The ID of one or more subnets in which License Manager will create a VPC endpoint for products that require connectivity to activation servers.
         public let addSubnets: [String]
         /// The ID of one or more subnets to remove.
         public let removeSubnets: [String]
-        /// A security group ID that allows inbound TCP port 1688 communication between resources in
-        /// 			your VPC and the VPC endpoints for activation servers.
+        /// A security group ID that allows inbound TCP port 1688 communication between resources in your VPC and the VPC endpoints for activation servers.
         public let securityGroupId: String?
 
         @inlinable
@@ -1294,8 +1264,7 @@ extension LicenseManagerUserSubscriptions {
     }
 
     public struct CredentialsProvider: AWSEncodableShape & AWSDecodableShape {
-        /// Identifies the Secrets Manager secret that contains credentials needed for
-        /// 			user administration in the Active Directory.
+        /// Identifies the Secrets Manager secret that contains credentials needed for user administration in the Active Directory.
         public let secretsManagerCredentialsProvider: SecretsManagerCredentialsProvider?
 
         @inlinable
@@ -1309,8 +1278,7 @@ extension LicenseManagerUserSubscriptions {
     }
 
     public struct IdentityProvider: AWSEncodableShape & AWSDecodableShape {
-        /// The ActiveDirectoryIdentityProvider resource contains settings
-        /// 			and other details about a specific Active Directory identity provider.
+        /// The ActiveDirectoryIdentityProvider resource contains settings and other details about a specific Active Directory identity provider.
         public let activeDirectoryIdentityProvider: ActiveDirectoryIdentityProvider?
 
         @inlinable
@@ -1328,8 +1296,7 @@ extension LicenseManagerUserSubscriptions {
     }
 
     public struct ServerSettings: AWSEncodableShape {
-        /// The RdsSalSettings resource contains settings to configure
-        /// 			a specific Remote Desktop Services (RDS) license server.
+        /// The RdsSalSettings resource contains settings to configure a specific Remote Desktop Services (RDS) license server.
         public let rdsSalSettings: RdsSalSettings?
 
         @inlinable
@@ -1377,8 +1344,7 @@ public struct LicenseManagerUserSubscriptionsErrorType: AWSErrorType {
 
     /// You don't have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// The request couldn't be completed because it conflicted with the current state of the
-    /// 			resource.
+    /// The request couldn't be completed because it conflicted with the current state of the resource.
     public static var conflictException: Self { .init(.conflictException) }
     /// An exception occurred with the service.
     public static var internalServerException: Self { .init(.internalServerException) }

@@ -3657,9 +3657,9 @@ extension CloudWatchEvents {
     }
 
     public struct SageMakerPipelineParameter: AWSEncodableShape & AWSDecodableShape {
-        /// Name of parameter to start execution of a SageMaker Model Building Pipeline.
+        /// Name of parameter to start execution of a SageMaker AI Model Building Pipeline.
         public let name: String
-        /// Value of parameter to start execution of a SageMaker Model Building Pipeline.
+        /// Value of parameter to start execution of a SageMaker AI Model Building Pipeline.
         public let value: String
 
         @inlinable
@@ -3682,7 +3682,7 @@ extension CloudWatchEvents {
     }
 
     public struct SageMakerPipelineParameters: AWSEncodableShape & AWSDecodableShape {
-        /// List of Parameter names and values for SageMaker Model Building Pipeline execution.
+        /// List of Parameter names and values for SageMaker AI Model Building Pipeline execution.
         public let pipelineParameterList: [SageMakerPipelineParameter]?
 
         @inlinable
@@ -3870,7 +3870,7 @@ extension CloudWatchEvents {
         public let roleArn: String?
         /// Parameters used when you are using the rule to invoke Amazon EC2 Run Command.
         public let runCommandParameters: RunCommandParameters?
-        /// Contains the SageMaker Model Building Pipeline parameters to start execution of a SageMaker Model Building Pipeline. If you specify a SageMaker Model Building Pipeline as a target, you can use this to specify parameters to start a pipeline execution based on EventBridge events.
+        /// Contains the SageMaker AI Model Building Pipeline parameters to start execution of a SageMaker AI Model Building Pipeline. If you specify a SageMaker AI Model Building Pipeline as a target, you can use this to specify parameters to start a pipeline execution based on EventBridge events.
         public let sageMakerPipelineParameters: SageMakerPipelineParameters?
         /// Contains the message group ID to use when the target is a FIFO queue. If you specify an SQS FIFO queue as a target, the queue must have content-based deduplication enabled.
         public let sqsParameters: SqsParameters?

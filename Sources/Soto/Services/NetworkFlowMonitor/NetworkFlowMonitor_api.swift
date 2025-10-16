@@ -78,7 +78,7 @@ public struct NetworkFlowMonitor: AWSService {
 
     // MARK: API Calls
 
-    /// Create a monitor for specific network flows between local and remote resources, so that you can monitor network performance for one or several of your workloads. For each monitor, Network Flow Monitor publishes detailed end-to-end performance metrics and a network health indicators (NHI) that informs you whether there were Amazon Web Services network issues for one or more of the network flows tracked by a monitor, during a time period that you choose.
+    /// Create a monitor for specific network flows between local and remote resources, so that you can monitor network performance for one or several of your workloads. For each monitor, Network Flow Monitor publishes detailed end-to-end performance metrics and a network health indicator (NHI) that informs you whether there were Amazon Web Services network issues for one or more of the network flows tracked by a monitor, during a time period that you choose.
     @Sendable
     @inlinable
     public func createMonitor(_ input: CreateMonitorInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMonitorOutput {
@@ -91,13 +91,13 @@ public struct NetworkFlowMonitor: AWSService {
             logger: logger
         )
     }
-    /// Create a monitor for specific network flows between local and remote resources, so that you can monitor network performance for one or several of your workloads. For each monitor, Network Flow Monitor publishes detailed end-to-end performance metrics and a network health indicators (NHI) that informs you whether there were Amazon Web Services network issues for one or more of the network flows tracked by a monitor, during a time period that you choose.
+    /// Create a monitor for specific network flows between local and remote resources, so that you can monitor network performance for one or several of your workloads. For each monitor, Network Flow Monitor publishes detailed end-to-end performance metrics and a network health indicator (NHI) that informs you whether there were Amazon Web Services network issues for one or more of the network flows tracked by a monitor, during a time period that you choose.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. Don't reuse the same client token for other API requests.
-    ///   - localResources: The local resources to monitor. A local resource, in a bi-directional flow of a workload, is the host where the agent is installed. For example, if a workload consists of an interaction between a web service and a backend database (for example, Amazon Relational Database Service (RDS)), the EC2 instance hosting the web service, which also runs the agent, is the local resource.
+    ///   - localResources: The local resources to monitor. A local resource in a workload is the location of the host, or hosts, where the Network Flow Monitor agent is installed. For example, if a workload consists of an interaction between a web service and a backend database (for example, Amazon Dynamo DB), the subnet with the EC2 instance that hosts the web service, which also runs the agent, is the local resource. Be aware that all local resources must belong to the current Region.
     ///   - monitorName: The name of the monitor.
-    ///   - remoteResources: The remote resources to monitor. A remote resource is the other endpoint in the bi-directional flow of a workload, with a local resource. For example, Amazon Relational Database Service (RDS) can be a remote resource.
+    ///   - remoteResources: The remote resources to monitor. A remote resource is the other endpoint in the bi-directional flow of a workload, with a local resource. For example, Amazon Dynamo DB can be a remote resource. When you specify remote resources, be aware that specific combinations of resources are allowed and others are not, including the following constraints:   All remote resources that you specify must all belong to a single Region.   If you specify Amazon Web Services services as remote resources, any other remote resources that you specify must be in the current Region.   When you specify a remote resource for another Region, you can only specify the Region resource type. You cannot specify a subnet, VPC, or Availability Zone in another Region.   If you leave the RemoteResources parameter empty, the monitor will include all network flows that terminate in the current Region.
     ///   - scopeArn: The Amazon Resource Name (ARN) of the scope for the monitor.
     ///   - tags: The tags for a monitor. You can add a maximum of 200 tags.
     ///   - logger: Logger use during operation
@@ -122,7 +122,7 @@ public struct NetworkFlowMonitor: AWSService {
         return try await self.createMonitor(input, logger: logger)
     }
 
-    /// Create a scope of resources that you want to be available for Network Flow Monitor to generate metrics for, when you have active agents on those resources sending metrics reports to the Network Flow Monitor backend. This call returns a scope ID to identify the scope. When you create a scope, you enable permissions for Network Flow Monitor. The scope is set to the resources for the Amazon Web Services that enables the feature.
+    /// In Network Flow Monitor, you specify a scope for the service to generate metrics for. By using the scope, Network Flow Monitor can generate a topology of all the resources to measure performance metrics for. When you create a scope, you enable permissions for Network Flow Monitor. A scope is a Region-account pair or multiple Region-account pairs. Network Flow Monitor uses your scope to determine all the resources (the topology) where Network Flow Monitor will gather network flow performance metrics for you. To provide performance metrics, Network Flow Monitor uses the data that is sent by the Network Flow Monitor agents you install on the resources. To define the Region-account pairs for your scope, the Network Flow Monitor API uses the following constucts, which allow for future flexibility in defining scopes:    Targets, which are arrays of targetResources.    Target resources, which are Region-targetIdentifier pairs.    Target identifiers, made up of a targetID (currently always an account ID) and a targetType (currently always an account).
     @Sendable
     @inlinable
     public func createScope(_ input: CreateScopeInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateScopeOutput {
@@ -135,12 +135,12 @@ public struct NetworkFlowMonitor: AWSService {
             logger: logger
         )
     }
-    /// Create a scope of resources that you want to be available for Network Flow Monitor to generate metrics for, when you have active agents on those resources sending metrics reports to the Network Flow Monitor backend. This call returns a scope ID to identify the scope. When you create a scope, you enable permissions for Network Flow Monitor. The scope is set to the resources for the Amazon Web Services that enables the feature.
+    /// In Network Flow Monitor, you specify a scope for the service to generate metrics for. By using the scope, Network Flow Monitor can generate a topology of all the resources to measure performance metrics for. When you create a scope, you enable permissions for Network Flow Monitor. A scope is a Region-account pair or multiple Region-account pairs. Network Flow Monitor uses your scope to determine all the resources (the topology) where Network Flow Monitor will gather network flow performance metrics for you. To provide performance metrics, Network Flow Monitor uses the data that is sent by the Network Flow Monitor agents you install on the resources. To define the Region-account pairs for your scope, the Network Flow Monitor API uses the following constucts, which allow for future flexibility in defining scopes:    Targets, which are arrays of targetResources.    Target resources, which are Region-targetIdentifier pairs.    Target identifiers, made up of a targetID (currently always an account ID) and a targetType (currently always an account).
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. Don't reuse the same client token for other API requests.
     ///   - tags: The tags for a scope. You can add a maximum of 200 tags.
-    ///   - targets: The targets to define the scope to be monitored. Currently, a target is an Amazon Web Services account.
+    ///   - targets: The targets to define the scope to be monitored. A target is an array of targetResources, which are currently Region-account pairs, defined by targetResource constructs.
     ///   - logger: Logger use during operation
     @inlinable
     public func createScope(
@@ -595,12 +595,12 @@ public struct NetworkFlowMonitor: AWSService {
     /// Create a query that you can use with the Network Flow Monitor query interface to return the top contributors for a monitor. Specify the monitor that you want to create the query for.  The call returns a query ID that you can use with  GetQueryResultsMonitorTopContributors to run the query and return the top contributors for a specific monitor. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable APIs for the top contributors that you want to be returned.
     ///
     /// Parameters:
-    ///   - destinationCategory: The category that you want to query top contributors for, for a specific monitor. Destination categories can be one of the following:     INTRA_AZ: Top contributor network flows within a single Availability Zone    INTER_AZ: Top contributor network flows between Availability Zones    INTER_VPC: Top contributor network flows between VPCs    AMAZON_S3: Top contributor network flows to or from Amazon S3    AMAZON_DYNAMODB: Top contributor network flows to or from Amazon Dynamo DB    UNCLASSIFIED: Top contributor network flows that do not have a bucket classification
+    ///   - destinationCategory: The category that you want to query top contributors for, for a specific monitor. Destination categories can be one of the following:     INTRA_AZ: Top contributor network flows within a single Availability Zone    INTER_AZ: Top contributor network flows between Availability Zones    INTER_REGION: Top contributor network flows between Regions (to the edge of another Region)    INTER_VPC: Top contributor network flows between VPCs    AMAZON_S3: Top contributor network flows to or from Amazon S3    AMAZON_DYNAMODB: Top contributor network flows to or from Amazon Dynamo DB    UNCLASSIFIED: Top contributor network flows that do not have a bucket classification
     ///   - endTime: The timestamp that is the date and time end of the period that you want to retrieve results for with your query.
     ///   - limit: The maximum number of top contributors to return.
     ///   - metricName: The metric that you want to query top contributors for. That is, you can specify a metric with this call and return the top contributor network flows, for that type of metric, for a monitor and (optionally) within a specific category, such as network flows between Availability Zones.
     ///   - monitorName: The name of the monitor.
-    ///   - startTime: The timestamp that is the date and time beginning of the period that you want to retrieve results for with your query.
+    ///   - startTime: The timestamp that is the date and time that is the beginning of the period that you want to retrieve results for with your query.
     ///   - logger: Logger use during operation
     @inlinable
     public func startQueryMonitorTopContributors(
@@ -639,12 +639,12 @@ public struct NetworkFlowMonitor: AWSService {
     /// Create a query with the Network Flow Monitor query interface that you can run to return workload insights top contributors. Specify the scope that you want to create a query for. The call returns a query ID that you can use with  GetQueryResultsWorkloadInsightsTopContributors to run the query and return the top contributors for the workload insights for a scope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable APIs for the top contributors that you want to be returned.
     ///
     /// Parameters:
-    ///   - destinationCategory: The destination category for a top contributors row. Destination categories can be one of the following:     INTRA_AZ: Top contributor network flows within a single Availability Zone    INTER_AZ: Top contributor network flows between Availability Zones    INTER_VPC: Top contributor network flows between VPCs    AWS_SERVICES: Top contributor network flows to or from Amazon Web Services services    UNCLASSIFIED: Top contributor network flows that do not have a bucket classification
+    ///   - destinationCategory: The destination category for a top contributors row. Destination categories can be one of the following:     INTRA_AZ: Top contributor network flows within a single Availability Zone    INTER_AZ: Top contributor network flows between Availability Zones    INTER_REGION: Top contributor network flows between Regions (to the edge of another Region)    INTER_VPC: Top contributor network flows between VPCs    AWS_SERVICES: Top contributor network flows to or from Amazon Web Services services    UNCLASSIFIED: Top contributor network flows that do not have a bucket classification
     ///   - endTime: The timestamp that is the date and time end of the period that you want to retrieve results for with your query.
     ///   - limit: The maximum number of top contributors to return.
     ///   - metricName: The metric that you want to query top contributors for. That is, you can specify this metric to return the top contributor network flows, for this type of metric, for a monitor and (optionally) within a specific category, such as network flows between Availability Zones.
     ///   - scopeId: The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account. A scope ID is returned from a CreateScope API call.
-    ///   - startTime: The timestamp that is the date and time beginning of the period that you want to retrieve results for with your query.
+    ///   - startTime: The timestamp that is the date and time that is the beginning of the period that you want to retrieve results for with your query.
     ///   - logger: Logger use during operation
     @inlinable
     public func startQueryWorkloadInsightsTopContributors(
@@ -683,11 +683,11 @@ public struct NetworkFlowMonitor: AWSService {
     /// Create a query with the Network Flow Monitor query interface that you can run to return data for workload insights top contributors. Specify the scope that you want to create a query for. The call returns a query ID that you can use with  GetQueryResultsWorkloadInsightsTopContributorsData to run the query and return the data for the top contributors for the workload insights for a scope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
     ///
     /// Parameters:
-    ///   - destinationCategory: The destination category for a top contributors. Destination categories can be one of the following:     INTRA_AZ: Top contributor network flows within a single Availability Zone    INTER_AZ: Top contributor network flows between Availability Zones    INTER_VPC: Top contributor network flows between VPCs    AWS_SERVICES: Top contributor network flows to or from Amazon Web Services services    UNCLASSIFIED: Top contributor network flows that do not have a bucket classification
+    ///   - destinationCategory: The destination category for a top contributors. Destination categories can be one of the following:     INTRA_AZ: Top contributor network flows within a single Availability Zone    INTER_AZ: Top contributor network flows between Availability Zones    INTER_REGION: Top contributor network flows between Regions (to the edge of another Region)    INTER_VPC: Top contributor network flows between VPCs    AWS_SERVICES: Top contributor network flows to or from Amazon Web Services services    UNCLASSIFIED: Top contributor network flows that do not have a bucket classification
     ///   - endTime: The timestamp that is the date and time end of the period that you want to retrieve results for with your query.
     ///   - metricName: The metric that you want to query top contributors for. That is, you can specify this metric to return the top contributor network flows, for this type of metric, for a monitor and (optionally) within a specific category, such as network flows between Availability Zones.
     ///   - scopeId: The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
-    ///   - startTime: The timestamp that is the date and time beginning of the period that you want to retrieve results for with your query.
+    ///   - startTime: The timestamp that is the date and time that is the beginning of the period that you want to retrieve results for with your query.
     ///   - logger: Logger use during operation
     @inlinable
     public func startQueryWorkloadInsightsTopContributorsData(
@@ -885,11 +885,11 @@ public struct NetworkFlowMonitor: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. Don't reuse the same client token for other API requests.
-    ///   - localResourcesToAdd: The local resources to add, as an array of resources with identifiers and types.
+    ///   - localResourcesToAdd: Additional local resources to specify network flows for a monitor, as an array of resources with identifiers and types. A local resource in a workload is the location of hosts where the Network Flow Monitor agent is installed.
     ///   - localResourcesToRemove: The local resources to remove, as an array of resources with identifiers and types.
     ///   - monitorName: The name of the monitor.
-    ///   - remoteResourcesToAdd: The remove resources to add, as an array of resources with identifiers and types.
-    ///   - remoteResourcesToRemove: The remove resources to remove, as an array of resources with identifiers and types.
+    ///   - remoteResourcesToAdd: The remote resources to add, as an array of resources with identifiers and types. A remote resource is the other endpoint in the flow of a workload, with a local resource. For example, Amazon Dynamo DB can be a remote resource.
+    ///   - remoteResourcesToRemove: The remote resources to remove, as an array of resources with identifiers and types. A remote resource is the other endpoint specified for the network flow of a workload, with a local resource. For example, Amazon Dynamo DB can be a remote resource.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateMonitor(

@@ -286,7 +286,7 @@ public struct ServiceDiscovery: AWSService {
     ///   - healthCheckConfig:  Public DNS and HTTP namespaces only. A complex type that contains settings for an optional Route 53 health check. If you specify settings for a health check, Cloud Map associates the health check with all the Route 53 DNS records that you specify in DnsConfig.  If you specify a health check configuration, you can specify either HealthCheckCustomConfig or HealthCheckConfig but not both.  For information about the charges for health checks, see Cloud Map Pricing.
     ///   - healthCheckCustomConfig: A complex type that contains information about an optional custom health check.  If you specify a health check configuration, you can specify either HealthCheckCustomConfig or HealthCheckConfig but not both.  You can't add, update, or delete a HealthCheckCustomConfig configuration from an existing service.
     ///   - name: The name that you want to assign to the service.  Do not include sensitive information in the name if the namespace is discoverable by public DNS queries.  If you want Cloud Map to create an SRV record when you register an instance and you're using a system that requires a specific SRV format, such as HAProxy, specify the following for Name:   Start the name with an underscore (_), such as _exampleservice.   End the name with ._protocol, such as ._tcp.   When you register an instance, Cloud Map creates an SRV record and assigns a name to the record by concatenating the service name and the namespace name (for example,  _exampleservice._tcp.example.com).  For services that are accessible by DNS queries, you can't create multiple services with names that differ only by case (such as EXAMPLE and example). Otherwise, these services have the same DNS name and can't be distinguished. However, if you use a namespace that's only accessible by API calls, then you can create services that with names that differ only by case.
-    ///   - namespaceId: The ID of the namespace that you want to use to create the service. The namespace ID must be specified, but it can be specified either here or in the DnsConfig object.
+    ///   - namespaceId: The ID or Amazon Resource Name (ARN) of the namespace that you want to use to create the service. For namespaces shared with your Amazon Web Services account, specify the namespace ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide.
     ///   - tags: The tags to add to the service. Each tag consists of a key and an optional value that you define. Tags keys can be up to 128 characters in length, and tag values can be up to 256 characters in length.
     ///   - type: If present, specifies that the service instances are only discoverable using the DiscoverInstances API operation. No DNS records is registered for the service instances. The only valid value is HTTP.
     ///   - logger: Logger use during operation
@@ -333,7 +333,7 @@ public struct ServiceDiscovery: AWSService {
     /// Deletes a namespace from the current account. If the namespace still contains one or more services, the request fails.
     ///
     /// Parameters:
-    ///   - id: The ID of the namespace that you want to delete.
+    ///   - id: The ID or Amazon Resource Name (ARN) of the namespace that you want to delete.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteNamespace(
@@ -362,7 +362,7 @@ public struct ServiceDiscovery: AWSService {
     /// Deletes a specified service and all associated service attributes. If the service still contains one or more registered instances, the request fails.
     ///
     /// Parameters:
-    ///   - id: The ID of the service that you want to delete.
+    ///   - id: The ID or Amazon Resource Name (ARN) of the service that you want to delete. If the namespace associated with the service is shared with your Amazon Web Services account, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteService(
@@ -392,7 +392,7 @@ public struct ServiceDiscovery: AWSService {
     ///
     /// Parameters:
     ///   - attributes: A list of keys corresponding to each attribute that you want to delete.
-    ///   - serviceId: The ID of the service from which the attributes will be deleted.
+    ///   - serviceId: The ID or Amazon Resource Name (ARN) of the service from which the attributes will be deleted. For services created in a namespace shared with your Amazon Web Services account, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteServiceAttributes(
@@ -424,7 +424,7 @@ public struct ServiceDiscovery: AWSService {
     ///
     /// Parameters:
     ///   - instanceId: The value that you specified for Id in the RegisterInstance request.
-    ///   - serviceId: The ID of the service that the instance is associated with.
+    ///   - serviceId: The ID or Amazon Resource Name (ARN) of the service that the instance is associated with. If the namespace associated with the service is shared with your account, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func deregisterInstance(
@@ -458,8 +458,9 @@ public struct ServiceDiscovery: AWSService {
     /// Parameters:
     ///   - healthStatus: The health status of the instances that you want to discover. This parameter is ignored for services that don't have a health check configured, and all instances are returned.  HEALTHY  Returns healthy instances.  UNHEALTHY  Returns unhealthy instances.  ALL  Returns all instances.  HEALTHY_OR_ELSE_ALL  Returns healthy instances, unless none are reporting a healthy state. In that case, return all instances. This is also called failing open.
     ///   - maxResults: The maximum number of instances that you want Cloud Map to return in the response to a DiscoverInstances request. If you don't specify a value for MaxResults, Cloud Map returns up to 100 instances.
-    ///   - namespaceName: The HttpName name of the namespace. It's found in the HttpProperties member of the Properties member of the namespace. In most cases, Name and HttpName match. However, if you reuse Name for namespace creation, a generated hash is added to HttpName to distinguish the two.
+    ///   - namespaceName: The HttpName name of the namespace. The HttpName is found in the HttpProperties member of the Properties member of the namespace. In most cases, Name and HttpName match. However, if you reuse Name for namespace creation, a generated hash is added to HttpName to distinguish the two.
     ///   - optionalParameters: Opportunistic filters to scope the results based on custom attributes. If there are instances that match both the filters specified in both the QueryParameters parameter and this parameter, all of these instances are returned. Otherwise, the filters are ignored, and only instances that match the filters that are specified in the QueryParameters parameter are returned.
+    ///   - ownerAccount: The ID of the Amazon Web Services account that owns the namespace associated with the instance, as specified in the namespace ResourceOwner field. For instances associated with namespaces that are shared with your account, you must specify an OwnerAccount.
     ///   - queryParameters: Filters to scope the results based on custom attributes for the instance (for example, {version=v1, az=1a}). Only instances that match all the specified key-value pairs are returned.
     ///   - serviceName: The name of the service that you specified when you registered the instance.
     ///   - logger: Logger use during operation
@@ -469,6 +470,7 @@ public struct ServiceDiscovery: AWSService {
         maxResults: Int? = nil,
         namespaceName: String,
         optionalParameters: [String: String]? = nil,
+        ownerAccount: String? = nil,
         queryParameters: [String: String]? = nil,
         serviceName: String,
         logger: Logger = AWSClient.loggingDisabled        
@@ -478,6 +480,7 @@ public struct ServiceDiscovery: AWSService {
             maxResults: maxResults, 
             namespaceName: namespaceName, 
             optionalParameters: optionalParameters, 
+            ownerAccount: ownerAccount, 
             queryParameters: queryParameters, 
             serviceName: serviceName
         )
@@ -501,17 +504,20 @@ public struct ServiceDiscovery: AWSService {
     /// Discovers the increasing revision associated with an instance.
     ///
     /// Parameters:
-    ///   - namespaceName: The HttpName name of the namespace. It's found in the HttpProperties member of the Properties member of the namespace.
+    ///   - namespaceName: The HttpName name of the namespace. The HttpName is found in the HttpProperties member of the Properties member of the namespace.
+    ///   - ownerAccount: The ID of the Amazon Web Services account that owns the namespace associated with the instance, as specified in the namespace ResourceOwner field. For instances associated with namespaces that are shared with your account, you must specify an OwnerAccount. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide.
     ///   - serviceName: The name of the service that you specified when you registered the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func discoverInstancesRevision(
         namespaceName: String,
+        ownerAccount: String? = nil,
         serviceName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DiscoverInstancesRevisionResponse {
         let input = DiscoverInstancesRevisionRequest(
             namespaceName: namespaceName, 
+            ownerAccount: ownerAccount, 
             serviceName: serviceName
         )
         return try await self.discoverInstancesRevision(input, logger: logger)
@@ -534,7 +540,7 @@ public struct ServiceDiscovery: AWSService {
     ///
     /// Parameters:
     ///   - instanceId: The ID of the instance that you want to get information about.
-    ///   - serviceId: The ID of the service that the instance is associated with.
+    ///   - serviceId: The ID or Amazon Resource Name (ARN) of the service that the instance is associated with. For services created in a shared namespace, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func getInstance(
@@ -568,7 +574,7 @@ public struct ServiceDiscovery: AWSService {
     ///   - instances: An array that contains the IDs of all the instances that you want to get the health status for. If you omit Instances, Cloud Map returns the health status for all the instances that are associated with the specified service.  To get the IDs for the instances that you've registered by using a specified service, submit a ListInstances request.
     ///   - maxResults: The maximum number of instances that you want Cloud Map to return in the response to a GetInstancesHealthStatus request. If you don't specify a value for MaxResults, Cloud Map returns up to 100 instances.
     ///   - nextToken: For the first GetInstancesHealthStatus request, omit this value. If more than MaxResults instances match the specified criteria, you can submit another GetInstancesHealthStatus request to get the next group of results. Specify the value of NextToken from the previous response in the next request.
-    ///   - serviceId: The ID of the service that the instance is associated with.
+    ///   - serviceId: The ID or Amazon Resource Name (ARN) of the service that the instance is associated with. For services created in a shared namespace, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func getInstancesHealthStatus(
@@ -603,7 +609,7 @@ public struct ServiceDiscovery: AWSService {
     /// Gets information about a namespace.
     ///
     /// Parameters:
-    ///   - id: The ID of the namespace that you want to get information about.
+    ///   - id: The ID or Amazon Resource Name (ARN) of the namespace that you want to get information about. For namespaces shared with your Amazon Web Services account, specify the namespace ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide
     ///   - logger: Logger use during operation
     @inlinable
     public func getNamespace(
@@ -633,14 +639,17 @@ public struct ServiceDiscovery: AWSService {
     ///
     /// Parameters:
     ///   - operationId: The ID of the operation that you want to get more information about.
+    ///   - ownerAccount: The ID of the Amazon Web Services account that owns the namespace associated with the operation, as specified in the namespace ResourceOwner field. For operations associated with namespaces that are shared with your account, you must specify an OwnerAccount.
     ///   - logger: Logger use during operation
     @inlinable
     public func getOperation(
         operationId: String,
+        ownerAccount: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetOperationResponse {
         let input = GetOperationRequest(
-            operationId: operationId
+            operationId: operationId, 
+            ownerAccount: ownerAccount
         )
         return try await self.getOperation(input, logger: logger)
     }
@@ -661,7 +670,7 @@ public struct ServiceDiscovery: AWSService {
     /// Gets the settings for a specified service.
     ///
     /// Parameters:
-    ///   - id: The ID of the service that you want to get settings for.
+    ///   - id: The ID or Amazon Resource Name (ARN) of the service that you want to get settings for. For services created by consumers in a shared namespace, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func getService(
@@ -690,7 +699,7 @@ public struct ServiceDiscovery: AWSService {
     /// Returns the attributes associated with a specified service.
     ///
     /// Parameters:
-    ///   - serviceId: The ID of the service that you want to get attributes for.
+    ///   - serviceId: The ID or Amazon Resource Name (ARN) of the service that you want to get attributes for. For services created in a namespace shared with your Amazon Web Services account, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func getServiceAttributes(
@@ -721,7 +730,7 @@ public struct ServiceDiscovery: AWSService {
     /// Parameters:
     ///   - maxResults: The maximum number of instances that you want Cloud Map to return in the response to a ListInstances request. If you don't specify a value for MaxResults, Cloud Map returns up to 100 instances.
     ///   - nextToken: For the first ListInstances request, omit this value. If more than MaxResults instances match the specified criteria, you can submit another ListInstances request to get the next group of results. Specify the value of NextToken from the previous response in the next request.
-    ///   - serviceId: The ID of the service that you want to list instances for.
+    ///   - serviceId: The ID or Amazon Resource Name (ARN) of the service that you want to list instances for. For services created in a shared namespace, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func listInstances(
@@ -738,7 +747,7 @@ public struct ServiceDiscovery: AWSService {
         return try await self.listInstances(input, logger: logger)
     }
 
-    /// Lists summary information about the namespaces that were created by the current Amazon Web Services account.
+    /// Lists summary information about the namespaces that were created by the current Amazon Web Services account and shared with the current Amazon Web Services account.
     @Sendable
     @inlinable
     public func listNamespaces(_ input: ListNamespacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNamespacesResponse {
@@ -751,7 +760,7 @@ public struct ServiceDiscovery: AWSService {
             logger: logger
         )
     }
-    /// Lists summary information about the namespaces that were created by the current Amazon Web Services account.
+    /// Lists summary information about the namespaces that were created by the current Amazon Web Services account and shared with the current Amazon Web Services account.
     ///
     /// Parameters:
     ///   - filters: A complex type that contains specifications for the namespaces that you want to list. If you specify more than one filter, a namespace must match all filters to be returned by ListNamespaces.
@@ -891,7 +900,7 @@ public struct ServiceDiscovery: AWSService {
     ///   - attributes: A string map that contains the following information for the service that you specify in ServiceId:   The attributes that apply to the records that are defined in the service.    For each attribute, the applicable value.    Do not include sensitive information in the attributes if the namespace is discoverable by public DNS queries.  The following are the supported attribute keys.  AWS_ALIAS_DNS_NAME  If you want Cloud Map to create an Amazon Route 53 alias record that routes traffic to an Elastic Load Balancing load balancer, specify the DNS name that's associated with the load balancer. For information about how to get the DNS name, see "DNSName" in the topic AliasTarget in the Route 53 API Reference. Note the following:   The configuration for the service that's specified by ServiceId must include settings for an A record, an AAAA record, or both.   In the service that's specified by ServiceId, the value of RoutingPolicy must be WEIGHTED.   If the service that's specified by ServiceId includes HealthCheckConfig settings, Cloud Map will create the Route 53 health check, but it doesn't associate the health check with the alias record.   Cloud Map currently doesn't support creating alias records that route traffic to Amazon Web Services resources other than Elastic Load Balancing load balancers.   If you specify a value for AWS_ALIAS_DNS_NAME, don't specify values for any of the AWS_INSTANCE attributes.   The AWS_ALIAS_DNS_NAME is not supported in the GovCloud (US) Regions.    AWS_EC2_INSTANCE_ID   HTTP namespaces only. The Amazon EC2 instance ID for the instance. If the AWS_EC2_INSTANCE_ID attribute is specified, then the only other attribute that can be specified is AWS_INIT_HEALTH_STATUS. When the AWS_EC2_INSTANCE_ID attribute is specified, then the AWS_INSTANCE_IPV4 attribute will be filled out with the primary private IPv4 address.  AWS_INIT_HEALTH_STATUS  If the service configuration includes HealthCheckCustomConfig, you can optionally use AWS_INIT_HEALTH_STATUS to specify the initial status of the custom health check, HEALTHY or UNHEALTHY. If you don't specify a value for AWS_INIT_HEALTH_STATUS, the initial status is HEALTHY.  AWS_INSTANCE_CNAME  If the service configuration includes a CNAME record, the domain name that you want Route 53 to return in response to DNS queries (for example, example.com). This value is required if the service specified by ServiceId includes settings for an CNAME record.  AWS_INSTANCE_IPV4  If the service configuration includes an A record, the IPv4 address that you want Route 53 to return in response to DNS queries (for example, 192.0.2.44). This value is required if the service specified by ServiceId includes settings for an A record. If the service includes settings for an SRV record, you must specify a value for AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both.  AWS_INSTANCE_IPV6  If the service configuration includes an AAAA record, the IPv6 address that you want Route 53 to return in response to DNS queries (for example, 2001:0db8:85a3:0000:0000:abcd:0001:2345). This value is required if the service specified by ServiceId includes settings for an AAAA record. If the service includes settings for an SRV record, you must specify a value for AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both.  AWS_INSTANCE_PORT  If the service includes an SRV record, the value that you want Route 53 to return for the port. If the service includes HealthCheckConfig, the port on the endpoint that you want Route 53 to send requests to.  This value is required if you specified settings for an SRV record or a Route 53 health check when you created the service.  Custom attributes  You can add up to 30 custom attributes. For each key-value pair, the maximum length of the attribute name is 255 characters, and the maximum length of the attribute value is 1,024 characters. The total size of all provided attributes (sum of all keys and values) must not exceed 5,000 characters.
     ///   - creatorRequestId: A unique string that identifies the request and that allows failed RegisterInstance requests to be retried without the risk of executing the operation twice. You must use a unique CreatorRequestId string every time you submit a RegisterInstance request if you're registering additional instances for the same namespace and service. CreatorRequestId can be any unique string (for example, a date/time stamp).
     ///   - instanceId: An identifier that you want to associate with the instance. Note the following:   If the service that's specified by ServiceId includes settings for an SRV record, the value of InstanceId is automatically included as part of the value for the SRV record. For more information, see DnsRecord > Type.   You can use this value to update an existing instance.   To register a new instance, you must specify a value that's unique among instances that you register by using the same service.    If you specify an existing InstanceId and ServiceId, Cloud Map updates the existing DNS records, if any. If there's also an existing health check, Cloud Map deletes the old health check and creates a new one.   The health check isn't deleted immediately, so it will still appear for a while if you submit a ListHealthChecks request, for example.     Do not include sensitive information in InstanceId if the namespace is discoverable by public DNS queries and any Type member of DnsRecord for the service contains SRV because the InstanceId is discoverable by public DNS queries.
-    ///   - serviceId: The ID of the service that you want to use for settings for the instance.
+    ///   - serviceId: The ID or Amazon Resource Name (ARN) of the service that you want to use for settings for the instance. For services created in a shared namespace, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func registerInstance(
@@ -990,7 +999,7 @@ public struct ServiceDiscovery: AWSService {
     /// Updates an HTTP namespace.
     ///
     /// Parameters:
-    ///   - id: The ID of the namespace that you want to update.
+    ///   - id: The ID or Amazon Resource Name (ARN) of the namespace that you want to update.
     ///   - namespace: Updated properties for the the HTTP namespace.
     ///   - updaterRequestId: A unique string that identifies the request and that allows failed UpdateHttpNamespace requests to be retried without the risk of running the operation twice. UpdaterRequestId can be any unique string (for example, a date/timestamp).
     ///   - logger: Logger use during operation
@@ -1026,7 +1035,7 @@ public struct ServiceDiscovery: AWSService {
     ///
     /// Parameters:
     ///   - instanceId: The ID of the instance that you want to change the health status for.
-    ///   - serviceId: The ID of the service that includes the configuration for the custom health check that you want to change the status for.
+    ///   - serviceId: The ID or Amazon Resource Name (ARN) of the service that includes the configuration for the custom health check that you want to change the status for. For services created in a shared namespace, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide.
     ///   - status: The new status of the instance, HEALTHY or UNHEALTHY.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1060,7 +1069,7 @@ public struct ServiceDiscovery: AWSService {
     /// Updates a private DNS namespace.
     ///
     /// Parameters:
-    ///   - id: The ID of the namespace that you want to update.
+    ///   - id: The ID or Amazon Resource Name (ARN) of the namespace that you want to update.
     ///   - namespace: Updated properties for the private DNS namespace.
     ///   - updaterRequestId: A unique string that identifies the request and that allows failed UpdatePrivateDnsNamespace requests to be retried without the risk of running the operation twice. UpdaterRequestId can be any unique string (for example, a date/timestamp).
     ///   - logger: Logger use during operation
@@ -1095,7 +1104,7 @@ public struct ServiceDiscovery: AWSService {
     /// Updates a public DNS namespace.
     ///
     /// Parameters:
-    ///   - id: The ID of the namespace being updated.
+    ///   - id: The ID or Amazon Resource Name (ARN) of the namespace being updated.
     ///   - namespace: Updated properties for the public DNS namespace.
     ///   - updaterRequestId: A unique string that identifies the request and that allows failed UpdatePublicDnsNamespace requests to be retried without the risk of running the operation twice. UpdaterRequestId can be any unique string (for example, a date/timestamp).
     ///   - logger: Logger use during operation
@@ -1114,7 +1123,7 @@ public struct ServiceDiscovery: AWSService {
         return try await self.updatePublicDnsNamespace(input, logger: logger)
     }
 
-    /// Submits a request to perform the following operations:   Update the TTL setting for existing DnsRecords configurations   Add, update, or delete HealthCheckConfig for a specified service  You can't add, update, or delete a HealthCheckCustomConfig configuration.    For public and private DNS namespaces, note the following:   If you omit any existing DnsRecords or HealthCheckConfig configurations from an UpdateService request, the configurations are deleted from the service.   If you omit an existing HealthCheckCustomConfig configuration from an UpdateService request, the configuration isn't deleted from the service.   When you update settings for a service, Cloud Map also updates the corresponding settings in all the records and health checks that were created by using the specified service.
+    /// Submits a request to perform the following operations:   Update the TTL setting for existing DnsRecords configurations   Add, update, or delete HealthCheckConfig for a specified service  You can't add, update, or delete a HealthCheckCustomConfig configuration.    For public and private DNS namespaces, note the following:   If you omit any existing DnsRecords or HealthCheckConfig configurations from an UpdateService request, the configurations are deleted from the service.   If you omit an existing HealthCheckCustomConfig configuration from an UpdateService request, the configuration isn't deleted from the service.    You can't call UpdateService and update settings in the following scenarios:   When the service is associated with an HTTP namespace   When the service is associated with a shared namespace and contains instances that were registered by Amazon Web Services accounts other than the account making the UpdateService call    When you update settings for a service, Cloud Map also updates the corresponding settings in all the records and health checks that were created by using the specified service.
     @Sendable
     @inlinable
     public func updateService(_ input: UpdateServiceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServiceResponse {
@@ -1127,10 +1136,10 @@ public struct ServiceDiscovery: AWSService {
             logger: logger
         )
     }
-    /// Submits a request to perform the following operations:   Update the TTL setting for existing DnsRecords configurations   Add, update, or delete HealthCheckConfig for a specified service  You can't add, update, or delete a HealthCheckCustomConfig configuration.    For public and private DNS namespaces, note the following:   If you omit any existing DnsRecords or HealthCheckConfig configurations from an UpdateService request, the configurations are deleted from the service.   If you omit an existing HealthCheckCustomConfig configuration from an UpdateService request, the configuration isn't deleted from the service.   When you update settings for a service, Cloud Map also updates the corresponding settings in all the records and health checks that were created by using the specified service.
+    /// Submits a request to perform the following operations:   Update the TTL setting for existing DnsRecords configurations   Add, update, or delete HealthCheckConfig for a specified service  You can't add, update, or delete a HealthCheckCustomConfig configuration.    For public and private DNS namespaces, note the following:   If you omit any existing DnsRecords or HealthCheckConfig configurations from an UpdateService request, the configurations are deleted from the service.   If you omit an existing HealthCheckCustomConfig configuration from an UpdateService request, the configuration isn't deleted from the service.    You can't call UpdateService and update settings in the following scenarios:   When the service is associated with an HTTP namespace   When the service is associated with a shared namespace and contains instances that were registered by Amazon Web Services accounts other than the account making the UpdateService call    When you update settings for a service, Cloud Map also updates the corresponding settings in all the records and health checks that were created by using the specified service.
     ///
     /// Parameters:
-    ///   - id: The ID of the service that you want to update.
+    ///   - id: The ID or Amazon Resource Name (ARN) of the service that you want to update. If the namespace associated with the service is shared with your Amazon Web Services account, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide
     ///   - service: A complex type that contains the new settings for the service. You can specify a maximum of 30 attributes (key-value pairs).
     ///   - logger: Logger use during operation
     @inlinable
@@ -1163,7 +1172,7 @@ public struct ServiceDiscovery: AWSService {
     ///
     /// Parameters:
     ///   - attributes: A string map that contains attribute key-value pairs.
-    ///   - serviceId: The ID of the service that you want to update.
+    ///   - serviceId: The ID or Amazon Resource Name (ARN) of the service that you want to update. For services created in a namespace shared with your Amazon Web Services account, specify the service ARN.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateServiceAttributes(
@@ -1215,7 +1224,7 @@ extension ServiceDiscovery {
     /// - Parameters:
     ///   - instances: An array that contains the IDs of all the instances that you want to get the health status for. If you omit Instances, Cloud Map returns the health status for all the instances that are associated with the specified service.  To get the IDs for the instances that you've registered by using a specified service, submit a ListInstances request.
     ///   - maxResults: The maximum number of instances that you want Cloud Map to return in the response to a GetInstancesHealthStatus request. If you don't specify a value for MaxResults, Cloud Map returns up to 100 instances.
-    ///   - serviceId: The ID of the service that the instance is associated with.
+    ///   - serviceId: The ID or Amazon Resource Name (ARN) of the service that the instance is associated with. For services created in a shared namespace, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide.
     ///   - logger: Logger used for logging
     @inlinable
     public func getInstancesHealthStatusPaginator(
@@ -1254,7 +1263,7 @@ extension ServiceDiscovery {
     ///
     /// - Parameters:
     ///   - maxResults: The maximum number of instances that you want Cloud Map to return in the response to a ListInstances request. If you don't specify a value for MaxResults, Cloud Map returns up to 100 instances.
-    ///   - serviceId: The ID of the service that you want to list instances for.
+    ///   - serviceId: The ID or Amazon Resource Name (ARN) of the service that you want to list instances for. For services created in a shared namespace, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide.
     ///   - logger: Logger used for logging
     @inlinable
     public func listInstancesPaginator(

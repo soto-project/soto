@@ -36,6 +36,15 @@ extension Organizations {
         public var description: String { return self.rawValue }
     }
 
+    public enum AccountState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case closed = "CLOSED"
+        case pendingActivation = "PENDING_ACTIVATION"
+        case pendingClosure = "PENDING_CLOSURE"
+        case suspended = "SUSPENDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AccountStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case pendingClosure = "PENDING_CLOSURE"
@@ -319,17 +328,20 @@ extension Organizations {
         public let joinedTimestamp: Date?
         /// The friendly name of the account. The regex pattern  that is used to validate this parameter is a string of any of the characters in the ASCII  character range.
         public let name: String?
-        /// The status of the account in the organization.
+        /// Each state represents a specific phase in the account lifecycle. Use this information to manage account access, automate workflows, or trigger actions based on account state changes. For more information about account states and their implications, see Monitor the state of your Amazon Web Services accounts  in the Organizations User Guide.
+        public let state: AccountState?
+        /// The status of the account in the organization.  The Status parameter in the Account object will be retired on September 9, 2026. Although both the account State and account Status parameters are currently available in the Organizations APIs (DescribeAccount, ListAccounts, ListAccountsForParent), we recommend that you update your scripts or other code to use the State parameter instead of Status before September 9, 2026.
         public let status: AccountStatus?
 
         @inlinable
-        public init(arn: String? = nil, email: String? = nil, id: String? = nil, joinedMethod: AccountJoinedMethod? = nil, joinedTimestamp: Date? = nil, name: String? = nil, status: AccountStatus? = nil) {
+        public init(arn: String? = nil, email: String? = nil, id: String? = nil, joinedMethod: AccountJoinedMethod? = nil, joinedTimestamp: Date? = nil, name: String? = nil, state: AccountState? = nil, status: AccountStatus? = nil) {
             self.arn = arn
             self.email = email
             self.id = id
             self.joinedMethod = joinedMethod
             self.joinedTimestamp = joinedTimestamp
             self.name = name
+            self.state = state
             self.status = status
         }
 
@@ -340,6 +352,7 @@ extension Organizations {
             case joinedMethod = "JoinedMethod"
             case joinedTimestamp = "JoinedTimestamp"
             case name = "Name"
+            case state = "State"
             case status = "Status"
         }
     }
@@ -921,7 +934,7 @@ extension Organizations {
     }
 
     public struct DescribeAccountResponse: AWSDecodableShape {
-        /// A structure that contains information about the requested account.
+        /// A structure that contains information about the requested account.  The Status parameter in the API response will be retired on September 9, 2026. Although both the account State and account Status parameters are currently available in the Organizations APIs (DescribeAccount, ListAccounts, ListAccountsForParent), we recommend that you update your scripts or other code to use the State parameter instead of Status before September 9, 2026.
         public let account: Account?
 
         @inlinable
@@ -1236,6 +1249,32 @@ extension Organizations {
             case policyContent = "PolicyContent"
             case policyType = "PolicyType"
             case targetId = "TargetId"
+        }
+    }
+
+    public struct EffectivePolicyValidationError: AWSDecodableShape {
+        /// The individual policies inherited and attached to the account which contributed to the validation error.
+        public let contributingPolicies: [String]?
+        /// The error code for the validation error. For example, ELEMENTS_TOO_MANY.
+        public let errorCode: String?
+        /// The error message for the validation error.
+        public let errorMessage: String?
+        /// The path within the effective policy where the validation error occurred.
+        public let pathToError: String?
+
+        @inlinable
+        public init(contributingPolicies: [String]? = nil, errorCode: String? = nil, errorMessage: String? = nil, pathToError: String? = nil) {
+            self.contributingPolicies = contributingPolicies
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.pathToError = pathToError
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contributingPolicies = "ContributingPolicies"
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case pathToError = "PathToError"
         }
     }
 
@@ -1595,7 +1634,7 @@ extension Organizations {
     }
 
     public struct ListAccountsForParentResponse: AWSDecodableShape {
-        /// A list of the accounts in the specified root or OU.
+        /// A list of the accounts in the specified root or OU.  The Status parameter in the API response will be retired on September 9, 2026. Although both the account State and account Status parameters are currently available in the Organizations APIs (DescribeAccount, ListAccounts, ListAccountsForParent), we recommend that you update your scripts or other code to use the State parameter instead of Status before September 9, 2026.
         public let accounts: [Account]?
         /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null.
         public let nextToken: String?
@@ -1638,7 +1677,7 @@ extension Organizations {
     }
 
     public struct ListAccountsResponse: AWSDecodableShape {
-        /// A list of objects in the organization.
+        /// A list of objects in the organization.  The Status parameter in the API response will be retired on September 9, 2026. Although both the account State and account Status parameters are currently available in the Organizations APIs (DescribeAccount, ListAccounts, ListAccountsForParent), we recommend that you update your scripts or other code to use the State parameter instead of Status before September 9, 2026.
         public let accounts: [Account]?
         /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null.
         public let nextToken: String?
@@ -1652,6 +1691,57 @@ extension Organizations {
         private enum CodingKeys: String, CodingKey {
             case accounts = "Accounts"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAccountsWithInvalidEffectivePolicyRequest: AWSEncodableShape {
+        /// The total number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value that is specific to the  operation. If additional items exist beyond the maximum you specify, the NextToken  response element is present and has a value (is not null). Include that value as the  NextToken request parameter in the next call to the operation to get the next part  of the results. Note that Organizations might return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
+        public let maxResults: Int?
+        /// The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
+        public let nextToken: String?
+        /// The type of policy that you want information about. You can specify one of the following values:    DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY
+        public let policyType: EffectivePolicyType
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, policyType: EffectivePolicyType) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.policyType = policyType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 100000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case policyType = "PolicyType"
+        }
+    }
+
+    public struct ListAccountsWithInvalidEffectivePolicyResponse: AWSDecodableShape {
+        /// The accounts in the organization which have an invalid effective policy for the specified policy type.
+        public let accounts: [Account]?
+        /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null.
+        public let nextToken: String?
+        /// The specified policy type. One of the following values:    DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY
+        public let policyType: EffectivePolicyType?
+
+        @inlinable
+        public init(accounts: [Account]? = nil, nextToken: String? = nil, policyType: EffectivePolicyType? = nil) {
+            self.accounts = accounts
+            self.nextToken = nextToken
+            self.policyType = policyType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accounts = "Accounts"
+            case nextToken = "NextToken"
+            case policyType = "PolicyType"
         }
     }
 
@@ -1851,6 +1941,75 @@ extension Organizations {
         private enum CodingKeys: String, CodingKey {
             case delegatedServices = "DelegatedServices"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListEffectivePolicyValidationErrorsRequest: AWSEncodableShape {
+        /// The ID of the account that you want details about. Specifying an organization root or organizational unit (OU) as the target is not supported.
+        public let accountId: String
+        /// The total number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value that is specific to the  operation. If additional items exist beyond the maximum you specify, the NextToken  response element is present and has a value (is not null). Include that value as the  NextToken request parameter in the next call to the operation to get the next part  of the results. Note that Organizations might return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
+        public let maxResults: Int?
+        /// The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
+        public let nextToken: String?
+        /// The type of policy that you want information about. You can specify one of the following values:    DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY
+        public let policyType: EffectivePolicyType
+
+        @inlinable
+        public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil, policyType: EffectivePolicyType) {
+            self.accountId = accountId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.policyType = policyType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 100000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case policyType = "PolicyType"
+        }
+    }
+
+    public struct ListEffectivePolicyValidationErrorsResponse: AWSDecodableShape {
+        /// The ID of the specified account.
+        public let accountId: String?
+        /// The EffectivePolicyValidationError object contains details about the validation errors that occurred when generating or enforcing an effective policy, such as which policies contributed to the error and location of the error.
+        public let effectivePolicyValidationErrors: [EffectivePolicyValidationError]?
+        /// The time when the latest effective policy was generated for the specified account.
+        public let evaluationTimestamp: Date?
+        /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null.
+        public let nextToken: String?
+        /// The path in the organization where the specified account exists.
+        public let path: String?
+        /// The specified policy type. One of the following values:    DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY
+        public let policyType: EffectivePolicyType?
+
+        @inlinable
+        public init(accountId: String? = nil, effectivePolicyValidationErrors: [EffectivePolicyValidationError]? = nil, evaluationTimestamp: Date? = nil, nextToken: String? = nil, path: String? = nil, policyType: EffectivePolicyType? = nil) {
+            self.accountId = accountId
+            self.effectivePolicyValidationErrors = effectivePolicyValidationErrors
+            self.evaluationTimestamp = evaluationTimestamp
+            self.nextToken = nextToken
+            self.path = path
+            self.policyType = policyType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case effectivePolicyValidationErrors = "EffectivePolicyValidationErrors"
+            case evaluationTimestamp = "EvaluationTimestamp"
+            case nextToken = "NextToken"
+            case path = "Path"
+            case policyType = "PolicyType"
         }
     }
 

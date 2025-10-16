@@ -304,9 +304,12 @@ extension Route53Domains {
     }
 
     public enum ExtraParamName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case auEligibilityType = "AU_ELIGIBILITY_TYPE"
         case auIdNumber = "AU_ID_NUMBER"
         case auIdType = "AU_ID_TYPE"
+        case auPolicyReason = "AU_POLICY_REASON"
         case auPriorityToken = "AU_PRIORITY_TOKEN"
+        case auRegistrantName = "AU_REGISTRANT_NAME"
         case birthCity = "BIRTH_CITY"
         case birthCountry = "BIRTH_COUNTRY"
         case birthDateInYyyyMmDd = "BIRTH_DATE_IN_YYYY_MM_DD"

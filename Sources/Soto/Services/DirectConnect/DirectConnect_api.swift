@@ -386,7 +386,7 @@ public struct DirectConnect: AWSService {
         return try await self.associateHostedConnection(input, logger: logger)
     }
 
-    /// Associates a MAC Security (MACsec) Connection Key Name (CKN)/ Connectivity Association Key (CAK) pair with an Direct Connect dedicated connection. You must supply either the secretARN, or the CKN/CAK (ckn and cak) pair in the request. For information about MAC Security (MACsec) key considerations, see  MACsec pre-shared CKN/CAK key considerations  in the Direct Connect User Guide.
+    /// Associates a MAC Security (MACsec) Connection Key Name (CKN)/ Connectivity Association Key (CAK) pair with a Direct Connect connection. You must supply either the secretARN, or the CKN/CAK (ckn and cak) pair in the request. For information about MAC Security (MACsec) key considerations, see  MACsec pre-shared CKN/CAK key considerations  in the Direct Connect User Guide.
     @Sendable
     @inlinable
     public func associateMacSecKey(_ input: AssociateMacSecKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateMacSecKeyResponse {
@@ -399,13 +399,13 @@ public struct DirectConnect: AWSService {
             logger: logger
         )
     }
-    /// Associates a MAC Security (MACsec) Connection Key Name (CKN)/ Connectivity Association Key (CAK) pair with an Direct Connect dedicated connection. You must supply either the secretARN, or the CKN/CAK (ckn and cak) pair in the request. For information about MAC Security (MACsec) key considerations, see  MACsec pre-shared CKN/CAK key considerations  in the Direct Connect User Guide.
+    /// Associates a MAC Security (MACsec) Connection Key Name (CKN)/ Connectivity Association Key (CAK) pair with a Direct Connect connection. You must supply either the secretARN, or the CKN/CAK (ckn and cak) pair in the request. For information about MAC Security (MACsec) key considerations, see  MACsec pre-shared CKN/CAK key considerations  in the Direct Connect User Guide.
     ///
     /// Parameters:
-    ///   - cak: The MAC Security (MACsec) CAK to associate with the dedicated connection. You can create the CKN/CAK pair using an industry standard tool. The valid values are 64 hexadecimal characters (0-9, A-E). If you use this request parameter, you must use the ckn request parameter and not use the secretARN request parameter.
-    ///   - ckn: The MAC Security (MACsec) CKN to associate with the dedicated connection. You can create the CKN/CAK pair using an industry standard tool. The valid values are 64 hexadecimal characters (0-9, A-E). If you use this request parameter, you must use the cak request parameter and not use the secretARN request parameter.
-    ///   - connectionId: The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG (dxlag-xxxx). You can use DescribeConnections or DescribeLags to retrieve connection ID.
-    ///   - secretARN: The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key to associate with the dedicated connection. You can use DescribeConnections or DescribeLags to retrieve the MAC Security (MACsec) secret key. If you use this request parameter, you do not use the ckn and cak request parameters.
+    ///   - cak: The MAC Security (MACsec) CAK to associate with the connection. You can create the CKN/CAK pair using an industry standard tool. The valid values are 64 hexadecimal characters (0-9, A-E). If you use this request parameter, you must use the ckn request parameter and not use the secretARN request parameter.
+    ///   - ckn: The MAC Security (MACsec) CKN to associate with the connection. You can create the CKN/CAK pair using an industry standard tool. The valid values are 64 hexadecimal characters (0-9, A-E). If you use this request parameter, you must use the cak request parameter and not use the secretARN request parameter.
+    ///   - connectionId: The ID of the dedicated connection (dxcon-xxxx), interconnect (dxcon-xxxx), or LAG (dxlag-xxxx). You can use DescribeConnections, DescribeInterconnects, or DescribeLags to retrieve connection ID.
+    ///   - secretARN: The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key to associate with the connection. You can use DescribeConnections or DescribeLags to retrieve the MAC Security (MACsec) secret key. If you use this request parameter, you do not use the ckn and cak request parameters.
     ///   - logger: Logger use during operation
     @inlinable
     public func associateMacSecKey(
@@ -663,7 +663,7 @@ public struct DirectConnect: AWSService {
     ///   - lagId: The ID of the LAG.
     ///   - location: The location of the connection.
     ///   - providerName: The name of the service provider associated with the requested connection.
-    ///   - requestMACSec: Indicates whether you want the connection to support MAC Security (MACsec). MAC Security (MACsec) is only available on dedicated connections. For information about MAC Security (MACsec) prerequisties, see  MACsec prerequisties in the Direct Connect User Guide.
+    ///   - requestMACSec: Indicates whether you want the connection to support MAC Security (MACsec). MAC Security (MACsec) is unavailable on hosted connections. For information about MAC Security (MACsec) prerequisites, see  MAC Security in Direct Connect in the Direct Connect User Guide.
     ///   - tags: The tags to associate with the lag.
     ///   - logger: Logger use during operation
     @inlinable
@@ -824,6 +824,7 @@ public struct DirectConnect: AWSService {
     ///   - lagId: The ID of the LAG.
     ///   - location: The location of the interconnect.
     ///   - providerName: The name of the service provider associated with the interconnect.
+    ///   - requestMACSec: Indicates whether you want the interconnect to support MAC Security (MACsec).
     ///   - tags: The tags to associate with the interconnect.
     ///   - logger: Logger use during operation
     @inlinable
@@ -833,6 +834,7 @@ public struct DirectConnect: AWSService {
         lagId: String? = nil,
         location: String,
         providerName: String? = nil,
+        requestMACSec: Bool? = nil,
         tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> Interconnect {
@@ -842,6 +844,7 @@ public struct DirectConnect: AWSService {
             lagId: lagId, 
             location: location, 
             providerName: providerName, 
+            requestMACSec: requestMACSec, 
             tags: tags
         )
         return try await self.createInterconnect(input, logger: logger)
@@ -1012,7 +1015,8 @@ public struct DirectConnect: AWSService {
     /// Deletes the specified BGP peer on the specified virtual interface with the specified customer address and ASN. You cannot delete the last BGP peer from a virtual interface.
     ///
     /// Parameters:
-    ///   - asn: The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+    ///   - asn: The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+    ///   - asnLong: The long ASN for the BGP peer to be deleted from a Direct Connect virtual interface. The valid range is from 1 to 4294967294 for BGP configuration.   You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
     ///   - bgpPeerId: The ID of the BGP peer.
     ///   - customerAddress: The IP address assigned to the customer interface.
     ///   - virtualInterfaceId: The ID of the virtual interface.
@@ -1020,6 +1024,7 @@ public struct DirectConnect: AWSService {
     @inlinable
     public func deleteBGPPeer(
         asn: Int? = nil,
+        asnLong: Int64? = nil,
         bgpPeerId: String? = nil,
         customerAddress: String? = nil,
         virtualInterfaceId: String? = nil,
@@ -1027,6 +1032,7 @@ public struct DirectConnect: AWSService {
     ) async throws -> DeleteBGPPeerResponse {
         let input = DeleteBGPPeerRequest(
             asn: asn, 
+            asnLong: asnLong, 
             bgpPeerId: bgpPeerId, 
             customerAddress: customerAddress, 
             virtualInterfaceId: virtualInterfaceId
@@ -1295,14 +1301,20 @@ public struct DirectConnect: AWSService {
     ///
     /// Parameters:
     ///   - connectionId: The ID of the connection.
+    ///   - maxResults: The maximum number of results to return with a single call.
+    ///   - nextToken: The token for the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeConnections(
         connectionId: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> Connections {
         let input = DescribeConnectionsRequest(
-            connectionId: connectionId
+            connectionId: connectionId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
         )
         return try await self.describeConnections(input, logger: logger)
     }
@@ -1524,14 +1536,20 @@ public struct DirectConnect: AWSService {
     ///
     /// Parameters:
     ///   - connectionId: The ID of the interconnect or LAG.
+    ///   - maxResults: The maximum number of results to return with a single call.
+    ///   - nextToken: The token for the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeHostedConnections(
         connectionId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> Connections {
         let input = DescribeHostedConnectionsRequest(
-            connectionId: connectionId
+            connectionId: connectionId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
         )
         return try await self.describeHostedConnections(input, logger: logger)
     }
@@ -1588,14 +1606,20 @@ public struct DirectConnect: AWSService {
     ///
     /// Parameters:
     ///   - interconnectId: The ID of the interconnect.
+    ///   - maxResults: The maximum number of results to return with a single call.
+    ///   - nextToken: The token for the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeInterconnects(
         interconnectId: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> Interconnects {
         let input = DescribeInterconnectsRequest(
-            interconnectId: interconnectId
+            interconnectId: interconnectId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
         )
         return try await self.describeInterconnects(input, logger: logger)
     }
@@ -1617,14 +1641,20 @@ public struct DirectConnect: AWSService {
     ///
     /// Parameters:
     ///   - lagId: The ID of the LAG.
+    ///   - maxResults: The maximum number of results to return with a single call.
+    ///   - nextToken: The token for the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeLags(
         lagId: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> Lags {
         let input = DescribeLagsRequest(
-            lagId: lagId
+            lagId: lagId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
         )
         return try await self.describeLags(input, logger: logger)
     }
@@ -1751,7 +1781,7 @@ public struct DirectConnect: AWSService {
         )
     }
 
-    /// Displays all virtual interfaces for an Amazon Web Services account. Virtual interfaces deleted fewer than 15 minutes before you make the request are also returned. If you specify a connection ID, only the virtual interfaces associated with the connection are returned. If you specify a virtual interface ID, then only a single virtual interface is returned. A virtual interface (VLAN) transmits the traffic between the Direct Connect location and the customer network.
+    /// Displays all virtual interfaces for an Amazon Web Services account. Virtual interfaces deleted fewer than 15 minutes before you make the request are also returned. If you specify a connection ID, only the virtual interfaces associated with the connection are returned. If you specify a virtual interface ID, then only a single virtual interface is returned. A virtual interface (VLAN) transmits the traffic between the Direct Connect location and the customer network.   If you're using an asn, the response includes ASN value in both the asn and asnLong fields.   If you're using asnLong, the response returns a value of 0 (zero) for the asn attribute because it exceeds the highest ASN value of 2,147,483,647 that it can support
     @Sendable
     @inlinable
     public func describeVirtualInterfaces(_ input: DescribeVirtualInterfacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> VirtualInterfaces {
@@ -1764,20 +1794,26 @@ public struct DirectConnect: AWSService {
             logger: logger
         )
     }
-    /// Displays all virtual interfaces for an Amazon Web Services account. Virtual interfaces deleted fewer than 15 minutes before you make the request are also returned. If you specify a connection ID, only the virtual interfaces associated with the connection are returned. If you specify a virtual interface ID, then only a single virtual interface is returned. A virtual interface (VLAN) transmits the traffic between the Direct Connect location and the customer network.
+    /// Displays all virtual interfaces for an Amazon Web Services account. Virtual interfaces deleted fewer than 15 minutes before you make the request are also returned. If you specify a connection ID, only the virtual interfaces associated with the connection are returned. If you specify a virtual interface ID, then only a single virtual interface is returned. A virtual interface (VLAN) transmits the traffic between the Direct Connect location and the customer network.   If you're using an asn, the response includes ASN value in both the asn and asnLong fields.   If you're using asnLong, the response returns a value of 0 (zero) for the asn attribute because it exceeds the highest ASN value of 2,147,483,647 that it can support
     ///
     /// Parameters:
     ///   - connectionId: The ID of the connection.
+    ///   - maxResults: The maximum number of results to return with a single call.
+    ///   - nextToken: The token for the next page of results.
     ///   - virtualInterfaceId: The ID of the virtual interface.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeVirtualInterfaces(
         connectionId: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
         virtualInterfaceId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> VirtualInterfaces {
         let input = DescribeVirtualInterfacesRequest(
             connectionId: connectionId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
             virtualInterfaceId: virtualInterfaceId
         )
         return try await self.describeVirtualInterfaces(input, logger: logger)
@@ -1815,7 +1851,7 @@ public struct DirectConnect: AWSService {
         return try await self.disassociateConnectionFromLag(input, logger: logger)
     }
 
-    /// Removes the association between a MAC Security (MACsec) security key and an Direct Connect dedicated connection.
+    /// Removes the association between a MAC Security (MACsec) security key and a Direct Connect connection.
     @Sendable
     @inlinable
     public func disassociateMacSecKey(_ input: DisassociateMacSecKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateMacSecKeyResponse {
@@ -1828,10 +1864,10 @@ public struct DirectConnect: AWSService {
             logger: logger
         )
     }
-    /// Removes the association between a MAC Security (MACsec) security key and an Direct Connect dedicated connection.
+    /// Removes the association between a MAC Security (MACsec) security key and a Direct Connect connection.
     ///
     /// Parameters:
-    ///   - connectionId: The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG (dxlag-xxxx). You can use DescribeConnections or DescribeLags to retrieve connection ID.
+    ///   - connectionId: The ID of the dedicated connection (dxcon-xxxx), interconnect (dxcon-xxxx), or LAG (dxlag-xxxx). You can use DescribeConnections, DescribeInterconnects, or DescribeLags to retrieve connection ID.
     ///   - secretARN: The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key. You can use DescribeConnections to retrieve the ARN of the MAC Security (MACsec) secret key.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2019,7 +2055,7 @@ public struct DirectConnect: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Updates the Direct Connect dedicated connection configuration. You can update the following parameters for a connection:   The connection name   The connection's MAC Security (MACsec) encryption mode.
+    /// Updates the Direct Connect connection configuration. You can update the following parameters for a connection:   The connection name   The connection's MAC Security (MACsec) encryption mode.
     @Sendable
     @inlinable
     public func updateConnection(_ input: UpdateConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Connection {
@@ -2032,10 +2068,10 @@ public struct DirectConnect: AWSService {
             logger: logger
         )
     }
-    /// Updates the Direct Connect dedicated connection configuration. You can update the following parameters for a connection:   The connection name   The connection's MAC Security (MACsec) encryption mode.
+    /// Updates the Direct Connect connection configuration. You can update the following parameters for a connection:   The connection name   The connection's MAC Security (MACsec) encryption mode.
     ///
     /// Parameters:
-    ///   - connectionId: The ID of the dedicated connection. You can use DescribeConnections to retrieve the connection ID.
+    ///   - connectionId: The ID of the connection. You can use DescribeConnections to retrieve the connection ID.
     ///   - connectionName: The name of the connection.
     ///   - encryptionMode: The connection MAC Security (MACsec) encryption mode. The valid values are no_encrypt, should_encrypt, and must_encrypt.
     ///   - logger: Logger use during operation

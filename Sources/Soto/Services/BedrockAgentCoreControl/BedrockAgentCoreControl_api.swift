@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS BedrockAgentCoreControl service.
 ///
-///  Amazon Bedrock AgentCore is in preview release and is subject to change.  Amazon Bedrock Agent Core Control is a service that enables you to manage memory resources for your Amazon Bedrock agents. Use this API to create, retrieve, update, and delete memory resources and their associated memory strategies. Memory resources enable your agents to store and retrieve information from conversations and interactions.
+///   is in preview release and is subject to change.  Welcome to the Amazon Bedrock AgentCore Control plane API reference. Control plane actions configure, create, modify, and monitor Amazon Web Services resources.
 public struct BedrockAgentCoreControl: AWSService {
     // MARK: Member variables
 
@@ -79,7 +79,7 @@ public struct BedrockAgentCoreControl: AWSService {
 
     // MARK: API Calls
 
-    /// Creates an Amazon Secure Agent.
+    /// Creates an Amazon Bedrock AgentCore Runtime.
     @Sendable
     @inlinable
     public func createAgentRuntime(_ input: CreateAgentRuntimeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAgentRuntimeResponse {
@@ -92,30 +92,36 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Creates an Amazon Secure Agent.
+    /// Creates an Amazon Bedrock AgentCore Runtime.
     ///
     /// Parameters:
-    ///   - agentRuntimeArtifact: The artifact of the agent.
-    ///   - agentRuntimeName: The name of the secure agent.
-    ///   - authorizerConfiguration: The authorizer configuration for the agent runtime.
+    ///   - agentRuntimeArtifact: The artifact of the AgentCore Runtime.
+    ///   - agentRuntimeName: The name of the AgentCore Runtime.
+    ///   - authorizerConfiguration: The authorizer configuration for the AgentCore Runtime.
     ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request.
-    ///   - description: The description of the agent runtime.
-    ///   - environmentVariables: Environment variables to set in the agent runtime environment.
-    ///   - networkConfiguration: The network configuration for the agent runtime.
+    ///   - description: The description of the AgentCore Runtime.
+    ///   - environmentVariables: Environment variables to set in the AgentCore Runtime environment.
+    ///   - lifecycleConfiguration: The life cycle configuration for the AgentCore Runtime.
+    ///   - networkConfiguration: The network configuration for the AgentCore Runtime.
     ///   - protocolConfiguration: 
-    ///   - roleArn: The IAM role ARN that provides permissions for the agent runtime.
+    ///   - requestHeaderConfiguration: Configuration for HTTP request headers that will be passed through to the runtime.
+    ///   - roleArn: The IAM role ARN that provides permissions for the AgentCore Runtime.
+    ///   - tags: A map of tag keys and values to assign to the agent runtime. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
     ///   - logger: Logger use during operation
     @inlinable
     public func createAgentRuntime(
-        agentRuntimeArtifact: AgentArtifact,
+        agentRuntimeArtifact: AgentRuntimeArtifact,
         agentRuntimeName: String,
         authorizerConfiguration: AuthorizerConfiguration? = nil,
         clientToken: String? = CreateAgentRuntimeRequest.idempotencyToken(),
         description: String? = nil,
         environmentVariables: [String: String]? = nil,
+        lifecycleConfiguration: LifecycleConfiguration? = nil,
         networkConfiguration: NetworkConfiguration,
         protocolConfiguration: ProtocolConfiguration? = nil,
+        requestHeaderConfiguration: RequestHeaderConfiguration? = nil,
         roleArn: String,
+        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateAgentRuntimeResponse {
         let input = CreateAgentRuntimeRequest(
@@ -125,14 +131,17 @@ public struct BedrockAgentCoreControl: AWSService {
             clientToken: clientToken, 
             description: description, 
             environmentVariables: environmentVariables, 
+            lifecycleConfiguration: lifecycleConfiguration, 
             networkConfiguration: networkConfiguration, 
             protocolConfiguration: protocolConfiguration, 
-            roleArn: roleArn
+            requestHeaderConfiguration: requestHeaderConfiguration, 
+            roleArn: roleArn, 
+            tags: tags
         )
         return try await self.createAgentRuntime(input, logger: logger)
     }
 
-    /// Creates an Amazon Secure AgentEndpoint.
+    /// Creates an AgentCore Runtime endpoint.
     @Sendable
     @inlinable
     public func createAgentRuntimeEndpoint(_ input: CreateAgentRuntimeEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAgentRuntimeEndpointResponse {
@@ -145,14 +154,15 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Creates an Amazon Secure AgentEndpoint.
+    /// Creates an AgentCore Runtime endpoint.
     ///
     /// Parameters:
-    ///   - agentRuntimeId: The unique identifier of the agent runtime to create an endpoint for.
-    ///   - agentRuntimeVersion: The version of the agent runtime to use for the endpoint.
+    ///   - agentRuntimeId: The unique identifier of the AgentCore Runtime to create an endpoint for.
+    ///   - agentRuntimeVersion: The version of the AgentCore Runtime to use for the endpoint.
     ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request.
-    ///   - description: The description of the agent runtime endpoint.
-    ///   - name: The name of the agent runtime endpoint.
+    ///   - description: The description of the AgentCore Runtime endpoint.
+    ///   - name: The name of the AgentCore Runtime endpoint.
+    ///   - tags: A map of tag keys and values to assign to the agent runtime endpoint. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
     ///   - logger: Logger use during operation
     @inlinable
     public func createAgentRuntimeEndpoint(
@@ -161,6 +171,7 @@ public struct BedrockAgentCoreControl: AWSService {
         clientToken: String? = CreateAgentRuntimeEndpointRequest.idempotencyToken(),
         description: String? = nil,
         name: String,
+        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateAgentRuntimeEndpointResponse {
         let input = CreateAgentRuntimeEndpointRequest(
@@ -168,7 +179,8 @@ public struct BedrockAgentCoreControl: AWSService {
             agentRuntimeVersion: agentRuntimeVersion, 
             clientToken: clientToken, 
             description: description, 
-            name: name
+            name: name, 
+            tags: tags
         )
         return try await self.createAgentRuntimeEndpoint(input, logger: logger)
     }
@@ -191,16 +203,19 @@ public struct BedrockAgentCoreControl: AWSService {
     /// Parameters:
     ///   - apiKey: The API key to use for authentication. This value is encrypted and stored securely.
     ///   - name: The name of the API key credential provider. The name must be unique within your account.
+    ///   - tags: A map of tag keys and values to assign to the API key credential provider. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
     ///   - logger: Logger use during operation
     @inlinable
     public func createApiKeyCredentialProvider(
         apiKey: String,
         name: String,
+        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateApiKeyCredentialProviderResponse {
         let input = CreateApiKeyCredentialProviderRequest(
             apiKey: apiKey, 
-            name: name
+            name: name, 
+            tags: tags
         )
         return try await self.createApiKeyCredentialProvider(input, logger: logger)
     }
@@ -227,6 +242,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - name: The name of the browser. The name must be unique within your account.
     ///   - networkConfiguration: The network configuration for the browser. This configuration specifies the network mode for the browser.
     ///   - recording: The recording configuration for the browser. When enabled, browser sessions are recorded and stored in the specified Amazon S3 location.
+    ///   - tags: A map of tag keys and values to assign to the browser. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
     ///   - logger: Logger use during operation
     @inlinable
     public func createBrowser(
@@ -236,6 +252,7 @@ public struct BedrockAgentCoreControl: AWSService {
         name: String,
         networkConfiguration: BrowserNetworkConfiguration,
         recording: RecordingConfig? = nil,
+        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateBrowserResponse {
         let input = CreateBrowserRequest(
@@ -244,7 +261,8 @@ public struct BedrockAgentCoreControl: AWSService {
             executionRoleArn: executionRoleArn, 
             name: name, 
             networkConfiguration: networkConfiguration, 
-            recording: recording
+            recording: recording, 
+            tags: tags
         )
         return try await self.createBrowser(input, logger: logger)
     }
@@ -270,6 +288,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - executionRoleArn: The Amazon Resource Name (ARN) of the IAM role that provides permissions for the code interpreter to access Amazon Web Services services.
     ///   - name: The name of the code interpreter. The name must be unique within your account.
     ///   - networkConfiguration: The network configuration for the code interpreter. This configuration specifies the network mode for the code interpreter.
+    ///   - tags: A map of tag keys and values to assign to the code interpreter. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
     ///   - logger: Logger use during operation
     @inlinable
     public func createCodeInterpreter(
@@ -278,6 +297,7 @@ public struct BedrockAgentCoreControl: AWSService {
         executionRoleArn: String? = nil,
         name: String,
         networkConfiguration: CodeInterpreterNetworkConfiguration,
+        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateCodeInterpreterResponse {
         let input = CreateCodeInterpreterRequest(
@@ -285,12 +305,13 @@ public struct BedrockAgentCoreControl: AWSService {
             description: description, 
             executionRoleArn: executionRoleArn, 
             name: name, 
-            networkConfiguration: networkConfiguration
+            networkConfiguration: networkConfiguration, 
+            tags: tags
         )
         return try await self.createCodeInterpreter(input, logger: logger)
     }
 
-    /// Creates a gateway for Amazon Bedrock Agent. A gateway serves as an integration point between your agent and external services. To create a gateway, you must specify a name, protocol type, and IAM role. The role grants the gateway permission to access Amazon Web Services services and resources.
+    /// Creates a gateway for Amazon Bedrock Agent. A gateway serves as an integration point between your agent and external services. If you specify CUSTOM_JWT as the authorizerType, you must provide an authorizerConfiguration.
     @Sendable
     @inlinable
     public func createGateway(_ input: CreateGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGatewayResponse {
@@ -303,23 +324,24 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Creates a gateway for Amazon Bedrock Agent. A gateway serves as an integration point between your agent and external services. To create a gateway, you must specify a name, protocol type, and IAM role. The role grants the gateway permission to access Amazon Web Services services and resources.
+    /// Creates a gateway for Amazon Bedrock Agent. A gateway serves as an integration point between your agent and external services. If you specify CUSTOM_JWT as the authorizerType, you must provide an authorizerConfiguration.
     ///
     /// Parameters:
-    ///   - authorizerConfiguration: The authorizer configuration for the Gateway.
-    ///   - authorizerType: The type of authorizer to use for the gateway.
-    ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request but does not return an error.
+    ///   - authorizerConfiguration: The authorizer configuration for the gateway. Required if authorizerType is CUSTOM_JWT.
+    ///   - authorizerType: The type of authorizer to use for the gateway.    CUSTOM_JWT - Authorize with a bearer token.    AWS_IAM - Authorize with your Amazon Web Services IAM credentials.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
     ///   - description: The description of the gateway.
-    ///   - exceptionLevel: The verbosity of exception messages. Use DEBUG mode to see granular exception messages from a Gateway. If this parameter is not set, exception messages are by default sanitized for presentation to end users.
+    ///   - exceptionLevel: The level of detail in error messages returned when invoking the gateway.   If the value is DEBUG, granular exception messages are returned to help a user debug the gateway.   If the value is omitted, a generic error message is returned to the end user.
     ///   - kmsKeyArn: The Amazon Resource Name (ARN) of the KMS key used to encrypt data associated with the gateway.
     ///   - name: The name of the gateway. The name must be unique within your account.
     ///   - protocolConfiguration: The configuration settings for the protocol specified in the protocolType parameter.
-    ///   - protocolType: The protocol type for the gateway. Currently supports MCP (Model Context Protocol).
+    ///   - protocolType: The protocol type for the gateway.
     ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role that provides permissions for the gateway to access Amazon Web Services services.
+    ///   - tags: A map of key-value pairs to associate with the gateway as metadata tags.
     ///   - logger: Logger use during operation
     @inlinable
     public func createGateway(
-        authorizerConfiguration: AuthorizerConfiguration,
+        authorizerConfiguration: AuthorizerConfiguration? = nil,
         authorizerType: AuthorizerType,
         clientToken: String? = CreateGatewayRequest.idempotencyToken(),
         description: String? = nil,
@@ -329,6 +351,7 @@ public struct BedrockAgentCoreControl: AWSService {
         protocolConfiguration: GatewayProtocolConfiguration? = nil,
         protocolType: GatewayProtocolType,
         roleArn: String,
+        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateGatewayResponse {
         let input = CreateGatewayRequest(
@@ -341,12 +364,13 @@ public struct BedrockAgentCoreControl: AWSService {
             name: name, 
             protocolConfiguration: protocolConfiguration, 
             protocolType: protocolType, 
-            roleArn: roleArn
+            roleArn: roleArn, 
+            tags: tags
         )
         return try await self.createGateway(input, logger: logger)
     }
 
-    /// Creates a target for a gateway. A target defines an endpoint that the gateway can connect to. To create a target, you must specify the gateway identifier and target configuration.
+    /// Creates a target for a gateway. A target defines an endpoint that the gateway can connect to.
     @Sendable
     @inlinable
     public func createGatewayTarget(_ input: CreateGatewayTargetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGatewayTargetResponse {
@@ -359,20 +383,20 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Creates a target for a gateway. A target defines an endpoint that the gateway can connect to. To create a target, you must specify the gateway identifier and target configuration.
+    /// Creates a target for a gateway. A target defines an endpoint that the gateway can connect to.
     ///
     /// Parameters:
-    ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request but does not return an error.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
     ///   - credentialProviderConfigurations: The credential provider configurations for the target. These configurations specify how the gateway authenticates with the target endpoint.
     ///   - description: The description of the gateway target.
-    ///   - gatewayIdentifier: The identifier of the gateway to create a target for. This can be either the gateway ID or the gateway ARN.
+    ///   - gatewayIdentifier: The identifier of the gateway to create a target for.
     ///   - name: The name of the gateway target. The name must be unique within the gateway.
     ///   - targetConfiguration: The configuration settings for the target, including endpoint information and schema definitions.
     ///   - logger: Logger use during operation
     @inlinable
     public func createGatewayTarget(
         clientToken: String? = CreateGatewayTargetRequest.idempotencyToken(),
-        credentialProviderConfigurations: [CredentialProviderConfiguration],
+        credentialProviderConfigurations: [CredentialProviderConfiguration]? = nil,
         description: String? = nil,
         gatewayIdentifier: String,
         name: String,
@@ -390,7 +414,7 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.createGatewayTarget(input, logger: logger)
     }
 
-    /// Creates a new memory.
+    /// Creates a new Amazon Bedrock AgentCore Memory resource.
     @Sendable
     @inlinable
     public func createMemory(_ input: CreateMemoryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMemoryOutput {
@@ -403,7 +427,7 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Creates a new memory.
+    /// Creates a new Amazon Bedrock AgentCore Memory resource.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request but does not return an error.
@@ -413,6 +437,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - memoryExecutionRoleArn: The Amazon Resource Name (ARN) of the IAM role that provides permissions for the memory to access Amazon Web Services services.
     ///   - memoryStrategies: The memory strategies to use for this memory. Strategies define how information is extracted, processed, and consolidated.
     ///   - name: The name of the memory. The name must be unique within your account.
+    ///   - tags: A map of tag keys and values to assign to an AgentCore Memory. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
     ///   - logger: Logger use during operation
     @inlinable
     public func createMemory(
@@ -423,6 +448,7 @@ public struct BedrockAgentCoreControl: AWSService {
         memoryExecutionRoleArn: String? = nil,
         memoryStrategies: [MemoryStrategyInput]? = nil,
         name: String,
+        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateMemoryOutput {
         let input = CreateMemoryInput(
@@ -432,7 +458,8 @@ public struct BedrockAgentCoreControl: AWSService {
             eventExpiryDuration: eventExpiryDuration, 
             memoryExecutionRoleArn: memoryExecutionRoleArn, 
             memoryStrategies: memoryStrategies, 
-            name: name
+            name: name, 
+            tags: tags
         )
         return try await self.createMemory(input, logger: logger)
     }
@@ -456,18 +483,21 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - credentialProviderVendor: The vendor of the OAuth2 credential provider. This specifies which OAuth2 implementation to use.
     ///   - name: The name of the OAuth2 credential provider. The name must be unique within your account.
     ///   - oauth2ProviderConfigInput: The configuration settings for the OAuth2 provider, including client ID, client secret, and other vendor-specific settings.
+    ///   - tags: A map of tag keys and values to assign to the OAuth2 credential provider. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
     ///   - logger: Logger use during operation
     @inlinable
     public func createOauth2CredentialProvider(
         credentialProviderVendor: CredentialProviderVendorType,
         name: String,
         oauth2ProviderConfigInput: Oauth2ProviderConfigInput,
+        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateOauth2CredentialProviderResponse {
         let input = CreateOauth2CredentialProviderRequest(
             credentialProviderVendor: credentialProviderVendor, 
             name: name, 
-            oauth2ProviderConfigInput: oauth2ProviderConfigInput
+            oauth2ProviderConfigInput: oauth2ProviderConfigInput, 
+            tags: tags
         )
         return try await self.createOauth2CredentialProvider(input, logger: logger)
     }
@@ -490,21 +520,24 @@ public struct BedrockAgentCoreControl: AWSService {
     /// Parameters:
     ///   - allowedResourceOauth2ReturnUrls: The list of allowed OAuth2 return URLs for resources associated with this workload identity.
     ///   - name: The name of the workload identity. The name must be unique within your account.
+    ///   - tags: A map of tag keys and values to assign to the workload identity. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
     ///   - logger: Logger use during operation
     @inlinable
     public func createWorkloadIdentity(
         allowedResourceOauth2ReturnUrls: [String]? = nil,
         name: String,
+        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateWorkloadIdentityResponse {
         let input = CreateWorkloadIdentityRequest(
             allowedResourceOauth2ReturnUrls: allowedResourceOauth2ReturnUrls, 
-            name: name
+            name: name, 
+            tags: tags
         )
         return try await self.createWorkloadIdentity(input, logger: logger)
     }
 
-    /// Deletes an Amazon Secure Agent.
+    /// Deletes an Amazon Bedrock AgentCore Runtime.
     @Sendable
     @inlinable
     public func deleteAgentRuntime(_ input: DeleteAgentRuntimeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAgentRuntimeResponse {
@@ -517,10 +550,10 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Deletes an Amazon Secure Agent.
+    /// Deletes an Amazon Bedrock AgentCore Runtime.
     ///
     /// Parameters:
-    ///   - agentRuntimeId: The unique identifier of the agent runtime to delete.
+    ///   - agentRuntimeId: The unique identifier of the AgentCore Runtime to delete.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteAgentRuntime(
@@ -533,7 +566,7 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.deleteAgentRuntime(input, logger: logger)
     }
 
-    /// Deletes an Amazon Secure AgentEndpoint.
+    /// Deletes an AAgentCore Runtime endpoint.
     @Sendable
     @inlinable
     public func deleteAgentRuntimeEndpoint(_ input: DeleteAgentRuntimeEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAgentRuntimeEndpointResponse {
@@ -546,12 +579,12 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Deletes an Amazon Secure AgentEndpoint.
+    /// Deletes an AAgentCore Runtime endpoint.
     ///
     /// Parameters:
-    ///   - agentRuntimeId: The unique identifier of the agent runtime associated with the endpoint.
+    ///   - agentRuntimeId: The unique identifier of the AgentCore Runtime associated with the endpoint.
     ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request.
-    ///   - endpointName: The name of the agent runtime endpoint to delete.
+    ///   - endpointName: The name of the AgentCore Runtime endpoint to delete.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteAgentRuntimeEndpoint(
@@ -661,7 +694,7 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.deleteCodeInterpreter(input, logger: logger)
     }
 
-    /// Deletes a Gateway.
+    /// Deletes a gateway.
     @Sendable
     @inlinable
     public func deleteGateway(_ input: DeleteGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGatewayResponse {
@@ -674,10 +707,10 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Deletes a Gateway.
+    /// Deletes a gateway.
     ///
     /// Parameters:
-    ///   - gatewayIdentifier: The identifier of the gateway to delete. This can be either the gateway ID or the gateway ARN.
+    ///   - gatewayIdentifier: The identifier of the gateway to delete.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteGateway(
@@ -690,7 +723,7 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.deleteGateway(input, logger: logger)
     }
 
-    /// Deletes a Gateway Target.
+    /// Deletes a gateway target.
     @Sendable
     @inlinable
     public func deleteGatewayTarget(_ input: DeleteGatewayTargetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGatewayTargetResponse {
@@ -703,11 +736,11 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Deletes a Gateway Target.
+    /// Deletes a gateway target.
     ///
     /// Parameters:
-    ///   - gatewayIdentifier: The unique identifier of the Gateway associated with the target.
-    ///   - targetId: The unique identifier of the Gateway Target to delete.
+    ///   - gatewayIdentifier: The unique identifier of the gateway associated with the target.
+    ///   - targetId: The unique identifier of the gateway target to delete.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteGatewayTarget(
@@ -722,7 +755,7 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.deleteGatewayTarget(input, logger: logger)
     }
 
-    /// Deletes a memory.
+    /// Deletes an Amazon Bedrock AgentCore Memory resource.
     @Sendable
     @inlinable
     public func deleteMemory(_ input: DeleteMemoryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMemoryOutput {
@@ -735,7 +768,7 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Deletes a memory.
+    /// Deletes an Amazon Bedrock AgentCore Memory resource.
     ///
     /// Parameters:
     ///   - clientToken: A client token is used for keeping track of idempotent requests. It can contain a session id which can be around 250 chars, combined with a unique AWS identifier.
@@ -812,7 +845,7 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.deleteWorkloadIdentity(input, logger: logger)
     }
 
-    /// Gets an Amazon Secure Agent.
+    /// Gets an Amazon Bedrock AgentCore Runtime.
     @Sendable
     @inlinable
     public func getAgentRuntime(_ input: GetAgentRuntimeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAgentRuntimeResponse {
@@ -825,11 +858,11 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Gets an Amazon Secure Agent.
+    /// Gets an Amazon Bedrock AgentCore Runtime.
     ///
     /// Parameters:
-    ///   - agentRuntimeId: The unique identifier of the agent runtime to retrieve.
-    ///   - agentRuntimeVersion: The version of the agent runtime to retrieve.
+    ///   - agentRuntimeId: The unique identifier of the AgentCore Runtime to retrieve.
+    ///   - agentRuntimeVersion: The version of the AgentCore Runtime to retrieve.
     ///   - logger: Logger use during operation
     @inlinable
     public func getAgentRuntime(
@@ -860,8 +893,8 @@ public struct BedrockAgentCoreControl: AWSService {
     /// Gets information about an Amazon Secure AgentEndpoint.
     ///
     /// Parameters:
-    ///   - agentRuntimeId: The unique identifier of the agent runtime associated with the endpoint.
-    ///   - endpointName: The name of the agent runtime endpoint to retrieve.
+    ///   - agentRuntimeId: The unique identifier of the AgentCore Runtime associated with the endpoint.
+    ///   - endpointName: The name of the AgentCore Runtime endpoint to retrieve.
     ///   - logger: Logger use during operation
     @inlinable
     public func getAgentRuntimeEndpoint(
@@ -979,7 +1012,7 @@ public struct BedrockAgentCoreControl: AWSService {
     /// Retrieves information about a specific Gateway.
     ///
     /// Parameters:
-    ///   - gatewayIdentifier: The identifier of the gateway to retrieve. This can be either the gateway ID or the gateway ARN.
+    ///   - gatewayIdentifier: The identifier of the gateway to retrieve.
     ///   - logger: Logger use during operation
     @inlinable
     public func getGateway(
@@ -992,7 +1025,7 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.getGateway(input, logger: logger)
     }
 
-    /// Retrieves information about a specific Gateway Target.
+    /// Retrieves information about a specific gateway target.
     @Sendable
     @inlinable
     public func getGatewayTarget(_ input: GetGatewayTargetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetGatewayTargetResponse {
@@ -1005,10 +1038,10 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Retrieves information about a specific Gateway Target.
+    /// Retrieves information about a specific gateway target.
     ///
     /// Parameters:
-    ///   - gatewayIdentifier: The identifier of the gateway that contains the target. This can be either the gateway ID or the gateway ARN.
+    ///   - gatewayIdentifier: The identifier of the gateway that contains the target.
     ///   - targetId: The unique identifier of the target to retrieve.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1024,7 +1057,7 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.getGatewayTarget(input, logger: logger)
     }
 
-    /// Retrieve an existing memory.
+    /// Retrieve an existing Amazon Bedrock AgentCore Memory resource.
     @Sendable
     @inlinable
     public func getMemory(_ input: GetMemoryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMemoryOutput {
@@ -1037,7 +1070,7 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Retrieve an existing memory.
+    /// Retrieve an existing Amazon Bedrock AgentCore Memory resource.
     ///
     /// Parameters:
     ///   - memoryId: The unique identifier of the memory to retrieve.
@@ -1156,7 +1189,7 @@ public struct BedrockAgentCoreControl: AWSService {
     /// Lists all endpoints for a specific Amazon Secure Agent.
     ///
     /// Parameters:
-    ///   - agentRuntimeId: The unique identifier of the agent runtime to list endpoints for.
+    ///   - agentRuntimeId: The unique identifier of the AgentCore Runtime to list endpoints for.
     ///   - maxResults: The maximum number of results to return in the response.
     ///   - nextToken: A token to retrieve the next page of results.
     ///   - logger: Logger use during operation
@@ -1191,7 +1224,7 @@ public struct BedrockAgentCoreControl: AWSService {
     /// Lists all versions of a specific Amazon Secure Agent.
     ///
     /// Parameters:
-    ///   - agentRuntimeId: The unique identifier of the agent runtime to list versions for.
+    ///   - agentRuntimeId: The unique identifier of the AgentCore Runtime to list versions for.
     ///   - maxResults: The maximum number of results to return in the response.
     ///   - nextToken: A token to retrieve the next page of results.
     ///   - logger: Logger use during operation
@@ -1344,7 +1377,7 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.listCodeInterpreters(input, logger: logger)
     }
 
-    /// Lists all targets for a specific Gateway.
+    /// Lists all targets for a specific gateway.
     @Sendable
     @inlinable
     public func listGatewayTargets(_ input: ListGatewayTargetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGatewayTargetsResponse {
@@ -1357,12 +1390,12 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Lists all targets for a specific Gateway.
+    /// Lists all targets for a specific gateway.
     ///
     /// Parameters:
-    ///   - gatewayIdentifier: The identifier of the gateway to list targets for. This can be either the gateway ID or the gateway ARN.
-    ///   - maxResults: The maximum number of results to return in a single call. The default value is 10. The maximum value is 50.
-    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    ///   - gatewayIdentifier: The identifier of the gateway to list targets for.
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - nextToken: If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listGatewayTargets(
@@ -1379,7 +1412,7 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.listGatewayTargets(input, logger: logger)
     }
 
-    /// Lists all Gateways in the account.
+    /// Lists all gateways in the account.
     @Sendable
     @inlinable
     public func listGateways(_ input: ListGatewaysRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGatewaysResponse {
@@ -1392,11 +1425,11 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Lists all Gateways in the account.
+    /// Lists all gateways in the account.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of results to return in a single call. The default value is 10. The maximum value is 50.
-    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - nextToken: If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listGateways(
@@ -1411,7 +1444,7 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.listGateways(input, logger: logger)
     }
 
-    /// Lists the memory present.
+    /// Lists the available Amazon Bedrock AgentCore Memory resources in the current Amazon Web Services Region.
     @Sendable
     @inlinable
     public func listMemories(_ input: ListMemoriesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMemoriesOutput {
@@ -1424,7 +1457,7 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Lists the memory present.
+    /// Lists the available Amazon Bedrock AgentCore Memory resources in the current Amazon Web Services Region.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return in a single call. The default value is 10. The maximum value is 50.
@@ -1473,6 +1506,35 @@ public struct BedrockAgentCoreControl: AWSService {
             nextToken: nextToken
         )
         return try await self.listOauth2CredentialProviders(input, logger: logger)
+    }
+
+    /// Lists the tags associated with the specified resource.  This feature is currently available only for AgentCore Runtime, Browser, Code Interpreter tool, and Gateway.
+    @Sendable
+    @inlinable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the tags associated with the specified resource.  This feature is currently available only for AgentCore Runtime, Browser, Code Interpreter tool, and Gateway.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource for which you want to list tags.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTagsForResource(
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTagsForResourceResponse {
+        let input = ListTagsForResourceRequest(
+            resourceArn: resourceArn
+        )
+        return try await self.listTagsForResource(input, logger: logger)
     }
 
     /// Lists all workload identities in your account.
@@ -1539,6 +1601,102 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.setTokenVaultCMK(input, logger: logger)
     }
 
+    /// The gateway targets.
+    @Sendable
+    @inlinable
+    public func synchronizeGatewayTargets(_ input: SynchronizeGatewayTargetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SynchronizeGatewayTargetsResponse {
+        try await self.client.execute(
+            operation: "SynchronizeGatewayTargets", 
+            path: "/gateways/{gatewayIdentifier}/synchronizeTargets", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// The gateway targets.
+    ///
+    /// Parameters:
+    ///   - gatewayIdentifier: The gateway Identifier.
+    ///   - targetIdList: The target ID list.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func synchronizeGatewayTargets(
+        gatewayIdentifier: String,
+        targetIdList: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SynchronizeGatewayTargetsResponse {
+        let input = SynchronizeGatewayTargetsRequest(
+            gatewayIdentifier: gatewayIdentifier, 
+            targetIdList: targetIdList
+        )
+        return try await self.synchronizeGatewayTargets(input, logger: logger)
+    }
+
+    /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.  This feature is currently available only for AgentCore Runtime, Browser, Code Interpreter tool, and Gateway.
+    @Sendable
+    @inlinable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.  This feature is currently available only for AgentCore Runtime, Browser, Code Interpreter tool, and Gateway.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource that you want to tag.
+    ///   - tags: The tags to add to the resource. A tag is a key-value pair.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func tagResource(
+        resourceArn: String,
+        tags: [String: String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> TagResourceResponse {
+        let input = TagResourceRequest(
+            resourceArn: resourceArn, 
+            tags: tags
+        )
+        return try await self.tagResource(input, logger: logger)
+    }
+
+    /// Removes the specified tags from the specified resource.  This feature is currently available only for AgentCore Runtime, Browser, Code Interpreter tool, and Gateway.
+    @Sendable
+    @inlinable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes the specified tags from the specified resource.  This feature is currently available only for AgentCore Runtime, Browser, Code Interpreter tool, and Gateway.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource that you want to untag.
+    ///   - tagKeys: The tag keys of the tags to remove from the resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func untagResource(
+        resourceArn: String,
+        tagKeys: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UntagResourceResponse {
+        let input = UntagResourceRequest(
+            resourceArn: resourceArn, 
+            tagKeys: tagKeys
+        )
+        return try await self.untagResource(input, logger: logger)
+    }
+
     /// Updates an existing Amazon Secure Agent.
     @Sendable
     @inlinable
@@ -1555,26 +1713,30 @@ public struct BedrockAgentCoreControl: AWSService {
     /// Updates an existing Amazon Secure Agent.
     ///
     /// Parameters:
-    ///   - agentRuntimeArtifact: The updated artifact of the agent runtime.
-    ///   - agentRuntimeId: The unique identifier of the agent runtime to update.
-    ///   - authorizerConfiguration: The updated authorizer configuration for the agent runtime.
+    ///   - agentRuntimeArtifact: The updated artifact of the AgentCore Runtime.
+    ///   - agentRuntimeId: The unique identifier of the AgentCore Runtime to update.
+    ///   - authorizerConfiguration: The updated authorizer configuration for the AgentCore Runtime.
     ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request.
-    ///   - description: The updated description of the agent runtime.
-    ///   - environmentVariables: Updated environment variables to set in the agent runtime environment.
-    ///   - networkConfiguration: The updated network configuration for the agent runtime.
+    ///   - description: The updated description of the AgentCore Runtime.
+    ///   - environmentVariables: Updated environment variables to set in the AgentCore Runtime environment.
+    ///   - lifecycleConfiguration: The updated life cycle configuration for the AgentCore Runtime.
+    ///   - networkConfiguration: The updated network configuration for the AgentCore Runtime.
     ///   - protocolConfiguration: 
-    ///   - roleArn: The updated IAM role ARN that provides permissions for the agent runtime.
+    ///   - requestHeaderConfiguration: The updated configuration for HTTP request headers that will be passed through to the runtime.
+    ///   - roleArn: The updated IAM role ARN that provides permissions for the AgentCore Runtime.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateAgentRuntime(
-        agentRuntimeArtifact: AgentArtifact,
+        agentRuntimeArtifact: AgentRuntimeArtifact,
         agentRuntimeId: String,
         authorizerConfiguration: AuthorizerConfiguration? = nil,
         clientToken: String? = UpdateAgentRuntimeRequest.idempotencyToken(),
         description: String? = nil,
         environmentVariables: [String: String]? = nil,
+        lifecycleConfiguration: LifecycleConfiguration? = nil,
         networkConfiguration: NetworkConfiguration,
         protocolConfiguration: ProtocolConfiguration? = nil,
+        requestHeaderConfiguration: RequestHeaderConfiguration? = nil,
         roleArn: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateAgentRuntimeResponse {
@@ -1585,14 +1747,16 @@ public struct BedrockAgentCoreControl: AWSService {
             clientToken: clientToken, 
             description: description, 
             environmentVariables: environmentVariables, 
+            lifecycleConfiguration: lifecycleConfiguration, 
             networkConfiguration: networkConfiguration, 
             protocolConfiguration: protocolConfiguration, 
+            requestHeaderConfiguration: requestHeaderConfiguration, 
             roleArn: roleArn
         )
         return try await self.updateAgentRuntime(input, logger: logger)
     }
 
-    /// Updates an existing Amazon Secure AgentEndpoint.
+    /// Updates an existing Amazon Bedrock AgentCore Runtime endpoint.
     @Sendable
     @inlinable
     public func updateAgentRuntimeEndpoint(_ input: UpdateAgentRuntimeEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAgentRuntimeEndpointResponse {
@@ -1605,14 +1769,14 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Updates an existing Amazon Secure AgentEndpoint.
+    /// Updates an existing Amazon Bedrock AgentCore Runtime endpoint.
     ///
     /// Parameters:
-    ///   - agentRuntimeId: The unique identifier of the agent runtime associated with the endpoint.
-    ///   - agentRuntimeVersion: The updated version of the agent runtime for the endpoint.
+    ///   - agentRuntimeId: The unique identifier of the AgentCore Runtime associated with the endpoint.
+    ///   - agentRuntimeVersion: The updated version of the AgentCore Runtime for the endpoint.
     ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request.
-    ///   - description: The updated description of the agent runtime endpoint.
-    ///   - endpointName: The name of the agent runtime endpoint to update.
+    ///   - description: The updated description of the AgentCore Runtime endpoint.
+    ///   - endpointName: The name of the AgentCore Runtime endpoint to update.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateAgentRuntimeEndpoint(
@@ -1665,7 +1829,7 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.updateApiKeyCredentialProvider(input, logger: logger)
     }
 
-    /// Updates an existing Gateway.
+    /// Updates an existing gateway.
     @Sendable
     @inlinable
     public func updateGateway(_ input: UpdateGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGatewayResponse {
@@ -1678,23 +1842,23 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Updates an existing Gateway.
+    /// Updates an existing gateway.
     ///
     /// Parameters:
-    ///   - authorizerConfiguration: The updated authorizer configuration for the Gateway.
-    ///   - authorizerType: The updated authorizer type for the Gateway.
-    ///   - description: The updated description for the Gateway.
-    ///   - exceptionLevel: The verbosity of exception messages. Use DEBUG mode to see granular exception messages from a Gateway. If this parameter is not set, exception messages are by default sanitized for presentation to end users.
-    ///   - gatewayIdentifier: The identifier of the gateway to update. This can be either the gateway ID or the gateway ARN.
-    ///   - kmsKeyArn: The updated ARN of the KMS key used to encrypt the Gateway.
-    ///   - name: The updated name for the Gateway.
+    ///   - authorizerConfiguration: The updated authorizer configuration for the gateway.
+    ///   - authorizerType: The updated authorizer type for the gateway.
+    ///   - description: The updated description for the gateway.
+    ///   - exceptionLevel: The level of detail in error messages returned when invoking the gateway.   If the value is DEBUG, granular exception messages are returned to help a user debug the gateway.   If the value is omitted, a generic error message is returned to the end user.
+    ///   - gatewayIdentifier: The identifier of the gateway to update.
+    ///   - kmsKeyArn: The updated ARN of the KMS key used to encrypt the gateway.
+    ///   - name: The name of the gateway. This name must be the same as the one when the gateway was created.
     ///   - protocolConfiguration: 
-    ///   - protocolType: The updated protocol type for the Gateway.
-    ///   - roleArn: The updated IAM role ARN that provides permissions for the Gateway.
+    ///   - protocolType: The updated protocol type for the gateway.
+    ///   - roleArn: The updated IAM role ARN that provides permissions for the gateway.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateGateway(
-        authorizerConfiguration: AuthorizerConfiguration,
+        authorizerConfiguration: AuthorizerConfiguration? = nil,
         authorizerType: AuthorizerType,
         description: String? = nil,
         exceptionLevel: ExceptionLevel? = nil,
@@ -1721,7 +1885,7 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.updateGateway(input, logger: logger)
     }
 
-    /// Updates an existing Gateway Target.
+    /// Updates an existing gateway target.
     @Sendable
     @inlinable
     public func updateGatewayTarget(_ input: UpdateGatewayTargetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGatewayTargetResponse {
@@ -1734,19 +1898,19 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Updates an existing Gateway Target.
+    /// Updates an existing gateway target.
     ///
     /// Parameters:
-    ///   - credentialProviderConfigurations: The updated credential provider configurations for the Gateway Target.
-    ///   - description: The updated description for the Gateway Target.
-    ///   - gatewayIdentifier: The unique identifier of the Gateway associated with the target.
-    ///   - name: The updated name for the Gateway Target.
+    ///   - credentialProviderConfigurations: The updated credential provider configurations for the gateway target.
+    ///   - description: The updated description for the gateway target.
+    ///   - gatewayIdentifier: The unique identifier of the gateway associated with the target.
+    ///   - name: The updated name for the gateway target.
     ///   - targetConfiguration: 
-    ///   - targetId: The unique identifier of the Gateway Target to update.
+    ///   - targetId: The unique identifier of the gateway target to update.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateGatewayTarget(
-        credentialProviderConfigurations: [CredentialProviderConfiguration],
+        credentialProviderConfigurations: [CredentialProviderConfiguration]? = nil,
         description: String? = nil,
         gatewayIdentifier: String,
         name: String,
@@ -1765,7 +1929,7 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.updateGatewayTarget(input, logger: logger)
     }
 
-    /// Update memory.
+    /// Update an Amazon Bedrock AgentCore Memory resource memory.
     @Sendable
     @inlinable
     public func updateMemory(_ input: UpdateMemoryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMemoryOutput {
@@ -1778,13 +1942,13 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Update memory.
+    /// Update an Amazon Bedrock AgentCore Memory resource memory.
     ///
     /// Parameters:
     ///   - clientToken: A client token is used for keeping track of idempotent requests. It can contain a session id which can be around 250 chars, combined with a unique AWS identifier.
-    ///   - description: The updated description of the memory.
+    ///   - description: The updated description of the AgentCore Memory resource.
     ///   - eventExpiryDuration: The number of days after which memory events will expire, between 7 and 365 days.
-    ///   - memoryExecutionRoleArn: The ARN of the IAM role that provides permissions for the memory.
+    ///   - memoryExecutionRoleArn: The ARN of the IAM role that provides permissions for the AgentCore Memory resource.
     ///   - memoryId: The unique identifier of the memory to update.
     ///   - memoryStrategies: The memory strategies to add, modify, or delete.
     ///   - logger: Logger use during operation
@@ -1911,7 +2075,7 @@ extension BedrockAgentCoreControl {
     /// Return PaginatorSequence for operation ``listAgentRuntimeEndpoints(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - agentRuntimeId: The unique identifier of the agent runtime to list endpoints for.
+    ///   - agentRuntimeId: The unique identifier of the AgentCore Runtime to list endpoints for.
     ///   - maxResults: The maximum number of results to return in the response.
     ///   - logger: Logger used for logging
     @inlinable
@@ -1948,7 +2112,7 @@ extension BedrockAgentCoreControl {
     /// Return PaginatorSequence for operation ``listAgentRuntimeVersions(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - agentRuntimeId: The unique identifier of the agent runtime to list versions for.
+    ///   - agentRuntimeId: The unique identifier of the AgentCore Runtime to list versions for.
     ///   - maxResults: The maximum number of results to return in the response.
     ///   - logger: Logger used for logging
     @inlinable
@@ -2127,8 +2291,8 @@ extension BedrockAgentCoreControl {
     /// Return PaginatorSequence for operation ``listGatewayTargets(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - gatewayIdentifier: The identifier of the gateway to list targets for. This can be either the gateway ID or the gateway ARN.
-    ///   - maxResults: The maximum number of results to return in a single call. The default value is 10. The maximum value is 50.
+    ///   - gatewayIdentifier: The identifier of the gateway to list targets for.
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
     ///   - logger: Logger used for logging
     @inlinable
     public func listGatewayTargetsPaginator(
@@ -2164,7 +2328,7 @@ extension BedrockAgentCoreControl {
     /// Return PaginatorSequence for operation ``listGateways(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of results to return in a single call. The default value is 10. The maximum value is 50.
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
     ///   - logger: Logger used for logging
     @inlinable
     public func listGatewaysPaginator(

@@ -50,7 +50,14 @@ extension ConnectParticipant {
 
     public enum ConnectionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case connectionCredentials = "CONNECTION_CREDENTIALS"
+        case webrtcConnection = "WEBRTC_CONNECTION"
         case websocket = "WEBSOCKET"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MeetingFeatureStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "AVAILABLE"
+        case unavailable = "UNAVAILABLE"
         public var description: String { return self.rawValue }
     }
 
@@ -112,6 +119,38 @@ extension ConnectParticipant {
             case attachmentName = "AttachmentName"
             case contentType = "ContentType"
             case status = "Status"
+        }
+    }
+
+    public struct Attendee: AWSDecodableShape {
+        /// The Amazon Chime SDK attendee ID.
+        public let attendeeId: String?
+        /// The join token used by the Amazon Chime SDK attendee.
+        public let joinToken: String?
+
+        @inlinable
+        public init(attendeeId: String? = nil, joinToken: String? = nil) {
+            self.attendeeId = attendeeId
+            self.joinToken = joinToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attendeeId = "AttendeeId"
+            case joinToken = "JoinToken"
+        }
+    }
+
+    public struct AudioFeatures: AWSDecodableShape {
+        /// Makes echo reduction available to clients who connect to the meeting.
+        public let echoReduction: MeetingFeatureStatus?
+
+        @inlinable
+        public init(echoReduction: MeetingFeatureStatus? = nil) {
+            self.echoReduction = echoReduction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case echoReduction = "EchoReduction"
         }
     }
 
@@ -252,17 +291,21 @@ extension ConnectParticipant {
     public struct CreateParticipantConnectionResponse: AWSDecodableShape {
         /// Creates the participant's connection credentials. The authentication token associated with the participant's connection.
         public let connectionCredentials: ConnectionCredentials?
+        /// Creates the participant's WebRTC connection data required for the client application (mobile application or website) to connect to the call.
+        public let webRTCConnection: WebRTCConnection?
         /// Creates the participant's websocket connection.
         public let websocket: Websocket?
 
         @inlinable
-        public init(connectionCredentials: ConnectionCredentials? = nil, websocket: Websocket? = nil) {
+        public init(connectionCredentials: ConnectionCredentials? = nil, webRTCConnection: WebRTCConnection? = nil, websocket: Websocket? = nil) {
             self.connectionCredentials = connectionCredentials
+            self.webRTCConnection = webRTCConnection
             self.websocket = websocket
         }
 
         private enum CodingKeys: String, CodingKey {
             case connectionCredentials = "ConnectionCredentials"
+            case webRTCConnection = "WebRTCConnection"
             case websocket = "Websocket"
         }
     }
@@ -598,6 +641,20 @@ extension ConnectParticipant {
         }
     }
 
+    public struct MeetingFeaturesConfiguration: AWSDecodableShape {
+        /// The configuration settings for the audio features available to a meeting.
+        public let audio: AudioFeatures?
+
+        @inlinable
+        public init(audio: AudioFeatures? = nil) {
+            self.audio = audio
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audio = "Audio"
+        }
+    }
+
     public struct MessageMetadata: AWSDecodableShape {
         /// The identifier of the message that contains the metadata information.
         public let messageId: String?
@@ -666,7 +723,7 @@ extension ConnectParticipant {
         public let connectionToken: String
         /// The content of the event to be sent (for example, message text). For content related to message receipts, this is supported in the form of a JSON string. Sample Content: "{\"messageId\":\"11111111-aaaa-bbbb-cccc-EXAMPLE01234\"}"
         public let content: String?
-        /// The content type of the request. Supported types are:   application/vnd.amazonaws.connect.event.typing   application/vnd.amazonaws.connect.event.connection.acknowledged (will be deprecated on December 31, 2024)    application/vnd.amazonaws.connect.event.message.delivered   application/vnd.amazonaws.connect.event.message.read
+        /// The content type of the request. Supported types are:   application/vnd.amazonaws.connect.event.typing   application/vnd.amazonaws.connect.event.connection.acknowledged (is no longer maintained since December 31, 2024)    application/vnd.amazonaws.connect.event.message.delivered   application/vnd.amazonaws.connect.event.message.read
         public let contentType: String
 
         @inlinable
@@ -728,7 +785,7 @@ extension ConnectParticipant {
         public let connectionToken: String
         /// The content of the message.    For text/plain and text/markdown, the Length Constraints are Minimum of 1, Maximum of 1024.    For application/json, the Length Constraints are Minimum of 1, Maximum of 12000.    For application/vnd.amazonaws.connect.message.interactive.response, the Length Constraints are Minimum of 1, Maximum of 12288.
         public let content: String
-        /// The type of the content. Supported types are text/plain, text/markdown, application/json, and application/vnd.amazonaws.connect.message.interactive.response.
+        /// The type of the content. Possible types are text/plain, text/markdown, application/json, and application/vnd.amazonaws.connect.message.interactive.response.  Supported types on the contact are configured through SupportedMessagingContentTypes on StartChatContact and StartOutboundChatContact. For Apple Messages for Business, SMS, and WhatsApp Business Messaging contacts, only text/plain is supported.
         public let contentType: String
 
         @inlinable
@@ -955,6 +1012,70 @@ extension ConnectParticipant {
             case actions = "Actions"
             case inputSchema = "InputSchema"
             case template = "Template"
+        }
+    }
+
+    public struct WebRTCConnection: AWSDecodableShape {
+        public let attendee: Attendee?
+        /// A meeting created using the Amazon Chime SDK.
+        public let meeting: WebRTCMeeting?
+
+        @inlinable
+        public init(attendee: Attendee? = nil, meeting: WebRTCMeeting? = nil) {
+            self.attendee = attendee
+            self.meeting = meeting
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attendee = "Attendee"
+            case meeting = "Meeting"
+        }
+    }
+
+    public struct WebRTCMediaPlacement: AWSDecodableShape {
+        /// The audio fallback URL.
+        public let audioFallbackUrl: String?
+        /// The audio host URL.
+        public let audioHostUrl: String?
+        /// The event ingestion URL to which you send client meeting events.
+        public let eventIngestionUrl: String?
+        /// The signaling URL.
+        public let signalingUrl: String?
+
+        @inlinable
+        public init(audioFallbackUrl: String? = nil, audioHostUrl: String? = nil, eventIngestionUrl: String? = nil, signalingUrl: String? = nil) {
+            self.audioFallbackUrl = audioFallbackUrl
+            self.audioHostUrl = audioHostUrl
+            self.eventIngestionUrl = eventIngestionUrl
+            self.signalingUrl = signalingUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioFallbackUrl = "AudioFallbackUrl"
+            case audioHostUrl = "AudioHostUrl"
+            case eventIngestionUrl = "EventIngestionUrl"
+            case signalingUrl = "SignalingUrl"
+        }
+    }
+
+    public struct WebRTCMeeting: AWSDecodableShape {
+        /// The media placement for the meeting.
+        public let mediaPlacement: WebRTCMediaPlacement?
+        public let meetingFeatures: MeetingFeaturesConfiguration?
+        /// The Amazon Chime SDK meeting ID.
+        public let meetingId: String?
+
+        @inlinable
+        public init(mediaPlacement: WebRTCMediaPlacement? = nil, meetingFeatures: MeetingFeaturesConfiguration? = nil, meetingId: String? = nil) {
+            self.mediaPlacement = mediaPlacement
+            self.meetingFeatures = meetingFeatures
+            self.meetingId = meetingId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mediaPlacement = "MediaPlacement"
+            case meetingFeatures = "MeetingFeatures"
+            case meetingId = "MeetingId"
         }
     }
 

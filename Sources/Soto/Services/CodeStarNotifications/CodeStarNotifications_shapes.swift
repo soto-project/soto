@@ -84,7 +84,7 @@ extension CodeStarNotifications {
         public let status: NotificationRuleStatus?
         /// A list of tags to apply to this notification rule. Key names cannot start with "aws".
         public let tags: [String: String]?
-        /// A list of Amazon Resource Names (ARNs) of Amazon Simple Notification Service topics and Chatbot clients to associate with the notification rule.
+        /// A list of Amazon Resource Names (ARNs) of Amazon Simple Notification Service topics and Amazon Q Developer in chat applications clients to associate with the notification rule.
         public let targets: [Target]
 
         @inlinable
@@ -183,9 +183,9 @@ extension CodeStarNotifications {
     }
 
     public struct DeleteTargetRequest: AWSEncodableShape {
-        /// A Boolean value that can be used to delete all associations with this Chatbot topic. The default value is FALSE. If set to TRUE, all associations between that target and every notification rule in your Amazon Web Services account are deleted.
+        /// A Boolean value that can be used to delete all associations with this Amazon Q Developer in chat applications topic. The default value is FALSE. If set to TRUE, all associations between that target and every notification rule in your Amazon Web Services account are deleted.
         public let forceUnsubscribeAll: Bool?
-        /// The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client to delete.
+        /// The Amazon Resource Name (ARN) of the Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client to delete.
         public let targetAddress: String
 
         @inlinable
@@ -248,7 +248,7 @@ extension CodeStarNotifications {
         public let status: NotificationRuleStatus?
         /// The tags associated with the notification rule.
         public let tags: [String: String]?
-        /// A list of the Chatbot topics and Chatbot clients associated with the notification rule.
+        /// A list of the Amazon Q Developer in chat applications topics and Amazon Q Developer in chat applications clients associated with the notification rule.
         public let targets: [TargetSummary]?
 
         @inlinable
@@ -650,9 +650,9 @@ extension CodeStarNotifications {
     }
 
     public struct Target: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client.
+        /// The Amazon Resource Name (ARN) of the Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client.
         public let targetAddress: String?
-        /// The target type. Can be an Chatbot topic or Chatbot client.   Chatbot topics are specified as SNS.   Chatbot clients are specified as AWSChatbotSlack.
+        /// The target type. Can be an Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client.   Amazon Q Developer in chat applications topics are specified as SNS.   Amazon Q Developer in chat applications clients are specified as AWSChatbotSlack.
         public let targetType: String?
 
         @inlinable
@@ -674,11 +674,11 @@ extension CodeStarNotifications {
     }
 
     public struct TargetSummary: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client.
+        /// The Amazon Resource Name (ARN) of the Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client.
         public let targetAddress: String?
         /// The status of the target.
         public let targetStatus: TargetStatus?
-        /// The type of the target (for example, SNS).   Chatbot topics are specified as SNS.   Chatbot clients are specified as AWSChatbotSlack.
+        /// The type of the target (for example, SNS).   Amazon Q Developer in chat applications topics are specified as SNS.   Amazon Q Developer in chat applications clients are specified as AWSChatbotSlack.
         public let targetType: String?
 
         @inlinable
@@ -698,7 +698,7 @@ extension CodeStarNotifications {
     public struct UnsubscribeRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the notification rule.
         public let arn: String
-        /// The ARN of the Chatbot topic to unsubscribe from the notification rule.
+        /// The ARN of the Amazon Q Developer in chat applications topic to unsubscribe from the notification rule.
         public let targetAddress: String
 
         @inlinable

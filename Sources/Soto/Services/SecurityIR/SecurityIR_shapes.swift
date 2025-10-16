@@ -28,6 +28,7 @@ extension SecurityIR {
     public enum AwsRegion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case afSouth1 = "af-south-1"
         case apEast1 = "ap-east-1"
+        case apEast2 = "ap-east-2"
         case apNortheast1 = "ap-northeast-1"
         case apNortheast2 = "ap-northeast-2"
         case apNortheast3 = "ap-northeast-3"
@@ -104,11 +105,13 @@ extension SecurityIR {
     public enum MembershipAccountRelationshipStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case associated = "Associated"
         case disassociated = "Disassociated"
+        case unassociated = "Unassociated"
         public var description: String { return self.rawValue }
     }
 
     public enum MembershipAccountRelationshipType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case organization = "Organization"
+        case unrelated = "Unrelated"
         public var description: String { return self.rawValue }
     }
 
@@ -155,7 +158,7 @@ extension SecurityIR {
     // MARK: Shapes
 
     public struct BatchGetMemberAccountDetailsRequest: AWSEncodableShape {
-        /// Optional element to query the membership relationship status to a provided list of account IDs.
+        /// Optional element to query the membership relationship status to a provided list of account IDs.   AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123. Not zero-prepending to 12 digits could result in errors.
         public let accountIds: [String]
         /// Required element used in combination with BatchGetMemberAccountDetails to identify the membership ID to query.
         public let membershipId: String
@@ -192,7 +195,7 @@ extension SecurityIR {
     }
 
     public struct BatchGetMemberAccountDetailsResponse: AWSDecodableShape {
-        /// The response element providing errors messages for requests to GetMembershipAccountDetails.
+        /// The response element providing error messages for requests to GetMembershipAccountDetails.
         public let errors: [GetMembershipAccountDetailError]?
         /// The response element providing responses for requests to GetMembershipAccountDetails.
         public let items: [GetMembershipAccountDetailItem]?
@@ -319,9 +322,9 @@ extension SecurityIR {
     }
 
     public struct CloseCaseResponse: AWSDecodableShape {
-        /// A response element providing responses for requests to CloseCase. This element responds with the case status following the action.
+        /// A response element providing responses for requests to CloseCase. This element responds Closed  if successful.
         public let caseStatus: CaseStatus?
-        /// A response element providing responses for requests to CloseCase. This element responds with the case closure date following the action.
+        /// A response element providing responses for requests to CloseCase. This element responds with the ISO-8601 formatted timestamp of the moment when the case was closed.
         public let closedDate: Date?
 
         @inlinable
@@ -341,7 +344,7 @@ extension SecurityIR {
         public let body: String
         /// Required element used in combination with CreateCaseComment to specify a case ID.
         public let caseId: String
-        /// An optional element used in combination with CreateCaseComment.
+        ///  The clientToken field is an idempotency key used to ensure that repeated attempts for a single action will be ignored by the server during retries. A caller supplied unique ID (typically a UUID) should be provided.
         public let clientToken: String?
 
         @inlinable
@@ -388,13 +391,13 @@ extension SecurityIR {
     }
 
     public struct CreateCaseRequest: AWSEncodableShape {
-        /// Required element used in combination with CreateCase.
+        ///  The clientToken field is an idempotency key used to ensure that repeated attempts for a single action will be ignored by the server during retries. A caller supplied unique ID (typically a UUID) should be provided.
         public let clientToken: String?
         /// Required element used in combination with CreateCase to provide a description for the new case.
         public let description: String
         /// Required element used in combination with CreateCase to provide an engagement type for the new cases. Available engagement types include Security Incident | Investigation
         public let engagementType: EngagementType
-        /// Required element used in combination with CreateCase to provide a list of impacted accounts.
+        /// Required element used in combination with CreateCase to provide a list of impacted accounts.   AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123. Not zero-prepending to 12 digits could result in errors.
         public let impactedAccounts: [String]
         /// An optional element used in combination with CreateCase to provide a list of impacted regions.
         public let impactedAwsRegions: [ImpactedAwsRegion]?
@@ -402,7 +405,7 @@ extension SecurityIR {
         public let impactedServices: [String]?
         /// Required element used in combination with CreateCase to provide an initial start date for the unauthorized activity.
         public let reportedIncidentStartDate: Date
-        /// Required element used in combination with CreateCase to identify the resolver type. Available resolvers include self-supported | aws-supported.
+        /// Required element used in combination with CreateCase to identify the resolver type.
         public let resolverType: ResolverType
         /// An optional element used in combination with CreateCase to add customer specified tags to a case.
         public let tags: [String: String]?
@@ -441,7 +444,7 @@ extension SecurityIR {
             try self.validate(self.impactedAwsRegions, name: "impactedAwsRegions", parent: name, max: 50)
             try self.impactedServices?.forEach {
                 try validate($0, name: "impactedServices[]", parent: name, max: 50)
-                try validate($0, name: "impactedServices[]", parent: name, min: 3)
+                try validate($0, name: "impactedServices[]", parent: name, min: 2)
                 try validate($0, name: "impactedServices[]", parent: name, pattern: "^[a-zA-Z0-9 -.():]+$")
             }
             try self.validate(self.impactedServices, name: "impactedServices", parent: name, max: 600)
@@ -494,11 +497,13 @@ extension SecurityIR {
     }
 
     public struct CreateMembershipRequest: AWSEncodableShape {
-        /// An optional element used in combination with CreateMembership.
+        ///  The clientToken field is an idempotency key used to ensure that repeated attempts for a single action will be ignored by the server during retries. A caller supplied unique ID (typically a UUID) should be provided.
         public let clientToken: String?
-        /// Required element use in combination with CreateMembership to add customer incident response team members and trusted partners to the membership.
+        /// The coverEntireOrganization parameter is a boolean flag that determines whether the membership should be applied to the entire Amazon Web Services Organization. When set to true, the membership will be created for all accounts within the organization. When set to false, the membership will only be created for specified accounts.  This parameter is optional. If not specified, the default value is false.   If set to true: The membership will automatically include all existing and future accounts in the Amazon Web Services Organization.    If set to false: The membership will only apply to explicitly specified accounts.
+        public let coverEntireOrganization: Bool?
+        /// Required element used in combination with CreateMembership to add customer incident response team members and trusted partners to the membership.
         public let incidentResponseTeam: [IncidentResponder]
-        /// Required element use in combination with CreateMembership to create a name for the membership.
+        /// Required element used in combination with CreateMembership to create a name for the membership.
         public let membershipName: String
         /// Optional element to enable the monitoring and investigation opt-in features for the service.
         public let optInFeatures: [OptInFeature]?
@@ -506,8 +511,9 @@ extension SecurityIR {
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = nil, incidentResponseTeam: [IncidentResponder], membershipName: String, optInFeatures: [OptInFeature]? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String? = nil, coverEntireOrganization: Bool? = nil, incidentResponseTeam: [IncidentResponder], membershipName: String, optInFeatures: [OptInFeature]? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
+            self.coverEntireOrganization = coverEntireOrganization
             self.incidentResponseTeam = incidentResponseTeam
             self.membershipName = membershipName
             self.optInFeatures = optInFeatures
@@ -534,6 +540,7 @@ extension SecurityIR {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
+            case coverEntireOrganization = "coverEntireOrganization"
             case incidentResponseTeam = "incidentResponseTeam"
             case membershipName = "membershipName"
             case optInFeatures = "optInFeatures"
@@ -599,11 +606,11 @@ extension SecurityIR {
     }
 
     public struct GetCaseAttachmentUploadUrlRequest: AWSEncodableShape {
-        /// Required element for GetCaseAttachmentUploadUrl to identify the case ID for uploading an attachment to.
+        /// Required element for GetCaseAttachmentUploadUrl to identify the case ID for uploading an attachment.
         public let caseId: String
-        /// Optional element for customer provided token.
+        ///  The clientToken field is an idempotency key used to ensure that repeated attempts for a single action will be ignored by the server during retries. A caller supplied unique ID (typically a UUID) should be provided.
         public let clientToken: String?
-        /// Required element for GetCaseAttachmentUploadUrl to identify the size od the file attachment.
+        /// Required element for GetCaseAttachmentUploadUrl to identify the size of the file attachment.
         public let contentLength: Int64
         /// Required element for GetCaseAttachmentUploadUrl to identify the file name of the attachment to upload.
         public let fileName: String
@@ -644,7 +651,7 @@ extension SecurityIR {
     }
 
     public struct GetCaseAttachmentUploadUrlResponse: AWSDecodableShape {
-        /// Response element providing the Amazon S3 presigned UTL to upload the attachment.
+        /// Response element providing the Amazon S3 presigned URL to upload the attachment.
         public let attachmentPresignedUrl: String
 
         @inlinable
@@ -708,11 +715,11 @@ extension SecurityIR {
         public let impactedServices: [String]?
         /// Response element for GetCase that provides the date a case was last modified.
         public let lastUpdatedDate: Date?
-        /// Response element for GetCase that provides identifies the case is waiting on customer input.
+        /// Response element for GetCase that identifies the case is waiting on customer input.
         public let pendingAction: PendingAction?
         /// Response element for GetCase that provides the customer provided incident start date.
         public let reportedIncidentStartDate: Date?
-        /// Response element for GetCase that provides the current resolver types. Options include  self-supported | AWS-supported.
+        /// Response element for GetCase that provides the current resolver types.
         public let resolverType: ResolverType?
         /// Response element for GetCase that provides a list of suspicious IP addresses associated with unauthorized activity.
         public let threatActorIpAddresses: [ThreatActorIp]?
@@ -830,12 +837,14 @@ extension SecurityIR {
     }
 
     public struct GetMembershipResponse: AWSDecodableShape {
-        /// Response element for GetMembership that provides the configured account for managing the membership.
+        /// Response element for GetMembership that provides the account configured to manage the membership.
         public let accountId: String?
         /// Response element for GetMembership that provides the configured membership type. Options include  Standalone | Organizations.
         public let customerType: CustomerType?
         /// Response element for GetMembership that provides the configured membership incident response team members.
         public let incidentResponseTeam: [IncidentResponder]?
+        /// The membershipAccountsConfigurations field contains the configuration details for member accounts within the Amazon Web Services Organizations membership structure.  This field returns a structure containing information about:   Account configurations for member accounts   Membership settings and preferences   Account-level permissions and roles
+        public let membershipAccountsConfigurations: MembershipAccountsConfigurations?
         /// Response element for GetMembership that provides the configured membership activation timestamp.
         public let membershipActivationTimestamp: Date?
         /// Response element for GetMembership that provides the membership ARN.
@@ -852,14 +861,15 @@ extension SecurityIR {
         public let numberOfAccountsCovered: Int64?
         /// Response element for GetMembership that provides the if opt-in features have been enabled.
         public let optInFeatures: [OptInFeature]?
-        /// Response element for GetMembership that provides the configured region for managing the membership.
+        /// Response element for GetMembership that provides the region configured to manage the membership.
         public let region: AwsRegion?
 
         @inlinable
-        public init(accountId: String? = nil, customerType: CustomerType? = nil, incidentResponseTeam: [IncidentResponder]? = nil, membershipActivationTimestamp: Date? = nil, membershipArn: String? = nil, membershipDeactivationTimestamp: Date? = nil, membershipId: String, membershipName: String? = nil, membershipStatus: MembershipStatus? = nil, numberOfAccountsCovered: Int64? = nil, optInFeatures: [OptInFeature]? = nil, region: AwsRegion? = nil) {
+        public init(accountId: String? = nil, customerType: CustomerType? = nil, incidentResponseTeam: [IncidentResponder]? = nil, membershipAccountsConfigurations: MembershipAccountsConfigurations? = nil, membershipActivationTimestamp: Date? = nil, membershipArn: String? = nil, membershipDeactivationTimestamp: Date? = nil, membershipId: String, membershipName: String? = nil, membershipStatus: MembershipStatus? = nil, numberOfAccountsCovered: Int64? = nil, optInFeatures: [OptInFeature]? = nil, region: AwsRegion? = nil) {
             self.accountId = accountId
             self.customerType = customerType
             self.incidentResponseTeam = incidentResponseTeam
+            self.membershipAccountsConfigurations = membershipAccountsConfigurations
             self.membershipActivationTimestamp = membershipActivationTimestamp
             self.membershipArn = membershipArn
             self.membershipDeactivationTimestamp = membershipDeactivationTimestamp
@@ -875,6 +885,7 @@ extension SecurityIR {
             case accountId = "accountId"
             case customerType = "customerType"
             case incidentResponseTeam = "incidentResponseTeam"
+            case membershipAccountsConfigurations = "membershipAccountsConfigurations"
             case membershipActivationTimestamp = "membershipActivationTimestamp"
             case membershipArn = "membershipArn"
             case membershipDeactivationTimestamp = "membershipDeactivationTimestamp"
@@ -934,7 +945,7 @@ extension SecurityIR {
         public let caseId: String
         /// Optional element to identify how many results to obtain. There is a maximum value of 25.
         public let maxResults: Int?
-        /// Optional element for a customer provided token.
+        /// An optional string that, if supplied, must be copied from the output of a previous call to ListCaseEdits. When provided in this manner, the API fetches the next page of results.
         public let nextToken: String?
 
         @inlinable
@@ -965,9 +976,9 @@ extension SecurityIR {
     }
 
     public struct ListCaseEditsResponse: AWSDecodableShape {
-        /// Response element for ListCaseEdits that includes the action, eventtimestamp, message, and principal for the response.
+        /// Response element for ListCaseEdits that includes the action, event timestamp, message, and principal for the response.
         public let items: [CaseEditItem]?
-        /// Optional element.
+        /// An optional string that, if supplied on subsequent calls to ListCaseEdits, allows the API to fetch the next page of results.
         public let nextToken: String?
         /// Response element for ListCaseEdits that identifies the total number of edits.
         public let total: Int?
@@ -1029,7 +1040,7 @@ extension SecurityIR {
     public struct ListCasesRequest: AWSEncodableShape {
         /// Optional element for ListCases to limit the number of responses.
         public let maxResults: Int?
-        /// Optional element.
+        /// An optional string that, if supplied, must be copied from the output of a previous call to ListCases. When provided in this manner, the API fetches the next page of results.
         public let nextToken: String?
 
         @inlinable
@@ -1047,7 +1058,7 @@ extension SecurityIR {
     public struct ListCasesResponse: AWSDecodableShape {
         /// Response element for ListCases that includes caseARN, caseID, caseStatus, closedDate, createdDate, engagementType, lastUpdatedDate, pendingAction, resolverType, and title for each response.
         public let items: [ListCasesItem]?
-        /// Optional element.
+        /// An optional string that, if supplied on subsequent calls to ListCases, allows the API to fetch the next page of results.
         public let nextToken: String?
         /// Response element for ListCases providing the total number of responses.
         public let total: Int64?
@@ -1099,7 +1110,7 @@ extension SecurityIR {
         public let caseId: String
         /// Optional element for ListComments to limit the number of responses.
         public let maxResults: Int?
-        /// Optional element.
+        /// An optional string that, if supplied, must be copied from the output of a previous call to ListComments. When provided in this manner, the API fetches the next page of results.
         public let nextToken: String?
 
         @inlinable
@@ -1132,7 +1143,7 @@ extension SecurityIR {
     public struct ListCommentsResponse: AWSDecodableShape {
         /// Response element for ListComments providing the body, commentID, createDate, creator, lastUpdatedBy and lastUpdatedDate for each response.
         public let items: [ListCommentsItem]?
-        /// Optional request elements.
+        /// An optional string that, if supplied on subsequent calls to ListComments, allows the API to fetch the next page of results.
         public let nextToken: String?
         /// Response element for ListComments identifying the number of responses.
         public let total: Int?
@@ -1179,7 +1190,7 @@ extension SecurityIR {
     public struct ListMembershipsRequest: AWSEncodableShape {
         /// Request element for ListMemberships to limit the number of responses.
         public let maxResults: Int?
-        /// Optional element.
+        /// An optional string that, if supplied, must be copied from the output of a previous call to ListMemberships. When provided in this manner, the API fetches the next page of results.
         public let nextToken: String?
 
         @inlinable
@@ -1197,7 +1208,7 @@ extension SecurityIR {
     public struct ListMembershipsResponse: AWSDecodableShape {
         /// Request element for ListMemberships including the accountID, membershipARN, membershipID, membershipStatus, and region for each response.
         public let items: [ListMembershipItem]?
-        /// Optional element.
+        /// An optional string that, if supplied on subsequent calls to ListMemberships, allows the API to fetch the next page of results.
         public let nextToken: String?
 
         @inlinable
@@ -1247,6 +1258,55 @@ extension SecurityIR {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
+        }
+    }
+
+    public struct MembershipAccountsConfigurations: AWSDecodableShape {
+        /// The coverEntireOrganization field is a boolean value that determines whether the membership configuration applies to all accounts within an Amazon Web Services Organization.  When set to true, the configuration will be applied across all accounts in the organization. When set to false, the configuration will only apply to specifically designated accounts under the AWS Organizational Units specificied.
+        public let coverEntireOrganization: Bool?
+        /// A list of organizational unit IDs that follow the pattern ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}. These IDs represent the organizational units within an Amazon Web Services Organizations structure that are covered by the membership.  Each organizational unit ID in the list must:   Begin with the prefix 'ou-'   Contain between 4 and 32 alphanumeric characters in the first segment   Contain between 8 and 32 alphanumeric characters in the second segment
+        public let organizationalUnits: [String]?
+
+        @inlinable
+        public init(coverEntireOrganization: Bool? = nil, organizationalUnits: [String]? = nil) {
+            self.coverEntireOrganization = coverEntireOrganization
+            self.organizationalUnits = organizationalUnits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coverEntireOrganization = "coverEntireOrganization"
+            case organizationalUnits = "organizationalUnits"
+        }
+    }
+
+    public struct MembershipAccountsConfigurationsUpdate: AWSEncodableShape {
+        /// The coverEntireOrganization field is a boolean value that determines whether the membership configuration should be applied across the entire Amazon Web Services Organization.  When set to true, the configuration will be applied to all accounts within the organization. When set to false, the configuration will only apply to specifically designated accounts.
+        public let coverEntireOrganization: Bool?
+        /// A list of organizational unit IDs to add to the membership configuration. Each organizational unit ID must match the pattern ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}.  The list must contain between 1 and 5 organizational unit IDs.
+        public let organizationalUnitsToAdd: [String]?
+        /// A list of organizational unit IDs to remove from the membership configuration. Each organizational unit ID must match the pattern ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}.  The list must contain between 1 and 5 organizational unit IDs per invocation of the API request.
+        public let organizationalUnitsToRemove: [String]?
+
+        @inlinable
+        public init(coverEntireOrganization: Bool? = nil, organizationalUnitsToAdd: [String]? = nil, organizationalUnitsToRemove: [String]? = nil) {
+            self.coverEntireOrganization = coverEntireOrganization
+            self.organizationalUnitsToAdd = organizationalUnitsToAdd
+            self.organizationalUnitsToRemove = organizationalUnitsToRemove
+        }
+
+        public func validate(name: String) throws {
+            try self.organizationalUnitsToAdd?.forEach {
+                try validate($0, name: "organizationalUnitsToAdd[]", parent: name, pattern: "^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$")
+            }
+            try self.organizationalUnitsToRemove?.forEach {
+                try validate($0, name: "organizationalUnitsToRemove[]", parent: name, pattern: "^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coverEntireOrganization = "coverEntireOrganization"
+            case organizationalUnitsToAdd = "organizationalUnitsToAdd"
+            case organizationalUnitsToRemove = "organizationalUnitsToRemove"
         }
     }
 
@@ -1430,9 +1490,9 @@ extension SecurityIR {
         public let description: String?
         /// Optional element for UpdateCase to provide content for the engagement type field. Available engagement types include Security Incident | Investigation.
         public let engagementType: EngagementType?
-        /// Optional element for UpdateCase to provide content to add accounts impacted.
+        /// Optional element for UpdateCase to provide content to add accounts impacted.   AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123. Not zero-prepending to 12 digits could result in errors.
         public let impactedAccountsToAdd: [String]?
-        /// Optional element for UpdateCase to provide content to add accounts impacted.
+        /// Optional element for UpdateCase to provide content to add accounts impacted.   AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123. Not zero-prepending to 12 digits could result in errors.
         public let impactedAccountsToDelete: [String]?
         /// Optional element for UpdateCase to provide content to add regions impacted.
         public let impactedAwsRegionsToAdd: [ImpactedAwsRegion]?
@@ -1518,13 +1578,13 @@ extension SecurityIR {
             try self.validate(self.impactedAwsRegionsToDelete, name: "impactedAwsRegionsToDelete", parent: name, max: 50)
             try self.impactedServicesToAdd?.forEach {
                 try validate($0, name: "impactedServicesToAdd[]", parent: name, max: 50)
-                try validate($0, name: "impactedServicesToAdd[]", parent: name, min: 3)
+                try validate($0, name: "impactedServicesToAdd[]", parent: name, min: 2)
                 try validate($0, name: "impactedServicesToAdd[]", parent: name, pattern: "^[a-zA-Z0-9 -.():]+$")
             }
             try self.validate(self.impactedServicesToAdd, name: "impactedServicesToAdd", parent: name, max: 600)
             try self.impactedServicesToDelete?.forEach {
                 try validate($0, name: "impactedServicesToDelete[]", parent: name, max: 50)
-                try validate($0, name: "impactedServicesToDelete[]", parent: name, min: 3)
+                try validate($0, name: "impactedServicesToDelete[]", parent: name, min: 2)
                 try validate($0, name: "impactedServicesToDelete[]", parent: name, pattern: "^[a-zA-Z0-9 -.():]+$")
             }
             try self.validate(self.impactedServicesToDelete, name: "impactedServicesToDelete", parent: name, max: 600)
@@ -1618,28 +1678,36 @@ extension SecurityIR {
     public struct UpdateMembershipRequest: AWSEncodableShape {
         /// Optional element for UpdateMembership to update the membership name.
         public let incidentResponseTeam: [IncidentResponder]?
+        /// The membershipAccountsConfigurationsUpdate field in the UpdateMembershipRequest structure allows you to update the configuration settings for accounts within a membership.  This field is optional and contains a structure of type MembershipAccountsConfigurationsUpdate  that specifies the updated account configurations for the membership.
+        public let membershipAccountsConfigurationsUpdate: MembershipAccountsConfigurationsUpdate?
         /// Required element for UpdateMembership to identify the membership to update.
         public let membershipId: String
         /// Optional element for UpdateMembership to update the membership name.
         public let membershipName: String?
         /// Optional element for UpdateMembership to enable or disable opt-in features for the service.
         public let optInFeatures: [OptInFeature]?
+        /// The undoMembershipCancellation parameter is a boolean flag that indicates whether to reverse a previously requested membership cancellation. When set to true, this will revoke the cancellation request and maintain the membership status.  This parameter is optional and can be used in scenarios where you need to restore a membership that was marked for cancellation but hasn't been fully terminated yet.    If set to true, the cancellation request will be revoked    If set to false the service will throw a ValidationException.
+        public let undoMembershipCancellation: Bool?
 
         @inlinable
-        public init(incidentResponseTeam: [IncidentResponder]? = nil, membershipId: String, membershipName: String? = nil, optInFeatures: [OptInFeature]? = nil) {
+        public init(incidentResponseTeam: [IncidentResponder]? = nil, membershipAccountsConfigurationsUpdate: MembershipAccountsConfigurationsUpdate? = nil, membershipId: String, membershipName: String? = nil, optInFeatures: [OptInFeature]? = nil, undoMembershipCancellation: Bool? = nil) {
             self.incidentResponseTeam = incidentResponseTeam
+            self.membershipAccountsConfigurationsUpdate = membershipAccountsConfigurationsUpdate
             self.membershipId = membershipId
             self.membershipName = membershipName
             self.optInFeatures = optInFeatures
+            self.undoMembershipCancellation = undoMembershipCancellation
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.incidentResponseTeam, forKey: .incidentResponseTeam)
+            try container.encodeIfPresent(self.membershipAccountsConfigurationsUpdate, forKey: .membershipAccountsConfigurationsUpdate)
             request.encodePath(self.membershipId, key: "membershipId")
             try container.encodeIfPresent(self.membershipName, forKey: .membershipName)
             try container.encodeIfPresent(self.optInFeatures, forKey: .optInFeatures)
+            try container.encodeIfPresent(self.undoMembershipCancellation, forKey: .undoMembershipCancellation)
         }
 
         public func validate(name: String) throws {
@@ -1648,6 +1716,7 @@ extension SecurityIR {
             }
             try self.validate(self.incidentResponseTeam, name: "incidentResponseTeam", parent: name, max: 10)
             try self.validate(self.incidentResponseTeam, name: "incidentResponseTeam", parent: name, min: 2)
+            try self.membershipAccountsConfigurationsUpdate?.validate(name: "\(name).membershipAccountsConfigurationsUpdate")
             try self.validate(self.membershipId, name: "membershipId", parent: name, max: 34)
             try self.validate(self.membershipId, name: "membershipId", parent: name, min: 12)
             try self.validate(self.membershipId, name: "membershipId", parent: name, pattern: "^m-[a-z0-9]{10,32}$")
@@ -1659,8 +1728,10 @@ extension SecurityIR {
 
         private enum CodingKeys: String, CodingKey {
             case incidentResponseTeam = "incidentResponseTeam"
+            case membershipAccountsConfigurationsUpdate = "membershipAccountsConfigurationsUpdate"
             case membershipName = "membershipName"
             case optInFeatures = "optInFeatures"
+            case undoMembershipCancellation = "undoMembershipCancellation"
         }
     }
 
@@ -1721,10 +1792,11 @@ extension SecurityIR {
     }
 
     public struct ValidationException: AWSErrorShape {
-        /// Element that provides the list of field(s) that caused the error, if applicable.
+        /// The fields which lead to the exception.
         public let fieldList: [ValidationExceptionField]?
+        /// The exception message.
         public let message: String
-        /// Element that provides the reason the request failed validation.
+        /// The reason for the exception.
         public let reason: ValidationExceptionReason
 
         @inlinable

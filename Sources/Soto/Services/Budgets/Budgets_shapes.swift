@@ -135,6 +135,20 @@ extension Budgets {
         public var description: String { return self.rawValue }
     }
 
+    public enum HealthStatusReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case billingViewNoAccess = "BILLING_VIEW_NO_ACCESS"
+        case billingViewUnhealthy = "BILLING_VIEW_UNHEALTHY"
+        case filterInvalid = "FILTER_INVALID"
+        case multiYearHistoricalDataDisabled = "MULTI_YEAR_HISTORICAL_DATA_DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HealthStatusValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case healthy = "HEALTHY"
+        case unhealthy = "UNHEALTHY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MatchOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case absent = "ABSENT"
         case caseInsensitive = "CASE_INSENSITIVE"
@@ -185,6 +199,7 @@ extension Budgets {
 
     public enum TimeUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case annually = "ANNUALLY"
+        case custom = "CUSTOM"
         case daily = "DAILY"
         case monthly = "MONTHLY"
         case quarterly = "QUARTERLY"
@@ -337,6 +352,12 @@ extension Budgets {
     public struct Budget: AWSEncodableShape & AWSDecodableShape {
         /// The parameters that determine the budget amount for an auto-adjusting budget.
         public let autoAdjustData: AutoAdjustData?
+        /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is
+        /// 			used to specify which particular billing view you want to interact with or retrieve
+        /// 			information from when making API calls related to Amazon Web Services Billing and Cost
+        /// 			Management features. The BillingViewArn can be retrieved by calling the ListBillingViews
+        /// 			API.
+        public let billingViewArn: String?
         /// The total amount of cost, usage, RI utilization, RI coverage, Savings Plans
         /// 			utilization, or Savings Plans coverage that you want to track with your budget.  BudgetLimit is required for cost or usage budgets, but optional for RI or
         /// 			Savings Plans utilization or coverage budgets. RI and Savings Plans utilization or
@@ -364,6 +385,8 @@ extension Budgets {
         public let costTypes: CostTypes?
         /// The filtering dimensions for the budget and their corresponding values.
         public let filterExpression: Expression?
+        /// The current operational state of a Billing View derived resource.
+        public let healthStatus: HealthStatus?
         /// The last time that you updated this budget.
         public let lastUpdatedTime: Date?
         /// The definition for how the budget data is aggregated.
@@ -391,7 +414,7 @@ extension Budgets {
         /// The period of time that's covered by a budget. You set the start date and end date. The
         /// 			start date must come before the end date. The end date must come before 06/15/87
         /// 				00:00 UTC.  If you create your budget and don't specify a start date, Amazon Web Services defaults
-        /// 			to the start of your chosen time period (DAILY, MONTHLY, QUARTERLY, or ANNUALLY). For
+        /// 			to the start of your chosen time period (DAILY, MONTHLY, QUARTERLY, ANNUALLY, or CUSTOM). For
         /// 			example, if you created your budget on January 24, 2018, chose DAILY, and
         /// 			didn't set a start date, Amazon Web Services set your start date to 01/24/18 00:00
         /// 				UTC. If you chose MONTHLY, Amazon Web Services set your start
@@ -403,8 +426,9 @@ extension Budgets {
         public let timeUnit: TimeUnit
 
         @inlinable
-        public init(autoAdjustData: AutoAdjustData? = nil, budgetLimit: Spend? = nil, budgetName: String, budgetType: BudgetType, calculatedSpend: CalculatedSpend? = nil, filterExpression: Expression? = nil, lastUpdatedTime: Date? = nil, metrics: [Metric]? = nil, plannedBudgetLimits: [String: Spend]? = nil, timePeriod: TimePeriod? = nil, timeUnit: TimeUnit) {
+        public init(autoAdjustData: AutoAdjustData? = nil, billingViewArn: String? = nil, budgetLimit: Spend? = nil, budgetName: String, budgetType: BudgetType, calculatedSpend: CalculatedSpend? = nil, filterExpression: Expression? = nil, healthStatus: HealthStatus? = nil, lastUpdatedTime: Date? = nil, metrics: [Metric]? = nil, plannedBudgetLimits: [String: Spend]? = nil, timePeriod: TimePeriod? = nil, timeUnit: TimeUnit) {
             self.autoAdjustData = autoAdjustData
+            self.billingViewArn = billingViewArn
             self.budgetLimit = budgetLimit
             self.budgetName = budgetName
             self.budgetType = budgetType
@@ -412,6 +436,7 @@ extension Budgets {
             self.costFilters = nil
             self.costTypes = nil
             self.filterExpression = filterExpression
+            self.healthStatus = healthStatus
             self.lastUpdatedTime = lastUpdatedTime
             self.metrics = metrics
             self.plannedBudgetLimits = plannedBudgetLimits
@@ -421,8 +446,9 @@ extension Budgets {
 
         @available(*, deprecated, message: "Members costFilters, costTypes have been deprecated")
         @inlinable
-        public init(autoAdjustData: AutoAdjustData? = nil, budgetLimit: Spend? = nil, budgetName: String, budgetType: BudgetType, calculatedSpend: CalculatedSpend? = nil, costFilters: [String: [String]]? = nil, costTypes: CostTypes? = nil, filterExpression: Expression? = nil, lastUpdatedTime: Date? = nil, metrics: [Metric]? = nil, plannedBudgetLimits: [String: Spend]? = nil, timePeriod: TimePeriod? = nil, timeUnit: TimeUnit) {
+        public init(autoAdjustData: AutoAdjustData? = nil, billingViewArn: String? = nil, budgetLimit: Spend? = nil, budgetName: String, budgetType: BudgetType, calculatedSpend: CalculatedSpend? = nil, costFilters: [String: [String]]? = nil, costTypes: CostTypes? = nil, filterExpression: Expression? = nil, healthStatus: HealthStatus? = nil, lastUpdatedTime: Date? = nil, metrics: [Metric]? = nil, plannedBudgetLimits: [String: Spend]? = nil, timePeriod: TimePeriod? = nil, timeUnit: TimeUnit) {
             self.autoAdjustData = autoAdjustData
+            self.billingViewArn = billingViewArn
             self.budgetLimit = budgetLimit
             self.budgetName = budgetName
             self.budgetType = budgetType
@@ -430,6 +456,7 @@ extension Budgets {
             self.costFilters = costFilters
             self.costTypes = costTypes
             self.filterExpression = filterExpression
+            self.healthStatus = healthStatus
             self.lastUpdatedTime = lastUpdatedTime
             self.metrics = metrics
             self.plannedBudgetLimits = plannedBudgetLimits
@@ -439,6 +466,9 @@ extension Budgets {
 
         public func validate(name: String) throws {
             try self.autoAdjustData?.validate(name: "\(name).autoAdjustData")
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, max: 2048)
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, min: 20)
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\\+=\\.\\-@]{0,75}[a-zA-Z0-9]$")
             try self.budgetLimit?.validate(name: "\(name).budgetLimit")
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
@@ -459,6 +489,7 @@ extension Budgets {
 
         private enum CodingKeys: String, CodingKey {
             case autoAdjustData = "AutoAdjustData"
+            case billingViewArn = "BillingViewArn"
             case budgetLimit = "BudgetLimit"
             case budgetName = "BudgetName"
             case budgetType = "BudgetType"
@@ -466,6 +497,7 @@ extension Budgets {
             case costFilters = "CostFilters"
             case costTypes = "CostTypes"
             case filterExpression = "FilterExpression"
+            case healthStatus = "HealthStatus"
             case lastUpdatedTime = "LastUpdatedTime"
             case metrics = "Metrics"
             case plannedBudgetLimits = "PlannedBudgetLimits"
@@ -491,6 +523,12 @@ extension Budgets {
     }
 
     public struct BudgetPerformanceHistory: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is
+        /// 			used to specify which particular billing view you want to interact with or retrieve
+        /// 			information from when making API calls related to Amazon Web Services Billing and Cost
+        /// 			Management features. The BillingViewArn can be retrieved by calling the ListBillingViews
+        /// 			API.
+        public let billingViewArn: String?
         /// A list of amounts of cost or usage that you created budgets for, which are compared to
         /// 			your actual costs or usage.
         public let budgetedAndActualAmountsList: [BudgetedAndActualAmounts]?
@@ -503,7 +541,8 @@ extension Budgets {
         public let timeUnit: TimeUnit?
 
         @inlinable
-        public init(budgetedAndActualAmountsList: [BudgetedAndActualAmounts]? = nil, budgetName: String? = nil, budgetType: BudgetType? = nil, costFilters: [String: [String]]? = nil, costTypes: CostTypes? = nil, timeUnit: TimeUnit? = nil) {
+        public init(billingViewArn: String? = nil, budgetedAndActualAmountsList: [BudgetedAndActualAmounts]? = nil, budgetName: String? = nil, budgetType: BudgetType? = nil, costFilters: [String: [String]]? = nil, costTypes: CostTypes? = nil, timeUnit: TimeUnit? = nil) {
+            self.billingViewArn = billingViewArn
             self.budgetedAndActualAmountsList = budgetedAndActualAmountsList
             self.budgetName = budgetName
             self.budgetType = budgetType
@@ -513,6 +552,7 @@ extension Budgets {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case billingViewArn = "BillingViewArn"
             case budgetedAndActualAmountsList = "BudgetedAndActualAmountsList"
             case budgetName = "BudgetName"
             case budgetType = "BudgetType"
@@ -1730,6 +1770,30 @@ extension Budgets {
         }
     }
 
+    public struct HealthStatus: AWSEncodableShape & AWSDecodableShape {
+        public let lastUpdatedTime: Date?
+        /// The current status of the billing view resource.
+        public let status: HealthStatusValue?
+        /// The reason for the current status.    BILLING_VIEW_NO_ACCESS: The billing view resource does not grant
+        /// 						billing:GetBillingViewData permission to this account.    BILLING_VIEW_UNHEALTHY:  The billing view associated with the
+        /// 					budget is unhealthy.    FILTER_INVALID: The filter contains reference to an account you
+        /// 					do not have access to.    MULTI_YEAR_HISTORICAL_DATA_DISABLED: The budget is not being updated. Enable multi-year historical data in your Cost Management preferences.
+        public let statusReason: HealthStatusReason?
+
+        @inlinable
+        public init(lastUpdatedTime: Date? = nil, status: HealthStatusValue? = nil, statusReason: HealthStatusReason? = nil) {
+            self.lastUpdatedTime = lastUpdatedTime
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdatedTime = "LastUpdatedTime"
+            case status = "Status"
+            case statusReason = "StatusReason"
+        }
+    }
+
     public struct HistoricalOptions: AWSEncodableShape & AWSDecodableShape {
         /// The number of budget periods included in the moving-average calculation that
         /// 			determines your auto-adjusted budget amount. The maximum value depends on the
@@ -2147,7 +2211,7 @@ extension Budgets {
         public let end: Date?
         /// The start date for a budget. If you created your budget and didn't specify a start
         /// 			date, Amazon Web Services defaults to the start of your chosen time period (DAILY,
-        /// 			MONTHLY, QUARTERLY, or ANNUALLY). For example, if you created your budget on January 24,
+        /// 			MONTHLY, QUARTERLY, ANNUALLY, or CUSTOM). For example, if you created your budget on January 24,
         /// 			2018, chose DAILY, and didn't set a start date, Amazon Web Services set your
         /// 			start date to 01/24/18 00:00 UTC. If you chose MONTHLY,
         /// 				Amazon Web Services set your start date to 01/01/18 00:00 UTC. The
@@ -2407,6 +2471,7 @@ extension Budgets {
 public struct BudgetsErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
+        case billingViewHealthStatusException = "BillingViewHealthStatusException"
         case creationLimitExceededException = "CreationLimitExceededException"
         case duplicateRecordException = "DuplicateRecordException"
         case expiredNextTokenException = "ExpiredNextTokenException"
@@ -2439,6 +2504,8 @@ public struct BudgetsErrorType: AWSErrorType {
 
     /// You are not authorized to use this operation with the given parameters.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    ///  The billing view status must be HEALTHY to perform this action. Try again when the status is HEALTHY.
+    public static var billingViewHealthStatusException: Self { .init(.billingViewHealthStatusException) }
     /// You've exceeded the notification or subscriber limit.
     public static var creationLimitExceededException: Self { .init(.creationLimitExceededException) }
     /// The budget name already exists. Budget names must be unique within an account.

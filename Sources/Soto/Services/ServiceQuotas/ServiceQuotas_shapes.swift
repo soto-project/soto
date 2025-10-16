@@ -40,6 +40,23 @@ extension ServiceQuotas {
         public var description: String { return self.rawValue }
     }
 
+    public enum OptInLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case account = "ACCOUNT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OptInStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OptInType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case notifyAndAdjust = "NotifyAndAdjust"
+        case notifyOnly = "NotifyOnly"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PeriodUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case day = "DAY"
         case hour = "HOUR"
@@ -228,6 +245,40 @@ extension ServiceQuotas {
 
         private enum CodingKeys: String, CodingKey {
             case serviceQuotaTemplateAssociationStatus = "ServiceQuotaTemplateAssociationStatus"
+        }
+    }
+
+    public struct GetAutoManagementConfigurationRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetAutoManagementConfigurationResponse: AWSDecodableShape {
+        /// List of Amazon Web Services services excluded from Automatic Management. You won't be notified of Service Quotas utilization for Amazon Web Services services added to the Automatic Management exclusion list.
+        public let exclusionList: [String: [QuotaInfo]]?
+        /// The User Notifications Amazon Resource Name (ARN) for Automatic Management notifications.
+        public let notificationArn: String?
+        /// Information on the opt-in level for Automatic Management. Only Amazon Web Services account level is supported.
+        public let optInLevel: OptInLevel?
+        /// Status on whether Automatic Management is started or stopped.
+        public let optInStatus: OptInStatus?
+        /// Information on the opt-in type for Automatic Management. There are two modes: Notify only and Notify and Auto-Adjust. Currently, only NotifyOnly is available.
+        public let optInType: OptInType?
+
+        @inlinable
+        public init(exclusionList: [String: [QuotaInfo]]? = nil, notificationArn: String? = nil, optInLevel: OptInLevel? = nil, optInStatus: OptInStatus? = nil, optInType: OptInType? = nil) {
+            self.exclusionList = exclusionList
+            self.notificationArn = notificationArn
+            self.optInLevel = optInLevel
+            self.optInStatus = optInStatus
+            self.optInType = optInType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exclusionList = "ExclusionList"
+            case notificationArn = "NotificationArn"
+            case optInLevel = "OptInLevel"
+            case optInStatus = "OptInStatus"
+            case optInType = "OptInType"
         }
     }
 
@@ -828,6 +879,24 @@ extension ServiceQuotas {
         }
     }
 
+    public struct QuotaInfo: AWSDecodableShape {
+        /// The Service Quotas code for the Amazon Web Services service monitored with Automatic Management.
+        public let quotaCode: String?
+        /// The Service Quotas name for the Amazon Web Services service monitored with Automatic Management.
+        public let quotaName: String?
+
+        @inlinable
+        public init(quotaCode: String? = nil, quotaName: String? = nil) {
+            self.quotaCode = quotaCode
+            self.quotaName = quotaName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case quotaCode = "QuotaCode"
+            case quotaName = "QuotaName"
+        }
+    }
+
     public struct QuotaPeriod: AWSDecodableShape {
         /// The time unit.
         public let periodUnit: PeriodUnit?
@@ -1105,6 +1174,55 @@ extension ServiceQuotas {
         }
     }
 
+    public struct StartAutoManagementRequest: AWSEncodableShape {
+        /// List of Amazon Web Services services excluded from Automatic Management. You won't be notified of Service Quotas utilization for Amazon Web Services services added to the Automatic Management exclusion list.
+        public let exclusionList: [String: [String]]?
+        /// The User Notifications Amazon Resource Name (ARN) for Automatic Management notifications.
+        public let notificationArn: String?
+        /// Sets the opt-in level for Automatic Management. Only Amazon Web Services account level is supported.
+        public let optInLevel: OptInLevel
+        /// Sets the opt-in type for Automatic Management. There are two modes: Notify only and Notify and Auto-Adjust. Currently, only NotifyOnly is available.
+        public let optInType: OptInType
+
+        @inlinable
+        public init(exclusionList: [String: [String]]? = nil, notificationArn: String? = nil, optInLevel: OptInLevel, optInType: OptInType) {
+            self.exclusionList = exclusionList
+            self.notificationArn = notificationArn
+            self.optInLevel = optInLevel
+            self.optInType = optInType
+        }
+
+        public func validate(name: String) throws {
+            try self.exclusionList?.forEach {
+                try validate($0.key, name: "exclusionList.key", parent: name, max: 128)
+                try validate($0.key, name: "exclusionList.key", parent: name, min: 1)
+                try validate($0.key, name: "exclusionList.key", parent: name, pattern: "^[A-Za-z0-9-_ /]{1,128}$")
+            }
+            try self.validate(self.notificationArn, name: "notificationArn", parent: name, max: 1011)
+            try self.validate(self.notificationArn, name: "notificationArn", parent: name, min: 1)
+            try self.validate(self.notificationArn, name: "notificationArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:*:.+:[0-9]{12}:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exclusionList = "ExclusionList"
+            case notificationArn = "NotificationArn"
+            case optInLevel = "OptInLevel"
+            case optInType = "OptInType"
+        }
+    }
+
+    public struct StartAutoManagementResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct StopAutoManagementRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct StopAutoManagementResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// A string that contains a tag key. The string length should be between 1 and 128 characters. Valid characters include a-z, A-Z, 0-9, space, and the special characters _ - . : / = + @.
         public let key: String
@@ -1193,6 +1311,43 @@ extension ServiceQuotas {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateAutoManagementRequest: AWSEncodableShape {
+        /// List of Amazon Web Services services you want to exclude from Automatic Management. You won't be notified of Service Quotas utilization for Amazon Web Services services added to the Automatic Management exclusion list.
+        public let exclusionList: [String: [String]]?
+        /// The User Notifications Amazon Resource Name (ARN) for Automatic Management notifications you want to update.
+        public let notificationArn: String?
+        /// Information on the opt-in type for your Automatic Management configuration. There are two modes: Notify only and Notify and Auto-Adjust. Currently, only NotifyOnly is available.
+        public let optInType: OptInType?
+
+        @inlinable
+        public init(exclusionList: [String: [String]]? = nil, notificationArn: String? = nil, optInType: OptInType? = nil) {
+            self.exclusionList = exclusionList
+            self.notificationArn = notificationArn
+            self.optInType = optInType
+        }
+
+        public func validate(name: String) throws {
+            try self.exclusionList?.forEach {
+                try validate($0.key, name: "exclusionList.key", parent: name, max: 128)
+                try validate($0.key, name: "exclusionList.key", parent: name, min: 1)
+                try validate($0.key, name: "exclusionList.key", parent: name, pattern: "^[A-Za-z0-9-_ /]{1,128}$")
+            }
+            try self.validate(self.notificationArn, name: "notificationArn", parent: name, max: 1011)
+            try self.validate(self.notificationArn, name: "notificationArn", parent: name, min: 1)
+            try self.validate(self.notificationArn, name: "notificationArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:*:.+:[0-9]{12}:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exclusionList = "ExclusionList"
+            case notificationArn = "NotificationArn"
+            case optInType = "OptInType"
+        }
+    }
+
+    public struct UpdateAutoManagementResponse: AWSDecodableShape {
         public init() {}
     }
 }

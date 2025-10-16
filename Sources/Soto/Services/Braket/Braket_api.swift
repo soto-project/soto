@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS Braket service.
 ///
-/// The Amazon Braket API Reference provides information about the operations and structures supported in Amazon Braket. Additional Resources:    Amazon Braket Developer Guide
+/// The Amazon Braket API Reference provides information about the operations and structures supported by Amazon Braket. To learn about the permissions required to call an Amazon Braket API action, see Actions, resources, and condition keys for Amazon Braket. Amazon Braket Python SDK and the AWS Command Line Interface can be used to make discovery and creation of API calls easier. For more information about Amazon Braket features, see What is Amazon Braket? and important terms and concepts in the Amazon Braket Developer Guide.  In this guide:           CommonParameters     CommonErrors     Available languages for AWS SDK:     .NET     C++     Go API reference     Java     JavaScript     PHP     Python (Boto)     Ruby     Code examples from the Amazon Braket Tutorials GitHub repository:     Amazon Braket Examples
 public struct Braket: AWSService {
     // MARK: Member variables
 
@@ -89,7 +89,7 @@ public struct Braket: AWSService {
 
     // MARK: API Calls
 
-    /// Cancels an Amazon Braket job.
+    /// Cancels an Amazon Braket hybrid job.
     @Sendable
     @inlinable
     public func cancelJob(_ input: CancelJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelJobResponse {
@@ -102,10 +102,10 @@ public struct Braket: AWSService {
             logger: logger
         )
     }
-    /// Cancels an Amazon Braket job.
+    /// Cancels an Amazon Braket hybrid job.
     ///
     /// Parameters:
-    ///   - jobArn: The ARN of the Amazon Braket job to cancel.
+    ///   - jobArn: The ARN of the Amazon Braket hybrid job to cancel.
     ///   - logger: Logger use during operation
     @inlinable
     public func cancelJob(
@@ -134,8 +134,8 @@ public struct Braket: AWSService {
     /// Cancels the specified task.
     ///
     /// Parameters:
-    ///   - clientToken: The client token associated with the request.
-    ///   - quantumTaskArn: The ARN of the task to cancel.
+    ///   - clientToken: The client token associated with the cancellation request.
+    ///   - quantumTaskArn: The ARN of the quantum task to cancel.
     ///   - logger: Logger use during operation
     @inlinable
     public func cancelQuantumTask(
@@ -150,7 +150,7 @@ public struct Braket: AWSService {
         return try await self.cancelQuantumTask(input, logger: logger)
     }
 
-    /// Creates an Amazon Braket job.
+    /// Creates an Amazon Braket hybrid job.
     @Sendable
     @inlinable
     public func createJob(_ input: CreateJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateJobResponse {
@@ -163,22 +163,22 @@ public struct Braket: AWSService {
             logger: logger
         )
     }
-    /// Creates an Amazon Braket job.
+    /// Creates an Amazon Braket hybrid job.
     ///
     /// Parameters:
     ///   - algorithmSpecification: Definition of the Amazon Braket job to be created. Specifies the container image the job uses and information about the Python scripts used for entry and training.
     ///   - associations: The list of Amazon Braket resources associated with the hybrid job.
-    ///   - checkpointConfig: Information about the output locations for job checkpoint data.
-    ///   - clientToken: A unique token that guarantees that the call to this API is idempotent.
-    ///   - deviceConfig: The quantum processing unit (QPU) or simulator used to create an Amazon Braket job.
-    ///   - hyperParameters: Algorithm-specific parameters used by an Amazon Braket job that influence the quality of the training job. The values are set with a string of JSON key:value pairs, where the key is the name of the hyperparameter and the value is the value of th hyperparameter.
+    ///   - checkpointConfig: Information about the output locations for hybrid job checkpoint data.
+    ///   - clientToken: The client token associated with this request that guarantees that the request is idempotent.
+    ///   - deviceConfig: The quantum processing unit (QPU) or simulator used to create an Amazon Braket hybrid job.
+    ///   - hyperParameters: Algorithm-specific parameters used by an Amazon Braket hybrid job that influence the quality of the training job. The values are set with a map of JSON key:value pairs, where the key is the name of the hyperparameter and the value is the value of the hyperparameter.  Do not include any security-sensitive information including account access IDs, secrets, or tokens in any hyperparameter fields. As part of the shared responsibility model, you are responsible for any potential exposure, unauthorized access, or compromise of your sensitive data if caused by security-sensitive information included in the request hyperparameter variable or plain text fields.
     ///   - inputDataConfig: A list of parameters that specify the name and type of input data and where it is located.
     ///   - instanceConfig: Configuration of the resource instances to use while running the hybrid job on Amazon Braket.
-    ///   - jobName: The name of the Amazon Braket job.
-    ///   - outputDataConfig: The path to the S3 location where you want to store job artifacts and the encryption key used to store them.
-    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role that Amazon Braket can assume to perform tasks on behalf of a user. It can access user resources, run an Amazon Braket job container on behalf of user, and output resources to the users' s3 buckets.
-    ///   - stoppingCondition:  The user-defined criteria that specifies when a job stops running.
-    ///   - tags: A tag object that consists of a key and an optional value, used to manage metadata for Amazon Braket resources.
+    ///   - jobName: The name of the Amazon Braket hybrid job.
+    ///   - outputDataConfig: The path to the S3 location where you want to store hybrid job artifacts and the encryption key used to store them.
+    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role that Amazon Braket can assume to perform tasks on behalf of a user. It can access user resources, run an Amazon Braket job container on behalf of user, and output results and hybrid job details to the users' s3 buckets.
+    ///   - stoppingCondition:  The user-defined criteria that specifies when a hybrid job stops running.
+    ///   - tags: Tags to be added to the hybrid job you're creating.
     ///   - logger: Logger use during operation
     @inlinable
     public func createJob(
@@ -231,15 +231,15 @@ public struct Braket: AWSService {
     /// Creates a quantum task.
     ///
     /// Parameters:
-    ///   - action: The action associated with the task.
+    ///   - action: The action associated with the quantum task.
     ///   - associations: The list of Amazon Braket resources associated with the quantum task.
     ///   - clientToken: The client token associated with the request.
-    ///   - deviceArn: The ARN of the device to run the task on.
-    ///   - deviceParameters: The parameters for the device to run the task on.
-    ///   - jobToken: The token for an Amazon Braket job that associates it with the quantum task.
-    ///   - outputS3Bucket: The S3 bucket to store task result files in.
-    ///   - outputS3KeyPrefix: The key prefix for the location in the S3 bucket to store task results in.
-    ///   - shots: The number of shots to use for the task.
+    ///   - deviceArn: The ARN of the device to run the quantum task on.
+    ///   - deviceParameters: The parameters for the device to run the quantum task on.
+    ///   - jobToken: The token for an Amazon Braket hybrid job that associates it with the quantum task.
+    ///   - outputS3Bucket: The S3 bucket to store quantum task result files in.
+    ///   - outputS3KeyPrefix: The key prefix for the location in the S3 bucket to store quantum task results in.
+    ///   - shots: The number of shots to use for the quantum task.
     ///   - tags: Tags to be added to the quantum task you're creating.
     ///   - logger: Logger use during operation
     @inlinable
@@ -300,7 +300,7 @@ public struct Braket: AWSService {
         return try await self.getDevice(input, logger: logger)
     }
 
-    /// Retrieves the specified Amazon Braket job.
+    /// Retrieves the specified Amazon Braket hybrid job.
     @Sendable
     @inlinable
     public func getJob(_ input: GetJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetJobResponse {
@@ -313,11 +313,11 @@ public struct Braket: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the specified Amazon Braket job.
+    /// Retrieves the specified Amazon Braket hybrid job.
     ///
     /// Parameters:
-    ///   - additionalAttributeNames: A list of attributes to return information for.
-    ///   - jobArn: The ARN of the job to retrieve.
+    ///   - additionalAttributeNames: A list of attributes to return additional information for. Only the QueueInfo additional attribute name is currently supported.
+    ///   - jobArn: The ARN of the hybrid job to retrieve.
     ///   - logger: Logger use during operation
     @inlinable
     public func getJob(
@@ -348,8 +348,8 @@ public struct Braket: AWSService {
     /// Retrieves the specified quantum task.
     ///
     /// Parameters:
-    ///   - additionalAttributeNames: A list of attributes to return information for.
-    ///   - quantumTaskArn: The ARN of the task to retrieve.
+    ///   - additionalAttributeNames: A list of attributes to return additional information for. Only the QueueInfo additional attribute name is currently supported.
+    ///   - quantumTaskArn: The ARN of the quantum task to retrieve.
     ///   - logger: Logger use during operation
     @inlinable
     public func getQuantumTask(
@@ -409,9 +409,9 @@ public struct Braket: AWSService {
     /// Searches for devices using the specified filters.
     ///
     /// Parameters:
-    ///   - filters: The filter values to use to search for a device.
+    ///   - filters: Array of SearchDevicesFilter objects to use when searching for devices.
     ///   - maxResults: The maximum number of results to return in the response.
-    ///   - nextToken: A token used for pagination of results returned in the response. Use the token returned from the previous request continue results where the previous request ended.
+    ///   - nextToken: A token used for pagination of results returned in the response. Use the token returned from the previous request to continue search where the previous request ended.
     ///   - logger: Logger use during operation
     @inlinable
     public func searchDevices(
@@ -428,7 +428,7 @@ public struct Braket: AWSService {
         return try await self.searchDevices(input, logger: logger)
     }
 
-    /// Searches for Amazon Braket jobs that match the specified filter values.
+    /// Searches for Amazon Braket hybrid jobs that match the specified filter values.
     @Sendable
     @inlinable
     public func searchJobs(_ input: SearchJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchJobsResponse {
@@ -441,12 +441,12 @@ public struct Braket: AWSService {
             logger: logger
         )
     }
-    /// Searches for Amazon Braket jobs that match the specified filter values.
+    /// Searches for Amazon Braket hybrid jobs that match the specified filter values.
     ///
     /// Parameters:
-    ///   - filters: The filter values to use when searching for a job.
+    ///   - filters: Array of SearchJobsFilter objects to use when searching for hybrid jobs.
     ///   - maxResults: The maximum number of results to return in the response.
-    ///   - nextToken: A token used for pagination of results returned in the response. Use the token returned from the previous request to continue results where the previous request ended.
+    ///   - nextToken: A token used for pagination of results returned in the response. Use the token returned from the previous request to continue search where the previous request ended.
     ///   - logger: Logger use during operation
     @inlinable
     public func searchJobs(
@@ -479,9 +479,9 @@ public struct Braket: AWSService {
     /// Searches for tasks that match the specified filter values.
     ///
     /// Parameters:
-    ///   - filters: Array of SearchQuantumTasksFilter objects.
+    ///   - filters: Array of SearchQuantumTasksFilter objects to use when searching for quantum tasks.
     ///   - maxResults: Maximum number of results to return in the response.
-    ///   - nextToken: A token used for pagination of results returned in the response. Use the token returned from the previous request continue results where the previous request ended.
+    ///   - nextToken: A token used for pagination of results returned in the response. Use the token returned from the previous request to continue search where the previous request ended.
     ///   - logger: Logger use during operation
     @inlinable
     public func searchQuantumTasks(
@@ -515,7 +515,7 @@ public struct Braket: AWSService {
     ///
     /// Parameters:
     ///   - resourceArn: Specify the resourceArn of the resource to which a tag will be added.
-    ///   - tags: Specify the tags to add to the resource.
+    ///   - tags: Specify the tags to add to the resource. Tags can be specified as a key-value map.
     ///   - logger: Logger use during operation
     @inlinable
     public func tagResource(
@@ -597,7 +597,7 @@ extension Braket {
     /// Return PaginatorSequence for operation ``searchDevices(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: The filter values to use to search for a device.
+    ///   - filters: Array of SearchDevicesFilter objects to use when searching for devices.
     ///   - maxResults: The maximum number of results to return in the response.
     ///   - logger: Logger used for logging
     @inlinable
@@ -634,7 +634,7 @@ extension Braket {
     /// Return PaginatorSequence for operation ``searchJobs(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: The filter values to use when searching for a job.
+    ///   - filters: Array of SearchJobsFilter objects to use when searching for hybrid jobs.
     ///   - maxResults: The maximum number of results to return in the response.
     ///   - logger: Logger used for logging
     @inlinable
@@ -671,7 +671,7 @@ extension Braket {
     /// Return PaginatorSequence for operation ``searchQuantumTasks(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: Array of SearchQuantumTasksFilter objects.
+    ///   - filters: Array of SearchQuantumTasksFilter objects to use when searching for quantum tasks.
     ///   - maxResults: Maximum number of results to return in the response.
     ///   - logger: Logger used for logging
     @inlinable

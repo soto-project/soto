@@ -84,6 +84,8 @@ extension OpenSearchServerless {
     }
 
     public enum SecurityConfigType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// iam federation
+        case iamfederation = "iamfederation"
         /// iam identity center
         case iamidentitycenter = "iamidentitycenter"
         /// saml provider
@@ -433,6 +435,8 @@ extension OpenSearchServerless {
         public let failureCode: String?
         /// A message associated with the failure code.
         public let failureMessage: String?
+        /// FIPS-compliant endpoints for the collection. These endpoints use FIPS 140-3 validated cryptographic modules and are required for federal government workloads that must comply with FedRAMP security standards.
+        public let fipsEndpoints: FipsEndpoints?
         /// A unique identifier for the collection.
         public let id: String?
         /// The ARN of the Amazon Web Services KMS key used to encrypt the collection.
@@ -449,7 +453,7 @@ extension OpenSearchServerless {
         public let type: CollectionType?
 
         @inlinable
-        public init(arn: String? = nil, collectionEndpoint: String? = nil, createdDate: Int64? = nil, dashboardEndpoint: String? = nil, description: String? = nil, failureCode: String? = nil, failureMessage: String? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, standbyReplicas: StandbyReplicas? = nil, status: CollectionStatus? = nil, type: CollectionType? = nil) {
+        public init(arn: String? = nil, collectionEndpoint: String? = nil, createdDate: Int64? = nil, dashboardEndpoint: String? = nil, description: String? = nil, failureCode: String? = nil, failureMessage: String? = nil, fipsEndpoints: FipsEndpoints? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, standbyReplicas: StandbyReplicas? = nil, status: CollectionStatus? = nil, type: CollectionType? = nil) {
             self.arn = arn
             self.collectionEndpoint = collectionEndpoint
             self.createdDate = createdDate
@@ -457,6 +461,7 @@ extension OpenSearchServerless {
             self.description = description
             self.failureCode = failureCode
             self.failureMessage = failureMessage
+            self.fipsEndpoints = fipsEndpoints
             self.id = id
             self.kmsKeyArn = kmsKeyArn
             self.lastModifiedDate = lastModifiedDate
@@ -474,6 +479,7 @@ extension OpenSearchServerless {
             case description = "description"
             case failureCode = "failureCode"
             case failureMessage = "failureMessage"
+            case fipsEndpoints = "fipsEndpoints"
             case id = "id"
             case kmsKeyArn = "kmsKeyArn"
             case lastModifiedDate = "lastModifiedDate"
@@ -754,6 +760,38 @@ extension OpenSearchServerless {
         }
     }
 
+    public struct CreateIndexRequest: AWSEncodableShape {
+        /// The unique identifier of the collection in which to create the index.
+        public let id: String
+        /// The name of the index to create. Index names must be lowercase and can't begin with underscores (_) or hyphens (-).
+        public let indexName: String
+        /// The JSON schema definition for the index, including field mappings and settings.
+        public let indexSchema: AWSDocument?
+
+        @inlinable
+        public init(id: String, indexName: String, indexSchema: AWSDocument? = nil) {
+            self.id = id
+            self.indexName = indexName
+            self.indexSchema = indexSchema
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 40)
+            try self.validate(self.id, name: "id", parent: name, min: 3)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z0-9]{3,40}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case indexName = "indexName"
+            case indexSchema = "indexSchema"
+        }
+    }
+
+    public struct CreateIndexResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct CreateLifecyclePolicyRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier to ensure idempotency of the request.
         public let clientToken: String?
@@ -815,19 +853,22 @@ extension OpenSearchServerless {
         public let clientToken: String?
         /// A description of the security configuration.
         public let description: String?
+        /// Describes IAM federation options in the form of a key-value map. This field is required if you specify iamFederation for the type parameter.
+        public let iamFederationOptions: IamFederationConfigOptions?
         /// Describes IAM Identity Center options in the form of a key-value map. This field is required if you specify iamidentitycenter for the type parameter.
         public let iamIdentityCenterOptions: CreateIamIdentityCenterConfigOptions?
         /// The name of the security configuration.
         public let name: String
-        /// Describes SAML options in in the form of a key-value map. This field is required if you specify saml for the type parameter.
+        /// Describes SAML options in in the form of a key-value map. This field is required if you specify SAML for the type parameter.
         public let samlOptions: SamlConfigOptions?
         /// The type of security configuration.
         public let type: SecurityConfigType
 
         @inlinable
-        public init(clientToken: String? = CreateSecurityConfigRequest.idempotencyToken(), description: String? = nil, iamIdentityCenterOptions: CreateIamIdentityCenterConfigOptions? = nil, name: String, samlOptions: SamlConfigOptions? = nil, type: SecurityConfigType) {
+        public init(clientToken: String? = CreateSecurityConfigRequest.idempotencyToken(), description: String? = nil, iamFederationOptions: IamFederationConfigOptions? = nil, iamIdentityCenterOptions: CreateIamIdentityCenterConfigOptions? = nil, name: String, samlOptions: SamlConfigOptions? = nil, type: SecurityConfigType) {
             self.clientToken = clientToken
             self.description = description
+            self.iamFederationOptions = iamFederationOptions
             self.iamIdentityCenterOptions = iamIdentityCenterOptions
             self.name = name
             self.samlOptions = samlOptions
@@ -839,6 +880,7 @@ extension OpenSearchServerless {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.iamFederationOptions?.validate(name: "\(name).iamFederationOptions")
             try self.iamIdentityCenterOptions?.validate(name: "\(name).iamIdentityCenterOptions")
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.validate(self.name, name: "name", parent: name, min: 3)
@@ -849,6 +891,7 @@ extension OpenSearchServerless {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case description = "description"
+            case iamFederationOptions = "iamFederationOptions"
             case iamIdentityCenterOptions = "iamIdentityCenterOptions"
             case name = "name"
             case samlOptions = "samlOptions"
@@ -987,7 +1030,6 @@ extension OpenSearchServerless {
                 try validate($0, name: "subnetIds[]", parent: name, min: 1)
                 try validate($0, name: "subnetIds[]", parent: name, pattern: "^subnet-([0-9a-f]{8}|[0-9a-f]{17})$")
             }
-            try self.validate(self.subnetIds, name: "subnetIds", parent: name, max: 6)
             try self.validate(self.subnetIds, name: "subnetIds", parent: name, min: 1)
             try self.validate(self.vpcId, name: "vpcId", parent: name, max: 255)
             try self.validate(self.vpcId, name: "vpcId", parent: name, min: 1)
@@ -1111,6 +1153,34 @@ extension OpenSearchServerless {
         private enum CodingKeys: String, CodingKey {
             case deleteCollectionDetail = "deleteCollectionDetail"
         }
+    }
+
+    public struct DeleteIndexRequest: AWSEncodableShape {
+        /// The unique identifier of the collection containing the index to delete.
+        public let id: String
+        /// The name of the index to delete.
+        public let indexName: String
+
+        @inlinable
+        public init(id: String, indexName: String) {
+            self.id = id
+            self.indexName = indexName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 40)
+            try self.validate(self.id, name: "id", parent: name, min: 3)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z0-9]{3,40}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case indexName = "indexName"
+        }
+    }
+
+    public struct DeleteIndexResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteLifecyclePolicyRequest: AWSEncodableShape {
@@ -1273,7 +1343,7 @@ extension OpenSearchServerless {
     }
 
     public struct EffectiveLifecyclePolicyDetail: AWSDecodableShape {
-        /// The minimum number of index retention days set. That is an optional param that will return as true if the minimum number of days or  hours is not set to a index resource.
+        /// The minimum number of index retention days set. That is an optional param that will return as true if the minimum number of days or hours is not set to a index resource.
         public let noMinRetentionPeriod: Bool?
         /// The name of the lifecycle policy.
         public let policyName: String?
@@ -1332,6 +1402,24 @@ extension OpenSearchServerless {
         }
     }
 
+    public struct FipsEndpoints: AWSDecodableShape {
+        /// FIPS-compliant collection endpoint used to submit index, search, and data upload requests to an OpenSearch Serverless collection. This endpoint uses FIPS 140-3 validated cryptography and is required for federal government workloads.
+        public let collectionEndpoint: String?
+        /// FIPS-compliant endpoint used to access OpenSearch Dashboards. This endpoint uses FIPS 140-3 validated cryptography and is required for federal government workloads that need dashboard visualization capabilities.
+        public let dashboardEndpoint: String?
+
+        @inlinable
+        public init(collectionEndpoint: String? = nil, dashboardEndpoint: String? = nil) {
+            self.collectionEndpoint = collectionEndpoint
+            self.dashboardEndpoint = dashboardEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collectionEndpoint = "collectionEndpoint"
+            case dashboardEndpoint = "dashboardEndpoint"
+        }
+    }
+
     public struct GetAccessPolicyRequest: AWSEncodableShape {
         /// The name of the access policy.
         public let name: String
@@ -1385,6 +1473,44 @@ extension OpenSearchServerless {
 
         private enum CodingKeys: String, CodingKey {
             case accountSettingsDetail = "accountSettingsDetail"
+        }
+    }
+
+    public struct GetIndexRequest: AWSEncodableShape {
+        /// The unique identifier of the collection containing the index.
+        public let id: String
+        /// The name of the index to retrieve information about.
+        public let indexName: String
+
+        @inlinable
+        public init(id: String, indexName: String) {
+            self.id = id
+            self.indexName = indexName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 40)
+            try self.validate(self.id, name: "id", parent: name, min: 3)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z0-9]{3,40}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case indexName = "indexName"
+        }
+    }
+
+    public struct GetIndexResponse: AWSDecodableShape {
+        /// The JSON schema definition for the index, including field mappings and settings.
+        public let indexSchema: AWSDocument?
+
+        @inlinable
+        public init(indexSchema: AWSDocument? = nil) {
+            self.indexSchema = indexSchema
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexSchema = "indexSchema"
         }
     }
 
@@ -1490,6 +1616,33 @@ extension OpenSearchServerless {
 
         private enum CodingKeys: String, CodingKey {
             case securityPolicyDetail = "securityPolicyDetail"
+        }
+    }
+
+    public struct IamFederationConfigOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The group attribute for this IAM federation integration. This attribute is used to map identity provider groups to OpenSearch Serverless permissions.
+        public let groupAttribute: String?
+        /// The user attribute for this IAM federation integration. This attribute is used to identify users in the federated authentication process.
+        public let userAttribute: String?
+
+        @inlinable
+        public init(groupAttribute: String? = nil, userAttribute: String? = nil) {
+            self.groupAttribute = groupAttribute
+            self.userAttribute = userAttribute
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.groupAttribute, name: "groupAttribute", parent: name, max: 64)
+            try self.validate(self.groupAttribute, name: "groupAttribute", parent: name, min: 1)
+            try self.validate(self.groupAttribute, name: "groupAttribute", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.:/=+\\-@]*$")
+            try self.validate(self.userAttribute, name: "userAttribute", parent: name, max: 64)
+            try self.validate(self.userAttribute, name: "userAttribute", parent: name, min: 1)
+            try self.validate(self.userAttribute, name: "userAttribute", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.:/=+\\-@]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupAttribute = "groupAttribute"
+            case userAttribute = "userAttribute"
         }
     }
 
@@ -1758,7 +1911,7 @@ extension OpenSearchServerless {
     public struct ListCollectionsResponse: AWSDecodableShape {
         /// Details about each collection.
         public let collectionSummaries: [CollectionSummary]?
-        /// When nextToken is returned, there are more results available.  The value of nextToken is a unique pagination token for each page.  Make the call again using the returned token to retrieve the next page.
+        /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
 
         @inlinable
@@ -1979,7 +2132,7 @@ extension OpenSearchServerless {
         public let groupAttribute: String?
         /// The XML IdP metadata file generated from your identity provider.
         public let metadata: String
-        /// Custom entity id attribute to override default entity id for this saml integration.
+        /// Custom entity ID attribute to override the default entity ID for this SAML integration.
         public let openSearchServerlessEntityId: String?
         /// The session timeout, in minutes. Default is 60 minutes (12 hours).
         public let sessionTimeout: Int?
@@ -2026,6 +2179,8 @@ extension OpenSearchServerless {
         public let createdDate: Int64?
         /// The description of the security configuration.
         public let description: String?
+        /// Describes IAM federation options in the form of a key-value map. Contains configuration details about how OpenSearch Serverless integrates with external identity providers through federation.
+        public let iamFederationOptions: IamFederationConfigOptions?
         /// Describes IAM Identity Center options in the form of a key-value map.
         public let iamIdentityCenterOptions: IamIdentityCenterConfigOptions?
         /// The unique identifier of the security configuration.
@@ -2038,10 +2193,11 @@ extension OpenSearchServerless {
         public let type: SecurityConfigType?
 
         @inlinable
-        public init(configVersion: String? = nil, createdDate: Int64? = nil, description: String? = nil, iamIdentityCenterOptions: IamIdentityCenterConfigOptions? = nil, id: String? = nil, lastModifiedDate: Int64? = nil, samlOptions: SamlConfigOptions? = nil, type: SecurityConfigType? = nil) {
+        public init(configVersion: String? = nil, createdDate: Int64? = nil, description: String? = nil, iamFederationOptions: IamFederationConfigOptions? = nil, iamIdentityCenterOptions: IamIdentityCenterConfigOptions? = nil, id: String? = nil, lastModifiedDate: Int64? = nil, samlOptions: SamlConfigOptions? = nil, type: SecurityConfigType? = nil) {
             self.configVersion = configVersion
             self.createdDate = createdDate
             self.description = description
+            self.iamFederationOptions = iamFederationOptions
             self.iamIdentityCenterOptions = iamIdentityCenterOptions
             self.id = id
             self.lastModifiedDate = lastModifiedDate
@@ -2053,6 +2209,7 @@ extension OpenSearchServerless {
             case configVersion = "configVersion"
             case createdDate = "createdDate"
             case description = "description"
+            case iamFederationOptions = "iamFederationOptions"
             case iamIdentityCenterOptions = "iamIdentityCenterOptions"
             case id = "id"
             case lastModifiedDate = "lastModifiedDate"
@@ -2514,6 +2671,38 @@ extension OpenSearchServerless {
         }
     }
 
+    public struct UpdateIndexRequest: AWSEncodableShape {
+        /// The unique identifier of the collection containing the index to update.
+        public let id: String
+        /// The name of the index to update.
+        public let indexName: String
+        /// The updated JSON schema definition for the index, including field mappings and settings.
+        public let indexSchema: AWSDocument?
+
+        @inlinable
+        public init(id: String, indexName: String, indexSchema: AWSDocument? = nil) {
+            self.id = id
+            self.indexName = indexName
+            self.indexSchema = indexSchema
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 40)
+            try self.validate(self.id, name: "id", parent: name, min: 3)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z0-9]{3,40}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case indexName = "indexName"
+            case indexSchema = "indexSchema"
+        }
+    }
+
+    public struct UpdateIndexResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateLifecyclePolicyRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier to ensure idempotency of the request.
         public let clientToken: String?
@@ -2584,6 +2773,8 @@ extension OpenSearchServerless {
         public let configVersion: String
         /// A description of the security configuration.
         public let description: String?
+        /// Describes IAM federation options in the form of a key-value map for updating an existing security configuration. Use this field to modify IAM federation settings for the security configuration.
+        public let iamFederationOptions: IamFederationConfigOptions?
         /// Describes IAM Identity Center options in the form of a key-value map.
         public let iamIdentityCenterOptionsUpdates: UpdateIamIdentityCenterConfigOptions?
         /// The security configuration identifier. For SAML the ID will be saml/&lt;accountId&gt;/&lt;idpProviderName&gt;. For example, saml/123456789123/OKTADev.
@@ -2592,10 +2783,11 @@ extension OpenSearchServerless {
         public let samlOptions: SamlConfigOptions?
 
         @inlinable
-        public init(clientToken: String? = UpdateSecurityConfigRequest.idempotencyToken(), configVersion: String, description: String? = nil, iamIdentityCenterOptionsUpdates: UpdateIamIdentityCenterConfigOptions? = nil, id: String, samlOptions: SamlConfigOptions? = nil) {
+        public init(clientToken: String? = UpdateSecurityConfigRequest.idempotencyToken(), configVersion: String, description: String? = nil, iamFederationOptions: IamFederationConfigOptions? = nil, iamIdentityCenterOptionsUpdates: UpdateIamIdentityCenterConfigOptions? = nil, id: String, samlOptions: SamlConfigOptions? = nil) {
             self.clientToken = clientToken
             self.configVersion = configVersion
             self.description = description
+            self.iamFederationOptions = iamFederationOptions
             self.iamIdentityCenterOptionsUpdates = iamIdentityCenterOptionsUpdates
             self.id = id
             self.samlOptions = samlOptions
@@ -2609,6 +2801,7 @@ extension OpenSearchServerless {
             try self.validate(self.configVersion, name: "configVersion", parent: name, pattern: "^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$")
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.iamFederationOptions?.validate(name: "\(name).iamFederationOptions")
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.samlOptions?.validate(name: "\(name).samlOptions")
@@ -2618,6 +2811,7 @@ extension OpenSearchServerless {
             case clientToken = "clientToken"
             case configVersion = "configVersion"
             case description = "description"
+            case iamFederationOptions = "iamFederationOptions"
             case iamIdentityCenterOptionsUpdates = "iamIdentityCenterOptionsUpdates"
             case id = "id"
             case samlOptions = "samlOptions"
@@ -2772,7 +2966,6 @@ extension OpenSearchServerless {
                 try validate($0, name: "addSubnetIds[]", parent: name, min: 1)
                 try validate($0, name: "addSubnetIds[]", parent: name, pattern: "^subnet-([0-9a-f]{8}|[0-9a-f]{17})$")
             }
-            try self.validate(self.addSubnetIds, name: "addSubnetIds", parent: name, max: 6)
             try self.validate(self.addSubnetIds, name: "addSubnetIds", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 512)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
@@ -2791,7 +2984,6 @@ extension OpenSearchServerless {
                 try validate($0, name: "removeSubnetIds[]", parent: name, min: 1)
                 try validate($0, name: "removeSubnetIds[]", parent: name, pattern: "^subnet-([0-9a-f]{8}|[0-9a-f]{17})$")
             }
-            try self.validate(self.removeSubnetIds, name: "removeSubnetIds", parent: name, max: 6)
             try self.validate(self.removeSubnetIds, name: "removeSubnetIds", parent: name, min: 1)
         }
 

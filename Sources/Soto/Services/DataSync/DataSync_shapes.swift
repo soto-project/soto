@@ -64,6 +64,7 @@ extension DataSync {
     public enum EndpointType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `public` = "PUBLIC"
         case fips = "FIPS"
+        case fipsPrivateLink = "FIPS_PRIVATE_LINK"
         case privateLink = "PRIVATE_LINK"
         public var description: String { return self.rawValue }
     }

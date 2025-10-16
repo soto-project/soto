@@ -148,6 +148,7 @@ extension CostExplorer {
         case linkedAccountName = "LINKED_ACCOUNT_NAME"
         case operatingSystem = "OPERATING_SYSTEM"
         case operation = "OPERATION"
+        case payerAccount = "PAYER_ACCOUNT"
         case paymentOption = "PAYMENT_OPTION"
         case platform = "PLATFORM"
         case purchaseType = "PURCHASE_TYPE"
@@ -1050,7 +1051,7 @@ extension CostExplorer {
         public let metrics: [String: ComparisonMetricValue]?
         /// The specific identifier of the cost driver.
         public let name: String?
-        /// The category or classification of the cost driver. Values include: BUNDLED_DISCOUNT, CREDIT, OUT_OF_CYCLE_CHARGE, REFUND, RECURRING_RESERVATION_FEE, RESERVATION_USAGE, RI_VOLUME_DISCOUNT, SAVINGS_PLAN_USAGE, SAVINGS_PLAN_NEGATION, SAVINGS_PLAN_RECURRING_FEE, SUPPORT_FEE, TAX, UPFRONT_RESERVATION_FEE, USAGE_CHANGE, COMMITMENT
+        /// The category or classification of the cost driver. Values include: BUNDLED_DISCOUNT, CREDIT, OUT_OF_CYCLE_CHARGE, REFUND, RECURRING_RESERVATION_FEE, RESERVATION_USAGE, RI_VOLUME_DISCOUNT, SAVINGS_PLAN_USAGE, SAVINGS_PLAN_RECURRING_FEE, SUPPORT_FEE, TAX, UPFRONT_RESERVATION_FEE, USAGE_CHANGE, COMMITMENT
         public let type: String?
 
         @inlinable
@@ -6115,6 +6116,7 @@ public struct CostExplorerErrorType: AWSErrorType {
         case analysisNotFoundException = "AnalysisNotFoundException"
         case backfillLimitExceededException = "BackfillLimitExceededException"
         case billExpirationException = "BillExpirationException"
+        case billingViewHealthStatusException = "BillingViewHealthStatusException"
         case dataUnavailableException = "DataUnavailableException"
         case generationExistsException = "GenerationExistsException"
         case invalidNextTokenException = "InvalidNextTokenException"
@@ -6152,6 +6154,8 @@ public struct CostExplorerErrorType: AWSErrorType {
     public static var backfillLimitExceededException: Self { .init(.backfillLimitExceededException) }
     /// The requested report expired. Update the date interval and try again.
     public static var billExpirationException: Self { .init(.billExpirationException) }
+    ///  The billing view status must be HEALTHY to perform this action. Try again when the status is HEALTHY.
+    public static var billingViewHealthStatusException: Self { .init(.billingViewHealthStatusException) }
     /// The requested data is unavailable.
     public static var dataUnavailableException: Self { .init(.dataUnavailableException) }
     /// A request to generate a recommendation or analysis is already in progress.

@@ -287,7 +287,7 @@ public struct EMR: AWSService {
     ///
     /// Parameters:
     ///   - emrContainersConfig: The EMR containers configuration.
-    ///   - profilerType: The profiler type for the persistent application user interface. Valid values are SHS, TEZUI, or YTS.
+    ///   - profilerType: The profiler type for the persistent application user interface.
     ///   - tags: Tags for the persistent application user interface.
     ///   - targetResourceArn: The unique Amazon Resource Name (ARN) of the target resource.
     ///   - xReferer: The cross reference for the persistent application user interface.
@@ -1483,16 +1483,19 @@ public struct EMR: AWSService {
     ///
     /// Parameters:
     ///   - clusterId: The unique identifier of the cluster.
+    ///   - extendedSupport: Reserved.
     ///   - stepConcurrencyLevel: The number of steps that can be executed concurrently. You can specify a minimum of 1 step and a maximum of 256 steps. We recommend that you do not change this parameter while steps are running or the ActionOnFailure setting may not behave as expected. For more information see Step$ActionOnFailure.
     ///   - logger: Logger use during operation
     @inlinable
     public func modifyCluster(
         clusterId: String? = nil,
+        extendedSupport: Bool? = nil,
         stepConcurrencyLevel: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ModifyClusterOutput {
         let input = ModifyClusterInput(
             clusterId: clusterId, 
+            extendedSupport: extendedSupport, 
             stepConcurrencyLevel: stepConcurrencyLevel
         )
         return try await self.modifyCluster(input, logger: logger)
@@ -1839,6 +1842,7 @@ public struct EMR: AWSService {
     ///   - ebsRootVolumeIops: The IOPS, of the Amazon EBS root device volume of the Linux AMI that is used for each Amazon EC2 instance. Available in Amazon EMR releases 6.15.0 and later.
     ///   - ebsRootVolumeSize: The size, in GiB, of the Amazon EBS root device volume of the Linux AMI that is used for each Amazon EC2 instance. Available in Amazon EMR releases 4.x and later.
     ///   - ebsRootVolumeThroughput: The throughput, in MiB/s, of the Amazon EBS root device volume of the Linux AMI that is used for each Amazon EC2 instance. Available in Amazon EMR releases 6.15.0 and later.
+    ///   - extendedSupport: Reserved.
     ///   - instances: A specification of the number and type of Amazon EC2 instances.
     ///   - jobFlowRole: Also called instance profile and Amazon EC2 role. An IAM role for an Amazon EMR cluster. The Amazon EC2 instances of the cluster assume this role. The default role is EMR_EC2_DefaultRole. In order to use the default role, you must have already created it using the CLI or console.
     ///   - kerberosAttributes: Attributes for Kerberos configuration when Kerberos authentication is enabled using a security configuration. For more information see Use Kerberos Authentication in the Amazon EMR Management Guide.
@@ -1873,6 +1877,7 @@ public struct EMR: AWSService {
         ebsRootVolumeIops: Int? = nil,
         ebsRootVolumeSize: Int? = nil,
         ebsRootVolumeThroughput: Int? = nil,
+        extendedSupport: Bool? = nil,
         instances: JobFlowInstancesConfig? = nil,
         jobFlowRole: String? = nil,
         kerberosAttributes: KerberosAttributes? = nil,
@@ -1907,6 +1912,7 @@ public struct EMR: AWSService {
             ebsRootVolumeIops: ebsRootVolumeIops, 
             ebsRootVolumeSize: ebsRootVolumeSize, 
             ebsRootVolumeThroughput: ebsRootVolumeThroughput, 
+            extendedSupport: extendedSupport, 
             instances: instances, 
             jobFlowRole: jobFlowRole, 
             kerberosAttributes: kerberosAttributes, 

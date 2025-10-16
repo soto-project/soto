@@ -711,18 +711,21 @@ extension MediaConnect {
         public let mediaStreamId: Int?
         ///  A name that helps you distinguish one media stream from another.
         public let mediaStreamName: String?
+        ///  The key-value pairs that can be used to tag and organize the media stream.
+        public let mediaStreamTags: [String: String]?
         ///  The type of media stream.
         public let mediaStreamType: MediaStreamType?
         ///  The resolution of the video.
         public let videoFormat: String?
 
         @inlinable
-        public init(attributes: MediaStreamAttributesRequest? = nil, clockRate: Int? = nil, description: String? = nil, mediaStreamId: Int? = nil, mediaStreamName: String? = nil, mediaStreamType: MediaStreamType? = nil, videoFormat: String? = nil) {
+        public init(attributes: MediaStreamAttributesRequest? = nil, clockRate: Int? = nil, description: String? = nil, mediaStreamId: Int? = nil, mediaStreamName: String? = nil, mediaStreamTags: [String: String]? = nil, mediaStreamType: MediaStreamType? = nil, videoFormat: String? = nil) {
             self.attributes = attributes
             self.clockRate = clockRate
             self.description = description
             self.mediaStreamId = mediaStreamId
             self.mediaStreamName = mediaStreamName
+            self.mediaStreamTags = mediaStreamTags
             self.mediaStreamType = mediaStreamType
             self.videoFormat = videoFormat
         }
@@ -733,6 +736,7 @@ extension MediaConnect {
             case description = "description"
             case mediaStreamId = "mediaStreamId"
             case mediaStreamName = "mediaStreamName"
+            case mediaStreamTags = "mediaStreamTags"
             case mediaStreamType = "mediaStreamType"
             case videoFormat = "videoFormat"
         }
@@ -761,6 +765,8 @@ extension MediaConnect {
         public let ndiSpeedHqQuality: Int?
         ///  An indication of whether the new output should be enabled or disabled as soon as it is created. If you don't specify the outputStatus field in your request, MediaConnect sets it to ENABLED.
         public let outputStatus: OutputStatus?
+        ///  The key-value pairs that can be used to tag and organize the output.
+        public let outputTags: [String: String]?
         ///  The port to use when content is distributed to this output.
         public let port: Int?
         ///  The protocol to use for the output.  Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
@@ -777,7 +783,7 @@ extension MediaConnect {
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
         @inlinable
-        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, ndiProgramName: String? = nil, ndiSpeedHqQuality: Int? = nil, outputStatus: OutputStatus? = nil, port: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, senderControlPort: Int? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, ndiProgramName: String? = nil, ndiSpeedHqQuality: Int? = nil, outputStatus: OutputStatus? = nil, outputTags: [String: String]? = nil, port: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, senderControlPort: Int? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.cidrAllowList = cidrAllowList
             self.description = description
             self.destination = destination
@@ -789,6 +795,7 @@ extension MediaConnect {
             self.ndiProgramName = ndiProgramName
             self.ndiSpeedHqQuality = ndiSpeedHqQuality
             self.outputStatus = outputStatus
+            self.outputTags = outputTags
             self.port = port
             self.`protocol` = `protocol`
             self.remoteId = remoteId
@@ -810,6 +817,7 @@ extension MediaConnect {
             case ndiProgramName = "ndiProgramName"
             case ndiSpeedHqQuality = "ndiSpeedHqQuality"
             case outputStatus = "outputStatus"
+            case outputTags = "outputTags"
             case port = "port"
             case `protocol` = "protocol"
             case remoteId = "remoteId"
@@ -1113,6 +1121,8 @@ extension MediaConnect {
         public let entitlements: [GrantEntitlementRequest]?
         ///  Determines the processing capacity and feature set of the flow. Set this optional parameter to LARGE if you want to enable NDI outputs on the flow.
         public let flowSize: FlowSize?
+        ///  The key-value pairs that can be used to tag and organize the flow.
+        public let flowTags: [String: String]?
         ///  The maintenance settings you want to use for the flow.
         public let maintenance: AddMaintenance?
         ///  The media streams that you want to add to the flow. You can associate these media streams with sources and outputs on the flow.
@@ -1135,10 +1145,11 @@ extension MediaConnect {
         public let vpcInterfaces: [VpcInterfaceRequest]?
 
         @inlinable
-        public init(availabilityZone: String? = nil, entitlements: [GrantEntitlementRequest]? = nil, flowSize: FlowSize? = nil, maintenance: AddMaintenance? = nil, mediaStreams: [AddMediaStreamRequest]? = nil, name: String? = nil, ndiConfig: NdiConfig? = nil, outputs: [AddOutputRequest]? = nil, source: SetSourceRequest? = nil, sourceFailoverConfig: FailoverConfig? = nil, sourceMonitoringConfig: MonitoringConfig? = nil, sources: [SetSourceRequest]? = nil, vpcInterfaces: [VpcInterfaceRequest]? = nil) {
+        public init(availabilityZone: String? = nil, entitlements: [GrantEntitlementRequest]? = nil, flowSize: FlowSize? = nil, flowTags: [String: String]? = nil, maintenance: AddMaintenance? = nil, mediaStreams: [AddMediaStreamRequest]? = nil, name: String? = nil, ndiConfig: NdiConfig? = nil, outputs: [AddOutputRequest]? = nil, source: SetSourceRequest? = nil, sourceFailoverConfig: FailoverConfig? = nil, sourceMonitoringConfig: MonitoringConfig? = nil, sources: [SetSourceRequest]? = nil, vpcInterfaces: [VpcInterfaceRequest]? = nil) {
             self.availabilityZone = availabilityZone
             self.entitlements = entitlements
             self.flowSize = flowSize
+            self.flowTags = flowTags
             self.maintenance = maintenance
             self.mediaStreams = mediaStreams
             self.name = name
@@ -1155,6 +1166,7 @@ extension MediaConnect {
             case availabilityZone = "availabilityZone"
             case entitlements = "entitlements"
             case flowSize = "flowSize"
+            case flowTags = "flowTags"
             case maintenance = "maintenance"
             case mediaStreams = "mediaStreams"
             case name = "name"
@@ -2153,17 +2165,20 @@ extension MediaConnect {
         public let encryption: Encryption?
         ///  An indication of whether the new entitlement should be enabled or disabled as soon as it is created. If you don’t specify the entitlementStatus field in your request, MediaConnect sets it to ENABLED.
         public let entitlementStatus: EntitlementStatus?
+        ///  The key-value pairs that can be used to tag and organize the entitlement.
+        public let entitlementTags: [String: String]?
         ///  The name of the entitlement. This value must be unique within the current flow.
         public let name: String?
         ///  The Amazon Web Services account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flows using your content as the source.
         public let subscribers: [String]?
 
         @inlinable
-        public init(dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, encryption: Encryption? = nil, entitlementStatus: EntitlementStatus? = nil, name: String? = nil, subscribers: [String]? = nil) {
+        public init(dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, encryption: Encryption? = nil, entitlementStatus: EntitlementStatus? = nil, entitlementTags: [String: String]? = nil, name: String? = nil, subscribers: [String]? = nil) {
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.description = description
             self.encryption = encryption
             self.entitlementStatus = entitlementStatus
+            self.entitlementTags = entitlementTags
             self.name = name
             self.subscribers = subscribers
         }
@@ -2173,6 +2188,7 @@ extension MediaConnect {
             case description = "description"
             case encryption = "encryption"
             case entitlementStatus = "entitlementStatus"
+            case entitlementTags = "entitlementTags"
             case name = "name"
             case subscribers = "subscribers"
         }
@@ -3701,6 +3717,8 @@ extension MediaConnect {
         public let sourceListenerAddress: String?
         ///  Source port for SRT-caller protocol.
         public let sourceListenerPort: Int?
+        ///  The key-value pairs that can be used to tag and organize the source.
+        public let sourceTags: [String: String]?
         ///  The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.
         public let streamId: String?
         ///  The name of the VPC interface to use for this source.
@@ -3709,7 +3727,7 @@ extension MediaConnect {
         public let whitelistCidr: String?
 
         @inlinable
-        public init(decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, gatewayBridgeSource: SetGatewayBridgeSourceRequest? = nil, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, protocol: `Protocol`? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
+        public init(decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, gatewayBridgeSource: SetGatewayBridgeSourceRequest? = nil, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, protocol: `Protocol`? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, sourceTags: [String: String]? = nil, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
             self.decryption = decryption
             self.description = description
             self.entitlementArn = entitlementArn
@@ -3726,6 +3744,7 @@ extension MediaConnect {
             self.senderIpAddress = senderIpAddress
             self.sourceListenerAddress = sourceListenerAddress
             self.sourceListenerPort = sourceListenerPort
+            self.sourceTags = sourceTags
             self.streamId = streamId
             self.vpcInterfaceName = vpcInterfaceName
             self.whitelistCidr = whitelistCidr
@@ -3748,6 +3767,7 @@ extension MediaConnect {
             case senderIpAddress = "senderIpAddress"
             case sourceListenerAddress = "sourceListenerAddress"
             case sourceListenerPort = "sourceListenerPort"
+            case sourceTags = "sourceTags"
             case streamId = "streamId"
             case vpcInterfaceName = "vpcInterfaceName"
             case whitelistCidr = "whitelistCidr"
@@ -4776,6 +4796,8 @@ extension MediaConnect {
     public struct UpdateFlowRequest: AWSEncodableShape {
         ///  The Amazon Resource Name (ARN) of the flow that you want to update.
         public let flowArn: String
+        ///  Determines the processing capacity and feature set of the flow.
+        public let flowSize: FlowSize?
         ///  The maintenance setting of the flow.
         public let maintenance: UpdateMaintenance?
         ///  Specifies the configuration settings for NDI outputs. Required when the flow includes NDI outputs.
@@ -4786,8 +4808,9 @@ extension MediaConnect {
         public let sourceMonitoringConfig: MonitoringConfig?
 
         @inlinable
-        public init(flowArn: String, maintenance: UpdateMaintenance? = nil, ndiConfig: NdiConfig? = nil, sourceFailoverConfig: UpdateFailoverConfig? = nil, sourceMonitoringConfig: MonitoringConfig? = nil) {
+        public init(flowArn: String, flowSize: FlowSize? = nil, maintenance: UpdateMaintenance? = nil, ndiConfig: NdiConfig? = nil, sourceFailoverConfig: UpdateFailoverConfig? = nil, sourceMonitoringConfig: MonitoringConfig? = nil) {
             self.flowArn = flowArn
+            self.flowSize = flowSize
             self.maintenance = maintenance
             self.ndiConfig = ndiConfig
             self.sourceFailoverConfig = sourceFailoverConfig
@@ -4798,6 +4821,7 @@ extension MediaConnect {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.flowArn, key: "FlowArn")
+            try container.encodeIfPresent(self.flowSize, forKey: .flowSize)
             try container.encodeIfPresent(self.maintenance, forKey: .maintenance)
             try container.encodeIfPresent(self.ndiConfig, forKey: .ndiConfig)
             try container.encodeIfPresent(self.sourceFailoverConfig, forKey: .sourceFailoverConfig)
@@ -4805,6 +4829,7 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case flowSize = "flowSize"
             case maintenance = "maintenance"
             case ndiConfig = "ndiConfig"
             case sourceFailoverConfig = "sourceFailoverConfig"
@@ -5134,14 +5159,17 @@ extension MediaConnect {
         public let securityGroupIds: [String]?
         ///  The subnet IDs that you want to use for your VPC interface. A range of IP addresses in your VPC. When you create your VPC, you specify a range of IPv4 addresses for the VPC in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16. This is the primary CIDR block for your VPC. When you create a subnet for your VPC, you specify the CIDR block for the subnet, which is a subset of the VPC CIDR block. The subnets that you use across all VPC interfaces on the flow must be in the same Availability Zone as the flow.
         public let subnetId: String?
+        ///  The key-value pairs that can be used to tag and organize the VPC network interface.
+        public let vpcInterfaceTags: [String: String]?
 
         @inlinable
-        public init(name: String? = nil, networkInterfaceType: NetworkInterfaceType? = nil, roleArn: String? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil) {
+        public init(name: String? = nil, networkInterfaceType: NetworkInterfaceType? = nil, roleArn: String? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil, vpcInterfaceTags: [String: String]? = nil) {
             self.name = name
             self.networkInterfaceType = networkInterfaceType
             self.roleArn = roleArn
             self.securityGroupIds = securityGroupIds
             self.subnetId = subnetId
+            self.vpcInterfaceTags = vpcInterfaceTags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5150,6 +5178,7 @@ extension MediaConnect {
             case roleArn = "roleArn"
             case securityGroupIds = "securityGroupIds"
             case subnetId = "subnetId"
+            case vpcInterfaceTags = "vpcInterfaceTags"
         }
     }
 }

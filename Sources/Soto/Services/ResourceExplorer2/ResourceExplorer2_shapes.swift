@@ -53,6 +53,14 @@ extension ResourceExplorer2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum OperationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case skipped = "SKIPPED"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AssociateDefaultViewInput: AWSEncodableShape {
@@ -173,10 +181,46 @@ extension ResourceExplorer2 {
         }
     }
 
+    public struct CreateResourceExplorerSetupInput: AWSEncodableShape {
+        /// A list of Amazon Web Services Regions that should be configured as aggregator Regions. Aggregator Regions receive replicated index information from all other Regions where there is a user-owned index.
+        public let aggregatorRegions: [String]?
+        /// A list of Amazon Web Services Regions where Resource Explorer should be configured. Each Region in the list will have a user-owned index created.
+        public let regionList: [String]
+        /// The name for the view to be created as part of the Resource Explorer setup. The view name must be unique within the Amazon Web Services account and Region.
+        public let viewName: String
+
+        @inlinable
+        public init(aggregatorRegions: [String]? = nil, regionList: [String], viewName: String) {
+            self.aggregatorRegions = aggregatorRegions
+            self.regionList = regionList
+            self.viewName = viewName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregatorRegions = "AggregatorRegions"
+            case regionList = "RegionList"
+            case viewName = "ViewName"
+        }
+    }
+
+    public struct CreateResourceExplorerSetupOutput: AWSDecodableShape {
+        /// The unique identifier for the setup task. Use this ID with GetResourceExplorerSetup to monitor the progress of the configuration operation.
+        public let taskId: String
+
+        @inlinable
+        public init(taskId: String) {
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskId = "TaskId"
+        }
+    }
+
     public struct CreateViewInput: AWSEncodableShape {
         /// This value helps ensure idempotency. Resource Explorer uses this value to prevent the accidental creation of duplicate versions. We recommend that you generate a UUID-type value to ensure the uniqueness of your views.
         public let clientToken: String?
-        /// An array of strings that specify which resources are included in the results of  queries made using this view. When you use this view in a Search  operation, the filter string is combined with the search's QueryString  parameter using a logical AND operator. For information about the supported syntax, see Search query reference for Resource Explorer in the Amazon Web Services Resource Explorer User Guide.  This query string in the context of this operation supports only filter prefixes with optional operators. It doesn't support free-form text. For example, the  string region:us* service:ec2 -tag:stage=prod includes all Amazon EC2  resources in any Amazon Web Services Region that begins with the letters us and is not tagged with a key Stage that has the value prod.
+        /// An array of strings that specify which resources are included in the results of queries made using this view. When you use this view in a Search operation, the filter string is combined with the search's QueryString parameter using a logical AND operator. For information about the supported syntax, see Search query reference for Resource Explorer in the Amazon Web Services Resource Explorer User Guide.  This query string in the context of this operation supports only filter prefixes with optional operators. It doesn't support free-form text. For example, the string region:us* service:ec2 -tag:stage=prod includes all Amazon EC2 resources in any Amazon Web Services Region that begins with the letters us and is not tagged with a key Stage that has the value prod.
         public let filters: SearchFilter?
         /// Specifies optional fields that you want included in search results from this view. It is a list of objects that each describe a field to include. The default is an empty list, with no optional fields included in the results.
         public let includedProperties: [IncludedProperty]?
@@ -261,6 +305,38 @@ extension ResourceExplorer2 {
         }
     }
 
+    public struct DeleteResourceExplorerSetupInput: AWSEncodableShape {
+        /// Specifies whether to delete Resource Explorer configuration from all Regions where it is currently enabled. If this parameter is set to true, a value for RegionList must not be provided. Otherwise, the operation fails with a ValidationException error.
+        public let deleteInAllRegions: Bool?
+        /// A list of Amazon Web Services Regions from which to delete the Resource Explorer configuration. If not specified, the operation uses the DeleteInAllRegions parameter to determine scope.
+        public let regionList: [String]?
+
+        @inlinable
+        public init(deleteInAllRegions: Bool? = nil, regionList: [String]? = nil) {
+            self.deleteInAllRegions = deleteInAllRegions
+            self.regionList = regionList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deleteInAllRegions = "DeleteInAllRegions"
+            case regionList = "RegionList"
+        }
+    }
+
+    public struct DeleteResourceExplorerSetupOutput: AWSDecodableShape {
+        /// The unique identifier for the deletion task. Use this ID with GetResourceExplorerSetup to monitor the progress of the deletion operation.
+        public let taskId: String
+
+        @inlinable
+        public init(taskId: String) {
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskId = "TaskId"
+        }
+    }
+
     public struct DeleteViewInput: AWSEncodableShape {
         /// The Amazon resource name (ARN) of the view that you want to delete.
         public let viewArn: String
@@ -286,6 +362,24 @@ extension ResourceExplorer2 {
 
         private enum CodingKeys: String, CodingKey {
             case viewArn = "ViewArn"
+        }
+    }
+
+    public struct ErrorDetails: AWSDecodableShape {
+        /// The error code that identifies the type of error that occurred.
+        public let code: String?
+        /// A human-readable description of the error that occurred.
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
         }
     }
 
@@ -387,6 +481,92 @@ extension ResourceExplorer2 {
         }
     }
 
+    public struct GetResourceExplorerSetupInput: AWSEncodableShape {
+        /// The maximum number of Region status results to return in a single response. Valid values are between 1 and 100.
+        public let maxResults: Int?
+        /// The pagination token from a previous GetResourceExplorerSetup response. Use this token to retrieve the next set of results.
+        public let nextToken: String?
+        /// The unique identifier of the setup task to retrieve status information for. This ID is returned by CreateResourceExplorerSetup or DeleteResourceExplorerSetup operations.
+        public let taskId: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, taskId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case taskId = "TaskId"
+        }
+    }
+
+    public struct GetResourceExplorerSetupOutput: AWSDecodableShape {
+        /// The pagination token to use in a subsequent GetResourceExplorerSetup request to retrieve the next set of results.
+        public let nextToken: String?
+        /// A list of Region status objects that describe the current state of Resource Explorer configuration in each Region.
+        public let regions: [RegionStatus]?
+
+        @inlinable
+        public init(nextToken: String? = nil, regions: [RegionStatus]? = nil) {
+            self.nextToken = nextToken
+            self.regions = regions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case regions = "Regions"
+        }
+    }
+
+    public struct GetServiceIndexOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Resource Explorer index in the current Region.
+        public let arn: String?
+        /// The type of the index. Valid values are LOCAL (contains resources from the current Region only) or AGGREGATOR (contains replicated resource information from all Regions).
+        public let type: IndexType?
+
+        @inlinable
+        public init(arn: String? = nil, type: IndexType? = nil) {
+            self.arn = arn
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case type = "Type"
+        }
+    }
+
+    public struct GetServiceViewInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the service view to retrieve details for.
+        public let serviceViewArn: String
+
+        @inlinable
+        public init(serviceViewArn: String) {
+            self.serviceViewArn = serviceViewArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceViewArn = "ServiceViewArn"
+        }
+    }
+
+    public struct GetServiceViewOutput: AWSDecodableShape {
+        /// A ServiceView object that contains the details and configuration of the requested service view.
+        public let view: ServiceView
+
+        @inlinable
+        public init(view: ServiceView) {
+            self.view = view
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case view = "View"
+        }
+    }
+
     public struct GetViewInput: AWSEncodableShape {
         /// The Amazon resource name (ARN) of the view that you want information about.
         public let viewArn: String
@@ -455,12 +635,33 @@ extension ResourceExplorer2 {
         }
     }
 
+    public struct IndexStatus: AWSDecodableShape {
+        /// Details about any error that occurred during the index operation.
+        public let errorDetails: ErrorDetails?
+        public let index: Index?
+        /// The current status of the index operation. Valid values are SUCCEEDED, FAILED, IN_PROGRESS, or SKIPPED.
+        public let status: OperationStatus?
+
+        @inlinable
+        public init(errorDetails: ErrorDetails? = nil, index: Index? = nil, status: OperationStatus? = nil) {
+            self.errorDetails = errorDetails
+            self.index = index
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorDetails = "ErrorDetails"
+            case index = "Index"
+            case status = "Status"
+        }
+    }
+
     public struct ListIndexesForMembersInput: AWSEncodableShape {
         /// The account IDs will limit the output to only indexes from these accounts.
         public let accountIdList: [String]
-        /// The maximum number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value appropriate to the  operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
+        /// The maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results.  An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
-        /// The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from. The pagination tokens expire after 24 hours.
+        /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from. The pagination tokens expire after 24 hours.
         public let nextToken: String?
 
         @inlinable
@@ -487,7 +688,7 @@ extension ResourceExplorer2 {
     public struct ListIndexesForMembersOutput: AWSDecodableShape {
         /// A structure that contains the details and status of each index.
         public let indexes: [MemberIndex]?
-        /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null. The pagination tokens expire after 24 hours.
+        /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. The pagination tokens expire after 24 hours.
         public let nextToken: String?
 
         @inlinable
@@ -503,9 +704,9 @@ extension ResourceExplorer2 {
     }
 
     public struct ListIndexesInput: AWSEncodableShape {
-        /// The maximum number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value appropriate to the  operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
+        /// The maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results.  An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
-        /// The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from. The pagination tokens expire after 24 hours.
+        /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from. The pagination tokens expire after 24 hours.
         public let nextToken: String?
         /// If specified, limits the response to only information about the index in the specified list of Amazon Web Services Regions.
         public let regions: [String]?
@@ -531,7 +732,7 @@ extension ResourceExplorer2 {
     public struct ListIndexesOutput: AWSDecodableShape {
         /// A structure that contains the details and status of each index.
         public let indexes: [Index]?
-        /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null. The pagination tokens expire after 24 hours.
+        /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. The pagination tokens expire after 24 hours.
         public let nextToken: String?
 
         @inlinable
@@ -547,11 +748,11 @@ extension ResourceExplorer2 {
     }
 
     public struct ListManagedViewsInput: AWSEncodableShape {
-        /// The maximum number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value appropriate to the  operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
+        /// The maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results.  An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
-        /// The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from. The pagination tokens expire after 24 hours.
+        /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from. The pagination tokens expire after 24 hours.
         public let nextToken: String?
-        /// Specifies a service principal name. If specified, then the  operation only returns the managed views that are managed by the input service.
+        /// Specifies a service principal name. If specified, then the operation only returns the managed views that are managed by the input service.
         public let servicePrincipal: String?
 
         @inlinable
@@ -571,7 +772,7 @@ extension ResourceExplorer2 {
     public struct ListManagedViewsOutput: AWSDecodableShape {
         /// The list of managed views available in the Amazon Web Services Region in which you called this operation.
         public let managedViews: [String]?
-        /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null. The pagination tokens expire after 24 hours.
+        /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. The pagination tokens expire after 24 hours.
         public let nextToken: String?
 
         @inlinable
@@ -587,13 +788,13 @@ extension ResourceExplorer2 {
     }
 
     public struct ListResourcesInput: AWSEncodableShape {
-        /// An array of strings that specify which resources are included in the results of  queries made using this view. When you use this view in a Search  operation, the filter string is combined with the search's QueryString  parameter using a logical AND operator. For information about the supported syntax, see Search query reference for Resource Explorer in the Amazon Web Services Resource Explorer User Guide.  This query string in the context of this operation supports only filter prefixes with optional operators. It doesn't support free-form text. For example, the  string region:us* service:ec2 -tag:stage=prod includes all Amazon EC2  resources in any Amazon Web Services Region that begins with the letters us and is not tagged with a key Stage that has the value prod.
+        /// An array of strings that specify which resources are included in the results of queries made using this view. When you use this view in a Search operation, the filter string is combined with the search's QueryString parameter using a logical AND operator. For information about the supported syntax, see Search query reference for Resource Explorer in the Amazon Web Services Resource Explorer User Guide.  This query string in the context of this operation supports only filter prefixes with optional operators. It doesn't support free-form text. For example, the string region:us* service:ec2 -tag:stage=prod includes all Amazon EC2 resources in any Amazon Web Services Region that begins with the letters us and is not tagged with a key Stage that has the value prod.
         public let filters: SearchFilter?
-        /// The maximum number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value appropriate to the  operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
+        /// The maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results.  An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
-        /// The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from. The pagination tokens expire after 24 hours.  The ListResources operation  does not generate a NextToken if you set MaxResults to 1000.
+        /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from. The pagination tokens expire after 24 hours.  The ListResources operation does not generate a NextToken if you set MaxResults to 1000.
         public let nextToken: String?
-        /// Specifies the Amazon resource name (ARN) of the view to use for the query. If you don't  specify a value for this parameter, then the operation automatically uses the default view  for the Amazon Web Services Region in which you called this operation. If the Region either doesn't have  a default view or if you don't have permission to use the default view, then the operation  fails with a 401 Unauthorized exception.
+        /// Specifies the Amazon resource name (ARN) of the view to use for the query. If you don't specify a value for this parameter, then the operation automatically uses the default view for the Amazon Web Services Region in which you called this operation. If the Region either doesn't have a default view or if you don't have permission to use the default view, then the operation fails with a 401 Unauthorized exception.
         public let viewArn: String?
 
         @inlinable
@@ -613,7 +814,7 @@ extension ResourceExplorer2 {
     }
 
     public struct ListResourcesOutput: AWSDecodableShape {
-        /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null. The pagination tokens expire after 24 hours.
+        /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. The pagination tokens expire after 24 hours.
         public let nextToken: String?
         /// The list of structures that describe the resources that match the query.
         public let resources: [Resource]?
@@ -634,10 +835,122 @@ extension ResourceExplorer2 {
         }
     }
 
-    public struct ListSupportedResourceTypesInput: AWSEncodableShape {
-        /// The maximum number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value appropriate to the  operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
+    public struct ListServiceIndexesInput: AWSEncodableShape {
+        /// The maximum number of index results to return in a single response. Valid values are between 1 and 100.
         public let maxResults: Int?
-        /// The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from. The pagination tokens expire after 24 hours.
+        /// The pagination token from a previous ListServiceIndexes response. Use this token to retrieve the next set of results.
+        public let nextToken: String?
+        /// A list of Amazon Web Services Regions to include in the search for indexes. If not specified, indexes from all Regions are returned.
+        public let regions: [String]?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, regions: [String]? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.regions = regions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case regions = "Regions"
+        }
+    }
+
+    public struct ListServiceIndexesOutput: AWSDecodableShape {
+        /// A list of Index objects that describe the Resource Explorer indexes found in the specified Regions.
+        public let indexes: [Index]?
+        /// The pagination token to use in a subsequent ListServiceIndexes request to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(indexes: [Index]? = nil, nextToken: String? = nil) {
+            self.indexes = indexes
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexes = "Indexes"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListServiceViewsInput: AWSEncodableShape {
+        /// The maximum number of service view results to return in a single response. Valid values are between 1 and 50.
+        public let maxResults: Int?
+        /// The pagination token from a previous ListServiceViews response. Use this token to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListServiceViewsOutput: AWSDecodableShape {
+        /// The pagination token to use in a subsequent ListServiceViews request to retrieve the next set of results.
+        public let nextToken: String?
+        /// A list of Amazon Resource Names (ARNs) for the service views available in the current Amazon Web Services account.
+        public let serviceViews: [String]?
+
+        @inlinable
+        public init(nextToken: String? = nil, serviceViews: [String]? = nil) {
+            self.nextToken = nextToken
+            self.serviceViews = serviceViews
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case serviceViews = "ServiceViews"
+        }
+    }
+
+    public struct ListStreamingAccessForServicesInput: AWSEncodableShape {
+        /// The maximum number of streaming access entries to return in the response. If there are more results available, the response includes a NextToken value that you can use in a subsequent call to get the next set of results. The value must be between 1 and 50. If you don't specify a value, the default is 50.
+        public let maxResults: Int?
+        /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from. The pagination tokens expire after 24 hours.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListStreamingAccessForServicesOutput: AWSDecodableShape {
+        /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. The pagination tokens expire after 24 hours.
+        public let nextToken: String?
+        /// A list of Amazon Web Services services that have streaming access to your Resource Explorer data, including details about when the access was granted.
+        public let streamingAccessForServices: [StreamingAccessDetails]
+
+        @inlinable
+        public init(nextToken: String? = nil, streamingAccessForServices: [StreamingAccessDetails]) {
+            self.nextToken = nextToken
+            self.streamingAccessForServices = streamingAccessForServices
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case streamingAccessForServices = "StreamingAccessForServices"
+        }
+    }
+
+    public struct ListSupportedResourceTypesInput: AWSEncodableShape {
+        /// The maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results.  An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+        public let maxResults: Int?
+        /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from. The pagination tokens expire after 24 hours.
         public let nextToken: String?
 
         @inlinable
@@ -653,7 +966,7 @@ extension ResourceExplorer2 {
     }
 
     public struct ListSupportedResourceTypesOutput: AWSDecodableShape {
-        /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null. The pagination tokens expire after 24 hours.
+        /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. The pagination tokens expire after 24 hours.
         public let nextToken: String?
         /// The list of resource types supported by Resource Explorer.
         public let resourceTypes: [SupportedResourceType]?
@@ -703,9 +1016,9 @@ extension ResourceExplorer2 {
     }
 
     public struct ListViewsInput: AWSEncodableShape {
-        /// The maximum number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value appropriate to the  operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
+        /// The maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results.  An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
-        /// The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from. The pagination tokens expire after 24 hours.
+        /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from. The pagination tokens expire after 24 hours.
         public let nextToken: String?
 
         @inlinable
@@ -721,7 +1034,7 @@ extension ResourceExplorer2 {
     }
 
     public struct ListViewsOutput: AWSDecodableShape {
-        /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null. The pagination tokens expire after 24 hours.
+        /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. The pagination tokens expire after 24 hours.
         public let nextToken: String?
         /// The list of views available in the Amazon Web Services Region in which you called this operation.
         public let views: [String]?
@@ -750,9 +1063,9 @@ extension ResourceExplorer2 {
         public let managedViewName: String?
         /// The Amazon Web Services account that owns this managed view.
         public let owner: String?
-        /// The resource policy that defines access to the managed view. To learn more about this policy, review  Managed views.
+        /// The resource policy that defines access to the managed view. To learn more about this policy, review Managed views.
         public let resourcePolicy: String?
-        /// An Amazon resource name (ARN) of an Amazon Web Services account or organization that specifies whether this managed view  includes resources from only the specified Amazon Web Services account or all accounts in the specified organization.
+        /// An Amazon resource name (ARN) of an Amazon Web Services account or organization that specifies whether this managed view includes resources from only the specified Amazon Web Services account or all accounts in the specified organization.
         public let scope: String?
         /// The service principal of the Amazon Web Services service that created and manages the managed view.
         public let trustedService: String?
@@ -828,6 +1141,28 @@ extension ResourceExplorer2 {
         private enum CodingKeys: String, CodingKey {
             case awsServiceAccessStatus = "AWSServiceAccessStatus"
             case serviceLinkedRole = "ServiceLinkedRole"
+        }
+    }
+
+    public struct RegionStatus: AWSDecodableShape {
+        /// The status information for the Resource Explorer index in this Region.
+        public let index: IndexStatus?
+        /// The Amazon Web Services Region for which this status information applies.
+        public let region: String?
+        /// The status information for the Resource Explorer view in this Region.
+        public let view: ViewStatus?
+
+        @inlinable
+        public init(index: IndexStatus? = nil, region: String? = nil, view: ViewStatus? = nil) {
+            self.index = index
+            self.region = region
+            self.view = view
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case index = "Index"
+            case region = "Region"
+            case view = "View"
         }
     }
 
@@ -924,9 +1259,9 @@ extension ResourceExplorer2 {
     }
 
     public struct SearchInput: AWSEncodableShape {
-        /// The maximum number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value appropriate to the  operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
+        /// The maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results.  An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
-        /// The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from. The pagination tokens expire after 24 hours.
+        /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from. The pagination tokens expire after 24 hours.
         public let nextToken: String?
         /// A string that includes keywords and filters that specify the resources that you want to include in the results. For the complete syntax supported by the QueryString parameter, see Search query syntax reference for Resource Explorer. The search is completely case insensitive. You can specify an empty string to return all results up to the limit of 1,000 total results.  The operation can return only the first 1,000 results. If the resource you want is not included, then use a different value for QueryString to refine the results.
         public let queryString: String
@@ -956,7 +1291,7 @@ extension ResourceExplorer2 {
     public struct SearchOutput: AWSDecodableShape {
         /// The number of resources that match the query.
         public let count: ResourceCount?
-        /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null. The pagination tokens expire after 24 hours.
+        /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. The pagination tokens expire after 24 hours.
         public let nextToken: String?
         /// The list of structures that describe the resources that match the query.
         public let resources: [Resource]?
@@ -997,6 +1332,53 @@ extension ResourceExplorer2 {
             case message = "Message"
             case name = "Name"
             case value = "Value"
+        }
+    }
+
+    public struct ServiceView: AWSDecodableShape {
+        public let filters: SearchFilter?
+        /// A list of additional resource properties that are included in this view for search and filtering purposes.
+        public let includedProperties: [IncludedProperty]?
+        /// The scope type of the service view, which determines what resources are included.
+        public let scopeType: String?
+        /// The Amazon Resource Name (ARN) of the service view.
+        public let serviceViewArn: String
+        /// The Amazon Web Services service that has streaming access to this view's data.
+        public let streamingAccessForService: String?
+
+        @inlinable
+        public init(filters: SearchFilter? = nil, includedProperties: [IncludedProperty]? = nil, scopeType: String? = nil, serviceViewArn: String, streamingAccessForService: String? = nil) {
+            self.filters = filters
+            self.includedProperties = includedProperties
+            self.scopeType = scopeType
+            self.serviceViewArn = serviceViewArn
+            self.streamingAccessForService = streamingAccessForService
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case includedProperties = "IncludedProperties"
+            case scopeType = "ScopeType"
+            case serviceViewArn = "ServiceViewArn"
+            case streamingAccessForService = "StreamingAccessForService"
+        }
+    }
+
+    public struct StreamingAccessDetails: AWSDecodableShape {
+        /// The date and time when streaming access was granted to the Amazon Web Services service, in ISO 8601 format.
+        public let createdAt: Date
+        /// The service principal of the Amazon Web Services service that has streaming access to your Resource Explorer data. A service principal is a unique identifier for an Amazon Web Services service.
+        public let servicePrincipal: String
+
+        @inlinable
+        public init(createdAt: Date, servicePrincipal: String) {
+            self.createdAt = createdAt
+            self.servicePrincipal = servicePrincipal
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case servicePrincipal = "ServicePrincipal"
         }
     }
 
@@ -1117,7 +1499,7 @@ extension ResourceExplorer2 {
     }
 
     public struct UpdateViewInput: AWSEncodableShape {
-        /// An array of strings that specify which resources are included in the results of  queries made using this view. When you use this view in a Search  operation, the filter string is combined with the search's QueryString  parameter using a logical AND operator. For information about the supported syntax, see Search query reference for Resource Explorer in the Amazon Web Services Resource Explorer User Guide.  This query string in the context of this operation supports only filter prefixes with optional operators. It doesn't support free-form text. For example, the  string region:us* service:ec2 -tag:stage=prod includes all Amazon EC2  resources in any Amazon Web Services Region that begins with the letters us and is not tagged with a key Stage that has the value prod.
+        /// An array of strings that specify which resources are included in the results of queries made using this view. When you use this view in a Search operation, the filter string is combined with the search's QueryString parameter using a logical AND operator. For information about the supported syntax, see Search query reference for Resource Explorer in the Amazon Web Services Resource Explorer User Guide.  This query string in the context of this operation supports only filter prefixes with optional operators. It doesn't support free-form text. For example, the string region:us* service:ec2 -tag:stage=prod includes all Amazon EC2 resources in any Amazon Web Services Region that begins with the letters us and is not tagged with a key Stage that has the value prod.
         public let filters: SearchFilter?
         /// Specifies optional fields that you want included in search results from this view. It is a list of objects that each describe a field to include. The default is an empty list, with no optional fields included in the results.
         public let includedProperties: [IncludedProperty]?
@@ -1196,7 +1578,7 @@ extension ResourceExplorer2 {
         public let lastUpdatedAt: Date?
         /// The Amazon Web Services account that owns this view.
         public let owner: String?
-        /// An Amazon resource name (ARN) of an Amazon Web Services account, an organization, or an organizational unit (OU) that specifies whether this view includes resources from only  the specified Amazon Web Services account, all accounts in the specified organization, or all accounts in  the specified OU. If not specified, the value defaults to the Amazon Web Services account used to call this  operation.
+        /// An Amazon resource name (ARN) of an Amazon Web Services account, an organization, or an organizational unit (OU) that specifies whether this view includes resources from only the specified Amazon Web Services account, all accounts in the specified organization, or all accounts in the specified OU. If not specified, the value defaults to the Amazon Web Services account used to call this operation.
         public let scope: String?
         /// The Amazon resource name (ARN) of the view.
         public let viewArn: String?
@@ -1218,6 +1600,27 @@ extension ResourceExplorer2 {
             case owner = "Owner"
             case scope = "Scope"
             case viewArn = "ViewArn"
+        }
+    }
+
+    public struct ViewStatus: AWSDecodableShape {
+        /// Details about any error that occurred during the view operation.
+        public let errorDetails: ErrorDetails?
+        /// The current status of the view operation. Valid values are SUCCEEDED, FAILED, IN_PROGRESS, or SKIPPED.
+        public let status: OperationStatus?
+        public let view: View?
+
+        @inlinable
+        public init(errorDetails: ErrorDetails? = nil, status: OperationStatus? = nil, view: View? = nil) {
+            self.errorDetails = errorDetails
+            self.status = status
+            self.view = view
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorDetails = "ErrorDetails"
+            case status = "Status"
+            case view = "View"
         }
     }
 }

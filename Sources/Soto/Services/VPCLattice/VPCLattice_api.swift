@@ -172,7 +172,7 @@ public struct VPCLattice: AWSService {
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
     ///   - defaultAction: The action for the default rule. Each listener has a default rule. The default rule is used if no other rules match.
-    ///   - name: The name of the listener. A listener name must be unique within a service. The valid characters are a-z, 0-9, and hyphens (-). You can't use a  hyphen as the first or last character, or immediately after another hyphen.
+    ///   - name: The name of the listener. A listener name must be unique within a service. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen.
     ///   - port: The listener port. You can specify a value from 1 to 65535. For HTTP, the default is 80. For HTTPS, the default is 443.
     ///   - protocol: The listener protocol.
     ///   - serviceIdentifier: The ID or ARN of the service.
@@ -217,16 +217,16 @@ public struct VPCLattice: AWSService {
     /// Creates a resource configuration. A resource configuration defines a specific resource. You can associate a resource configuration with a service network or a VPC endpoint.
     ///
     /// Parameters:
-    ///   - allowAssociationToShareableServiceNetwork: (SINGLE, GROUP, ARN) Specifies whether the resource configuration can be associated with  a sharable service network. The default is false.
+    ///   - allowAssociationToShareableServiceNetwork: (SINGLE, GROUP, ARN) Specifies whether the resource configuration can be associated with a sharable service network. The default is false.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
     ///   - name: The name of the resource configuration. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen.
-    ///   - portRanges: (SINGLE, GROUP, CHILD) The TCP port ranges that a consumer can use to access a resource configuration  (for example: 1-65535). You can separate port ranges using commas (for example: 1,2,22-30).
+    ///   - portRanges: (SINGLE, GROUP, CHILD) The TCP port ranges that a consumer can use to access a resource configuration (for example: 1-65535). You can separate port ranges using commas (for example: 1,2,22-30).
     ///   - protocol: (SINGLE, GROUP) The protocol accepted by the resource configuration.
-    ///   - resourceConfigurationDefinition: (SINGLE, CHILD, ARN) The resource configuration.
-    ///   - resourceConfigurationGroupIdentifier: (CHILD) The ID or ARN of the parent resource configuration (type is GROUP).  This is used to associate a child resource configuration with a group resource configuration.
+    ///   - resourceConfigurationDefinition: Identifies the resource configuration in one of the following ways:    Amazon Resource Name (ARN) - Supported resource-types that are provisioned by Amazon Web Services services, such as RDS databases, can be identified by their ARN.    Domain name - Any domain name that is publicly resolvable.    IP address - For IPv4 and IPv6, only IP addresses in the VPC are supported.
+    ///   - resourceConfigurationGroupIdentifier: (CHILD) The ID or ARN of the parent resource configuration of type GROUP. This is used to associate a child resource configuration with a group resource configuration.
     ///   - resourceGatewayIdentifier: (SINGLE, GROUP, ARN) The ID or ARN of the resource gateway used to connect to the resource configuration. For a child resource configuration, this value is inherited from the parent resource configuration.
     ///   - tags: The tags for the resource configuration.
-    ///   - type: The type of resource configuration.    SINGLE - A single resource.    GROUP - A group of resources. You must create a group resource configuration before you create a child resource configuration.    CHILD - A single resource that is part of a group resource configuration.    ARN - An Amazon Web Services resource.
+    ///   - type: The type of resource configuration. A resource configuration can be one of the following types:    SINGLE - A single resource.    GROUP - A group of resources. You must create a group resource configuration before you create a child resource configuration.    CHILD - A single resource that is part of a group resource configuration.    ARN - An Amazon Web Services resource.
     ///   - logger: Logger use during operation
     @inlinable
     public func createResourceConfiguration(
@@ -257,7 +257,7 @@ public struct VPCLattice: AWSService {
         return try await self.createResourceConfiguration(input, logger: logger)
     }
 
-    /// Creates a resource gateway.
+    /// A resource gateway is a point of ingress into the VPC where a resource resides. It spans multiple Availability Zones. For your resource to be accessible from all Availability Zones, you should create your resource gateways to span as many Availability Zones as possible. A VPC can have multiple resource gateways.
     @Sendable
     @inlinable
     public func createResourceGateway(_ input: CreateResourceGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateResourceGatewayResponse {
@@ -270,11 +270,12 @@ public struct VPCLattice: AWSService {
             logger: logger
         )
     }
-    /// Creates a resource gateway.
+    /// A resource gateway is a point of ingress into the VPC where a resource resides. It spans multiple Availability Zones. For your resource to be accessible from all Availability Zones, you should create your resource gateways to span as many Availability Zones as possible. A VPC can have multiple resource gateways.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
-    ///   - ipAddressType: The type of IP address used by the resource gateway.
+    ///   - ipAddressType: A resource gateway can have IPv4, IPv6 or dualstack addresses. The IP address type of a resource gateway must be compatible with the subnets of the resource gateway and the IP address type of the resource, as described here:     IPv4Assign IPv4 addresses to your resource gateway network interfaces. This option is supported only if all selected subnets have IPv4 address ranges, and the resource also has an IPv4 address.    IPv6Assign IPv6 addresses to your resource gateway network interfaces. This option is supported only if all selected subnets are IPv6 only subnets, and the resource also has an IPv6 address.    DualstackAssign both IPv4 and IPv6 addresses to your resource gateway network interfaces. This option is supported only if all selected subnets have both IPv4 and IPv6 address ranges, and the resource either has an IPv4 or IPv6 address.   The IP address type of the resource gateway is independent of the IP address type of the client or the VPC endpoint through which the resource is accessed.
+    ///   - ipv4AddressesPerEni: The number of IPv4 addresses in each ENI for the resource gateway.
     ///   - name: The name of the resource gateway.
     ///   - securityGroupIds: The IDs of the security groups to apply to the resource gateway. The security groups must be in the same VPC.
     ///   - subnetIds: The IDs of the VPC subnets in which to create the resource gateway.
@@ -285,16 +286,18 @@ public struct VPCLattice: AWSService {
     public func createResourceGateway(
         clientToken: String? = CreateResourceGatewayRequest.idempotencyToken(),
         ipAddressType: ResourceGatewayIpAddressType? = nil,
+        ipv4AddressesPerEni: Int? = nil,
         name: String,
         securityGroupIds: [String]? = nil,
-        subnetIds: [String],
+        subnetIds: [String]? = nil,
         tags: [String: String]? = nil,
-        vpcIdentifier: String,
+        vpcIdentifier: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateResourceGatewayResponse {
         let input = CreateResourceGatewayRequest(
             clientToken: clientToken, 
             ipAddressType: ipAddressType, 
+            ipv4AddressesPerEni: ipv4AddressesPerEni, 
             name: name, 
             securityGroupIds: securityGroupIds, 
             subnetIds: subnetIds, 
@@ -324,7 +327,7 @@ public struct VPCLattice: AWSService {
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
     ///   - listenerIdentifier: The ID or ARN of the listener.
     ///   - match: The rule match.
-    ///   - name: The name of the rule. The name must be unique within the listener. The valid characters are a-z, 0-9, and hyphens (-). You can't use a  hyphen as the first or last character, or immediately after another hyphen.
+    ///   - name: The name of the rule. The name must be unique within the listener. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen.
     ///   - priority: The priority assigned to the rule. Each rule for a specific listener must have a unique priority. The lower the priority number the higher the priority.
     ///   - serviceIdentifier: The ID or ARN of the service.
     ///   - tags: The tags for the rule.
@@ -374,7 +377,7 @@ public struct VPCLattice: AWSService {
     ///   - certificateArn: The Amazon Resource Name (ARN) of the certificate.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
     ///   - customDomainName: The custom domain name of the service.
-    ///   - name: The name of the service. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a  hyphen as the first or last character, or immediately after another hyphen.
+    ///   - name: The name of the service. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen.
     ///   - tags: The tags for the service.
     ///   - logger: Logger use during operation
     @inlinable
@@ -416,7 +419,7 @@ public struct VPCLattice: AWSService {
     /// Parameters:
     ///   - authType: The type of IAM policy.    NONE: The resource does not use an IAM policy. This is the default.    AWS_IAM: The resource uses an IAM policy. When this type is used, auth is enabled and an auth policy is required.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
-    ///   - name: The name of the service network. The name must be unique to the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a  hyphen as the first or last character, or immediately after another hyphen.
+    ///   - name: The name of the service network. The name must be unique to the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen.
     ///   - sharingConfig: Specify if the service network should be enabled for sharing.
     ///   - tags: The tags for the service network.
     ///   - logger: Logger use during operation
@@ -458,7 +461,7 @@ public struct VPCLattice: AWSService {
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
     ///   - resourceConfigurationIdentifier: The ID of the resource configuration to associate with the service network.
     ///   - serviceNetworkIdentifier: The ID of the service network to associate with the resource configuration.
-    ///   - tags: The tags for the association.
+    ///   - tags: A key-value pair to associate with a resource.
     ///   - logger: Logger use during operation
     @inlinable
     public func createServiceNetworkResourceAssociation(
@@ -477,7 +480,7 @@ public struct VPCLattice: AWSService {
         return try await self.createServiceNetworkResourceAssociation(input, logger: logger)
     }
 
-    /// Associates the specified service with the specified service network. For more information, see  Manage service associations in the Amazon VPC Lattice User Guide. You can't use this operation if the service and service network are already associated or if there is a disassociation or deletion in progress. If the association fails, you can retry the operation by deleting the association and recreating it. You cannot associate a service and service network that are shared with a caller. The caller must own either the service or the service network. As a result of this operation, the association is created in the service network account and the association owner account.
+    /// Associates the specified service with the specified service network. For more information, see Manage service associations in the Amazon VPC Lattice User Guide. You can't use this operation if the service and service network are already associated or if there is a disassociation or deletion in progress. If the association fails, you can retry the operation by deleting the association and recreating it. You cannot associate a service and service network that are shared with a caller. The caller must own either the service or the service network. As a result of this operation, the association is created in the service network account and the association owner account.
     @Sendable
     @inlinable
     public func createServiceNetworkServiceAssociation(_ input: CreateServiceNetworkServiceAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateServiceNetworkServiceAssociationResponse {
@@ -490,7 +493,7 @@ public struct VPCLattice: AWSService {
             logger: logger
         )
     }
-    /// Associates the specified service with the specified service network. For more information, see  Manage service associations in the Amazon VPC Lattice User Guide. You can't use this operation if the service and service network are already associated or if there is a disassociation or deletion in progress. If the association fails, you can retry the operation by deleting the association and recreating it. You cannot associate a service and service network that are shared with a caller. The caller must own either the service or the service network. As a result of this operation, the association is created in the service network account and the association owner account.
+    /// Associates the specified service with the specified service network. For more information, see Manage service associations in the Amazon VPC Lattice User Guide. You can't use this operation if the service and service network are already associated or if there is a disassociation or deletion in progress. If the association fails, you can retry the operation by deleting the association and recreating it. You cannot associate a service and service network that are shared with a caller. The caller must own either the service or the service network. As a result of this operation, the association is created in the service network account and the association owner account.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
@@ -574,7 +577,7 @@ public struct VPCLattice: AWSService {
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
     ///   - config: The target group configuration.
-    ///   - name: The name of the target group. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a  hyphen as the first or last character, or immediately after another hyphen.
+    ///   - name: The name of the target group. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen.
     ///   - tags: The tags for the target group.
     ///   - type: The type of target group.
     ///   - logger: Logger use during operation
@@ -1518,7 +1521,7 @@ public struct VPCLattice: AWSService {
     /// Parameters:
     ///   - maxResults: The maximum page size.
     ///   - nextToken: A pagination token for the next page of results.
-    ///   - resourceConfigurationGroupIdentifier: The ID of the group resource configuration.
+    ///   - resourceConfigurationGroupIdentifier: The ID of the resource configuration of type Group.
     ///   - resourceGatewayIdentifier: The ID of the resource gateway for the resource configuration.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1668,13 +1671,15 @@ public struct VPCLattice: AWSService {
     /// Lists the associations between a service network and a resource configuration.
     ///
     /// Parameters:
+    ///   - includeChildren: Include service network resource associations of the child resource configuration with the grouped resource configuration. The type is boolean and the default value is false.
     ///   - maxResults: The maximum page size.
     ///   - nextToken: If there are additional results, a pagination token for the next page of results.
-    ///   - resourceConfigurationIdentifier: The ID of the resource configurationk.
+    ///   - resourceConfigurationIdentifier: The ID of the resource configuration.
     ///   - serviceNetworkIdentifier: The ID of the service network.
     ///   - logger: Logger use during operation
     @inlinable
     public func listServiceNetworkResourceAssociations(
+        includeChildren: Bool? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         resourceConfigurationIdentifier: String? = nil,
@@ -1682,6 +1687,7 @@ public struct VPCLattice: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListServiceNetworkResourceAssociationsResponse {
         let input = ListServiceNetworkResourceAssociationsRequest(
+            includeChildren: includeChildren, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             resourceConfigurationIdentifier: resourceConfigurationIdentifier, 
@@ -2215,7 +2221,7 @@ public struct VPCLattice: AWSService {
     /// Parameters:
     ///   - allowAssociationToShareableServiceNetwork: Indicates whether to add the resource configuration to service networks that are shared with other accounts.
     ///   - portRanges: The TCP port ranges that a consumer can use to access a resource configuration. You can separate port ranges with a comma. Example: 1-65535 or 1,2,22-30
-    ///   - resourceConfigurationDefinition: The resource configuration.
+    ///   - resourceConfigurationDefinition: Identifies the resource configuration in one of the following ways:    Amazon Resource Name (ARN) - Supported resource-types that are provisioned by Amazon Web Services services, such as RDS databases, can be identified by their ARN.    Domain name - Any domain name that is publicly resolvable.    IP address - For IPv4 and IPv6, only IP addresses in the VPC are supported.
     ///   - resourceConfigurationIdentifier: The ID of the resource configuration.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2552,7 +2558,7 @@ extension VPCLattice {
     ///
     /// - Parameters:
     ///   - maxResults: The maximum page size.
-    ///   - resourceConfigurationGroupIdentifier: The ID of the group resource configuration.
+    ///   - resourceConfigurationGroupIdentifier: The ID of the resource configuration of type Group.
     ///   - resourceGatewayIdentifier: The ID of the resource gateway for the resource configuration.
     ///   - logger: Logger used for logging
     @inlinable
@@ -2711,18 +2717,21 @@ extension VPCLattice {
     /// Return PaginatorSequence for operation ``listServiceNetworkResourceAssociations(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - includeChildren: Include service network resource associations of the child resource configuration with the grouped resource configuration. The type is boolean and the default value is false.
     ///   - maxResults: The maximum page size.
-    ///   - resourceConfigurationIdentifier: The ID of the resource configurationk.
+    ///   - resourceConfigurationIdentifier: The ID of the resource configuration.
     ///   - serviceNetworkIdentifier: The ID of the service network.
     ///   - logger: Logger used for logging
     @inlinable
     public func listServiceNetworkResourceAssociationsPaginator(
+        includeChildren: Bool? = nil,
         maxResults: Int? = nil,
         resourceConfigurationIdentifier: String? = nil,
         serviceNetworkIdentifier: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListServiceNetworkResourceAssociationsRequest, ListServiceNetworkResourceAssociationsResponse> {
         let input = ListServiceNetworkResourceAssociationsRequest(
+            includeChildren: includeChildren, 
             maxResults: maxResults, 
             resourceConfigurationIdentifier: resourceConfigurationIdentifier, 
             serviceNetworkIdentifier: serviceNetworkIdentifier
@@ -3070,6 +3079,7 @@ extension VPCLattice.ListServiceNetworkResourceAssociationsRequest: AWSPaginateT
     @inlinable
     public func usingPaginationToken(_ token: String) -> VPCLattice.ListServiceNetworkResourceAssociationsRequest {
         return .init(
+            includeChildren: self.includeChildren,
             maxResults: self.maxResults,
             nextToken: token,
             resourceConfigurationIdentifier: self.resourceConfigurationIdentifier,

@@ -357,6 +357,8 @@ extension WorkSpacesThinClient {
         public let lastConnectedAt: Date?
         /// The timestamp of the most recent check-in of the device.
         public let lastPostureAt: Date?
+        /// The user ID of the most recent session on the device.
+        public let lastUserId: String?
         /// The model number of the device.
         public let model: String?
         /// The name of the device.
@@ -379,7 +381,7 @@ extension WorkSpacesThinClient {
         public let updatedAt: Date?
 
         @inlinable
-        public init(arn: String? = nil, createdAt: Date? = nil, currentSoftwareSetId: String? = nil, currentSoftwareSetVersion: String? = nil, desiredSoftwareSetId: String? = nil, environmentId: String? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastConnectedAt: Date? = nil, lastPostureAt: Date? = nil, model: String? = nil, name: String? = nil, pendingSoftwareSetId: String? = nil, pendingSoftwareSetVersion: String? = nil, serialNumber: String? = nil, softwareSetComplianceStatus: DeviceSoftwareSetComplianceStatus? = nil, softwareSetUpdateSchedule: SoftwareSetUpdateSchedule? = nil, softwareSetUpdateStatus: SoftwareSetUpdateStatus? = nil, status: DeviceStatus? = nil, updatedAt: Date? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, currentSoftwareSetId: String? = nil, currentSoftwareSetVersion: String? = nil, desiredSoftwareSetId: String? = nil, environmentId: String? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastConnectedAt: Date? = nil, lastPostureAt: Date? = nil, lastUserId: String? = nil, model: String? = nil, name: String? = nil, pendingSoftwareSetId: String? = nil, pendingSoftwareSetVersion: String? = nil, serialNumber: String? = nil, softwareSetComplianceStatus: DeviceSoftwareSetComplianceStatus? = nil, softwareSetUpdateSchedule: SoftwareSetUpdateSchedule? = nil, softwareSetUpdateStatus: SoftwareSetUpdateStatus? = nil, status: DeviceStatus? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.currentSoftwareSetId = currentSoftwareSetId
@@ -390,6 +392,7 @@ extension WorkSpacesThinClient {
             self.kmsKeyArn = kmsKeyArn
             self.lastConnectedAt = lastConnectedAt
             self.lastPostureAt = lastPostureAt
+            self.lastUserId = lastUserId
             self.model = model
             self.name = name
             self.pendingSoftwareSetId = pendingSoftwareSetId
@@ -413,6 +416,7 @@ extension WorkSpacesThinClient {
             case kmsKeyArn = "kmsKeyArn"
             case lastConnectedAt = "lastConnectedAt"
             case lastPostureAt = "lastPostureAt"
+            case lastUserId = "lastUserId"
             case model = "model"
             case name = "name"
             case pendingSoftwareSetId = "pendingSoftwareSetId"
@@ -443,6 +447,8 @@ extension WorkSpacesThinClient {
         public let lastConnectedAt: Date?
         /// The timestamp of the most recent check-in of the device.
         public let lastPostureAt: Date?
+        /// The user ID of the most recent session on the device.
+        public let lastUserId: String?
         /// The model number of the device.
         public let model: String?
         /// The name of the device.
@@ -459,7 +465,7 @@ extension WorkSpacesThinClient {
         public let updatedAt: Date?
 
         @inlinable
-        public init(arn: String? = nil, createdAt: Date? = nil, currentSoftwareSetId: String? = nil, desiredSoftwareSetId: String? = nil, environmentId: String? = nil, id: String? = nil, lastConnectedAt: Date? = nil, lastPostureAt: Date? = nil, model: String? = nil, name: String? = nil, pendingSoftwareSetId: String? = nil, serialNumber: String? = nil, softwareSetUpdateSchedule: SoftwareSetUpdateSchedule? = nil, status: DeviceStatus? = nil, updatedAt: Date? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, currentSoftwareSetId: String? = nil, desiredSoftwareSetId: String? = nil, environmentId: String? = nil, id: String? = nil, lastConnectedAt: Date? = nil, lastPostureAt: Date? = nil, lastUserId: String? = nil, model: String? = nil, name: String? = nil, pendingSoftwareSetId: String? = nil, serialNumber: String? = nil, softwareSetUpdateSchedule: SoftwareSetUpdateSchedule? = nil, status: DeviceStatus? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.currentSoftwareSetId = currentSoftwareSetId
@@ -468,6 +474,7 @@ extension WorkSpacesThinClient {
             self.id = id
             self.lastConnectedAt = lastConnectedAt
             self.lastPostureAt = lastPostureAt
+            self.lastUserId = lastUserId
             self.model = model
             self.name = name
             self.pendingSoftwareSetId = pendingSoftwareSetId
@@ -486,6 +493,7 @@ extension WorkSpacesThinClient {
             case id = "id"
             case lastConnectedAt = "lastConnectedAt"
             case lastPostureAt = "lastPostureAt"
+            case lastUserId = "lastUserId"
             case model = "model"
             case name = "name"
             case pendingSoftwareSetId = "pendingSoftwareSetId"

@@ -33,6 +33,38 @@ extension IoTDataPlane {
 
     // MARK: Shapes
 
+    public struct DeleteConnectionRequest: AWSEncodableShape {
+        /// Specifies whether to remove the client's session state when disconnecting. Set to TRUE to delete all session information, including subscriptions and queued messages. Set to FALSE to preserve the session state. By default, this is set to FALSE (preserves the session state).
+        public let cleanSession: Bool?
+        /// The unique identifier of the MQTT client to disconnect. The client ID can't start with a dollar sign ($).
+        public let clientId: String
+        /// Controls if Amazon Web Services IoT Core publishes the client's Last Will and Testament (LWT) message upon disconnection. Set to TRUE to prevent publishing the LWT message. Set to FALSE to allow publishing. By default, this is set to FALSE (allows publishing the LWT message).
+        public let preventWillMessage: Bool?
+
+        @inlinable
+        public init(cleanSession: Bool? = nil, clientId: String, preventWillMessage: Bool? = nil) {
+            self.cleanSession = cleanSession
+            self.clientId = clientId
+            self.preventWillMessage = preventWillMessage
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.cleanSession, key: "cleanSession")
+            request.encodePath(self.clientId, key: "clientId")
+            request.encodeQuery(self.preventWillMessage, key: "preventWillMessage")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientId, name: "clientId", parent: name, max: 128)
+            try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
+            try self.validate(self.clientId, name: "clientId", parent: name, pattern: "^[^$]")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteThingShadowRequest: AWSEncodableShape {
         /// The name of the shadow.
         public let shadowName: String?
@@ -425,6 +457,7 @@ extension IoTDataPlane {
 public struct IoTDataPlaneErrorType: AWSErrorType {
     enum Code: String {
         case conflictException = "ConflictException"
+        case forbiddenException = "ForbiddenException"
         case internalFailureException = "InternalFailureException"
         case invalidRequestException = "InvalidRequestException"
         case methodNotAllowedException = "MethodNotAllowedException"
@@ -456,6 +489,8 @@ public struct IoTDataPlaneErrorType: AWSErrorType {
 
     /// The specified version does not match the version of the document.
     public static var conflictException: Self { .init(.conflictException) }
+    /// The caller isn't authorized to make the request.
+    public static var forbiddenException: Self { .init(.forbiddenException) }
     /// An unexpected error has occurred.
     public static var internalFailureException: Self { .init(.internalFailureException) }
     /// The request is not valid.

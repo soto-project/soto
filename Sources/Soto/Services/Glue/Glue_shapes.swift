@@ -27,6 +27,7 @@ extension Glue {
 
     public enum AdditionalOptionKeys: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cacheOption = "performanceTuning.caching"
+        case compositeOption = "compositeRuleEvaluation.method"
         case observationsOption = "observations.scope"
         public var description: String { return self.rawValue }
     }
@@ -169,6 +170,12 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConfigurationSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case catalog = "catalog"
+        case table = "table"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConnectionPropertyKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case clusterIdentifier = "CLUSTER_IDENTIFIER"
         case configFiles = "CONFIG_FILES"
@@ -230,35 +237,98 @@ extension Glue {
     }
 
     public enum ConnectionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case adobeanalytics = "ADOBEANALYTICS"
+        case asana = "ASANA"
+        case azurecosmos = "AZURECOSMOS"
+        case azuresql = "AZURESQL"
+        case bigquery = "BIGQUERY"
+        case blackbaud = "BLACKBAUD"
+        case blackbaudraiseredgenxt = "BLACKBAUDRAISEREDGENXT"
+        case circleci = "CIRCLECI"
+        case clouderahive = "CLOUDERAHIVE"
+        case clouderaimpala = "CLOUDERAIMPALA"
+        case cloudwatch = "CLOUDWATCH"
+        case cloudwatchmetrics = "CLOUDWATCHMETRICS"
+        case cmdb = "CMDB"
         case custom = "CUSTOM"
+        case datadog = "DATADOG"
+        case datalakegen2 = "DATALAKEGEN2"
+        case db2 = "DB2"
+        case db2as400 = "DB2AS400"
+        case documentdb = "DOCUMENTDB"
+        case docusignmonitor = "DOCUSIGNMONITOR"
+        case domo = "DOMO"
+        case dynamodb = "DYNAMODB"
+        case dynatrace = "DYNATRACE"
         case facebookads = "FACEBOOKADS"
+        case facebookpageinsights = "FACEBOOKPAGEINSIGHTS"
+        case freshdesk = "FRESHDESK"
+        case freshsales = "FRESHSALES"
+        case gitlab = "GITLAB"
         case googleads = "GOOGLEADS"
         case googleanalytics4 = "GOOGLEANALYTICS4"
+        case googlecloudstorage = "GOOGLECLOUDSTORAGE"
+        case googlesearchconsole = "GOOGLESEARCHCONSOLE"
         case googlesheets = "GOOGLESHEETS"
+        case hbase = "HBASE"
         case hubspot = "HUBSPOT"
         case instagramads = "INSTAGRAMADS"
         case intercom = "INTERCOM"
         case jdbc = "JDBC"
         case jiracloud = "JIRACLOUD"
         case kafka = "KAFKA"
+        case kustomer = "KUSTOMER"
+        case linkedin = "LINKEDIN"
+        case mailchimp = "MAILCHIMP"
         case marketo = "MARKETO"
         case marketplace = "MARKETPLACE"
+        case microsoftdynamic365financeandops = "MICROSOFTDYNAMIC365FINANCEANDOPS"
+        case microsoftdynamics365crm = "MICROSOFTDYNAMICS365CRM"
+        case microsoftteams = "MICROSOFTTEAMS"
+        case mixpanel = "MIXPANEL"
+        case monday = "MONDAY"
         case mongodb = "MONGODB"
+        case mysql = "MYSQL"
         case netsuiteerp = "NETSUITEERP"
         case network = "NETWORK"
+        case okta = "OKTA"
+        case opensearch = "OPENSEARCH"
+        case oracle = "ORACLE"
+        case paypal = "PAYPAL"
+        case pendo = "PENDO"
+        case pipedive = "PIPEDIVE"
+        case pipedrive = "PIPEDRIVE"
+        case postgresql = "POSTGRESQL"
+        case productboard = "PRODUCTBOARD"
+        case quickbooks = "QUICKBOOKS"
         case salesforce = "SALESFORCE"
+        case salesforcecommercecloud = "SALESFORCECOMMERCECLOUD"
         case salesforcemarketingcloud = "SALESFORCEMARKETINGCLOUD"
         case salesforcepardot = "SALESFORCEPARDOT"
+        case sapconcur = "SAPCONCUR"
+        case saphana = "SAPHANA"
         case sapodata = "SAPODATA"
+        case sendgrid = "SENDGRID"
         case servicenow = "SERVICENOW"
         case sftp = "SFTP"
         case slack = "SLACK"
+        case smartsheet = "SMARTSHEET"
         case snapchatads = "SNAPCHATADS"
+        case sqlserver = "SQLSERVER"
         case stripe = "STRIPE"
+        case synapse = "SYNAPSE"
+        case teradata = "TERADATA"
+        case teradatanos = "TERADATANOS"
+        case timestream = "TIMESTREAM"
+        case tpcds = "TPCDS"
+        case twilio = "TWILIO"
+        case vertica = "VERTICA"
         case viewValidationAthena = "VIEW_VALIDATION_ATHENA"
         case viewValidationRedshift = "VIEW_VALIDATION_REDSHIFT"
+        case woocommerce = "WOOCOMMERCE"
         case zendesk = "ZENDESK"
         case zohocrm = "ZOHOCRM"
+        case zoom = "ZOOM"
         public var description: String { return self.rawValue }
     }
 
@@ -360,6 +430,13 @@ extension Glue {
 
     public enum DatabaseAttributes: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case name = "NAME"
+        case targetDatabase = "TARGET_DATABASE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DdbExportType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ddb = "ddb"
+        case s3 = "s3"
         public var description: String { return self.rawValue }
     }
 
@@ -756,9 +833,12 @@ extension Glue {
 
     public enum PiiType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case columnAudit = "ColumnAudit"
+        case columnHashing = "ColumnHashing"
         case columnMasking = "ColumnMasking"
         case rowAudit = "RowAudit"
+        case rowHashing = "RowHashing"
         case rowMasking = "RowMasking"
+        case rowPartialMasking = "RowPartialMasking"
         public var description: String { return self.rawValue }
     }
 
@@ -1618,20 +1698,24 @@ extension Glue {
     public struct AuthenticationConfiguration: AWSDecodableShape {
         /// A structure containing the authentication configuration.
         public let authenticationType: AuthenticationType?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt sensitive authentication information. This key is used to protect credentials  and other sensitive data stored within the authentication configuration.
+        public let kmsKeyArn: String?
         /// The properties for OAuth2 authentication.
         public let oAuth2Properties: OAuth2Properties?
         /// The secret manager ARN to store credentials.
         public let secretArn: String?
 
         @inlinable
-        public init(authenticationType: AuthenticationType? = nil, oAuth2Properties: OAuth2Properties? = nil, secretArn: String? = nil) {
+        public init(authenticationType: AuthenticationType? = nil, kmsKeyArn: String? = nil, oAuth2Properties: OAuth2Properties? = nil, secretArn: String? = nil) {
             self.authenticationType = authenticationType
+            self.kmsKeyArn = kmsKeyArn
             self.oAuth2Properties = oAuth2Properties
             self.secretArn = secretArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case authenticationType = "AuthenticationType"
+            case kmsKeyArn = "KmsKeyArn"
             case oAuth2Properties = "OAuth2Properties"
             case secretArn = "SecretArn"
         }
@@ -1707,6 +1791,28 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case authorizationCode = "AuthorizationCode"
             case redirectUri = "RedirectUri"
+        }
+    }
+
+    public struct AutoDataQuality: AWSEncodableShape & AWSDecodableShape {
+        /// The evaluation context for the automatic data quality checks. This defines the scope and parameters for the data quality evaluation.
+        public let evaluationContext: String?
+        /// Specifies whether automatic data quality evaluation is enabled. When set to true, data quality checks are performed automatically.
+        public let isEnabled: Bool?
+
+        @inlinable
+        public init(evaluationContext: String? = nil, isEnabled: Bool? = nil) {
+            self.evaluationContext = evaluationContext
+            self.isEnabled = isEnabled
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.evaluationContext, name: "evaluationContext", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case evaluationContext = "EvaluationContext"
+            case isEnabled = "IsEnabled"
         }
     }
 
@@ -2573,7 +2679,7 @@ extension Glue {
     public struct BatchPutDataQualityStatisticAnnotationRequest: AWSEncodableShape {
         /// Client Token.
         public let clientToken: String?
-        /// A list of DatapointInclusionAnnotation's.
+        /// A list of DatapointInclusionAnnotation's. The InclusionAnnotations must contain a profileId and statisticId. If there are multiple InclusionAnnotations, the list must refer to a single statisticId across multiple profileIds.
         public let inclusionAnnotations: [DatapointInclusionAnnotation]
 
         @inlinable
@@ -3331,6 +3437,49 @@ extension Glue {
         }
     }
 
+    public struct CatalogIcebergSource: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies additional connection options for the Iceberg data source.
+        public let additionalIcebergOptions: [String: String]?
+        /// The name of the database to read from.
+        public let database: String
+        /// The name of the Iceberg data source.
+        public let name: String
+        /// Specifies the data schema for the Iceberg source.
+        public let outputSchemas: [GlueSchema]?
+        /// The name of the table in the database to read from.
+        public let table: String
+
+        @inlinable
+        public init(additionalIcebergOptions: [String: String]? = nil, database: String, name: String, outputSchemas: [GlueSchema]? = nil, table: String) {
+            self.additionalIcebergOptions = additionalIcebergOptions
+            self.database = database
+            self.name = name
+            self.outputSchemas = outputSchemas
+            self.table = table
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalIcebergOptions?.forEach {
+                try validate($0.key, name: "additionalIcebergOptions.key", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+                try validate($0.value, name: "additionalIcebergOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            }
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.outputSchemas?.forEach {
+                try $0.validate(name: "\(name).outputSchemas[]")
+            }
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalIcebergOptions = "AdditionalIcebergOptions"
+            case database = "Database"
+            case name = "Name"
+            case outputSchemas = "OutputSchemas"
+            case table = "Table"
+        }
+    }
+
     public struct CatalogImportStatus: AWSDecodableShape {
         ///  True if the migration has completed, or False otherwise.
         public let importCompleted: Bool?
@@ -3513,11 +3662,14 @@ extension Glue {
         public let customProperties: [String: String]?
         /// A DataLakeAccessProperties object that specifies properties to configure data lake access for your catalog resource in the Glue Data Catalog.
         public let dataLakeAccessProperties: DataLakeAccessProperties?
+        /// A structure that specifies Iceberg table optimization properties for the catalog. This includes configuration for compaction, retention, and  orphan file deletion operations that can be applied to Iceberg tables in this catalog.
+        public let icebergOptimizationProperties: IcebergOptimizationProperties?
 
         @inlinable
-        public init(customProperties: [String: String]? = nil, dataLakeAccessProperties: DataLakeAccessProperties? = nil) {
+        public init(customProperties: [String: String]? = nil, dataLakeAccessProperties: DataLakeAccessProperties? = nil, icebergOptimizationProperties: IcebergOptimizationProperties? = nil) {
             self.customProperties = customProperties
             self.dataLakeAccessProperties = dataLakeAccessProperties
+            self.icebergOptimizationProperties = icebergOptimizationProperties
         }
 
         public func validate(name: String) throws {
@@ -3528,11 +3680,13 @@ extension Glue {
                 try validate($0.value, name: "customProperties[\"\($0.key)\"]", parent: name, max: 512000)
             }
             try self.dataLakeAccessProperties?.validate(name: "\(name).dataLakeAccessProperties")
+            try self.icebergOptimizationProperties?.validate(name: "\(name).icebergOptimizationProperties")
         }
 
         private enum CodingKeys: String, CodingKey {
             case customProperties = "CustomProperties"
             case dataLakeAccessProperties = "DataLakeAccessProperties"
+            case icebergOptimizationProperties = "IcebergOptimizationProperties"
         }
     }
 
@@ -3541,16 +3695,20 @@ extension Glue {
         public let customProperties: [String: String]?
         /// A DataLakeAccessProperties object with input properties to configure data lake access for your catalog resource in the Glue Data Catalog.
         public let dataLakeAccessProperties: DataLakeAccessPropertiesOutput?
+        /// An IcebergOptimizationPropertiesOutput object that specifies Iceberg table optimization settings for the catalog, including  configurations for compaction, retention, and orphan file deletion operations.
+        public let icebergOptimizationProperties: IcebergOptimizationPropertiesOutput?
 
         @inlinable
-        public init(customProperties: [String: String]? = nil, dataLakeAccessProperties: DataLakeAccessPropertiesOutput? = nil) {
+        public init(customProperties: [String: String]? = nil, dataLakeAccessProperties: DataLakeAccessPropertiesOutput? = nil, icebergOptimizationProperties: IcebergOptimizationPropertiesOutput? = nil) {
             self.customProperties = customProperties
             self.dataLakeAccessProperties = dataLakeAccessProperties
+            self.icebergOptimizationProperties = icebergOptimizationProperties
         }
 
         private enum CodingKeys: String, CodingKey {
             case customProperties = "CustomProperties"
             case dataLakeAccessProperties = "DataLakeAccessProperties"
+            case icebergOptimizationProperties = "IcebergOptimizationProperties"
         }
     }
 
@@ -3577,25 +3735,37 @@ extension Glue {
         public let database: String
         /// The name of the data store.
         public let name: String
+        /// Specifies the data schema for the catalog source.
+        public let outputSchemas: [GlueSchema]?
+        ///  Partitions satisfying this predicate are deleted. Files within the retention period in these partitions are not deleted.
+        public let partitionPredicate: String?
         /// The name of the table in the database to read from.
         public let table: String
 
         @inlinable
-        public init(database: String, name: String, table: String) {
+        public init(database: String, name: String, outputSchemas: [GlueSchema]? = nil, partitionPredicate: String? = nil, table: String) {
             self.database = database
             self.name = name
+            self.outputSchemas = outputSchemas
+            self.partitionPredicate = partitionPredicate
             self.table = table
         }
 
         public func validate(name: String) throws {
             try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.outputSchemas?.forEach {
+                try $0.validate(name: "\(name).outputSchemas[]")
+            }
+            try self.validate(self.partitionPredicate, name: "partitionPredicate", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case database = "Database"
             case name = "Name"
+            case outputSchemas = "OutputSchemas"
+            case partitionPredicate = "PartitionPredicate"
             case table = "Table"
         }
     }
@@ -3747,6 +3917,8 @@ extension Glue {
         public let catalogDeltaSource: CatalogDeltaSource?
         /// Specifies a Hudi data source that is registered in the Glue Data Catalog.
         public let catalogHudiSource: CatalogHudiSource?
+        /// Specifies an Apache Iceberg data source that is registered in the Glue Data Catalog.
+        public let catalogIcebergSource: CatalogIcebergSource?
         /// Specifies an Apache Kafka data store in the Data Catalog.
         public let catalogKafkaSource: CatalogKafkaSource?
         /// Specifies a Kinesis data source in the Glue Data Catalog.
@@ -3776,6 +3948,8 @@ extension Glue {
         public let dynamicTransform: DynamicTransform?
         /// Specifies a DynamoDBC Catalog data store in the Glue Data Catalog.
         public let dynamoDBCatalogSource: DynamoDBCatalogSource?
+        /// Specifies a DynamoDB ELT connector source for extracting data from DynamoDB tables.
+        public let dynamoDBELTConnectorSource: DynamoDBELTConnectorSource?
         /// Specifies your data quality evaluation criteria.
         public let evaluateDataQuality: EvaluateDataQuality?
         /// Specifies your data quality evaluation criteria. Allows multiple input data and returns a collection of Dynamic Frames.
@@ -3824,10 +3998,14 @@ extension Glue {
         public let relationalCatalogSource: RelationalCatalogSource?
         /// Specifies a transform that renames a single data property key.
         public let renameField: RenameField?
+        /// Specifies a route node that directs data to different output paths based on defined filtering conditions.
+        public let route: Route?
         /// Specifies a Delta Lake data source that is registered in the Glue Data Catalog. The data source must be stored in Amazon S3.
         public let s3CatalogDeltaSource: S3CatalogDeltaSource?
         /// Specifies a Hudi data source that is registered in the Glue Data Catalog. The data source must be stored in Amazon S3.
         public let s3CatalogHudiSource: S3CatalogHudiSource?
+        /// Specifies an Apache Iceberg data source that is registered in the Glue Data Catalog. The Iceberg data source must be stored in Amazon S3.
+        public let s3CatalogIcebergSource: S3CatalogIcebergSource?
         /// Specifies an Amazon S3 data store in the Glue Data Catalog.
         public let s3CatalogSource: S3CatalogSource?
         /// Specifies a data target that writes to Amazon S3 using the Glue Data Catalog.
@@ -3854,6 +4032,8 @@ extension Glue {
         public let s3HudiSource: S3HudiSource?
         /// Defines configuration parameters for writing data to Amazon S3 using HyperDirect optimization.
         public let s3HyperDirectTarget: S3HyperDirectTarget?
+        /// Specifies an Apache Iceberg catalog target that writes data to Amazon S3 and registers the table in the Glue Data Catalog.
+        public let s3IcebergCatalogTarget: S3IcebergCatalogTarget?
         /// Defines configuration parameters for writing data to Amazon S3 as an Apache Iceberg table.
         public let s3IcebergDirectTarget: S3IcebergDirectTarget?
         /// Specifies a JSON data store stored in Amazon S3.
@@ -3882,7 +4062,7 @@ extension Glue {
         public let union: Union?
 
         @inlinable
-        public init(aggregate: Aggregate? = nil, amazonRedshiftSource: AmazonRedshiftSource? = nil, amazonRedshiftTarget: AmazonRedshiftTarget? = nil, applyMapping: ApplyMapping? = nil, athenaConnectorSource: AthenaConnectorSource? = nil, catalogDeltaSource: CatalogDeltaSource? = nil, catalogHudiSource: CatalogHudiSource? = nil, catalogKafkaSource: CatalogKafkaSource? = nil, catalogKinesisSource: CatalogKinesisSource? = nil, catalogSource: CatalogSource? = nil, catalogTarget: BasicCatalogTarget? = nil, connectorDataSource: ConnectorDataSource? = nil, connectorDataTarget: ConnectorDataTarget? = nil, customCode: CustomCode? = nil, directJDBCSource: DirectJDBCSource? = nil, directKafkaSource: DirectKafkaSource? = nil, directKinesisSource: DirectKinesisSource? = nil, dropDuplicates: DropDuplicates? = nil, dropFields: DropFields? = nil, dropNullFields: DropNullFields? = nil, dynamicTransform: DynamicTransform? = nil, dynamoDBCatalogSource: DynamoDBCatalogSource? = nil, evaluateDataQuality: EvaluateDataQuality? = nil, evaluateDataQualityMultiFrame: EvaluateDataQualityMultiFrame? = nil, fillMissingValues: FillMissingValues? = nil, filter: Filter? = nil, governedCatalogSource: GovernedCatalogSource? = nil, governedCatalogTarget: GovernedCatalogTarget? = nil, jdbcConnectorSource: JDBCConnectorSource? = nil, jdbcConnectorTarget: JDBCConnectorTarget? = nil, join: Join? = nil, merge: Merge? = nil, microsoftSQLServerCatalogSource: MicrosoftSQLServerCatalogSource? = nil, microsoftSQLServerCatalogTarget: MicrosoftSQLServerCatalogTarget? = nil, mySQLCatalogSource: MySQLCatalogSource? = nil, mySQLCatalogTarget: MySQLCatalogTarget? = nil, oracleSQLCatalogSource: OracleSQLCatalogSource? = nil, oracleSQLCatalogTarget: OracleSQLCatalogTarget? = nil, piiDetection: PIIDetection? = nil, postgreSQLCatalogSource: PostgreSQLCatalogSource? = nil, postgreSQLCatalogTarget: PostgreSQLCatalogTarget? = nil, recipe: Recipe? = nil, redshiftSource: RedshiftSource? = nil, redshiftTarget: RedshiftTarget? = nil, relationalCatalogSource: RelationalCatalogSource? = nil, renameField: RenameField? = nil, s3CatalogDeltaSource: S3CatalogDeltaSource? = nil, s3CatalogHudiSource: S3CatalogHudiSource? = nil, s3CatalogSource: S3CatalogSource? = nil, s3CatalogTarget: S3CatalogTarget? = nil, s3CsvSource: S3CsvSource? = nil, s3DeltaCatalogTarget: S3DeltaCatalogTarget? = nil, s3DeltaDirectTarget: S3DeltaDirectTarget? = nil, s3DeltaSource: S3DeltaSource? = nil, s3DirectTarget: S3DirectTarget? = nil, s3ExcelSource: S3ExcelSource? = nil, s3GlueParquetTarget: S3GlueParquetTarget? = nil, s3HudiCatalogTarget: S3HudiCatalogTarget? = nil, s3HudiDirectTarget: S3HudiDirectTarget? = nil, s3HudiSource: S3HudiSource? = nil, s3HyperDirectTarget: S3HyperDirectTarget? = nil, s3IcebergDirectTarget: S3IcebergDirectTarget? = nil, s3JsonSource: S3JsonSource? = nil, s3ParquetSource: S3ParquetSource? = nil, selectFields: SelectFields? = nil, selectFromCollection: SelectFromCollection? = nil, snowflakeSource: SnowflakeSource? = nil, snowflakeTarget: SnowflakeTarget? = nil, sparkConnectorSource: SparkConnectorSource? = nil, sparkConnectorTarget: SparkConnectorTarget? = nil, sparkSQL: SparkSQL? = nil, spigot: Spigot? = nil, splitFields: SplitFields? = nil, union: Union? = nil) {
+        public init(aggregate: Aggregate? = nil, amazonRedshiftSource: AmazonRedshiftSource? = nil, amazonRedshiftTarget: AmazonRedshiftTarget? = nil, applyMapping: ApplyMapping? = nil, athenaConnectorSource: AthenaConnectorSource? = nil, catalogDeltaSource: CatalogDeltaSource? = nil, catalogHudiSource: CatalogHudiSource? = nil, catalogIcebergSource: CatalogIcebergSource? = nil, catalogKafkaSource: CatalogKafkaSource? = nil, catalogKinesisSource: CatalogKinesisSource? = nil, catalogSource: CatalogSource? = nil, catalogTarget: BasicCatalogTarget? = nil, connectorDataSource: ConnectorDataSource? = nil, connectorDataTarget: ConnectorDataTarget? = nil, customCode: CustomCode? = nil, directJDBCSource: DirectJDBCSource? = nil, directKafkaSource: DirectKafkaSource? = nil, directKinesisSource: DirectKinesisSource? = nil, dropDuplicates: DropDuplicates? = nil, dropFields: DropFields? = nil, dropNullFields: DropNullFields? = nil, dynamicTransform: DynamicTransform? = nil, dynamoDBCatalogSource: DynamoDBCatalogSource? = nil, dynamoDBELTConnectorSource: DynamoDBELTConnectorSource? = nil, evaluateDataQuality: EvaluateDataQuality? = nil, evaluateDataQualityMultiFrame: EvaluateDataQualityMultiFrame? = nil, fillMissingValues: FillMissingValues? = nil, filter: Filter? = nil, governedCatalogSource: GovernedCatalogSource? = nil, governedCatalogTarget: GovernedCatalogTarget? = nil, jdbcConnectorSource: JDBCConnectorSource? = nil, jdbcConnectorTarget: JDBCConnectorTarget? = nil, join: Join? = nil, merge: Merge? = nil, microsoftSQLServerCatalogSource: MicrosoftSQLServerCatalogSource? = nil, microsoftSQLServerCatalogTarget: MicrosoftSQLServerCatalogTarget? = nil, mySQLCatalogSource: MySQLCatalogSource? = nil, mySQLCatalogTarget: MySQLCatalogTarget? = nil, oracleSQLCatalogSource: OracleSQLCatalogSource? = nil, oracleSQLCatalogTarget: OracleSQLCatalogTarget? = nil, piiDetection: PIIDetection? = nil, postgreSQLCatalogSource: PostgreSQLCatalogSource? = nil, postgreSQLCatalogTarget: PostgreSQLCatalogTarget? = nil, recipe: Recipe? = nil, redshiftSource: RedshiftSource? = nil, redshiftTarget: RedshiftTarget? = nil, relationalCatalogSource: RelationalCatalogSource? = nil, renameField: RenameField? = nil, route: Route? = nil, s3CatalogDeltaSource: S3CatalogDeltaSource? = nil, s3CatalogHudiSource: S3CatalogHudiSource? = nil, s3CatalogIcebergSource: S3CatalogIcebergSource? = nil, s3CatalogSource: S3CatalogSource? = nil, s3CatalogTarget: S3CatalogTarget? = nil, s3CsvSource: S3CsvSource? = nil, s3DeltaCatalogTarget: S3DeltaCatalogTarget? = nil, s3DeltaDirectTarget: S3DeltaDirectTarget? = nil, s3DeltaSource: S3DeltaSource? = nil, s3DirectTarget: S3DirectTarget? = nil, s3ExcelSource: S3ExcelSource? = nil, s3GlueParquetTarget: S3GlueParquetTarget? = nil, s3HudiCatalogTarget: S3HudiCatalogTarget? = nil, s3HudiDirectTarget: S3HudiDirectTarget? = nil, s3HudiSource: S3HudiSource? = nil, s3HyperDirectTarget: S3HyperDirectTarget? = nil, s3IcebergCatalogTarget: S3IcebergCatalogTarget? = nil, s3IcebergDirectTarget: S3IcebergDirectTarget? = nil, s3JsonSource: S3JsonSource? = nil, s3ParquetSource: S3ParquetSource? = nil, selectFields: SelectFields? = nil, selectFromCollection: SelectFromCollection? = nil, snowflakeSource: SnowflakeSource? = nil, snowflakeTarget: SnowflakeTarget? = nil, sparkConnectorSource: SparkConnectorSource? = nil, sparkConnectorTarget: SparkConnectorTarget? = nil, sparkSQL: SparkSQL? = nil, spigot: Spigot? = nil, splitFields: SplitFields? = nil, union: Union? = nil) {
             self.aggregate = aggregate
             self.amazonRedshiftSource = amazonRedshiftSource
             self.amazonRedshiftTarget = amazonRedshiftTarget
@@ -3890,6 +4070,7 @@ extension Glue {
             self.athenaConnectorSource = athenaConnectorSource
             self.catalogDeltaSource = catalogDeltaSource
             self.catalogHudiSource = catalogHudiSource
+            self.catalogIcebergSource = catalogIcebergSource
             self.catalogKafkaSource = catalogKafkaSource
             self.catalogKinesisSource = catalogKinesisSource
             self.catalogSource = catalogSource
@@ -3905,6 +4086,7 @@ extension Glue {
             self.dropNullFields = dropNullFields
             self.dynamicTransform = dynamicTransform
             self.dynamoDBCatalogSource = dynamoDBCatalogSource
+            self.dynamoDBELTConnectorSource = dynamoDBELTConnectorSource
             self.evaluateDataQuality = evaluateDataQuality
             self.evaluateDataQualityMultiFrame = evaluateDataQualityMultiFrame
             self.fillMissingValues = fillMissingValues
@@ -3929,8 +4111,10 @@ extension Glue {
             self.redshiftTarget = redshiftTarget
             self.relationalCatalogSource = relationalCatalogSource
             self.renameField = renameField
+            self.route = route
             self.s3CatalogDeltaSource = s3CatalogDeltaSource
             self.s3CatalogHudiSource = s3CatalogHudiSource
+            self.s3CatalogIcebergSource = s3CatalogIcebergSource
             self.s3CatalogSource = s3CatalogSource
             self.s3CatalogTarget = s3CatalogTarget
             self.s3CsvSource = s3CsvSource
@@ -3944,6 +4128,7 @@ extension Glue {
             self.s3HudiDirectTarget = s3HudiDirectTarget
             self.s3HudiSource = s3HudiSource
             self.s3HyperDirectTarget = s3HyperDirectTarget
+            self.s3IcebergCatalogTarget = s3IcebergCatalogTarget
             self.s3IcebergDirectTarget = s3IcebergDirectTarget
             self.s3JsonSource = s3JsonSource
             self.s3ParquetSource = s3ParquetSource
@@ -3967,6 +4152,7 @@ extension Glue {
             try self.athenaConnectorSource?.validate(name: "\(name).athenaConnectorSource")
             try self.catalogDeltaSource?.validate(name: "\(name).catalogDeltaSource")
             try self.catalogHudiSource?.validate(name: "\(name).catalogHudiSource")
+            try self.catalogIcebergSource?.validate(name: "\(name).catalogIcebergSource")
             try self.catalogKafkaSource?.validate(name: "\(name).catalogKafkaSource")
             try self.catalogKinesisSource?.validate(name: "\(name).catalogKinesisSource")
             try self.catalogSource?.validate(name: "\(name).catalogSource")
@@ -3982,6 +4168,7 @@ extension Glue {
             try self.dropNullFields?.validate(name: "\(name).dropNullFields")
             try self.dynamicTransform?.validate(name: "\(name).dynamicTransform")
             try self.dynamoDBCatalogSource?.validate(name: "\(name).dynamoDBCatalogSource")
+            try self.dynamoDBELTConnectorSource?.validate(name: "\(name).dynamoDBELTConnectorSource")
             try self.evaluateDataQuality?.validate(name: "\(name).evaluateDataQuality")
             try self.evaluateDataQualityMultiFrame?.validate(name: "\(name).evaluateDataQualityMultiFrame")
             try self.fillMissingValues?.validate(name: "\(name).fillMissingValues")
@@ -4006,8 +4193,10 @@ extension Glue {
             try self.redshiftTarget?.validate(name: "\(name).redshiftTarget")
             try self.relationalCatalogSource?.validate(name: "\(name).relationalCatalogSource")
             try self.renameField?.validate(name: "\(name).renameField")
+            try self.route?.validate(name: "\(name).route")
             try self.s3CatalogDeltaSource?.validate(name: "\(name).s3CatalogDeltaSource")
             try self.s3CatalogHudiSource?.validate(name: "\(name).s3CatalogHudiSource")
+            try self.s3CatalogIcebergSource?.validate(name: "\(name).s3CatalogIcebergSource")
             try self.s3CatalogSource?.validate(name: "\(name).s3CatalogSource")
             try self.s3CatalogTarget?.validate(name: "\(name).s3CatalogTarget")
             try self.s3CsvSource?.validate(name: "\(name).s3CsvSource")
@@ -4021,6 +4210,7 @@ extension Glue {
             try self.s3HudiDirectTarget?.validate(name: "\(name).s3HudiDirectTarget")
             try self.s3HudiSource?.validate(name: "\(name).s3HudiSource")
             try self.s3HyperDirectTarget?.validate(name: "\(name).s3HyperDirectTarget")
+            try self.s3IcebergCatalogTarget?.validate(name: "\(name).s3IcebergCatalogTarget")
             try self.s3IcebergDirectTarget?.validate(name: "\(name).s3IcebergDirectTarget")
             try self.s3JsonSource?.validate(name: "\(name).s3JsonSource")
             try self.s3ParquetSource?.validate(name: "\(name).s3ParquetSource")
@@ -4044,6 +4234,7 @@ extension Glue {
             case athenaConnectorSource = "AthenaConnectorSource"
             case catalogDeltaSource = "CatalogDeltaSource"
             case catalogHudiSource = "CatalogHudiSource"
+            case catalogIcebergSource = "CatalogIcebergSource"
             case catalogKafkaSource = "CatalogKafkaSource"
             case catalogKinesisSource = "CatalogKinesisSource"
             case catalogSource = "CatalogSource"
@@ -4059,6 +4250,7 @@ extension Glue {
             case dropNullFields = "DropNullFields"
             case dynamicTransform = "DynamicTransform"
             case dynamoDBCatalogSource = "DynamoDBCatalogSource"
+            case dynamoDBELTConnectorSource = "DynamoDBELTConnectorSource"
             case evaluateDataQuality = "EvaluateDataQuality"
             case evaluateDataQualityMultiFrame = "EvaluateDataQualityMultiFrame"
             case fillMissingValues = "FillMissingValues"
@@ -4083,8 +4275,10 @@ extension Glue {
             case redshiftTarget = "RedshiftTarget"
             case relationalCatalogSource = "RelationalCatalogSource"
             case renameField = "RenameField"
+            case route = "Route"
             case s3CatalogDeltaSource = "S3CatalogDeltaSource"
             case s3CatalogHudiSource = "S3CatalogHudiSource"
+            case s3CatalogIcebergSource = "S3CatalogIcebergSource"
             case s3CatalogSource = "S3CatalogSource"
             case s3CatalogTarget = "S3CatalogTarget"
             case s3CsvSource = "S3CsvSource"
@@ -4098,6 +4292,7 @@ extension Glue {
             case s3HudiDirectTarget = "S3HudiDirectTarget"
             case s3HudiSource = "S3HudiSource"
             case s3HyperDirectTarget = "S3HyperDirectTarget"
+            case s3IcebergCatalogTarget = "S3IcebergCatalogTarget"
             case s3IcebergDirectTarget = "S3IcebergDirectTarget"
             case s3JsonSource = "S3JsonSource"
             case s3ParquetSource = "S3ParquetSource"
@@ -4761,7 +4956,7 @@ extension Glue {
         public let authenticationConfiguration: AuthenticationConfiguration?
         /// A list of compute environments compatible with the connection.
         public let compatibleComputeEnvironments: [ComputeEnvironment]?
-        /// These key-value pairs define parameters for the connection when using the version 1 Connection schema:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME -  The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    ENCRYPTED_PASSWORD - When you enable connection password protection by setting ConnectionPasswordEncryption in the Data Catalog encryption settings, this field stores the encrypted password.    JDBC_DRIVER_JAR_URI - The Amazon Simple Storage Service (Amazon S3) path of the JAR file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use.)    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for connecting to a JDBC data source.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.    CUSTOM_JDBC_CERT - An Amazon S3 location specifying the customer's root certificate. Glue uses this root certificate to validate the customer’s certificate when connecting to the customer database. Glue only handles X.509 certificates. The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.    SKIP_CUSTOM_JDBC_CERT_VALIDATION - By default, this is false. Glue validates the Signature algorithm and Subject Public Key Algorithm for the customer certificate. The only permitted algorithms for the Signature algorithm are SHA256withRSA, SHA384withRSA or SHA512withRSA. For the Subject Public Key Algorithm, the key length must be at least 2048. You can set the value of this property to true to skip Glue’s validation of the customer certificate.    CUSTOM_JDBC_CERT_STRING - A custom JDBC certificate string which is used for domain match or distinguished name match to prevent a man-in-the-middle attack. In Oracle database, this is used as the SSL_SERVER_CERT_DN; in Microsoft SQL Server, this is used as the hostNameInCertificate.    CONNECTION_URL - The URL for connecting to a general (non-JDBC) data source.    SECRET_ID - The secret ID used for the secret manager of credentials.    CONNECTOR_URL - The connector URL for a MARKETPLACE or CUSTOM connection.    CONNECTOR_TYPE - The connector type for a MARKETPLACE or CUSTOM connection.    CONNECTOR_CLASS_NAME - The connector class name for a MARKETPLACE or CUSTOM connection.    KAFKA_BOOTSTRAP_SERVERS - A comma-separated list of host and port pairs that are the addresses of the Apache Kafka brokers in a Kafka cluster to which a Kafka client will connect to and bootstrap itself.    KAFKA_SSL_ENABLED - Whether to enable or disable SSL on an Apache Kafka connection. Default value is "true".    KAFKA_CUSTOM_CERT - The Amazon S3 URL for the private CA cert file (.pem format). The default is an empty string.    KAFKA_SKIP_CUSTOM_CERT_VALIDATION - Whether to skip the validation of the CA cert file or not. Glue validates for three algorithms: SHA256withRSA, SHA384withRSA and SHA512withRSA. Default value is "false".    KAFKA_CLIENT_KEYSTORE - The Amazon S3 location of the client keystore file for Kafka client side authentication (Optional).    KAFKA_CLIENT_KEYSTORE_PASSWORD - The password to access the provided keystore (Optional).    KAFKA_CLIENT_KEY_PASSWORD - A keystore can consist of multiple keys, so this is the password to access the client key to be used with the Kafka server side key (Optional).    ENCRYPTED_KAFKA_CLIENT_KEYSTORE_PASSWORD - The encrypted version of the Kafka client keystore password (if the user has the Glue encrypt passwords setting selected).    ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD - The encrypted version of the Kafka client key password (if the user has the Glue encrypt passwords setting selected).    KAFKA_SASL_MECHANISM - "SCRAM-SHA-512", "GSSAPI", "AWS_MSK_IAM", or "PLAIN". These are the supported SASL Mechanisms.    KAFKA_SASL_PLAIN_USERNAME - A plaintext username used to authenticate with the "PLAIN" mechanism.    KAFKA_SASL_PLAIN_PASSWORD - A plaintext password used to authenticate with the "PLAIN" mechanism.    ENCRYPTED_KAFKA_SASL_PLAIN_PASSWORD - The encrypted version of the Kafka SASL PLAIN password (if the user has the Glue encrypt passwords setting selected).    KAFKA_SASL_SCRAM_USERNAME - A plaintext username used to authenticate with the "SCRAM-SHA-512" mechanism.    KAFKA_SASL_SCRAM_PASSWORD - A plaintext password used to authenticate with the "SCRAM-SHA-512" mechanism.    ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD - The encrypted version of the Kafka SASL SCRAM password (if the user has the Glue encrypt passwords setting selected).    KAFKA_SASL_SCRAM_SECRETS_ARN - The Amazon Resource Name of a secret in Amazon Web Services Secrets Manager.    KAFKA_SASL_GSSAPI_KEYTAB - The S3 location of a Kerberos keytab file. A keytab stores long-term keys for one or more principals. For more information, see MIT Kerberos Documentation: Keytab.    KAFKA_SASL_GSSAPI_KRB5_CONF - The S3 location of a Kerberos krb5.conf file. A krb5.conf stores Kerberos configuration information, such as the location of the KDC server. For more information, see MIT Kerberos Documentation: krb5.conf.    KAFKA_SASL_GSSAPI_SERVICE - The Kerberos service name, as set with sasl.kerberos.service.name in your Kafka Configuration.    KAFKA_SASL_GSSAPI_PRINCIPAL - The name of the Kerberos princial used by Glue. For more information, see Kafka Documentation: Configuring Kafka Brokers.    ROLE_ARN - The role to be used for running queries.    REGION - The Amazon Web Services Region where queries will be run.    WORKGROUP_NAME - The name of an Amazon Redshift serverless workgroup or Amazon Athena workgroup in which queries will run.    CLUSTER_IDENTIFIER - The cluster identifier of an Amazon Redshift cluster in which queries will run.    DATABASE - The Amazon Redshift database that you are connecting to.
+        /// These key-value pairs define parameters for the connection when using the version 1 Connection schema:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME -  The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    ENCRYPTED_PASSWORD - When you enable connection password protection by setting ConnectionPasswordEncryption in the Data Catalog encryption settings, this field stores the encrypted password.    JDBC_DRIVER_JAR_URI - The Amazon Simple Storage Service (Amazon S3) path of the JAR file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use.)    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for connecting to a JDBC data source.    JDBC_ENFORCE_SSL - A case-insensitive Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.    CUSTOM_JDBC_CERT - An Amazon S3 location specifying the customer's root certificate. Glue uses this root certificate to validate the customer’s certificate when connecting to the customer database. Glue only handles X.509 certificates. The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.    SKIP_CUSTOM_JDBC_CERT_VALIDATION - By default, this is false. Glue validates the Signature algorithm and Subject Public Key Algorithm for the customer certificate. The only permitted algorithms for the Signature algorithm are SHA256withRSA, SHA384withRSA or SHA512withRSA. For the Subject Public Key Algorithm, the key length must be at least 2048. You can set the value of this property to true to skip Glue’s validation of the customer certificate.    CUSTOM_JDBC_CERT_STRING - A custom JDBC certificate string which is used for domain match or distinguished name match to prevent a man-in-the-middle attack. In Oracle database, this is used as the SSL_SERVER_CERT_DN; in Microsoft SQL Server, this is used as the hostNameInCertificate.    CONNECTION_URL - The URL for connecting to a general (non-JDBC) data source.    SECRET_ID - The secret ID used for the secret manager of credentials.    CONNECTOR_URL - The connector URL for a MARKETPLACE or CUSTOM connection.    CONNECTOR_TYPE - The connector type for a MARKETPLACE or CUSTOM connection.    CONNECTOR_CLASS_NAME - The connector class name for a MARKETPLACE or CUSTOM connection.    KAFKA_BOOTSTRAP_SERVERS - A comma-separated list of host and port pairs that are the addresses of the Apache Kafka brokers in a Kafka cluster to which a Kafka client will connect to and bootstrap itself.    KAFKA_SSL_ENABLED - Whether to enable or disable SSL on an Apache Kafka connection. Default value is "true".    KAFKA_CUSTOM_CERT - The Amazon S3 URL for the private CA cert file (.pem format). The default is an empty string.    KAFKA_SKIP_CUSTOM_CERT_VALIDATION - Whether to skip the validation of the CA cert file or not. Glue validates for three algorithms: SHA256withRSA, SHA384withRSA and SHA512withRSA. Default value is "false".    KAFKA_CLIENT_KEYSTORE - The Amazon S3 location of the client keystore file for Kafka client side authentication (Optional).    KAFKA_CLIENT_KEYSTORE_PASSWORD - The password to access the provided keystore (Optional).    KAFKA_CLIENT_KEY_PASSWORD - A keystore can consist of multiple keys, so this is the password to access the client key to be used with the Kafka server side key (Optional).    ENCRYPTED_KAFKA_CLIENT_KEYSTORE_PASSWORD - The encrypted version of the Kafka client keystore password (if the user has the Glue encrypt passwords setting selected).    ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD - The encrypted version of the Kafka client key password (if the user has the Glue encrypt passwords setting selected).    KAFKA_SASL_MECHANISM - "SCRAM-SHA-512", "GSSAPI", "AWS_MSK_IAM", or "PLAIN". These are the supported SASL Mechanisms.    KAFKA_SASL_PLAIN_USERNAME - A plaintext username used to authenticate with the "PLAIN" mechanism.    KAFKA_SASL_PLAIN_PASSWORD - A plaintext password used to authenticate with the "PLAIN" mechanism.    ENCRYPTED_KAFKA_SASL_PLAIN_PASSWORD - The encrypted version of the Kafka SASL PLAIN password (if the user has the Glue encrypt passwords setting selected).    KAFKA_SASL_SCRAM_USERNAME - A plaintext username used to authenticate with the "SCRAM-SHA-512" mechanism.    KAFKA_SASL_SCRAM_PASSWORD - A plaintext password used to authenticate with the "SCRAM-SHA-512" mechanism.    ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD - The encrypted version of the Kafka SASL SCRAM password (if the user has the Glue encrypt passwords setting selected).    KAFKA_SASL_SCRAM_SECRETS_ARN - The Amazon Resource Name of a secret in Amazon Web Services Secrets Manager.    KAFKA_SASL_GSSAPI_KEYTAB - The S3 location of a Kerberos keytab file. A keytab stores long-term keys for one or more principals. For more information, see MIT Kerberos Documentation: Keytab.    KAFKA_SASL_GSSAPI_KRB5_CONF - The S3 location of a Kerberos krb5.conf file. A krb5.conf stores Kerberos configuration information, such as the location of the KDC server. For more information, see MIT Kerberos Documentation: krb5.conf.    KAFKA_SASL_GSSAPI_SERVICE - The Kerberos service name, as set with sasl.kerberos.service.name in your Kafka Configuration.    KAFKA_SASL_GSSAPI_PRINCIPAL - The name of the Kerberos princial used by Glue. For more information, see Kafka Documentation: Configuring Kafka Brokers.    ROLE_ARN - The role to be used for running queries.    REGION - The Amazon Web Services Region where queries will be run.    WORKGROUP_NAME - The name of an Amazon Redshift serverless workgroup or Amazon Athena workgroup in which queries will run.    CLUSTER_IDENTIFIER - The cluster identifier of an Amazon Redshift cluster in which queries will run.    DATABASE - The Amazon Redshift database that you are connecting to.
         public let connectionProperties: [ConnectionPropertyKey: String]?
         /// The version of the connection schema for this connection. Version 2 supports properties for specific compute environments.
         public let connectionSchemaVersion: Int?
@@ -6200,6 +6395,48 @@ extension Glue {
         }
     }
 
+    public struct CreateGlueIdentityCenterConfigurationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Identity Center instance to be associated with the Glue configuration.
+        public let instanceArn: String
+        /// A list of Identity Center scopes that define the permissions and access levels for the Glue configuration.
+        public let scopes: [String]?
+
+        @inlinable
+        public init(instanceArn: String, scopes: [String]? = nil) {
+            self.instanceArn = instanceArn
+            self.scopes = scopes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
+            try self.scopes?.forEach {
+                try validate($0, name: "scopes[]", parent: name, max: 50)
+            }
+            try self.validate(self.scopes, name: "scopes", parent: name, max: 50)
+            try self.validate(self.scopes, name: "scopes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceArn = "InstanceArn"
+            case scopes = "Scopes"
+        }
+    }
+
+    public struct CreateGlueIdentityCenterConfigurationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Identity Center application that was created for the Glue configuration.
+        public let applicationArn: String?
+
+        @inlinable
+        public init(applicationArn: String? = nil) {
+            self.applicationArn = applicationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+        }
+    }
+
     public struct CreateGrokClassifierRequest: AWSEncodableShape {
         /// An identifier of the data format that the classifier matches, such as Twitter, JSON, Omniture logs, Amazon CloudWatch Logs, and so on.
         public let classification: String
@@ -6540,7 +6777,7 @@ extension Glue {
         public let tags: [String: String]?
         /// The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2880 minutes. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
         public let timeout: Int?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk, and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 or later streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Mumbai), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Spain), Europe (Stockholm), and South America (São Paulo).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk, and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 or later streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
         public let workerType: WorkerType?
 
         @inlinable
@@ -7787,6 +8024,74 @@ extension Glue {
         }
     }
 
+    public struct DDBELTCatalogAdditionalOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the DynamoDB export configuration for the ELT operation.
+        public let dynamodbExport: String?
+        /// Specifies whether to unnest DynamoDB JSON format. When set to true, nested JSON structures in DynamoDB items are flattened.
+        public let dynamodbUnnestDDBJson: Bool?
+
+        @inlinable
+        public init(dynamodbExport: String? = nil, dynamodbUnnestDDBJson: Bool? = nil) {
+            self.dynamodbExport = dynamodbExport
+            self.dynamodbUnnestDDBJson = dynamodbUnnestDDBJson
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dynamodbExport, name: "dynamodbExport", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dynamodbExport = "DynamodbExport"
+            case dynamodbUnnestDDBJson = "DynamodbUnnestDDBJson"
+        }
+    }
+
+    public struct DDBELTConnectionOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the export type for DynamoDB data extraction. This parameter determines how data is exported from the DynamoDB table during the ELT process.
+        public let dynamodbExport: DdbExportType?
+        /// The name of the Amazon S3 bucket used for intermediate storage during the DynamoDB ELT process. This bucket is used to temporarily store exported  DynamoDB data before it is processed by the ELT job.
+        public let dynamodbS3Bucket: String?
+        /// The Amazon Web Services account ID of the owner of the S3 bucket specified in DynamodbS3Bucket. This parameter is required when the S3 bucket is owned by  a different Amazon Web Services account than the one running the ELT job, enabling cross-account access to the intermediate storage bucket.
+        public let dynamodbS3BucketOwner: String?
+        /// The S3 object key prefix for files stored in the intermediate S3 bucket during the DynamoDB ELT process. This prefix helps organize and identify the  temporary files created during data extraction.
+        public let dynamodbS3Prefix: String?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Security Token Service (STS) role to assume for accessing DynamoDB and S3 resources during  the ELT operation.  This role must have the necessary permissions to read from the DynamoDB table and write to the intermediate S3 bucket.
+        public let dynamodbStsRoleArn: String?
+        /// The Amazon Resource Name (ARN) of the DynamoDB table to extract data from. This parameter specifies the source table for the ELT operation.
+        public let dynamodbTableArn: String
+        /// A boolean value that specifies whether to unnest DynamoDB JSON format during data extraction. When set to true, the connector will  flatten nested JSON structures from DynamoDB items. When set to false, the original DynamoDB JSON structure is preserved.
+        public let dynamodbUnnestDDBJson: Bool?
+
+        @inlinable
+        public init(dynamodbExport: DdbExportType? = nil, dynamodbS3Bucket: String? = nil, dynamodbS3BucketOwner: String? = nil, dynamodbS3Prefix: String? = nil, dynamodbStsRoleArn: String? = nil, dynamodbTableArn: String, dynamodbUnnestDDBJson: Bool? = nil) {
+            self.dynamodbExport = dynamodbExport
+            self.dynamodbS3Bucket = dynamodbS3Bucket
+            self.dynamodbS3BucketOwner = dynamodbS3BucketOwner
+            self.dynamodbS3Prefix = dynamodbS3Prefix
+            self.dynamodbStsRoleArn = dynamodbStsRoleArn
+            self.dynamodbTableArn = dynamodbTableArn
+            self.dynamodbUnnestDDBJson = dynamodbUnnestDDBJson
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dynamodbS3Bucket, name: "dynamodbS3Bucket", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.dynamodbS3BucketOwner, name: "dynamodbS3BucketOwner", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.dynamodbS3Prefix, name: "dynamodbS3Prefix", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.dynamodbStsRoleArn, name: "dynamodbStsRoleArn", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.dynamodbTableArn, name: "dynamodbTableArn", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dynamodbExport = "DynamodbExport"
+            case dynamodbS3Bucket = "DynamodbS3Bucket"
+            case dynamodbS3BucketOwner = "DynamodbS3BucketOwner"
+            case dynamodbS3Prefix = "DynamodbS3Prefix"
+            case dynamodbStsRoleArn = "DynamodbStsRoleArn"
+            case dynamodbTableArn = "DynamodbTableArn"
+            case dynamodbUnnestDDBJson = "DynamodbUnnestDDBJson"
+        }
+    }
+
     public struct DQResultsPublishingOptions: AWSEncodableShape & AWSDecodableShape {
         /// Enable metrics for your data quality results.
         public let cloudWatchMetricsEnabled: Bool?
@@ -8053,6 +8358,66 @@ extension Glue {
         }
     }
 
+    public struct DataQualityGlueTable: AWSEncodableShape & AWSDecodableShape {
+        /// Additional options for the table. Currently there are two keys supported:    pushDownPredicate: to filter on partitions without having to list and read all the files in your dataset.    catalogPartitionPredicate: to use server-side partition pruning using partition indexes in the Glue Data Catalog.
+        public let additionalOptions: [String: String]?
+        /// A unique identifier for the Glue Data Catalog.
+        public let catalogId: String?
+        /// The name of the connection to the Glue Data Catalog.
+        public let connectionName: String?
+        /// A database name in the Glue Data Catalog.
+        public let databaseName: String
+        /// SQL Query of SparkSQL format that can be used to pre-process the data for the table in Glue Data Catalog, before running the Data Quality Operation.
+        public let preProcessingQuery: String?
+        /// A table name in the Glue Data Catalog.
+        public let tableName: String
+
+        @inlinable
+        public init(additionalOptions: [String: String]? = nil, catalogId: String? = nil, connectionName: String? = nil, databaseName: String, preProcessingQuery: String? = nil, tableName: String) {
+            self.additionalOptions = additionalOptions
+            self.catalogId = catalogId
+            self.connectionName = connectionName
+            self.databaseName = databaseName
+            self.preProcessingQuery = preProcessingQuery
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalOptions?.forEach {
+                try validate($0.key, name: "additionalOptions.key", parent: name, max: 255)
+                try validate($0.key, name: "additionalOptions.key", parent: name, min: 1)
+                try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+                try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, max: 2048)
+                try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            }
+            try self.validate(self.additionalOptions, name: "additionalOptions", parent: name, max: 10)
+            try self.validate(self.additionalOptions, name: "additionalOptions", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.connectionName, name: "connectionName", parent: name, max: 255)
+            try self.validate(self.connectionName, name: "connectionName", parent: name, min: 1)
+            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.preProcessingQuery, name: "preProcessingQuery", parent: name, max: 51200)
+            try self.validate(self.preProcessingQuery, name: "preProcessingQuery", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalOptions = "AdditionalOptions"
+            case catalogId = "CatalogId"
+            case connectionName = "ConnectionName"
+            case databaseName = "DatabaseName"
+            case preProcessingQuery = "PreProcessingQuery"
+            case tableName = "TableName"
+        }
+    }
+
     public struct DataQualityMetricValues: AWSDecodableShape {
         /// The actual value of the data quality metric.
         public let actualValue: Double?
@@ -8298,6 +8663,8 @@ extension Glue {
         public let evaluatedRule: String?
         /// An evaluation message.
         public let evaluationMessage: String?
+        /// A map containing labels assigned to the data quality rule.
+        public let labels: [String: String]?
         /// The name of the data quality rule.
         public let name: String?
         /// A pass or fail status for the rule.
@@ -8306,11 +8673,12 @@ extension Glue {
         public let ruleMetrics: [String: Double]?
 
         @inlinable
-        public init(description: String? = nil, evaluatedMetrics: [String: Double]? = nil, evaluatedRule: String? = nil, evaluationMessage: String? = nil, name: String? = nil, result: DataQualityRuleResultStatus? = nil, ruleMetrics: [String: Double]? = nil) {
+        public init(description: String? = nil, evaluatedMetrics: [String: Double]? = nil, evaluatedRule: String? = nil, evaluationMessage: String? = nil, labels: [String: String]? = nil, name: String? = nil, result: DataQualityRuleResultStatus? = nil, ruleMetrics: [String: Double]? = nil) {
             self.description = description
             self.evaluatedMetrics = evaluatedMetrics
             self.evaluatedRule = evaluatedRule
             self.evaluationMessage = evaluationMessage
+            self.labels = labels
             self.name = name
             self.result = result
             self.ruleMetrics = ruleMetrics
@@ -8321,6 +8689,7 @@ extension Glue {
             case evaluatedMetrics = "EvaluatedMetrics"
             case evaluatedRule = "EvaluatedRule"
             case evaluationMessage = "EvaluationMessage"
+            case labels = "Labels"
             case name = "Name"
             case result = "Result"
             case ruleMetrics = "RuleMetrics"
@@ -8499,19 +8868,24 @@ extension Glue {
     }
 
     public struct DataSource: AWSEncodableShape & AWSDecodableShape {
+        /// An Glue table for Data Quality Operations.
+        public let dataQualityGlueTable: DataQualityGlueTable?
         /// An Glue table.
-        public let glueTable: GlueTable
+        public let glueTable: GlueTable?
 
         @inlinable
-        public init(glueTable: GlueTable) {
+        public init(dataQualityGlueTable: DataQualityGlueTable? = nil, glueTable: GlueTable? = nil) {
+            self.dataQualityGlueTable = dataQualityGlueTable
             self.glueTable = glueTable
         }
 
         public func validate(name: String) throws {
-            try self.glueTable.validate(name: "\(name).glueTable")
+            try self.dataQualityGlueTable?.validate(name: "\(name).dataQualityGlueTable")
+            try self.glueTable?.validate(name: "\(name).glueTable")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataQualityGlueTable = "DataQualityGlueTable"
             case glueTable = "GlueTable"
         }
     }
@@ -9160,6 +9534,14 @@ extension Glue {
     }
 
     public struct DeleteDevEndpointResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteGlueIdentityCenterConfigurationRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct DeleteGlueIdentityCenterConfigurationResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -10312,17 +10694,20 @@ extension Glue {
         public let database: String
         /// The name of the JDBC source connection.
         public let name: String
+        /// Specifies the data schema for the direct JDBC source.
+        public let outputSchemas: [GlueSchema]?
         /// The temp directory of the JDBC Redshift source.
         public let redshiftTmpDir: String?
         /// The table of the JDBC source connection.
         public let table: String
 
         @inlinable
-        public init(connectionName: String, connectionType: JDBCConnectionType, database: String, name: String, redshiftTmpDir: String? = nil, table: String) {
+        public init(connectionName: String, connectionType: JDBCConnectionType, database: String, name: String, outputSchemas: [GlueSchema]? = nil, redshiftTmpDir: String? = nil, table: String) {
             self.connectionName = connectionName
             self.connectionType = connectionType
             self.database = database
             self.name = name
+            self.outputSchemas = outputSchemas
             self.redshiftTmpDir = redshiftTmpDir
             self.table = table
         }
@@ -10331,6 +10716,9 @@ extension Glue {
             try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.outputSchemas?.forEach {
+                try $0.validate(name: "\(name).outputSchemas[]")
+            }
             try self.validate(self.redshiftTmpDir, name: "redshiftTmpDir", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
@@ -10340,6 +10728,7 @@ extension Glue {
             case connectionType = "ConnectionType"
             case database = "Database"
             case name = "Name"
+            case outputSchemas = "OutputSchemas"
             case redshiftTmpDir = "RedshiftTmpDir"
             case table = "Table"
         }
@@ -10644,30 +11033,69 @@ extension Glue {
     }
 
     public struct DynamoDBCatalogSource: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies additional connection options for the DynamoDB data source.
+        public let additionalOptions: DDBELTCatalogAdditionalOptions?
         /// The name of the database to read from.
         public let database: String
         /// The name of the data source.
         public let name: String
+        /// Specifies whether Point-in-Time Recovery (PITR) is enabled for the DynamoDB table. When set to true,  allows reading from a specific point in time. The default value is false.
+        public let pitrEnabled: Bool?
         /// The name of the table in the database to read from.
         public let table: String
 
         @inlinable
-        public init(database: String, name: String, table: String) {
+        public init(additionalOptions: DDBELTCatalogAdditionalOptions? = nil, database: String, name: String, pitrEnabled: Bool? = nil, table: String) {
+            self.additionalOptions = additionalOptions
             self.database = database
             self.name = name
+            self.pitrEnabled = pitrEnabled
             self.table = table
         }
 
         public func validate(name: String) throws {
+            try self.additionalOptions?.validate(name: "\(name).additionalOptions")
             try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
             try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalOptions = "AdditionalOptions"
             case database = "Database"
             case name = "Name"
+            case pitrEnabled = "PitrEnabled"
             case table = "Table"
+        }
+    }
+
+    public struct DynamoDBELTConnectorSource: AWSEncodableShape & AWSDecodableShape {
+        /// The connection options for the DynamoDB ELT connector source.
+        public let connectionOptions: DDBELTConnectionOptions?
+        /// The name of the DynamoDB ELT connector source.
+        public let name: String
+        /// Specifies the data schema for the DynamoDB ELT connector source.
+        public let outputSchemas: [GlueSchema]?
+
+        @inlinable
+        public init(connectionOptions: DDBELTConnectionOptions? = nil, name: String, outputSchemas: [GlueSchema]? = nil) {
+            self.connectionOptions = connectionOptions
+            self.name = name
+            self.outputSchemas = outputSchemas
+        }
+
+        public func validate(name: String) throws {
+            try self.connectionOptions?.validate(name: "\(name).connectionOptions")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.outputSchemas?.forEach {
+                try $0.validate(name: "\(name).outputSchemas[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionOptions = "ConnectionOptions"
+            case name = "Name"
+            case outputSchemas = "OutputSchemas"
         }
     }
 
@@ -13144,6 +13572,32 @@ extension Glue {
         }
     }
 
+    public struct GetGlueIdentityCenterConfigurationRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetGlueIdentityCenterConfigurationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Identity Center application associated with the Glue configuration.
+        public let applicationArn: String?
+        /// The Amazon Resource Name (ARN) of the Identity Center instance associated with the Glue configuration.
+        public let instanceArn: String?
+        /// A list of Identity Center scopes that define the permissions and access levels for the Glue configuration.
+        public let scopes: [String]?
+
+        @inlinable
+        public init(applicationArn: String? = nil, instanceArn: String? = nil, scopes: [String]? = nil) {
+            self.applicationArn = applicationArn
+            self.instanceArn = instanceArn
+            self.scopes = scopes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case instanceArn = "InstanceArn"
+            case scopes = "Scopes"
+        }
+    }
+
     public struct GetIntegrationResourcePropertyRequest: AWSEncodableShape {
         /// The connection ARN of the source, or the database ARN of the target.
         public let resourceArn: String
@@ -14643,6 +15097,8 @@ extension Glue {
     }
 
     public struct GetTableRequest: AWSEncodableShape {
+        /// A structure containing the Lake Formation audit context.
+        public let auditContext: AuditContext?
         /// The ID of the Data Catalog where the table resides. If none is provided, the Amazon Web Services account ID is used by default.
         public let catalogId: String?
         /// The name of the database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
@@ -14657,7 +15113,8 @@ extension Glue {
         public let transactionId: String?
 
         @inlinable
-        public init(catalogId: String? = nil, databaseName: String, includeStatusDetails: Bool? = nil, name: String, queryAsOfTime: Date? = nil, transactionId: String? = nil) {
+        public init(auditContext: AuditContext? = nil, catalogId: String? = nil, databaseName: String, includeStatusDetails: Bool? = nil, name: String, queryAsOfTime: Date? = nil, transactionId: String? = nil) {
+            self.auditContext = auditContext
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.includeStatusDetails = includeStatusDetails
@@ -14667,6 +15124,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.auditContext?.validate(name: "\(name).auditContext")
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
@@ -14682,6 +15140,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case auditContext = "AuditContext"
             case catalogId = "CatalogId"
             case databaseName = "DatabaseName"
             case includeStatusDetails = "IncludeStatusDetails"
@@ -14825,6 +15284,8 @@ extension Glue {
     public struct GetTablesRequest: AWSEncodableShape {
         ///  Specifies the table fields returned by the GetTables call. This parameter doesn’t accept an empty list. The request must include NAME. The following are the valid combinations of values:    NAME - Names of all tables in the database.    NAME, TABLE_TYPE - Names of all tables and the table types.
         public let attributesToGet: [TableAttributes]?
+        /// A structure containing the Lake Formation audit context.
+        public let auditContext: AuditContext?
         /// The ID of the Data Catalog where the tables reside. If none is provided, the Amazon Web Services account ID is used by default.
         public let catalogId: String?
         /// The database in the catalog whose tables to list. For Hive compatibility, this name is entirely lowercase.
@@ -14843,8 +15304,9 @@ extension Glue {
         public let transactionId: String?
 
         @inlinable
-        public init(attributesToGet: [TableAttributes]? = nil, catalogId: String? = nil, databaseName: String, expression: String? = nil, includeStatusDetails: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, queryAsOfTime: Date? = nil, transactionId: String? = nil) {
+        public init(attributesToGet: [TableAttributes]? = nil, auditContext: AuditContext? = nil, catalogId: String? = nil, databaseName: String, expression: String? = nil, includeStatusDetails: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, queryAsOfTime: Date? = nil, transactionId: String? = nil) {
             self.attributesToGet = attributesToGet
+            self.auditContext = auditContext
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.expression = expression
@@ -14856,6 +15318,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.auditContext?.validate(name: "\(name).auditContext")
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
@@ -14873,6 +15336,7 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case attributesToGet = "AttributesToGet"
+            case auditContext = "AuditContext"
             case catalogId = "CatalogId"
             case databaseName = "DatabaseName"
             case expression = "Expression"
@@ -15709,18 +16173,23 @@ extension Glue {
     }
 
     public struct GlueStudioSchemaColumn: AWSEncodableShape & AWSDecodableShape {
+        /// The data type of the column as defined in Glue Studio.
+        public let glueStudioType: String?
         /// The name of the column in the Glue Studio schema.
         public let name: String
         /// The hive type for this column in the Glue Studio schema.
         public let type: String?
 
         @inlinable
-        public init(name: String, type: String? = nil) {
+        public init(glueStudioType: String? = nil, name: String, type: String? = nil) {
+            self.glueStudioType = glueStudioType
             self.name = name
             self.type = type
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.glueStudioType, name: "glueStudioType", parent: name, max: 131072)
+            try self.validate(self.glueStudioType, name: "glueStudioType", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.type, name: "type", parent: name, max: 131072)
@@ -15728,6 +16197,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case glueStudioType = "GlueStudioType"
             case name = "Name"
             case type = "Type"
         }
@@ -15907,6 +16377,35 @@ extension Glue {
         }
     }
 
+    public struct GroupFilters: AWSEncodableShape & AWSDecodableShape {
+        /// A list of filter expressions that define the conditions for this group.
+        public let filters: [FilterExpression]
+        /// The name of the filter group.
+        public let groupName: String
+        /// The logical operator used to combine the filters in this group. Determines whether all filters must match (AND) or any filter can match (OR).
+        public let logicalOperator: FilterLogicalOperator
+
+        @inlinable
+        public init(filters: [FilterExpression], groupName: String, logicalOperator: FilterLogicalOperator) {
+            self.filters = filters
+            self.groupName = groupName
+            self.logicalOperator = logicalOperator
+        }
+
+        public func validate(name: String) throws {
+            try self.filters.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.groupName, name: "groupName", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case groupName = "GroupName"
+            case logicalOperator = "LogicalOperator"
+        }
+    }
+
     public struct HudiTarget: AWSEncodableShape & AWSDecodableShape {
         /// The name of the connection to use to connect to the Hudi target. If your Hudi files are stored in buckets that require VPC authorization, you can set their connection properties here.
         public let connectionName: String?
@@ -15934,15 +16433,23 @@ extension Glue {
     }
 
     public struct IcebergCompactionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The minimum number of deletes that must be present in a data file to make it eligible for compaction. This parameter helps optimize compaction by focusing on files that contain a significant number of delete operations, which can improve query performance by removing deleted records. If an input is not provided, the default value 1 will be used.
+        public let deleteFileThreshold: Int?
+        /// The minimum number of data files that must be present in a partition before compaction will actually compact files. This parameter helps control when compaction is triggered, preventing unnecessary compaction operations on partitions with few files. If an input is not provided, the default value 100 will be used.
+        public let minInputFiles: Int?
         /// The strategy to use for compaction. Valid values are:    binpack: Combines small files into larger files, typically targeting sizes over 100MB, while applying any pending deletes.  This is the recommended compaction strategy for most use cases.     sort: Organizes data based on specified columns which are sorted hierarchically during compaction, improving query  performance for filtered operations. This strategy is recommended when your queries frequently filter on specific columns. To use this strategy,  you must first define a sort order in your Iceberg table properties using the sort_order table property.    z-order: Optimizes data organization by blending multiple attributes into a single scalar value that can be used for sorting,  allowing efficient querying across multiple dimensions. This strategy is recommended when you need to query data across multiple dimensions  simultaneously. To use this strategy, you must first define a sort order in your Iceberg table properties using the  sort_order table property.    If an input is not provided, the default value 'binpack' will be used.
         public let strategy: CompactionStrategy?
 
         @inlinable
-        public init(strategy: CompactionStrategy? = nil) {
+        public init(deleteFileThreshold: Int? = nil, minInputFiles: Int? = nil, strategy: CompactionStrategy? = nil) {
+            self.deleteFileThreshold = deleteFileThreshold
+            self.minInputFiles = minInputFiles
             self.strategy = strategy
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deleteFileThreshold = "deleteFileThreshold"
+            case minInputFiles = "minInputFiles"
             case strategy = "strategy"
         }
     }
@@ -16006,21 +16513,103 @@ extension Glue {
         }
     }
 
+    public struct IcebergOptimizationProperties: AWSEncodableShape {
+        /// A map of key-value pairs that specify configuration parameters for Iceberg table compaction operations, which optimize the layout of data files to improve query performance.
+        public let compaction: [String: String]?
+        /// A map of key-value pairs that specify configuration parameters for Iceberg orphan file deletion operations, which identify and remove files that are no longer referenced by the table metadata.
+        public let orphanFileDeletion: [String: String]?
+        /// A map of key-value pairs that specify configuration parameters for Iceberg table retention operations, which manage the lifecycle of table snapshots to control storage costs.
+        public let retention: [String: String]?
+        /// The Amazon Resource Name (ARN) of the IAM role that will be assumed to perform Iceberg table optimization operations.
+        public let roleArn: String?
+
+        @inlinable
+        public init(compaction: [String: String]? = nil, orphanFileDeletion: [String: String]? = nil, retention: [String: String]? = nil, roleArn: String? = nil) {
+            self.compaction = compaction
+            self.orphanFileDeletion = orphanFileDeletion
+            self.retention = retention
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.compaction?.forEach {
+                try validate($0.key, name: "compaction.key", parent: name, max: 255)
+                try validate($0.key, name: "compaction.key", parent: name, min: 1)
+                try validate($0.key, name: "compaction.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+                try validate($0.value, name: "compaction[\"\($0.key)\"]", parent: name, max: 512000)
+            }
+            try self.orphanFileDeletion?.forEach {
+                try validate($0.key, name: "orphanFileDeletion.key", parent: name, max: 255)
+                try validate($0.key, name: "orphanFileDeletion.key", parent: name, min: 1)
+                try validate($0.key, name: "orphanFileDeletion.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+                try validate($0.value, name: "orphanFileDeletion[\"\($0.key)\"]", parent: name, max: 512000)
+            }
+            try self.retention?.forEach {
+                try validate($0.key, name: "retention.key", parent: name, max: 255)
+                try validate($0.key, name: "retention.key", parent: name, min: 1)
+                try validate($0.key, name: "retention.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+                try validate($0.value, name: "retention[\"\($0.key)\"]", parent: name, max: 512000)
+            }
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso(-[bef])?))?:iam::[0-9]{12}:role/.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compaction = "Compaction"
+            case orphanFileDeletion = "OrphanFileDeletion"
+            case retention = "Retention"
+            case roleArn = "RoleArn"
+        }
+    }
+
+    public struct IcebergOptimizationPropertiesOutput: AWSDecodableShape {
+        /// A map of key-value pairs that specify configuration parameters for Iceberg table compaction operations, which optimize the layout of data files to improve query performance.
+        public let compaction: [String: String]?
+        /// The timestamp when the Iceberg optimization properties were last updated.
+        public let lastUpdatedTime: Date?
+        /// A map of key-value pairs that specify configuration parameters for Iceberg orphan file deletion operations, which identify and remove files that are no longer referenced by the table metadata.
+        public let orphanFileDeletion: [String: String]?
+        /// A map of key-value pairs that specify configuration parameters for Iceberg table retention operations, which manage the lifecycle of table snapshots to control storage costs.
+        public let retention: [String: String]?
+        /// The Amazon Resource Name (ARN) of the IAM role that is used to perform Iceberg table optimization operations.
+        public let roleArn: String?
+
+        @inlinable
+        public init(compaction: [String: String]? = nil, lastUpdatedTime: Date? = nil, orphanFileDeletion: [String: String]? = nil, retention: [String: String]? = nil, roleArn: String? = nil) {
+            self.compaction = compaction
+            self.lastUpdatedTime = lastUpdatedTime
+            self.orphanFileDeletion = orphanFileDeletion
+            self.retention = retention
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compaction = "Compaction"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case orphanFileDeletion = "OrphanFileDeletion"
+            case retention = "Retention"
+            case roleArn = "RoleArn"
+        }
+    }
+
     public struct IcebergOrphanFileDeletionConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Specifies a directory in which to look for files (defaults to the table's location). You may choose a sub-directory rather than the top-level table location.
         public let location: String?
         /// The number of days that orphan files should be retained before file deletion. If an input is not provided, the default value 3 will be used.
         public let orphanFileRetentionPeriodInDays: Int?
+        /// The interval in hours between orphan file deletion job runs. This parameter controls how frequently the orphan file deletion optimizer will run to clean up orphan files. The value must be between 3 and 168 hours (7 days). If an input is not provided, the default value 24 will be used.
+        public let runRateInHours: Int?
 
         @inlinable
-        public init(location: String? = nil, orphanFileRetentionPeriodInDays: Int? = nil) {
+        public init(location: String? = nil, orphanFileRetentionPeriodInDays: Int? = nil, runRateInHours: Int? = nil) {
             self.location = location
             self.orphanFileRetentionPeriodInDays = orphanFileRetentionPeriodInDays
+            self.runRateInHours = runRateInHours
         }
 
         private enum CodingKeys: String, CodingKey {
             case location = "location"
             case orphanFileRetentionPeriodInDays = "orphanFileRetentionPeriodInDays"
+            case runRateInHours = "runRateInHours"
         }
     }
 
@@ -16111,19 +16700,23 @@ extension Glue {
         public let cleanExpiredFiles: Bool?
         /// The number of Iceberg snapshots to retain within the retention period. If an input is not provided, the corresponding Iceberg table configuration field will be used or if not present, the default value 1 will be used.
         public let numberOfSnapshotsToRetain: Int?
+        /// The interval in hours between retention job runs. This parameter controls how frequently the retention optimizer will run to clean up expired snapshots. The value must be between 3 and 168 hours (7 days). If an input is not provided, the default value 24 will be used.
+        public let runRateInHours: Int?
         /// The number of days to retain the Iceberg snapshots. If an input is not provided, the corresponding Iceberg table configuration field will be used or if not present, the default value 5 will be used.
         public let snapshotRetentionPeriodInDays: Int?
 
         @inlinable
-        public init(cleanExpiredFiles: Bool? = nil, numberOfSnapshotsToRetain: Int? = nil, snapshotRetentionPeriodInDays: Int? = nil) {
+        public init(cleanExpiredFiles: Bool? = nil, numberOfSnapshotsToRetain: Int? = nil, runRateInHours: Int? = nil, snapshotRetentionPeriodInDays: Int? = nil) {
             self.cleanExpiredFiles = cleanExpiredFiles
             self.numberOfSnapshotsToRetain = numberOfSnapshotsToRetain
+            self.runRateInHours = runRateInHours
             self.snapshotRetentionPeriodInDays = snapshotRetentionPeriodInDays
         }
 
         private enum CodingKeys: String, CodingKey {
             case cleanExpiredFiles = "cleanExpiredFiles"
             case numberOfSnapshotsToRetain = "numberOfSnapshotsToRetain"
+            case runRateInHours = "runRateInHours"
             case snapshotRetentionPeriodInDays = "snapshotRetentionPeriodInDays"
         }
     }
@@ -16482,13 +17075,16 @@ extension Glue {
     }
 
     public struct IntegrationConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Enables continuous synchronization for on-demand data extractions from SaaS applications to Amazon Web Services data services like Amazon Redshift  and Amazon S3.
+        public let continuousSync: Bool?
         /// Specifies the frequency at which CDC (Change Data Capture) pulls or incremental loads should occur. This parameter provides flexibility to align  the refresh rate with your specific data update patterns, system load considerations, and performance optimization goals. Time increment can be set from   15 minutes to 8640 minutes (six days). Currently supports creation of RefreshInterval only.
         public let refreshInterval: String?
         ///  A collection of key-value pairs that specify additional properties for the integration source. These properties provide configuration options that  can be used to customize the behavior of the ODB source during data integration operations.
         public let sourceProperties: [String: String]?
 
         @inlinable
-        public init(refreshInterval: String? = nil, sourceProperties: [String: String]? = nil) {
+        public init(continuousSync: Bool? = nil, refreshInterval: String? = nil, sourceProperties: [String: String]? = nil) {
+            self.continuousSync = continuousSync
             self.refreshInterval = refreshInterval
             self.sourceProperties = sourceProperties
         }
@@ -16499,6 +17095,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case continuousSync = "ContinuousSync"
             case refreshInterval = "RefreshInterval"
             case sourceProperties = "SourceProperties"
         }
@@ -16554,7 +17151,7 @@ extension Glue {
         public let conversionSpec: String?
         /// The field name used to partition data on the target. Avoid using columns that have unique values for each row (for example, `LastModifiedTimestamp`,  `SystemModTimeStamp`) as the partition column. These columns are not suitable for partitioning because they create a large number of small partitions,  which can lead to performance issues.
         public let fieldName: String?
-        /// Specifies the function used to partition data on the target. The only accepted value for this parameter is `'identity'` (string).  The `'identity'` function ensures that the data partitioning on the target follows the same scheme as the source. In other words, the partitioning  structure of the source data is preserved in the target destination.
+        /// Specifies the function used to partition data on the target. The accepted values for this parameter are:    identity - Uses source values directly without transformation    year - Extracts the year from timestamp values (e.g., 2023)    month - Extracts the month from timestamp values (e.g., 2023-01)    day - Extracts the day from timestamp values (e.g., 2023-01-15)    hour - Extracts the hour from timestamp values (e.g., 2023-01-15-14)
         public let functionSpec: String?
 
         @inlinable
@@ -16848,7 +17445,7 @@ extension Glue {
         public let sourceControlDetails: SourceControlDetails?
         /// The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2880 minutes. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
         public let timeout: Int?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk, and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 or later streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
+        /// The type of predefined worker that is allocated when a job runs. Glue provides multiple worker types to accommodate different workload requirements: G Worker Types (General-purpose compute workers):   G.1X: 1 DPU (4 vCPUs, 16 GB memory, 94GB disk)   G.2X: 2 DPU (8 vCPUs, 32 GB memory, 138GB disk)   G.4X: 4 DPU (16 vCPUs, 64 GB memory, 256GB disk)   G.8X: 8 DPU (32 vCPUs, 128 GB memory, 512GB disk)   G.12X: 12 DPU (48 vCPUs, 192 GB memory, 768GB disk)   G.16X: 16 DPU (64 vCPUs, 256 GB memory, 1024GB disk)   R Worker Types (Memory-optimized workers):   R.1X: 1 M-DPU (4 vCPUs, 32 GB memory)   R.2X: 2 M-DPU (8 vCPUs, 64 GB memory)   R.4X: 4 M-DPU (16 vCPUs, 128 GB memory)   R.8X: 8 M-DPU (32 vCPUs, 256 GB memory)
         public let workerType: WorkerType?
 
         @inlinable
@@ -17067,6 +17664,8 @@ extension Glue {
         public let errorMessage: String?
         /// Indicates whether the job is run with a standard or flexible execution class. The standard execution-class is ideal for time-sensitive workloads that require fast job startup and dedicated resources. The flexible execution class is appropriate for time-insensitive jobs whose start and completion times may vary.  Only jobs with Glue version 3.0 and above and command type glueetl will be allowed to set ExecutionClass to FLEX. The flexible execution class is available for Spark jobs.
         public let executionClass: ExecutionClass?
+        /// This inline session policy to the StartJobRun API allows you to dynamically restrict the permissions of the specified  execution role for the scope of the job, without requiring the creation of additional IAM roles.
+        public let executionRoleSessionPolicy: String?
         /// The amount of time (in seconds) that the job run consumed resources.
         public let executionTime: Int?
         /// In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark.  Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
@@ -17113,7 +17712,7 @@ extension Glue {
         public let workerType: WorkerType?
 
         @inlinable
-        public init(arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: Date? = nil, dpuSeconds: Double? = nil, errorMessage: String? = nil, executionClass: ExecutionClass? = nil, executionTime: Int? = nil, glueVersion: String? = nil, id: String? = nil, jobMode: JobMode? = nil, jobName: String? = nil, jobRunQueuingEnabled: Bool? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, profileName: String? = nil, securityConfiguration: String? = nil, startedOn: Date? = nil, stateDetail: String? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
+        public init(arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: Date? = nil, dpuSeconds: Double? = nil, errorMessage: String? = nil, executionClass: ExecutionClass? = nil, executionRoleSessionPolicy: String? = nil, executionTime: Int? = nil, glueVersion: String? = nil, id: String? = nil, jobMode: JobMode? = nil, jobName: String? = nil, jobRunQueuingEnabled: Bool? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, profileName: String? = nil, securityConfiguration: String? = nil, startedOn: Date? = nil, stateDetail: String? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = nil
             self.arguments = arguments
             self.attempt = attempt
@@ -17121,6 +17720,7 @@ extension Glue {
             self.dpuSeconds = dpuSeconds
             self.errorMessage = errorMessage
             self.executionClass = executionClass
+            self.executionRoleSessionPolicy = executionRoleSessionPolicy
             self.executionTime = executionTime
             self.glueVersion = glueVersion
             self.id = id
@@ -17147,7 +17747,7 @@ extension Glue {
 
         @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
         @inlinable
-        public init(allocatedCapacity: Int? = nil, arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: Date? = nil, dpuSeconds: Double? = nil, errorMessage: String? = nil, executionClass: ExecutionClass? = nil, executionTime: Int? = nil, glueVersion: String? = nil, id: String? = nil, jobMode: JobMode? = nil, jobName: String? = nil, jobRunQueuingEnabled: Bool? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, profileName: String? = nil, securityConfiguration: String? = nil, startedOn: Date? = nil, stateDetail: String? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
+        public init(allocatedCapacity: Int? = nil, arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: Date? = nil, dpuSeconds: Double? = nil, errorMessage: String? = nil, executionClass: ExecutionClass? = nil, executionRoleSessionPolicy: String? = nil, executionTime: Int? = nil, glueVersion: String? = nil, id: String? = nil, jobMode: JobMode? = nil, jobName: String? = nil, jobRunQueuingEnabled: Bool? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, profileName: String? = nil, securityConfiguration: String? = nil, startedOn: Date? = nil, stateDetail: String? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.arguments = arguments
             self.attempt = attempt
@@ -17155,6 +17755,7 @@ extension Glue {
             self.dpuSeconds = dpuSeconds
             self.errorMessage = errorMessage
             self.executionClass = executionClass
+            self.executionRoleSessionPolicy = executionRoleSessionPolicy
             self.executionTime = executionTime
             self.glueVersion = glueVersion
             self.id = id
@@ -17187,6 +17788,7 @@ extension Glue {
             case dpuSeconds = "DPUSeconds"
             case errorMessage = "ErrorMessage"
             case executionClass = "ExecutionClass"
+            case executionRoleSessionPolicy = "ExecutionRoleSessionPolicy"
             case executionTime = "ExecutionTime"
             case glueVersion = "GlueVersion"
             case id = "Id"
@@ -17257,7 +17859,7 @@ extension Glue {
         public let sourceControlDetails: SourceControlDetails?
         /// The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2880 minutes. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
         public let timeout: Int?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk, and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 or later streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs. For more information, see  Defining job properties for Spark jobs
         public let workerType: WorkerType?
 
         @inlinable
@@ -17597,6 +18199,8 @@ extension Glue {
         public let emitConsumerLagMetrics: String?
         /// The URL of the Kinesis endpoint.
         public let endpointUrl: String?
+        /// The Amazon Resource Name (ARN) of the Kinesis Data Streams enhanced fan-out consumer. When specified, enables enhanced fan-out for  dedicated throughput and lower latency data consumption.
+        public let fanoutConsumerARN: String?
         /// The minimum time delay between two consecutive getRecords operations, specified in ms. The default value is 1000. This option is only configurable for Glue version 2.0 and above.
         public let idleTimeBetweenReadsInMs: Int64?
         /// The maximum number of records to fetch per shard in the Kinesis data stream per microbatch. Note: The client can exceed this limit if the streaming job has already read extra records from Kinesis (in the same get-records call). If MaxFetchRecordsPerShard needs to be strict then it needs to be a multiple of MaxRecordPerRead. The default value is 100000.
@@ -17626,7 +18230,7 @@ extension Glue {
         public let streamName: String?
 
         @inlinable
-        public init(addIdleTimeBetweenReads: Bool? = nil, addRecordTimestamp: String? = nil, avoidEmptyBatches: Bool? = nil, classification: String? = nil, delimiter: String? = nil, describeShardInterval: Int64? = nil, emitConsumerLagMetrics: String? = nil, endpointUrl: String? = nil, idleTimeBetweenReadsInMs: Int64? = nil, maxFetchRecordsPerShard: Int64? = nil, maxFetchTimeInMs: Int64? = nil, maxRecordPerRead: Int64? = nil, maxRetryIntervalMs: Int64? = nil, numRetries: Int? = nil, retryIntervalMs: Int64? = nil, roleArn: String? = nil, roleSessionName: String? = nil, startingPosition: StartingPosition? = nil, startingTimestamp: Date? = nil, streamArn: String? = nil, streamName: String? = nil) {
+        public init(addIdleTimeBetweenReads: Bool? = nil, addRecordTimestamp: String? = nil, avoidEmptyBatches: Bool? = nil, classification: String? = nil, delimiter: String? = nil, describeShardInterval: Int64? = nil, emitConsumerLagMetrics: String? = nil, endpointUrl: String? = nil, fanoutConsumerARN: String? = nil, idleTimeBetweenReadsInMs: Int64? = nil, maxFetchRecordsPerShard: Int64? = nil, maxFetchTimeInMs: Int64? = nil, maxRecordPerRead: Int64? = nil, maxRetryIntervalMs: Int64? = nil, numRetries: Int? = nil, retryIntervalMs: Int64? = nil, roleArn: String? = nil, roleSessionName: String? = nil, startingPosition: StartingPosition? = nil, startingTimestamp: Date? = nil, streamArn: String? = nil, streamName: String? = nil) {
             self.addIdleTimeBetweenReads = addIdleTimeBetweenReads
             self.addRecordTimestamp = addRecordTimestamp
             self.avoidEmptyBatches = avoidEmptyBatches
@@ -17635,6 +18239,7 @@ extension Glue {
             self.describeShardInterval = describeShardInterval
             self.emitConsumerLagMetrics = emitConsumerLagMetrics
             self.endpointUrl = endpointUrl
+            self.fanoutConsumerARN = fanoutConsumerARN
             self.idleTimeBetweenReadsInMs = idleTimeBetweenReadsInMs
             self.maxFetchRecordsPerShard = maxFetchRecordsPerShard
             self.maxFetchTimeInMs = maxFetchTimeInMs
@@ -17657,6 +18262,7 @@ extension Glue {
             try self.validate(self.describeShardInterval, name: "describeShardInterval", parent: name, min: 0)
             try self.validate(self.emitConsumerLagMetrics, name: "emitConsumerLagMetrics", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.validate(self.endpointUrl, name: "endpointUrl", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.fanoutConsumerARN, name: "fanoutConsumerARN", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.validate(self.idleTimeBetweenReadsInMs, name: "idleTimeBetweenReadsInMs", parent: name, min: 0)
             try self.validate(self.maxFetchRecordsPerShard, name: "maxFetchRecordsPerShard", parent: name, min: 0)
             try self.validate(self.maxFetchTimeInMs, name: "maxFetchTimeInMs", parent: name, min: 0)
@@ -17679,6 +18285,7 @@ extension Glue {
             case describeShardInterval = "DescribeShardInterval"
             case emitConsumerLagMetrics = "EmitConsumerLagMetrics"
             case endpointUrl = "EndpointUrl"
+            case fanoutConsumerARN = "FanoutConsumerARN"
             case idleTimeBetweenReadsInMs = "IdleTimeBetweenReadsInMs"
             case maxFetchRecordsPerShard = "MaxFetchRecordsPerShard"
             case maxFetchTimeInMs = "MaxFetchTimeInMs"
@@ -19531,15 +20138,17 @@ extension Glue {
         public let dataFilter: String?
         /// A description of the integration.
         public let description: String?
+        public let integrationConfig: IntegrationConfig?
         /// The Amazon Resource Name (ARN) for the integration.
         public let integrationIdentifier: String
         /// A unique name for an integration in Glue.
         public let integrationName: String?
 
         @inlinable
-        public init(dataFilter: String? = nil, description: String? = nil, integrationIdentifier: String, integrationName: String? = nil) {
+        public init(dataFilter: String? = nil, description: String? = nil, integrationConfig: IntegrationConfig? = nil, integrationIdentifier: String, integrationName: String? = nil) {
             self.dataFilter = dataFilter
             self.description = description
+            self.integrationConfig = integrationConfig
             self.integrationIdentifier = integrationIdentifier
             self.integrationName = integrationName
         }
@@ -19549,6 +20158,7 @@ extension Glue {
             try self.validate(self.dataFilter, name: "dataFilter", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\S\\s]*$")
+            try self.integrationConfig?.validate(name: "\(name).integrationConfig")
             try self.validate(self.integrationIdentifier, name: "integrationIdentifier", parent: name, max: 128)
             try self.validate(self.integrationIdentifier, name: "integrationIdentifier", parent: name, min: 1)
             try self.validate(self.integrationName, name: "integrationName", parent: name, max: 128)
@@ -19558,6 +20168,7 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case dataFilter = "DataFilter"
             case description = "Description"
+            case integrationConfig = "IntegrationConfig"
             case integrationIdentifier = "IntegrationIdentifier"
             case integrationName = "IntegrationName"
         }
@@ -19576,6 +20187,7 @@ extension Glue {
         public let errors: [IntegrationError]?
         /// The Amazon Resource Name (ARN) for the integration.
         public let integrationArn: String
+        public let integrationConfig: IntegrationConfig?
         /// A unique name for an integration in Glue.
         public let integrationName: String
         /// The ARN of a KMS key used for encrypting the channel.
@@ -19590,13 +20202,14 @@ extension Glue {
         public let targetArn: String
 
         @inlinable
-        public init(additionalEncryptionContext: [String: String]? = nil, createTime: Date, dataFilter: String? = nil, description: String? = nil, errors: [IntegrationError]? = nil, integrationArn: String, integrationName: String, kmsKeyId: String? = nil, sourceArn: String, status: IntegrationStatus, tags: [Tag]? = nil, targetArn: String) {
+        public init(additionalEncryptionContext: [String: String]? = nil, createTime: Date, dataFilter: String? = nil, description: String? = nil, errors: [IntegrationError]? = nil, integrationArn: String, integrationConfig: IntegrationConfig? = nil, integrationName: String, kmsKeyId: String? = nil, sourceArn: String, status: IntegrationStatus, tags: [Tag]? = nil, targetArn: String) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.createTime = createTime
             self.dataFilter = dataFilter
             self.description = description
             self.errors = errors
             self.integrationArn = integrationArn
+            self.integrationConfig = integrationConfig
             self.integrationName = integrationName
             self.kmsKeyId = kmsKeyId
             self.sourceArn = sourceArn
@@ -19612,6 +20225,7 @@ extension Glue {
             case description = "Description"
             case errors = "Errors"
             case integrationArn = "IntegrationArn"
+            case integrationConfig = "IntegrationConfig"
             case integrationName = "IntegrationName"
             case kmsKeyId = "KmsKeyId"
             case sourceArn = "SourceArn"
@@ -20125,36 +20739,59 @@ extension Glue {
     }
 
     public struct PIIDetection: AWSEncodableShape & AWSDecodableShape {
+        /// Additional parameters for configuring PII detection behavior and sensitivity settings.
+        public let detectionParameters: String?
+        /// The sensitivity level for PII detection. Higher sensitivity levels detect more potential PII but may result in more false positives.
+        public let detectionSensitivity: String?
         /// Indicates the types of entities the PIIDetection transform will identify as PII data.   PII type entities include: PERSON_NAME, DATE, USA_SNN, EMAIL, USA_ITIN, USA_PASSPORT_NUMBER, PHONE_NUMBER, BANK_ACCOUNT, IP_ADDRESS, MAC_ADDRESS, USA_CPT_CODE, USA_HCPCS_CODE, USA_NATIONAL_DRUG_CODE, USA_MEDICARE_BENEFICIARY_IDENTIFIER, USA_HEALTH_INSURANCE_CLAIM_NUMBER,CREDIT_CARD,USA_NATIONAL_PROVIDER_IDENTIFIER,USA_DEA_NUMBER,USA_DRIVING_LICENSE
         public let entityTypesToDetect: [String]
         /// The node ID inputs to the transform.
         public let inputs: [String]
         /// Indicates the value that will replace the detected entity.
         public let maskValue: String?
+        /// A regular expression pattern used to identify additional PII content beyond the standard detection algorithms.
+        public let matchPattern: String?
         /// The name of the transform node.
         public let name: String
+        /// The number of characters to exclude from redaction on the left side of detected PII content. This allows preserving context around the sensitive data.
+        public let numLeftCharsToExclude: Int?
+        /// The number of characters to exclude from redaction on the right side of detected PII content. This allows preserving context around the sensitive data.
+        public let numRightCharsToExclude: Int?
         /// Indicates the output column name that will contain any entity type detected in that row.
         public let outputColumnName: String?
         /// Indicates the type of PIIDetection transform.
         public let piiType: PiiType
+        /// The character used to replace detected PII content when redaction is enabled. The default redaction character is *.
+        public let redactChar: String?
+        /// Specifies whether to redact the detected PII text. When set to true, PII content is replaced with redaction characters.
+        public let redactText: String?
         /// Indicates the fraction of the data to sample when scanning for PII entities.
         public let sampleFraction: Double?
         /// Indicates the fraction of the data that must be met in order for a column to be identified as PII data.
         public let thresholdFraction: Double?
 
         @inlinable
-        public init(entityTypesToDetect: [String], inputs: [String], maskValue: String? = nil, name: String, outputColumnName: String? = nil, piiType: PiiType, sampleFraction: Double? = nil, thresholdFraction: Double? = nil) {
+        public init(detectionParameters: String? = nil, detectionSensitivity: String? = nil, entityTypesToDetect: [String], inputs: [String], maskValue: String? = nil, matchPattern: String? = nil, name: String, numLeftCharsToExclude: Int? = nil, numRightCharsToExclude: Int? = nil, outputColumnName: String? = nil, piiType: PiiType, redactChar: String? = nil, redactText: String? = nil, sampleFraction: Double? = nil, thresholdFraction: Double? = nil) {
+            self.detectionParameters = detectionParameters
+            self.detectionSensitivity = detectionSensitivity
             self.entityTypesToDetect = entityTypesToDetect
             self.inputs = inputs
             self.maskValue = maskValue
+            self.matchPattern = matchPattern
             self.name = name
+            self.numLeftCharsToExclude = numLeftCharsToExclude
+            self.numRightCharsToExclude = numRightCharsToExclude
             self.outputColumnName = outputColumnName
             self.piiType = piiType
+            self.redactChar = redactChar
+            self.redactText = redactText
             self.sampleFraction = sampleFraction
             self.thresholdFraction = thresholdFraction
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.detectionParameters, name: "detectionParameters", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.detectionSensitivity, name: "detectionSensitivity", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.entityTypesToDetect.forEach {
                 try validate($0, name: "entityTypesToDetect[]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
@@ -20165,8 +20802,13 @@ extension Glue {
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
             try self.validate(self.maskValue, name: "maskValue", parent: name, max: 256)
             try self.validate(self.maskValue, name: "maskValue", parent: name, pattern: "^[*A-Za-z0-9_-]*$")
+            try self.validate(self.matchPattern, name: "matchPattern", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.validate(self.numLeftCharsToExclude, name: "numLeftCharsToExclude", parent: name, min: 0)
+            try self.validate(self.numRightCharsToExclude, name: "numRightCharsToExclude", parent: name, min: 0)
             try self.validate(self.outputColumnName, name: "outputColumnName", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.redactChar, name: "redactChar", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.redactText, name: "redactText", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.validate(self.sampleFraction, name: "sampleFraction", parent: name, max: 1.0)
             try self.validate(self.sampleFraction, name: "sampleFraction", parent: name, min: 0.0)
             try self.validate(self.thresholdFraction, name: "thresholdFraction", parent: name, max: 1.0)
@@ -20174,12 +20816,19 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case detectionParameters = "DetectionParameters"
+            case detectionSensitivity = "DetectionSensitivity"
             case entityTypesToDetect = "EntityTypesToDetect"
             case inputs = "Inputs"
             case maskValue = "MaskValue"
+            case matchPattern = "MatchPattern"
             case name = "Name"
+            case numLeftCharsToExclude = "NumLeftCharsToExclude"
+            case numRightCharsToExclude = "NumRightCharsToExclude"
             case outputColumnName = "OutputColumnName"
             case piiType = "PiiType"
+            case redactChar = "RedactChar"
+            case redactText = "RedactText"
             case sampleFraction = "SampleFraction"
             case thresholdFraction = "ThresholdFraction"
         }
@@ -21593,6 +22242,40 @@ extension Glue {
         }
     }
 
+    public struct Route: AWSEncodableShape & AWSDecodableShape {
+        /// A list of group filters that define the routing conditions and criteria for directing data to different output paths.
+        public let groupFiltersList: [GroupFilters]
+        /// The input connection for the route node.
+        public let inputs: [String]
+        /// The name of the route node.
+        public let name: String
+
+        @inlinable
+        public init(groupFiltersList: [GroupFilters], inputs: [String], name: String) {
+            self.groupFiltersList = groupFiltersList
+            self.inputs = inputs
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.groupFiltersList.forEach {
+                try $0.validate(name: "\(name).groupFiltersList[]")
+            }
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupFiltersList = "GroupFiltersList"
+            case inputs = "Inputs"
+            case name = "Name"
+        }
+    }
+
     public struct RunIdentifier: AWSDecodableShape {
         /// The Job Run ID.
         public let jobRunId: String?
@@ -21769,6 +22452,49 @@ extension Glue {
         }
     }
 
+    public struct S3CatalogIcebergSource: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies additional connection options for the Iceberg data source.
+        public let additionalIcebergOptions: [String: String]?
+        /// The name of the database to read from.
+        public let database: String
+        /// The name of the Iceberg data source.
+        public let name: String
+        /// Specifies the data schema for the Iceberg source.
+        public let outputSchemas: [GlueSchema]?
+        /// The name of the table in the database to read from.
+        public let table: String
+
+        @inlinable
+        public init(additionalIcebergOptions: [String: String]? = nil, database: String, name: String, outputSchemas: [GlueSchema]? = nil, table: String) {
+            self.additionalIcebergOptions = additionalIcebergOptions
+            self.database = database
+            self.name = name
+            self.outputSchemas = outputSchemas
+            self.table = table
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalIcebergOptions?.forEach {
+                try validate($0.key, name: "additionalIcebergOptions.key", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+                try validate($0.value, name: "additionalIcebergOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            }
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.outputSchemas?.forEach {
+                try $0.validate(name: "\(name).outputSchemas[]")
+            }
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalIcebergOptions = "AdditionalIcebergOptions"
+            case database = "Database"
+            case name = "Name"
+            case outputSchemas = "OutputSchemas"
+            case table = "Table"
+        }
+    }
+
     public struct S3CatalogSource: AWSEncodableShape & AWSDecodableShape {
         /// Specifies additional connection options.
         public let additionalOptions: S3SourceAdditionalOptions?
@@ -21807,6 +22533,8 @@ extension Glue {
     }
 
     public struct S3CatalogTarget: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether to automatically enable data quality evaluation for the S3 catalog target.  When set to true, data quality checks are performed automatically during the write operation.
+        public let autoDataQuality: AutoDataQuality?
         /// The name of the database to write to.
         public let database: String
         /// The nodes that are inputs to the data target.
@@ -21821,7 +22549,8 @@ extension Glue {
         public let table: String
 
         @inlinable
-        public init(database: String, inputs: [String], name: String, partitionKeys: [[String]]? = nil, schemaChangePolicy: CatalogSchemaChangePolicy? = nil, table: String) {
+        public init(autoDataQuality: AutoDataQuality? = nil, database: String, inputs: [String], name: String, partitionKeys: [[String]]? = nil, schemaChangePolicy: CatalogSchemaChangePolicy? = nil, table: String) {
+            self.autoDataQuality = autoDataQuality
             self.database = database
             self.inputs = inputs
             self.name = name
@@ -21831,6 +22560,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.autoDataQuality?.validate(name: "\(name).autoDataQuality")
             try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.inputs.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
@@ -21842,6 +22572,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoDataQuality = "AutoDataQuality"
             case database = "Database"
             case inputs = "Inputs"
             case name = "Name"
@@ -21959,12 +22690,16 @@ extension Glue {
     public struct S3DeltaCatalogTarget: AWSEncodableShape & AWSDecodableShape {
         /// Specifies additional connection options for the connector.
         public let additionalOptions: [String: String]?
+        /// Specifies whether to automatically enable data quality evaluation for the S3 Delta catalog target. When set to true,  data quality checks are performed automatically during the write operation.
+        public let autoDataQuality: AutoDataQuality?
         /// The name of the database to write to.
         public let database: String
         /// The nodes that are inputs to the data target.
         public let inputs: [String]
         /// The name of the data target.
         public let name: String
+        /// Specifies the data schema for the S3 Delta catalog target.
+        public let outputSchemas: [GlueSchema]?
         /// Specifies native partitioning using a sequence of keys.
         public let partitionKeys: [[String]]?
         /// A policy that specifies update behavior for the crawler.
@@ -21973,11 +22708,13 @@ extension Glue {
         public let table: String
 
         @inlinable
-        public init(additionalOptions: [String: String]? = nil, database: String, inputs: [String], name: String, partitionKeys: [[String]]? = nil, schemaChangePolicy: CatalogSchemaChangePolicy? = nil, table: String) {
+        public init(additionalOptions: [String: String]? = nil, autoDataQuality: AutoDataQuality? = nil, database: String, inputs: [String], name: String, outputSchemas: [GlueSchema]? = nil, partitionKeys: [[String]]? = nil, schemaChangePolicy: CatalogSchemaChangePolicy? = nil, table: String) {
             self.additionalOptions = additionalOptions
+            self.autoDataQuality = autoDataQuality
             self.database = database
             self.inputs = inputs
             self.name = name
+            self.outputSchemas = outputSchemas
             self.partitionKeys = partitionKeys
             self.schemaChangePolicy = schemaChangePolicy
             self.table = table
@@ -21988,6 +22725,7 @@ extension Glue {
                 try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
                 try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
+            try self.autoDataQuality?.validate(name: "\(name).autoDataQuality")
             try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.inputs.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
@@ -21995,14 +22733,19 @@ extension Glue {
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.outputSchemas?.forEach {
+                try $0.validate(name: "\(name).outputSchemas[]")
+            }
             try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case additionalOptions = "AdditionalOptions"
+            case autoDataQuality = "AutoDataQuality"
             case database = "Database"
             case inputs = "Inputs"
             case name = "Name"
+            case outputSchemas = "OutputSchemas"
             case partitionKeys = "PartitionKeys"
             case schemaChangePolicy = "SchemaChangePolicy"
             case table = "Table"
@@ -22012,6 +22755,8 @@ extension Glue {
     public struct S3DeltaDirectTarget: AWSEncodableShape & AWSDecodableShape {
         /// Specifies additional connection options for the connector.
         public let additionalOptions: [String: String]?
+        /// Specifies whether to automatically enable data quality evaluation for the S3 Delta direct target. When set to true,  data quality checks are performed automatically during the write operation.
+        public let autoDataQuality: AutoDataQuality?
         /// Specifies how the data is compressed. This is generally not necessary if the data has a standard file extension. Possible values are "gzip" and "bzip").
         public let compression: DeltaTargetCompressionType
         /// Specifies the data output format for the target.
@@ -22030,8 +22775,9 @@ extension Glue {
         public let schemaChangePolicy: DirectSchemaChangePolicy?
 
         @inlinable
-        public init(additionalOptions: [String: String]? = nil, compression: DeltaTargetCompressionType, format: TargetFormat, inputs: [String], name: String, numberTargetPartitions: String? = nil, partitionKeys: [[String]]? = nil, path: String, schemaChangePolicy: DirectSchemaChangePolicy? = nil) {
+        public init(additionalOptions: [String: String]? = nil, autoDataQuality: AutoDataQuality? = nil, compression: DeltaTargetCompressionType, format: TargetFormat, inputs: [String], name: String, numberTargetPartitions: String? = nil, partitionKeys: [[String]]? = nil, path: String, schemaChangePolicy: DirectSchemaChangePolicy? = nil) {
             self.additionalOptions = additionalOptions
+            self.autoDataQuality = autoDataQuality
             self.compression = compression
             self.format = format
             self.inputs = inputs
@@ -22047,6 +22793,7 @@ extension Glue {
                 try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
                 try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
+            try self.autoDataQuality?.validate(name: "\(name).autoDataQuality")
             try self.inputs.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
             }
@@ -22059,6 +22806,7 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case additionalOptions = "AdditionalOptions"
+            case autoDataQuality = "AutoDataQuality"
             case compression = "Compression"
             case format = "Format"
             case inputs = "Inputs"
@@ -22146,6 +22894,8 @@ extension Glue {
     }
 
     public struct S3DirectTarget: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether to automatically enable data quality evaluation for the S3 direct target. When set to true,  data quality checks are performed automatically during the write operation.
+        public let autoDataQuality: AutoDataQuality?
         /// Specifies how the data is compressed. This is generally not necessary if the data has a standard file extension. Possible values are "gzip" and "bzip").
         public let compression: String?
         /// Specifies the data output format for the target.
@@ -22156,6 +22906,8 @@ extension Glue {
         public let name: String
         /// Specifies the number of target partitions when writing data directly to Amazon S3.
         public let numberTargetPartitions: String?
+        /// Specifies the data schema for the S3 direct target.
+        public let outputSchemas: [GlueSchema]?
         /// Specifies native partitioning using a sequence of keys.
         public let partitionKeys: [[String]]?
         /// A single Amazon S3 path to write to.
@@ -22164,18 +22916,21 @@ extension Glue {
         public let schemaChangePolicy: DirectSchemaChangePolicy?
 
         @inlinable
-        public init(compression: String? = nil, format: TargetFormat, inputs: [String], name: String, numberTargetPartitions: String? = nil, partitionKeys: [[String]]? = nil, path: String, schemaChangePolicy: DirectSchemaChangePolicy? = nil) {
+        public init(autoDataQuality: AutoDataQuality? = nil, compression: String? = nil, format: TargetFormat, inputs: [String], name: String, numberTargetPartitions: String? = nil, outputSchemas: [GlueSchema]? = nil, partitionKeys: [[String]]? = nil, path: String, schemaChangePolicy: DirectSchemaChangePolicy? = nil) {
+            self.autoDataQuality = autoDataQuality
             self.compression = compression
             self.format = format
             self.inputs = inputs
             self.name = name
             self.numberTargetPartitions = numberTargetPartitions
+            self.outputSchemas = outputSchemas
             self.partitionKeys = partitionKeys
             self.path = path
             self.schemaChangePolicy = schemaChangePolicy
         }
 
         public func validate(name: String) throws {
+            try self.autoDataQuality?.validate(name: "\(name).autoDataQuality")
             try self.validate(self.compression, name: "compression", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.inputs.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
@@ -22183,16 +22938,21 @@ extension Glue {
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.outputSchemas?.forEach {
+                try $0.validate(name: "\(name).outputSchemas[]")
+            }
             try self.validate(self.path, name: "path", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.schemaChangePolicy?.validate(name: "\(name).schemaChangePolicy")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoDataQuality = "AutoDataQuality"
             case compression = "Compression"
             case format = "Format"
             case inputs = "Inputs"
             case name = "Name"
             case numberTargetPartitions = "NumberTargetPartitions"
+            case outputSchemas = "OutputSchemas"
             case partitionKeys = "PartitionKeys"
             case path = "Path"
             case schemaChangePolicy = "SchemaChangePolicy"
@@ -22240,7 +23000,7 @@ extension Glue {
         public let name: String
         /// The number of rows to process from each Excel file.
         public let numberRows: Int64?
-        /// The AWS Glue schemas to apply to the processed data.
+        /// The Glue schemas to apply to the processed data.
         public let outputSchemas: [GlueSchema]?
         /// The S3 paths where the Excel files are located.
         public let paths: [String]
@@ -22303,13 +23063,15 @@ extension Glue {
     }
 
     public struct S3GlueParquetTarget: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether to automatically enable data quality evaluation for the S3 Glue Parquet target. When set to true,  data quality checks are performed automatically during the write operation.
+        public let autoDataQuality: AutoDataQuality?
         /// Specifies how the data is compressed. This is generally not necessary if the data has a standard file extension. Possible values are "gzip" and "bzip").
         public let compression: ParquetCompressionType?
         /// The nodes that are inputs to the data target.
         public let inputs: [String]
         /// The name of the data target.
         public let name: String
-        /// Specifies the number of target partitions for Parquet files when writing to Amazon S3 using AWS Glue.
+        /// Specifies the number of target partitions for Parquet files when writing to Amazon S3 using Glue.
         public let numberTargetPartitions: String?
         /// Specifies native partitioning using a sequence of keys.
         public let partitionKeys: [[String]]?
@@ -22319,7 +23081,8 @@ extension Glue {
         public let schemaChangePolicy: DirectSchemaChangePolicy?
 
         @inlinable
-        public init(compression: ParquetCompressionType? = nil, inputs: [String], name: String, numberTargetPartitions: String? = nil, partitionKeys: [[String]]? = nil, path: String, schemaChangePolicy: DirectSchemaChangePolicy? = nil) {
+        public init(autoDataQuality: AutoDataQuality? = nil, compression: ParquetCompressionType? = nil, inputs: [String], name: String, numberTargetPartitions: String? = nil, partitionKeys: [[String]]? = nil, path: String, schemaChangePolicy: DirectSchemaChangePolicy? = nil) {
+            self.autoDataQuality = autoDataQuality
             self.compression = compression
             self.inputs = inputs
             self.name = name
@@ -22330,6 +23093,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.autoDataQuality?.validate(name: "\(name).autoDataQuality")
             try self.inputs.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
             }
@@ -22341,6 +23105,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoDataQuality = "AutoDataQuality"
             case compression = "Compression"
             case inputs = "Inputs"
             case name = "Name"
@@ -22354,12 +23119,16 @@ extension Glue {
     public struct S3HudiCatalogTarget: AWSEncodableShape & AWSDecodableShape {
         /// Specifies additional connection options for the connector.
         public let additionalOptions: [String: String]
+        /// Specifies whether to automatically enable data quality evaluation for the S3 Hudi catalog target. When set to true,  data quality checks are performed automatically during the write operation.
+        public let autoDataQuality: AutoDataQuality?
         /// The name of the database to write to.
         public let database: String
         /// The nodes that are inputs to the data target.
         public let inputs: [String]
         /// The name of the data target.
         public let name: String
+        /// Specifies the data schema for the S3 Hudi catalog target.
+        public let outputSchemas: [GlueSchema]?
         /// Specifies native partitioning using a sequence of keys.
         public let partitionKeys: [[String]]?
         /// A policy that specifies update behavior for the crawler.
@@ -22368,11 +23137,13 @@ extension Glue {
         public let table: String
 
         @inlinable
-        public init(additionalOptions: [String: String], database: String, inputs: [String], name: String, partitionKeys: [[String]]? = nil, schemaChangePolicy: CatalogSchemaChangePolicy? = nil, table: String) {
+        public init(additionalOptions: [String: String], autoDataQuality: AutoDataQuality? = nil, database: String, inputs: [String], name: String, outputSchemas: [GlueSchema]? = nil, partitionKeys: [[String]]? = nil, schemaChangePolicy: CatalogSchemaChangePolicy? = nil, table: String) {
             self.additionalOptions = additionalOptions
+            self.autoDataQuality = autoDataQuality
             self.database = database
             self.inputs = inputs
             self.name = name
+            self.outputSchemas = outputSchemas
             self.partitionKeys = partitionKeys
             self.schemaChangePolicy = schemaChangePolicy
             self.table = table
@@ -22383,6 +23154,7 @@ extension Glue {
                 try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
                 try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
+            try self.autoDataQuality?.validate(name: "\(name).autoDataQuality")
             try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.inputs.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
@@ -22390,14 +23162,19 @@ extension Glue {
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.outputSchemas?.forEach {
+                try $0.validate(name: "\(name).outputSchemas[]")
+            }
             try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case additionalOptions = "AdditionalOptions"
+            case autoDataQuality = "AutoDataQuality"
             case database = "Database"
             case inputs = "Inputs"
             case name = "Name"
+            case outputSchemas = "OutputSchemas"
             case partitionKeys = "PartitionKeys"
             case schemaChangePolicy = "SchemaChangePolicy"
             case table = "Table"
@@ -22407,6 +23184,8 @@ extension Glue {
     public struct S3HudiDirectTarget: AWSEncodableShape & AWSDecodableShape {
         /// Specifies additional connection options for the connector.
         public let additionalOptions: [String: String]
+        /// Specifies whether to automatically enable data quality evaluation for the S3 Hudi direct target. When set to true,  data quality checks are performed automatically during the write operation.
+        public let autoDataQuality: AutoDataQuality?
         /// Specifies how the data is compressed. This is generally not necessary if the data has a standard file extension. Possible values are "gzip" and "bzip").
         public let compression: HudiTargetCompressionType
         /// Specifies the data output format for the target.
@@ -22425,8 +23204,9 @@ extension Glue {
         public let schemaChangePolicy: DirectSchemaChangePolicy?
 
         @inlinable
-        public init(additionalOptions: [String: String], compression: HudiTargetCompressionType, format: TargetFormat, inputs: [String], name: String, numberTargetPartitions: String? = nil, partitionKeys: [[String]]? = nil, path: String, schemaChangePolicy: DirectSchemaChangePolicy? = nil) {
+        public init(additionalOptions: [String: String], autoDataQuality: AutoDataQuality? = nil, compression: HudiTargetCompressionType, format: TargetFormat, inputs: [String], name: String, numberTargetPartitions: String? = nil, partitionKeys: [[String]]? = nil, path: String, schemaChangePolicy: DirectSchemaChangePolicy? = nil) {
             self.additionalOptions = additionalOptions
+            self.autoDataQuality = autoDataQuality
             self.compression = compression
             self.format = format
             self.inputs = inputs
@@ -22442,6 +23222,7 @@ extension Glue {
                 try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
                 try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
+            try self.autoDataQuality?.validate(name: "\(name).autoDataQuality")
             try self.inputs.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
             }
@@ -22454,6 +23235,7 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case additionalOptions = "AdditionalOptions"
+            case autoDataQuality = "AutoDataQuality"
             case compression = "Compression"
             case format = "Format"
             case inputs = "Inputs"
@@ -22511,12 +23293,18 @@ extension Glue {
     }
 
     public struct S3HyperDirectTarget: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether to automatically enable data quality evaluation for the S3 Hyper direct target. When set to true, data quality checks are performed automatically during the write operation.
+        public let autoDataQuality: AutoDataQuality?
         /// The compression type to apply to the output data.
         public let compression: HyperTargetCompressionType?
+        /// Specifies the data output format for the HyperDirect target.
+        public let format: TargetFormat?
         /// Specifies the input source for the HyperDirect target.
         public let inputs: [String]
         /// The unique identifier for the HyperDirect target node.
         public let name: String
+        /// Specifies the data schema for the S3 Hyper direct target.
+        public let outputSchemas: [GlueSchema]?
         /// Defines the partitioning strategy for the output data.
         public let partitionKeys: [[String]]?
         /// The S3 location where the output data will be written.
@@ -22525,39 +23313,108 @@ extension Glue {
         public let schemaChangePolicy: DirectSchemaChangePolicy?
 
         @inlinable
-        public init(compression: HyperTargetCompressionType? = nil, inputs: [String], name: String, partitionKeys: [[String]]? = nil, path: String, schemaChangePolicy: DirectSchemaChangePolicy? = nil) {
+        public init(autoDataQuality: AutoDataQuality? = nil, compression: HyperTargetCompressionType? = nil, format: TargetFormat? = nil, inputs: [String], name: String, outputSchemas: [GlueSchema]? = nil, partitionKeys: [[String]]? = nil, path: String, schemaChangePolicy: DirectSchemaChangePolicy? = nil) {
+            self.autoDataQuality = autoDataQuality
             self.compression = compression
+            self.format = format
             self.inputs = inputs
             self.name = name
+            self.outputSchemas = outputSchemas
             self.partitionKeys = partitionKeys
             self.path = path
             self.schemaChangePolicy = schemaChangePolicy
         }
 
         public func validate(name: String) throws {
+            try self.autoDataQuality?.validate(name: "\(name).autoDataQuality")
             try self.inputs.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.outputSchemas?.forEach {
+                try $0.validate(name: "\(name).outputSchemas[]")
+            }
             try self.validate(self.path, name: "path", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.schemaChangePolicy?.validate(name: "\(name).schemaChangePolicy")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoDataQuality = "AutoDataQuality"
             case compression = "Compression"
+            case format = "Format"
             case inputs = "Inputs"
             case name = "Name"
+            case outputSchemas = "OutputSchemas"
             case partitionKeys = "PartitionKeys"
             case path = "Path"
             case schemaChangePolicy = "SchemaChangePolicy"
         }
     }
 
+    public struct S3IcebergCatalogTarget: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies additional connection options for the Iceberg catalog target.
+        public let additionalOptions: [String: String]?
+        /// Specifies whether to automatically enable data quality evaluation for the S3 Iceberg catalog target. When set to true, data quality checks are performed automatically during the write operation.
+        public let autoDataQuality: AutoDataQuality?
+        /// The name of the database to write to.
+        public let database: String
+        /// The input connection for the Iceberg catalog target.
+        public let inputs: [String]
+        /// The name of the Iceberg catalog target.
+        public let name: String
+        /// A list of partition keys for the Iceberg table.
+        public let partitionKeys: [[String]]?
+        /// The policy for handling schema changes in the catalog target.
+        public let schemaChangePolicy: CatalogSchemaChangePolicy?
+        /// The name of the table to write to in the catalog.
+        public let table: String
+
+        @inlinable
+        public init(additionalOptions: [String: String]? = nil, autoDataQuality: AutoDataQuality? = nil, database: String, inputs: [String], name: String, partitionKeys: [[String]]? = nil, schemaChangePolicy: CatalogSchemaChangePolicy? = nil, table: String) {
+            self.additionalOptions = additionalOptions
+            self.autoDataQuality = autoDataQuality
+            self.database = database
+            self.inputs = inputs
+            self.name = name
+            self.partitionKeys = partitionKeys
+            self.schemaChangePolicy = schemaChangePolicy
+            self.table = table
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalOptions?.forEach {
+                try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+                try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            }
+            try self.autoDataQuality?.validate(name: "\(name).autoDataQuality")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalOptions = "AdditionalOptions"
+            case autoDataQuality = "AutoDataQuality"
+            case database = "Database"
+            case inputs = "Inputs"
+            case name = "Name"
+            case partitionKeys = "PartitionKeys"
+            case schemaChangePolicy = "SchemaChangePolicy"
+            case table = "Table"
+        }
+    }
+
     public struct S3IcebergDirectTarget: AWSEncodableShape & AWSDecodableShape {
         /// Provides additional configuration options for customizing the Iceberg table behavior.
         public let additionalOptions: [String: String]?
+        public let autoDataQuality: AutoDataQuality?
         /// Specifies the compression codec used for Iceberg table files in S3.
         public let compression: IcebergTargetCompressionType
         /// Specifies the file format used for storing Iceberg table data (e.g., Parquet, ORC).
@@ -22568,6 +23425,8 @@ extension Glue {
         public let name: String
         /// Sets the number of target partitions for distributing Iceberg table files across S3.
         public let numberTargetPartitions: String?
+        /// Specifies the data schema for the S3 Iceberg direct target.
+        public let outputSchemas: [GlueSchema]?
         /// Specifies the columns used to partition the Iceberg table data in S3.
         public let partitionKeys: [[String]]?
         /// Defines the S3 location where the Iceberg table data will be stored.
@@ -22576,13 +23435,15 @@ extension Glue {
         public let schemaChangePolicy: DirectSchemaChangePolicy?
 
         @inlinable
-        public init(additionalOptions: [String: String]? = nil, compression: IcebergTargetCompressionType, format: TargetFormat, inputs: [String], name: String, numberTargetPartitions: String? = nil, partitionKeys: [[String]]? = nil, path: String, schemaChangePolicy: DirectSchemaChangePolicy? = nil) {
+        public init(additionalOptions: [String: String]? = nil, autoDataQuality: AutoDataQuality? = nil, compression: IcebergTargetCompressionType, format: TargetFormat, inputs: [String], name: String, numberTargetPartitions: String? = nil, outputSchemas: [GlueSchema]? = nil, partitionKeys: [[String]]? = nil, path: String, schemaChangePolicy: DirectSchemaChangePolicy? = nil) {
             self.additionalOptions = additionalOptions
+            self.autoDataQuality = autoDataQuality
             self.compression = compression
             self.format = format
             self.inputs = inputs
             self.name = name
             self.numberTargetPartitions = numberTargetPartitions
+            self.outputSchemas = outputSchemas
             self.partitionKeys = partitionKeys
             self.path = path
             self.schemaChangePolicy = schemaChangePolicy
@@ -22593,23 +23454,29 @@ extension Glue {
                 try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
                 try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
+            try self.autoDataQuality?.validate(name: "\(name).autoDataQuality")
             try self.inputs.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.outputSchemas?.forEach {
+                try $0.validate(name: "\(name).outputSchemas[]")
+            }
             try self.validate(self.path, name: "path", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.schemaChangePolicy?.validate(name: "\(name).schemaChangePolicy")
         }
 
         private enum CodingKeys: String, CodingKey {
             case additionalOptions = "AdditionalOptions"
+            case autoDataQuality = "AutoDataQuality"
             case compression = "Compression"
             case format = "Format"
             case inputs = "Inputs"
             case name = "Name"
             case numberTargetPartitions = "NumberTargetPartitions"
+            case outputSchemas = "OutputSchemas"
             case partitionKeys = "PartitionKeys"
             case path = "Path"
             case schemaChangePolicy = "SchemaChangePolicy"
@@ -24423,6 +25290,8 @@ extension Glue {
         public let arguments: [String: String]?
         /// Indicates whether the job is run with a standard or flexible execution class. The standard execution-class is ideal for time-sensitive workloads that require fast job startup and dedicated resources. The flexible execution class is appropriate for time-insensitive jobs whose start and completion times may vary.  Only jobs with Glue version 3.0 and above and command type glueetl will be allowed to set ExecutionClass to FLEX. The flexible execution class is available for Spark jobs.
         public let executionClass: ExecutionClass?
+        /// This inline session policy to the StartJobRun API allows you to dynamically restrict the permissions of the specified execution role for the scope of the job, without requiring the creation of additional IAM roles.
+        public let executionRoleSessionPolicy: String?
         /// The name of the job definition to use.
         public let jobName: String
         /// The ID of a previous JobRun to retry.
@@ -24443,10 +25312,11 @@ extension Glue {
         public let workerType: WorkerType?
 
         @inlinable
-        public init(arguments: [String: String]? = nil, executionClass: ExecutionClass? = nil, jobName: String, jobRunId: String? = nil, jobRunQueuingEnabled: Bool? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(arguments: [String: String]? = nil, executionClass: ExecutionClass? = nil, executionRoleSessionPolicy: String? = nil, jobName: String, jobRunId: String? = nil, jobRunQueuingEnabled: Bool? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = nil
             self.arguments = arguments
             self.executionClass = executionClass
+            self.executionRoleSessionPolicy = executionRoleSessionPolicy
             self.jobName = jobName
             self.jobRunId = jobRunId
             self.jobRunQueuingEnabled = jobRunQueuingEnabled
@@ -24460,10 +25330,11 @@ extension Glue {
 
         @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
         @inlinable
-        public init(allocatedCapacity: Int? = nil, arguments: [String: String]? = nil, executionClass: ExecutionClass? = nil, jobName: String, jobRunId: String? = nil, jobRunQueuingEnabled: Bool? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(allocatedCapacity: Int? = nil, arguments: [String: String]? = nil, executionClass: ExecutionClass? = nil, executionRoleSessionPolicy: String? = nil, jobName: String, jobRunId: String? = nil, jobRunQueuingEnabled: Bool? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.arguments = arguments
             self.executionClass = executionClass
+            self.executionRoleSessionPolicy = executionRoleSessionPolicy
             self.jobName = jobName
             self.jobRunId = jobRunId
             self.jobRunQueuingEnabled = jobRunQueuingEnabled
@@ -24476,6 +25347,8 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.executionRoleSessionPolicy, name: "executionRoleSessionPolicy", parent: name, max: 2048)
+            try self.validate(self.executionRoleSessionPolicy, name: "executionRoleSessionPolicy", parent: name, min: 2)
             try self.validate(self.jobName, name: "jobName", parent: name, max: 255)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
@@ -24493,6 +25366,7 @@ extension Glue {
             case allocatedCapacity = "AllocatedCapacity"
             case arguments = "Arguments"
             case executionClass = "ExecutionClass"
+            case executionRoleSessionPolicy = "ExecutionRoleSessionPolicy"
             case jobName = "JobName"
             case jobRunId = "JobRunId"
             case jobRunQueuingEnabled = "JobRunQueuingEnabled"
@@ -25555,20 +26429,24 @@ extension Glue {
     public struct TableOptimizer: AWSDecodableShape {
         /// A TableOptimizerConfiguration object that was specified when creating or updating a table optimizer.
         public let configuration: TableOptimizerConfiguration?
+        ///  Specifies the source of the optimizer configuration. This indicates how the table optimizer was configured and which entity or service  initiated the configuration.
+        public let configurationSource: ConfigurationSource?
         /// A TableOptimizerRun object representing the last run of the table optimizer.
         public let lastRun: TableOptimizerRun?
         /// The type of table optimizer. The valid values are:    compaction: for managing compaction with a table optimizer.    retention: for managing the retention of snapshot with a table optimizer.    orphan_file_deletion: for managing the deletion of orphan files with a table optimizer.
         public let type: TableOptimizerType?
 
         @inlinable
-        public init(configuration: TableOptimizerConfiguration? = nil, lastRun: TableOptimizerRun? = nil, type: TableOptimizerType? = nil) {
+        public init(configuration: TableOptimizerConfiguration? = nil, configurationSource: ConfigurationSource? = nil, lastRun: TableOptimizerRun? = nil, type: TableOptimizerType? = nil) {
             self.configuration = configuration
+            self.configurationSource = configurationSource
             self.lastRun = lastRun
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case configuration = "configuration"
+            case configurationSource = "configurationSource"
             case lastRun = "lastRun"
             case type = "type"
         }
@@ -27159,6 +28037,32 @@ extension Glue {
         public init() {}
     }
 
+    public struct UpdateGlueIdentityCenterConfigurationRequest: AWSEncodableShape {
+        /// A list of Identity Center scopes that define the updated permissions and access levels for the Glue configuration.
+        public let scopes: [String]?
+
+        @inlinable
+        public init(scopes: [String]? = nil) {
+            self.scopes = scopes
+        }
+
+        public func validate(name: String) throws {
+            try self.scopes?.forEach {
+                try validate($0, name: "scopes[]", parent: name, max: 50)
+            }
+            try self.validate(self.scopes, name: "scopes", parent: name, max: 50)
+            try self.validate(self.scopes, name: "scopes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scopes = "Scopes"
+        }
+    }
+
+    public struct UpdateGlueIdentityCenterConfigurationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateGrokClassifierRequest: AWSEncodableShape {
         /// An identifier of the data format that the classifier matches, such as Twitter, JSON, Omniture logs, Amazon CloudWatch Logs, and so on.
         public let classification: String?
@@ -27868,6 +28772,7 @@ extension Glue {
         public let tableInput: TableInput?
         /// The transaction ID at which to update the table contents.
         public let transactionId: String?
+        /// Input parameters for updating open table format tables in GlueData Catalog, serving as a wrapper for format-specific update operations such as Apache Iceberg.
         public let updateOpenTableFormatInput: UpdateOpenTableFormatInput?
         /// The version ID at which to update the table contents.
         public let versionId: String?

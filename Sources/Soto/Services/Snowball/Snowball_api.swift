@@ -349,7 +349,7 @@ public struct Snowball: AWSService {
     ///   - addressId: The ID for the address that you want the Snow device shipped to.
     ///   - clusterId: The ID of a cluster. If you're creating a job for a node in a cluster, you need to provide only this clusterId value. The other job attributes are inherited from the cluster.
     ///   - description: Defines an optional description of this specific job, for example Important Photos 2016-08-11.
-    ///   - deviceConfiguration: Defines the device configuration for an Snowcone job. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
+    ///   - deviceConfiguration: Defines the device configuration for an Snowball Edge job. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
     ///   - forwardingAddressId: The forwarding address ID for a job. This field is not supported in most Regions.
     ///   - impactLevel: The highest impact level of data that will be stored or processed on the device, provided at job creation.
     ///   - jobType: Defines the type of job that you're creating.

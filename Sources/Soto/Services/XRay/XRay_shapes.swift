@@ -1205,15 +1205,22 @@ extension XRay {
     }
 
     public struct GetSamplingTargetsRequest: AWSEncodableShape {
+        /// Information about rules that the service is using to boost sampling rate.
+        public let samplingBoostStatisticsDocuments: [SamplingBoostStatisticsDocument]?
         /// Information about rules that the service is using to sample requests.
         public let samplingStatisticsDocuments: [SamplingStatisticsDocument]
 
         @inlinable
-        public init(samplingStatisticsDocuments: [SamplingStatisticsDocument]) {
+        public init(samplingBoostStatisticsDocuments: [SamplingBoostStatisticsDocument]? = nil, samplingStatisticsDocuments: [SamplingStatisticsDocument]) {
+            self.samplingBoostStatisticsDocuments = samplingBoostStatisticsDocuments
             self.samplingStatisticsDocuments = samplingStatisticsDocuments
         }
 
         public func validate(name: String) throws {
+            try self.samplingBoostStatisticsDocuments?.forEach {
+                try $0.validate(name: "\(name).samplingBoostStatisticsDocuments[]")
+            }
+            try self.validate(self.samplingBoostStatisticsDocuments, name: "samplingBoostStatisticsDocuments", parent: name, max: 25)
             try self.samplingStatisticsDocuments.forEach {
                 try $0.validate(name: "\(name).samplingStatisticsDocuments[]")
             }
@@ -1221,6 +1228,7 @@ extension XRay {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case samplingBoostStatisticsDocuments = "SamplingBoostStatisticsDocuments"
             case samplingStatisticsDocuments = "SamplingStatisticsDocuments"
         }
     }
@@ -1230,19 +1238,23 @@ extension XRay {
         public let lastRuleModification: Date?
         /// Updated rules that the service should use to sample requests.
         public let samplingTargetDocuments: [SamplingTargetDocument]?
+        /// Information about SamplingBoostStatisticsDocument that X-Ray could not process.
+        public let unprocessedBoostStatistics: [UnprocessedStatistics]?
         /// Information about SamplingStatisticsDocument that X-Ray could not process.
         public let unprocessedStatistics: [UnprocessedStatistics]?
 
         @inlinable
-        public init(lastRuleModification: Date? = nil, samplingTargetDocuments: [SamplingTargetDocument]? = nil, unprocessedStatistics: [UnprocessedStatistics]? = nil) {
+        public init(lastRuleModification: Date? = nil, samplingTargetDocuments: [SamplingTargetDocument]? = nil, unprocessedBoostStatistics: [UnprocessedStatistics]? = nil, unprocessedStatistics: [UnprocessedStatistics]? = nil) {
             self.lastRuleModification = lastRuleModification
             self.samplingTargetDocuments = samplingTargetDocuments
+            self.unprocessedBoostStatistics = unprocessedBoostStatistics
             self.unprocessedStatistics = unprocessedStatistics
         }
 
         private enum CodingKeys: String, CodingKey {
             case lastRuleModification = "LastRuleModification"
             case samplingTargetDocuments = "SamplingTargetDocuments"
+            case unprocessedBoostStatistics = "UnprocessedBoostStatistics"
             case unprocessedStatistics = "UnprocessedStatistics"
         }
     }
@@ -2402,6 +2414,91 @@ extension XRay {
         }
     }
 
+    public struct SamplingBoost: AWSDecodableShape {
+        /// The calculated sampling boost rate for this service
+        public let boostRate: Double
+        /// When the sampling boost expires.
+        public let boostRateTTL: Date
+
+        @inlinable
+        public init(boostRate: Double, boostRateTTL: Date) {
+            self.boostRate = boostRate
+            self.boostRateTTL = boostRateTTL
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case boostRate = "BoostRate"
+            case boostRateTTL = "BoostRateTTL"
+        }
+    }
+
+    public struct SamplingBoostStatisticsDocument: AWSEncodableShape {
+        /// The number of requests with anomaly.
+        public let anomalyCount: Int
+        /// The name of the sampling rule.
+        public let ruleName: String
+        /// The number of requests with anomaly recorded.
+        public let sampledAnomalyCount: Int
+        /// Matches the name that the service uses to identify itself in segments.
+        public let serviceName: String
+        /// The current time.
+        public let timestamp: Date
+        /// The number of requests that associated to the rule.
+        public let totalCount: Int
+
+        @inlinable
+        public init(anomalyCount: Int = 0, ruleName: String, sampledAnomalyCount: Int = 0, serviceName: String, timestamp: Date, totalCount: Int = 0) {
+            self.anomalyCount = anomalyCount
+            self.ruleName = ruleName
+            self.sampledAnomalyCount = sampledAnomalyCount
+            self.serviceName = serviceName
+            self.timestamp = timestamp
+            self.totalCount = totalCount
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.anomalyCount, name: "anomalyCount", parent: name, min: 0)
+            try self.validate(self.ruleName, name: "ruleName", parent: name, max: 32)
+            try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
+            try self.validate(self.sampledAnomalyCount, name: "sampledAnomalyCount", parent: name, min: 0)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 64)
+            try self.validate(self.totalCount, name: "totalCount", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyCount = "AnomalyCount"
+            case ruleName = "RuleName"
+            case sampledAnomalyCount = "SampledAnomalyCount"
+            case serviceName = "ServiceName"
+            case timestamp = "Timestamp"
+            case totalCount = "TotalCount"
+        }
+    }
+
+    public struct SamplingRateBoost: AWSEncodableShape & AWSDecodableShape {
+        /// Sets the time window (in minutes) in which only one sampling rate boost can be triggered. After a boost occurs, no further boosts are allowed until the next window.
+        public let cooldownWindowMinutes: Int
+        /// Defines max temporary sampling rate to apply when a boost is triggered. Calculated boost rate by X-Ray will be less than or equal to this max rate.
+        public let maxRate: Double
+
+        @inlinable
+        public init(cooldownWindowMinutes: Int, maxRate: Double) {
+            self.cooldownWindowMinutes = cooldownWindowMinutes
+            self.maxRate = maxRate
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cooldownWindowMinutes, name: "cooldownWindowMinutes", parent: name, min: 0)
+            try self.validate(self.maxRate, name: "maxRate", parent: name, max: 1.0)
+            try self.validate(self.maxRate, name: "maxRate", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cooldownWindowMinutes = "CooldownWindowMinutes"
+            case maxRate = "MaxRate"
+        }
+    }
+
     public struct SamplingRule: AWSEncodableShape & AWSDecodableShape {
         /// Matches attributes derived from the request.
         public let attributes: [String: String]?
@@ -2421,6 +2518,8 @@ extension XRay {
         public let ruleARN: String?
         /// The name of the sampling rule. Specify a rule by either name or ARN, but not both.
         public let ruleName: String?
+        /// Specifies the multiplier applied to the base sampling rate. This boost allows you to temporarily increase sampling without changing the rule's configuration.
+        public let samplingRateBoost: SamplingRateBoost?
         /// Matches the name that the service uses to identify itself in segments.
         public let serviceName: String
         /// Matches the origin that the service uses to identify its type in segments.
@@ -2431,7 +2530,7 @@ extension XRay {
         public let version: Int
 
         @inlinable
-        public init(attributes: [String: String]? = nil, fixedRate: Double, host: String, httpMethod: String, priority: Int, reservoirSize: Int, resourceARN: String, ruleARN: String? = nil, ruleName: String? = nil, serviceName: String, serviceType: String, urlPath: String, version: Int) {
+        public init(attributes: [String: String]? = nil, fixedRate: Double, host: String, httpMethod: String, priority: Int, reservoirSize: Int, resourceARN: String, ruleARN: String? = nil, ruleName: String? = nil, samplingRateBoost: SamplingRateBoost? = nil, serviceName: String, serviceType: String, urlPath: String, version: Int) {
             self.attributes = attributes
             self.fixedRate = fixedRate
             self.host = host
@@ -2441,6 +2540,7 @@ extension XRay {
             self.resourceARN = resourceARN
             self.ruleARN = ruleARN
             self.ruleName = ruleName
+            self.samplingRateBoost = samplingRateBoost
             self.serviceName = serviceName
             self.serviceType = serviceType
             self.urlPath = urlPath
@@ -2465,6 +2565,7 @@ extension XRay {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 500)
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 32)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
+            try self.samplingRateBoost?.validate(name: "\(name).samplingRateBoost")
             try self.validate(self.serviceName, name: "serviceName", parent: name, max: 64)
             try self.validate(self.serviceType, name: "serviceType", parent: name, max: 64)
             try self.validate(self.urlPath, name: "urlPath", parent: name, max: 128)
@@ -2481,6 +2582,7 @@ extension XRay {
             case resourceARN = "ResourceARN"
             case ruleARN = "RuleARN"
             case ruleName = "RuleName"
+            case samplingRateBoost = "SamplingRateBoost"
             case serviceName = "ServiceName"
             case serviceType = "ServiceType"
             case urlPath = "URLPath"
@@ -2529,6 +2631,8 @@ extension XRay {
         public let ruleARN: String?
         /// The name of the sampling rule. Specify a rule by either name or ARN, but not both.
         public let ruleName: String?
+        /// Specifies the multiplier applied to the base sampling rate. This boost allows you to temporarily increase sampling without changing the rule's configuration.
+        public let samplingRateBoost: SamplingRateBoost?
         /// Matches the name that the service uses to identify itself in segments.
         public let serviceName: String?
         /// Matches the origin that the service uses to identify its type in segments.
@@ -2537,7 +2641,7 @@ extension XRay {
         public let urlPath: String?
 
         @inlinable
-        public init(attributes: [String: String]? = nil, fixedRate: Double? = nil, host: String? = nil, httpMethod: String? = nil, priority: Int? = nil, reservoirSize: Int? = nil, resourceARN: String? = nil, ruleARN: String? = nil, ruleName: String? = nil, serviceName: String? = nil, serviceType: String? = nil, urlPath: String? = nil) {
+        public init(attributes: [String: String]? = nil, fixedRate: Double? = nil, host: String? = nil, httpMethod: String? = nil, priority: Int? = nil, reservoirSize: Int? = nil, resourceARN: String? = nil, ruleARN: String? = nil, ruleName: String? = nil, samplingRateBoost: SamplingRateBoost? = nil, serviceName: String? = nil, serviceType: String? = nil, urlPath: String? = nil) {
             self.attributes = attributes
             self.fixedRate = fixedRate
             self.host = host
@@ -2547,6 +2651,7 @@ extension XRay {
             self.resourceARN = resourceARN
             self.ruleARN = ruleARN
             self.ruleName = ruleName
+            self.samplingRateBoost = samplingRateBoost
             self.serviceName = serviceName
             self.serviceType = serviceType
             self.urlPath = urlPath
@@ -2565,6 +2670,7 @@ extension XRay {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 500)
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 32)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
+            try self.samplingRateBoost?.validate(name: "\(name).samplingRateBoost")
             try self.validate(self.serviceName, name: "serviceName", parent: name, max: 64)
             try self.validate(self.serviceType, name: "serviceType", parent: name, max: 64)
             try self.validate(self.urlPath, name: "urlPath", parent: name, max: 128)
@@ -2580,6 +2686,7 @@ extension XRay {
             case resourceARN = "ResourceARN"
             case ruleARN = "RuleARN"
             case ruleName = "RuleName"
+            case samplingRateBoost = "SamplingRateBoost"
             case serviceName = "ServiceName"
             case serviceType = "ServiceType"
             case urlPath = "URLPath"
@@ -2689,14 +2796,17 @@ extension XRay {
         public let reservoirQuotaTTL: Date?
         /// The name of the sampling rule.
         public let ruleName: String?
+        /// The sampling boost that X-Ray allocated for this service.
+        public let samplingBoost: SamplingBoost?
 
         @inlinable
-        public init(fixedRate: Double? = nil, interval: Int? = nil, reservoirQuota: Int? = nil, reservoirQuotaTTL: Date? = nil, ruleName: String? = nil) {
+        public init(fixedRate: Double? = nil, interval: Int? = nil, reservoirQuota: Int? = nil, reservoirQuotaTTL: Date? = nil, ruleName: String? = nil, samplingBoost: SamplingBoost? = nil) {
             self.fixedRate = fixedRate
             self.interval = interval
             self.reservoirQuota = reservoirQuota
             self.reservoirQuotaTTL = reservoirQuotaTTL
             self.ruleName = ruleName
+            self.samplingBoost = samplingBoost
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2705,6 +2815,7 @@ extension XRay {
             case reservoirQuota = "ReservoirQuota"
             case reservoirQuotaTTL = "ReservoirQuotaTTL"
             case ruleName = "RuleName"
+            case samplingBoost = "SamplingBoost"
         }
     }
 
@@ -3030,7 +3141,7 @@ extension XRay {
     }
 
     public struct Trace: AWSDecodableShape {
-        /// The length of time in seconds between the start time of the root segment and the end time of the last segment that completed.
+        /// The length of time in seconds between the start time of the earliest segment that started and the end time of the last segment that completed.
         public let duration: Double?
         /// The unique identifier for the request that generated the trace's segments and subsegments.
         public let id: String?
@@ -3060,7 +3171,7 @@ extension XRay {
         public let annotations: [String: [ValueWithServiceIds]]?
         /// A list of Availability Zones for any zone corresponding to the trace segments.
         public let availabilityZones: [AvailabilityZoneDetail]?
-        /// The length of time in seconds between the start time of the root segment and the end time of the last segment that completed.
+        ///  The length of time in seconds between the start time of the earliest segment that started and the end time of the last segment that completed.
         public let duration: Double?
         /// The root of a trace.
         public let entryPoint: ServiceId?

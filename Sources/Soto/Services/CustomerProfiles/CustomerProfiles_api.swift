@@ -507,6 +507,7 @@ public struct CustomerProfiles: AWSService {
     ///   - businessPhoneNumber: The customer’s business phone number.
     ///   - domainName: The unique name of the domain.
     ///   - emailAddress: The customer’s email address, which has not been specified as a personal or business address.
+    ///   - engagementPreferences: Object that defines the preferred methods of engagement, per channel.
     ///   - firstName: The customer’s first name.
     ///   - gender: The gender with which the customer identifies.
     ///   - genderString: An alternative to Gender which accepts any string as input.
@@ -519,6 +520,7 @@ public struct CustomerProfiles: AWSService {
     ///   - partyTypeString: An alternative to PartyType which accepts any string as input.
     ///   - personalEmailAddress: The customer’s personal email address.
     ///   - phoneNumber: The customer’s phone number, which has not been specified as a mobile, home, or business number.
+    ///   - profileType: The type of the profile.
     ///   - shippingAddress: The customer’s shipping address.
     ///   - logger: Logger use during operation
     @inlinable
@@ -534,6 +536,7 @@ public struct CustomerProfiles: AWSService {
         businessPhoneNumber: String? = nil,
         domainName: String,
         emailAddress: String? = nil,
+        engagementPreferences: EngagementPreferences? = nil,
         firstName: String? = nil,
         gender: Gender? = nil,
         genderString: String? = nil,
@@ -546,6 +549,7 @@ public struct CustomerProfiles: AWSService {
         partyTypeString: String? = nil,
         personalEmailAddress: String? = nil,
         phoneNumber: String? = nil,
+        profileType: ProfileType? = nil,
         shippingAddress: Address? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateProfileResponse {
@@ -561,6 +565,7 @@ public struct CustomerProfiles: AWSService {
             businessPhoneNumber: businessPhoneNumber, 
             domainName: domainName, 
             emailAddress: emailAddress, 
+            engagementPreferences: engagementPreferences, 
             firstName: firstName, 
             gender: gender, 
             genderString: genderString, 
@@ -573,6 +578,7 @@ public struct CustomerProfiles: AWSService {
             partyTypeString: partyTypeString, 
             personalEmailAddress: personalEmailAddress, 
             phoneNumber: phoneNumber, 
+            profileType: profileType, 
             shippingAddress: shippingAddress
         )
         return try await self.createProfile(input, logger: logger)
@@ -1503,6 +1509,41 @@ public struct CustomerProfiles: AWSService {
         return try await self.getMatches(input, logger: logger)
     }
 
+    /// Returns a history record for a specific profile, for a specific domain.
+    @Sendable
+    @inlinable
+    public func getProfileHistoryRecord(_ input: GetProfileHistoryRecordRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetProfileHistoryRecordResponse {
+        try await self.client.execute(
+            operation: "GetProfileHistoryRecord", 
+            path: "/domains/{DomainName}/profiles/{ProfileId}/history-records/{Id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a history record for a specific profile, for a specific domain.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain for which to return a profile history record.
+    ///   - id: The unique identifier of the profile history record to return.
+    ///   - profileId: The unique identifier of the profile for which to return a history record.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getProfileHistoryRecord(
+        domainName: String,
+        id: String,
+        profileId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetProfileHistoryRecordResponse {
+        let input = GetProfileHistoryRecordRequest(
+            domainName: domainName, 
+            id: id, 
+            profileId: profileId
+        )
+        return try await self.getProfileHistoryRecord(input, logger: logger)
+    }
+
     /// Returns the object types for a specific domain.
     @Sendable
     @inlinable
@@ -2265,6 +2306,53 @@ public struct CustomerProfiles: AWSService {
             domainName: domainName
         )
         return try await self.listProfileAttributeValues(input, logger: logger)
+    }
+
+    /// Returns a list of history records for a specific profile, for a specific domain.
+    @Sendable
+    @inlinable
+    public func listProfileHistoryRecords(_ input: ListProfileHistoryRecordsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProfileHistoryRecordsResponse {
+        try await self.client.execute(
+            operation: "ListProfileHistoryRecords", 
+            path: "/domains/{DomainName}/profiles/history-records", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of history records for a specific profile, for a specific domain.
+    ///
+    /// Parameters:
+    ///   - actionType: Applies a filter to include profile history records only with the specified ActionType value in the response.
+    ///   - domainName: The unique name of the domain for which to return profile history records.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - objectTypeName: Applies a filter to include profile history records only with the specified ObjectTypeName value in the response.
+    ///   - performedBy: Applies a filter to include profile history records only with the specified PerformedBy value in the response. The PerformedBy value can be the Amazon Resource Name (ARN) of the person or service principal who performed the action.
+    ///   - profileId: The identifier of the profile to be taken.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listProfileHistoryRecords(
+        actionType: ActionType? = nil,
+        domainName: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        objectTypeName: String? = nil,
+        performedBy: String? = nil,
+        profileId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListProfileHistoryRecordsResponse {
+        let input = ListProfileHistoryRecordsRequest(
+            actionType: actionType, 
+            domainName: domainName, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            objectTypeName: objectTypeName, 
+            performedBy: performedBy, 
+            profileId: profileId
+        )
+        return try await self.listProfileHistoryRecords(input, logger: logger)
     }
 
     /// Lists all of the template information for object types.
@@ -3128,6 +3216,7 @@ public struct CustomerProfiles: AWSService {
     ///   - businessPhoneNumber: The customer’s business phone number.
     ///   - domainName: The unique name of the domain.
     ///   - emailAddress: The customer’s email address, which has not been specified as a personal or business address.
+    ///   - engagementPreferences: Object that defines users preferred methods of engagement.
     ///   - firstName: The customer’s first name.
     ///   - gender: The gender with which the customer identifies.
     ///   - genderString: An alternative to Gender which accepts any string as input.
@@ -3141,6 +3230,7 @@ public struct CustomerProfiles: AWSService {
     ///   - personalEmailAddress: The customer’s personal email address.
     ///   - phoneNumber: The customer’s phone number, which has not been specified as a mobile, home, or business number.
     ///   - profileId: The unique identifier of a customer profile.
+    ///   - profileType: Determines the type of the profile.
     ///   - shippingAddress: The customer’s shipping address.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3156,6 +3246,7 @@ public struct CustomerProfiles: AWSService {
         businessPhoneNumber: String? = nil,
         domainName: String,
         emailAddress: String? = nil,
+        engagementPreferences: EngagementPreferences? = nil,
         firstName: String? = nil,
         gender: Gender? = nil,
         genderString: String? = nil,
@@ -3169,6 +3260,7 @@ public struct CustomerProfiles: AWSService {
         personalEmailAddress: String? = nil,
         phoneNumber: String? = nil,
         profileId: String,
+        profileType: ProfileType? = nil,
         shippingAddress: UpdateAddress? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateProfileResponse {
@@ -3184,6 +3276,7 @@ public struct CustomerProfiles: AWSService {
             businessPhoneNumber: businessPhoneNumber, 
             domainName: domainName, 
             emailAddress: emailAddress, 
+            engagementPreferences: engagementPreferences, 
             firstName: firstName, 
             gender: gender, 
             genderString: genderString, 
@@ -3197,6 +3290,7 @@ public struct CustomerProfiles: AWSService {
             personalEmailAddress: personalEmailAddress, 
             phoneNumber: phoneNumber, 
             profileId: profileId, 
+            profileType: profileType, 
             shippingAddress: shippingAddress
         )
         return try await self.updateProfile(input, logger: logger)

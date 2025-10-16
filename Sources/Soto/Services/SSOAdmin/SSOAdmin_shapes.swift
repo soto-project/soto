@@ -25,6 +25,11 @@ import Foundation
 extension SSOAdmin {
     // MARK: Enums
 
+    public enum AccessDeniedExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case kmsAccessDeniedException = "KMS_AccessDeniedException"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ApplicationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -65,6 +70,7 @@ extension SSOAdmin {
 
     public enum InstanceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
+        case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
         case deleteInProgress = "DELETE_IN_PROGRESS"
         public var description: String { return self.rawValue }
@@ -72,6 +78,19 @@ extension SSOAdmin {
 
     public enum JwksRetrievalOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case openIdDiscovery = "OPEN_ID_DISCOVERY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KmsKeyStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case enabled = "ENABLED"
+        case updateFailed = "UPDATE_FAILED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KmsKeyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsOwnedKmsKey = "AWS_OWNED_KMS_KEY"
+        case customerManagedKey = "CUSTOMER_MANAGED_KEY"
         public var description: String { return self.rawValue }
     }
 
@@ -93,6 +112,11 @@ extension SSOAdmin {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResourceNotFoundExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case kmsNotFoundException = "KMS_NotFoundException"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SignInOrigin: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case application = "APPLICATION"
         case identityCenter = "IDENTITY_CENTER"
@@ -111,8 +135,26 @@ extension SSOAdmin {
         public var description: String { return self.rawValue }
     }
 
+    public enum ThrottlingExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case kmsThrottlingException = "KMS_ThrottlingException"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TrustedTokenIssuerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case oidcJwt = "OIDC_JWT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UserBackgroundSessionApplicationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case kmsDisabledException = "KMS_DisabledException"
+        case kmsInvalidKeyUsageException = "KMS_InvalidKeyUsageException"
+        case kmsInvalidStateException = "KMS_InvalidStateException"
         public var description: String { return self.rawValue }
     }
 
@@ -234,11 +276,27 @@ extension SSOAdmin {
         }
     }
 
+    public struct AccessDeniedException: AWSErrorShape {
+        public let message: String?
+        /// The reason for the access denied exception.
+        public let reason: AccessDeniedExceptionReason?
+
+        @inlinable
+        public init(message: String? = nil, reason: AccessDeniedExceptionReason? = nil) {
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case reason = "Reason"
+        }
+    }
+
     public struct AccountAssignment: AWSDecodableShape {
         /// The identifier of the Amazon Web Services account.
         public let accountId: String?
-        /// The ARN of the permission set. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the permission set. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let permissionSetArn: String?
         /// An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the IAM Identity Center Identity Store API Reference.
         public let principalId: String?
@@ -292,8 +350,7 @@ extension SSOAdmin {
         public let createdDate: Date?
         /// The message that contains an error or exception in case of an operation failure.
         public let failureReason: String?
-        /// The ARN of the permission set. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the permission set. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let permissionSetArn: String?
         /// An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the IAM Identity Center Identity Store API Reference.
         public let principalId: String?
@@ -509,8 +566,7 @@ extension SSOAdmin {
     }
 
     public struct AttachManagedPolicyToPermissionSetRequest: AWSEncodableShape {
-        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The Amazon Web Services managed policy ARN to be attached to a permission set.
         public let managedPolicyArn: String
@@ -548,8 +604,7 @@ extension SSOAdmin {
     }
 
     public struct AttachedManagedPolicy: AWSDecodableShape {
-        /// The ARN of the Amazon Web Services managed policy. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the Amazon Web Services managed policy. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let arn: String?
         /// The name of the Amazon Web Services managed policy.
         public let name: String?
@@ -634,8 +689,7 @@ extension SSOAdmin {
     }
 
     public struct CreateAccountAssignmentRequest: AWSEncodableShape {
-        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set that the admin wants to grant the principal access to.
         public let permissionSetArn: String
@@ -735,12 +789,11 @@ extension SSOAdmin {
     public struct CreateApplicationRequest: AWSEncodableShape {
         /// The ARN of the application provider under which the operation will run.
         public let applicationProviderArn: String
-        /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an IdempotentParameterMismatch error.
+        /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
         public let clientToken: String?
         /// The description of the .
         public let description: String?
-        /// The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The name of the .
         public let name: String
@@ -841,7 +894,7 @@ extension SSOAdmin {
     }
 
     public struct CreateInstanceRequest: AWSEncodableShape {
-        /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an IdempotentParameterMismatch error.
+        /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
         public let clientToken: String?
         /// The name of the instance of IAM Identity Center.
         public let name: String?
@@ -875,8 +928,7 @@ extension SSOAdmin {
     }
 
     public struct CreateInstanceResponse: AWSDecodableShape {
-        /// The ARN of the instance of IAM Identity Center under which the operation will run.  For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the instance of IAM Identity Center under which the operation will run.  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String?
 
         @inlinable
@@ -892,8 +944,7 @@ extension SSOAdmin {
     public struct CreatePermissionSetRequest: AWSEncodableShape {
         /// The description of the PermissionSet.
         public let description: String?
-        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The name of the PermissionSet.
         public let name: String
@@ -961,7 +1012,7 @@ extension SSOAdmin {
     }
 
     public struct CreateTrustedTokenIssuerRequest: AWSEncodableShape {
-        /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an IdempotentParameterMismatch error.
+        /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
         public let clientToken: String?
         /// Specifies the ARN of the instance of IAM Identity Center to contain the new trusted token issuer configuration.
         public let instanceArn: String
@@ -1053,8 +1104,7 @@ extension SSOAdmin {
     }
 
     public struct DeleteAccountAssignmentRequest: AWSEncodableShape {
-        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set that will be used to remove access.
         public let permissionSetArn: String
@@ -1225,8 +1275,7 @@ extension SSOAdmin {
     }
 
     public struct DeleteApplicationRequest: AWSEncodableShape {
-        /// Specifies the ARN of the application. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// Specifies the ARN of the application. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let applicationArn: String
 
         @inlinable
@@ -1250,8 +1299,7 @@ extension SSOAdmin {
     }
 
     public struct DeleteInlinePolicyFromPermissionSetRequest: AWSEncodableShape {
-        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set that will be used to remove access.
         public let permissionSetArn: String
@@ -1330,8 +1378,7 @@ extension SSOAdmin {
     }
 
     public struct DeletePermissionSetRequest: AWSEncodableShape {
-        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set that should be deleted.
         public let permissionSetArn: String
@@ -1419,8 +1466,7 @@ extension SSOAdmin {
     public struct DescribeAccountAssignmentCreationStatusRequest: AWSEncodableShape {
         /// The identifier that is used to track the request operation progress.
         public let accountAssignmentCreationRequestId: String
-        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
 
         @inlinable
@@ -1461,8 +1507,7 @@ extension SSOAdmin {
     public struct DescribeAccountAssignmentDeletionStatusRequest: AWSEncodableShape {
         /// The identifier that is used to track the request operation progress.
         public let accountAssignmentDeletionRequestId: String
-        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
 
         @inlinable
@@ -1501,8 +1546,7 @@ extension SSOAdmin {
     }
 
     public struct DescribeApplicationAssignmentRequest: AWSEncodableShape {
-        /// Specifies the ARN of the application. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// Specifies the ARN of the application. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let applicationArn: String
         /// An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the IAM Identity Center Identity Store API Reference.
         public let principalId: String
@@ -1533,8 +1577,7 @@ extension SSOAdmin {
     }
 
     public struct DescribeApplicationAssignmentResponse: AWSDecodableShape {
-        /// Specifies the ARN of the application. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// Specifies the ARN of the application. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let applicationArn: String?
         /// An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the IAM Identity Center Identity Store API Reference.
         public let principalId: String?
@@ -1602,8 +1645,7 @@ extension SSOAdmin {
     }
 
     public struct DescribeApplicationRequest: AWSEncodableShape {
-        /// Specifies the ARN of the application. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// Specifies the ARN of the application. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let applicationArn: String
 
         @inlinable
@@ -1633,8 +1675,7 @@ extension SSOAdmin {
         public let createdDate: Date?
         /// The description of the .
         public let description: String?
-        /// The ARN of the IAM Identity Center application under which the operation will run. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the IAM Identity Center application under which the operation will run. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String?
         /// The application name.
         public let name: String?
@@ -1734,10 +1775,11 @@ extension SSOAdmin {
     public struct DescribeInstanceResponse: AWSDecodableShape {
         /// The date the instance was created.
         public let createdDate: Date?
+        /// Contains the encryption configuration for your IAM Identity Center instance, including the encryption status, KMS key type, and KMS key ARN.
+        public let encryptionConfigurationDetails: EncryptionConfigurationDetails?
         /// The identifier of the identity store that is connected to the instance of IAM Identity Center.
         public let identityStoreId: String?
-        /// The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String?
         /// Specifies the instance name.
         public let name: String?
@@ -1745,30 +1787,35 @@ extension SSOAdmin {
         public let ownerAccountId: String?
         /// The status of the instance.
         public let status: InstanceStatus?
+        /// Provides additional context about the current status of the IAM Identity Center instance. This field is particularly useful when an instance is in a non-ACTIVE state, such as CREATE_FAILED. When an instance fails to create or update, this field contains information about the cause, which may include issues with KMS key configuration, permission problems with the specified KMS key, or service-related errors.
+        public let statusReason: String?
 
         @inlinable
-        public init(createdDate: Date? = nil, identityStoreId: String? = nil, instanceArn: String? = nil, name: String? = nil, ownerAccountId: String? = nil, status: InstanceStatus? = nil) {
+        public init(createdDate: Date? = nil, encryptionConfigurationDetails: EncryptionConfigurationDetails? = nil, identityStoreId: String? = nil, instanceArn: String? = nil, name: String? = nil, ownerAccountId: String? = nil, status: InstanceStatus? = nil, statusReason: String? = nil) {
             self.createdDate = createdDate
+            self.encryptionConfigurationDetails = encryptionConfigurationDetails
             self.identityStoreId = identityStoreId
             self.instanceArn = instanceArn
             self.name = name
             self.ownerAccountId = ownerAccountId
             self.status = status
+            self.statusReason = statusReason
         }
 
         private enum CodingKeys: String, CodingKey {
             case createdDate = "CreatedDate"
+            case encryptionConfigurationDetails = "EncryptionConfigurationDetails"
             case identityStoreId = "IdentityStoreId"
             case instanceArn = "InstanceArn"
             case name = "Name"
             case ownerAccountId = "OwnerAccountId"
             case status = "Status"
+            case statusReason = "StatusReason"
         }
     }
 
     public struct DescribePermissionSetProvisioningStatusRequest: AWSEncodableShape {
-        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The identifier that is provided by the ProvisionPermissionSet call to retrieve the current status of the provisioning workflow.
         public let provisionPermissionSetRequestId: String
@@ -1809,8 +1856,7 @@ extension SSOAdmin {
     }
 
     public struct DescribePermissionSetRequest: AWSEncodableShape {
-        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set.
         public let permissionSetArn: String
@@ -1933,8 +1979,7 @@ extension SSOAdmin {
     }
 
     public struct DetachManagedPolicyFromPermissionSetRequest: AWSEncodableShape {
-        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The Amazon Web Services managed policy ARN to be detached from a permission set.
         public let managedPolicyArn: String
@@ -1993,6 +2038,56 @@ extension SSOAdmin {
         }
     }
 
+    public struct EncryptionConfiguration: AWSEncodableShape {
+        /// The type of KMS key used for encryption.
+        public let keyType: KmsKeyType
+        /// The ARN of the KMS key used to encrypt data. Required when KeyType is CUSTOMER_MANAGED_KEY. Cannot be specified when KeyType is AWS_OWNED_KMS_KEY.
+        public let kmsKeyArn: String?
+
+        @inlinable
+        public init(keyType: KmsKeyType, kmsKeyArn: String? = nil) {
+            self.keyType = keyType
+            self.kmsKeyArn = kmsKeyArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-[bcd]):kms:([a-z]{2,}(-[a-z0-9]+)+){1}:[0-9]{12}:key/(mrk-[a-f0-9]{32}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyType = "KeyType"
+            case kmsKeyArn = "KmsKeyArn"
+        }
+    }
+
+    public struct EncryptionConfigurationDetails: AWSDecodableShape {
+        /// The current status of encryption configuration.
+        public let encryptionStatus: KmsKeyStatus?
+        /// Provides additional context about the current encryption status. This field is particularly useful when the encryption status is UPDATE_FAILED. When encryption configuration update fails, this field contains information about the cause, which may include KMS key access issues, key not found errors, invalid key configuration, key in an invalid state, or a disabled key.
+        public let encryptionStatusReason: String?
+        /// The type of KMS key used for encryption.
+        public let keyType: KmsKeyType?
+        /// The ARN of the KMS key currently used to encrypt data in your IAM Identity Center instance.
+        public let kmsKeyArn: String?
+
+        @inlinable
+        public init(encryptionStatus: KmsKeyStatus? = nil, encryptionStatusReason: String? = nil, keyType: KmsKeyType? = nil, kmsKeyArn: String? = nil) {
+            self.encryptionStatus = encryptionStatus
+            self.encryptionStatusReason = encryptionStatusReason
+            self.keyType = keyType
+            self.kmsKeyArn = kmsKeyArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionStatus = "EncryptionStatus"
+            case encryptionStatusReason = "EncryptionStatusReason"
+            case keyType = "KeyType"
+            case kmsKeyArn = "KmsKeyArn"
+        }
+    }
+
     public struct GetApplicationAccessScopeRequest: AWSEncodableShape {
         /// Specifies the ARN of the application with the access scope that you want to retrieve.
         public let applicationArn: String
@@ -2037,8 +2132,7 @@ extension SSOAdmin {
     }
 
     public struct GetApplicationAssignmentConfigurationRequest: AWSEncodableShape {
-        /// Specifies the ARN of the application. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// Specifies the ARN of the application. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let applicationArn: String
 
         @inlinable
@@ -2147,9 +2241,42 @@ extension SSOAdmin {
         }
     }
 
+    public struct GetApplicationSessionConfigurationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the application for which to retrieve the session configuration.
+        public let applicationArn: String
+
+        @inlinable
+        public init(applicationArn: String) {
+            self.applicationArn = applicationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+        }
+    }
+
+    public struct GetApplicationSessionConfigurationResponse: AWSDecodableShape {
+        /// The status of user background sessions for the application.
+        public let userBackgroundSessionApplicationStatus: UserBackgroundSessionApplicationStatus?
+
+        @inlinable
+        public init(userBackgroundSessionApplicationStatus: UserBackgroundSessionApplicationStatus? = nil) {
+            self.userBackgroundSessionApplicationStatus = userBackgroundSessionApplicationStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userBackgroundSessionApplicationStatus = "UserBackgroundSessionApplicationStatus"
+        }
+    }
+
     public struct GetInlinePolicyForPermissionSetRequest: AWSEncodableShape {
-        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set.
         public let permissionSetArn: String
@@ -2288,8 +2415,7 @@ extension SSOAdmin {
         public let createdDate: Date?
         /// The identifier of the identity store that is connected to the Identity Center instance.
         public let identityStoreId: String?
-        /// The ARN of the Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String?
         /// The name of the Identity Center instance.
         public let name: String?
@@ -2297,15 +2423,18 @@ extension SSOAdmin {
         public let ownerAccountId: String?
         /// The current status of this Identity Center instance.
         public let status: InstanceStatus?
+        /// Provides additional context about the current status of the IAM Identity Center instance. This field is particularly useful when an instance is in a non-ACTIVE state, such as CREATE_FAILED. When an instance creation fails, this field contains information about the cause, which may include issues with KMS key configuration or insufficient permissions.
+        public let statusReason: String?
 
         @inlinable
-        public init(createdDate: Date? = nil, identityStoreId: String? = nil, instanceArn: String? = nil, name: String? = nil, ownerAccountId: String? = nil, status: InstanceStatus? = nil) {
+        public init(createdDate: Date? = nil, identityStoreId: String? = nil, instanceArn: String? = nil, name: String? = nil, ownerAccountId: String? = nil, status: InstanceStatus? = nil, statusReason: String? = nil) {
             self.createdDate = createdDate
             self.identityStoreId = identityStoreId
             self.instanceArn = instanceArn
             self.name = name
             self.ownerAccountId = ownerAccountId
             self.status = status
+            self.statusReason = statusReason
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2315,6 +2444,7 @@ extension SSOAdmin {
             case name = "Name"
             case ownerAccountId = "OwnerAccountId"
             case status = "Status"
+            case statusReason = "StatusReason"
         }
     }
 
@@ -2343,8 +2473,7 @@ extension SSOAdmin {
     public struct ListAccountAssignmentCreationStatusRequest: AWSEncodableShape {
         /// Filters results based on the passed attribute value.
         public let filter: OperationStatusFilter?
-        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the assignment.
         public let maxResults: Int?
@@ -2398,8 +2527,7 @@ extension SSOAdmin {
     public struct ListAccountAssignmentDeletionStatusRequest: AWSEncodableShape {
         /// Filters results based on the passed attribute value.
         public let filter: OperationStatusFilter?
-        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the assignment.
         public let maxResults: Int?
@@ -2475,9 +2603,9 @@ extension SSOAdmin {
         public let filter: ListAccountAssignmentsFilter?
         /// Specifies the ARN of the instance of IAM Identity Center that contains the principal.
         public let instanceArn: String
-        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results.
+        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
-        /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+        /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
         public let nextToken: String?
         /// Specifies the principal for which you want to retrieve the list of account assignments.
         public let principalId: String
@@ -2521,7 +2649,7 @@ extension SSOAdmin {
     public struct ListAccountAssignmentsForPrincipalResponse: AWSDecodableShape {
         /// An array list of the account assignments for the principal.
         public let accountAssignments: [AccountAssignmentForPrincipal]?
-        /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
+        /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
         public let nextToken: String?
 
         @inlinable
@@ -2539,8 +2667,7 @@ extension SSOAdmin {
     public struct ListAccountAssignmentsRequest: AWSEncodableShape {
         /// The identifier of the Amazon Web Services account from which to list the assignments.
         public let accountId: String
-        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the assignment.
         public let maxResults: Int?
@@ -2602,8 +2729,7 @@ extension SSOAdmin {
     }
 
     public struct ListAccountsForProvisionedPermissionSetRequest: AWSEncodableShape {
-        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the PermissionSet.
         public let maxResults: Int?
@@ -2666,9 +2792,9 @@ extension SSOAdmin {
     public struct ListApplicationAccessScopesRequest: AWSEncodableShape {
         /// Specifies the ARN of the application.
         public let applicationArn: String
-        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results.
+        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
-        /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+        /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
         public let nextToken: String?
 
         @inlinable
@@ -2696,7 +2822,7 @@ extension SSOAdmin {
     }
 
     public struct ListApplicationAccessScopesResponse: AWSDecodableShape {
-        /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
+        /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
         public let nextToken: String?
         /// An array list of access scopes and their authorized targets that are associated with the application.
         public let scopes: [ScopeDetails]
@@ -2738,9 +2864,9 @@ extension SSOAdmin {
         public let filter: ListApplicationAssignmentsFilter?
         /// Specifies the instance of IAM Identity Center that contains principal and applications.
         public let instanceArn: String
-        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results.
+        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
-        /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+        /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
         public let nextToken: String?
         /// Specifies the unique identifier of the principal for which you want to retrieve its assignments.
         public let principalId: String
@@ -2784,7 +2910,7 @@ extension SSOAdmin {
     public struct ListApplicationAssignmentsForPrincipalResponse: AWSDecodableShape {
         /// An array list of the application assignments for the specified principal.
         public let applicationAssignments: [ApplicationAssignmentForPrincipal]?
-        /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
+        /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
         public let nextToken: String?
 
         @inlinable
@@ -2802,9 +2928,9 @@ extension SSOAdmin {
     public struct ListApplicationAssignmentsRequest: AWSEncodableShape {
         /// Specifies the ARN of the application.
         public let applicationArn: String
-        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results.
+        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
-        /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+        /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
         public let nextToken: String?
 
         @inlinable
@@ -2834,7 +2960,7 @@ extension SSOAdmin {
     public struct ListApplicationAssignmentsResponse: AWSDecodableShape {
         /// The list of users assigned to an application.
         public let applicationAssignments: [ApplicationAssignment]?
-        /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
+        /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
         public let nextToken: String?
 
         @inlinable
@@ -2852,7 +2978,7 @@ extension SSOAdmin {
     public struct ListApplicationAuthenticationMethodsRequest: AWSEncodableShape {
         /// Specifies the ARN of the application with the authentication methods you want to list.
         public let applicationArn: String
-        /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+        /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
         public let nextToken: String?
 
         @inlinable
@@ -2878,7 +3004,7 @@ extension SSOAdmin {
     public struct ListApplicationAuthenticationMethodsResponse: AWSDecodableShape {
         /// An array list of authentication methods for the specified application.
         public let authenticationMethods: [AuthenticationMethodItem]?
-        /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
+        /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
         public let nextToken: String?
 
         @inlinable
@@ -2896,7 +3022,7 @@ extension SSOAdmin {
     public struct ListApplicationGrantsRequest: AWSEncodableShape {
         /// Specifies the ARN of the application whose grants you want to list.
         public let applicationArn: String
-        /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+        /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
         public let nextToken: String?
 
         @inlinable
@@ -2922,7 +3048,7 @@ extension SSOAdmin {
     public struct ListApplicationGrantsResponse: AWSDecodableShape {
         /// An array list of structures that describe the requested grants.
         public let grants: [GrantItem]
-        /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
+        /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
         public let nextToken: String?
 
         @inlinable
@@ -2938,9 +3064,9 @@ extension SSOAdmin {
     }
 
     public struct ListApplicationProvidersRequest: AWSEncodableShape {
-        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results.
+        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
-        /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+        /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
         public let nextToken: String?
 
         @inlinable
@@ -2965,7 +3091,7 @@ extension SSOAdmin {
     public struct ListApplicationProvidersResponse: AWSDecodableShape {
         /// An array list of structures that describe application providers.
         public let applicationProviders: [ApplicationProvider]?
-        /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
+        /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
         public let nextToken: String?
 
         @inlinable
@@ -3010,12 +3136,11 @@ extension SSOAdmin {
     public struct ListApplicationsRequest: AWSEncodableShape {
         /// Filters response results.
         public let filter: ListApplicationsFilter?
-        /// The ARN of the IAM Identity Center application under which the operation will run. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the IAM Identity Center application under which the operation will run. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
-        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results.
+        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
-        /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+        /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
         public let nextToken: String?
 
         @inlinable
@@ -3048,7 +3173,7 @@ extension SSOAdmin {
     public struct ListApplicationsResponse: AWSDecodableShape {
         /// Retrieves all applications associated with the instance.
         public let applications: [Application]?
-        /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
+        /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
         public let nextToken: String?
 
         @inlinable
@@ -3164,8 +3289,7 @@ extension SSOAdmin {
     }
 
     public struct ListManagedPoliciesInPermissionSetRequest: AWSEncodableShape {
-        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the PermissionSet.
         public let maxResults: Int?
@@ -3224,8 +3348,7 @@ extension SSOAdmin {
     public struct ListPermissionSetProvisioningStatusRequest: AWSEncodableShape {
         /// Filters results based on the passed attribute value.
         public let filter: OperationStatusFilter?
-        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the assignment.
         public let maxResults: Int?
@@ -3279,8 +3402,7 @@ extension SSOAdmin {
     public struct ListPermissionSetsProvisionedToAccountRequest: AWSEncodableShape {
         /// The identifier of the Amazon Web Services account from which to list the assignments.
         public let accountId: String
-        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the assignment.
         public let maxResults: Int?
@@ -3339,8 +3461,7 @@ extension SSOAdmin {
     }
 
     public struct ListPermissionSetsRequest: AWSEncodableShape {
-        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The maximum number of results to display for the assignment.
         public let maxResults: Int?
@@ -3390,8 +3511,7 @@ extension SSOAdmin {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String?
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
         public let nextToken: String?
@@ -3444,9 +3564,9 @@ extension SSOAdmin {
     public struct ListTrustedTokenIssuersRequest: AWSEncodableShape {
         /// Specifies the ARN of the instance of IAM Identity Center with the trusted token issuer configurations that you want to list.
         public let instanceArn: String
-        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results.
+        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
-        /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+        /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
         public let nextToken: String?
 
         @inlinable
@@ -3474,7 +3594,7 @@ extension SSOAdmin {
     }
 
     public struct ListTrustedTokenIssuersResponse: AWSDecodableShape {
-        /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
+        /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
         public let nextToken: String?
         /// An array list of the trusted token issuer configurations.
         public let trustedTokenIssuers: [TrustedTokenIssuerMetadata]?
@@ -3581,8 +3701,7 @@ extension SSOAdmin {
         public let description: String?
         /// The name of the permission set.
         public let name: String?
-        /// The ARN of the permission set. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the permission set. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let permissionSetArn: String?
         /// Used to redirect users within the application during the federation authentication process.
         public let relayState: String?
@@ -3616,8 +3735,7 @@ extension SSOAdmin {
         public let createdDate: Date?
         /// The message that contains an error or exception in case of an operation failure.
         public let failureReason: String?
-        /// The ARN of the permission set that is being provisioned. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the permission set that is being provisioned. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let permissionSetArn: String?
         /// The identifier for tracking the request operation that is generated by the universally unique identifier (UUID) workflow.
         public let requestId: String?
@@ -3714,8 +3832,7 @@ extension SSOAdmin {
     }
 
     public struct ProvisionPermissionSetRequest: AWSEncodableShape {
-        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set.
         public let permissionSetArn: String
@@ -3803,8 +3920,7 @@ extension SSOAdmin {
     }
 
     public struct PutApplicationAssignmentConfigurationRequest: AWSEncodableShape {
-        /// Specifies the ARN of the application. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// Specifies the ARN of the application. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let applicationArn: String
         /// If AssignmentsRequired is true (default value), users don’t have access to the application unless an assignment is created using the CreateApplicationAssignment API. If false, all users have access to the application.
         public let assignmentRequired: Bool
@@ -3888,11 +4004,38 @@ extension SSOAdmin {
         }
     }
 
+    public struct PutApplicationSessionConfigurationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the application for which to update the session configuration.
+        public let applicationArn: String
+        /// The status of user background sessions for the application.
+        public let userBackgroundSessionApplicationStatus: UserBackgroundSessionApplicationStatus?
+
+        @inlinable
+        public init(applicationArn: String, userBackgroundSessionApplicationStatus: UserBackgroundSessionApplicationStatus? = nil) {
+            self.applicationArn = applicationArn
+            self.userBackgroundSessionApplicationStatus = userBackgroundSessionApplicationStatus
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case userBackgroundSessionApplicationStatus = "UserBackgroundSessionApplicationStatus"
+        }
+    }
+
+    public struct PutApplicationSessionConfigurationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct PutInlinePolicyToPermissionSetRequest: AWSEncodableShape {
         /// The inline policy to attach to a PermissionSet.
         public let inlinePolicy: String
-        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set.
         public let permissionSetArn: String
@@ -3965,6 +4108,23 @@ extension SSOAdmin {
 
     public struct RefreshTokenGrant: AWSEncodableShape & AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String?
+        /// The reason for the resource not found exception.
+        public let reason: ResourceNotFoundExceptionReason?
+
+        @inlinable
+        public init(message: String? = nil, reason: ResourceNotFoundExceptionReason? = nil) {
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case reason = "Reason"
+        }
     }
 
     public struct ResourceServerConfig: AWSDecodableShape {
@@ -4068,8 +4228,7 @@ extension SSOAdmin {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String?
         /// The ARN of the resource with the tags to be listed.
         public let resourceArn: String
@@ -4107,6 +4266,23 @@ extension SSOAdmin {
         public init() {}
     }
 
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String?
+        /// The reason for the throttling exception.
+        public let reason: ThrottlingExceptionReason?
+
+        @inlinable
+        public init(message: String? = nil, reason: ThrottlingExceptionReason? = nil) {
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case reason = "Reason"
+        }
+    }
+
     public struct TokenExchangeGrant: AWSEncodableShape & AWSDecodableShape {
         public init() {}
     }
@@ -4134,8 +4310,7 @@ extension SSOAdmin {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String?
         /// The ARN of the resource with the tags to be listed.
         public let resourceArn: String
@@ -4194,8 +4369,7 @@ extension SSOAdmin {
     }
 
     public struct UpdateApplicationRequest: AWSEncodableShape {
-        /// Specifies the ARN of the application. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// Specifies the ARN of the application. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let applicationArn: String
         /// The description of the .
         public let description: String?
@@ -4270,19 +4444,22 @@ extension SSOAdmin {
     }
 
     public struct UpdateInstanceRequest: AWSEncodableShape {
-        /// The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// Specifies the encryption configuration for your IAM Identity Center instance. You can use this to configure customer managed KMS keys (CMK) or Amazon Web Services owned KMS keys for encrypting your instance data.
+        public let encryptionConfiguration: EncryptionConfiguration?
+        /// The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// Updates the instance name.
-        public let name: String
+        public let name: String?
 
         @inlinable
-        public init(instanceArn: String, name: String) {
+        public init(encryptionConfiguration: EncryptionConfiguration? = nil, instanceArn: String, name: String? = nil) {
+            self.encryptionConfiguration = encryptionConfiguration
             self.instanceArn = instanceArn
             self.name = name
         }
 
         public func validate(name: String) throws {
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
@@ -4291,6 +4468,7 @@ extension SSOAdmin {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case encryptionConfiguration = "EncryptionConfiguration"
             case instanceArn = "InstanceArn"
             case name = "Name"
         }
@@ -4303,8 +4481,7 @@ extension SSOAdmin {
     public struct UpdatePermissionSetRequest: AWSEncodableShape {
         /// The description of the PermissionSet.
         public let description: String?
-        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
-        /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// The ARN of the permission set.
         public let permissionSetArn: String
@@ -4387,6 +4564,23 @@ extension SSOAdmin {
 
     public struct UpdateTrustedTokenIssuerResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ValidationException: AWSErrorShape {
+        public let message: String?
+        /// The reason for the validation exception.
+        public let reason: ValidationExceptionReason?
+
+        @inlinable
+        public init(message: String? = nil, reason: ValidationExceptionReason? = nil) {
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case reason = "Reason"
+        }
     }
 
     public struct AuthenticationMethod: AWSEncodableShape & AWSDecodableShape {
@@ -4486,6 +4680,15 @@ public struct SSOAdminErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The request failed because it contains a syntax error.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension SSOAdminErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "AccessDeniedException": SSOAdmin.AccessDeniedException.self,
+        "ResourceNotFoundException": SSOAdmin.ResourceNotFoundException.self,
+        "ThrottlingException": SSOAdmin.ThrottlingException.self,
+        "ValidationException": SSOAdmin.ValidationException.self
+    ]
 }
 
 extension SSOAdminErrorType: Equatable {

@@ -1496,9 +1496,11 @@ extension PartnerCentralSelling {
         public let project: Project?
         /// Specifies details of a customer's procurement terms. This is required only for partners in eligible programs.
         public let softwareRevenue: SoftwareRevenue?
+        /// A map of the key-value pairs of the tag or tags to assign.
+        public let tags: [Tag]?
 
         @inlinable
-        public init(catalog: String, clientToken: String = CreateOpportunityRequest.idempotencyToken(), customer: Customer? = nil, lifeCycle: LifeCycle? = nil, marketing: Marketing? = nil, nationalSecurity: NationalSecurity? = nil, opportunityTeam: [Contact]? = nil, opportunityType: OpportunityType? = nil, origin: OpportunityOrigin? = nil, partnerOpportunityIdentifier: String? = nil, primaryNeedsFromAws: [PrimaryNeedFromAws]? = nil, project: Project? = nil, softwareRevenue: SoftwareRevenue? = nil) {
+        public init(catalog: String, clientToken: String = CreateOpportunityRequest.idempotencyToken(), customer: Customer? = nil, lifeCycle: LifeCycle? = nil, marketing: Marketing? = nil, nationalSecurity: NationalSecurity? = nil, opportunityTeam: [Contact]? = nil, opportunityType: OpportunityType? = nil, origin: OpportunityOrigin? = nil, partnerOpportunityIdentifier: String? = nil, primaryNeedsFromAws: [PrimaryNeedFromAws]? = nil, project: Project? = nil, softwareRevenue: SoftwareRevenue? = nil, tags: [Tag]? = nil) {
             self.catalog = catalog
             self.clientToken = clientToken
             self.customer = customer
@@ -1512,6 +1514,7 @@ extension PartnerCentralSelling {
             self.primaryNeedsFromAws = primaryNeedsFromAws
             self.project = project
             self.softwareRevenue = softwareRevenue
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -1521,9 +1524,14 @@ extension PartnerCentralSelling {
             try self.opportunityTeam?.forEach {
                 try $0.validate(name: "\(name).opportunityTeam[]")
             }
-            try self.validate(self.opportunityTeam, name: "opportunityTeam", parent: name, max: 1)
+            try self.validate(self.opportunityTeam, name: "opportunityTeam", parent: name, max: 2)
             try self.project?.validate(name: "\(name).project")
             try self.softwareRevenue?.validate(name: "\(name).softwareRevenue")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1540,6 +1548,7 @@ extension PartnerCentralSelling {
             case primaryNeedsFromAws = "PrimaryNeedsFromAws"
             case project = "Project"
             case softwareRevenue = "SoftwareRevenue"
+            case tags = "Tags"
         }
     }
 
@@ -2089,9 +2098,9 @@ extension PartnerCentralSelling {
         public let currencyCode: CurrencyCode
         /// A URL providing additional information or context about the spend estimation.
         public let estimationUrl: String?
-        /// Indicates how frequently the customer is expected to spend the projected amount. This can include values such as Monthly, Quarterly, or Annually. The default value is Monthly, representing recurring monthly spend.
+        /// Indicates how frequently the customer is expected to spend the projected amount. Only the value Monthly is allowed for the Frequency field, representing recurring monthly spend.
         public let frequency: PaymentFrequency
-        /// Specifies the name of the partner company that is expected to generate revenue from the opportunity. This field helps track the partner’s involvement in the opportunity.
+        /// Specifies the name of the partner company that is expected to generate revenue from the opportunity. This field helps track the partner’s involvement in the opportunity. This field only accepts the value AWS. If any other value is provided, the system will automatically set it to AWS.
         public let targetCompany: String
 
         @inlinable
@@ -2104,6 +2113,7 @@ extension PartnerCentralSelling {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.amount, name: "amount", parent: name, pattern: "^(0|([1-9][0-9]{0,30}))(\\.[0-9]{0,2})?$")
             try self.validate(self.estimationUrl, name: "estimationUrl", parent: name, max: 255)
             try self.validate(self.estimationUrl, name: "estimationUrl", parent: name, min: 4)
         }
@@ -2733,11 +2743,11 @@ extension PartnerCentralSelling {
         public let nextSteps: String?
         /// Captures a chronological record of the next steps or actions planned or taken for the current opportunity, along with the timestamp.
         public let nextStepsHistory: [NextStepsHistory]?
-        /// Indicates why an opportunity was sent back for further details. Partners must take corrective action based on the ReviewComments.
+        /// Contains detailed feedback from Amazon Web Services when requesting additional information from partners. Provides specific guidance on what partners need to provide or clarify for opportunity validation, complementing the ReviewStatusReason field.
         public let reviewComments: String?
         /// Indicates the review status of an opportunity referred by a partner. This field is read-only and only applicable for partner referrals. The possible values are:   Pending Submission: Not submitted for validation (editable).   Submitted: Submitted for validation, and Amazon Web Services hasn't reviewed it (read-only).   In Review: Amazon Web Services is validating (read-only).   Action Required: Issues that Amazon Web Services highlights need to be addressed. Partners should use the UpdateOpportunity API action to update the opportunity and helps to ensure that all required changes are made. Only the following fields are editable when the Lifecycle.ReviewStatus is Action Required:   Customer.Account.Address.City   Customer.Account.Address.CountryCode   Customer.Account.Address.PostalCode   Customer.Account.Address.StateOrRegion   Customer.Account.Address.StreetAddress   Customer.Account.WebsiteUrl   LifeCycle.TargetCloseDate   Project.ExpectedMonthlyAWSRevenue.Amount   Project.ExpectedMonthlyAWSRevenue.CurrencyCode   Project.CustomerBusinessProblem   PartnerOpportunityIdentifier   After updates, the opportunity re-enters the validation phase. This process repeats until all issues are resolved, and the opportunity's Lifecycle.ReviewStatus is set to Approved or Rejected.   Approved: Validated and converted into the Amazon Web Services seller's pipeline (editable).   Rejected: Disqualified (read-only).
         public let reviewStatus: ReviewStatus?
-        /// Indicates the reason a decision was made during the opportunity review process. This field combines the reasons for both disqualified and action required statuses, and provide clarity for why an opportunity was disqualified or requires further action.
+        /// Code indicating the validation decision during the Amazon Web Services opportunity review. Applies when status is Rejected or Action Required. Used to document validation results for AWS Partner Referrals and indicate when additional information is needed from partners as part of the APN Customer Engagement (ACE) program.
         public let reviewStatusReason: String?
         /// Specifies the current stage of the Opportunity's lifecycle as it maps to Amazon Web Services stages from the current stage in the partner CRM. This field provides a translated value of the stage, and offers insight into the Opportunity's progression in the sales cycle, according to Amazon Web Services definitions.  A lead and a prospect must be further matured to a Qualified opportunity before submission. Opportunities that were closed/lost before submission aren't suitable for submission.  The descriptions of each sales stage are:   Prospect: Amazon Web Services identifies the opportunity. It can be active (Comes directly from the end customer through a lead) or latent (Your account team believes it exists based on research, account plans, sales plays).   Qualified: Your account team engaged with the customer to discuss viability and requirements. The customer agreed that the opportunity is real, of interest, and may solve business/technical needs.   Technical Validation: All parties understand the implementation plan.   Business Validation: Pricing was proposed, and all parties agree to the steps to close.   Committed: The customer signed the contract, but Amazon Web Services hasn't started billing.   Launched: The workload is complete, and Amazon Web Services has started billing.   Closed Lost: The opportunity is lost, and there are no steps to move forward.
         public let stage: Stage?

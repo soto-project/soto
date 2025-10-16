@@ -1096,7 +1096,7 @@ extension IVSRealTime {
         /// Unique identifier for the remote participant. For a subscribe event, this is the publisher. For a publish or join event, this is null. This is assigned by IVS.
         public let remoteParticipantId: String?
         /// If true, this indicates the participantId is a replicated participant.
-        /// 	  If this is a subscribe event, then this flag refers to remoteParticipantId.
+        /// 	  If this is a subscribe event, then this flag refers to remoteParticipantId. Default: false.
         public let replica: Bool?
 
         @inlinable
@@ -1422,16 +1422,20 @@ extension IVSRealTime {
         public let gridGap: Int?
         /// Determines whether to omit participants with stopped video in the composition. Default: false.
         public let omitStoppedVideo: Bool?
+        /// Attribute name in  ParticipantTokenConfiguration identifying the participant ordering key. Participants with participantOrderAttribute set to "" or not specified are ordered based
+        /// 	on their arrival time into the stage.
+        public let participantOrderAttribute: String?
         /// Sets the non-featured participant display mode, to control the aspect ratio of video tiles. VIDEO is 16:9, SQUARE is 1:1, and PORTRAIT is 3:4. Default: VIDEO.
         public let videoAspectRatio: VideoAspectRatio?
         /// Defines how video content fits within the participant tile: FILL (stretched), COVER (cropped), or CONTAIN (letterboxed). When not set, videoFillMode defaults to COVER fill mode for participants in the grid and to CONTAIN fill mode for featured participants.
         public let videoFillMode: VideoFillMode?
 
         @inlinable
-        public init(featuredParticipantAttribute: String? = nil, gridGap: Int? = nil, omitStoppedVideo: Bool? = nil, videoAspectRatio: VideoAspectRatio? = nil, videoFillMode: VideoFillMode? = nil) {
+        public init(featuredParticipantAttribute: String? = nil, gridGap: Int? = nil, omitStoppedVideo: Bool? = nil, participantOrderAttribute: String? = nil, videoAspectRatio: VideoAspectRatio? = nil, videoFillMode: VideoFillMode? = nil) {
             self.featuredParticipantAttribute = featuredParticipantAttribute
             self.gridGap = gridGap
             self.omitStoppedVideo = omitStoppedVideo
+            self.participantOrderAttribute = participantOrderAttribute
             self.videoAspectRatio = videoAspectRatio
             self.videoFillMode = videoFillMode
         }
@@ -1440,12 +1444,15 @@ extension IVSRealTime {
             try self.validate(self.featuredParticipantAttribute, name: "featuredParticipantAttribute", parent: name, max: 128)
             try self.validate(self.featuredParticipantAttribute, name: "featuredParticipantAttribute", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
             try self.validate(self.gridGap, name: "gridGap", parent: name, min: 0)
+            try self.validate(self.participantOrderAttribute, name: "participantOrderAttribute", parent: name, max: 128)
+            try self.validate(self.participantOrderAttribute, name: "participantOrderAttribute", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case featuredParticipantAttribute = "featuredParticipantAttribute"
             case gridGap = "gridGap"
             case omitStoppedVideo = "omitStoppedVideo"
+            case participantOrderAttribute = "participantOrderAttribute"
             case videoAspectRatio = "videoAspectRatio"
             case videoFillMode = "videoFillMode"
         }
@@ -2392,7 +2399,7 @@ extension IVSRealTime {
         public let replicationType: ReplicationType?
         /// ID of the session within the source stage, if replicationType is REPLICA.
         public let sourceSessionId: String?
-        /// ARN of the stage from which this participant is replicated.
+        /// Source stage ARN from which this participant is replicated, if replicationType is REPLICA.
         public let sourceStageArn: String?
         /// Whether the participant is connected to or disconnected from the stage.
         public let state: ParticipantState?
@@ -2578,6 +2585,9 @@ extension IVSRealTime {
         public let gridGap: Int?
         /// Determines whether to omit participants with stopped video in the composition. Default: false.
         public let omitStoppedVideo: Bool?
+        /// Attribute name in  ParticipantTokenConfiguration identifying the participant ordering key. Participants with participantOrderAttribute set to "" or not specified are ordered based
+        /// 	on their arrival time into the stage.
+        public let participantOrderAttribute: String?
         /// Defines PiP behavior when all participants have left: STATIC (maintains original position/size) or DYNAMIC (expands to full composition). Default: STATIC.
         public let pipBehavior: PipBehavior?
         /// Specifies the height of the PiP window in pixels. When this is not set explicitly, pipHeight’s value will be based on the size of the composition and the aspect ratio of the participant’s video.
@@ -2594,10 +2604,11 @@ extension IVSRealTime {
         public let videoFillMode: VideoFillMode?
 
         @inlinable
-        public init(featuredParticipantAttribute: String? = nil, gridGap: Int? = nil, omitStoppedVideo: Bool? = nil, pipBehavior: PipBehavior? = nil, pipHeight: Int? = nil, pipOffset: Int? = nil, pipParticipantAttribute: String? = nil, pipPosition: PipPosition? = nil, pipWidth: Int? = nil, videoFillMode: VideoFillMode? = nil) {
+        public init(featuredParticipantAttribute: String? = nil, gridGap: Int? = nil, omitStoppedVideo: Bool? = nil, participantOrderAttribute: String? = nil, pipBehavior: PipBehavior? = nil, pipHeight: Int? = nil, pipOffset: Int? = nil, pipParticipantAttribute: String? = nil, pipPosition: PipPosition? = nil, pipWidth: Int? = nil, videoFillMode: VideoFillMode? = nil) {
             self.featuredParticipantAttribute = featuredParticipantAttribute
             self.gridGap = gridGap
             self.omitStoppedVideo = omitStoppedVideo
+            self.participantOrderAttribute = participantOrderAttribute
             self.pipBehavior = pipBehavior
             self.pipHeight = pipHeight
             self.pipOffset = pipOffset
@@ -2611,6 +2622,8 @@ extension IVSRealTime {
             try self.validate(self.featuredParticipantAttribute, name: "featuredParticipantAttribute", parent: name, max: 128)
             try self.validate(self.featuredParticipantAttribute, name: "featuredParticipantAttribute", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
             try self.validate(self.gridGap, name: "gridGap", parent: name, min: 0)
+            try self.validate(self.participantOrderAttribute, name: "participantOrderAttribute", parent: name, max: 128)
+            try self.validate(self.participantOrderAttribute, name: "participantOrderAttribute", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
             try self.validate(self.pipHeight, name: "pipHeight", parent: name, min: 1)
             try self.validate(self.pipOffset, name: "pipOffset", parent: name, min: 0)
             try self.validate(self.pipParticipantAttribute, name: "pipParticipantAttribute", parent: name, max: 128)
@@ -2622,6 +2635,7 @@ extension IVSRealTime {
             case featuredParticipantAttribute = "featuredParticipantAttribute"
             case gridGap = "gridGap"
             case omitStoppedVideo = "omitStoppedVideo"
+            case participantOrderAttribute = "participantOrderAttribute"
             case pipBehavior = "pipBehavior"
             case pipHeight = "pipHeight"
             case pipOffset = "pipOffset"

@@ -157,7 +157,7 @@ public struct EntityResolution: AWSService {
         return try await self.batchDeleteUniqueId(input, logger: logger)
     }
 
-    /// Creates an IdMappingWorkflow object which stores the configuration of the data processing job to be run. Each IdMappingWorkflow must have a unique workflow name. To modify an existing workflow, use the UpdateIdMappingWorkflow API.
+    /// Creates an IdMappingWorkflow object which stores the configuration of the data processing job to be run. Each IdMappingWorkflow must have a unique workflow name. To modify an existing workflow, use the UpdateIdMappingWorkflow API.  Incremental processing is not supported for ID mapping workflows.
     @Sendable
     @inlinable
     public func createIdMappingWorkflow(_ input: CreateIdMappingWorkflowInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIdMappingWorkflowOutput {
@@ -170,13 +170,14 @@ public struct EntityResolution: AWSService {
             logger: logger
         )
     }
-    /// Creates an IdMappingWorkflow object which stores the configuration of the data processing job to be run. Each IdMappingWorkflow must have a unique workflow name. To modify an existing workflow, use the UpdateIdMappingWorkflow API.
+    /// Creates an IdMappingWorkflow object which stores the configuration of the data processing job to be run. Each IdMappingWorkflow must have a unique workflow name. To modify an existing workflow, use the UpdateIdMappingWorkflow API.  Incremental processing is not supported for ID mapping workflows.
     ///
     /// Parameters:
     ///   - description: A description of the workflow.
     ///   - idMappingTechniques: An object which defines the ID mapping technique and any additional configurations.
+    ///   - incrementalRunConfig:  The incremental run configuration for the ID mapping workflow.
     ///   - inputSourceConfig: A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
-    ///   - outputSourceConfig: A list of IdMappingWorkflowOutputSource objects, each of which contains fields OutputS3Path and Output.
+    ///   - outputSourceConfig: A list of IdMappingWorkflowOutputSource objects, each of which contains fields outputS3Path and KMSArn.
     ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
     ///   - tags: The tags used to organize, track, or control access for this resource.
     ///   - workflowName: The name of the workflow. There can't be multiple IdMappingWorkflows with the same name.
@@ -185,6 +186,7 @@ public struct EntityResolution: AWSService {
     public func createIdMappingWorkflow(
         description: String? = nil,
         idMappingTechniques: IdMappingTechniques,
+        incrementalRunConfig: IdMappingIncrementalRunConfig? = nil,
         inputSourceConfig: [IdMappingWorkflowInputSource],
         outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil,
         roleArn: String? = nil,
@@ -195,6 +197,7 @@ public struct EntityResolution: AWSService {
         let input = CreateIdMappingWorkflowInput(
             description: description, 
             idMappingTechniques: idMappingTechniques, 
+            incrementalRunConfig: incrementalRunConfig, 
             inputSourceConfig: inputSourceConfig, 
             outputSourceConfig: outputSourceConfig, 
             roleArn: roleArn, 
@@ -251,7 +254,7 @@ public struct EntityResolution: AWSService {
         return try await self.createIdNamespace(input, logger: logger)
     }
 
-    /// Creates a MatchingWorkflow object which stores the configuration of the data processing job to be run. It is important to note that there should not be a pre-existing MatchingWorkflow with the same name. To modify an existing workflow, utilize the UpdateMatchingWorkflow API.
+    /// Creates a matching workflow that defines the configuration for a data processing job. The workflow name must be unique. To modify an existing workflow, use UpdateMatchingWorkflow.   For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
     @Sendable
     @inlinable
     public func createMatchingWorkflow(_ input: CreateMatchingWorkflowInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMatchingWorkflowOutput {
@@ -264,13 +267,13 @@ public struct EntityResolution: AWSService {
             logger: logger
         )
     }
-    /// Creates a MatchingWorkflow object which stores the configuration of the data processing job to be run. It is important to note that there should not be a pre-existing MatchingWorkflow with the same name. To modify an existing workflow, utilize the UpdateMatchingWorkflow API.
+    /// Creates a matching workflow that defines the configuration for a data processing job. The workflow name must be unique. To modify an existing workflow, use UpdateMatchingWorkflow.   For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
     ///
     /// Parameters:
     ///   - description: A description of the workflow.
-    ///   - incrementalRunConfig: An object which defines an incremental run type and has only incrementalRunType as a field.
+    ///   - incrementalRunConfig: Optional. An object that defines the incremental run type. This object contains only the incrementalRunType field, which appears as "Automatic" in the console.   For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
     ///   - inputSourceConfig: A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
-    ///   - outputSourceConfig: A list of OutputSource objects, each of which contains fields OutputS3Path, ApplyNormalization, and Output.
+    ///   - outputSourceConfig: A list of OutputSource objects, each of which contains fields outputS3Path, applyNormalization, KMSArn, and output.
     ///   - resolutionTechniques: An object which defines the resolutionType and the ruleBasedProperties.
     ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
     ///   - tags: The tags used to organize, track, or control access for this resource.
@@ -612,7 +615,7 @@ public struct EntityResolution: AWSService {
         return try await self.getIdNamespace(input, logger: logger)
     }
 
-    /// Returns the corresponding Match ID of a customer record if the record has been processed in a rule-based matching workflow or ML matching workflow. You can call this API as a dry run of an incremental load on the rule-based matching workflow.
+    /// Returns the corresponding Match ID of a customer record if the record has been processed in a rule-based matching workflow. You can call this API as a dry run of an incremental load on the rule-based matching workflow.
     @Sendable
     @inlinable
     public func getMatchId(_ input: GetMatchIdInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMatchIdOutput {
@@ -625,7 +628,7 @@ public struct EntityResolution: AWSService {
             logger: logger
         )
     }
-    /// Returns the corresponding Match ID of a customer record if the record has been processed in a rule-based matching workflow or ML matching workflow. You can call this API as a dry run of an incremental load on the rule-based matching workflow.
+    /// Returns the corresponding Match ID of a customer record if the record has been processed in a rule-based matching workflow. You can call this API as a dry run of an incremental load on the rule-based matching workflow.
     ///
     /// Parameters:
     ///   - applyNormalization: Normalizes the attributes defined in the schema in the input data. For example, if an attribute has an AttributeType of PHONE_NUMBER, and the data in the input table is in a format of 1234567890, Entity Resolution will normalize this field in the output to (123)-456-7890.
@@ -1111,16 +1114,19 @@ public struct EntityResolution: AWSService {
     /// Starts the IdMappingJob of a workflow. The workflow must have previously been created using the CreateIdMappingWorkflow endpoint.
     ///
     /// Parameters:
+    ///   - jobType:  The job type for the ID mapping job. If the jobType value is set to INCREMENTAL, only new or changed data is processed since the last job run. This is the default value if the CreateIdMappingWorkflow API is configured with an incrementalRunConfig. If the jobType value is set to BATCH, all data is processed from the input source, regardless of previous job runs. This is the default value if the CreateIdMappingWorkflow API isn't configured with an incrementalRunConfig. If the jobType value is set to DELETE_ONLY, only deletion requests from BatchDeleteUniqueIds are processed.
     ///   - outputSourceConfig: A list of OutputSource objects.
     ///   - workflowName: The name of the ID mapping job to be retrieved.
     ///   - logger: Logger use during operation
     @inlinable
     public func startIdMappingJob(
+        jobType: JobType? = nil,
         outputSourceConfig: [IdMappingJobOutputSource]? = nil,
         workflowName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartIdMappingJobOutput {
         let input = StartIdMappingJobInput(
+            jobType: jobType, 
             outputSourceConfig: outputSourceConfig, 
             workflowName: workflowName
         )
@@ -1220,7 +1226,7 @@ public struct EntityResolution: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Updates an existing IdMappingWorkflow. This method is identical to CreateIdMappingWorkflow, except it uses an HTTP PUT request instead of a POST request, and the IdMappingWorkflow must already exist for the method to succeed.
+    /// Updates an existing IdMappingWorkflow. This method is identical to CreateIdMappingWorkflow, except it uses an HTTP PUT request instead of a POST request, and the IdMappingWorkflow must already exist for the method to succeed.  Incremental processing is not supported for ID mapping workflows.
     @Sendable
     @inlinable
     public func updateIdMappingWorkflow(_ input: UpdateIdMappingWorkflowInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIdMappingWorkflowOutput {
@@ -1233,13 +1239,14 @@ public struct EntityResolution: AWSService {
             logger: logger
         )
     }
-    /// Updates an existing IdMappingWorkflow. This method is identical to CreateIdMappingWorkflow, except it uses an HTTP PUT request instead of a POST request, and the IdMappingWorkflow must already exist for the method to succeed.
+    /// Updates an existing IdMappingWorkflow. This method is identical to CreateIdMappingWorkflow, except it uses an HTTP PUT request instead of a POST request, and the IdMappingWorkflow must already exist for the method to succeed.  Incremental processing is not supported for ID mapping workflows.
     ///
     /// Parameters:
     ///   - description: A description of the workflow.
     ///   - idMappingTechniques: An object which defines the ID mapping technique and any additional configurations.
+    ///   - incrementalRunConfig:  The incremental run configuration for the update ID mapping workflow.
     ///   - inputSourceConfig: A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
-    ///   - outputSourceConfig: A list of OutputSource objects, each of which contains fields OutputS3Path and KMSArn.
+    ///   - outputSourceConfig: A list of OutputSource objects, each of which contains fields outputS3Path and KMSArn.
     ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access Amazon Web Services resources on your behalf.
     ///   - workflowName: The name of the workflow.
     ///   - logger: Logger use during operation
@@ -1247,6 +1254,7 @@ public struct EntityResolution: AWSService {
     public func updateIdMappingWorkflow(
         description: String? = nil,
         idMappingTechniques: IdMappingTechniques,
+        incrementalRunConfig: IdMappingIncrementalRunConfig? = nil,
         inputSourceConfig: [IdMappingWorkflowInputSource],
         outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil,
         roleArn: String? = nil,
@@ -1256,6 +1264,7 @@ public struct EntityResolution: AWSService {
         let input = UpdateIdMappingWorkflowInput(
             description: description, 
             idMappingTechniques: idMappingTechniques, 
+            incrementalRunConfig: incrementalRunConfig, 
             inputSourceConfig: inputSourceConfig, 
             outputSourceConfig: outputSourceConfig, 
             roleArn: roleArn, 
@@ -1305,7 +1314,7 @@ public struct EntityResolution: AWSService {
         return try await self.updateIdNamespace(input, logger: logger)
     }
 
-    /// Updates an existing MatchingWorkflow. This method is identical to CreateMatchingWorkflow, except it uses an HTTP PUT request instead of a POST request, and the MatchingWorkflow must already exist for the method to succeed.
+    /// Updates an existing matching workflow. The workflow must already exist for this operation to succeed.  For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
     @Sendable
     @inlinable
     public func updateMatchingWorkflow(_ input: UpdateMatchingWorkflowInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMatchingWorkflowOutput {
@@ -1318,13 +1327,13 @@ public struct EntityResolution: AWSService {
             logger: logger
         )
     }
-    /// Updates an existing MatchingWorkflow. This method is identical to CreateMatchingWorkflow, except it uses an HTTP PUT request instead of a POST request, and the MatchingWorkflow must already exist for the method to succeed.
+    /// Updates an existing matching workflow. The workflow must already exist for this operation to succeed.  For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
     ///
     /// Parameters:
     ///   - description: A description of the workflow.
-    ///   - incrementalRunConfig: An object which defines an incremental run type and has only incrementalRunType as a field.
+    ///   - incrementalRunConfig: Optional. An object that defines the incremental run type. This object contains only the incrementalRunType field, which appears as "Automatic" in the console.   For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
     ///   - inputSourceConfig: A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
-    ///   - outputSourceConfig: A list of OutputSource objects, each of which contains fields OutputS3Path, ApplyNormalization, and Output.
+    ///   - outputSourceConfig: A list of OutputSource objects, each of which contains fields outputS3Path, applyNormalization, KMSArn, and output.
     ///   - resolutionTechniques: An object which defines the resolutionType and the ruleBasedProperties.
     ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
     ///   - workflowName: The name of the workflow to be retrieved.

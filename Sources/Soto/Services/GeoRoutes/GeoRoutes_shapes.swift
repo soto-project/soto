@@ -168,6 +168,7 @@ extension GeoRoutes {
         case accuratePolylineUnavailable = "AccuratePolylineUnavailable"
         case noSchedule = "NoSchedule"
         case other = "Other"
+        case potentialViolatedVehicleRestrictionUsage = "PotentialViolatedVehicleRestrictionUsage"
         case seasonalClosure = "SeasonalClosure"
         case violatedAvoidFerry = "ViolatedAvoidFerry"
         case violatedAvoidRailFerry = "ViolatedAvoidRailFerry"
@@ -682,11 +683,11 @@ extension GeoRoutes {
         public let origin: [Double]?
         /// Origin related options.
         public let originOptions: IsolineOriginOptions?
-        /// Threshold to be used for the isoline calculation. Up to 3 thresholds per provided type can be requested. You incur a calculation charge for each threshold. Using a large amount of thresholds in a request can lead you to incur unexpected charges. See  Amazon Location's pricing page for more information.
+        /// Threshold to be used for the isoline calculation. Up to 3 thresholds per provided type can be requested.  You incur a calculation charge for each threshold. Using a large amount of thresholds in a request can lead you to incur unexpected charges. See  Amazon Location's pricing page for more information.
         public let thresholds: IsolineThresholds
         /// Traffic related options.
         public let traffic: IsolineTrafficOptions?
-        /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility.  The mode Scooter also applies to motorcycles, set to Scooter when wanted to calculate options for motorcycles.  Default Value: Car
+        /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility.   The mode Scooter also applies to motorcycles, set to Scooter when wanted to calculate options for motorcycles.  Default Value: Car
         public let travelMode: IsolineTravelMode?
         /// Travel mode related options for the provided travel mode.
         public let travelModeOptions: IsolineTravelModeOptions?

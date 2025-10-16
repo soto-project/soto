@@ -89,6 +89,32 @@ extension Amp {
         public var description: String { return self.rawValue }
     }
 
+    public enum ScraperComponentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Scraper collector component
+        case collector = "COLLECTOR"
+        /// Scraper exporter component
+        case exporter = "EXPORTER"
+        /// Scraper service discoverer component
+        case serviceDiscovery = "SERVICE_DISCOVERY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScraperLoggingConfigurationStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Scraper logging configuration is active.
+        case active = "ACTIVE"
+        /// Scraper logging configuration is being created.
+        case creating = "CREATING"
+        /// Scraper logging configuration creation failed.
+        case creationFailed = "CREATION_FAILED"
+        /// Scraper logging configuration is being deleted.
+        case deleting = "DELETING"
+        /// Scraper logging configuration update failed.
+        case updateFailed = "UPDATE_FAILED"
+        /// Scraper logging configuration is being updated.
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ScraperStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Scraper has been created and is usable.
         case active = "ACTIVE"
@@ -121,6 +147,18 @@ extension Amp {
         /// Workspace configuration update failed.
         case updateFailed = "UPDATE_FAILED"
         /// Workspace configuration is being updated. Update is disallowed until workspace configuration is ACTIVE and workspace status is ACTIVE.
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorkspacePolicyStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Resource-based Policy has been created/updated. Update/Deletion is disallowed until Resource-based Policy is ACTIVE and Workspace is ACTIVE.
+        case active = "ACTIVE"
+        /// Resource-based Policy is being created. Update/Deletion is disallowed until Resource-based Policy is ACTIVE and Workspace is ACTIVE.
+        case creating = "CREATING"
+        /// Resource-based Policy is being deleting. Update/Deletion is disallowed until Resource-based Policy is ACTIVE and Workspace is ACTIVE.
+        case deleting = "DELETING"
+        /// Resource-based Policy is being updated. Update/Deletion is disallowed until Resource-based Policy is ACTIVE and Workspace is ACTIVE.
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
@@ -213,11 +251,25 @@ extension Amp {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, pattern: "^arn:aws[-a-z]*:logs:[-a-z0-9]+:[0-9]{12}:log-group:[A-Za-z0-9\\.\\-\\_\\#/]{1,512}\\:\\*$")
+            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, pattern: "^arn:aws[a-z0-9-]*:logs:[a-z0-9-]+:[0-9]{12}:log-group:[A-Za-z0-9\\.\\-\\_\\#/]{1,512}\\:\\*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case logGroupArn = "logGroupArn"
+        }
+    }
+
+    public struct ComponentConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration options for the scraper component.
+        public let options: [String: String]?
+
+        @inlinable
+        public init(options: [String: String]? = nil) {
+            self.options = options
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case options = "options"
         }
     }
 
@@ -322,7 +374,7 @@ extension Amp {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
-            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, pattern: "^arn:aws[-a-z]*:logs:[-a-z0-9]+:[0-9]{12}:log-group:[A-Za-z0-9\\.\\-\\_\\#/]{1,512}\\:\\*$")
+            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, pattern: "^arn:aws[a-z0-9-]*:logs:[a-z0-9-]+:[0-9]{12}:log-group:[A-Za-z0-9\\.\\-\\_\\#/]{1,512}\\:\\*$")
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
@@ -440,7 +492,7 @@ extension Amp {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
-            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
             try self.tags?.forEach {
@@ -742,6 +794,41 @@ extension Amp {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteResourcePolicyRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the request is safe to retry (idempotent).
+        public let clientToken: String?
+        /// The revision ID of the policy to delete. Use this parameter to ensure that you are deleting the correct version of the policy.
+        public let revisionId: String?
+        /// The ID of the workspace from which to delete the resource-based policy.
+        public let workspaceId: String
+
+        @inlinable
+        public init(clientToken: String? = DeleteResourcePolicyRequest.idempotencyToken(), revisionId: String? = nil, workspaceId: String) {
+            self.clientToken = clientToken
+            self.revisionId = revisionId
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodeQuery(self.revisionId, key: "revisionId")
+            request.encodePath(self.workspaceId, key: "workspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteRuleGroupsNamespaceRequest: AWSEncodableShape {
         /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
         public let clientToken: String?
@@ -769,12 +856,43 @@ extension Amp {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
-            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteScraperLoggingConfigurationRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the request is processed exactly once.
+        public let clientToken: String?
+        /// The ID of the scraper whose logging configuration will be deleted.
+        public let scraperId: String
+
+        @inlinable
+        public init(clientToken: String? = DeleteScraperLoggingConfigurationRequest.idempotencyToken(), scraperId: String) {
+            self.clientToken = clientToken
+            self.scraperId = scraperId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.scraperId, key: "scraperId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.scraperId, name: "scraperId", parent: name, max: 64)
+            try self.validate(self.scraperId, name: "scraperId", parent: name, min: 1)
+            try self.validate(self.scraperId, name: "scraperId", parent: name, pattern: "^[0-9A-Za-z][-.0-9A-Z_a-z]*$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -974,6 +1092,52 @@ extension Amp {
         }
     }
 
+    public struct DescribeResourcePolicyRequest: AWSEncodableShape {
+        /// The ID of the workspace to describe the resource-based policy for.
+        public let workspaceId: String
+
+        @inlinable
+        public init(workspaceId: String) {
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.workspaceId, key: "workspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeResourcePolicyResponse: AWSDecodableShape {
+        /// The JSON policy document for the resource-based policy attached to the workspace.
+        public let policyDocument: String
+        /// The current status of the resource-based policy.
+        public let policyStatus: WorkspacePolicyStatusCode
+        /// The revision ID of the current resource-based policy.
+        public let revisionId: String
+
+        @inlinable
+        public init(policyDocument: String, policyStatus: WorkspacePolicyStatusCode, revisionId: String) {
+            self.policyDocument = policyDocument
+            self.policyStatus = policyStatus
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyDocument = "policyDocument"
+            case policyStatus = "policyStatus"
+            case revisionId = "revisionId"
+        }
+    }
+
     public struct DescribeRuleGroupsNamespaceRequest: AWSEncodableShape {
         /// The name of the rule groups namespace that you want information for.
         public let name: String
@@ -994,7 +1158,7 @@ extension Amp {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
@@ -1016,6 +1180,60 @@ extension Amp {
 
         private enum CodingKeys: String, CodingKey {
             case ruleGroupsNamespace = "ruleGroupsNamespace"
+        }
+    }
+
+    public struct DescribeScraperLoggingConfigurationRequest: AWSEncodableShape {
+        /// The ID of the scraper whose logging configuration will be described.
+        public let scraperId: String
+
+        @inlinable
+        public init(scraperId: String) {
+            self.scraperId = scraperId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.scraperId, key: "scraperId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.scraperId, name: "scraperId", parent: name, max: 64)
+            try self.validate(self.scraperId, name: "scraperId", parent: name, min: 1)
+            try self.validate(self.scraperId, name: "scraperId", parent: name, pattern: "^[0-9A-Za-z][-.0-9A-Z_a-z]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeScraperLoggingConfigurationResponse: AWSDecodableShape {
+        /// The destination where scraper logs are sent.
+        public let loggingDestination: ScraperLoggingDestination
+        /// The date and time when the logging configuration was last modified.
+        public let modifiedAt: Date
+        /// The list of scraper components configured for logging.
+        public let scraperComponents: [ScraperComponent]
+        /// The ID of the scraper.
+        public let scraperId: String
+        /// The status of the scraper logging configuration.
+        public let status: ScraperLoggingConfigurationStatus
+
+        @inlinable
+        public init(loggingDestination: ScraperLoggingDestination, modifiedAt: Date, scraperComponents: [ScraperComponent], scraperId: String, status: ScraperLoggingConfigurationStatus) {
+            self.loggingDestination = loggingDestination
+            self.modifiedAt = modifiedAt
+            self.scraperComponents = scraperComponents
+            self.scraperId = scraperId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loggingDestination = "loggingDestination"
+            case modifiedAt = "modifiedAt"
+            case scraperComponents = "scraperComponents"
+            case scraperId = "scraperId"
+            case status = "status"
         }
     }
 
@@ -1281,7 +1499,7 @@ extension Amp {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
@@ -1585,6 +1803,67 @@ extension Amp {
         }
     }
 
+    public struct PutResourcePolicyRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the request is safe to retry (idempotent).
+        public let clientToken: String?
+        /// The JSON policy document to use as the resource-based policy. This policy defines the permissions that other AWS accounts or services have to access your workspace.
+        public let policyDocument: String
+        /// The revision ID of the policy to update. Use this parameter to ensure that you are updating the correct version of the policy. If you don't specify a revision ID, the policy is updated regardless of its current revision. For the first PUT request on a workspace that doesn't have an existing resource policy, you can specify NO_POLICY as the revision ID.
+        public let revisionId: String?
+        /// The ID of the workspace to attach the resource-based policy to.
+        public let workspaceId: String
+
+        @inlinable
+        public init(clientToken: String? = PutResourcePolicyRequest.idempotencyToken(), policyDocument: String, revisionId: String? = nil, workspaceId: String) {
+            self.clientToken = clientToken
+            self.policyDocument = policyDocument
+            self.revisionId = revisionId
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.policyDocument, forKey: .policyDocument)
+            try container.encodeIfPresent(self.revisionId, forKey: .revisionId)
+            request.encodePath(self.workspaceId, key: "workspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case policyDocument = "policyDocument"
+            case revisionId = "revisionId"
+        }
+    }
+
+    public struct PutResourcePolicyResponse: AWSDecodableShape {
+        /// The current status of the resource-based policy.
+        public let policyStatus: WorkspacePolicyStatusCode
+        /// The revision ID of the newly created or updated resource-based policy.
+        public let revisionId: String
+
+        @inlinable
+        public init(policyStatus: WorkspacePolicyStatusCode, revisionId: String) {
+            self.policyStatus = policyStatus
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyStatus = "policyStatus"
+            case revisionId = "revisionId"
+        }
+    }
+
     public struct PutRuleGroupsNamespaceRequest: AWSEncodableShape {
         /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
         public let clientToken: String?
@@ -1616,7 +1895,7 @@ extension Amp {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
-            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
@@ -1839,6 +2118,24 @@ extension Amp {
         }
     }
 
+    public struct ScraperComponent: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration settings for the scraper component.
+        public let config: ComponentConfig?
+        /// The type of the scraper component.
+        public let type: ScraperComponentType
+
+        @inlinable
+        public init(config: ComponentConfig? = nil, type: ScraperComponentType) {
+            self.config = config
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case config = "config"
+            case type = "type"
+        }
+    }
+
     public struct ScraperDescription: AWSDecodableShape {
         /// (Optional) A name associated with the scraper.
         public let alias: String?
@@ -1898,6 +2195,24 @@ extension Amp {
             case status = "status"
             case statusReason = "statusReason"
             case tags = "tags"
+        }
+    }
+
+    public struct ScraperLoggingConfigurationStatus: AWSDecodableShape {
+        /// The status code of the scraper logging configuration.
+        public let statusCode: ScraperLoggingConfigurationStatusCode
+        /// The reason for the current status of the scraper logging configuration.
+        public let statusReason: String?
+
+        @inlinable
+        public init(statusCode: ScraperLoggingConfigurationStatusCode, statusReason: String? = nil) {
+            self.statusCode = statusCode
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statusCode = "statusCode"
+            case statusReason = "statusReason"
         }
     }
 
@@ -2137,7 +2452,7 @@ extension Amp {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
-            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, pattern: "^arn:aws[-a-z]*:logs:[-a-z0-9]+:[0-9]{12}:log-group:[A-Za-z0-9\\.\\-\\_\\#/]{1,512}\\:\\*$")
+            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, pattern: "^arn:aws[a-z0-9-]*:logs:[a-z0-9-]+:[0-9]{12}:log-group:[A-Za-z0-9\\.\\-\\_\\#/]{1,512}\\:\\*$")
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
@@ -2212,6 +2527,57 @@ extension Amp {
 
         @inlinable
         public init(status: QueryLoggingConfigurationStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
+    public struct UpdateScraperLoggingConfigurationRequest: AWSEncodableShape {
+        /// The destination where scraper logs will be sent.
+        public let loggingDestination: ScraperLoggingDestination
+        /// The list of scraper components to configure for logging.
+        public let scraperComponents: [ScraperComponent]?
+        /// The ID of the scraper whose logging configuration will be updated.
+        public let scraperId: String
+
+        @inlinable
+        public init(loggingDestination: ScraperLoggingDestination, scraperComponents: [ScraperComponent]? = nil, scraperId: String) {
+            self.loggingDestination = loggingDestination
+            self.scraperComponents = scraperComponents
+            self.scraperId = scraperId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.loggingDestination, forKey: .loggingDestination)
+            try container.encodeIfPresent(self.scraperComponents, forKey: .scraperComponents)
+            request.encodePath(self.scraperId, key: "scraperId")
+        }
+
+        public func validate(name: String) throws {
+            try self.loggingDestination.validate(name: "\(name).loggingDestination")
+            try self.validate(self.scraperComponents, name: "scraperComponents", parent: name, min: 1)
+            try self.validate(self.scraperId, name: "scraperId", parent: name, max: 64)
+            try self.validate(self.scraperId, name: "scraperId", parent: name, min: 1)
+            try self.validate(self.scraperId, name: "scraperId", parent: name, pattern: "^[0-9A-Za-z][-.0-9A-Z_a-z]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loggingDestination = "loggingDestination"
+            case scraperComponents = "scraperComponents"
+        }
+    }
+
+    public struct UpdateScraperLoggingConfigurationResponse: AWSDecodableShape {
+        /// The status of the updated scraper logging configuration.
+        public let status: ScraperLoggingConfigurationStatus
+
+        @inlinable
+        public init(status: ScraperLoggingConfigurationStatus) {
             self.status = status
         }
 
@@ -2607,6 +2973,24 @@ extension Amp {
 
         private enum CodingKeys: String, CodingKey {
             case configurationBlob = "configurationBlob"
+        }
+    }
+
+    public struct ScraperLoggingDestination: AWSEncodableShape & AWSDecodableShape {
+        /// The CloudWatch Logs configuration for the scraper logging destination.
+        public let cloudWatchLogs: CloudWatchLogDestination?
+
+        @inlinable
+        public init(cloudWatchLogs: CloudWatchLogDestination? = nil) {
+            self.cloudWatchLogs = cloudWatchLogs
+        }
+
+        public func validate(name: String) throws {
+            try self.cloudWatchLogs?.validate(name: "\(name).cloudWatchLogs")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogs = "cloudWatchLogs"
         }
     }
 

@@ -90,6 +90,12 @@ extension ChimeSDKVoice {
         public var description: String { return self.rawValue }
     }
 
+    public enum NetworkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dualStack = "DUAL_STACK"
+        case ipv4Only = "IPV4_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NotificationTarget: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case eventBridge = "EventBridge"
         case sns = "SNS"
@@ -886,16 +892,19 @@ extension ChimeSDKVoice {
         public let integrationType: VoiceConnectorIntegrationType?
         /// The name of the Voice Connector.
         public let name: String
+        /// The type of network for the Voice Connector. Either IPv4 only or dual-stack (IPv4 and IPv6).
+        public let networkType: NetworkType?
         /// Enables or disables encryption for the Voice Connector.
         public let requireEncryption: Bool
         /// The tags assigned to the Voice Connector.
         public let tags: [Tag]?
 
         @inlinable
-        public init(awsRegion: VoiceConnectorAwsRegion? = nil, integrationType: VoiceConnectorIntegrationType? = nil, name: String, requireEncryption: Bool, tags: [Tag]? = nil) {
+        public init(awsRegion: VoiceConnectorAwsRegion? = nil, integrationType: VoiceConnectorIntegrationType? = nil, name: String, networkType: NetworkType? = nil, requireEncryption: Bool, tags: [Tag]? = nil) {
             self.awsRegion = awsRegion
             self.integrationType = integrationType
             self.name = name
+            self.networkType = networkType
             self.requireEncryption = requireEncryption
             self.tags = tags
         }
@@ -915,6 +924,7 @@ extension ChimeSDKVoice {
             case awsRegion = "AwsRegion"
             case integrationType = "IntegrationType"
             case name = "Name"
+            case networkType = "NetworkType"
             case requireEncryption = "RequireEncryption"
             case tags = "Tags"
         }
@@ -5391,6 +5401,8 @@ extension ChimeSDKVoice {
         public let integrationType: VoiceConnectorIntegrationType?
         /// The Voice Connector's name.
         public let name: String?
+        /// The type of network of the Voice Connector. Either IPv4 only or dual-stack (IPv4 and IPv6).
+        public let networkType: NetworkType?
         /// The outbound host name for the Voice Connector.
         public let outboundHostName: String?
         /// Enables or disables encryption for the Voice Connector.
@@ -5404,11 +5416,12 @@ extension ChimeSDKVoice {
         public let voiceConnectorId: String?
 
         @inlinable
-        public init(awsRegion: VoiceConnectorAwsRegion? = nil, createdTimestamp: Date? = nil, integrationType: VoiceConnectorIntegrationType? = nil, name: String? = nil, outboundHostName: String? = nil, requireEncryption: Bool? = nil, updatedTimestamp: Date? = nil, voiceConnectorArn: String? = nil, voiceConnectorId: String? = nil) {
+        public init(awsRegion: VoiceConnectorAwsRegion? = nil, createdTimestamp: Date? = nil, integrationType: VoiceConnectorIntegrationType? = nil, name: String? = nil, networkType: NetworkType? = nil, outboundHostName: String? = nil, requireEncryption: Bool? = nil, updatedTimestamp: Date? = nil, voiceConnectorArn: String? = nil, voiceConnectorId: String? = nil) {
             self.awsRegion = awsRegion
             self.createdTimestamp = createdTimestamp
             self.integrationType = integrationType
             self.name = name
+            self.networkType = networkType
             self.outboundHostName = outboundHostName
             self.requireEncryption = requireEncryption
             self.updatedTimestamp = updatedTimestamp
@@ -5421,6 +5434,7 @@ extension ChimeSDKVoice {
             case createdTimestamp = "CreatedTimestamp"
             case integrationType = "IntegrationType"
             case name = "Name"
+            case networkType = "NetworkType"
             case outboundHostName = "OutboundHostName"
             case requireEncryption = "RequireEncryption"
             case updatedTimestamp = "UpdatedTimestamp"

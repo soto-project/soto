@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS ApplicationSignals service.
 ///
-/// Use CloudWatch Application Signals for comprehensive observability of your cloud-based applications.  It enables real-time service health dashboards and helps you track long-term performance trends against your business goals.  The application-centric view provides you with unified visibility across your applications, services, and  dependencies, so you can proactively monitor and efficiently triage any issues that may arise,  ensuring optimal customer experience. Application Signals provides the following benefits:   Automatically collect metrics and traces from your applications, and display key metrics such as call volume, availability, latency, faults, and errors.    Create and monitor service level objectives (SLOs).    See a map of your application topology that Application Signals automatically discovers, that gives you a visual representation of your applications, dependencies, and their connectivity.   Application Signals works with CloudWatch RUM, CloudWatch Synthetics canaries, and Amazon Web Services Service Catalog AppRegistry, to display your client pages, Synthetics canaries,  and application names within dashboards and maps.
+/// Use CloudWatch Application Signals for comprehensive observability of your cloud-based applications. It enables real-time service health dashboards and helps you track long-term performance trends against your business goals. The application-centric view provides you with unified visibility across your applications, services, and dependencies, so you can proactively monitor and efficiently triage any issues that may arise, ensuring optimal customer experience. Application Signals provides the following benefits:   Automatically collect metrics and traces from your applications, and display key metrics such as call volume, availability, latency, faults, and errors.    Create and monitor service level objectives (SLOs).    See a map of your application topology that Application Signals automatically discovers, that gives you a visual representation of your applications, dependencies, and their connectivity.   Application Signals works with CloudWatch RUM, CloudWatch Synthetics canaries, and Amazon Web Services Service Catalog AppRegistry, to display your client pages, Synthetics canaries, and application names within dashboards and maps.
 public struct ApplicationSignals: AWSService {
     // MARK: Member variables
 
@@ -78,7 +78,7 @@ public struct ApplicationSignals: AWSService {
 
     // MARK: API Calls
 
-    /// Use this operation to retrieve one or more service level objective (SLO) budget reports. An error budget is the amount of time or requests in an unhealthy state that your service can  accumulate during an interval before your overall SLO budget health is breached and the SLO is considered to be unmet. For example, an SLO with a threshold of 99.95% and a monthly interval translates to an error budget of 21.9 minutes of  downtime in a 30-day month. Budget reports include a health indicator, the attainment value, and  remaining budget. For more information about SLO error budgets, see   SLO concepts.
+    /// Use this operation to retrieve one or more service level objective (SLO) budget reports. An error budget is the amount of time or requests in an unhealthy state that your service can accumulate during an interval before your overall SLO budget health is breached and the SLO is considered to be unmet. For example, an SLO with a threshold of 99.95% and a monthly interval translates to an error budget of 21.9 minutes of downtime in a 30-day month. Budget reports include a health indicator, the attainment value, and remaining budget. For more information about SLO error budgets, see  SLO concepts.
     @Sendable
     @inlinable
     public func batchGetServiceLevelObjectiveBudgetReport(_ input: BatchGetServiceLevelObjectiveBudgetReportInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetServiceLevelObjectiveBudgetReportOutput {
@@ -91,7 +91,7 @@ public struct ApplicationSignals: AWSService {
             logger: logger
         )
     }
-    /// Use this operation to retrieve one or more service level objective (SLO) budget reports. An error budget is the amount of time or requests in an unhealthy state that your service can  accumulate during an interval before your overall SLO budget health is breached and the SLO is considered to be unmet. For example, an SLO with a threshold of 99.95% and a monthly interval translates to an error budget of 21.9 minutes of  downtime in a 30-day month. Budget reports include a health indicator, the attainment value, and  remaining budget. For more information about SLO error budgets, see   SLO concepts.
+    /// Use this operation to retrieve one or more service level objective (SLO) budget reports. An error budget is the amount of time or requests in an unhealthy state that your service can accumulate during an interval before your overall SLO budget health is breached and the SLO is considered to be unmet. For example, an SLO with a threshold of 99.95% and a monthly interval translates to an error budget of 21.9 minutes of downtime in a 30-day month. Budget reports include a health indicator, the attainment value, and remaining budget. For more information about SLO error budgets, see  SLO concepts.
     ///
     /// Parameters:
     ///   - sloIds: An array containing the IDs of the service level objectives that you want to include in the report.
@@ -145,7 +145,7 @@ public struct ApplicationSignals: AWSService {
         return try await self.batchUpdateExclusionWindows(input, logger: logger)
     }
 
-    /// Creates a service level objective (SLO), which can help you ensure that your critical business operations are  meeting customer expectations. Use SLOs to set and track specific target levels for the reliability and availability of your applications and services. SLOs use service level indicators (SLIs) to  calculate whether the application is performing at the level that you want. Create an SLO to set a target for a service or operation’s availability or latency. CloudWatch measures this target frequently you can find whether it has been breached.  The target performance quality that is defined for an SLO is the attainment goal. You can set SLO targets for your applications that are discovered by Application Signals, using critical metrics such as latency and availability.  You can also set SLOs against any CloudWatch metric or math expression that produces a time series.  You can't create an SLO for a service operation that was discovered by Application Signals until after that operation has reported standard metrics to Application Signals.  When you create an SLO, you specify whether it is a period-based SLO or a request-based SLO. Each type of SLO has a different way of evaluating  your application's performance against its attainment goal.   A period-based SLO uses defined periods of time within  a specified total time interval. For each period of time, Application Signals determines whether the  application met its goal. The attainment rate is calculated as the number of good periods/number of total periods. For example, for a period-based SLO, meeting an attainment goal of 99.9% means that within your interval, your application must meet its performance goal during at least 99.9% of the  time periods.   A request-based SLO doesn't use pre-defined periods of time. Instead,  the SLO measures number of good requests/number of total requests during the interval. At any time, you can find the ratio of  good requests to total requests for the interval up to the time stamp that you specify, and measure that ratio against the goal set in your SLO.   After you have created an SLO, you can retrieve error budget reports for it.  An error budget is the amount of time or amount of requests that your application can be non-compliant with the SLO's goal, and still have your application meet the goal.   For a period-based SLO, the error budget starts at a number defined by the highest number of periods that can fail to meet the threshold,  while still meeting the overall goal. The remaining error budget decreases with every failed period that is recorded. The error budget within one interval can never increase. For example, an SLO with a threshold that 99.95% of requests must be completed under 2000ms every month  translates to an error budget of 21.9 minutes of downtime per month.   For a request-based SLO, the remaining error budget is dynamic and can increase or decrease, depending on  the ratio of good requests to total requests.   For more information about SLOs, see  Service level objectives (SLOs).  When you perform a CreateServiceLevelObjective operation, Application Signals creates the AWSServiceRoleForCloudWatchApplicationSignals service-linked role,  if it doesn't already exist in your account. This service- linked role has the following permissions:    xray:GetServiceGraph     logs:StartQuery     logs:GetQueryResults     cloudwatch:GetMetricData     cloudwatch:ListMetrics     tag:GetResources     autoscaling:DescribeAutoScalingGroups
+    /// Creates a service level objective (SLO), which can help you ensure that your critical business operations are meeting customer expectations. Use SLOs to set and track specific target levels for the reliability and availability of your applications and services. SLOs use service level indicators (SLIs) to calculate whether the application is performing at the level that you want. Create an SLO to set a target for a service or operation’s availability or latency. CloudWatch measures this target frequently you can find whether it has been breached.  The target performance quality that is defined for an SLO is the attainment goal. You can set SLO targets for your applications that are discovered by Application Signals, using critical metrics such as latency and availability. You can also set SLOs against any CloudWatch metric or math expression that produces a time series.  You can't create an SLO for a service operation that was discovered by Application Signals until after that operation has reported standard metrics to Application Signals.  When you create an SLO, you specify whether it is a period-based SLO or a request-based SLO. Each type of SLO has a different way of evaluating your application's performance against its attainment goal.   A period-based SLO uses defined periods of time within a specified total time interval. For each period of time, Application Signals determines whether the application met its goal. The attainment rate is calculated as the number of good periods/number of total periods. For example, for a period-based SLO, meeting an attainment goal of 99.9% means that within your interval, your application must meet its performance goal during at least 99.9% of the time periods.   A request-based SLO doesn't use pre-defined periods of time. Instead, the SLO measures number of good requests/number of total requests during the interval. At any time, you can find the ratio of good requests to total requests for the interval up to the time stamp that you specify, and measure that ratio against the goal set in your SLO.   After you have created an SLO, you can retrieve error budget reports for it. An error budget is the amount of time or amount of requests that your application can be non-compliant with the SLO's goal, and still have your application meet the goal.   For a period-based SLO, the error budget starts at a number defined by the highest number of periods that can fail to meet the threshold, while still meeting the overall goal. The remaining error budget decreases with every failed period that is recorded. The error budget within one interval can never increase. For example, an SLO with a threshold that 99.95% of requests must be completed under 2000ms every month translates to an error budget of 21.9 minutes of downtime per month.   For a request-based SLO, the remaining error budget is dynamic and can increase or decrease, depending on the ratio of good requests to total requests.   For more information about SLOs, see  Service level objectives (SLOs).  When you perform a CreateServiceLevelObjective operation, Application Signals creates the AWSServiceRoleForCloudWatchApplicationSignals service-linked role, if it doesn't already exist in your account. This service- linked role has the following permissions:    xray:GetServiceGraph     logs:StartQuery     logs:GetQueryResults     cloudwatch:GetMetricData     cloudwatch:ListMetrics     tag:GetResources     autoscaling:DescribeAutoScalingGroups
     @Sendable
     @inlinable
     public func createServiceLevelObjective(_ input: CreateServiceLevelObjectiveInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateServiceLevelObjectiveOutput {
@@ -158,10 +158,10 @@ public struct ApplicationSignals: AWSService {
             logger: logger
         )
     }
-    /// Creates a service level objective (SLO), which can help you ensure that your critical business operations are  meeting customer expectations. Use SLOs to set and track specific target levels for the reliability and availability of your applications and services. SLOs use service level indicators (SLIs) to  calculate whether the application is performing at the level that you want. Create an SLO to set a target for a service or operation’s availability or latency. CloudWatch measures this target frequently you can find whether it has been breached.  The target performance quality that is defined for an SLO is the attainment goal. You can set SLO targets for your applications that are discovered by Application Signals, using critical metrics such as latency and availability.  You can also set SLOs against any CloudWatch metric or math expression that produces a time series.  You can't create an SLO for a service operation that was discovered by Application Signals until after that operation has reported standard metrics to Application Signals.  When you create an SLO, you specify whether it is a period-based SLO or a request-based SLO. Each type of SLO has a different way of evaluating  your application's performance against its attainment goal.   A period-based SLO uses defined periods of time within  a specified total time interval. For each period of time, Application Signals determines whether the  application met its goal. The attainment rate is calculated as the number of good periods/number of total periods. For example, for a period-based SLO, meeting an attainment goal of 99.9% means that within your interval, your application must meet its performance goal during at least 99.9% of the  time periods.   A request-based SLO doesn't use pre-defined periods of time. Instead,  the SLO measures number of good requests/number of total requests during the interval. At any time, you can find the ratio of  good requests to total requests for the interval up to the time stamp that you specify, and measure that ratio against the goal set in your SLO.   After you have created an SLO, you can retrieve error budget reports for it.  An error budget is the amount of time or amount of requests that your application can be non-compliant with the SLO's goal, and still have your application meet the goal.   For a period-based SLO, the error budget starts at a number defined by the highest number of periods that can fail to meet the threshold,  while still meeting the overall goal. The remaining error budget decreases with every failed period that is recorded. The error budget within one interval can never increase. For example, an SLO with a threshold that 99.95% of requests must be completed under 2000ms every month  translates to an error budget of 21.9 minutes of downtime per month.   For a request-based SLO, the remaining error budget is dynamic and can increase or decrease, depending on  the ratio of good requests to total requests.   For more information about SLOs, see  Service level objectives (SLOs).  When you perform a CreateServiceLevelObjective operation, Application Signals creates the AWSServiceRoleForCloudWatchApplicationSignals service-linked role,  if it doesn't already exist in your account. This service- linked role has the following permissions:    xray:GetServiceGraph     logs:StartQuery     logs:GetQueryResults     cloudwatch:GetMetricData     cloudwatch:ListMetrics     tag:GetResources     autoscaling:DescribeAutoScalingGroups
+    /// Creates a service level objective (SLO), which can help you ensure that your critical business operations are meeting customer expectations. Use SLOs to set and track specific target levels for the reliability and availability of your applications and services. SLOs use service level indicators (SLIs) to calculate whether the application is performing at the level that you want. Create an SLO to set a target for a service or operation’s availability or latency. CloudWatch measures this target frequently you can find whether it has been breached.  The target performance quality that is defined for an SLO is the attainment goal. You can set SLO targets for your applications that are discovered by Application Signals, using critical metrics such as latency and availability. You can also set SLOs against any CloudWatch metric or math expression that produces a time series.  You can't create an SLO for a service operation that was discovered by Application Signals until after that operation has reported standard metrics to Application Signals.  When you create an SLO, you specify whether it is a period-based SLO or a request-based SLO. Each type of SLO has a different way of evaluating your application's performance against its attainment goal.   A period-based SLO uses defined periods of time within a specified total time interval. For each period of time, Application Signals determines whether the application met its goal. The attainment rate is calculated as the number of good periods/number of total periods. For example, for a period-based SLO, meeting an attainment goal of 99.9% means that within your interval, your application must meet its performance goal during at least 99.9% of the time periods.   A request-based SLO doesn't use pre-defined periods of time. Instead, the SLO measures number of good requests/number of total requests during the interval. At any time, you can find the ratio of good requests to total requests for the interval up to the time stamp that you specify, and measure that ratio against the goal set in your SLO.   After you have created an SLO, you can retrieve error budget reports for it. An error budget is the amount of time or amount of requests that your application can be non-compliant with the SLO's goal, and still have your application meet the goal.   For a period-based SLO, the error budget starts at a number defined by the highest number of periods that can fail to meet the threshold, while still meeting the overall goal. The remaining error budget decreases with every failed period that is recorded. The error budget within one interval can never increase. For example, an SLO with a threshold that 99.95% of requests must be completed under 2000ms every month translates to an error budget of 21.9 minutes of downtime per month.   For a request-based SLO, the remaining error budget is dynamic and can increase or decrease, depending on the ratio of good requests to total requests.   For more information about SLOs, see  Service level objectives (SLOs).  When you perform a CreateServiceLevelObjective operation, Application Signals creates the AWSServiceRoleForCloudWatchApplicationSignals service-linked role, if it doesn't already exist in your account. This service- linked role has the following permissions:    xray:GetServiceGraph     logs:StartQuery     logs:GetQueryResults     cloudwatch:GetMetricData     cloudwatch:ListMetrics     tag:GetResources     autoscaling:DescribeAutoScalingGroups
     ///
     /// Parameters:
-    ///   - burnRateConfigurations: Use this array to create burn rates for this SLO. Each  burn rate is a metric that indicates how fast the service is consuming the error budget, relative to the attainment goal of the SLO.
+    ///   - burnRateConfigurations: Use this array to create burn rates for this SLO. Each burn rate is a metric that indicates how fast the service is consuming the error budget, relative to the attainment goal of the SLO.
     ///   - description: An optional description for this SLO.
     ///   - goal: This structure contains the attributes that determine the goal of the SLO.
     ///   - name: A name for this SLO.
@@ -190,6 +190,19 @@ public struct ApplicationSignals: AWSService {
             tags: tags
         )
         return try await self.createServiceLevelObjective(input, logger: logger)
+    }
+
+    /// Deletes the grouping configuration for this account. This removes all custom grouping attribute definitions that were previously configured.
+    @Sendable
+    @inlinable
+    public func deleteGroupingConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGroupingConfigurationOutput {
+        try await self.client.execute(
+            operation: "DeleteGroupingConfiguration", 
+            path: "/grouping-configuration", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified service level objective.
@@ -237,9 +250,9 @@ public struct ApplicationSignals: AWSService {
     /// Returns information about a service discovered by Application Signals.
     ///
     /// Parameters:
-    ///   - endTime: The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
-    ///   - keyAttributes: Use this field to specify which service you want to retrieve information for. You must specify at least the Type,  Name, and Environment attributes. This is a string-to-string map. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
-    ///   - startTime: The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
+    ///   - endTime: The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
+    ///   - keyAttributes: Use this field to specify which service you want to retrieve information for. You must specify at least the Type, Name, and Environment attributes. This is a string-to-string map. It can include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
+    ///   - startTime: The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
     ///   - logger: Logger use during operation
     @inlinable
     public func getService(
@@ -272,7 +285,7 @@ public struct ApplicationSignals: AWSService {
     /// Returns information about one SLO created in the account.
     ///
     /// Parameters:
-    ///   - id: The ARN or name of the SLO that you want to retrieve information about. You can find the ARNs  of SLOs by using the ListServiceLevelObjectives operation.
+    ///   - id: The ARN or name of the SLO that you want to retrieve information about. You can find the ARNs of SLOs by using the ListServiceLevelObjectives operation.
     ///   - logger: Logger use during operation
     @inlinable
     public func getServiceLevelObjective(
@@ -285,7 +298,80 @@ public struct ApplicationSignals: AWSService {
         return try await self.getServiceLevelObjective(input, logger: logger)
     }
 
-    /// Returns a list of service dependencies of the service that you specify. A dependency is an infrastructure  component that an operation of this service connects with. Dependencies can include Amazon Web Services  services, Amazon Web Services resources, and third-party services.
+    /// Returns a list of audit findings that provide automated analysis of service behavior and root cause analysis. These findings help identify the most significant observations about your services, including performance issues, anomalies, and potential problems. The findings are generated using heuristic algorithms based on established troubleshooting patterns.
+    @Sendable
+    @inlinable
+    public func listAuditFindings(_ input: ListAuditFindingsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAuditFindingsOutput {
+        try await self.client.execute(
+            operation: "ListAuditFindings", 
+            path: "/auditFindings", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of audit findings that provide automated analysis of service behavior and root cause analysis. These findings help identify the most significant observations about your services, including performance issues, anomalies, and potential problems. The findings are generated using heuristic algorithms based on established troubleshooting patterns.
+    ///
+    /// Parameters:
+    ///   - auditors: A list of auditor names to filter the findings by. Only findings generated by the specified auditors will be returned. The following auditors are available for configuration:    slo - SloAuditor: Identifies SLO violations and detects breached thresholds during the Assessment phase.    operation_metric - OperationMetricAuditor: Detects anomalies in service operation metrics from Application Signals RED metrics during the Assessment phase    service_quota - ServiceQuotaAuditor: Monitors resource utilization against service quotas during the Assessment phase    trace - TraceAuditor: Performs deep-dive analysis of distributed traces, correlating traces with breached SLOs or abnormal RED metrics during the Analysis phase    dependency_metric - CriticalPathAuditor: Analyzes service dependency impacts and maps dependency relationships from Application Signals RED metrics during the Analysis phase    top_contributor - TopContributorAuditor: Identifies infrastructure-level contributors to issues by analyzing EMF logs of Application Signals RED metrics during the Analysis phase    log - LogAuditor: Extracts insights from application logs, categorizing error types and ranking severity by frequency during the Analysis phase     InitAuditor and Summarizer auditors are not configurable as they are automatically triggered during the audit process.
+    ///   - auditTargets: A list of audit targets to filter the findings by. You can specify services, SLOs, or service operations to limit the audit findings to specific entities.
+    ///   - endTime: The end of the time period to retrieve audit findings for. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example, 1698778057
+    ///   - maxResults: The maximum number of audit findings to return in one operation. If you omit this parameter, the default of 10 is used.
+    ///   - nextToken: Include this value, if it was returned by the previous operation, to get the next set of audit findings.
+    ///   - startTime: The start of the time period to retrieve audit findings for. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example, 1698778057
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAuditFindings(
+        auditors: [String]? = nil,
+        auditTargets: [AuditTarget],
+        endTime: Date,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        startTime: Date,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAuditFindingsOutput {
+        let input = ListAuditFindingsInput(
+            auditors: auditors, 
+            auditTargets: auditTargets, 
+            endTime: endTime, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            startTime: startTime
+        )
+        return try await self.listAuditFindings(input, logger: logger)
+    }
+
+    /// Returns the current grouping configuration for this account, including all custom grouping attribute definitions that have been configured. These definitions determine how services are logically grouped based on telemetry attributes, Amazon Web Services tags, or predefined mappings.
+    @Sendable
+    @inlinable
+    public func listGroupingAttributeDefinitions(_ input: ListGroupingAttributeDefinitionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGroupingAttributeDefinitionsOutput {
+        try await self.client.execute(
+            operation: "ListGroupingAttributeDefinitions", 
+            path: "/grouping-attribute-definitions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the current grouping configuration for this account, including all custom grouping attribute definitions that have been configured. These definitions determine how services are logically grouped based on telemetry attributes, Amazon Web Services tags, or predefined mappings.
+    ///
+    /// Parameters:
+    ///   - nextToken: Include this value, if it was returned by the previous operation, to get the next set of grouping attribute definitions.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listGroupingAttributeDefinitions(
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListGroupingAttributeDefinitionsOutput {
+        let input = ListGroupingAttributeDefinitionsInput(
+            nextToken: nextToken
+        )
+        return try await self.listGroupingAttributeDefinitions(input, logger: logger)
+    }
+
+    /// Returns a list of service dependencies of the service that you specify. A dependency is an infrastructure component that an operation of this service connects with. Dependencies can include Amazon Web Services services, Amazon Web Services resources, and third-party services.
     @Sendable
     @inlinable
     public func listServiceDependencies(_ input: ListServiceDependenciesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServiceDependenciesOutput {
@@ -298,14 +384,14 @@ public struct ApplicationSignals: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of service dependencies of the service that you specify. A dependency is an infrastructure  component that an operation of this service connects with. Dependencies can include Amazon Web Services  services, Amazon Web Services resources, and third-party services.
+    /// Returns a list of service dependencies of the service that you specify. A dependency is an infrastructure component that an operation of this service connects with. Dependencies can include Amazon Web Services services, Amazon Web Services resources, and third-party services.
     ///
     /// Parameters:
-    ///   - endTime: The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested end time will be rounded to the nearest hour.
-    ///   - keyAttributes: Use this field to specify which service you want to retrieve information for. You must specify at least the Type,  Name, and Environment attributes. This is a string-to-string map. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
+    ///   - endTime: The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057  Your requested end time will be rounded to the nearest hour.
+    ///   - keyAttributes: Use this field to specify which service you want to retrieve information for. You must specify at least the Type, Name, and Environment attributes. This is a string-to-string map. It can include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
     ///   - maxResults: The maximum number of results to return in one operation. If you omit this parameter, the default of 50 is used.
     ///   - nextToken: Include this value, if it was returned by the previous operation, to get the next set of service dependencies.
-    ///   - startTime: The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
+    ///   - startTime: The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
     ///   - logger: Logger use during operation
     @inlinable
     public func listServiceDependencies(
@@ -326,7 +412,7 @@ public struct ApplicationSignals: AWSService {
         return try await self.listServiceDependencies(input, logger: logger)
     }
 
-    /// Returns the list of dependents that invoked the specified service during the provided time range. Dependents include  other services, CloudWatch Synthetics canaries, and clients that are instrumented with CloudWatch RUM app monitors.
+    /// Returns the list of dependents that invoked the specified service during the provided time range. Dependents include other services, CloudWatch Synthetics canaries, and clients that are instrumented with CloudWatch RUM app monitors.
     @Sendable
     @inlinable
     public func listServiceDependents(_ input: ListServiceDependentsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServiceDependentsOutput {
@@ -339,14 +425,14 @@ public struct ApplicationSignals: AWSService {
             logger: logger
         )
     }
-    /// Returns the list of dependents that invoked the specified service during the provided time range. Dependents include  other services, CloudWatch Synthetics canaries, and clients that are instrumented with CloudWatch RUM app monitors.
+    /// Returns the list of dependents that invoked the specified service during the provided time range. Dependents include other services, CloudWatch Synthetics canaries, and clients that are instrumented with CloudWatch RUM app monitors.
     ///
     /// Parameters:
-    ///   - endTime: The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
-    ///   - keyAttributes: Use this field to specify which service you want to retrieve information for. You must specify at least the Type,  Name, and Environment attributes. This is a string-to-string map. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
+    ///   - endTime: The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
+    ///   - keyAttributes: Use this field to specify which service you want to retrieve information for. You must specify at least the Type, Name, and Environment attributes. This is a string-to-string map. It can include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
     ///   - maxResults: The maximum number of results to return in one operation. If you omit this parameter, the default of 50 is used.
     ///   - nextToken: Include this value, if it was returned by the previous operation, to get the next set of service dependents.
-    ///   - startTime: The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
+    ///   - startTime: The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
     ///   - logger: Logger use during operation
     @inlinable
     public func listServiceDependents(
@@ -419,8 +505,8 @@ public struct ApplicationSignals: AWSService {
     ///
     /// Parameters:
     ///   - dependencyConfig: Identifies the dependency using the DependencyKeyAttributes and DependencyOperationName.
-    ///   - includeLinkedAccounts: If you are using this operation in a monitoring account, specify true to include SLO from source accounts in the returned data.   When you are monitoring an account, you can use Amazon Web Services account ID in KeyAttribute filter for service source account and SloOwnerawsaccountID for SLO source account with IncludeLinkedAccounts to filter the returned data to only a single source account.
-    ///   - keyAttributes: You can use this optional field to specify which services you want to retrieve SLO information for. This is a string-to-string map. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
+    ///   - includeLinkedAccounts: If you are using this operation in a monitoring account, specify true to include SLO from source accounts in the returned data.  When you are monitoring an account, you can use Amazon Web Services account ID in KeyAttribute filter for service source account and SloOwnerawsaccountID for SLO source account with IncludeLinkedAccounts to filter the returned data to only a single source account.
+    ///   - keyAttributes: You can use this optional field to specify which services you want to retrieve SLO information for. This is a string-to-string map. It can include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
     ///   - maxResults: The maximum number of results to return in one operation. If you omit this parameter, the default of 50 is used.
     ///   - metricSourceTypes: Use this optional field to only include SLOs with the specified metric source types in the output. Supported types are:   Service operation   Service dependency   CloudWatch metric
     ///   - nextToken: Include this value, if it was returned by the previous operation, to get the next set of service level objectives.
@@ -468,11 +554,11 @@ public struct ApplicationSignals: AWSService {
     /// Returns a list of the operations of this service that have been discovered by Application Signals. Only the operations that were invoked during the specified time range are returned.
     ///
     /// Parameters:
-    ///   - endTime: The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested end time will be rounded to the nearest hour.
-    ///   - keyAttributes: Use this field to specify which service you want to retrieve information for. You must specify at least the Type,  Name, and Environment attributes. This is a string-to-string map. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
+    ///   - endTime: The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057  Your requested end time will be rounded to the nearest hour.
+    ///   - keyAttributes: Use this field to specify which service you want to retrieve information for. You must specify at least the Type, Name, and Environment attributes. This is a string-to-string map. It can include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
     ///   - maxResults: The maximum number of results to return in one operation. If you omit this parameter, the default of 50 is used.
     ///   - nextToken: Include this value, if it was returned by the previous operation, to get the next set of service operations.
-    ///   - startTime: The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
+    ///   - startTime: The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
     ///   - logger: Logger use during operation
     @inlinable
     public func listServiceOperations(
@@ -493,7 +579,54 @@ public struct ApplicationSignals: AWSService {
         return try await self.listServiceOperations(input, logger: logger)
     }
 
-    /// Returns a list of services that have been discovered by Application Signals.  A service represents a minimum logical and transactional unit that completes a business function. Services are discovered through Application Signals instrumentation.
+    /// Returns information about the last deployment and other change states of services. This API provides visibility into recent changes that may have affected service performance, helping with troubleshooting and change correlation.
+    @Sendable
+    @inlinable
+    public func listServiceStates(_ input: ListServiceStatesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServiceStatesOutput {
+        try await self.client.execute(
+            operation: "ListServiceStates", 
+            path: "/service/states", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about the last deployment and other change states of services. This API provides visibility into recent changes that may have affected service performance, helping with troubleshooting and change correlation.
+    ///
+    /// Parameters:
+    ///   - attributeFilters: A list of attribute filters to narrow down the services. You can filter by platform, environment, or other service attributes.
+    ///   - awsAccountId: The Amazon Web Services account ID to filter service states by. Use this to limit results to services from a specific account.
+    ///   - endTime: The end of the time period to retrieve service state information for. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example, 1698778057.
+    ///   - includeLinkedAccounts: If you are using this operation in a monitoring account, specify true to include service states from source accounts in the returned data.
+    ///   - maxResults: The maximum number of service states to return in one operation. If you omit this parameter, the default of 20 is used.
+    ///   - nextToken: Include this value, if it was returned by the previous operation, to get the next set of service states.
+    ///   - startTime: The start of the time period to retrieve service state information for. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example, 1698778057.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listServiceStates(
+        attributeFilters: [AttributeFilter]? = nil,
+        awsAccountId: String? = nil,
+        endTime: Date,
+        includeLinkedAccounts: Bool? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        startTime: Date,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListServiceStatesOutput {
+        let input = ListServiceStatesInput(
+            attributeFilters: attributeFilters, 
+            awsAccountId: awsAccountId, 
+            endTime: endTime, 
+            includeLinkedAccounts: includeLinkedAccounts, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            startTime: startTime
+        )
+        return try await self.listServiceStates(input, logger: logger)
+    }
+
+    /// Returns a list of services that have been discovered by Application Signals. A service represents a minimum logical and transactional unit that completes a business function. Services are discovered through Application Signals instrumentation.
     @Sendable
     @inlinable
     public func listServices(_ input: ListServicesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServicesOutput {
@@ -506,15 +639,15 @@ public struct ApplicationSignals: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of services that have been discovered by Application Signals.  A service represents a minimum logical and transactional unit that completes a business function. Services are discovered through Application Signals instrumentation.
+    /// Returns a list of services that have been discovered by Application Signals. A service represents a minimum logical and transactional unit that completes a business function. Services are discovered through Application Signals instrumentation.
     ///
     /// Parameters:
     ///   - awsAccountId: Amazon Web Services Account ID.
-    ///   - endTime: The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
+    ///   - endTime: The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
     ///   - includeLinkedAccounts: If you are using this operation in a monitoring account, specify true to include services from source accounts in the returned data.
-    ///   - maxResults:  The maximum number  of results  to return  in one operation.  If you omit this parameter,  the default of 50 is used.
+    ///   - maxResults:  The maximum number of results to return in one operation. If you omit this parameter, the default of 50 is used.
     ///   - nextToken: Include this value, if it was returned by the previous operation, to get the next set of services.
-    ///   - startTime: The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
+    ///   - startTime: The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
     ///   - logger: Logger use during operation
     @inlinable
     public func listServices(
@@ -553,7 +686,7 @@ public struct ApplicationSignals: AWSService {
     /// Displays the tags associated with a CloudWatch resource. Tags can be assigned to service level objectives.
     ///
     /// Parameters:
-    ///   - resourceArn: The Amazon Resource Name (ARN) of the CloudWatch resource that you want to view tags for. The ARN format of an Application Signals SLO is  arn:aws:cloudwatch:Region:account-id:slo:slo-name   For more information about ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the CloudWatch resource that you want to view tags for. The ARN format of an Application Signals SLO is arn:aws:cloudwatch:Region:account-id:slo:slo-name   For more information about ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference.
     ///   - logger: Logger use during operation
     @inlinable
     public func listTagsForResource(
@@ -566,7 +699,36 @@ public struct ApplicationSignals: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Enables this Amazon Web Services account to be able to use CloudWatch Application Signals  by creating the AWSServiceRoleForCloudWatchApplicationSignals service-linked role. This service- linked role has the following permissions:    xray:GetServiceGraph     logs:StartQuery     logs:GetQueryResults     cloudwatch:GetMetricData     cloudwatch:ListMetrics     tag:GetResources     autoscaling:DescribeAutoScalingGroups    After completing this step, you still need to instrument your Java and Python applications to send data  to Application Signals. For more information, see   Enabling Application Signals.
+    /// Creates or updates the grouping configuration for this account. This operation allows you to define custom grouping attributes that determine how services are logically grouped based on telemetry attributes, Amazon Web Services tags, or predefined mappings. These grouping attributes can then be used to organize and filter services in the Application Signals console and APIs.
+    @Sendable
+    @inlinable
+    public func putGroupingConfiguration(_ input: PutGroupingConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutGroupingConfigurationOutput {
+        try await self.client.execute(
+            operation: "PutGroupingConfiguration", 
+            path: "/grouping-configuration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates or updates the grouping configuration for this account. This operation allows you to define custom grouping attributes that determine how services are logically grouped based on telemetry attributes, Amazon Web Services tags, or predefined mappings. These grouping attributes can then be used to organize and filter services in the Application Signals console and APIs.
+    ///
+    /// Parameters:
+    ///   - groupingAttributeDefinitions: An array of grouping attribute definitions that specify how services should be grouped. Each definition includes a friendly name, source keys to derive the grouping value from, and an optional default value.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putGroupingConfiguration(
+        groupingAttributeDefinitions: [GroupingAttributeDefinition],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutGroupingConfigurationOutput {
+        let input = PutGroupingConfigurationInput(
+            groupingAttributeDefinitions: groupingAttributeDefinitions
+        )
+        return try await self.putGroupingConfiguration(input, logger: logger)
+    }
+
+    /// Enables this Amazon Web Services account to be able to use CloudWatch Application Signals by creating the AWSServiceRoleForCloudWatchApplicationSignals service-linked role. This service- linked role has the following permissions:    xray:GetServiceGraph     logs:StartQuery     logs:GetQueryResults     cloudwatch:GetMetricData     cloudwatch:ListMetrics     tag:GetResources     autoscaling:DescribeAutoScalingGroups    After completing this step, you still need to instrument your Java and Python applications to send data to Application Signals. For more information, see  Enabling Application Signals.
     @Sendable
     @inlinable
     public func startDiscovery(_ input: StartDiscoveryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDiscoveryOutput {
@@ -579,7 +741,7 @@ public struct ApplicationSignals: AWSService {
             logger: logger
         )
     }
-    /// Enables this Amazon Web Services account to be able to use CloudWatch Application Signals  by creating the AWSServiceRoleForCloudWatchApplicationSignals service-linked role. This service- linked role has the following permissions:    xray:GetServiceGraph     logs:StartQuery     logs:GetQueryResults     cloudwatch:GetMetricData     cloudwatch:ListMetrics     tag:GetResources     autoscaling:DescribeAutoScalingGroups    After completing this step, you still need to instrument your Java and Python applications to send data  to Application Signals. For more information, see   Enabling Application Signals.
+    /// Enables this Amazon Web Services account to be able to use CloudWatch Application Signals by creating the AWSServiceRoleForCloudWatchApplicationSignals service-linked role. This service- linked role has the following permissions:    xray:GetServiceGraph     logs:StartQuery     logs:GetQueryResults     cloudwatch:GetMetricData     cloudwatch:ListMetrics     tag:GetResources     autoscaling:DescribeAutoScalingGroups    After completing this step, you still need to instrument your Java and Python applications to send data to Application Signals. For more information, see  Enabling Application Signals.
     ///
     /// Parameters:
     ///   - logger: Logger use during operation
@@ -592,7 +754,7 @@ public struct ApplicationSignals: AWSService {
         return try await self.startDiscovery(input, logger: logger)
     }
 
-    /// Assigns one or more tags (key-value pairs) to the specified CloudWatch resource, such as a service level objective. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with an alarm that already has tags. If you specify a new tag key for the alarm,  this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a CloudWatch resource.
+    /// Assigns one or more tags (key-value pairs) to the specified CloudWatch resource, such as a service level objective. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with an alarm that already has tags. If you specify a new tag key for the alarm, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a CloudWatch resource.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -605,10 +767,10 @@ public struct ApplicationSignals: AWSService {
             logger: logger
         )
     }
-    /// Assigns one or more tags (key-value pairs) to the specified CloudWatch resource, such as a service level objective. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with an alarm that already has tags. If you specify a new tag key for the alarm,  this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a CloudWatch resource.
+    /// Assigns one or more tags (key-value pairs) to the specified CloudWatch resource, such as a service level objective. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with an alarm that already has tags. If you specify a new tag key for the alarm, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a CloudWatch resource.
     ///
     /// Parameters:
-    ///   - resourceArn: The Amazon Resource Name (ARN) of the CloudWatch resource that you want to set tags for. The ARN format of an Application Signals SLO is  arn:aws:cloudwatch:Region:account-id:slo:slo-name   For more information about ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the CloudWatch resource that you want to set tags for. The ARN format of an Application Signals SLO is arn:aws:cloudwatch:Region:account-id:slo:slo-name   For more information about ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference.
     ///   - tags: The list of key-value pairs to associate with the alarm.
     ///   - logger: Logger use during operation
     @inlinable
@@ -640,7 +802,7 @@ public struct ApplicationSignals: AWSService {
     /// Removes one or more tags from the specified resource.
     ///
     /// Parameters:
-    ///   - resourceArn: The Amazon Resource Name (ARN) of the CloudWatch resource that you want to delete tags from. The ARN format of an Application Signals SLO is  arn:aws:cloudwatch:Region:account-id:slo:slo-name   For more information about ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the CloudWatch resource that you want to delete tags from. The ARN format of an Application Signals SLO is arn:aws:cloudwatch:Region:account-id:slo:slo-name   For more information about ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference.
     ///   - tagKeys: The list of tag keys to remove from the resource.
     ///   - logger: Logger use during operation
     @inlinable
@@ -656,7 +818,7 @@ public struct ApplicationSignals: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Updates an existing service level objective (SLO). If you omit parameters, the previous values of those parameters are retained.  You cannot change from a period-based SLO to a request-based SLO,  or change from a request-based SLO to a period-based SLO.
+    /// Updates an existing service level objective (SLO). If you omit parameters, the previous values of those parameters are retained.  You cannot change from a period-based SLO to a request-based SLO, or change from a request-based SLO to a period-based SLO.
     @Sendable
     @inlinable
     public func updateServiceLevelObjective(_ input: UpdateServiceLevelObjectiveInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServiceLevelObjectiveOutput {
@@ -669,10 +831,10 @@ public struct ApplicationSignals: AWSService {
             logger: logger
         )
     }
-    /// Updates an existing service level objective (SLO). If you omit parameters, the previous values of those parameters are retained.  You cannot change from a period-based SLO to a request-based SLO,  or change from a request-based SLO to a period-based SLO.
+    /// Updates an existing service level objective (SLO). If you omit parameters, the previous values of those parameters are retained.  You cannot change from a period-based SLO to a request-based SLO, or change from a request-based SLO to a period-based SLO.
     ///
     /// Parameters:
-    ///   - burnRateConfigurations: Use this array to create burn rates for this SLO. Each  burn rate is a metric that indicates how fast the service is consuming the error budget, relative to the attainment goal of the SLO.
+    ///   - burnRateConfigurations: Use this array to create burn rates for this SLO. Each burn rate is a metric that indicates how fast the service is consuming the error budget, relative to the attainment goal of the SLO.
     ///   - description: An optional description for the SLO.
     ///   - goal: A structure that contains the attributes that determine the goal of the SLO. This includes the time period for evaluation and the attainment threshold.
     ///   - id: The Amazon Resource Name (ARN) or name of the service level objective that you want to update.
@@ -735,10 +897,10 @@ extension ApplicationSignals {
     /// Return PaginatorSequence for operation ``listServiceDependencies(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - endTime: The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested end time will be rounded to the nearest hour.
-    ///   - keyAttributes: Use this field to specify which service you want to retrieve information for. You must specify at least the Type,  Name, and Environment attributes. This is a string-to-string map. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
+    ///   - endTime: The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057  Your requested end time will be rounded to the nearest hour.
+    ///   - keyAttributes: Use this field to specify which service you want to retrieve information for. You must specify at least the Type, Name, and Environment attributes. This is a string-to-string map. It can include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
     ///   - maxResults: The maximum number of results to return in one operation. If you omit this parameter, the default of 50 is used.
-    ///   - startTime: The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
+    ///   - startTime: The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
     ///   - logger: Logger used for logging
     @inlinable
     public func listServiceDependenciesPaginator(
@@ -778,10 +940,10 @@ extension ApplicationSignals {
     /// Return PaginatorSequence for operation ``listServiceDependents(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - endTime: The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
-    ///   - keyAttributes: Use this field to specify which service you want to retrieve information for. You must specify at least the Type,  Name, and Environment attributes. This is a string-to-string map. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
+    ///   - endTime: The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
+    ///   - keyAttributes: Use this field to specify which service you want to retrieve information for. You must specify at least the Type, Name, and Environment attributes. This is a string-to-string map. It can include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
     ///   - maxResults: The maximum number of results to return in one operation. If you omit this parameter, the default of 50 is used.
-    ///   - startTime: The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
+    ///   - startTime: The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
     ///   - logger: Logger used for logging
     @inlinable
     public func listServiceDependentsPaginator(
@@ -859,8 +1021,8 @@ extension ApplicationSignals {
     ///
     /// - Parameters:
     ///   - dependencyConfig: Identifies the dependency using the DependencyKeyAttributes and DependencyOperationName.
-    ///   - includeLinkedAccounts: If you are using this operation in a monitoring account, specify true to include SLO from source accounts in the returned data.   When you are monitoring an account, you can use Amazon Web Services account ID in KeyAttribute filter for service source account and SloOwnerawsaccountID for SLO source account with IncludeLinkedAccounts to filter the returned data to only a single source account.
-    ///   - keyAttributes: You can use this optional field to specify which services you want to retrieve SLO information for. This is a string-to-string map. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
+    ///   - includeLinkedAccounts: If you are using this operation in a monitoring account, specify true to include SLO from source accounts in the returned data.  When you are monitoring an account, you can use Amazon Web Services account ID in KeyAttribute filter for service source account and SloOwnerawsaccountID for SLO source account with IncludeLinkedAccounts to filter the returned data to only a single source account.
+    ///   - keyAttributes: You can use this optional field to specify which services you want to retrieve SLO information for. This is a string-to-string map. It can include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
     ///   - maxResults: The maximum number of results to return in one operation. If you omit this parameter, the default of 50 is used.
     ///   - metricSourceTypes: Use this optional field to only include SLOs with the specified metric source types in the output. Supported types are:   Service operation   Service dependency   CloudWatch metric
     ///   - operationName: The name of the operation that this SLO is associated with.
@@ -910,10 +1072,10 @@ extension ApplicationSignals {
     /// Return PaginatorSequence for operation ``listServiceOperations(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - endTime: The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested end time will be rounded to the nearest hour.
-    ///   - keyAttributes: Use this field to specify which service you want to retrieve information for. You must specify at least the Type,  Name, and Environment attributes. This is a string-to-string map. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
+    ///   - endTime: The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057  Your requested end time will be rounded to the nearest hour.
+    ///   - keyAttributes: Use this field to specify which service you want to retrieve information for. You must specify at least the Type, Name, and Environment attributes. This is a string-to-string map. It can include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
     ///   - maxResults: The maximum number of results to return in one operation. If you omit this parameter, the default of 50 is used.
-    ///   - startTime: The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
+    ///   - startTime: The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
     ///   - logger: Logger used for logging
     @inlinable
     public func listServiceOperationsPaginator(
@@ -930,6 +1092,55 @@ extension ApplicationSignals {
             startTime: startTime
         )
         return self.listServiceOperationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listServiceStates(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listServiceStatesPaginator(
+        _ input: ListServiceStatesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListServiceStatesInput, ListServiceStatesOutput> {
+        return .init(
+            input: input,
+            command: self.listServiceStates,
+            inputKey: \ListServiceStatesInput.nextToken,
+            outputKey: \ListServiceStatesOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listServiceStates(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - attributeFilters: A list of attribute filters to narrow down the services. You can filter by platform, environment, or other service attributes.
+    ///   - awsAccountId: The Amazon Web Services account ID to filter service states by. Use this to limit results to services from a specific account.
+    ///   - endTime: The end of the time period to retrieve service state information for. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example, 1698778057.
+    ///   - includeLinkedAccounts: If you are using this operation in a monitoring account, specify true to include service states from source accounts in the returned data.
+    ///   - maxResults: The maximum number of service states to return in one operation. If you omit this parameter, the default of 20 is used.
+    ///   - startTime: The start of the time period to retrieve service state information for. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example, 1698778057.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listServiceStatesPaginator(
+        attributeFilters: [AttributeFilter]? = nil,
+        awsAccountId: String? = nil,
+        endTime: Date,
+        includeLinkedAccounts: Bool? = nil,
+        maxResults: Int? = nil,
+        startTime: Date,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListServiceStatesInput, ListServiceStatesOutput> {
+        let input = ListServiceStatesInput(
+            attributeFilters: attributeFilters, 
+            awsAccountId: awsAccountId, 
+            endTime: endTime, 
+            includeLinkedAccounts: includeLinkedAccounts, 
+            maxResults: maxResults, 
+            startTime: startTime
+        )
+        return self.listServiceStatesPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listServices(_:logger:)``.
@@ -954,10 +1165,10 @@ extension ApplicationSignals {
     ///
     /// - Parameters:
     ///   - awsAccountId: Amazon Web Services Account ID.
-    ///   - endTime: The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
+    ///   - endTime: The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
     ///   - includeLinkedAccounts: If you are using this operation in a monitoring account, specify true to include services from source accounts in the returned data.
-    ///   - maxResults:  The maximum number  of results  to return  in one operation.  If you omit this parameter,  the default of 50 is used.
-    ///   - startTime: The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
+    ///   - maxResults:  The maximum number of results to return in one operation. If you omit this parameter, the default of 50 is used.
+    ///   - startTime: The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
     ///   - logger: Logger used for logging
     @inlinable
     public func listServicesPaginator(
@@ -1038,6 +1249,21 @@ extension ApplicationSignals.ListServiceOperationsInput: AWSPaginateToken {
         return .init(
             endTime: self.endTime,
             keyAttributes: self.keyAttributes,
+            maxResults: self.maxResults,
+            nextToken: token,
+            startTime: self.startTime
+        )
+    }
+}
+
+extension ApplicationSignals.ListServiceStatesInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ApplicationSignals.ListServiceStatesInput {
+        return .init(
+            attributeFilters: self.attributeFilters,
+            awsAccountId: self.awsAccountId,
+            endTime: self.endTime,
+            includeLinkedAccounts: self.includeLinkedAccounts,
             maxResults: self.maxResults,
             nextToken: token,
             startTime: self.startTime

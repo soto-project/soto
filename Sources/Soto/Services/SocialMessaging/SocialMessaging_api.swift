@@ -110,6 +110,102 @@ public struct SocialMessaging: AWSService {
         return try await self.associateWhatsAppBusinessAccount(input, logger: logger)
     }
 
+    /// Creates a new WhatsApp message template from a custom definition.
+    @Sendable
+    @inlinable
+    public func createWhatsAppMessageTemplate(_ input: CreateWhatsAppMessageTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWhatsAppMessageTemplateOutput {
+        try await self.client.execute(
+            operation: "CreateWhatsAppMessageTemplate", 
+            path: "/v1/whatsapp/template/put", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new WhatsApp message template from a custom definition.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the WhatsApp Business Account to associate with this template.
+    ///   - templateDefinition: The complete template definition as a JSON blob.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createWhatsAppMessageTemplate(
+        id: String,
+        templateDefinition: AWSBase64Data,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateWhatsAppMessageTemplateOutput {
+        let input = CreateWhatsAppMessageTemplateInput(
+            id: id, 
+            templateDefinition: templateDefinition
+        )
+        return try await self.createWhatsAppMessageTemplate(input, logger: logger)
+    }
+
+    /// Creates a new WhatsApp message template using a template from Meta's template library.
+    @Sendable
+    @inlinable
+    public func createWhatsAppMessageTemplateFromLibrary(_ input: CreateWhatsAppMessageTemplateFromLibraryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWhatsAppMessageTemplateFromLibraryOutput {
+        try await self.client.execute(
+            operation: "CreateWhatsAppMessageTemplateFromLibrary", 
+            path: "/v1/whatsapp/template/create", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new WhatsApp message template using a template from Meta's template library.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the WhatsApp Business Account to associate with this template.
+    ///   - metaLibraryTemplate: The template configuration from Meta's library, including customizations for buttons and body text.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createWhatsAppMessageTemplateFromLibrary(
+        id: String,
+        metaLibraryTemplate: MetaLibraryTemplate,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateWhatsAppMessageTemplateFromLibraryOutput {
+        let input = CreateWhatsAppMessageTemplateFromLibraryInput(
+            id: id, 
+            metaLibraryTemplate: metaLibraryTemplate
+        )
+        return try await self.createWhatsAppMessageTemplateFromLibrary(input, logger: logger)
+    }
+
+    /// Uploads media for use in a WhatsApp message template.
+    @Sendable
+    @inlinable
+    public func createWhatsAppMessageTemplateMedia(_ input: CreateWhatsAppMessageTemplateMediaInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWhatsAppMessageTemplateMediaOutput {
+        try await self.client.execute(
+            operation: "CreateWhatsAppMessageTemplateMedia", 
+            path: "/v1/whatsapp/template/media", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Uploads media for use in a WhatsApp message template.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the WhatsApp Business Account associated with this media upload.
+    ///   - sourceS3File: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createWhatsAppMessageTemplateMedia(
+        id: String,
+        sourceS3File: S3File? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateWhatsAppMessageTemplateMediaOutput {
+        let input = CreateWhatsAppMessageTemplateMediaInput(
+            id: id, 
+            sourceS3File: sourceS3File
+        )
+        return try await self.createWhatsAppMessageTemplateMedia(input, logger: logger)
+    }
+
     /// Delete a media object from the WhatsApp service. If the object is still in an Amazon S3 bucket you should delete it from there too.
     @Sendable
     @inlinable
@@ -140,6 +236,44 @@ public struct SocialMessaging: AWSService {
             originationPhoneNumberId: originationPhoneNumberId
         )
         return try await self.deleteWhatsAppMessageMedia(input, logger: logger)
+    }
+
+    /// Deletes a WhatsApp message template.
+    @Sendable
+    @inlinable
+    public func deleteWhatsAppMessageTemplate(_ input: DeleteWhatsAppMessageTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWhatsAppMessageTemplateOutput {
+        try await self.client.execute(
+            operation: "DeleteWhatsAppMessageTemplate", 
+            path: "/v1/whatsapp/template", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a WhatsApp message template.
+    ///
+    /// Parameters:
+    ///   - deleteAllLanguages: If true, deletes all language versions of the template.
+    ///   - id: The ID of the WhatsApp Business Account associated with this template.
+    ///   - metaTemplateId: The numeric ID of the template assigned by Meta.
+    ///   - templateName: The name of the template to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteWhatsAppMessageTemplate(
+        deleteAllLanguages: Bool? = nil,
+        id: String,
+        metaTemplateId: String? = nil,
+        templateName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteWhatsAppMessageTemplateOutput {
+        let input = DeleteWhatsAppMessageTemplateInput(
+            deleteAllLanguages: deleteAllLanguages, 
+            id: id, 
+            metaTemplateId: metaTemplateId, 
+            templateName: templateName
+        )
+        return try await self.deleteWhatsAppMessageTemplate(input, logger: logger)
     }
 
     /// Disassociate a WhatsApp Business Account (WABA) from your Amazon Web Services account.
@@ -270,6 +404,38 @@ public struct SocialMessaging: AWSService {
         return try await self.getWhatsAppMessageMedia(input, logger: logger)
     }
 
+    /// Retrieves a specific WhatsApp message template.
+    @Sendable
+    @inlinable
+    public func getWhatsAppMessageTemplate(_ input: GetWhatsAppMessageTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWhatsAppMessageTemplateOutput {
+        try await self.client.execute(
+            operation: "GetWhatsAppMessageTemplate", 
+            path: "/v1/whatsapp/template", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a specific WhatsApp message template.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the WhatsApp Business Account associated with this template.
+    ///   - metaTemplateId: The numeric ID of the template assigned by Meta.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getWhatsAppMessageTemplate(
+        id: String,
+        metaTemplateId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetWhatsAppMessageTemplateOutput {
+        let input = GetWhatsAppMessageTemplateInput(
+            id: id, 
+            metaTemplateId: metaTemplateId
+        )
+        return try await self.getWhatsAppMessageTemplate(input, logger: logger)
+    }
+
     /// List all WhatsApp Business Accounts linked to your Amazon Web Services account.
     @Sendable
     @inlinable
@@ -329,6 +495,79 @@ public struct SocialMessaging: AWSService {
             resourceArn: resourceArn
         )
         return try await self.listTagsForResource(input, logger: logger)
+    }
+
+    /// Lists WhatsApp message templates for a specific WhatsApp Business Account.
+    @Sendable
+    @inlinable
+    public func listWhatsAppMessageTemplates(_ input: ListWhatsAppMessageTemplatesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWhatsAppMessageTemplatesOutput {
+        try await self.client.execute(
+            operation: "ListWhatsAppMessageTemplates", 
+            path: "/v1/whatsapp/template/list", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists WhatsApp message templates for a specific WhatsApp Business Account.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the WhatsApp Business Account to list templates for.
+    ///   - maxResults: The maximum number of results to return per page (1-100).
+    ///   - nextToken: The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listWhatsAppMessageTemplates(
+        id: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListWhatsAppMessageTemplatesOutput {
+        let input = ListWhatsAppMessageTemplatesInput(
+            id: id, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listWhatsAppMessageTemplates(input, logger: logger)
+    }
+
+    /// Lists templates available in Meta's template library for WhatsApp messaging.
+    @Sendable
+    @inlinable
+    public func listWhatsAppTemplateLibrary(_ input: ListWhatsAppTemplateLibraryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWhatsAppTemplateLibraryOutput {
+        try await self.client.execute(
+            operation: "ListWhatsAppTemplateLibrary", 
+            path: "/v1/whatsapp/template/library", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists templates available in Meta's template library for WhatsApp messaging.
+    ///
+    /// Parameters:
+    ///   - filters: Map of filters to apply (searchKey, topic, usecase, industry, language).
+    ///   - id: The ID of the WhatsApp Business Account to list library templates for.
+    ///   - maxResults: The maximum number of results to return per page (1-100).
+    ///   - nextToken: The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listWhatsAppTemplateLibrary(
+        filters: [String: String]? = nil,
+        id: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListWhatsAppTemplateLibraryOutput {
+        let input = ListWhatsAppTemplateLibraryInput(
+            filters: filters, 
+            id: id, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listWhatsAppTemplateLibrary(input, logger: logger)
     }
 
     /// Upload a media file to the WhatsApp service. Only the specified originationPhoneNumberId has the permissions to send the media file when using SendWhatsAppMessage. You must use either sourceS3File or sourceS3PresignedUrl for the source. If both or neither are specified then an InvalidParameterException is returned.
@@ -495,6 +734,44 @@ public struct SocialMessaging: AWSService {
             tagKeys: tagKeys
         )
         return try await self.untagResource(input, logger: logger)
+    }
+
+    /// Updates an existing WhatsApp message template.
+    @Sendable
+    @inlinable
+    public func updateWhatsAppMessageTemplate(_ input: UpdateWhatsAppMessageTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWhatsAppMessageTemplateOutput {
+        try await self.client.execute(
+            operation: "UpdateWhatsAppMessageTemplate", 
+            path: "/v1/whatsapp/template", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing WhatsApp message template.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the WhatsApp Business Account associated with this template.
+    ///   - metaTemplateId: The numeric ID of the template assigned by Meta.
+    ///   - templateCategory: The new category for the template (for example, UTILITY or MARKETING).
+    ///   - templateComponents: The updated components of the template as a JSON blob (maximum 3000 characters).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateWhatsAppMessageTemplate(
+        id: String,
+        metaTemplateId: String,
+        templateCategory: String? = nil,
+        templateComponents: AWSBase64Data? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateWhatsAppMessageTemplateOutput {
+        let input = UpdateWhatsAppMessageTemplateInput(
+            id: id, 
+            metaTemplateId: metaTemplateId, 
+            templateCategory: templateCategory, 
+            templateComponents: templateComponents
+        )
+        return try await self.updateWhatsAppMessageTemplate(input, logger: logger)
     }
 }
 

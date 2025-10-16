@@ -1826,6 +1826,7 @@ extension MediaConvert {
     public enum HlsIFrameOnlyManifest: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
+        case includeAsTs = "INCLUDE_AS_TS"
         public var description: String { return self.rawValue }
     }
 
@@ -2408,6 +2409,12 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum Mp2AudioDescriptionMix: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case broadcasterMixedAd = "BROADCASTER_MIXED_AD"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Mp3RateControlMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cbr = "CBR"
         case vbr = "VBR"
@@ -2933,6 +2940,13 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum ShareStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case initiated = "INITIATED"
+        case notShared = "NOT_SHARED"
+        case shared = "SHARED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SimulateReservedQueue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -3178,6 +3192,12 @@ extension MediaConvert {
     public enum VideoOverlayUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case percentage = "PERCENTAGE"
         case pixels = "PIXELS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VideoSelectorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case auto = "AUTO"
+        case stream = "STREAM"
         public var description: String { return self.rawValue }
     }
 
@@ -3433,7 +3453,7 @@ extension MediaConvert {
         public let audioDescriptionBroadcasterMix: AacAudioDescriptionBroadcasterMix?
         /// Specify the average bitrate in bits per second. The set of valid values for this setting is: 6000, 8000, 10000, 12000, 14000, 16000, 20000, 24000, 28000, 32000, 40000, 48000, 56000, 64000, 80000, 96000, 112000, 128000, 160000, 192000, 224000, 256000, 288000, 320000, 384000, 448000, 512000, 576000, 640000, 768000, 896000, 1024000. The value you set is also constrained by the values that you choose for Profile, Bitrate control mode, and Sample rate. Default values depend on Bitrate control mode and Profile.
         public let bitrate: Int?
-        /// Specify the AAC profile. For the widest player compatibility and where higher bitrates are acceptable: Keep the default profile, LC (AAC-LC) For improved audio performance at lower bitrates: Choose HEV1 or HEV2. HEV1 (AAC-HE v1) adds spectral band replication to improve speech audio at low bitrates. HEV2 (AAC-HE v2) adds parametric stereo, which optimizes for encoding stereo audio at very low bitrates.
+        /// Specify the AAC profile. For the widest player compatibility and where higher bitrates are acceptable: Keep the default profile, LC (AAC-LC) For improved audio performance at lower bitrates: Choose HEV1 or HEV2. HEV1 (AAC-HE v1) adds spectral band replication to improve speech audio at low bitrates. HEV2 (AAC-HE v2) adds parametric stereo, which optimizes for encoding stereo audio at very low bitrates. For improved audio quality at lower bitrates, adaptive audio bitrate switching, and loudness control: Choose XHE.
         public let codecProfile: AacCodecProfile?
         /// The Coding mode that you specify determines the number of audio channels and the audio channel layout metadata in your AAC output. Valid coding modes depend on the Rate control mode and Profile that you select. The following list shows the number of audio channels and channel layout for each coding mode. * 1.0 Audio Description (Receiver Mix): One channel, C. Includes audio description data from your stereo input. For more information see ETSI TS 101 154 Annex E. * 1.0 Mono: One channel, C. * 2.0 Stereo: Two channels, L, R. * 5.1 Surround: Six channels, C, L, R, Ls, Rs, LFE.
         public let codingMode: AacCodingMode?
@@ -5571,6 +5591,28 @@ extension MediaConvert {
         private enum CodingKeys: String, CodingKey {
             case queue = "queue"
         }
+    }
+
+    public struct CreateResourceShareRequest: AWSEncodableShape {
+        /// Specify MediaConvert Job ID or ARN to share
+        public let jobId: String?
+        /// AWS Support case identifier
+        public let supportCaseId: String?
+
+        @inlinable
+        public init(jobId: String? = nil, supportCaseId: String? = nil) {
+            self.jobId = jobId
+            self.supportCaseId = supportCaseId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "jobId"
+            case supportCaseId = "supportCaseId"
+        }
+    }
+
+    public struct CreateResourceShareResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DashAdditionalManifest: AWSEncodableShape & AWSDecodableShape {
@@ -8051,7 +8093,7 @@ extension MediaConvert {
         public let audioTrackType: HlsAudioTrackType?
         /// Specify whether to flag this audio track as descriptive video service (DVS) in your HLS parent manifest. When you choose Flag, MediaConvert includes the parameter CHARACTERISTICS="public.accessibility.describes-video" in the EXT-X-MEDIA entry for this track. When you keep the default choice, Don't flag, MediaConvert leaves this parameter out. The DVS flag can help with accessibility on Apple devices. For more information, see the Apple documentation.
         public let descriptiveVideoServiceFlag: HlsDescriptiveVideoServiceFlag?
-        /// Choose Include to have MediaConvert generate a child manifest that lists only the I-frames for this rendition, in addition to your regular manifest for this rendition. You might use this manifest as part of a workflow that creates preview functions for your video. MediaConvert adds both the I-frame only child manifest and the regular child manifest to the parent manifest. When you don't need the I-frame only child manifest, keep the default value Exclude.
+        /// Generate a variant manifest that lists only the I-frames for this rendition. You might use this manifest as part of a workflow that creates preview functions for your video. MediaConvert adds both the I-frame only variant manifest and the regular variant manifest to the multivariant manifest. To have MediaConvert write a variant manifest that references I-frames from your output content using EXT-X-BYTERANGE tags: Choose Include. To have MediaConvert output I-frames as single frame TS files and a corresponding variant manifest that references them: Choose Include as TS. When you don't need the I-frame only variant manifest: Keep the default value, Exclude.
         public let iFrameOnlyManifest: HlsIFrameOnlyManifest?
         /// Use this setting to add an identifying string to the filename of each segment. The service adds this string between the name modifier and segment index number. You can use format identifiers in the string. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/using-variables-in-your-job-settings.html
         public let segmentModifier: String?
@@ -8396,13 +8438,13 @@ extension MediaConvert {
     }
 
     public struct InputTamsSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Specify the ARN (Amazon Resource Name) of an EventBridge Connection to authenticate with your TAMS server. The EventBridge Connection stores your authentication credentials securely. MediaConvert assumes your job's IAM role to access this connection, so ensure the role has the events:RetrieveConnectionCredentials, secretsmanager:DescribeSecret, and secretsmanager:GetSecretValue permissions. Format: arn:aws:events:region:account-id:connection/connection-name/unique-id
+        /// Specify the ARN (Amazon Resource Name) of an EventBridge Connection to authenticate with your TAMS server. The EventBridge Connection stores your authentication credentials securely. MediaConvert assumes your job's IAM role to access this connection, so ensure the role has the events:RetrieveConnectionCredentials, secretsmanager:DescribeSecret, and secretsmanager:GetSecretValue permissions. Format: arn:aws:events:region:account-id:connection/connection-name/unique-id This setting is required when you include TAMS settings in your job.
         public let authConnectionArn: String?
         /// Specify how MediaConvert handles gaps between media segments in your TAMS source. Gaps can occur in live streams due to network issues or other interruptions. Choose from the following options: * Skip gaps - Default. Skip over gaps and join segments together. This creates a continuous output with no blank frames, but may cause timeline discontinuities. * Fill with black - Insert black frames to fill gaps between segments. This maintains timeline continuity but adds black frames where content is missing. * Hold last frame - Repeat the last frame before a gap until the next segment begins. This maintains visual continuity during gaps.
         public let gapHandling: TamsGapHandling?
-        /// Specify the unique identifier for the media source in your TAMS server. MediaConvert uses this source ID to locate the appropriate flows containing the media segments you want to process. The source ID corresponds to a specific media source registered in your TAMS server. This source must be of type urn:x-nmos:format:multi, and can can reference multiple flows for audio, video, or combined audio/video content. MediaConvert automatically selects the highest quality flows available for your job. This setting is required when include TAMS settings in your job.
+        /// Specify the unique identifier for the media source in your TAMS server. MediaConvert uses this source ID to locate the appropriate flows containing the media segments you want to process. The source ID corresponds to a specific media source registered in your TAMS server. This source must be of type urn:x-nmos:format:multi, and can can reference multiple flows for audio, video, or combined audio/video content. MediaConvert automatically selects the highest quality flows available for your job. This setting is required when you include TAMS settings in your job.
         public let sourceId: String?
-        /// Specify the time range of media segments to retrieve from your TAMS server. MediaConvert fetches only the segments that fall within this range. Use the format specified by your TAMS server implementation. This must be two timestamp values with the format {sign?}{seconds}:{nanoseconds}, separated by an underscore, surrounded by either parentheses or square brackets.  Example: [15:0_35:0) This setting is required when include TAMS settings in your job.
+        /// Specify the time range of media segments to retrieve from your TAMS server. MediaConvert fetches only the segments that fall within this range. Use the format specified by your TAMS server implementation. This must be two timestamp values with the format {sign?}{seconds}:{nanoseconds}, separated by an underscore, surrounded by either parentheses or square brackets.  Example: [15:0_35:0) This setting is required when you include TAMS settings in your job.
         public let timerange: String?
 
         @inlinable
@@ -8715,6 +8757,8 @@ extension MediaConvert {
         public let jobPercentComplete: Int?
         /// The job template that the job is created from, if it is created from a job template.
         public let jobTemplate: String?
+        /// Contains information about the most recent share attempt for the job. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/creating-resource-share.html
+        public let lastShareDetails: String?
         /// Provides messages from the service about jobs that you have already successfully submitted.
         public let messages: JobMessages?
         /// List of output group details
@@ -8731,6 +8775,8 @@ extension MediaConvert {
         public let role: String?
         /// JobSettings contains all the transcode settings for a job.
         public let settings: JobSettings?
+        /// A job's share status can be NOT_SHARED, INITIATED, or SHARED
+        public let shareStatus: ShareStatus?
         /// Enable this setting when you run a test job to estimate how many reserved transcoding slots (RTS) you need. When this is enabled, MediaConvert runs your job from an on-demand queue with similar performance to what you will see with one RTS in a reserved queue. This setting is disabled by default.
         public let simulateReservedQueue: SimulateReservedQueue?
         /// A job's status can be SUBMITTED, PROGRESSING, COMPLETE, CANCELED, or ERROR.
@@ -8745,7 +8791,7 @@ extension MediaConvert {
         public let warnings: [WarningGroup]?
 
         @inlinable
-        public init(accelerationSettings: AccelerationSettings? = nil, accelerationStatus: AccelerationStatus? = nil, arn: String? = nil, billingTagsSource: BillingTagsSource? = nil, clientRequestToken: String? = nil, createdAt: Date? = nil, currentPhase: JobPhase? = nil, errorCode: Int? = nil, errorMessage: String? = nil, hopDestinations: [HopDestination]? = nil, id: String? = nil, jobEngineVersionRequested: String? = nil, jobEngineVersionUsed: String? = nil, jobPercentComplete: Int? = nil, jobTemplate: String? = nil, messages: JobMessages? = nil, outputGroupDetails: [OutputGroupDetail]? = nil, priority: Int? = nil, queue: String? = nil, queueTransitions: [QueueTransition]? = nil, retryCount: Int? = nil, role: String? = nil, settings: JobSettings? = nil, simulateReservedQueue: SimulateReservedQueue? = nil, status: JobStatus? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, timing: Timing? = nil, userMetadata: [String: String]? = nil, warnings: [WarningGroup]? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, accelerationStatus: AccelerationStatus? = nil, arn: String? = nil, billingTagsSource: BillingTagsSource? = nil, clientRequestToken: String? = nil, createdAt: Date? = nil, currentPhase: JobPhase? = nil, errorCode: Int? = nil, errorMessage: String? = nil, hopDestinations: [HopDestination]? = nil, id: String? = nil, jobEngineVersionRequested: String? = nil, jobEngineVersionUsed: String? = nil, jobPercentComplete: Int? = nil, jobTemplate: String? = nil, lastShareDetails: String? = nil, messages: JobMessages? = nil, outputGroupDetails: [OutputGroupDetail]? = nil, priority: Int? = nil, queue: String? = nil, queueTransitions: [QueueTransition]? = nil, retryCount: Int? = nil, role: String? = nil, settings: JobSettings? = nil, shareStatus: ShareStatus? = nil, simulateReservedQueue: SimulateReservedQueue? = nil, status: JobStatus? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, timing: Timing? = nil, userMetadata: [String: String]? = nil, warnings: [WarningGroup]? = nil) {
             self.accelerationSettings = accelerationSettings
             self.accelerationStatus = accelerationStatus
             self.arn = arn
@@ -8761,6 +8807,7 @@ extension MediaConvert {
             self.jobEngineVersionUsed = jobEngineVersionUsed
             self.jobPercentComplete = jobPercentComplete
             self.jobTemplate = jobTemplate
+            self.lastShareDetails = lastShareDetails
             self.messages = messages
             self.outputGroupDetails = outputGroupDetails
             self.priority = priority
@@ -8769,6 +8816,7 @@ extension MediaConvert {
             self.retryCount = retryCount
             self.role = role
             self.settings = settings
+            self.shareStatus = shareStatus
             self.simulateReservedQueue = simulateReservedQueue
             self.status = status
             self.statusUpdateInterval = statusUpdateInterval
@@ -8793,6 +8841,7 @@ extension MediaConvert {
             case jobEngineVersionUsed = "jobEngineVersionUsed"
             case jobPercentComplete = "jobPercentComplete"
             case jobTemplate = "jobTemplate"
+            case lastShareDetails = "lastShareDetails"
             case messages = "messages"
             case outputGroupDetails = "outputGroupDetails"
             case priority = "priority"
@@ -8801,6 +8850,7 @@ extension MediaConvert {
             case retryCount = "retryCount"
             case role = "role"
             case settings = "settings"
+            case shareStatus = "shareStatus"
             case simulateReservedQueue = "simulateReservedQueue"
             case status = "status"
             case statusUpdateInterval = "statusUpdateInterval"
@@ -10074,6 +10124,8 @@ extension MediaConvert {
     }
 
     public struct Mp2Settings: AWSEncodableShape & AWSDecodableShape {
+        /// Choose BROADCASTER_MIXED_AD when the input contains pre-mixed main audio + audio description (AD) as a stereo pair. The value for AudioType will be set to 3, which signals to downstream systems that this stream contains "broadcaster mixed AD". Note that the input received by the encoder must contain pre-mixed audio; the encoder does not perform the mixing. When you choose BROADCASTER_MIXED_AD, the encoder ignores any values you provide in AudioType and FollowInputAudioType. Choose NONE when the input does not contain pre-mixed audio + audio description (AD). In this case, the encoder will use any values you provide for AudioType and FollowInputAudioType.
+        public let audioDescriptionMix: Mp2AudioDescriptionMix?
         /// Specify the average bitrate in bits per second.
         public let bitrate: Int?
         /// Set Channels to specify the number of channels in this output audio track. Choosing Mono in will give you 1 output channel; choosing Stereo will give you 2. In the API, valid values are 1 and 2.
@@ -10082,7 +10134,8 @@ extension MediaConvert {
         public let sampleRate: Int?
 
         @inlinable
-        public init(bitrate: Int? = nil, channels: Int? = nil, sampleRate: Int? = nil) {
+        public init(audioDescriptionMix: Mp2AudioDescriptionMix? = nil, bitrate: Int? = nil, channels: Int? = nil, sampleRate: Int? = nil) {
+            self.audioDescriptionMix = audioDescriptionMix
             self.bitrate = bitrate
             self.channels = channels
             self.sampleRate = sampleRate
@@ -10098,6 +10151,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case audioDescriptionMix = "audioDescriptionMix"
             case bitrate = "bitrate"
             case channels = "channels"
             case sampleRate = "sampleRate"
@@ -13022,9 +13076,13 @@ extension MediaConvert {
         public let rotate: InputRotate?
         /// If the sample range metadata in your input video is accurate, or if you don't know about sample range, keep the default value, Follow, for this setting. When you do, the service automatically detects your input sample range. If your input video has metadata indicating the wrong sample range, specify the accurate sample range here. When you do, MediaConvert ignores any sample range information in the input metadata. Regardless of whether MediaConvert uses the input sample range or the sample range that you specify, MediaConvert uses the sample range for transcoding and also writes it to the output metadata.
         public let sampleRange: InputSampleRange?
+        /// Choose the video selector type for your HLS input. Use to specify which video rendition MediaConvert uses from your HLS input. To have MediaConvert automatically use the highest bitrate rendition from your HLS input: Keep the default value, Auto. To manually specify a rendition: Choose Stream. Then enter the unique stream number in the Streams array, starting at 1, corresponding to the stream order in the manifest.
+        public let selectorType: VideoSelectorType?
+        /// Specify a stream for MediaConvert to use from your HLS input. Enter an integer corresponding to the stream order in your HLS manifest.
+        public let streams: [Int]?
 
         @inlinable
-        public init(alphaBehavior: AlphaBehavior? = nil, colorSpace: ColorSpace? = nil, colorSpaceUsage: ColorSpaceUsage? = nil, embeddedTimecodeOverride: EmbeddedTimecodeOverride? = nil, hdr10Metadata: Hdr10Metadata? = nil, maxLuminance: Int? = nil, padVideo: PadVideo? = nil, pid: Int? = nil, programNumber: Int? = nil, rotate: InputRotate? = nil, sampleRange: InputSampleRange? = nil) {
+        public init(alphaBehavior: AlphaBehavior? = nil, colorSpace: ColorSpace? = nil, colorSpaceUsage: ColorSpaceUsage? = nil, embeddedTimecodeOverride: EmbeddedTimecodeOverride? = nil, hdr10Metadata: Hdr10Metadata? = nil, maxLuminance: Int? = nil, padVideo: PadVideo? = nil, pid: Int? = nil, programNumber: Int? = nil, rotate: InputRotate? = nil, sampleRange: InputSampleRange? = nil, selectorType: VideoSelectorType? = nil, streams: [Int]? = nil) {
             self.alphaBehavior = alphaBehavior
             self.colorSpace = colorSpace
             self.colorSpaceUsage = colorSpaceUsage
@@ -13036,6 +13094,8 @@ extension MediaConvert {
             self.programNumber = programNumber
             self.rotate = rotate
             self.sampleRange = sampleRange
+            self.selectorType = selectorType
+            self.streams = streams
         }
 
         public func validate(name: String) throws {
@@ -13046,6 +13106,10 @@ extension MediaConvert {
             try self.validate(self.pid, name: "pid", parent: name, min: 1)
             try self.validate(self.programNumber, name: "programNumber", parent: name, max: 2147483647)
             try self.validate(self.programNumber, name: "programNumber", parent: name, min: -2147483648)
+            try self.streams?.forEach {
+                try validate($0, name: "streams[]", parent: name, max: 2147483647)
+                try validate($0, name: "streams[]", parent: name, min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13060,6 +13124,8 @@ extension MediaConvert {
             case programNumber = "programNumber"
             case rotate = "rotate"
             case sampleRange = "sampleRange"
+            case selectorType = "selectorType"
+            case streams = "streams"
         }
     }
 

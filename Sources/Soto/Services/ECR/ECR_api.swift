@@ -175,6 +175,7 @@ public struct ECR: AWSService {
         ]),
         [.fips]: .init(endpoints: [
             "ap-east-2": "ecr-fips.ap-east-2.amazonaws.com",
+            "ap-southeast-6": "ecr-fips.ap-southeast-6.amazonaws.com",
             "us-east-1": "ecr-fips.us-east-1.amazonaws.com",
             "us-east-2": "ecr-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "ecr-fips.us-gov-east-1.amazonaws.com",
@@ -427,6 +428,7 @@ public struct ECR: AWSService {
     ///   - encryptionConfiguration: The encryption configuration for the repository. This determines how the contents of your repository are encrypted at rest.
     ///   - imageScanningConfiguration: The image scanning configuration for the repository. This determines whether images are scanned for known vulnerabilities after being pushed to the repository.
     ///   - imageTagMutability: The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
+    ///   - imageTagMutabilityExclusionFilters: Creates a repository with a list of filters that define which image tags can override the default image tag mutability setting.
     ///   - registryId: The Amazon Web Services account ID associated with the registry to create the repository. If you do not specify a registry, the default registry is assumed.
     ///   - repositoryName: The name to use for the repository. The repository name may be specified on its own (such as nginx-web-app) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app). The repository name must start with a letter and can only contain lowercase letters, numbers, hyphens, underscores, and forward slashes.
     ///   - tags: The metadata that you apply to the repository to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
@@ -436,6 +438,7 @@ public struct ECR: AWSService {
         encryptionConfiguration: EncryptionConfiguration? = nil,
         imageScanningConfiguration: ImageScanningConfiguration? = nil,
         imageTagMutability: ImageTagMutability? = nil,
+        imageTagMutabilityExclusionFilters: [ImageTagMutabilityExclusionFilter]? = nil,
         registryId: String? = nil,
         repositoryName: String,
         tags: [Tag]? = nil,
@@ -445,6 +448,7 @@ public struct ECR: AWSService {
             encryptionConfiguration: encryptionConfiguration, 
             imageScanningConfiguration: imageScanningConfiguration, 
             imageTagMutability: imageTagMutability, 
+            imageTagMutabilityExclusionFilters: imageTagMutabilityExclusionFilters, 
             registryId: registryId, 
             repositoryName: repositoryName, 
             tags: tags
@@ -473,6 +477,7 @@ public struct ECR: AWSService {
     ///   - description: A description for the repository creation template.
     ///   - encryptionConfiguration: The encryption configuration to use for repositories created using the template.
     ///   - imageTagMutability: The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
+    ///   - imageTagMutabilityExclusionFilters: Creates a repository creation template with a list of filters that define which image tags can override the default image tag mutability setting.
     ///   - lifecyclePolicy: The lifecycle policy to use for repositories created using the template.
     ///   - prefix: The repository namespace prefix to associate with the template. All repositories created using this namespace prefix will have the settings defined in this template applied. For example, a prefix of prod would apply to all repositories beginning with prod/. Similarly, a prefix of prod/team would apply to all repositories beginning with prod/team/. To apply a template to all repositories in your registry that don't have an associated creation template, you can use ROOT as the prefix.  There is always an assumed / applied to the end of the prefix. If you specify ecr-public as the prefix, Amazon ECR treats that as ecr-public/. When using a pull through cache rule, the repository prefix you specify during rule creation is what you should specify as your repository creation template prefix as well.
     ///   - repositoryPolicy: The repository policy to apply to repositories created using the template. A repository policy is a permissions policy associated with a repository to control access permissions.
@@ -485,6 +490,7 @@ public struct ECR: AWSService {
         description: String? = nil,
         encryptionConfiguration: EncryptionConfigurationForRepositoryCreationTemplate? = nil,
         imageTagMutability: ImageTagMutability? = nil,
+        imageTagMutabilityExclusionFilters: [ImageTagMutabilityExclusionFilter]? = nil,
         lifecyclePolicy: String? = nil,
         prefix: String,
         repositoryPolicy: String? = nil,
@@ -497,6 +503,7 @@ public struct ECR: AWSService {
             description: description, 
             encryptionConfiguration: encryptionConfiguration, 
             imageTagMutability: imageTagMutability, 
+            imageTagMutabilityExclusionFilters: imageTagMutabilityExclusionFilters, 
             lifecyclePolicy: lifecyclePolicy, 
             prefix: prefix, 
             repositoryPolicy: repositoryPolicy, 
@@ -1428,18 +1435,21 @@ public struct ECR: AWSService {
     ///
     /// Parameters:
     ///   - imageTagMutability: The tag mutability setting for the repository. If MUTABLE is specified, image tags can be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
+    ///   - imageTagMutabilityExclusionFilters: Creates or updates a repository with filters that define which image tags can override the default image tag mutability setting.
     ///   - registryId: The Amazon Web Services account ID associated with the registry that contains the repository in which to update the image tag mutability settings. If you do not specify a registry, the default registry is assumed.
     ///   - repositoryName: The name of the repository in which to update the image tag mutability settings.
     ///   - logger: Logger use during operation
     @inlinable
     public func putImageTagMutability(
         imageTagMutability: ImageTagMutability,
+        imageTagMutabilityExclusionFilters: [ImageTagMutabilityExclusionFilter]? = nil,
         registryId: String? = nil,
         repositoryName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> PutImageTagMutabilityResponse {
         let input = PutImageTagMutabilityRequest(
             imageTagMutability: imageTagMutability, 
+            imageTagMutabilityExclusionFilters: imageTagMutabilityExclusionFilters, 
             registryId: registryId, 
             repositoryName: repositoryName
         )
@@ -1802,6 +1812,7 @@ public struct ECR: AWSService {
     ///   - description: A description for the repository creation template.
     ///   - encryptionConfiguration: 
     ///   - imageTagMutability: Updates the tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
+    ///   - imageTagMutabilityExclusionFilters: Updates a repository with filters that define which image tags can override the default image tag mutability setting.
     ///   - lifecyclePolicy: Updates the lifecycle policy associated with the specified repository creation template.
     ///   - prefix: The repository namespace prefix that matches an existing repository creation template in the registry. All repositories created using this namespace prefix will have the settings defined in this template applied. For example, a prefix of prod would apply to all repositories beginning with prod/. This includes a repository named prod/team1 as well as a repository named prod/repository1. To apply a template to all repositories in your registry that don't have an associated creation template, you can use ROOT as the prefix.
     ///   - repositoryPolicy: Updates the repository policy created using the template. A repository policy is a permissions policy associated with a repository to control access permissions.
@@ -1814,6 +1825,7 @@ public struct ECR: AWSService {
         description: String? = nil,
         encryptionConfiguration: EncryptionConfigurationForRepositoryCreationTemplate? = nil,
         imageTagMutability: ImageTagMutability? = nil,
+        imageTagMutabilityExclusionFilters: [ImageTagMutabilityExclusionFilter]? = nil,
         lifecyclePolicy: String? = nil,
         prefix: String,
         repositoryPolicy: String? = nil,
@@ -1826,6 +1838,7 @@ public struct ECR: AWSService {
             description: description, 
             encryptionConfiguration: encryptionConfiguration, 
             imageTagMutability: imageTagMutability, 
+            imageTagMutabilityExclusionFilters: imageTagMutabilityExclusionFilters, 
             lifecyclePolicy: lifecyclePolicy, 
             prefix: prefix, 
             repositoryPolicy: repositoryPolicy, 

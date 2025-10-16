@@ -44,6 +44,13 @@ extension DAX {
         public var description: String { return self.rawValue }
     }
 
+    public enum NetworkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dualStack = "dual_stack"
+        case ipv4 = "ipv4"
+        case ipv6 = "ipv6"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ParameterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "DEFAULT"
         case nodeTypeSpecific = "NODE_TYPE_SPECIFIC"
@@ -82,6 +89,8 @@ extension DAX {
         public let description: String?
         /// A valid Amazon Resource Name (ARN) that identifies an IAM role. At runtime, DAX will assume this role and use the role's permissions to access DynamoDB on your behalf.
         public let iamRoleArn: String?
+        /// The IP address type of the cluster. Values are:    ipv4 - IPv4 addresses only    ipv6 - IPv6 addresses only    dual_stack - Both IPv4 and IPv6 addresses
+        public let networkType: NetworkType?
         /// A list of nodes to be removed from the cluster.
         public let nodeIdsToRemove: [String]?
         /// A list of nodes that are currently in the cluster.
@@ -106,7 +115,7 @@ extension DAX {
         public let totalNodes: Int?
 
         @inlinable
-        public init(activeNodes: Int? = nil, clusterArn: String? = nil, clusterDiscoveryEndpoint: Endpoint? = nil, clusterEndpointEncryptionType: ClusterEndpointEncryptionType? = nil, clusterName: String? = nil, description: String? = nil, iamRoleArn: String? = nil, nodeIdsToRemove: [String]? = nil, nodes: [Node]? = nil, nodeType: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, parameterGroup: ParameterGroupStatus? = nil, preferredMaintenanceWindow: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, sseDescription: SSEDescription? = nil, status: String? = nil, subnetGroup: String? = nil, totalNodes: Int? = nil) {
+        public init(activeNodes: Int? = nil, clusterArn: String? = nil, clusterDiscoveryEndpoint: Endpoint? = nil, clusterEndpointEncryptionType: ClusterEndpointEncryptionType? = nil, clusterName: String? = nil, description: String? = nil, iamRoleArn: String? = nil, networkType: NetworkType? = nil, nodeIdsToRemove: [String]? = nil, nodes: [Node]? = nil, nodeType: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, parameterGroup: ParameterGroupStatus? = nil, preferredMaintenanceWindow: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, sseDescription: SSEDescription? = nil, status: String? = nil, subnetGroup: String? = nil, totalNodes: Int? = nil) {
             self.activeNodes = activeNodes
             self.clusterArn = clusterArn
             self.clusterDiscoveryEndpoint = clusterDiscoveryEndpoint
@@ -114,6 +123,7 @@ extension DAX {
             self.clusterName = clusterName
             self.description = description
             self.iamRoleArn = iamRoleArn
+            self.networkType = networkType
             self.nodeIdsToRemove = nodeIdsToRemove
             self.nodes = nodes
             self.nodeType = nodeType
@@ -135,6 +145,7 @@ extension DAX {
             case clusterName = "ClusterName"
             case description = "Description"
             case iamRoleArn = "IamRoleArn"
+            case networkType = "NetworkType"
             case nodeIdsToRemove = "NodeIdsToRemove"
             case nodes = "Nodes"
             case nodeType = "NodeType"
@@ -160,6 +171,8 @@ extension DAX {
         public let description: String?
         /// A valid Amazon Resource Name (ARN) that identifies an IAM role. At runtime, DAX will assume this role and use the role's permissions to access DynamoDB on your behalf.
         public let iamRoleArn: String
+        /// Specifies the IP protocol(s) the cluster uses for network communications. Values are:    ipv4 - The cluster is accessible only through IPv4 addresses    ipv6 - The cluster is accessible only through IPv6 addresses    dual_stack - The cluster is accessible through both IPv4 and IPv6 addresses.    If no explicit NetworkType is provided, the network type is derived based on the subnet group's configuration.
+        public let networkType: NetworkType?
         /// The compute and memory capacity of the nodes in the cluster.
         public let nodeType: String
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which notifications will be sent.  The Amazon SNS topic owner must be same as the DAX cluster owner.
@@ -168,9 +181,9 @@ extension DAX {
         public let parameterGroupName: String?
         /// Specifies the weekly time range during which maintenance on the DAX cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:05:00-sun:09:00   If you don't specify a preferred maintenance window when you create or modify a cache cluster, DAX assigns a 60-minute maintenance window on a randomly selected day of the week.
         public let preferredMaintenanceWindow: String?
-        /// The number of nodes in the DAX cluster. A replication factor of 1 will create a single-node cluster, without any read replicas. For additional fault tolerance, you can create a multiple node cluster with one or more read replicas. To do this, set ReplicationFactor to a number between 3 (one primary and two read replicas) and 10 (one primary and nine read replicas).  If the AvailabilityZones parameter is provided, its length must equal the ReplicationFactor.  AWS recommends that you have at least two read replicas per cluster.
+        /// The number of nodes in the DAX cluster. A replication factor of 1 will create a single-node cluster, without any read replicas. For additional fault tolerance, you can create a multiple node cluster with one or more read replicas. To do this, set ReplicationFactor to a number between 3 (one primary and two read replicas) and 10 (one primary and nine read replicas). If the AvailabilityZones parameter is provided, its length must equal the ReplicationFactor.  Amazon Web Services recommends that you have at least two read replicas per cluster.
         public let replicationFactor: Int
-        /// A list of security group IDs to be assigned to each node in the DAX cluster. (Each of the  security group ID is system-generated.) If this parameter is not specified, DAX assigns the default VPC security group to each node.
+        /// A list of security group IDs to be assigned to each node in the DAX cluster. (Each of the security group ID is system-generated.) If this parameter is not specified, DAX assigns the default VPC security group to each node.
         public let securityGroupIds: [String]?
         /// Represents the settings used to enable server-side encryption on the cluster.
         public let sseSpecification: SSESpecification?
@@ -180,12 +193,13 @@ extension DAX {
         public let tags: [Tag]?
 
         @inlinable
-        public init(availabilityZones: [String]? = nil, clusterEndpointEncryptionType: ClusterEndpointEncryptionType? = nil, clusterName: String, description: String? = nil, iamRoleArn: String, nodeType: String, notificationTopicArn: String? = nil, parameterGroupName: String? = nil, preferredMaintenanceWindow: String? = nil, replicationFactor: Int = 0, securityGroupIds: [String]? = nil, sseSpecification: SSESpecification? = nil, subnetGroupName: String? = nil, tags: [Tag]? = nil) {
+        public init(availabilityZones: [String]? = nil, clusterEndpointEncryptionType: ClusterEndpointEncryptionType? = nil, clusterName: String, description: String? = nil, iamRoleArn: String, networkType: NetworkType? = nil, nodeType: String, notificationTopicArn: String? = nil, parameterGroupName: String? = nil, preferredMaintenanceWindow: String? = nil, replicationFactor: Int = 0, securityGroupIds: [String]? = nil, sseSpecification: SSESpecification? = nil, subnetGroupName: String? = nil, tags: [Tag]? = nil) {
             self.availabilityZones = availabilityZones
             self.clusterEndpointEncryptionType = clusterEndpointEncryptionType
             self.clusterName = clusterName
             self.description = description
             self.iamRoleArn = iamRoleArn
+            self.networkType = networkType
             self.nodeType = nodeType
             self.notificationTopicArn = notificationTopicArn
             self.parameterGroupName = parameterGroupName
@@ -203,6 +217,7 @@ extension DAX {
             case clusterName = "ClusterName"
             case description = "Description"
             case iamRoleArn = "IamRoleArn"
+            case networkType = "NetworkType"
             case nodeType = "NodeType"
             case notificationTopicArn = "NotificationTopicArn"
             case parameterGroupName = "ParameterGroupName"
@@ -482,7 +497,7 @@ extension DAX {
     public struct DescribeDefaultParametersResponse: AWSDecodableShape {
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
-        /// A list of parameters.  Each element in the list represents one parameter.
+        /// A list of parameters. Each element in the list represents one parameter.
         public let parameters: [Parameter]?
 
         @inlinable
@@ -536,7 +551,7 @@ extension DAX {
     }
 
     public struct DescribeEventsResponse: AWSDecodableShape {
-        /// An array of events.  Each element in the array represents one event.
+        /// An array of events. Each element in the array represents one event.
         public let events: [Event]?
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
@@ -578,7 +593,7 @@ extension DAX {
     public struct DescribeParameterGroupsResponse: AWSDecodableShape {
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
-        /// An array of parameter groups.  Each element in the array represents one parameter group.
+        /// An array of parameter groups. Each element in the array represents one parameter group.
         public let parameterGroups: [ParameterGroup]?
 
         @inlinable
@@ -622,7 +637,7 @@ extension DAX {
     public struct DescribeParametersResponse: AWSDecodableShape {
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
-        /// A list of parameters within a parameter group.  Each element in the list represents one parameter.
+        /// A list of parameters within a parameter group. Each element in the list represents one parameter.
         public let parameters: [Parameter]?
 
         @inlinable
@@ -662,7 +677,7 @@ extension DAX {
     public struct DescribeSubnetGroupsResponse: AWSDecodableShape {
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
-        /// An array of subnet groups.  Each element in the array represents a single subnet group.
+        /// An array of subnet groups. Each element in the array represents a single subnet group.
         public let subnetGroups: [SubnetGroup]?
 
         @inlinable
@@ -748,7 +763,7 @@ extension DAX {
     }
 
     public struct IncreaseReplicationFactorResponse: AWSDecodableShape {
-        /// A description of the DAX cluster. with its new replication factor.
+        /// A description of the DAX cluster, with its new replication factor.
         public let cluster: Cluster?
 
         @inlinable
@@ -780,7 +795,7 @@ extension DAX {
     }
 
     public struct ListTagsResponse: AWSDecodableShape {
-        /// If this value is present, there are additional results to be displayed.  To retrieve them, call  ListTags again, with NextToken set to this value.
+        /// If this value is present, there are additional results to be displayed. To retrieve them, call ListTags again, with NextToken set to this value.
         public let nextToken: String?
         /// A list of tags currently associated with the DAX cluster.
         public let tags: [Tag]?
@@ -1058,16 +1073,20 @@ extension DAX {
         public let subnetAvailabilityZone: String?
         /// The system-assigned identifier for the subnet.
         public let subnetIdentifier: String?
+        /// The network types supported by this subnet. Returns an array of strings that can include ipv4, ipv6, or both, indicating whether the subnet supports IPv4 only, IPv6 only, or dual-stack deployments.
+        public let supportedNetworkTypes: [NetworkType]?
 
         @inlinable
-        public init(subnetAvailabilityZone: String? = nil, subnetIdentifier: String? = nil) {
+        public init(subnetAvailabilityZone: String? = nil, subnetIdentifier: String? = nil, supportedNetworkTypes: [NetworkType]? = nil) {
             self.subnetAvailabilityZone = subnetAvailabilityZone
             self.subnetIdentifier = subnetIdentifier
+            self.supportedNetworkTypes = supportedNetworkTypes
         }
 
         private enum CodingKeys: String, CodingKey {
             case subnetAvailabilityZone = "SubnetAvailabilityZone"
             case subnetIdentifier = "SubnetIdentifier"
+            case supportedNetworkTypes = "SupportedNetworkTypes"
         }
     }
 
@@ -1078,14 +1097,17 @@ extension DAX {
         public let subnetGroupName: String?
         /// A list of subnets associated with the subnet group.
         public let subnets: [Subnet]?
+        /// The network types supported by this subnet. Returns an array of strings that can include ipv4, ipv6, or both, indicating whether the subnet group supports IPv4 only, IPv6 only, or dual-stack deployments.
+        public let supportedNetworkTypes: [NetworkType]?
         /// The Amazon Virtual Private Cloud identifier (VPC ID) of the subnet group.
         public let vpcId: String?
 
         @inlinable
-        public init(description: String? = nil, subnetGroupName: String? = nil, subnets: [Subnet]? = nil, vpcId: String? = nil) {
+        public init(description: String? = nil, subnetGroupName: String? = nil, subnets: [Subnet]? = nil, supportedNetworkTypes: [NetworkType]? = nil, vpcId: String? = nil) {
             self.description = description
             self.subnetGroupName = subnetGroupName
             self.subnets = subnets
+            self.supportedNetworkTypes = supportedNetworkTypes
             self.vpcId = vpcId
         }
 
@@ -1093,12 +1115,13 @@ extension DAX {
             case description = "Description"
             case subnetGroupName = "SubnetGroupName"
             case subnets = "Subnets"
+            case supportedNetworkTypes = "SupportedNetworkTypes"
             case vpcId = "VpcId"
         }
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
-        /// The key for the tag.  Tag keys are case sensitive. Every DAX cluster can only have one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value.
+        /// The key for the tag. Tag keys are case sensitive. Every DAX cluster can only have one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value.
         public let key: String?
         /// The value of the tag. Tag values are case-sensitive and can be null.
         public let value: String?
@@ -1192,7 +1215,7 @@ extension DAX {
         public let parameterGroupName: String?
         /// A range of time when maintenance of DAX cluster software will be performed. For example: sun:01:00-sun:09:00. Cluster maintenance normally takes less than 30 minutes, and is performed automatically within the maintenance window.
         public let preferredMaintenanceWindow: String?
-        /// A list of user-specified security group IDs to be assigned to each node in the DAX cluster.  If this parameter is not  specified, DAX assigns the default VPC security group to each node.
+        /// A list of user-specified security group IDs to be assigned to each node in the DAX cluster. If this parameter is not specified, DAX assigns the default VPC security group to each node.
         public let securityGroupIds: [String]?
 
         @inlinable
@@ -1329,6 +1352,7 @@ public struct DAXErrorType: AWSErrorType {
         case subnetGroupNotFoundFault = "SubnetGroupNotFoundFault"
         case subnetGroupQuotaExceededFault = "SubnetGroupQuotaExceededFault"
         case subnetInUse = "SubnetInUse"
+        case subnetNotAllowedFault = "SubnetNotAllowedFault"
         case subnetQuotaExceededFault = "SubnetQuotaExceededFault"
         case tagNotFoundFault = "TagNotFoundFault"
         case tagQuotaPerResourceExceeded = "TagQuotaPerResourceExceeded"
@@ -1356,7 +1380,7 @@ public struct DAXErrorType: AWSErrorType {
     public static var clusterAlreadyExistsFault: Self { .init(.clusterAlreadyExistsFault) }
     /// The requested cluster ID does not refer to an existing DAX cluster.
     public static var clusterNotFoundFault: Self { .init(.clusterNotFoundFault) }
-    /// You have attempted to exceed the maximum number of DAX clusters for your AWS account.
+    /// You have attempted to exceed the maximum number of DAX clusters for your Amazon Web Services account.
     public static var clusterQuotaForCustomerExceededFault: Self { .init(.clusterQuotaForCustomerExceededFault) }
     /// There are not enough system resources to create the cluster you requested (or to resize an already-existing cluster).
     public static var insufficientClusterCapacityFault: Self { .init(.insufficientClusterCapacityFault) }
@@ -1378,7 +1402,7 @@ public struct DAXErrorType: AWSErrorType {
     public static var nodeNotFoundFault: Self { .init(.nodeNotFoundFault) }
     /// You have attempted to exceed the maximum number of nodes for a DAX cluster.
     public static var nodeQuotaForClusterExceededFault: Self { .init(.nodeQuotaForClusterExceededFault) }
-    /// You have attempted to exceed the maximum number of nodes for your AWS account.
+    /// You have attempted to exceed the maximum number of nodes for your Amazon Web Services account.
     public static var nodeQuotaForCustomerExceededFault: Self { .init(.nodeQuotaForCustomerExceededFault) }
     /// The specified parameter group already exists.
     public static var parameterGroupAlreadyExistsFault: Self { .init(.parameterGroupAlreadyExistsFault) }
@@ -1388,7 +1412,7 @@ public struct DAXErrorType: AWSErrorType {
     public static var parameterGroupQuotaExceededFault: Self { .init(.parameterGroupQuotaExceededFault) }
     /// The specified service linked role (SLR) was not found.
     public static var serviceLinkedRoleNotFoundFault: Self { .init(.serviceLinkedRoleNotFoundFault) }
-    /// You have reached the maximum number of x509 certificates that can be created for encrypted clusters in a 30 day period. Contact AWS customer support to discuss options for continuing to create encrypted clusters.
+    /// You have reached the maximum number of x509 certificates that can be created for encrypted clusters in a 30 day period. Contact Amazon Web Services customer support to discuss options for continuing to create encrypted clusters.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The specified subnet group already exists.
     public static var subnetGroupAlreadyExistsFault: Self { .init(.subnetGroupAlreadyExistsFault) }
@@ -1400,6 +1424,8 @@ public struct DAXErrorType: AWSErrorType {
     public static var subnetGroupQuotaExceededFault: Self { .init(.subnetGroupQuotaExceededFault) }
     /// The requested subnet is being used by another subnet group.
     public static var subnetInUse: Self { .init(.subnetInUse) }
+    /// The specified subnet can't be used for the requested network type. This error occurs when either there aren't enough subnets of the required network type to create the cluster, or when you try to use a subnet that doesn't support the requested network type (for example, trying to create a dual-stack cluster with a subnet that doesn't have IPv6 CIDR).
+    public static var subnetNotAllowedFault: Self { .init(.subnetNotAllowedFault) }
     /// The request cannot be processed because it would exceed the allowed number of subnets in a subnet group.
     public static var subnetQuotaExceededFault: Self { .init(.subnetQuotaExceededFault) }
     /// The tag does not exist.

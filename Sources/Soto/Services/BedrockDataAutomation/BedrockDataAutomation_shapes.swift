@@ -149,17 +149,33 @@ extension BedrockDataAutomation {
 
     public struct AudioExtractionCategory: AWSEncodableShape & AWSDecodableShape {
         public let state: State
+        public let typeConfiguration: AudioExtractionCategoryTypeConfiguration?
         public let types: [AudioExtractionCategoryType]?
 
         @inlinable
-        public init(state: State, types: [AudioExtractionCategoryType]? = nil) {
+        public init(state: State, typeConfiguration: AudioExtractionCategoryTypeConfiguration? = nil, types: [AudioExtractionCategoryType]? = nil) {
             self.state = state
+            self.typeConfiguration = typeConfiguration
             self.types = types
         }
 
         private enum CodingKeys: String, CodingKey {
             case state = "state"
+            case typeConfiguration = "typeConfiguration"
             case types = "types"
+        }
+    }
+
+    public struct AudioExtractionCategoryTypeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let transcript: TranscriptConfiguration?
+
+        @inlinable
+        public init(transcript: TranscriptConfiguration? = nil) {
+            self.transcript = transcript
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transcript = "transcript"
         }
     }
 
@@ -344,6 +360,19 @@ extension BedrockDataAutomation {
             case blueprintVersion = "blueprintVersion"
             case creationTime = "creationTime"
             case lastModifiedTime = "lastModifiedTime"
+        }
+    }
+
+    public struct ChannelLabelingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let state: State
+
+        @inlinable
+        public init(state: State) {
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
         }
     }
 
@@ -1249,6 +1278,19 @@ extension BedrockDataAutomation {
         }
     }
 
+    public struct SpeakerLabelingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let state: State
+
+        @inlinable
+        public init(state: State) {
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+        }
+    }
+
     public struct SplitterConfiguration: AWSEncodableShape & AWSDecodableShape {
         public let state: State?
 
@@ -1334,6 +1376,22 @@ extension BedrockDataAutomation {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct TranscriptConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let channelLabeling: ChannelLabelingConfiguration?
+        public let speakerLabeling: SpeakerLabelingConfiguration?
+
+        @inlinable
+        public init(channelLabeling: ChannelLabelingConfiguration? = nil, speakerLabeling: SpeakerLabelingConfiguration? = nil) {
+            self.channelLabeling = channelLabeling
+            self.speakerLabeling = speakerLabeling
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelLabeling = "channelLabeling"
+            case speakerLabeling = "speakerLabeling"
+        }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {

@@ -256,7 +256,7 @@ public struct GuardDuty: AWSService {
     ///   - clientToken: The idempotency token for the create request.
     ///   - description: The description of the filter. Valid characters include alphanumeric characters, and special characters such as hyphen, period, colon, underscore, parentheses ({ }, [ ], and ( )), forward slash, horizontal tab, vertical tab, newline, form feed, return, and whitespace.
     ///   - detectorId: The detector ID associated with the GuardDuty account for which you want to create a filter. To find the detectorId in the current Region, see the
-    ///   - findingCriteria: Represents the criteria to be used in the filter for querying findings. You can only use the following attributes to query findings:   accountId   id   region   severity To filter on the basis of severity, the API and CLI use the following input list for the FindingCriteria condition:    Low: ["1", "2", "3"]     Medium: ["4", "5", "6"]     High: ["7", "8"]     Critical: ["9", "10"]    For more information, see Findings severity levels in the Amazon GuardDuty User Guide.   type   updatedAt Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds.   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.outpostArn   resource.resourceType   resource.s3BucketDetails.publicAccess.effectivePermissions   resource.s3BucketDetails.name   resource.s3BucketDetails.tags.key   resource.s3BucketDetails.tags.value   resource.s3BucketDetails.type   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.errorCode   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.ipAddressV6   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.dnsRequestAction.domainWithSuffix   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.ipAddressV6   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.action.awsApiCallAction.remoteAccountDetails.affiliated   service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV4   service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV6   service.action.kubernetesApiCallAction.namespace   service.action.kubernetesApiCallAction.remoteIpDetails.organization.asn   service.action.kubernetesApiCallAction.requestUri   service.action.kubernetesApiCallAction.statusCode   service.action.networkConnectionAction.localIpDetails.ipAddressV4   service.action.networkConnectionAction.localIpDetails.ipAddressV6   service.action.networkConnectionAction.protocol   service.action.awsApiCallAction.serviceName   service.action.awsApiCallAction.remoteAccountDetails.accountId   service.additionalInfo.threatListName   service.resourceRole   resource.eksClusterDetails.name   resource.kubernetesDetails.kubernetesWorkloadDetails.name   resource.kubernetesDetails.kubernetesWorkloadDetails.namespace   resource.kubernetesDetails.kubernetesUserDetails.username   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.image   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.imagePrefix   service.ebsVolumeScanDetails.scanId   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.name   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.severity   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.filePaths.hash   resource.ecsClusterDetails.name   resource.ecsClusterDetails.taskDetails.containers.image   resource.ecsClusterDetails.taskDetails.definitionArn   resource.containerDetails.image   resource.rdsDbInstanceDetails.dbInstanceIdentifier   resource.rdsDbInstanceDetails.dbClusterIdentifier   resource.rdsDbInstanceDetails.engine   resource.rdsDbUserDetails.user   resource.rdsDbInstanceDetails.tags.key   resource.rdsDbInstanceDetails.tags.value   service.runtimeDetails.process.executableSha256   service.runtimeDetails.process.name   service.runtimeDetails.process.executablePath   resource.lambdaDetails.functionName   resource.lambdaDetails.functionArn   resource.lambdaDetails.tags.key   resource.lambdaDetails.tags.value
+    ///   - findingCriteria: Represents the criteria to be used in the filter for querying findings. You can only use the following attributes to query findings:   accountId   id   region   severity To filter on the basis of severity, the API and CLI use the following input list for the FindingCriteria condition:    Low: ["1", "2", "3"]     Medium: ["4", "5", "6"]     High: ["7", "8"]     Critical: ["9", "10"]    For more information, see Findings severity levels in the Amazon GuardDuty User Guide.   type   updatedAt Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds.   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.outpostArn   resource.resourceType   resource.s3BucketDetails.publicAccess.effectivePermissions   resource.s3BucketDetails.name   resource.s3BucketDetails.tags.key   resource.s3BucketDetails.tags.value   resource.s3BucketDetails.type   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.errorCode   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.ipAddressV6   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.dnsRequestAction.domainWithSuffix   service.action.dnsRequestAction.vpcOwnerAccountId   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.ipAddressV6   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.action.awsApiCallAction.remoteAccountDetails.affiliated   service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV4   service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV6   service.action.kubernetesApiCallAction.namespace   service.action.kubernetesApiCallAction.remoteIpDetails.organization.asn   service.action.kubernetesApiCallAction.requestUri   service.action.kubernetesApiCallAction.statusCode   service.action.networkConnectionAction.localIpDetails.ipAddressV4   service.action.networkConnectionAction.localIpDetails.ipAddressV6   service.action.networkConnectionAction.protocol   service.action.awsApiCallAction.serviceName   service.action.awsApiCallAction.remoteAccountDetails.accountId   service.additionalInfo.threatListName   service.resourceRole   resource.eksClusterDetails.name   resource.kubernetesDetails.kubernetesWorkloadDetails.name   resource.kubernetesDetails.kubernetesWorkloadDetails.namespace   resource.kubernetesDetails.kubernetesUserDetails.username   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.image   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.imagePrefix   service.ebsVolumeScanDetails.scanId   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.name   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.severity   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.filePaths.hash   resource.ecsClusterDetails.name   resource.ecsClusterDetails.taskDetails.containers.image   resource.ecsClusterDetails.taskDetails.definitionArn   resource.containerDetails.image   resource.rdsDbInstanceDetails.dbInstanceIdentifier   resource.rdsDbInstanceDetails.dbClusterIdentifier   resource.rdsDbInstanceDetails.engine   resource.rdsDbUserDetails.user   resource.rdsDbInstanceDetails.tags.key   resource.rdsDbInstanceDetails.tags.value   service.runtimeDetails.process.executableSha256   service.runtimeDetails.process.name   service.runtimeDetails.process.executablePath   resource.lambdaDetails.functionName   resource.lambdaDetails.functionArn   resource.lambdaDetails.tags.key   resource.lambdaDetails.tags.value
     ///   - name: The name of the filter. Valid characters include period (.), underscore (_), dash (-), and alphanumeric characters. A whitespace is considered to be an invalid character.
     ///   - rank: Specifies the position of the filter in the list of current filters. Also specifies the order in which this filter is applied to the findings.
     ///   - tags: The tags to be added to a new filter resource.
@@ -479,6 +479,56 @@ public struct GuardDuty: AWSService {
         return try await self.createSampleFindings(input, logger: logger)
     }
 
+    /// Creates a new threat entity set. In a threat entity set, you can provide known malicious  IP addresses and domains for your Amazon Web Services environment.  GuardDuty generates findings based on the entries in the threat entity sets.  Only users of the administrator account can manage entity sets, which automatically apply to member accounts.
+    @Sendable
+    @inlinable
+    public func createThreatEntitySet(_ input: CreateThreatEntitySetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateThreatEntitySetResponse {
+        try await self.client.execute(
+            operation: "CreateThreatEntitySet", 
+            path: "/detector/{DetectorId}/threatentityset", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new threat entity set. In a threat entity set, you can provide known malicious  IP addresses and domains for your Amazon Web Services environment.  GuardDuty generates findings based on the entries in the threat entity sets.  Only users of the administrator account can manage entity sets, which automatically apply to member accounts.
+    ///
+    /// Parameters:
+    ///   - activate: A boolean value that indicates whether GuardDuty should start using the uploaded threat entity set to generate findings.
+    ///   - clientToken: The idempotency token for the create request.
+    ///   - detectorId: The unique ID of the detector of the GuardDuty account for which you want to create a threat entity set. To find the detectorId in the current Region, see the
+    ///   - expectedBucketOwner: The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
+    ///   - format: The format of the file that contains the threat entity set.
+    ///   - location: The URI of the file that contains the threat entity set. The format of the Location URL must be a valid Amazon S3 URL format. Invalid URL formats will result in an error, regardless of whether you activate the entity set or not. For more information about format of the location URLs, see Format of location URL under Step 2: Adding trusted or threat intelligence data in the Amazon GuardDuty User Guide.
+    ///   - name: A user-friendly name to identify the threat entity set. The name of your list can include  lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
+    ///   - tags: The tags to be added to a new threat entity set resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createThreatEntitySet(
+        activate: Bool? = nil,
+        clientToken: String? = CreateThreatEntitySetRequest.idempotencyToken(),
+        detectorId: String,
+        expectedBucketOwner: String? = nil,
+        format: ThreatEntitySetFormat? = nil,
+        location: String? = nil,
+        name: String? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateThreatEntitySetResponse {
+        let input = CreateThreatEntitySetRequest(
+            activate: activate, 
+            clientToken: clientToken, 
+            detectorId: detectorId, 
+            expectedBucketOwner: expectedBucketOwner, 
+            format: format, 
+            location: location, 
+            name: name, 
+            tags: tags
+        )
+        return try await self.createThreatEntitySet(input, logger: logger)
+    }
+
     /// Creates a new ThreatIntelSet. ThreatIntelSets consist of known malicious IP addresses. GuardDuty generates findings based on ThreatIntelSets. Only users of the administrator account can use this operation.
     @Sendable
     @inlinable
@@ -497,7 +547,7 @@ public struct GuardDuty: AWSService {
     /// Parameters:
     ///   - activate: A Boolean value that indicates whether GuardDuty is to start using the uploaded ThreatIntelSet.
     ///   - clientToken: The idempotency token for the create request.
-    ///   - detectorId: The unique ID of the detector of the GuardDuty account for which you want to create a ThreatIntelSet. To find the detectorId in the current Region, see the
+    ///   - detectorId: The unique ID of the detector of the GuardDuty account for which you want to create a threatIntelSet. To find the detectorId in the current Region, see the
     ///   - expectedBucketOwner: The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
     ///   - format: The format of the file that contains the ThreatIntelSet.
     ///   - location: The URI of the file that contains the ThreatIntelSet.
@@ -527,6 +577,56 @@ public struct GuardDuty: AWSService {
             tags: tags
         )
         return try await self.createThreatIntelSet(input, logger: logger)
+    }
+
+    /// Creates a new trusted entity set. In the trusted entity set, you can provide IP addresses and domains that you believe are secure for communication in your Amazon Web Services environment. GuardDuty  will not generate findings for the entries that are specified in a trusted entity set. At any given time, you can have only one trusted entity set.  Only users of the administrator account can manage the entity sets, which automatically apply to member accounts.
+    @Sendable
+    @inlinable
+    public func createTrustedEntitySet(_ input: CreateTrustedEntitySetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTrustedEntitySetResponse {
+        try await self.client.execute(
+            operation: "CreateTrustedEntitySet", 
+            path: "/detector/{DetectorId}/trustedentityset", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new trusted entity set. In the trusted entity set, you can provide IP addresses and domains that you believe are secure for communication in your Amazon Web Services environment. GuardDuty  will not generate findings for the entries that are specified in a trusted entity set. At any given time, you can have only one trusted entity set.  Only users of the administrator account can manage the entity sets, which automatically apply to member accounts.
+    ///
+    /// Parameters:
+    ///   - activate: A boolean value that indicates whether GuardDuty is to start using the uploaded trusted entity set.
+    ///   - clientToken: The idempotency token for the create request.
+    ///   - detectorId: The unique ID of the detector of the GuardDuty account for which you want to create a trusted entity set. To find the detectorId in the current Region, see the
+    ///   - expectedBucketOwner: The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
+    ///   - format: The format of the file that contains the trusted entity set.
+    ///   - location: The URI of the file that contains the threat entity set. The format of the Location URL must be a valid Amazon S3 URL format. Invalid URL formats will result in an error, regardless of whether you activate the entity set or not. For more information about format of the location URLs, see Format of location URL under Step 2: Adding trusted or threat intelligence data in the Amazon GuardDuty User Guide.
+    ///   - name: A user-friendly name to identify the trusted entity set. The name of your list can include  lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
+    ///   - tags: The tags to be added to a new trusted entity set resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createTrustedEntitySet(
+        activate: Bool? = nil,
+        clientToken: String? = CreateTrustedEntitySetRequest.idempotencyToken(),
+        detectorId: String,
+        expectedBucketOwner: String? = nil,
+        format: TrustedEntitySetFormat? = nil,
+        location: String? = nil,
+        name: String? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateTrustedEntitySetResponse {
+        let input = CreateTrustedEntitySetRequest(
+            activate: activate, 
+            clientToken: clientToken, 
+            detectorId: detectorId, 
+            expectedBucketOwner: expectedBucketOwner, 
+            format: format, 
+            location: location, 
+            name: name, 
+            tags: tags
+        )
+        return try await self.createTrustedEntitySet(input, logger: logger)
     }
 
     /// Declines invitations sent to the current member account by Amazon Web Services accounts specified by their account IDs.
@@ -773,6 +873,38 @@ public struct GuardDuty: AWSService {
         return try await self.deletePublishingDestination(input, logger: logger)
     }
 
+    /// Deletes the threat entity set that is associated with the specified  threatEntitySetId.
+    @Sendable
+    @inlinable
+    public func deleteThreatEntitySet(_ input: DeleteThreatEntitySetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteThreatEntitySetResponse {
+        try await self.client.execute(
+            operation: "DeleteThreatEntitySet", 
+            path: "/detector/{DetectorId}/threatentityset/{ThreatEntitySetId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the threat entity set that is associated with the specified  threatEntitySetId.
+    ///
+    /// Parameters:
+    ///   - detectorId: The unique ID of the detector associated with the threat entity set resource. To find the detectorId in the current Region, see the
+    ///   - threatEntitySetId: The unique ID that helps GuardDuty identify which threat entity set needs to be deleted.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteThreatEntitySet(
+        detectorId: String,
+        threatEntitySetId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteThreatEntitySetResponse {
+        let input = DeleteThreatEntitySetRequest(
+            detectorId: detectorId, 
+            threatEntitySetId: threatEntitySetId
+        )
+        return try await self.deleteThreatEntitySet(input, logger: logger)
+    }
+
     /// Deletes the ThreatIntelSet specified by the ThreatIntelSet ID.
     @Sendable
     @inlinable
@@ -803,6 +935,38 @@ public struct GuardDuty: AWSService {
             threatIntelSetId: threatIntelSetId
         )
         return try await self.deleteThreatIntelSet(input, logger: logger)
+    }
+
+    /// Deletes the trusted entity set that is associated with the specified  trustedEntitySetId.
+    @Sendable
+    @inlinable
+    public func deleteTrustedEntitySet(_ input: DeleteTrustedEntitySetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTrustedEntitySetResponse {
+        try await self.client.execute(
+            operation: "DeleteTrustedEntitySet", 
+            path: "/detector/{DetectorId}/trustedentityset/{TrustedEntitySetId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the trusted entity set that is associated with the specified  trustedEntitySetId.
+    ///
+    /// Parameters:
+    ///   - detectorId: The unique ID of the detector associated with the trusted entity set resource. To find the detectorId in the current Region, see the
+    ///   - trustedEntitySetId: The unique ID that helps GuardDuty identify which trusted entity set needs to be deleted.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteTrustedEntitySet(
+        detectorId: String,
+        trustedEntitySetId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteTrustedEntitySetResponse {
+        let input = DeleteTrustedEntitySetRequest(
+            detectorId: detectorId, 
+            trustedEntitySetId: trustedEntitySetId
+        )
+        return try await self.deleteTrustedEntitySet(input, logger: logger)
     }
 
     /// Returns a list of malware scans. Each member account can view the malware scans for their own accounts. An administrator can view the malware scans for all the member accounts. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
@@ -1520,6 +1684,38 @@ public struct GuardDuty: AWSService {
         return try await self.getRemainingFreeTrialDays(input, logger: logger)
     }
 
+    /// Retrieves the threat entity set associated with the specified threatEntitySetId.
+    @Sendable
+    @inlinable
+    public func getThreatEntitySet(_ input: GetThreatEntitySetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetThreatEntitySetResponse {
+        try await self.client.execute(
+            operation: "GetThreatEntitySet", 
+            path: "/detector/{DetectorId}/threatentityset/{ThreatEntitySetId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the threat entity set associated with the specified threatEntitySetId.
+    ///
+    /// Parameters:
+    ///   - detectorId: The unique ID of the detector associated with the threat entity set resource. To find the detectorId in the current Region, see the
+    ///   - threatEntitySetId: The unique ID that helps GuardDuty identify the threat entity set.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getThreatEntitySet(
+        detectorId: String,
+        threatEntitySetId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetThreatEntitySetResponse {
+        let input = GetThreatEntitySetRequest(
+            detectorId: detectorId, 
+            threatEntitySetId: threatEntitySetId
+        )
+        return try await self.getThreatEntitySet(input, logger: logger)
+    }
+
     /// Retrieves the ThreatIntelSet that is specified by the ThreatIntelSet ID.
     @Sendable
     @inlinable
@@ -1550,6 +1746,38 @@ public struct GuardDuty: AWSService {
             threatIntelSetId: threatIntelSetId
         )
         return try await self.getThreatIntelSet(input, logger: logger)
+    }
+
+    /// Retrieves the trusted entity set associated with the specified trustedEntitySetId.
+    @Sendable
+    @inlinable
+    public func getTrustedEntitySet(_ input: GetTrustedEntitySetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTrustedEntitySetResponse {
+        try await self.client.execute(
+            operation: "GetTrustedEntitySet", 
+            path: "/detector/{DetectorId}/trustedentityset/{TrustedEntitySetId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the trusted entity set associated with the specified trustedEntitySetId.
+    ///
+    /// Parameters:
+    ///   - detectorId: The unique ID of the GuardDuty detector associated with this trusted entity set.
+    ///   - trustedEntitySetId: The unique ID that helps GuardDuty identify the trusted entity set.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTrustedEntitySet(
+        detectorId: String,
+        trustedEntitySetId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTrustedEntitySetResponse {
+        let input = GetTrustedEntitySetRequest(
+            detectorId: detectorId, 
+            trustedEntitySetId: trustedEntitySetId
+        )
+        return try await self.getTrustedEntitySet(input, logger: logger)
     }
 
     /// Lists Amazon GuardDuty usage statistics over the last 30 days for the specified detector ID. For newly enabled detectors or data sources, the cost returned will include only the usage so far under 30 days. This may differ from the cost metrics in the console, which project usage over 30 days to provide a monthly cost estimate. For more information, see Understanding How Usage Costs are Calculated.
@@ -1866,7 +2094,7 @@ public struct GuardDuty: AWSService {
     /// Lists the Malware Protection plan IDs associated with the protected resources in your Amazon Web Services account.
     ///
     /// Parameters:
-    ///   - nextToken: You can use this parameter when paginating results. Set the value  of this parameter to null on your first call to the list action.  For subsequent calls to the action, fill nextToken in the request  with the value of NextToken from the previous response to  continue listing data.
+    ///   - nextToken: You can use this parameter when paginating results. Set the value  of this parameter to null on your first call to the list action.  For subsequent calls to the action, fill nextToken in the request  with the value of NextToken from the previous response to  continue listing data. The default page size is 100 plans.
     ///   - logger: Logger use during operation
     @inlinable
     public func listMalwareProtectionPlans(
@@ -2013,6 +2241,41 @@ public struct GuardDuty: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
+    /// Lists the threat entity sets associated with the specified GuardDuty detector ID. If you use this operation from a member account, the threat entity sets that are returned as a response, belong to the  administrator account.
+    @Sendable
+    @inlinable
+    public func listThreatEntitySets(_ input: ListThreatEntitySetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListThreatEntitySetsResponse {
+        try await self.client.execute(
+            operation: "ListThreatEntitySets", 
+            path: "/detector/{DetectorId}/threatentityset", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the threat entity sets associated with the specified GuardDuty detector ID. If you use this operation from a member account, the threat entity sets that are returned as a response, belong to the  administrator account.
+    ///
+    /// Parameters:
+    ///   - detectorId: The unique ID of the GuardDuty detector that is associated with this threat entity set. To find the detectorId in the current Region, see the
+    ///   - maxResults: You can use this parameter to indicate the maximum number of  items you want in the response. The default value is 50.
+    ///   - nextToken: You can use this parameter when paginating results. Set the value  of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request  with the value of NextToken from the previous response to continue listing data.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listThreatEntitySets(
+        detectorId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListThreatEntitySetsResponse {
+        let input = ListThreatEntitySetsRequest(
+            detectorId: detectorId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listThreatEntitySets(input, logger: logger)
+    }
+
     /// Lists the ThreatIntelSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the ThreatIntelSets associated with the administrator account are returned.
     @Sendable
     @inlinable
@@ -2046,6 +2309,41 @@ public struct GuardDuty: AWSService {
             nextToken: nextToken
         )
         return try await self.listThreatIntelSets(input, logger: logger)
+    }
+
+    /// Lists the trusted entity sets associated with the specified GuardDuty detector ID. If you use this operation from a member account, the trusted entity sets that are returned as a response, belong to the  administrator account.
+    @Sendable
+    @inlinable
+    public func listTrustedEntitySets(_ input: ListTrustedEntitySetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTrustedEntitySetsResponse {
+        try await self.client.execute(
+            operation: "ListTrustedEntitySets", 
+            path: "/detector/{DetectorId}/trustedentityset", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the trusted entity sets associated with the specified GuardDuty detector ID. If you use this operation from a member account, the trusted entity sets that are returned as a response, belong to the  administrator account.
+    ///
+    /// Parameters:
+    ///   - detectorId: The unique ID of the GuardDuty detector that is associated with this threat entity set. To find the detectorId in the current Region, see the
+    ///   - maxResults: You can use this parameter to indicate the maximum number of  items you want in the response. The default value is 50.
+    ///   - nextToken: You can use this parameter when paginating results. Set the value  of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request  with the value of NextToken from the previous response to continue listing data.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTrustedEntitySets(
+        detectorId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTrustedEntitySetsResponse {
+        let input = ListTrustedEntitySetsRequest(
+            detectorId: detectorId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listTrustedEntitySets(input, logger: logger)
     }
 
     /// Initiates the malware scan. Invoking this API will automatically create the Service-linked role in  the corresponding account. When the malware scan starts, you can use the associated scan ID to track the status of the scan. For more information, see DescribeMalwareScans.
@@ -2579,6 +2877,50 @@ public struct GuardDuty: AWSService {
         return try await self.updatePublishingDestination(input, logger: logger)
     }
 
+    /// Updates the threat entity set associated with the specified threatEntitySetId.
+    @Sendable
+    @inlinable
+    public func updateThreatEntitySet(_ input: UpdateThreatEntitySetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateThreatEntitySetResponse {
+        try await self.client.execute(
+            operation: "UpdateThreatEntitySet", 
+            path: "/detector/{DetectorId}/threatentityset/{ThreatEntitySetId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the threat entity set associated with the specified threatEntitySetId.
+    ///
+    /// Parameters:
+    ///   - activate: A boolean value that indicates whether GuardDuty is to start using this updated threat entity set. After you update an entity set, you will need to activate it again. It might take up to 15 minutes for the updated entity set to be effective.
+    ///   - detectorId: The unique ID of the GuardDuty detector associated with the threat entity set that you want to update. To find the detectorId in the current Region, see the
+    ///   - expectedBucketOwner: The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
+    ///   - location: The URI of the file that contains the trusted entity set.
+    ///   - name: A user-friendly name to identify the trusted entity set. The name of your list can include  lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
+    ///   - threatEntitySetId: The ID returned by GuardDuty after updating the threat entity set resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateThreatEntitySet(
+        activate: Bool? = nil,
+        detectorId: String,
+        expectedBucketOwner: String? = nil,
+        location: String? = nil,
+        name: String? = nil,
+        threatEntitySetId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateThreatEntitySetResponse {
+        let input = UpdateThreatEntitySetRequest(
+            activate: activate, 
+            detectorId: detectorId, 
+            expectedBucketOwner: expectedBucketOwner, 
+            location: location, 
+            name: name, 
+            threatEntitySetId: threatEntitySetId
+        )
+        return try await self.updateThreatEntitySet(input, logger: logger)
+    }
+
     /// Updates the ThreatIntelSet specified by the ThreatIntelSet ID.
     @Sendable
     @inlinable
@@ -2621,6 +2963,50 @@ public struct GuardDuty: AWSService {
             threatIntelSetId: threatIntelSetId
         )
         return try await self.updateThreatIntelSet(input, logger: logger)
+    }
+
+    /// Updates the trusted entity set associated with the specified trustedEntitySetId.
+    @Sendable
+    @inlinable
+    public func updateTrustedEntitySet(_ input: UpdateTrustedEntitySetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTrustedEntitySetResponse {
+        try await self.client.execute(
+            operation: "UpdateTrustedEntitySet", 
+            path: "/detector/{DetectorId}/trustedentityset/{TrustedEntitySetId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the trusted entity set associated with the specified trustedEntitySetId.
+    ///
+    /// Parameters:
+    ///   - activate: A boolean value that indicates whether GuardDuty is to start using this updated trusted entity set. After you update an entity set, you will need to activate it again. It might take up to 15 minutes for the updated entity set to be effective.
+    ///   - detectorId: The unique ID of the GuardDuty detector associated with the threat entity set that you want to update. To find the detectorId in the current Region, see the
+    ///   - expectedBucketOwner: The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
+    ///   - location: The URI of the file that contains the trusted entity set.
+    ///   - name: A user-friendly name to identify the trusted entity set. The name of your list can include  lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
+    ///   - trustedEntitySetId: The ID returned by GuardDuty after updating the trusted entity set resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateTrustedEntitySet(
+        activate: Bool? = nil,
+        detectorId: String,
+        expectedBucketOwner: String? = nil,
+        location: String? = nil,
+        name: String? = nil,
+        trustedEntitySetId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateTrustedEntitySetResponse {
+        let input = UpdateTrustedEntitySetRequest(
+            activate: activate, 
+            detectorId: detectorId, 
+            expectedBucketOwner: expectedBucketOwner, 
+            location: location, 
+            name: name, 
+            trustedEntitySetId: trustedEntitySetId
+        )
+        return try await self.updateTrustedEntitySet(input, logger: logger)
     }
 }
 
@@ -3102,6 +3488,43 @@ extension GuardDuty {
         return self.listPublishingDestinationsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listThreatEntitySets(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listThreatEntitySetsPaginator(
+        _ input: ListThreatEntitySetsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListThreatEntitySetsRequest, ListThreatEntitySetsResponse> {
+        return .init(
+            input: input,
+            command: self.listThreatEntitySets,
+            inputKey: \ListThreatEntitySetsRequest.nextToken,
+            outputKey: \ListThreatEntitySetsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listThreatEntitySets(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - detectorId: The unique ID of the GuardDuty detector that is associated with this threat entity set. To find the detectorId in the current Region, see the
+    ///   - maxResults: You can use this parameter to indicate the maximum number of  items you want in the response. The default value is 50.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listThreatEntitySetsPaginator(
+        detectorId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListThreatEntitySetsRequest, ListThreatEntitySetsResponse> {
+        let input = ListThreatEntitySetsRequest(
+            detectorId: detectorId, 
+            maxResults: maxResults
+        )
+        return self.listThreatEntitySetsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listThreatIntelSets(_:logger:)``.
     ///
     /// - Parameters:
@@ -3137,6 +3560,43 @@ extension GuardDuty {
             maxResults: maxResults
         )
         return self.listThreatIntelSetsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listTrustedEntitySets(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTrustedEntitySetsPaginator(
+        _ input: ListTrustedEntitySetsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTrustedEntitySetsRequest, ListTrustedEntitySetsResponse> {
+        return .init(
+            input: input,
+            command: self.listTrustedEntitySets,
+            inputKey: \ListTrustedEntitySetsRequest.nextToken,
+            outputKey: \ListTrustedEntitySetsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listTrustedEntitySets(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - detectorId: The unique ID of the GuardDuty detector that is associated with this threat entity set. To find the detectorId in the current Region, see the
+    ///   - maxResults: You can use this parameter to indicate the maximum number of  items you want in the response. The default value is 50.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTrustedEntitySetsPaginator(
+        detectorId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListTrustedEntitySetsRequest, ListTrustedEntitySetsResponse> {
+        let input = ListTrustedEntitySetsRequest(
+            detectorId: detectorId, 
+            maxResults: maxResults
+        )
+        return self.listTrustedEntitySetsPaginator(input, logger: logger)
     }
 }
 
@@ -3279,9 +3739,31 @@ extension GuardDuty.ListPublishingDestinationsRequest: AWSPaginateToken {
     }
 }
 
+extension GuardDuty.ListThreatEntitySetsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> GuardDuty.ListThreatEntitySetsRequest {
+        return .init(
+            detectorId: self.detectorId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension GuardDuty.ListThreatIntelSetsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> GuardDuty.ListThreatIntelSetsRequest {
+        return .init(
+            detectorId: self.detectorId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension GuardDuty.ListTrustedEntitySetsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> GuardDuty.ListTrustedEntitySetsRequest {
         return .init(
             detectorId: self.detectorId,
             maxResults: self.maxResults,

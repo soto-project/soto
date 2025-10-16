@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS SSOAdmin service.
 ///
-/// IAM Identity Center is the Amazon Web Services solution for connecting your workforce users to Amazon Web Services managed applications and other Amazon Web Services resources. You can connect your existing identity provider and synchronize users and groups from your directory, or create and manage your users directly in IAM Identity Center. You can then use IAM Identity Center for either or both of the following:   User access to applications   User access to Amazon Web Services accounts   This guide provides information about single sign-on operations that you can use for access to applications and  Amazon Web Services accounts. For information about IAM Identity Center features, see the IAM Identity Center User Guide.  IAM Identity Center uses the sso and identitystore API namespaces.  Many API operations for IAM Identity Center rely on identifiers for users and groups, known as principals. For more information about how to work with principals and principal IDs in IAM Identity Center, see the Identity Store API Reference.  Amazon Web Services provides SDKs that consist of libraries and sample code for various programming languages and platforms (Java, Ruby, .Net, iOS, Android, and more). The SDKs provide a convenient way to create programmatic access to IAM Identity Center and other Amazon Web Services services. For more information about the Amazon Web Services SDKs, including how to download and install them, see Tools for Amazon Web Services.
+/// IAM Identity Center is the Amazon Web Services solution for connecting your workforce users to Amazon Web Services managed applications and other Amazon Web Services resources. You can connect your existing identity provider and synchronize users and groups from your directory, or create and manage your users directly in IAM Identity Center. You can then use IAM Identity Center for either or both of the following:   User access to applications   User access to Amazon Web Services accounts   This guide provides information about single sign-on operations that you can use for access to applications and Amazon Web Services accounts. For information about IAM Identity Center features, see the IAM Identity Center User Guide.  IAM Identity Center uses the sso and identitystore API namespaces.  Many API operations for IAM Identity Center rely on identifiers for users and groups, known as principals. For more information about how to work with principals and principal IDs in IAM Identity Center, see the Identity Store API Reference.  Amazon Web Services provides SDKs that consist of libraries and sample code for various programming languages and platforms (Java, Ruby, .Net, iOS, Android, and more). The SDKs provide a convenient way to create programmatic access to IAM Identity Center and other Amazon Web Services services. For more information about the Amazon Web Services SDKs, including how to download and install them, see Tools for Amazon Web Services.
 public struct SSOAdmin: AWSService {
     // MARK: Member variables
 
@@ -128,7 +128,7 @@ public struct SSOAdmin: AWSService {
         return try await self.attachCustomerManagedPolicyReferenceToPermissionSet(input, logger: logger)
     }
 
-    /// Attaches an Amazon Web Services managed policy ARN to a permission set.  If the permission set is already referenced by one or more account assignments, you will need to call  ProvisionPermissionSet after this operation. Calling ProvisionPermissionSet applies the corresponding IAM policy updates to all assigned accounts.
+    /// Attaches an Amazon Web Services managed policy ARN to a permission set.  If the permission set is already referenced by one or more account assignments, you will need to call  ProvisionPermissionSet  after this operation. Calling ProvisionPermissionSet applies the corresponding IAM policy updates to all assigned accounts.
     @Sendable
     @inlinable
     public func attachManagedPolicyToPermissionSet(_ input: AttachManagedPolicyToPermissionSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AttachManagedPolicyToPermissionSetResponse {
@@ -141,10 +141,10 @@ public struct SSOAdmin: AWSService {
             logger: logger
         )
     }
-    /// Attaches an Amazon Web Services managed policy ARN to a permission set.  If the permission set is already referenced by one or more account assignments, you will need to call  ProvisionPermissionSet after this operation. Calling ProvisionPermissionSet applies the corresponding IAM policy updates to all assigned accounts.
+    /// Attaches an Amazon Web Services managed policy ARN to a permission set.  If the permission set is already referenced by one or more account assignments, you will need to call  ProvisionPermissionSet  after this operation. Calling ProvisionPermissionSet applies the corresponding IAM policy updates to all assigned accounts.
     ///
     /// Parameters:
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - managedPolicyArn: The Amazon Web Services managed policy ARN to be attached to a permission set.
     ///   - permissionSetArn: The ARN of the PermissionSet that the managed policy should be attached to.
     ///   - logger: Logger use during operation
@@ -163,7 +163,7 @@ public struct SSOAdmin: AWSService {
         return try await self.attachManagedPolicyToPermissionSet(input, logger: logger)
     }
 
-    /// Assigns access to a principal for a specified Amazon Web Services account using a specified permission set.  The term principal here refers to a user or group that is defined in IAM Identity Center.   As part of a successful CreateAccountAssignment call, the specified permission set will automatically be provisioned to the account in the form of an IAM policy. That policy is attached to the IAM role created in IAM Identity Center. If the permission set is subsequently updated, the corresponding IAM policies attached to roles in your accounts will not be updated automatically. In this case, you must call  ProvisionPermissionSet to make these updates.   After a successful response, call DescribeAccountAssignmentCreationStatus to describe the status of an assignment creation request.
+    /// Assigns access to a principal for a specified Amazon Web Services account using a specified permission set.  The term principal here refers to a user or group that is defined in IAM Identity Center.   As part of a successful CreateAccountAssignment call, the specified permission set will automatically be provisioned to the account in the form of an IAM policy. That policy is attached to the IAM role created in IAM Identity Center. If the permission set is subsequently updated, the corresponding IAM policies attached to roles in your accounts will not be updated automatically. In this case, you must call  ProvisionPermissionSet  to make these updates.    After a successful response, call DescribeAccountAssignmentCreationStatus to describe the status of an assignment creation request.
     @Sendable
     @inlinable
     public func createAccountAssignment(_ input: CreateAccountAssignmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAccountAssignmentResponse {
@@ -176,10 +176,10 @@ public struct SSOAdmin: AWSService {
             logger: logger
         )
     }
-    /// Assigns access to a principal for a specified Amazon Web Services account using a specified permission set.  The term principal here refers to a user or group that is defined in IAM Identity Center.   As part of a successful CreateAccountAssignment call, the specified permission set will automatically be provisioned to the account in the form of an IAM policy. That policy is attached to the IAM role created in IAM Identity Center. If the permission set is subsequently updated, the corresponding IAM policies attached to roles in your accounts will not be updated automatically. In this case, you must call  ProvisionPermissionSet to make these updates.   After a successful response, call DescribeAccountAssignmentCreationStatus to describe the status of an assignment creation request.
+    /// Assigns access to a principal for a specified Amazon Web Services account using a specified permission set.  The term principal here refers to a user or group that is defined in IAM Identity Center.   As part of a successful CreateAccountAssignment call, the specified permission set will automatically be provisioned to the account in the form of an IAM policy. That policy is attached to the IAM role created in IAM Identity Center. If the permission set is subsequently updated, the corresponding IAM policies attached to roles in your accounts will not be updated automatically. In this case, you must call  ProvisionPermissionSet  to make these updates.    After a successful response, call DescribeAccountAssignmentCreationStatus to describe the status of an assignment creation request.
     ///
     /// Parameters:
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - permissionSetArn: The ARN of the permission set that the admin wants to grant the principal access to.
     ///   - principalId: An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the IAM Identity Center Identity Store API Reference.
     ///   - principalType: The entity type for which the assignment will be created.
@@ -224,9 +224,9 @@ public struct SSOAdmin: AWSService {
     ///
     /// Parameters:
     ///   - applicationProviderArn: The ARN of the application provider under which the operation will run.
-    ///   - clientToken: Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an IdempotentParameterMismatch error.
+    ///   - clientToken: Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     ///   - description: The description of the .
-    ///   - instanceArn: The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - name: The name of the .
     ///   - portalOptions: A structure that describes the options for the portal associated with an application.
     ///   - status: Specifies whether the application is enabled or disabled.
@@ -308,7 +308,7 @@ public struct SSOAdmin: AWSService {
     /// Creates an instance of IAM Identity Center for a standalone Amazon Web Services account that is not managed by Organizations or a member Amazon Web Services account in an organization. You can create only one instance per account and across all Amazon Web Services Regions. The CreateInstance request is rejected if the following apply:    The instance is created within the organization management account.   An instance already exists in the same account.
     ///
     /// Parameters:
-    ///   - clientToken: Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an IdempotentParameterMismatch error.
+    ///   - clientToken: Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     ///   - name: The name of the instance of IAM Identity Center.
     ///   - tags: Specifies tags to be attached to the instance of IAM Identity Center.
     ///   - logger: Logger use during operation
@@ -376,7 +376,7 @@ public struct SSOAdmin: AWSService {
     ///
     /// Parameters:
     ///   - description: The description of the PermissionSet.
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - name: The name of the PermissionSet.
     ///   - relayState: Used to redirect users within the application during the federation authentication process.
     ///   - sessionDuration: The length of time that the application user sessions are valid in the ISO-8601 standard.
@@ -419,7 +419,7 @@ public struct SSOAdmin: AWSService {
     /// Creates a connection to a trusted token issuer in an instance of IAM Identity Center. A trusted token issuer enables trusted identity propagation to be used with applications that authenticate outside of Amazon Web Services. This trusted token issuer describes an external identity provider (IdP) that can generate claims or assertions in the form of access tokens for a user. Applications enabled for IAM Identity Center can use these tokens for authentication.
     ///
     /// Parameters:
-    ///   - clientToken: Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an IdempotentParameterMismatch error.
+    ///   - clientToken: Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     ///   - instanceArn: Specifies the ARN of the instance of IAM Identity Center to contain the new trusted token issuer configuration.
     ///   - name: Specifies the name of the new trusted token issuer configuration.
     ///   - tags: Specifies tags to be attached to the new trusted token issuer configuration.
@@ -463,7 +463,7 @@ public struct SSOAdmin: AWSService {
     /// Deletes a principal's access from a specified Amazon Web Services account using a specified permission set.  After a successful response, call DescribeAccountAssignmentDeletionStatus to describe the status of an assignment deletion request.
     ///
     /// Parameters:
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - permissionSetArn: The ARN of the permission set that will be used to remove access.
     ///   - principalId: An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the IAM Identity Center Identity Store API Reference.
     ///   - principalType: The entity type for which the assignment will be deleted.
@@ -507,7 +507,7 @@ public struct SSOAdmin: AWSService {
     /// Deletes the association with the application. The connected service resource still exists.
     ///
     /// Parameters:
-    ///   - applicationArn: Specifies the ARN of the application. For more information about ARNs, see Amazon Resource
+    ///   - applicationArn: Specifies the ARN of the application. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteApplication(
@@ -667,7 +667,7 @@ public struct SSOAdmin: AWSService {
     /// Deletes the inline policy from a specified permission set.
     ///
     /// Parameters:
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - permissionSetArn: The ARN of the permission set that will be used to remove access.
     ///   - logger: Logger use during operation
     @inlinable
@@ -757,7 +757,7 @@ public struct SSOAdmin: AWSService {
     /// Deletes the specified permission set.
     ///
     /// Parameters:
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - permissionSetArn: The ARN of the permission set that should be deleted.
     ///   - logger: Logger use during operation
     @inlinable
@@ -851,7 +851,7 @@ public struct SSOAdmin: AWSService {
     ///
     /// Parameters:
     ///   - accountAssignmentCreationRequestId: The identifier that is used to track the request operation progress.
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeAccountAssignmentCreationStatus(
@@ -883,7 +883,7 @@ public struct SSOAdmin: AWSService {
     ///
     /// Parameters:
     ///   - accountAssignmentDeletionRequestId: The identifier that is used to track the request operation progress.
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeAccountAssignmentDeletionStatus(
@@ -914,7 +914,7 @@ public struct SSOAdmin: AWSService {
     /// Retrieves the details of an application associated with an instance of IAM Identity Center.
     ///
     /// Parameters:
-    ///   - applicationArn: Specifies the ARN of the application. For more information about ARNs, see Amazon Resource
+    ///   - applicationArn: Specifies the ARN of the application. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeApplication(
@@ -943,7 +943,7 @@ public struct SSOAdmin: AWSService {
     /// Retrieves a direct assignment of a user or group to an application. If the user doesn’t have a direct assignment to the application, the user may still have access to the application through a group. Therefore, don’t use this API to test access to an application for a user. Instead use ListApplicationAssignmentsForPrincipal.
     ///
     /// Parameters:
-    ///   - applicationArn: Specifies the ARN of the application. For more information about ARNs, see Amazon Resource
+    ///   - applicationArn: Specifies the ARN of the application. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - principalId: An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the IAM Identity Center Identity Store API Reference.
     ///   - principalType: The entity type for which the assignment will be created.
     ///   - logger: Logger use during operation
@@ -1065,7 +1065,7 @@ public struct SSOAdmin: AWSService {
     /// Gets the details of the permission set.
     ///
     /// Parameters:
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - permissionSetArn: The ARN of the permission set.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1097,7 +1097,7 @@ public struct SSOAdmin: AWSService {
     /// Describes the status for the given permission set provisioning request.
     ///
     /// Parameters:
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - provisionPermissionSetRequestId: The identifier that is provided by the ProvisionPermissionSet call to retrieve the current status of the provisioning workflow.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1193,7 +1193,7 @@ public struct SSOAdmin: AWSService {
     /// Detaches the attached Amazon Web Services managed policy ARN from the specified permission set.
     ///
     /// Parameters:
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - managedPolicyArn: The Amazon Web Services managed policy ARN to be detached from a permission set.
     ///   - permissionSetArn: The ARN of the PermissionSet from which the policy should be detached.
     ///   - logger: Logger use during operation
@@ -1260,7 +1260,7 @@ public struct SSOAdmin: AWSService {
     /// Retrieves the configuration of PutApplicationAssignmentConfiguration.
     ///
     /// Parameters:
-    ///   - applicationArn: Specifies the ARN of the application. For more information about ARNs, see Amazon Resource
+    ///   - applicationArn: Specifies the ARN of the application. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - logger: Logger use during operation
     @inlinable
     public func getApplicationAssignmentConfiguration(
@@ -1337,6 +1337,35 @@ public struct SSOAdmin: AWSService {
         return try await self.getApplicationGrant(input, logger: logger)
     }
 
+    /// Retrieves the session configuration for an application in IAM Identity Center. The session configuration determines how users can access an application. This includes whether user background sessions are enabled. User background sessions allow users to start a job on a supported Amazon Web Services managed application without having to remain signed in to an active session while the job runs.
+    @Sendable
+    @inlinable
+    public func getApplicationSessionConfiguration(_ input: GetApplicationSessionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetApplicationSessionConfigurationResponse {
+        try await self.client.execute(
+            operation: "GetApplicationSessionConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the session configuration for an application in IAM Identity Center. The session configuration determines how users can access an application. This includes whether user background sessions are enabled. User background sessions allow users to start a job on a supported Amazon Web Services managed application without having to remain signed in to an active session while the job runs.
+    ///
+    /// Parameters:
+    ///   - applicationArn: The Amazon Resource Name (ARN) of the application for which to retrieve the session configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getApplicationSessionConfiguration(
+        applicationArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetApplicationSessionConfigurationResponse {
+        let input = GetApplicationSessionConfigurationRequest(
+            applicationArn: applicationArn
+        )
+        return try await self.getApplicationSessionConfiguration(input, logger: logger)
+    }
+
     /// Obtains the inline policy assigned to the permission set.
     @Sendable
     @inlinable
@@ -1353,7 +1382,7 @@ public struct SSOAdmin: AWSService {
     /// Obtains the inline policy assigned to the permission set.
     ///
     /// Parameters:
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - permissionSetArn: The ARN of the permission set.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1418,7 +1447,7 @@ public struct SSOAdmin: AWSService {
     ///
     /// Parameters:
     ///   - filter: Filters results based on the passed attribute value.
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - maxResults: The maximum number of results to display for the assignment.
     ///   - nextToken: The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
     ///   - logger: Logger use during operation
@@ -1456,7 +1485,7 @@ public struct SSOAdmin: AWSService {
     ///
     /// Parameters:
     ///   - filter: Filters results based on the passed attribute value.
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - maxResults: The maximum number of results to display for the assignment.
     ///   - nextToken: The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
     ///   - logger: Logger use during operation
@@ -1494,7 +1523,7 @@ public struct SSOAdmin: AWSService {
     ///
     /// Parameters:
     ///   - accountId: The identifier of the Amazon Web Services account from which to list the assignments.
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - maxResults: The maximum number of results to display for the assignment.
     ///   - nextToken: The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
     ///   - permissionSetArn: The ARN of the permission set from which to list assignments.
@@ -1536,8 +1565,8 @@ public struct SSOAdmin: AWSService {
     /// Parameters:
     ///   - filter: Specifies an Amazon Web Services account ID number. Results are filtered to only those that match this ID number.
     ///   - instanceArn: Specifies the ARN of the instance of IAM Identity Center that contains the principal.
-    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results.
-    ///   - nextToken: Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    ///   - nextToken: Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     ///   - principalId: Specifies the principal for which you want to retrieve the list of account assignments.
     ///   - principalType: Specifies the type of the principal.
     ///   - logger: Logger use during operation
@@ -1578,7 +1607,7 @@ public struct SSOAdmin: AWSService {
     /// Lists all the Amazon Web Services accounts where the specified permission set is provisioned.
     ///
     /// Parameters:
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - maxResults: The maximum number of results to display for the PermissionSet.
     ///   - nextToken: The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
     ///   - permissionSetArn: The ARN of the PermissionSet from which the associated Amazon Web Services accounts will be listed.
@@ -1620,8 +1649,8 @@ public struct SSOAdmin: AWSService {
     ///
     /// Parameters:
     ///   - applicationArn: Specifies the ARN of the application.
-    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results.
-    ///   - nextToken: Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    ///   - nextToken: Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listApplicationAccessScopes(
@@ -1655,8 +1684,8 @@ public struct SSOAdmin: AWSService {
     ///
     /// Parameters:
     ///   - applicationArn: Specifies the ARN of the application.
-    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results.
-    ///   - nextToken: Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    ///   - nextToken: Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listApplicationAssignments(
@@ -1691,8 +1720,8 @@ public struct SSOAdmin: AWSService {
     /// Parameters:
     ///   - filter: Filters the output to include only assignments associated with the application that has the specified ARN.
     ///   - instanceArn: Specifies the instance of IAM Identity Center that contains principal and applications.
-    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results.
-    ///   - nextToken: Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    ///   - nextToken: Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     ///   - principalId: Specifies the unique identifier of the principal for which you want to retrieve its assignments.
     ///   - principalType: Specifies the type of the principal for which you want to retrieve its assignments.
     ///   - logger: Logger use during operation
@@ -1734,7 +1763,7 @@ public struct SSOAdmin: AWSService {
     ///
     /// Parameters:
     ///   - applicationArn: Specifies the ARN of the application with the authentication methods you want to list.
-    ///   - nextToken: Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+    ///   - nextToken: Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listApplicationAuthenticationMethods(
@@ -1766,7 +1795,7 @@ public struct SSOAdmin: AWSService {
     ///
     /// Parameters:
     ///   - applicationArn: Specifies the ARN of the application whose grants you want to list.
-    ///   - nextToken: Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+    ///   - nextToken: Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listApplicationGrants(
@@ -1797,8 +1826,8 @@ public struct SSOAdmin: AWSService {
     /// Lists the application providers configured in the IAM Identity Center identity store.
     ///
     /// Parameters:
-    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results.
-    ///   - nextToken: Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    ///   - nextToken: Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listApplicationProviders(
@@ -1830,9 +1859,9 @@ public struct SSOAdmin: AWSService {
     ///
     /// Parameters:
     ///   - filter: Filters response results.
-    ///   - instanceArn: The ARN of the IAM Identity Center application under which the operation will run. For more information about ARNs, see Amazon Resource
-    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results.
-    ///   - nextToken: Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+    ///   - instanceArn: The ARN of the IAM Identity Center application under which the operation will run. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    ///   - nextToken: Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listApplications(
@@ -1937,7 +1966,7 @@ public struct SSOAdmin: AWSService {
     /// Lists the Amazon Web Services managed policy that is attached to a specified permission set.
     ///
     /// Parameters:
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - maxResults: The maximum number of results to display for the PermissionSet.
     ///   - nextToken: The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
     ///   - permissionSetArn: The ARN of the PermissionSet whose managed policies will be listed.
@@ -1976,7 +2005,7 @@ public struct SSOAdmin: AWSService {
     ///
     /// Parameters:
     ///   - filter: Filters results based on the passed attribute value.
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - maxResults: The maximum number of results to display for the assignment.
     ///   - nextToken: The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
     ///   - logger: Logger use during operation
@@ -2013,7 +2042,7 @@ public struct SSOAdmin: AWSService {
     /// Lists the PermissionSets in an IAM Identity Center instance.
     ///
     /// Parameters:
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - maxResults: The maximum number of results to display for the assignment.
     ///   - nextToken: The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
     ///   - logger: Logger use during operation
@@ -2049,7 +2078,7 @@ public struct SSOAdmin: AWSService {
     ///
     /// Parameters:
     ///   - accountId: The identifier of the Amazon Web Services account from which to list the assignments.
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - maxResults: The maximum number of results to display for the assignment.
     ///   - nextToken: The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
     ///   - provisioningStatus: The status object for the permission set provisioning operation.
@@ -2089,7 +2118,7 @@ public struct SSOAdmin: AWSService {
     /// Lists the tags that are attached to a specified resource.
     ///
     /// Parameters:
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - nextToken: The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
     ///   - resourceArn: The ARN of the resource with the tags to be listed.
     ///   - logger: Logger use during operation
@@ -2125,8 +2154,8 @@ public struct SSOAdmin: AWSService {
     ///
     /// Parameters:
     ///   - instanceArn: Specifies the ARN of the instance of IAM Identity Center with the trusted token issuer configurations that you want to list.
-    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results.
-    ///   - nextToken: Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    ///   - nextToken: Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listTrustedTokenIssuers(
@@ -2159,7 +2188,7 @@ public struct SSOAdmin: AWSService {
     /// The process by which a specified permission set is provisioned to the specified target.
     ///
     /// Parameters:
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - permissionSetArn: The ARN of the permission set.
     ///   - targetId: TargetID is an Amazon Web Services account identifier, (For example, 123456789012).
     ///   - targetType: The entity type for which the assignment will be created.
@@ -2232,7 +2261,7 @@ public struct SSOAdmin: AWSService {
     /// Configure how users gain access to an application. If AssignmentsRequired is true (default value), users don’t have access to the application unless an assignment is created using the CreateApplicationAssignment API. If false, all users have access to the application. If an assignment is created using CreateApplicationAssignment., the user retains access if AssignmentsRequired is set to true.
     ///
     /// Parameters:
-    ///   - applicationArn: Specifies the ARN of the application. For more information about ARNs, see Amazon Resource
+    ///   - applicationArn: Specifies the ARN of the application. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - assignmentRequired: If AssignmentsRequired is true (default value), users don’t have access to the application unless an assignment is created using the CreateApplicationAssignment API. If false, all users have access to the application.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2318,7 +2347,39 @@ public struct SSOAdmin: AWSService {
         return try await self.putApplicationGrant(input, logger: logger)
     }
 
-    /// Attaches an inline policy to a permission set.  If the permission set is already referenced by one or more account assignments, you will need to call  ProvisionPermissionSet after this action to apply the corresponding IAM policy updates to all assigned accounts.
+    /// Updates the session configuration for an application in IAM Identity Center. The session configuration determines how users can access an application. This includes whether user background sessions are enabled. User background sessions allow users to start a job on a supported Amazon Web Services managed application without having to remain signed in to an active session while the job runs.
+    @Sendable
+    @inlinable
+    public func putApplicationSessionConfiguration(_ input: PutApplicationSessionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutApplicationSessionConfigurationResponse {
+        try await self.client.execute(
+            operation: "PutApplicationSessionConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the session configuration for an application in IAM Identity Center. The session configuration determines how users can access an application. This includes whether user background sessions are enabled. User background sessions allow users to start a job on a supported Amazon Web Services managed application without having to remain signed in to an active session while the job runs.
+    ///
+    /// Parameters:
+    ///   - applicationArn: The Amazon Resource Name (ARN) of the application for which to update the session configuration.
+    ///   - userBackgroundSessionApplicationStatus: The status of user background sessions for the application.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putApplicationSessionConfiguration(
+        applicationArn: String,
+        userBackgroundSessionApplicationStatus: UserBackgroundSessionApplicationStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutApplicationSessionConfigurationResponse {
+        let input = PutApplicationSessionConfigurationRequest(
+            applicationArn: applicationArn, 
+            userBackgroundSessionApplicationStatus: userBackgroundSessionApplicationStatus
+        )
+        return try await self.putApplicationSessionConfiguration(input, logger: logger)
+    }
+
+    /// Attaches an inline policy to a permission set.  If the permission set is already referenced by one or more account assignments, you will need to call  ProvisionPermissionSet  after this action to apply the corresponding IAM policy updates to all assigned accounts.
     @Sendable
     @inlinable
     public func putInlinePolicyToPermissionSet(_ input: PutInlinePolicyToPermissionSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutInlinePolicyToPermissionSetResponse {
@@ -2331,11 +2392,11 @@ public struct SSOAdmin: AWSService {
             logger: logger
         )
     }
-    /// Attaches an inline policy to a permission set.  If the permission set is already referenced by one or more account assignments, you will need to call  ProvisionPermissionSet after this action to apply the corresponding IAM policy updates to all assigned accounts.
+    /// Attaches an inline policy to a permission set.  If the permission set is already referenced by one or more account assignments, you will need to call  ProvisionPermissionSet  after this action to apply the corresponding IAM policy updates to all assigned accounts.
     ///
     /// Parameters:
     ///   - inlinePolicy: The inline policy to attach to a PermissionSet.
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - permissionSetArn: The ARN of the permission set.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2404,7 +2465,7 @@ public struct SSOAdmin: AWSService {
     /// Associates a set of tags with a specified resource.
     ///
     /// Parameters:
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - resourceArn: The ARN of the resource with the tags to be listed.
     ///   - tags: A set of key-value pairs that are used to manage the resource.
     ///   - logger: Logger use during operation
@@ -2439,7 +2500,7 @@ public struct SSOAdmin: AWSService {
     /// Disassociates a set of tags from a specified resource.
     ///
     /// Parameters:
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - resourceArn: The ARN of the resource with the tags to be listed.
     ///   - tagKeys: The keys of tags that are attached to the resource.
     ///   - logger: Logger use during operation
@@ -2474,7 +2535,7 @@ public struct SSOAdmin: AWSService {
     /// Updates application properties.
     ///
     /// Parameters:
-    ///   - applicationArn: Specifies the ARN of the application. For more information about ARNs, see Amazon Resource
+    ///   - applicationArn: Specifies the ARN of the application. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - description: The description of the .
     ///   - name: Specifies the updated name for the application.
     ///   - portalOptions: A structure that describes the options for the portal associated with an application.
@@ -2515,16 +2576,19 @@ public struct SSOAdmin: AWSService {
     /// Update the details for the instance of IAM Identity Center that is owned by the Amazon Web Services account.
     ///
     /// Parameters:
-    ///   - instanceArn: The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see Amazon Resource
+    ///   - encryptionConfiguration: Specifies the encryption configuration for your IAM Identity Center instance. You can use this to configure customer managed KMS keys (CMK) or Amazon Web Services owned KMS keys for encrypting your instance data.
+    ///   - instanceArn: The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - name: Updates the instance name.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateInstance(
+        encryptionConfiguration: EncryptionConfiguration? = nil,
         instanceArn: String,
-        name: String,
+        name: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateInstanceResponse {
         let input = UpdateInstanceRequest(
+            encryptionConfiguration: encryptionConfiguration, 
             instanceArn: instanceArn, 
             name: name
         )
@@ -2580,7 +2644,7 @@ public struct SSOAdmin: AWSService {
     ///
     /// Parameters:
     ///   - description: The description of the PermissionSet.
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - permissionSetArn: The ARN of the permission set.
     ///   - relayState: Used to redirect users within the application during the federation authentication process.
     ///   - sessionDuration: The length of time that the application user sessions are valid for in the ISO-8601 standard.
@@ -2675,7 +2739,7 @@ extension SSOAdmin {
     ///
     /// - Parameters:
     ///   - filter: Filters results based on the passed attribute value.
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - maxResults: The maximum number of results to display for the assignment.
     ///   - logger: Logger used for logging
     @inlinable
@@ -2715,7 +2779,7 @@ extension SSOAdmin {
     ///
     /// - Parameters:
     ///   - filter: Filters results based on the passed attribute value.
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - maxResults: The maximum number of results to display for the assignment.
     ///   - logger: Logger used for logging
     @inlinable
@@ -2755,7 +2819,7 @@ extension SSOAdmin {
     ///
     /// - Parameters:
     ///   - accountId: The identifier of the Amazon Web Services account from which to list the assignments.
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - maxResults: The maximum number of results to display for the assignment.
     ///   - permissionSetArn: The ARN of the permission set from which to list assignments.
     ///   - logger: Logger used for logging
@@ -2799,7 +2863,7 @@ extension SSOAdmin {
     /// - Parameters:
     ///   - filter: Specifies an Amazon Web Services account ID number. Results are filtered to only those that match this ID number.
     ///   - instanceArn: Specifies the ARN of the instance of IAM Identity Center that contains the principal.
-    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results.
+    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     ///   - principalId: Specifies the principal for which you want to retrieve the list of account assignments.
     ///   - principalType: Specifies the type of the principal.
     ///   - logger: Logger used for logging
@@ -2843,7 +2907,7 @@ extension SSOAdmin {
     /// Return PaginatorSequence for operation ``listAccountsForProvisionedPermissionSet(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - maxResults: The maximum number of results to display for the PermissionSet.
     ///   - permissionSetArn: The ARN of the PermissionSet from which the associated Amazon Web Services accounts will be listed.
     ///   - provisioningStatus: The permission set provisioning status for an Amazon Web Services account.
@@ -2887,7 +2951,7 @@ extension SSOAdmin {
     ///
     /// - Parameters:
     ///   - applicationArn: Specifies the ARN of the application.
-    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results.
+    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     ///   - logger: Logger used for logging
     @inlinable
     public func listApplicationAccessScopesPaginator(
@@ -2924,7 +2988,7 @@ extension SSOAdmin {
     ///
     /// - Parameters:
     ///   - applicationArn: Specifies the ARN of the application.
-    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results.
+    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     ///   - logger: Logger used for logging
     @inlinable
     public func listApplicationAssignmentsPaginator(
@@ -2962,7 +3026,7 @@ extension SSOAdmin {
     /// - Parameters:
     ///   - filter: Filters the output to include only assignments associated with the application that has the specified ARN.
     ///   - instanceArn: Specifies the instance of IAM Identity Center that contains principal and applications.
-    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results.
+    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     ///   - principalId: Specifies the unique identifier of the principal for which you want to retrieve its assignments.
     ///   - principalType: Specifies the type of the principal for which you want to retrieve its assignments.
     ///   - logger: Logger used for logging
@@ -3074,7 +3138,7 @@ extension SSOAdmin {
     /// Return PaginatorSequence for operation ``listApplicationProviders(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results.
+    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     ///   - logger: Logger used for logging
     @inlinable
     public func listApplicationProvidersPaginator(
@@ -3109,8 +3173,8 @@ extension SSOAdmin {
     ///
     /// - Parameters:
     ///   - filter: Filters response results.
-    ///   - instanceArn: The ARN of the IAM Identity Center application under which the operation will run. For more information about ARNs, see Amazon Resource
-    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results.
+    ///   - instanceArn: The ARN of the IAM Identity Center application under which the operation will run. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     ///   - logger: Logger used for logging
     @inlinable
     public func listApplicationsPaginator(
@@ -3222,7 +3286,7 @@ extension SSOAdmin {
     /// Return PaginatorSequence for operation ``listManagedPoliciesInPermissionSet(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - maxResults: The maximum number of results to display for the PermissionSet.
     ///   - permissionSetArn: The ARN of the PermissionSet whose managed policies will be listed.
     ///   - logger: Logger used for logging
@@ -3263,7 +3327,7 @@ extension SSOAdmin {
     ///
     /// - Parameters:
     ///   - filter: Filters results based on the passed attribute value.
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - maxResults: The maximum number of results to display for the assignment.
     ///   - logger: Logger used for logging
     @inlinable
@@ -3302,7 +3366,7 @@ extension SSOAdmin {
     /// Return PaginatorSequence for operation ``listPermissionSets(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - maxResults: The maximum number of results to display for the assignment.
     ///   - logger: Logger used for logging
     @inlinable
@@ -3340,7 +3404,7 @@ extension SSOAdmin {
     ///
     /// - Parameters:
     ///   - accountId: The identifier of the Amazon Web Services account from which to list the assignments.
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - maxResults: The maximum number of results to display for the assignment.
     ///   - provisioningStatus: The status object for the permission set provisioning operation.
     ///   - logger: Logger used for logging
@@ -3382,7 +3446,7 @@ extension SSOAdmin {
     /// Return PaginatorSequence for operation ``listTagsForResource(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource
+    ///   - instanceArn: The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - resourceArn: The ARN of the resource with the tags to be listed.
     ///   - logger: Logger used for logging
     @inlinable
@@ -3420,7 +3484,7 @@ extension SSOAdmin {
     ///
     /// - Parameters:
     ///   - instanceArn: Specifies the ARN of the instance of IAM Identity Center with the trusted token issuer configurations that you want to list.
-    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results.
+    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     ///   - logger: Logger used for logging
     @inlinable
     public func listTrustedTokenIssuersPaginator(

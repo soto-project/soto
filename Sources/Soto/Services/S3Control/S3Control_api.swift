@@ -182,7 +182,7 @@ public struct S3Control: AWSService {
 
     // MARK: API Calls
 
-    /// Associate your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance. Use this action if you want to create access grants for users or groups from your corporate identity directory. First, you must add your corporate identity directory to Amazon Web Services IAM Identity Center. Then, you can associate this IAM Identity Center instance with your S3 Access Grants instance.  Permissions  You must have the s3:AssociateAccessGrantsIdentityCenter permission to use this operation.   Additional Permissions  You must also have the following permissions: sso:CreateApplication, sso:PutApplicationGrant, and sso:PutApplicationAuthenticationMethod.
+    /// Associate your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance. Use this action if you want to create access grants for users or groups from your corporate identity directory. First, you must add your corporate identity directory to Amazon Web Services IAM Identity Center. Then, you can associate this IAM Identity Center instance with your S3 Access Grants instance.  Permissions  You must have the s3:AssociateAccessGrantsIdentityCenter permission to use this operation.   Additional Permissions  You must also have the following permissions: sso:CreateApplication, sso:PutApplicationGrant, and sso:PutApplicationAuthenticationMethod.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func associateAccessGrantsIdentityCenter(_ input: AssociateAccessGrantsIdentityCenterRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -196,7 +196,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Associate your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance. Use this action if you want to create access grants for users or groups from your corporate identity directory. First, you must add your corporate identity directory to Amazon Web Services IAM Identity Center. Then, you can associate this IAM Identity Center instance with your S3 Access Grants instance.  Permissions  You must have the s3:AssociateAccessGrantsIdentityCenter permission to use this operation.   Additional Permissions  You must also have the following permissions: sso:CreateApplication, sso:PutApplicationGrant, and sso:PutApplicationAuthenticationMethod.
+    /// Associate your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance. Use this action if you want to create access grants for users or groups from your corporate identity directory. First, you must add your corporate identity directory to Amazon Web Services IAM Identity Center. Then, you can associate this IAM Identity Center instance with your S3 Access Grants instance.  Permissions  You must have the s3:AssociateAccessGrantsIdentityCenter permission to use this operation.   Additional Permissions  You must also have the following permissions: sso:CreateApplication, sso:PutApplicationGrant, and sso:PutApplicationAuthenticationMethod.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID of the S3 Access Grants instance.
@@ -215,7 +215,7 @@ public struct S3Control: AWSService {
         return try await self.associateAccessGrantsIdentityCenter(input, logger: logger)
     }
 
-    /// Creates an access grant that gives a grantee access to your S3 data. The grantee can be an IAM user or role or a directory user, or group. Before you can create a grant, you must have an S3 Access Grants instance in the same Region as the S3 data. You can create an S3 Access Grants instance using the CreateAccessGrantsInstance. You must also have registered at least one S3 data location in your S3 Access Grants instance using CreateAccessGrantsLocation.    Permissions  You must have the s3:CreateAccessGrant permission to use this operation.   Additional Permissions  For any directory identity - sso:DescribeInstance and sso:DescribeApplication  For directory users - identitystore:DescribeUser  For directory groups - identitystore:DescribeGroup
+    /// Creates an access grant that gives a grantee access to your S3 data. The grantee can be an IAM user or role or a directory user, or group. Before you can create a grant, you must have an S3 Access Grants instance in the same Region as the S3 data. You can create an S3 Access Grants instance using the CreateAccessGrantsInstance. You must also have registered at least one S3 data location in your S3 Access Grants instance using CreateAccessGrantsLocation.   Permissions  You must have the s3:CreateAccessGrant permission to use this operation.   Additional Permissions  For any directory identity - sso:DescribeInstance and sso:DescribeApplication  For directory users - identitystore:DescribeUser  For directory groups - identitystore:DescribeGroup     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func createAccessGrant(_ input: CreateAccessGrantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAccessGrantResult {
@@ -229,7 +229,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Creates an access grant that gives a grantee access to your S3 data. The grantee can be an IAM user or role or a directory user, or group. Before you can create a grant, you must have an S3 Access Grants instance in the same Region as the S3 data. You can create an S3 Access Grants instance using the CreateAccessGrantsInstance. You must also have registered at least one S3 data location in your S3 Access Grants instance using CreateAccessGrantsLocation.    Permissions  You must have the s3:CreateAccessGrant permission to use this operation.   Additional Permissions  For any directory identity - sso:DescribeInstance and sso:DescribeApplication  For directory users - identitystore:DescribeUser  For directory groups - identitystore:DescribeGroup
+    /// Creates an access grant that gives a grantee access to your S3 data. The grantee can be an IAM user or role or a directory user, or group. Before you can create a grant, you must have an S3 Access Grants instance in the same Region as the S3 data. You can create an S3 Access Grants instance using the CreateAccessGrantsInstance. You must also have registered at least one S3 data location in your S3 Access Grants instance using CreateAccessGrantsLocation.   Permissions  You must have the s3:CreateAccessGrant permission to use this operation.   Additional Permissions  For any directory identity - sso:DescribeInstance and sso:DescribeApplication  For directory users - identitystore:DescribeUser  For directory groups - identitystore:DescribeGroup     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accessGrantsLocationConfiguration: The configuration options of the grant location. The grant location is the S3 path to the data to which you are granting access. It contains the S3SubPrefix field. The grant scope is the result of appending the subprefix to the location scope of the registered location.
@@ -266,7 +266,7 @@ public struct S3Control: AWSService {
         return try await self.createAccessGrant(input, logger: logger)
     }
 
-    /// Creates an S3 Access Grants instance, which serves as a logical grouping for access grants. You can create one S3 Access Grants instance per Region per account.   Permissions  You must have the s3:CreateAccessGrantsInstance permission to use this operation.   Additional Permissions  To associate an IAM Identity Center instance with your S3 Access Grants instance, you must also have the sso:DescribeInstance, sso:CreateApplication, sso:PutApplicationGrant, and sso:PutApplicationAuthenticationMethod permissions.
+    /// Creates an S3 Access Grants instance, which serves as a logical grouping for access grants. You can create one S3 Access Grants instance per Region per account.   Permissions  You must have the s3:CreateAccessGrantsInstance permission to use this operation.   Additional Permissions  To associate an IAM Identity Center instance with your S3 Access Grants instance, you must also have the sso:DescribeInstance, sso:CreateApplication, sso:PutApplicationGrant, and sso:PutApplicationAuthenticationMethod permissions.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func createAccessGrantsInstance(_ input: CreateAccessGrantsInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAccessGrantsInstanceResult {
@@ -280,7 +280,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Creates an S3 Access Grants instance, which serves as a logical grouping for access grants. You can create one S3 Access Grants instance per Region per account.   Permissions  You must have the s3:CreateAccessGrantsInstance permission to use this operation.   Additional Permissions  To associate an IAM Identity Center instance with your S3 Access Grants instance, you must also have the sso:DescribeInstance, sso:CreateApplication, sso:PutApplicationGrant, and sso:PutApplicationAuthenticationMethod permissions.
+    /// Creates an S3 Access Grants instance, which serves as a logical grouping for access grants. You can create one S3 Access Grants instance per Region per account.   Permissions  You must have the s3:CreateAccessGrantsInstance permission to use this operation.   Additional Permissions  To associate an IAM Identity Center instance with your S3 Access Grants instance, you must also have the sso:DescribeInstance, sso:CreateApplication, sso:PutApplicationGrant, and sso:PutApplicationAuthenticationMethod permissions.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID of the S3 Access Grants instance.
@@ -302,7 +302,7 @@ public struct S3Control: AWSService {
         return try await self.createAccessGrantsInstance(input, logger: logger)
     }
 
-    /// The S3 data location that you would like to register in your S3 Access Grants instance. Your S3 data must be in the same Region as your S3 Access Grants instance. The location can be one of the following:    The default S3 location s3://    A bucket - S3://    A bucket and prefix - S3:///    When you register a location, you must include the IAM role that has permission to manage the S3 location that you are registering. Give S3 Access Grants permission to assume this role using a policy. S3 Access Grants assumes this role to manage access to the location and to vend temporary credentials to grantees or client applications.   Permissions  You must have the s3:CreateAccessGrantsLocation permission to use this operation.   Additional Permissions  You must also have the following permission for the specified IAM role: iam:PassRole
+    /// The S3 data location that you would like to register in your S3 Access Grants instance. Your S3 data must be in the same Region as your S3 Access Grants instance. The location can be one of the following:    The default S3 location s3://    A bucket - S3://    A bucket and prefix - S3:///    When you register a location, you must include the IAM role that has permission to manage the S3 location that you are registering. Give S3 Access Grants permission to assume this role using a policy. S3 Access Grants assumes this role to manage access to the location and to vend temporary credentials to grantees or client applications.   Permissions  You must have the s3:CreateAccessGrantsLocation permission to use this operation.   Additional Permissions  You must also have the following permission for the specified IAM role: iam:PassRole     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func createAccessGrantsLocation(_ input: CreateAccessGrantsLocationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAccessGrantsLocationResult {
@@ -316,7 +316,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// The S3 data location that you would like to register in your S3 Access Grants instance. Your S3 data must be in the same Region as your S3 Access Grants instance. The location can be one of the following:    The default S3 location s3://    A bucket - S3://    A bucket and prefix - S3:///    When you register a location, you must include the IAM role that has permission to manage the S3 location that you are registering. Give S3 Access Grants permission to assume this role using a policy. S3 Access Grants assumes this role to manage access to the location and to vend temporary credentials to grantees or client applications.   Permissions  You must have the s3:CreateAccessGrantsLocation permission to use this operation.   Additional Permissions  You must also have the following permission for the specified IAM role: iam:PassRole
+    /// The S3 data location that you would like to register in your S3 Access Grants instance. Your S3 data must be in the same Region as your S3 Access Grants instance. The location can be one of the following:    The default S3 location s3://    A bucket - S3://    A bucket and prefix - S3:///    When you register a location, you must include the IAM role that has permission to manage the S3 location that you are registering. Give S3 Access Grants permission to assume this role using a policy. S3 Access Grants assumes this role to manage access to the location and to vend temporary credentials to grantees or client applications.   Permissions  You must have the s3:CreateAccessGrantsLocation permission to use this operation.   Additional Permissions  You must also have the following permission for the specified IAM role: iam:PassRole     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID of the S3 Access Grants instance.
@@ -341,7 +341,7 @@ public struct S3Control: AWSService {
         return try await self.createAccessGrantsLocation(input, logger: logger)
     }
 
-    /// Creates an access point and associates it to a specified bucket. For more information, see Managing access to shared datasets with access points or Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide. To create an access point and attach it to a volume on an Amazon FSx file system, see CreateAndAttachS3AccessPoint in the Amazon FSx API Reference.   S3 on Outposts only supports VPC-style access points.  For more information, see  Accessing Amazon S3 on Outposts using virtual private cloud (VPC) only access points in the Amazon S3 User Guide.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section.  The following actions are related to CreateAccessPoint:    GetAccessPoint     DeleteAccessPoint     ListAccessPoints     ListAccessPointsForDirectoryBuckets
+    /// Creates an access point and associates it to a specified bucket. For more information, see Managing access to shared datasets with access points or Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide. To create an access point and attach it to a volume on an Amazon FSx file system, see CreateAndAttachS3AccessPoint in the Amazon FSx API Reference.   S3 on Outposts only supports VPC-style access points.  For more information, see  Accessing Amazon S3 on Outposts using virtual private cloud (VPC) only access points in the Amazon S3 User Guide.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section.  The following actions are related to CreateAccessPoint:    GetAccessPoint     DeleteAccessPoint     ListAccessPoints     ListAccessPointsForDirectoryBuckets     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func createAccessPoint(_ input: CreateAccessPointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAccessPointResult {
@@ -355,15 +355,16 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Creates an access point and associates it to a specified bucket. For more information, see Managing access to shared datasets with access points or Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide. To create an access point and attach it to a volume on an Amazon FSx file system, see CreateAndAttachS3AccessPoint in the Amazon FSx API Reference.   S3 on Outposts only supports VPC-style access points.  For more information, see  Accessing Amazon S3 on Outposts using virtual private cloud (VPC) only access points in the Amazon S3 User Guide.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section.  The following actions are related to CreateAccessPoint:    GetAccessPoint     DeleteAccessPoint     ListAccessPoints     ListAccessPointsForDirectoryBuckets
+    /// Creates an access point and associates it to a specified bucket. For more information, see Managing access to shared datasets with access points or Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide. To create an access point and attach it to a volume on an Amazon FSx file system, see CreateAndAttachS3AccessPoint in the Amazon FSx API Reference.   S3 on Outposts only supports VPC-style access points.  For more information, see  Accessing Amazon S3 on Outposts using virtual private cloud (VPC) only access points in the Amazon S3 User Guide.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section.  The following actions are related to CreateAccessPoint:    GetAccessPoint     DeleteAccessPoint     ListAccessPoints     ListAccessPointsForDirectoryBuckets     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID for the account that owns the specified access point.
     ///   - bucket: The name of the bucket that you want to associate this access point with. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
-    ///   - bucketAccountId: The Amazon Web Services account ID associated with the S3 bucket associated with this access point. For same account access point when your bucket and access point belong to the same account owner, the BucketAccountId is not required.  For cross-account access point when your bucket and access point are not in the same account, the BucketAccountId is required.
+    ///   - bucketAccountId: The Amazon Web Services account ID associated with the S3 bucket associated with this access point. For same account access point when your bucket and access point belong to the same account owner, the BucketAccountId is not required. For cross-account access point when your bucket and access point are not in the same account, the BucketAccountId is required.
     ///   - name: The name you want to assign to this access point. For directory buckets, the access point name must consist of a base name that you provide and suffix that includes the ZoneID (Amazon Web Services Availability Zone or Local Zone) of your bucket location, followed by --xa-s3. For more information, see Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide.
     ///   - publicAccessBlockConfiguration:  The PublicAccessBlock configuration that you want to apply to the access point.
     ///   - scope: For directory buckets, you can filter access control to specific prefixes, API operations, or a combination of both. For more information, see Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide.  Scope is only supported for access points attached to directory buckets.
+    ///   - tags: An array of tags that you can apply to an access point. Tags are key-value pairs of metadata used to control access to your access points. For more information about tags, see Using tags with Amazon S3. For information about tagging access points, see Using tags for attribute-based access control (ABAC).    You must have the s3:TagResource permission to create an access point with tags for a general purpose bucket.    You must have the s3express:TagResource permission to create an access point with tags for a directory bucket.
     ///   - vpcConfiguration: If you include this field, Amazon S3 restricts access to this access point to requests from the specified virtual private cloud (VPC).  This is required for creating an access point for Amazon S3 on Outposts buckets.
     ///   - logger: Logger use during operation
     @inlinable
@@ -374,6 +375,7 @@ public struct S3Control: AWSService {
         name: String,
         publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil,
         scope: Scope? = nil,
+        tags: [Tag]? = nil,
         vpcConfiguration: VpcConfiguration? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateAccessPointResult {
@@ -384,12 +386,13 @@ public struct S3Control: AWSService {
             name: name, 
             publicAccessBlockConfiguration: publicAccessBlockConfiguration, 
             scope: scope, 
+            tags: tags, 
             vpcConfiguration: vpcConfiguration
         )
         return try await self.createAccessPoint(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Creates an Object Lambda Access Point. For more information, see Transforming objects with Object Lambda Access Points in the Amazon S3 User Guide. The following actions are related to CreateAccessPointForObjectLambda:    DeleteAccessPointForObjectLambda     GetAccessPointForObjectLambda     ListAccessPointsForObjectLambda
+    ///  This operation is not supported by directory buckets.  Creates an Object Lambda Access Point. For more information, see Transforming objects with Object Lambda Access Points in the Amazon S3 User Guide. The following actions are related to CreateAccessPointForObjectLambda:    DeleteAccessPointForObjectLambda     GetAccessPointForObjectLambda     ListAccessPointsForObjectLambda     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func createAccessPointForObjectLambda(_ input: CreateAccessPointForObjectLambdaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAccessPointForObjectLambdaResult {
@@ -403,7 +406,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Creates an Object Lambda Access Point. For more information, see Transforming objects with Object Lambda Access Points in the Amazon S3 User Guide. The following actions are related to CreateAccessPointForObjectLambda:    DeleteAccessPointForObjectLambda     GetAccessPointForObjectLambda     ListAccessPointsForObjectLambda
+    ///  This operation is not supported by directory buckets.  Creates an Object Lambda Access Point. For more information, see Transforming objects with Object Lambda Access Points in the Amazon S3 User Guide. The following actions are related to CreateAccessPointForObjectLambda:    DeleteAccessPointForObjectLambda     GetAccessPointForObjectLambda     ListAccessPointsForObjectLambda     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID for owner of the specified Object Lambda Access Point.
@@ -481,7 +484,7 @@ public struct S3Control: AWSService {
         return try await self.createBucket(input, logger: logger)
     }
 
-    /// This operation creates an S3 Batch Operations job. You can use S3 Batch Operations to perform large-scale batch actions on Amazon S3 objects. Batch Operations can run a single action on lists of Amazon S3 objects that you specify. For more information, see S3 Batch Operations in the Amazon S3 User Guide.  Permissions  For information about permissions required to use the Batch Operations, see Granting permissions for S3 Batch Operations in the Amazon S3 User Guide.    Related actions include:    DescribeJob     ListJobs     UpdateJobPriority     UpdateJobStatus     JobOperation
+    /// This operation creates an S3 Batch Operations job. You can use S3 Batch Operations to perform large-scale batch actions on Amazon S3 objects. Batch Operations can run a single action on lists of Amazon S3 objects that you specify. For more information, see S3 Batch Operations in the Amazon S3 User Guide.  Permissions  For information about permissions required to use the Batch Operations, see Granting permissions for S3 Batch Operations in the Amazon S3 User Guide.    Related actions include:    DescribeJob     ListJobs     UpdateJobPriority     UpdateJobStatus     JobOperation     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func createJob(_ input: CreateJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateJobResult {
@@ -495,7 +498,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// This operation creates an S3 Batch Operations job. You can use S3 Batch Operations to perform large-scale batch actions on Amazon S3 objects. Batch Operations can run a single action on lists of Amazon S3 objects that you specify. For more information, see S3 Batch Operations in the Amazon S3 User Guide.  Permissions  For information about permissions required to use the Batch Operations, see Granting permissions for S3 Batch Operations in the Amazon S3 User Guide.    Related actions include:    DescribeJob     ListJobs     UpdateJobPriority     UpdateJobStatus     JobOperation
+    /// This operation creates an S3 Batch Operations job. You can use S3 Batch Operations to perform large-scale batch actions on Amazon S3 objects. Batch Operations can run a single action on lists of Amazon S3 objects that you specify. For more information, see S3 Batch Operations in the Amazon S3 User Guide.  Permissions  For information about permissions required to use the Batch Operations, see Granting permissions for S3 Batch Operations in the Amazon S3 User Guide.    Related actions include:    DescribeJob     ListJobs     UpdateJobPriority     UpdateJobStatus     JobOperation     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID that creates the job.
@@ -541,7 +544,7 @@ public struct S3Control: AWSService {
         return try await self.createJob(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Creates a Multi-Region Access Point and associates it with the specified buckets. For more information about creating Multi-Region Access Points, see Creating Multi-Region Access Points in the Amazon S3 User Guide. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. This request is asynchronous, meaning that you might receive a response before the command has completed. When this request provides a response, it provides a token that you can use to monitor the status of the request with DescribeMultiRegionAccessPointOperation. The following actions are related to CreateMultiRegionAccessPoint:    DeleteMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation     GetMultiRegionAccessPoint     ListMultiRegionAccessPoints
+    ///  This operation is not supported by directory buckets.  Creates a Multi-Region Access Point and associates it with the specified buckets. For more information about creating Multi-Region Access Points, see Creating Multi-Region Access Points in the Amazon S3 User Guide. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. This request is asynchronous, meaning that you might receive a response before the command has completed. When this request provides a response, it provides a token that you can use to monitor the status of the request with DescribeMultiRegionAccessPointOperation. The following actions are related to CreateMultiRegionAccessPoint:    DeleteMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation     GetMultiRegionAccessPoint     ListMultiRegionAccessPoints     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func createMultiRegionAccessPoint(_ input: CreateMultiRegionAccessPointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMultiRegionAccessPointResult {
@@ -555,7 +558,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Creates a Multi-Region Access Point and associates it with the specified buckets. For more information about creating Multi-Region Access Points, see Creating Multi-Region Access Points in the Amazon S3 User Guide. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. This request is asynchronous, meaning that you might receive a response before the command has completed. When this request provides a response, it provides a token that you can use to monitor the status of the request with DescribeMultiRegionAccessPointOperation. The following actions are related to CreateMultiRegionAccessPoint:    DeleteMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation     GetMultiRegionAccessPoint     ListMultiRegionAccessPoints
+    ///  This operation is not supported by directory buckets.  Creates a Multi-Region Access Point and associates it with the specified buckets. For more information about creating Multi-Region Access Points, see Creating Multi-Region Access Points in the Amazon S3 User Guide. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. This request is asynchronous, meaning that you might receive a response before the command has completed. When this request provides a response, it provides a token that you can use to monitor the status of the request with DescribeMultiRegionAccessPointOperation. The following actions are related to CreateMultiRegionAccessPoint:    DeleteMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation     GetMultiRegionAccessPoint     ListMultiRegionAccessPoints     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID for the owner of the Multi-Region Access Point. The owner of the Multi-Region Access Point also must own the underlying buckets.
@@ -577,7 +580,7 @@ public struct S3Control: AWSService {
         return try await self.createMultiRegionAccessPoint(input, logger: logger)
     }
 
-    ///  Creates a new S3 Storage Lens group and associates it with the specified Amazon Web Services account ID. An S3 Storage Lens group is a custom grouping of objects based on prefix, suffix, object tags, object size, object age, or a combination of these filters. For each Storage Lens group that you’ve created, you can also optionally add Amazon Web Services resource tags. For more information about S3 Storage Lens groups, see Working with S3 Storage Lens groups. To use this operation, you must have the permission to perform the s3:CreateStorageLensGroup action. If you’re trying to create a Storage Lens group with Amazon Web Services resource tags, you must also have permission to perform the s3:TagResource action. For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups. For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes.
+    ///  Creates a new S3 Storage Lens group and associates it with the specified Amazon Web Services account ID. An S3 Storage Lens group is a custom grouping of objects based on prefix, suffix, object tags, object size, object age, or a combination of these filters. For each Storage Lens group that you’ve created, you can also optionally add Amazon Web Services resource tags. For more information about S3 Storage Lens groups, see Working with S3 Storage Lens groups. To use this operation, you must have the permission to perform the s3:CreateStorageLensGroup action. If you’re trying to create a Storage Lens group with Amazon Web Services resource tags, you must also have permission to perform the s3:TagResource action. For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups. For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func createStorageLensGroup(_ input: CreateStorageLensGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -591,7 +594,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  Creates a new S3 Storage Lens group and associates it with the specified Amazon Web Services account ID. An S3 Storage Lens group is a custom grouping of objects based on prefix, suffix, object tags, object size, object age, or a combination of these filters. For each Storage Lens group that you’ve created, you can also optionally add Amazon Web Services resource tags. For more information about S3 Storage Lens groups, see Working with S3 Storage Lens groups. To use this operation, you must have the permission to perform the s3:CreateStorageLensGroup action. If you’re trying to create a Storage Lens group with Amazon Web Services resource tags, you must also have permission to perform the s3:TagResource action. For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups. For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes.
+    ///  Creates a new S3 Storage Lens group and associates it with the specified Amazon Web Services account ID. An S3 Storage Lens group is a custom grouping of objects based on prefix, suffix, object tags, object size, object age, or a combination of these filters. For each Storage Lens group that you’ve created, you can also optionally add Amazon Web Services resource tags. For more information about S3 Storage Lens groups, see Working with S3 Storage Lens groups. To use this operation, you must have the permission to perform the s3:CreateStorageLensGroup action. If you’re trying to create a Storage Lens group with Amazon Web Services resource tags, you must also have permission to perform the s3:TagResource action. For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups. For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID that the Storage Lens group is created from and associated with.
@@ -613,7 +616,7 @@ public struct S3Control: AWSService {
         return try await self.createStorageLensGroup(input, logger: logger)
     }
 
-    /// Deletes the access grant from the S3 Access Grants instance. You cannot undo an access grant deletion and the grantee will no longer have access to the S3 data.  Permissions  You must have the s3:DeleteAccessGrant permission to use this operation.
+    /// Deletes the access grant from the S3 Access Grants instance. You cannot undo an access grant deletion and the grantee will no longer have access to the S3 data.  Permissions  You must have the s3:DeleteAccessGrant permission to use this operation.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func deleteAccessGrant(_ input: DeleteAccessGrantRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -627,7 +630,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Deletes the access grant from the S3 Access Grants instance. You cannot undo an access grant deletion and the grantee will no longer have access to the S3 data.  Permissions  You must have the s3:DeleteAccessGrant permission to use this operation.
+    /// Deletes the access grant from the S3 Access Grants instance. You cannot undo an access grant deletion and the grantee will no longer have access to the S3 data.  Permissions  You must have the s3:DeleteAccessGrant permission to use this operation.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accessGrantId: The ID of the access grant. S3 Access Grants auto-generates this ID when you create the access grant.
@@ -646,7 +649,7 @@ public struct S3Control: AWSService {
         return try await self.deleteAccessGrant(input, logger: logger)
     }
 
-    /// Deletes your S3 Access Grants instance. You must first delete the access grants and locations before S3 Access Grants can delete the instance. See DeleteAccessGrant and DeleteAccessGrantsLocation. If you have associated an IAM Identity Center instance with your S3 Access Grants instance, you must first dissassociate the Identity Center instance from the S3 Access Grants instance before you can delete the S3 Access Grants instance. See AssociateAccessGrantsIdentityCenter and DissociateAccessGrantsIdentityCenter.  Permissions  You must have the s3:DeleteAccessGrantsInstance permission to use this operation.
+    /// Deletes your S3 Access Grants instance. You must first delete the access grants and locations before S3 Access Grants can delete the instance. See DeleteAccessGrant and DeleteAccessGrantsLocation. If you have associated an IAM Identity Center instance with your S3 Access Grants instance, you must first dissassociate the Identity Center instance from the S3 Access Grants instance before you can delete the S3 Access Grants instance. See AssociateAccessGrantsIdentityCenter and DissociateAccessGrantsIdentityCenter.  Permissions  You must have the s3:DeleteAccessGrantsInstance permission to use this operation.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func deleteAccessGrantsInstance(_ input: DeleteAccessGrantsInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -660,7 +663,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Deletes your S3 Access Grants instance. You must first delete the access grants and locations before S3 Access Grants can delete the instance. See DeleteAccessGrant and DeleteAccessGrantsLocation. If you have associated an IAM Identity Center instance with your S3 Access Grants instance, you must first dissassociate the Identity Center instance from the S3 Access Grants instance before you can delete the S3 Access Grants instance. See AssociateAccessGrantsIdentityCenter and DissociateAccessGrantsIdentityCenter.  Permissions  You must have the s3:DeleteAccessGrantsInstance permission to use this operation.
+    /// Deletes your S3 Access Grants instance. You must first delete the access grants and locations before S3 Access Grants can delete the instance. See DeleteAccessGrant and DeleteAccessGrantsLocation. If you have associated an IAM Identity Center instance with your S3 Access Grants instance, you must first dissassociate the Identity Center instance from the S3 Access Grants instance before you can delete the S3 Access Grants instance. See AssociateAccessGrantsIdentityCenter and DissociateAccessGrantsIdentityCenter.  Permissions  You must have the s3:DeleteAccessGrantsInstance permission to use this operation.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID of the S3 Access Grants instance.
@@ -676,7 +679,7 @@ public struct S3Control: AWSService {
         return try await self.deleteAccessGrantsInstance(input, logger: logger)
     }
 
-    /// Deletes the resource policy of the S3 Access Grants instance. The resource policy is used to manage cross-account access to your S3 Access Grants instance. By deleting the resource policy, you delete any cross-account permissions to your S3 Access Grants instance.   Permissions  You must have the s3:DeleteAccessGrantsInstanceResourcePolicy permission to use this operation.
+    /// Deletes the resource policy of the S3 Access Grants instance. The resource policy is used to manage cross-account access to your S3 Access Grants instance. By deleting the resource policy, you delete any cross-account permissions to your S3 Access Grants instance.   Permissions  You must have the s3:DeleteAccessGrantsInstanceResourcePolicy permission to use this operation.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func deleteAccessGrantsInstanceResourcePolicy(_ input: DeleteAccessGrantsInstanceResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -690,7 +693,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Deletes the resource policy of the S3 Access Grants instance. The resource policy is used to manage cross-account access to your S3 Access Grants instance. By deleting the resource policy, you delete any cross-account permissions to your S3 Access Grants instance.   Permissions  You must have the s3:DeleteAccessGrantsInstanceResourcePolicy permission to use this operation.
+    /// Deletes the resource policy of the S3 Access Grants instance. The resource policy is used to manage cross-account access to your S3 Access Grants instance. By deleting the resource policy, you delete any cross-account permissions to your S3 Access Grants instance.   Permissions  You must have the s3:DeleteAccessGrantsInstanceResourcePolicy permission to use this operation.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID of the S3 Access Grants instance.
@@ -706,7 +709,7 @@ public struct S3Control: AWSService {
         return try await self.deleteAccessGrantsInstanceResourcePolicy(input, logger: logger)
     }
 
-    /// Deregisters a location from your S3 Access Grants instance. You can only delete a location registration from an S3 Access Grants instance if there are no grants associated with this location. See Delete a grant for information on how to delete grants. You need to have at least one registered location in your S3 Access Grants instance in order to create access grants.   Permissions  You must have the s3:DeleteAccessGrantsLocation permission to use this operation.
+    /// Deregisters a location from your S3 Access Grants instance. You can only delete a location registration from an S3 Access Grants instance if there are no grants associated with this location. See Delete a grant for information on how to delete grants. You need to have at least one registered location in your S3 Access Grants instance in order to create access grants.   Permissions  You must have the s3:DeleteAccessGrantsLocation permission to use this operation.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func deleteAccessGrantsLocation(_ input: DeleteAccessGrantsLocationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -720,7 +723,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Deregisters a location from your S3 Access Grants instance. You can only delete a location registration from an S3 Access Grants instance if there are no grants associated with this location. See Delete a grant for information on how to delete grants. You need to have at least one registered location in your S3 Access Grants instance in order to create access grants.   Permissions  You must have the s3:DeleteAccessGrantsLocation permission to use this operation.
+    /// Deregisters a location from your S3 Access Grants instance. You can only delete a location registration from an S3 Access Grants instance if there are no grants associated with this location. See Delete a grant for information on how to delete grants. You need to have at least one registered location in your S3 Access Grants instance in order to create access grants.   Permissions  You must have the s3:DeleteAccessGrantsLocation permission to use this operation.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accessGrantsLocationId: The ID of the registered location that you are deregistering from your S3 Access Grants instance. S3 Access Grants assigned this ID when you registered the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.
@@ -739,7 +742,7 @@ public struct S3Control: AWSService {
         return try await self.deleteAccessGrantsLocation(input, logger: logger)
     }
 
-    /// Deletes the specified access point. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to DeleteAccessPoint:    CreateAccessPoint     GetAccessPoint     ListAccessPoints
+    /// Deletes the specified access point. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to DeleteAccessPoint:    CreateAccessPoint     GetAccessPoint     ListAccessPoints     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func deleteAccessPoint(_ input: DeleteAccessPointRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -753,7 +756,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified access point. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to DeleteAccessPoint:    CreateAccessPoint     GetAccessPoint     ListAccessPoints
+    /// Deletes the specified access point. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to DeleteAccessPoint:    CreateAccessPoint     GetAccessPoint     ListAccessPoints     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID for the account that owns the specified access point.
@@ -772,7 +775,7 @@ public struct S3Control: AWSService {
         return try await self.deleteAccessPoint(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Deletes the specified Object Lambda Access Point. The following actions are related to DeleteAccessPointForObjectLambda:    CreateAccessPointForObjectLambda     GetAccessPointForObjectLambda     ListAccessPointsForObjectLambda
+    ///  This operation is not supported by directory buckets.  Deletes the specified Object Lambda Access Point. The following actions are related to DeleteAccessPointForObjectLambda:    CreateAccessPointForObjectLambda     GetAccessPointForObjectLambda     ListAccessPointsForObjectLambda     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func deleteAccessPointForObjectLambda(_ input: DeleteAccessPointForObjectLambdaRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -786,7 +789,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Deletes the specified Object Lambda Access Point. The following actions are related to DeleteAccessPointForObjectLambda:    CreateAccessPointForObjectLambda     GetAccessPointForObjectLambda     ListAccessPointsForObjectLambda
+    ///  This operation is not supported by directory buckets.  Deletes the specified Object Lambda Access Point. The following actions are related to DeleteAccessPointForObjectLambda:    CreateAccessPointForObjectLambda     GetAccessPointForObjectLambda     ListAccessPointsForObjectLambda     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The account ID for the account that owns the specified Object Lambda Access Point.
@@ -805,7 +808,7 @@ public struct S3Control: AWSService {
         return try await self.deleteAccessPointForObjectLambda(input, logger: logger)
     }
 
-    /// Deletes the access point policy for the specified access point.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to DeleteAccessPointPolicy:    PutAccessPointPolicy     GetAccessPointPolicy
+    /// Deletes the access point policy for the specified access point.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to DeleteAccessPointPolicy:    PutAccessPointPolicy     GetAccessPointPolicy     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func deleteAccessPointPolicy(_ input: DeleteAccessPointPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -819,7 +822,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Deletes the access point policy for the specified access point.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to DeleteAccessPointPolicy:    PutAccessPointPolicy     GetAccessPointPolicy
+    /// Deletes the access point policy for the specified access point.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to DeleteAccessPointPolicy:    PutAccessPointPolicy     GetAccessPointPolicy     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The account ID for the account that owns the specified access point.
@@ -838,7 +841,7 @@ public struct S3Control: AWSService {
         return try await self.deleteAccessPointPolicy(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Removes the resource policy for an Object Lambda Access Point. The following actions are related to DeleteAccessPointPolicyForObjectLambda:    GetAccessPointPolicyForObjectLambda     PutAccessPointPolicyForObjectLambda
+    ///  This operation is not supported by directory buckets.  Removes the resource policy for an Object Lambda Access Point. The following actions are related to DeleteAccessPointPolicyForObjectLambda:    GetAccessPointPolicyForObjectLambda     PutAccessPointPolicyForObjectLambda     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func deleteAccessPointPolicyForObjectLambda(_ input: DeleteAccessPointPolicyForObjectLambdaRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -852,7 +855,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Removes the resource policy for an Object Lambda Access Point. The following actions are related to DeleteAccessPointPolicyForObjectLambda:    GetAccessPointPolicyForObjectLambda     PutAccessPointPolicyForObjectLambda
+    ///  This operation is not supported by directory buckets.  Removes the resource policy for an Object Lambda Access Point. The following actions are related to DeleteAccessPointPolicyForObjectLambda:    GetAccessPointPolicyForObjectLambda     PutAccessPointPolicyForObjectLambda     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The account ID for the account that owns the specified Object Lambda Access Point.
@@ -871,7 +874,7 @@ public struct S3Control: AWSService {
         return try await self.deleteAccessPointPolicyForObjectLambda(input, logger: logger)
     }
 
-    ///  Deletes an existing access point scope for a directory bucket.  When you delete the scope of an access point, all prefixes and permissions are deleted.  To use this operation, you must have the permission to perform the s3express:DeleteAccessPointScope action. For information about REST API errors, see REST error responses.
+    ///  Deletes an existing access point scope for a directory bucket.  When you delete the scope of an access point, all prefixes and permissions are deleted.  To use this operation, you must have the permission to perform the s3express:DeleteAccessPointScope action. For information about REST API errors, see REST error responses.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func deleteAccessPointScope(_ input: DeleteAccessPointScopeRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -884,7 +887,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  Deletes an existing access point scope for a directory bucket.  When you delete the scope of an access point, all prefixes and permissions are deleted.  To use this operation, you must have the permission to perform the s3express:DeleteAccessPointScope action. For information about REST API errors, see REST error responses.
+    ///  Deletes an existing access point scope for a directory bucket.  When you delete the scope of an access point, all prefixes and permissions are deleted.  To use this operation, you must have the permission to perform the s3express:DeleteAccessPointScope action. For information about REST API errors, see REST error responses.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId:  The Amazon Web Services account ID that owns the access point with the scope that you want to delete.
@@ -936,7 +939,7 @@ public struct S3Control: AWSService {
         return try await self.deleteBucket(input, logger: logger)
     }
 
-    ///  This action deletes an Amazon S3 on Outposts bucket's lifecycle configuration. To delete an S3 bucket's lifecycle configuration, see DeleteBucketLifecycle in the Amazon S3 API Reference.   Deletes the lifecycle configuration from the specified Outposts bucket. Amazon S3 on Outposts removes all the lifecycle configuration rules in the lifecycle subresource associated with the bucket. Your objects never expire, and Amazon S3 on Outposts no longer automatically deletes any objects on the basis of rules contained in the deleted lifecycle configuration. For more information, see Using Amazon S3 on Outposts in Amazon S3 User Guide. To use this operation, you must have permission to perform the s3-outposts:PutLifecycleConfiguration action. By default, the bucket owner has this permission and the Outposts bucket owner can grant this permission to others. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. For more information about object expiration, see Elements to Describe Lifecycle Actions. Related actions include:    PutBucketLifecycleConfiguration     GetBucketLifecycleConfiguration
+    ///  This action deletes an Amazon S3 on Outposts bucket's lifecycle configuration. To delete an S3 bucket's lifecycle configuration, see DeleteBucketLifecycle in the Amazon S3 API Reference.   Deletes the lifecycle configuration from the specified Outposts bucket. Amazon S3 on Outposts removes all the lifecycle configuration rules in the lifecycle subresource associated with the bucket. Your objects never expire, and Amazon S3 on Outposts no longer automatically deletes any objects on the basis of rules contained in the deleted lifecycle configuration. For more information, see Using Amazon S3 on Outposts in Amazon S3 User Guide. To use this operation, you must have permission to perform the s3-outposts:PutLifecycleConfiguration action. By default, the bucket owner has this permission and the Outposts bucket owner can grant this permission to others. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. For more information about object expiration, see Elements to Describe Lifecycle Actions. Related actions include:    PutBucketLifecycleConfiguration     GetBucketLifecycleConfiguration     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func deleteBucketLifecycleConfiguration(_ input: DeleteBucketLifecycleConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -950,7 +953,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This action deletes an Amazon S3 on Outposts bucket's lifecycle configuration. To delete an S3 bucket's lifecycle configuration, see DeleteBucketLifecycle in the Amazon S3 API Reference.   Deletes the lifecycle configuration from the specified Outposts bucket. Amazon S3 on Outposts removes all the lifecycle configuration rules in the lifecycle subresource associated with the bucket. Your objects never expire, and Amazon S3 on Outposts no longer automatically deletes any objects on the basis of rules contained in the deleted lifecycle configuration. For more information, see Using Amazon S3 on Outposts in Amazon S3 User Guide. To use this operation, you must have permission to perform the s3-outposts:PutLifecycleConfiguration action. By default, the bucket owner has this permission and the Outposts bucket owner can grant this permission to others. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. For more information about object expiration, see Elements to Describe Lifecycle Actions. Related actions include:    PutBucketLifecycleConfiguration     GetBucketLifecycleConfiguration
+    ///  This action deletes an Amazon S3 on Outposts bucket's lifecycle configuration. To delete an S3 bucket's lifecycle configuration, see DeleteBucketLifecycle in the Amazon S3 API Reference.   Deletes the lifecycle configuration from the specified Outposts bucket. Amazon S3 on Outposts removes all the lifecycle configuration rules in the lifecycle subresource associated with the bucket. Your objects never expire, and Amazon S3 on Outposts no longer automatically deletes any objects on the basis of rules contained in the deleted lifecycle configuration. For more information, see Using Amazon S3 on Outposts in Amazon S3 User Guide. To use this operation, you must have permission to perform the s3-outposts:PutLifecycleConfiguration action. By default, the bucket owner has this permission and the Outposts bucket owner can grant this permission to others. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. For more information about object expiration, see Elements to Describe Lifecycle Actions. Related actions include:    PutBucketLifecycleConfiguration     GetBucketLifecycleConfiguration     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The account ID of the lifecycle configuration to delete.
@@ -969,7 +972,7 @@ public struct S3Control: AWSService {
         return try await self.deleteBucketLifecycleConfiguration(input, logger: logger)
     }
 
-    ///  This action deletes an Amazon S3 on Outposts bucket policy. To delete an S3 bucket policy, see DeleteBucketPolicy in the Amazon S3 API Reference.   This implementation of the DELETE action uses the policy subresource to delete the policy of a specified Amazon S3 on Outposts bucket. If you are using an identity other than the root user of the Amazon Web Services account that owns the bucket, the calling identity must have the s3-outposts:DeleteBucketPolicy permissions on the specified Outposts bucket and belong to the bucket owner's account to use this action. For more information, see Using Amazon S3 on Outposts in Amazon S3 User Guide. If you don't have DeleteBucketPolicy permissions, Amazon S3 returns a 403 Access Denied error. If you have the correct permissions, but you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 405 Method Not Allowed error.   As a security precaution, the root user of the Amazon Web Services account that owns a bucket can always use this action, even if the policy explicitly denies the root user the ability to perform this action.  For more information about bucket policies, see Using Bucket Policies and User Policies.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to DeleteBucketPolicy:    GetBucketPolicy     PutBucketPolicy
+    ///  This action deletes an Amazon S3 on Outposts bucket policy. To delete an S3 bucket policy, see DeleteBucketPolicy in the Amazon S3 API Reference.   This implementation of the DELETE action uses the policy subresource to delete the policy of a specified Amazon S3 on Outposts bucket. If you are using an identity other than the root user of the Amazon Web Services account that owns the bucket, the calling identity must have the s3-outposts:DeleteBucketPolicy permissions on the specified Outposts bucket and belong to the bucket owner's account to use this action. For more information, see Using Amazon S3 on Outposts in Amazon S3 User Guide. If you don't have DeleteBucketPolicy permissions, Amazon S3 returns a 403 Access Denied error. If you have the correct permissions, but you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 405 Method Not Allowed error.   As a security precaution, the root user of the Amazon Web Services account that owns a bucket can always use this action, even if the policy explicitly denies the root user the ability to perform this action.  For more information about bucket policies, see Using Bucket Policies and User Policies.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to DeleteBucketPolicy:    GetBucketPolicy     PutBucketPolicy     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func deleteBucketPolicy(_ input: DeleteBucketPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -983,7 +986,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This action deletes an Amazon S3 on Outposts bucket policy. To delete an S3 bucket policy, see DeleteBucketPolicy in the Amazon S3 API Reference.   This implementation of the DELETE action uses the policy subresource to delete the policy of a specified Amazon S3 on Outposts bucket. If you are using an identity other than the root user of the Amazon Web Services account that owns the bucket, the calling identity must have the s3-outposts:DeleteBucketPolicy permissions on the specified Outposts bucket and belong to the bucket owner's account to use this action. For more information, see Using Amazon S3 on Outposts in Amazon S3 User Guide. If you don't have DeleteBucketPolicy permissions, Amazon S3 returns a 403 Access Denied error. If you have the correct permissions, but you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 405 Method Not Allowed error.   As a security precaution, the root user of the Amazon Web Services account that owns a bucket can always use this action, even if the policy explicitly denies the root user the ability to perform this action.  For more information about bucket policies, see Using Bucket Policies and User Policies.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to DeleteBucketPolicy:    GetBucketPolicy     PutBucketPolicy
+    ///  This action deletes an Amazon S3 on Outposts bucket policy. To delete an S3 bucket policy, see DeleteBucketPolicy in the Amazon S3 API Reference.   This implementation of the DELETE action uses the policy subresource to delete the policy of a specified Amazon S3 on Outposts bucket. If you are using an identity other than the root user of the Amazon Web Services account that owns the bucket, the calling identity must have the s3-outposts:DeleteBucketPolicy permissions on the specified Outposts bucket and belong to the bucket owner's account to use this action. For more information, see Using Amazon S3 on Outposts in Amazon S3 User Guide. If you don't have DeleteBucketPolicy permissions, Amazon S3 returns a 403 Access Denied error. If you have the correct permissions, but you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 405 Method Not Allowed error.   As a security precaution, the root user of the Amazon Web Services account that owns a bucket can always use this action, even if the policy explicitly denies the root user the ability to perform this action.  For more information about bucket policies, see Using Bucket Policies and User Policies.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to DeleteBucketPolicy:    GetBucketPolicy     PutBucketPolicy     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The account ID of the Outposts bucket.
@@ -1002,7 +1005,7 @@ public struct S3Control: AWSService {
         return try await self.deleteBucketPolicy(input, logger: logger)
     }
 
-    ///  This operation deletes an Amazon S3 on Outposts bucket's replication configuration. To delete an S3 bucket's replication configuration, see DeleteBucketReplication in the Amazon S3 API Reference.   Deletes the replication configuration from the specified S3 on Outposts bucket. To use this operation, you must have permissions to perform the s3-outposts:PutReplicationConfiguration action. The Outposts bucket owner has this permission by default and can grant it to others. For more information about permissions, see Setting up IAM with S3 on Outposts and Managing access to S3 on Outposts buckets in the Amazon S3 User Guide.  It can take a while to propagate PUT or DELETE requests for a replication configuration to all S3 on Outposts systems. Therefore, the replication configuration that's returned by a GET request soon after a PUT or DELETE request might return a more recent result than what's on the Outpost. If an Outpost is offline, the delay in updating the replication configuration on that Outpost can be significant.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. For information about S3 replication on Outposts configuration, see Replicating objects for S3 on Outposts in the Amazon S3 User Guide. The following operations are related to DeleteBucketReplication:    PutBucketReplication     GetBucketReplication
+    ///  This operation deletes an Amazon S3 on Outposts bucket's replication configuration. To delete an S3 bucket's replication configuration, see DeleteBucketReplication in the Amazon S3 API Reference.   Deletes the replication configuration from the specified S3 on Outposts bucket. To use this operation, you must have permissions to perform the s3-outposts:PutReplicationConfiguration action. The Outposts bucket owner has this permission by default and can grant it to others. For more information about permissions, see Setting up IAM with S3 on Outposts and Managing access to S3 on Outposts buckets in the Amazon S3 User Guide.  It can take a while to propagate PUT or DELETE requests for a replication configuration to all S3 on Outposts systems. Therefore, the replication configuration that's returned by a GET request soon after a PUT or DELETE request might return a more recent result than what's on the Outpost. If an Outpost is offline, the delay in updating the replication configuration on that Outpost can be significant.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. For information about S3 replication on Outposts configuration, see Replicating objects for S3 on Outposts in the Amazon S3 User Guide. The following operations are related to DeleteBucketReplication:    PutBucketReplication     GetBucketReplication     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func deleteBucketReplication(_ input: DeleteBucketReplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1016,7 +1019,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation deletes an Amazon S3 on Outposts bucket's replication configuration. To delete an S3 bucket's replication configuration, see DeleteBucketReplication in the Amazon S3 API Reference.   Deletes the replication configuration from the specified S3 on Outposts bucket. To use this operation, you must have permissions to perform the s3-outposts:PutReplicationConfiguration action. The Outposts bucket owner has this permission by default and can grant it to others. For more information about permissions, see Setting up IAM with S3 on Outposts and Managing access to S3 on Outposts buckets in the Amazon S3 User Guide.  It can take a while to propagate PUT or DELETE requests for a replication configuration to all S3 on Outposts systems. Therefore, the replication configuration that's returned by a GET request soon after a PUT or DELETE request might return a more recent result than what's on the Outpost. If an Outpost is offline, the delay in updating the replication configuration on that Outpost can be significant.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. For information about S3 replication on Outposts configuration, see Replicating objects for S3 on Outposts in the Amazon S3 User Guide. The following operations are related to DeleteBucketReplication:    PutBucketReplication     GetBucketReplication
+    ///  This operation deletes an Amazon S3 on Outposts bucket's replication configuration. To delete an S3 bucket's replication configuration, see DeleteBucketReplication in the Amazon S3 API Reference.   Deletes the replication configuration from the specified S3 on Outposts bucket. To use this operation, you must have permissions to perform the s3-outposts:PutReplicationConfiguration action. The Outposts bucket owner has this permission by default and can grant it to others. For more information about permissions, see Setting up IAM with S3 on Outposts and Managing access to S3 on Outposts buckets in the Amazon S3 User Guide.  It can take a while to propagate PUT or DELETE requests for a replication configuration to all S3 on Outposts systems. Therefore, the replication configuration that's returned by a GET request soon after a PUT or DELETE request might return a more recent result than what's on the Outpost. If an Outpost is offline, the delay in updating the replication configuration on that Outpost can be significant.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. For information about S3 replication on Outposts configuration, see Replicating objects for S3 on Outposts in the Amazon S3 User Guide. The following operations are related to DeleteBucketReplication:    PutBucketReplication     GetBucketReplication     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID of the Outposts bucket to delete the replication configuration for.
@@ -1035,7 +1038,7 @@ public struct S3Control: AWSService {
         return try await self.deleteBucketReplication(input, logger: logger)
     }
 
-    ///  This action deletes an Amazon S3 on Outposts bucket's tags. To delete an S3 bucket tags, see DeleteBucketTagging in the Amazon S3 API Reference.   Deletes the tags from the Outposts bucket. For more information, see Using Amazon S3 on Outposts in Amazon S3 User Guide. To use this action, you must have permission to perform the PutBucketTagging action. By default, the bucket owner has this permission and can grant this permission to others.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to DeleteBucketTagging:    GetBucketTagging     PutBucketTagging
+    ///  This action deletes an Amazon S3 on Outposts bucket's tags. To delete an S3 bucket tags, see DeleteBucketTagging in the Amazon S3 API Reference.   Deletes the tags from the Outposts bucket. For more information, see Using Amazon S3 on Outposts in Amazon S3 User Guide. To use this action, you must have permission to perform the PutBucketTagging action. By default, the bucket owner has this permission and can grant this permission to others.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to DeleteBucketTagging:    GetBucketTagging     PutBucketTagging     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func deleteBucketTagging(_ input: DeleteBucketTaggingRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1049,7 +1052,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This action deletes an Amazon S3 on Outposts bucket's tags. To delete an S3 bucket tags, see DeleteBucketTagging in the Amazon S3 API Reference.   Deletes the tags from the Outposts bucket. For more information, see Using Amazon S3 on Outposts in Amazon S3 User Guide. To use this action, you must have permission to perform the PutBucketTagging action. By default, the bucket owner has this permission and can grant this permission to others.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to DeleteBucketTagging:    GetBucketTagging     PutBucketTagging
+    ///  This action deletes an Amazon S3 on Outposts bucket's tags. To delete an S3 bucket tags, see DeleteBucketTagging in the Amazon S3 API Reference.   Deletes the tags from the Outposts bucket. For more information, see Using Amazon S3 on Outposts in Amazon S3 User Guide. To use this action, you must have permission to perform the PutBucketTagging action. By default, the bucket owner has this permission and can grant this permission to others.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to DeleteBucketTagging:    GetBucketTagging     PutBucketTagging     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID of the Outposts bucket tag set to be removed.
@@ -1068,7 +1071,7 @@ public struct S3Control: AWSService {
         return try await self.deleteBucketTagging(input, logger: logger)
     }
 
-    /// Removes the entire tag set from the specified S3 Batch Operations job.  Permissions  To use the DeleteJobTagging operation, you must have permission to perform the s3:DeleteJobTagging action. For more information, see Controlling access and labeling jobs using tags in the Amazon S3 User Guide.   Related actions include:    CreateJob     GetJobTagging     PutJobTagging
+    /// Removes the entire tag set from the specified S3 Batch Operations job.  Permissions  To use the DeleteJobTagging operation, you must have permission to perform the s3:DeleteJobTagging action. For more information, see Controlling access and labeling jobs using tags in the Amazon S3 User Guide.   Related actions include:    CreateJob     GetJobTagging     PutJobTagging     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func deleteJobTagging(_ input: DeleteJobTaggingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteJobTaggingResult {
@@ -1082,7 +1085,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Removes the entire tag set from the specified S3 Batch Operations job.  Permissions  To use the DeleteJobTagging operation, you must have permission to perform the s3:DeleteJobTagging action. For more information, see Controlling access and labeling jobs using tags in the Amazon S3 User Guide.   Related actions include:    CreateJob     GetJobTagging     PutJobTagging
+    /// Removes the entire tag set from the specified S3 Batch Operations job.  Permissions  To use the DeleteJobTagging operation, you must have permission to perform the s3:DeleteJobTagging action. For more information, see Controlling access and labeling jobs using tags in the Amazon S3 User Guide.   Related actions include:    CreateJob     GetJobTagging     PutJobTagging     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID associated with the S3 Batch Operations job.
@@ -1101,7 +1104,7 @@ public struct S3Control: AWSService {
         return try await self.deleteJobTagging(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Deletes a Multi-Region Access Point. This action does not delete the buckets associated with the Multi-Region Access Point, only the Multi-Region Access Point itself. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. This request is asynchronous, meaning that you might receive a response before the command has completed. When this request provides a response, it provides a token that you can use to monitor the status of the request with DescribeMultiRegionAccessPointOperation. The following actions are related to DeleteMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation     GetMultiRegionAccessPoint     ListMultiRegionAccessPoints
+    ///  This operation is not supported by directory buckets.  Deletes a Multi-Region Access Point. This action does not delete the buckets associated with the Multi-Region Access Point, only the Multi-Region Access Point itself. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. This request is asynchronous, meaning that you might receive a response before the command has completed. When this request provides a response, it provides a token that you can use to monitor the status of the request with DescribeMultiRegionAccessPointOperation. The following actions are related to DeleteMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation     GetMultiRegionAccessPoint     ListMultiRegionAccessPoints     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func deleteMultiRegionAccessPoint(_ input: DeleteMultiRegionAccessPointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMultiRegionAccessPointResult {
@@ -1115,7 +1118,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Deletes a Multi-Region Access Point. This action does not delete the buckets associated with the Multi-Region Access Point, only the Multi-Region Access Point itself. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. This request is asynchronous, meaning that you might receive a response before the command has completed. When this request provides a response, it provides a token that you can use to monitor the status of the request with DescribeMultiRegionAccessPointOperation. The following actions are related to DeleteMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation     GetMultiRegionAccessPoint     ListMultiRegionAccessPoints
+    ///  This operation is not supported by directory buckets.  Deletes a Multi-Region Access Point. This action does not delete the buckets associated with the Multi-Region Access Point, only the Multi-Region Access Point itself. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. This request is asynchronous, meaning that you might receive a response before the command has completed. When this request provides a response, it provides a token that you can use to monitor the status of the request with DescribeMultiRegionAccessPointOperation. The following actions are related to DeleteMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation     GetMultiRegionAccessPoint     ListMultiRegionAccessPoints     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
@@ -1137,7 +1140,7 @@ public struct S3Control: AWSService {
         return try await self.deleteMultiRegionAccessPoint(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Removes the PublicAccessBlock configuration for an Amazon Web Services account. For more information, see  Using Amazon S3 block public access. Related actions include:    GetPublicAccessBlock     PutPublicAccessBlock
+    ///  This operation is not supported by directory buckets.  Removes the PublicAccessBlock configuration for an Amazon Web Services account. For more information, see  Using Amazon S3 block public access. Related actions include:    GetPublicAccessBlock     PutPublicAccessBlock     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func deletePublicAccessBlock(_ input: DeletePublicAccessBlockRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1151,7 +1154,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Removes the PublicAccessBlock configuration for an Amazon Web Services account. For more information, see  Using Amazon S3 block public access. Related actions include:    GetPublicAccessBlock     PutPublicAccessBlock
+    ///  This operation is not supported by directory buckets.  Removes the PublicAccessBlock configuration for an Amazon Web Services account. For more information, see  Using Amazon S3 block public access. Related actions include:    GetPublicAccessBlock     PutPublicAccessBlock     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The account ID for the Amazon Web Services account whose PublicAccessBlock configuration you want to remove.
@@ -1167,7 +1170,7 @@ public struct S3Control: AWSService {
         return try await self.deletePublicAccessBlock(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Deletes the Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:DeleteStorageLensConfiguration action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.
+    ///  This operation is not supported by directory buckets.  Deletes the Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:DeleteStorageLensConfiguration action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.   You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func deleteStorageLensConfiguration(_ input: DeleteStorageLensConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1181,7 +1184,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Deletes the Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:DeleteStorageLensConfiguration action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.
+    ///  This operation is not supported by directory buckets.  Deletes the Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:DeleteStorageLensConfiguration action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.   You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The account ID of the requester.
@@ -1200,7 +1203,7 @@ public struct S3Control: AWSService {
         return try await self.deleteStorageLensConfiguration(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Deletes the Amazon S3 Storage Lens configuration tags. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:DeleteStorageLensConfigurationTagging action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.
+    ///  This operation is not supported by directory buckets.  Deletes the Amazon S3 Storage Lens configuration tags. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:DeleteStorageLensConfigurationTagging action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.   You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func deleteStorageLensConfigurationTagging(_ input: DeleteStorageLensConfigurationTaggingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteStorageLensConfigurationTaggingResult {
@@ -1214,7 +1217,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Deletes the Amazon S3 Storage Lens configuration tags. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:DeleteStorageLensConfigurationTagging action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.
+    ///  This operation is not supported by directory buckets.  Deletes the Amazon S3 Storage Lens configuration tags. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:DeleteStorageLensConfigurationTagging action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.   You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The account ID of the requester.
@@ -1233,7 +1236,7 @@ public struct S3Control: AWSService {
         return try await self.deleteStorageLensConfigurationTagging(input, logger: logger)
     }
 
-    /// Deletes an existing S3 Storage Lens group. To use this operation, you must have the permission to perform the s3:DeleteStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups. For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes.
+    /// Deletes an existing S3 Storage Lens group. To use this operation, you must have the permission to perform the s3:DeleteStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups. For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func deleteStorageLensGroup(_ input: DeleteStorageLensGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1247,7 +1250,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Deletes an existing S3 Storage Lens group. To use this operation, you must have the permission to perform the s3:DeleteStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups. For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes.
+    /// Deletes an existing S3 Storage Lens group. To use this operation, you must have the permission to perform the s3:DeleteStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups. For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID used to create the Storage Lens group that you're trying to delete.
@@ -1266,7 +1269,7 @@ public struct S3Control: AWSService {
         return try await self.deleteStorageLensGroup(input, logger: logger)
     }
 
-    /// Retrieves the configuration parameters and status for a Batch Operations job. For more information, see S3 Batch Operations in the Amazon S3 User Guide.  Permissions  To use the DescribeJob operation, you must have permission to perform the s3:DescribeJob action.   Related actions include:    CreateJob     ListJobs     UpdateJobPriority     UpdateJobStatus
+    /// Retrieves the configuration parameters and status for a Batch Operations job. For more information, see S3 Batch Operations in the Amazon S3 User Guide.  Permissions  To use the DescribeJob operation, you must have permission to perform the s3:DescribeJob action.   Related actions include:    CreateJob     ListJobs     UpdateJobPriority     UpdateJobStatus     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func describeJob(_ input: DescribeJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeJobResult {
@@ -1280,7 +1283,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the configuration parameters and status for a Batch Operations job. For more information, see S3 Batch Operations in the Amazon S3 User Guide.  Permissions  To use the DescribeJob operation, you must have permission to perform the s3:DescribeJob action.   Related actions include:    CreateJob     ListJobs     UpdateJobPriority     UpdateJobStatus
+    /// Retrieves the configuration parameters and status for a Batch Operations job. For more information, see S3 Batch Operations in the Amazon S3 User Guide.  Permissions  To use the DescribeJob operation, you must have permission to perform the s3:DescribeJob action.   Related actions include:    CreateJob     ListJobs     UpdateJobPriority     UpdateJobStatus     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID associated with the S3 Batch Operations job.
@@ -1299,7 +1302,7 @@ public struct S3Control: AWSService {
         return try await self.describeJob(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Retrieves the status of an asynchronous request to manage a Multi-Region Access Point. For more information about managing Multi-Region Access Points and how asynchronous requests work, see Using Multi-Region Access Points in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DeleteMultiRegionAccessPoint     GetMultiRegionAccessPoint     ListMultiRegionAccessPoints
+    ///  This operation is not supported by directory buckets.  Retrieves the status of an asynchronous request to manage a Multi-Region Access Point. For more information about managing Multi-Region Access Points and how asynchronous requests work, see Using Multi-Region Access Points in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DeleteMultiRegionAccessPoint     GetMultiRegionAccessPoint     ListMultiRegionAccessPoints     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func describeMultiRegionAccessPointOperation(_ input: DescribeMultiRegionAccessPointOperationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMultiRegionAccessPointOperationResult {
@@ -1313,7 +1316,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Retrieves the status of an asynchronous request to manage a Multi-Region Access Point. For more information about managing Multi-Region Access Points and how asynchronous requests work, see Using Multi-Region Access Points in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DeleteMultiRegionAccessPoint     GetMultiRegionAccessPoint     ListMultiRegionAccessPoints
+    ///  This operation is not supported by directory buckets.  Retrieves the status of an asynchronous request to manage a Multi-Region Access Point. For more information about managing Multi-Region Access Points and how asynchronous requests work, see Using Multi-Region Access Points in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DeleteMultiRegionAccessPoint     GetMultiRegionAccessPoint     ListMultiRegionAccessPoints     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
@@ -1332,7 +1335,7 @@ public struct S3Control: AWSService {
         return try await self.describeMultiRegionAccessPointOperation(input, logger: logger)
     }
 
-    /// Dissociates the Amazon Web Services IAM Identity Center instance from the S3 Access Grants instance.   Permissions  You must have the s3:DissociateAccessGrantsIdentityCenter permission to use this operation.   Additional Permissions  You must have the sso:DeleteApplication permission to use this operation.
+    /// Dissociates the Amazon Web Services IAM Identity Center instance from the S3 Access Grants instance.   Permissions  You must have the s3:DissociateAccessGrantsIdentityCenter permission to use this operation.   Additional Permissions  You must have the sso:DeleteApplication permission to use this operation.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func dissociateAccessGrantsIdentityCenter(_ input: DissociateAccessGrantsIdentityCenterRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1346,7 +1349,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Dissociates the Amazon Web Services IAM Identity Center instance from the S3 Access Grants instance.   Permissions  You must have the s3:DissociateAccessGrantsIdentityCenter permission to use this operation.   Additional Permissions  You must have the sso:DeleteApplication permission to use this operation.
+    /// Dissociates the Amazon Web Services IAM Identity Center instance from the S3 Access Grants instance.   Permissions  You must have the s3:DissociateAccessGrantsIdentityCenter permission to use this operation.   Additional Permissions  You must have the sso:DeleteApplication permission to use this operation.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID of the S3 Access Grants instance.
@@ -1362,7 +1365,7 @@ public struct S3Control: AWSService {
         return try await self.dissociateAccessGrantsIdentityCenter(input, logger: logger)
     }
 
-    /// Get the details of an access grant from your S3 Access Grants instance.  Permissions  You must have the s3:GetAccessGrant permission to use this operation.
+    /// Get the details of an access grant from your S3 Access Grants instance.  Permissions  You must have the s3:GetAccessGrant permission to use this operation.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func getAccessGrant(_ input: GetAccessGrantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccessGrantResult {
@@ -1376,7 +1379,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Get the details of an access grant from your S3 Access Grants instance.  Permissions  You must have the s3:GetAccessGrant permission to use this operation.
+    /// Get the details of an access grant from your S3 Access Grants instance.  Permissions  You must have the s3:GetAccessGrant permission to use this operation.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accessGrantId: The ID of the access grant. S3 Access Grants auto-generates this ID when you create the access grant.
@@ -1395,7 +1398,7 @@ public struct S3Control: AWSService {
         return try await self.getAccessGrant(input, logger: logger)
     }
 
-    /// Retrieves the S3 Access Grants instance for a Region in your account.   Permissions  You must have the s3:GetAccessGrantsInstance permission to use this operation.      GetAccessGrantsInstance is not supported for cross-account access. You can only call the API from the account that owns the S3 Access Grants instance.
+    /// Retrieves the S3 Access Grants instance for a Region in your account.   Permissions  You must have the s3:GetAccessGrantsInstance permission to use this operation.      GetAccessGrantsInstance is not supported for cross-account access. You can only call the API from the account that owns the S3 Access Grants instance.   You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func getAccessGrantsInstance(_ input: GetAccessGrantsInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccessGrantsInstanceResult {
@@ -1409,7 +1412,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the S3 Access Grants instance for a Region in your account.   Permissions  You must have the s3:GetAccessGrantsInstance permission to use this operation.      GetAccessGrantsInstance is not supported for cross-account access. You can only call the API from the account that owns the S3 Access Grants instance.
+    /// Retrieves the S3 Access Grants instance for a Region in your account.   Permissions  You must have the s3:GetAccessGrantsInstance permission to use this operation.      GetAccessGrantsInstance is not supported for cross-account access. You can only call the API from the account that owns the S3 Access Grants instance.   You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID of the S3 Access Grants instance.
@@ -1425,7 +1428,7 @@ public struct S3Control: AWSService {
         return try await self.getAccessGrantsInstance(input, logger: logger)
     }
 
-    /// Retrieve the S3 Access Grants instance that contains a particular prefix.    Permissions  You must have the s3:GetAccessGrantsInstanceForPrefix permission for the caller account to use this operation.   Additional Permissions  The prefix owner account must grant you the following permissions to their S3 Access Grants instance: s3:GetAccessGrantsInstanceForPrefix.
+    /// Retrieve the S3 Access Grants instance that contains a particular prefix.   Permissions  You must have the s3:GetAccessGrantsInstanceForPrefix permission for the caller account to use this operation.   Additional Permissions  The prefix owner account must grant you the following permissions to their S3 Access Grants instance: s3:GetAccessGrantsInstanceForPrefix.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func getAccessGrantsInstanceForPrefix(_ input: GetAccessGrantsInstanceForPrefixRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccessGrantsInstanceForPrefixResult {
@@ -1439,7 +1442,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Retrieve the S3 Access Grants instance that contains a particular prefix.    Permissions  You must have the s3:GetAccessGrantsInstanceForPrefix permission for the caller account to use this operation.   Additional Permissions  The prefix owner account must grant you the following permissions to their S3 Access Grants instance: s3:GetAccessGrantsInstanceForPrefix.
+    /// Retrieve the S3 Access Grants instance that contains a particular prefix.   Permissions  You must have the s3:GetAccessGrantsInstanceForPrefix permission for the caller account to use this operation.   Additional Permissions  The prefix owner account must grant you the following permissions to their S3 Access Grants instance: s3:GetAccessGrantsInstanceForPrefix.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The ID of the Amazon Web Services account that is making this request.
@@ -1458,7 +1461,7 @@ public struct S3Control: AWSService {
         return try await self.getAccessGrantsInstanceForPrefix(input, logger: logger)
     }
 
-    /// Returns the resource policy of the S3 Access Grants instance.   Permissions  You must have the s3:GetAccessGrantsInstanceResourcePolicy permission to use this operation.
+    /// Returns the resource policy of the S3 Access Grants instance.   Permissions  You must have the s3:GetAccessGrantsInstanceResourcePolicy permission to use this operation.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func getAccessGrantsInstanceResourcePolicy(_ input: GetAccessGrantsInstanceResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccessGrantsInstanceResourcePolicyResult {
@@ -1472,7 +1475,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Returns the resource policy of the S3 Access Grants instance.   Permissions  You must have the s3:GetAccessGrantsInstanceResourcePolicy permission to use this operation.
+    /// Returns the resource policy of the S3 Access Grants instance.   Permissions  You must have the s3:GetAccessGrantsInstanceResourcePolicy permission to use this operation.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID of the S3 Access Grants instance.
@@ -1488,7 +1491,7 @@ public struct S3Control: AWSService {
         return try await self.getAccessGrantsInstanceResourcePolicy(input, logger: logger)
     }
 
-    /// Retrieves the details of a particular location registered in your S3 Access Grants instance.   Permissions  You must have the s3:GetAccessGrantsLocation permission to use this operation.
+    /// Retrieves the details of a particular location registered in your S3 Access Grants instance.   Permissions  You must have the s3:GetAccessGrantsLocation permission to use this operation.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func getAccessGrantsLocation(_ input: GetAccessGrantsLocationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccessGrantsLocationResult {
@@ -1502,7 +1505,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the details of a particular location registered in your S3 Access Grants instance.   Permissions  You must have the s3:GetAccessGrantsLocation permission to use this operation.
+    /// Retrieves the details of a particular location registered in your S3 Access Grants instance.   Permissions  You must have the s3:GetAccessGrantsLocation permission to use this operation.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accessGrantsLocationId: The ID of the registered location that you are retrieving. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.
@@ -1521,7 +1524,7 @@ public struct S3Control: AWSService {
         return try await self.getAccessGrantsLocation(input, logger: logger)
     }
 
-    /// Returns configuration information about the specified access point.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to GetAccessPoint:    CreateAccessPoint     DeleteAccessPoint     ListAccessPoints
+    /// Returns configuration information about the specified access point.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to GetAccessPoint:    CreateAccessPoint     DeleteAccessPoint     ListAccessPoints     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func getAccessPoint(_ input: GetAccessPointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccessPointResult {
@@ -1535,7 +1538,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Returns configuration information about the specified access point.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to GetAccessPoint:    CreateAccessPoint     DeleteAccessPoint     ListAccessPoints
+    /// Returns configuration information about the specified access point.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to GetAccessPoint:    CreateAccessPoint     DeleteAccessPoint     ListAccessPoints     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID for the account that owns the specified access point.
@@ -1554,7 +1557,7 @@ public struct S3Control: AWSService {
         return try await self.getAccessPoint(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Returns configuration for an Object Lambda Access Point. The following actions are related to GetAccessPointConfigurationForObjectLambda:    PutAccessPointConfigurationForObjectLambda
+    ///  This operation is not supported by directory buckets.  Returns configuration for an Object Lambda Access Point. The following actions are related to GetAccessPointConfigurationForObjectLambda:    PutAccessPointConfigurationForObjectLambda     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func getAccessPointConfigurationForObjectLambda(_ input: GetAccessPointConfigurationForObjectLambdaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccessPointConfigurationForObjectLambdaResult {
@@ -1568,7 +1571,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Returns configuration for an Object Lambda Access Point. The following actions are related to GetAccessPointConfigurationForObjectLambda:    PutAccessPointConfigurationForObjectLambda
+    ///  This operation is not supported by directory buckets.  Returns configuration for an Object Lambda Access Point. The following actions are related to GetAccessPointConfigurationForObjectLambda:    PutAccessPointConfigurationForObjectLambda     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The account ID for the account that owns the specified Object Lambda Access Point.
@@ -1587,7 +1590,7 @@ public struct S3Control: AWSService {
         return try await self.getAccessPointConfigurationForObjectLambda(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Returns configuration information about the specified Object Lambda Access Point The following actions are related to GetAccessPointForObjectLambda:    CreateAccessPointForObjectLambda     DeleteAccessPointForObjectLambda     ListAccessPointsForObjectLambda
+    ///  This operation is not supported by directory buckets.  Returns configuration information about the specified Object Lambda Access Point The following actions are related to GetAccessPointForObjectLambda:    CreateAccessPointForObjectLambda     DeleteAccessPointForObjectLambda     ListAccessPointsForObjectLambda     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func getAccessPointForObjectLambda(_ input: GetAccessPointForObjectLambdaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccessPointForObjectLambdaResult {
@@ -1601,7 +1604,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Returns configuration information about the specified Object Lambda Access Point The following actions are related to GetAccessPointForObjectLambda:    CreateAccessPointForObjectLambda     DeleteAccessPointForObjectLambda     ListAccessPointsForObjectLambda
+    ///  This operation is not supported by directory buckets.  Returns configuration information about the specified Object Lambda Access Point The following actions are related to GetAccessPointForObjectLambda:    CreateAccessPointForObjectLambda     DeleteAccessPointForObjectLambda     ListAccessPointsForObjectLambda     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The account ID for the account that owns the specified Object Lambda Access Point.
@@ -1620,7 +1623,7 @@ public struct S3Control: AWSService {
         return try await self.getAccessPointForObjectLambda(input, logger: logger)
     }
 
-    /// Returns the access point policy associated with the specified access point. The following actions are related to GetAccessPointPolicy:    PutAccessPointPolicy     DeleteAccessPointPolicy
+    /// Returns the access point policy associated with the specified access point. The following actions are related to GetAccessPointPolicy:    PutAccessPointPolicy     DeleteAccessPointPolicy     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func getAccessPointPolicy(_ input: GetAccessPointPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccessPointPolicyResult {
@@ -1634,7 +1637,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Returns the access point policy associated with the specified access point. The following actions are related to GetAccessPointPolicy:    PutAccessPointPolicy     DeleteAccessPointPolicy
+    /// Returns the access point policy associated with the specified access point. The following actions are related to GetAccessPointPolicy:    PutAccessPointPolicy     DeleteAccessPointPolicy     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The account ID for the account that owns the specified access point.
@@ -1653,7 +1656,7 @@ public struct S3Control: AWSService {
         return try await self.getAccessPointPolicy(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Returns the resource policy for an Object Lambda Access Point. The following actions are related to GetAccessPointPolicyForObjectLambda:    DeleteAccessPointPolicyForObjectLambda     PutAccessPointPolicyForObjectLambda
+    ///  This operation is not supported by directory buckets.  Returns the resource policy for an Object Lambda Access Point. The following actions are related to GetAccessPointPolicyForObjectLambda:    DeleteAccessPointPolicyForObjectLambda     PutAccessPointPolicyForObjectLambda     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func getAccessPointPolicyForObjectLambda(_ input: GetAccessPointPolicyForObjectLambdaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccessPointPolicyForObjectLambdaResult {
@@ -1667,7 +1670,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Returns the resource policy for an Object Lambda Access Point. The following actions are related to GetAccessPointPolicyForObjectLambda:    DeleteAccessPointPolicyForObjectLambda     PutAccessPointPolicyForObjectLambda
+    ///  This operation is not supported by directory buckets.  Returns the resource policy for an Object Lambda Access Point. The following actions are related to GetAccessPointPolicyForObjectLambda:    DeleteAccessPointPolicyForObjectLambda     PutAccessPointPolicyForObjectLambda     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The account ID for the account that owns the specified Object Lambda Access Point.
@@ -1686,7 +1689,7 @@ public struct S3Control: AWSService {
         return try await self.getAccessPointPolicyForObjectLambda(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Indicates whether the specified access point currently has a policy that allows public access. For more information about public access through access points, see Managing Data Access with Amazon S3 access points in the Amazon S3 User Guide.
+    ///  This operation is not supported by directory buckets.  Indicates whether the specified access point currently has a policy that allows public access. For more information about public access through access points, see Managing Data Access with Amazon S3 access points in the Amazon S3 User Guide.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func getAccessPointPolicyStatus(_ input: GetAccessPointPolicyStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccessPointPolicyStatusResult {
@@ -1700,7 +1703,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Indicates whether the specified access point currently has a policy that allows public access. For more information about public access through access points, see Managing Data Access with Amazon S3 access points in the Amazon S3 User Guide.
+    ///  This operation is not supported by directory buckets.  Indicates whether the specified access point currently has a policy that allows public access. For more information about public access through access points, see Managing Data Access with Amazon S3 access points in the Amazon S3 User Guide.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The account ID for the account that owns the specified access point.
@@ -1719,7 +1722,7 @@ public struct S3Control: AWSService {
         return try await self.getAccessPointPolicyStatus(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Returns the status of the resource policy associated with an Object Lambda Access Point.
+    ///  This operation is not supported by directory buckets.  Returns the status of the resource policy associated with an Object Lambda Access Point.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func getAccessPointPolicyStatusForObjectLambda(_ input: GetAccessPointPolicyStatusForObjectLambdaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccessPointPolicyStatusForObjectLambdaResult {
@@ -1733,7 +1736,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Returns the status of the resource policy associated with an Object Lambda Access Point.
+    ///  This operation is not supported by directory buckets.  Returns the status of the resource policy associated with an Object Lambda Access Point.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The account ID for the account that owns the specified Object Lambda Access Point.
@@ -1752,7 +1755,7 @@ public struct S3Control: AWSService {
         return try await self.getAccessPointPolicyStatusForObjectLambda(input, logger: logger)
     }
 
-    ///  Returns the access point scope for a directory bucket. To use this operation, you must have the permission to perform the s3express:GetAccessPointScope action. For information about REST API errors, see REST error responses.
+    ///  Returns the access point scope for a directory bucket. To use this operation, you must have the permission to perform the s3express:GetAccessPointScope action. For information about REST API errors, see REST error responses.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func getAccessPointScope(_ input: GetAccessPointScopeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccessPointScopeResult {
@@ -1765,7 +1768,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  Returns the access point scope for a directory bucket. To use this operation, you must have the permission to perform the s3express:GetAccessPointScope action. For information about REST API errors, see REST error responses.
+    ///  Returns the access point scope for a directory bucket. To use this operation, you must have the permission to perform the s3express:GetAccessPointScope action. For information about REST API errors, see REST error responses.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId:  The Amazon Web Services account ID that owns the access point with the scope that you want to retrieve.
@@ -1784,7 +1787,7 @@ public struct S3Control: AWSService {
         return try await self.getAccessPointScope(input, logger: logger)
     }
 
-    /// Gets an Amazon S3 on Outposts bucket. For more information, see  Using Amazon S3 on Outposts in the Amazon S3 User Guide. If you are using an identity other than the root user of the Amazon Web Services account that owns the Outposts bucket, the calling identity must have the s3-outposts:GetBucket permissions on the specified Outposts bucket and belong to the Outposts bucket owner's account in order to use this action. Only users from Outposts bucket owner account with the right permissions can perform actions on an Outposts bucket.  If you don't have s3-outposts:GetBucket permissions or you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 403 Access Denied error. The following actions are related to GetBucket for Amazon S3 on Outposts: All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section.    PutObject     CreateBucket     DeleteBucket
+    /// Gets an Amazon S3 on Outposts bucket. For more information, see  Using Amazon S3 on Outposts in the Amazon S3 User Guide. If you are using an identity other than the root user of the Amazon Web Services account that owns the Outposts bucket, the calling identity must have the s3-outposts:GetBucket permissions on the specified Outposts bucket and belong to the Outposts bucket owner's account in order to use this action. Only users from Outposts bucket owner account with the right permissions can perform actions on an Outposts bucket.  If you don't have s3-outposts:GetBucket permissions or you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 403 Access Denied error. The following actions are related to GetBucket for Amazon S3 on Outposts: All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section.    PutObject     CreateBucket     DeleteBucket     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func getBucket(_ input: GetBucketRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBucketResult {
@@ -1798,7 +1801,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Gets an Amazon S3 on Outposts bucket. For more information, see  Using Amazon S3 on Outposts in the Amazon S3 User Guide. If you are using an identity other than the root user of the Amazon Web Services account that owns the Outposts bucket, the calling identity must have the s3-outposts:GetBucket permissions on the specified Outposts bucket and belong to the Outposts bucket owner's account in order to use this action. Only users from Outposts bucket owner account with the right permissions can perform actions on an Outposts bucket.  If you don't have s3-outposts:GetBucket permissions or you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 403 Access Denied error. The following actions are related to GetBucket for Amazon S3 on Outposts: All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section.    PutObject     CreateBucket     DeleteBucket
+    /// Gets an Amazon S3 on Outposts bucket. For more information, see  Using Amazon S3 on Outposts in the Amazon S3 User Guide. If you are using an identity other than the root user of the Amazon Web Services account that owns the Outposts bucket, the calling identity must have the s3-outposts:GetBucket permissions on the specified Outposts bucket and belong to the Outposts bucket owner's account in order to use this action. Only users from Outposts bucket owner account with the right permissions can perform actions on an Outposts bucket.  If you don't have s3-outposts:GetBucket permissions or you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 403 Access Denied error. The following actions are related to GetBucket for Amazon S3 on Outposts: All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section.    PutObject     CreateBucket     DeleteBucket     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID of the Outposts bucket.
@@ -1817,7 +1820,7 @@ public struct S3Control: AWSService {
         return try await self.getBucket(input, logger: logger)
     }
 
-    ///  This action gets an Amazon S3 on Outposts bucket's lifecycle configuration. To get an S3 bucket's lifecycle configuration, see GetBucketLifecycleConfiguration in the Amazon S3 API Reference.   Returns the lifecycle configuration information set on the Outposts bucket. For more information, see Using Amazon S3 on Outposts and for information about lifecycle configuration, see  Object Lifecycle Management in Amazon S3 User Guide. To use this action, you must have permission to perform the s3-outposts:GetLifecycleConfiguration action. The Outposts bucket owner has this permission, by default. The bucket owner can grant this permission to others. For more information about permissions, see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section.  GetBucketLifecycleConfiguration has the following special error:   Error code: NoSuchLifecycleConfiguration    Description: The lifecycle configuration does not exist.   HTTP Status Code: 404 Not Found   SOAP Fault Code Prefix: Client     The following actions are related to GetBucketLifecycleConfiguration:    PutBucketLifecycleConfiguration     DeleteBucketLifecycleConfiguration
+    ///  This action gets an Amazon S3 on Outposts bucket's lifecycle configuration. To get an S3 bucket's lifecycle configuration, see GetBucketLifecycleConfiguration in the Amazon S3 API Reference.   Returns the lifecycle configuration information set on the Outposts bucket. For more information, see Using Amazon S3 on Outposts and for information about lifecycle configuration, see  Object Lifecycle Management in Amazon S3 User Guide. To use this action, you must have permission to perform the s3-outposts:GetLifecycleConfiguration action. The Outposts bucket owner has this permission, by default. The bucket owner can grant this permission to others. For more information about permissions, see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section.  GetBucketLifecycleConfiguration has the following special error:   Error code: NoSuchLifecycleConfiguration    Description: The lifecycle configuration does not exist.   HTTP Status Code: 404 Not Found   SOAP Fault Code Prefix: Client     The following actions are related to GetBucketLifecycleConfiguration:    PutBucketLifecycleConfiguration     DeleteBucketLifecycleConfiguration     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func getBucketLifecycleConfiguration(_ input: GetBucketLifecycleConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBucketLifecycleConfigurationResult {
@@ -1831,7 +1834,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This action gets an Amazon S3 on Outposts bucket's lifecycle configuration. To get an S3 bucket's lifecycle configuration, see GetBucketLifecycleConfiguration in the Amazon S3 API Reference.   Returns the lifecycle configuration information set on the Outposts bucket. For more information, see Using Amazon S3 on Outposts and for information about lifecycle configuration, see  Object Lifecycle Management in Amazon S3 User Guide. To use this action, you must have permission to perform the s3-outposts:GetLifecycleConfiguration action. The Outposts bucket owner has this permission, by default. The bucket owner can grant this permission to others. For more information about permissions, see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section.  GetBucketLifecycleConfiguration has the following special error:   Error code: NoSuchLifecycleConfiguration    Description: The lifecycle configuration does not exist.   HTTP Status Code: 404 Not Found   SOAP Fault Code Prefix: Client     The following actions are related to GetBucketLifecycleConfiguration:    PutBucketLifecycleConfiguration     DeleteBucketLifecycleConfiguration
+    ///  This action gets an Amazon S3 on Outposts bucket's lifecycle configuration. To get an S3 bucket's lifecycle configuration, see GetBucketLifecycleConfiguration in the Amazon S3 API Reference.   Returns the lifecycle configuration information set on the Outposts bucket. For more information, see Using Amazon S3 on Outposts and for information about lifecycle configuration, see  Object Lifecycle Management in Amazon S3 User Guide. To use this action, you must have permission to perform the s3-outposts:GetLifecycleConfiguration action. The Outposts bucket owner has this permission, by default. The bucket owner can grant this permission to others. For more information about permissions, see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section.  GetBucketLifecycleConfiguration has the following special error:   Error code: NoSuchLifecycleConfiguration    Description: The lifecycle configuration does not exist.   HTTP Status Code: 404 Not Found   SOAP Fault Code Prefix: Client     The following actions are related to GetBucketLifecycleConfiguration:    PutBucketLifecycleConfiguration     DeleteBucketLifecycleConfiguration     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID of the Outposts bucket.
@@ -1850,7 +1853,7 @@ public struct S3Control: AWSService {
         return try await self.getBucketLifecycleConfiguration(input, logger: logger)
     }
 
-    ///  This action gets a bucket policy for an Amazon S3 on Outposts bucket. To get a policy for an S3 bucket, see GetBucketPolicy in the Amazon S3 API Reference.   Returns the policy of a specified Outposts bucket. For more information, see Using Amazon S3 on Outposts in the Amazon S3 User Guide. If you are using an identity other than the root user of the Amazon Web Services account that owns the bucket, the calling identity must have the GetBucketPolicy permissions on the specified bucket and belong to the bucket owner's account in order to use this action. Only users from Outposts bucket owner account with the right permissions can perform actions on an Outposts bucket. If you don't have s3-outposts:GetBucketPolicy permissions or you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 403 Access Denied error.  As a security precaution, the root user of the Amazon Web Services account that owns a bucket can always use this action, even if the policy explicitly denies the root user the ability to perform this action.  For more information about bucket policies, see Using Bucket Policies and User Policies. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to GetBucketPolicy:    GetObject     PutBucketPolicy     DeleteBucketPolicy
+    ///  This action gets a bucket policy for an Amazon S3 on Outposts bucket. To get a policy for an S3 bucket, see GetBucketPolicy in the Amazon S3 API Reference.   Returns the policy of a specified Outposts bucket. For more information, see Using Amazon S3 on Outposts in the Amazon S3 User Guide. If you are using an identity other than the root user of the Amazon Web Services account that owns the bucket, the calling identity must have the GetBucketPolicy permissions on the specified bucket and belong to the bucket owner's account in order to use this action. Only users from Outposts bucket owner account with the right permissions can perform actions on an Outposts bucket. If you don't have s3-outposts:GetBucketPolicy permissions or you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 403 Access Denied error.  As a security precaution, the root user of the Amazon Web Services account that owns a bucket can always use this action, even if the policy explicitly denies the root user the ability to perform this action.  For more information about bucket policies, see Using Bucket Policies and User Policies. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to GetBucketPolicy:    GetObject     PutBucketPolicy     DeleteBucketPolicy     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func getBucketPolicy(_ input: GetBucketPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBucketPolicyResult {
@@ -1864,7 +1867,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This action gets a bucket policy for an Amazon S3 on Outposts bucket. To get a policy for an S3 bucket, see GetBucketPolicy in the Amazon S3 API Reference.   Returns the policy of a specified Outposts bucket. For more information, see Using Amazon S3 on Outposts in the Amazon S3 User Guide. If you are using an identity other than the root user of the Amazon Web Services account that owns the bucket, the calling identity must have the GetBucketPolicy permissions on the specified bucket and belong to the bucket owner's account in order to use this action. Only users from Outposts bucket owner account with the right permissions can perform actions on an Outposts bucket. If you don't have s3-outposts:GetBucketPolicy permissions or you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 403 Access Denied error.  As a security precaution, the root user of the Amazon Web Services account that owns a bucket can always use this action, even if the policy explicitly denies the root user the ability to perform this action.  For more information about bucket policies, see Using Bucket Policies and User Policies. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to GetBucketPolicy:    GetObject     PutBucketPolicy     DeleteBucketPolicy
+    ///  This action gets a bucket policy for an Amazon S3 on Outposts bucket. To get a policy for an S3 bucket, see GetBucketPolicy in the Amazon S3 API Reference.   Returns the policy of a specified Outposts bucket. For more information, see Using Amazon S3 on Outposts in the Amazon S3 User Guide. If you are using an identity other than the root user of the Amazon Web Services account that owns the bucket, the calling identity must have the GetBucketPolicy permissions on the specified bucket and belong to the bucket owner's account in order to use this action. Only users from Outposts bucket owner account with the right permissions can perform actions on an Outposts bucket. If you don't have s3-outposts:GetBucketPolicy permissions or you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 403 Access Denied error.  As a security precaution, the root user of the Amazon Web Services account that owns a bucket can always use this action, even if the policy explicitly denies the root user the ability to perform this action.  For more information about bucket policies, see Using Bucket Policies and User Policies. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to GetBucketPolicy:    GetObject     PutBucketPolicy     DeleteBucketPolicy     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID of the Outposts bucket.
@@ -1982,7 +1985,7 @@ public struct S3Control: AWSService {
         return try await self.getBucketVersioning(input, logger: logger)
     }
 
-    /// Returns a temporary access credential from S3 Access Grants to the grantee or client application. The temporary credential is an Amazon Web Services STS token that grants them access to the S3 data.   Permissions  You must have the s3:GetDataAccess permission to use this operation.   Additional Permissions  The IAM role that S3 Access Grants assumes must have the following permissions specified in the trust policy when registering the location: sts:AssumeRole, for directory users or groups sts:SetContext, and for IAM users or roles sts:SetSourceIdentity.
+    /// Returns a temporary access credential from S3 Access Grants to the grantee or client application. The temporary credential is an Amazon Web Services STS token that grants them access to the S3 data.   Permissions  You must have the s3:GetDataAccess permission to use this operation.   Additional Permissions  The IAM role that S3 Access Grants assumes must have the following permissions specified in the trust policy when registering the location: sts:AssumeRole, for directory users or groups sts:SetContext, and for IAM users or roles sts:SetSourceIdentity.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func getDataAccess(_ input: GetDataAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataAccessResult {
@@ -1996,7 +1999,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Returns a temporary access credential from S3 Access Grants to the grantee or client application. The temporary credential is an Amazon Web Services STS token that grants them access to the S3 data.   Permissions  You must have the s3:GetDataAccess permission to use this operation.   Additional Permissions  The IAM role that S3 Access Grants assumes must have the following permissions specified in the trust policy when registering the location: sts:AssumeRole, for directory users or groups sts:SetContext, and for IAM users or roles sts:SetSourceIdentity.
+    /// Returns a temporary access credential from S3 Access Grants to the grantee or client application. The temporary credential is an Amazon Web Services STS token that grants them access to the S3 data.   Permissions  You must have the s3:GetDataAccess permission to use this operation.   Additional Permissions  The IAM role that S3 Access Grants assumes must have the following permissions specified in the trust policy when registering the location: sts:AssumeRole, for directory users or groups sts:SetContext, and for IAM users or roles sts:SetSourceIdentity.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID of the S3 Access Grants instance.
@@ -2027,7 +2030,7 @@ public struct S3Control: AWSService {
         return try await self.getDataAccess(input, logger: logger)
     }
 
-    /// Returns the tags on an S3 Batch Operations job.   Permissions  To use the GetJobTagging operation, you must have permission to perform the s3:GetJobTagging action. For more information, see Controlling access and labeling jobs using tags in the Amazon S3 User Guide.   Related actions include:    CreateJob     PutJobTagging     DeleteJobTagging
+    /// Returns the tags on an S3 Batch Operations job.   Permissions  To use the GetJobTagging operation, you must have permission to perform the s3:GetJobTagging action. For more information, see Controlling access and labeling jobs using tags in the Amazon S3 User Guide.   Related actions include:    CreateJob     PutJobTagging     DeleteJobTagging     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func getJobTagging(_ input: GetJobTaggingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetJobTaggingResult {
@@ -2041,7 +2044,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Returns the tags on an S3 Batch Operations job.   Permissions  To use the GetJobTagging operation, you must have permission to perform the s3:GetJobTagging action. For more information, see Controlling access and labeling jobs using tags in the Amazon S3 User Guide.   Related actions include:    CreateJob     PutJobTagging     DeleteJobTagging
+    /// Returns the tags on an S3 Batch Operations job.   Permissions  To use the GetJobTagging operation, you must have permission to perform the s3:GetJobTagging action. For more information, see Controlling access and labeling jobs using tags in the Amazon S3 User Guide.   Related actions include:    CreateJob     PutJobTagging     DeleteJobTagging     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID associated with the S3 Batch Operations job.
@@ -2060,7 +2063,7 @@ public struct S3Control: AWSService {
         return try await self.getJobTagging(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Returns configuration information about the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DeleteMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation     ListMultiRegionAccessPoints
+    ///  This operation is not supported by directory buckets.  Returns configuration information about the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DeleteMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation     ListMultiRegionAccessPoints     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func getMultiRegionAccessPoint(_ input: GetMultiRegionAccessPointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMultiRegionAccessPointResult {
@@ -2074,7 +2077,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Returns configuration information about the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DeleteMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation     ListMultiRegionAccessPoints
+    ///  This operation is not supported by directory buckets.  Returns configuration information about the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DeleteMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation     ListMultiRegionAccessPoints     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
@@ -2093,7 +2096,7 @@ public struct S3Control: AWSService {
         return try await self.getMultiRegionAccessPoint(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Returns the access control policy of the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPointPolicy:    GetMultiRegionAccessPointPolicyStatus     PutMultiRegionAccessPointPolicy
+    ///  This operation is not supported by directory buckets.  Returns the access control policy of the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPointPolicy:    GetMultiRegionAccessPointPolicyStatus     PutMultiRegionAccessPointPolicy     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func getMultiRegionAccessPointPolicy(_ input: GetMultiRegionAccessPointPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMultiRegionAccessPointPolicyResult {
@@ -2107,7 +2110,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Returns the access control policy of the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPointPolicy:    GetMultiRegionAccessPointPolicyStatus     PutMultiRegionAccessPointPolicy
+    ///  This operation is not supported by directory buckets.  Returns the access control policy of the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPointPolicy:    GetMultiRegionAccessPointPolicyStatus     PutMultiRegionAccessPointPolicy     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
@@ -2126,7 +2129,7 @@ public struct S3Control: AWSService {
         return try await self.getMultiRegionAccessPointPolicy(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Indicates whether the specified Multi-Region Access Point has an access control policy that allows public access. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPointPolicyStatus:    GetMultiRegionAccessPointPolicy     PutMultiRegionAccessPointPolicy
+    ///  This operation is not supported by directory buckets.  Indicates whether the specified Multi-Region Access Point has an access control policy that allows public access. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPointPolicyStatus:    GetMultiRegionAccessPointPolicy     PutMultiRegionAccessPointPolicy     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func getMultiRegionAccessPointPolicyStatus(_ input: GetMultiRegionAccessPointPolicyStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMultiRegionAccessPointPolicyStatusResult {
@@ -2140,7 +2143,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Indicates whether the specified Multi-Region Access Point has an access control policy that allows public access. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPointPolicyStatus:    GetMultiRegionAccessPointPolicy     PutMultiRegionAccessPointPolicy
+    ///  This operation is not supported by directory buckets.  Indicates whether the specified Multi-Region Access Point has an access control policy that allows public access. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPointPolicyStatus:    GetMultiRegionAccessPointPolicy     PutMultiRegionAccessPointPolicy     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
@@ -2159,7 +2162,7 @@ public struct S3Control: AWSService {
         return try await self.getMultiRegionAccessPointPolicyStatus(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Returns the routing configuration for a Multi-Region Access Point, indicating which Regions are active or passive. To obtain routing control changes and failover requests, use the Amazon S3 failover control infrastructure endpoints in these five Amazon Web Services Regions:    us-east-1     us-west-2     ap-southeast-2     ap-northeast-1     eu-west-1
+    ///  This operation is not supported by directory buckets.  Returns the routing configuration for a Multi-Region Access Point, indicating which Regions are active or passive. To obtain routing control changes and failover requests, use the Amazon S3 failover control infrastructure endpoints in these five Amazon Web Services Regions:    us-east-1     us-west-2     ap-southeast-2     ap-northeast-1     eu-west-1     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func getMultiRegionAccessPointRoutes(_ input: GetMultiRegionAccessPointRoutesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMultiRegionAccessPointRoutesResult {
@@ -2173,7 +2176,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Returns the routing configuration for a Multi-Region Access Point, indicating which Regions are active or passive. To obtain routing control changes and failover requests, use the Amazon S3 failover control infrastructure endpoints in these five Amazon Web Services Regions:    us-east-1     us-west-2     ap-southeast-2     ap-northeast-1     eu-west-1
+    ///  This operation is not supported by directory buckets.  Returns the routing configuration for a Multi-Region Access Point, indicating which Regions are active or passive. To obtain routing control changes and failover requests, use the Amazon S3 failover control infrastructure endpoints in these five Amazon Web Services Regions:    us-east-1     us-west-2     ap-southeast-2     ap-northeast-1     eu-west-1     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
@@ -2192,7 +2195,7 @@ public struct S3Control: AWSService {
         return try await self.getMultiRegionAccessPointRoutes(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Retrieves the PublicAccessBlock configuration for an Amazon Web Services account. For more information, see  Using Amazon S3 block public access. Related actions include:    DeletePublicAccessBlock     PutPublicAccessBlock
+    ///  This operation is not supported by directory buckets.  Retrieves the PublicAccessBlock configuration for an Amazon Web Services account. For more information, see  Using Amazon S3 block public access. Related actions include:    DeletePublicAccessBlock     PutPublicAccessBlock     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func getPublicAccessBlock(_ input: GetPublicAccessBlockRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPublicAccessBlockOutput {
@@ -2206,7 +2209,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Retrieves the PublicAccessBlock configuration for an Amazon Web Services account. For more information, see  Using Amazon S3 block public access. Related actions include:    DeletePublicAccessBlock     PutPublicAccessBlock
+    ///  This operation is not supported by directory buckets.  Retrieves the PublicAccessBlock configuration for an Amazon Web Services account. For more information, see  Using Amazon S3 block public access. Related actions include:    DeletePublicAccessBlock     PutPublicAccessBlock     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The account ID for the Amazon Web Services account whose PublicAccessBlock configuration you want to retrieve.
@@ -2222,7 +2225,7 @@ public struct S3Control: AWSService {
         return try await self.getPublicAccessBlock(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Gets the Amazon S3 Storage Lens configuration. For more information, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see S3 Storage Lens metrics glossary in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:GetStorageLensConfiguration action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.
+    ///  This operation is not supported by directory buckets.  Gets the Amazon S3 Storage Lens configuration. For more information, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see S3 Storage Lens metrics glossary in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:GetStorageLensConfiguration action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.   You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func getStorageLensConfiguration(_ input: GetStorageLensConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStorageLensConfigurationResult {
@@ -2236,7 +2239,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Gets the Amazon S3 Storage Lens configuration. For more information, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see S3 Storage Lens metrics glossary in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:GetStorageLensConfiguration action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.
+    ///  This operation is not supported by directory buckets.  Gets the Amazon S3 Storage Lens configuration. For more information, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see S3 Storage Lens metrics glossary in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:GetStorageLensConfiguration action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.   You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The account ID of the requester.
@@ -2255,7 +2258,7 @@ public struct S3Control: AWSService {
         return try await self.getStorageLensConfiguration(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Gets the tags of Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:GetStorageLensConfigurationTagging action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.
+    ///  This operation is not supported by directory buckets.  Gets the tags of Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:GetStorageLensConfigurationTagging action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.   You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func getStorageLensConfigurationTagging(_ input: GetStorageLensConfigurationTaggingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStorageLensConfigurationTaggingResult {
@@ -2269,7 +2272,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Gets the tags of Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:GetStorageLensConfigurationTagging action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.
+    ///  This operation is not supported by directory buckets.  Gets the tags of Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:GetStorageLensConfigurationTagging action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.   You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The account ID of the requester.
@@ -2288,7 +2291,7 @@ public struct S3Control: AWSService {
         return try await self.getStorageLensConfigurationTagging(input, logger: logger)
     }
 
-    /// Retrieves the Storage Lens group configuration details. To use this operation, you must have the permission to perform the s3:GetStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups. For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes.
+    /// Retrieves the Storage Lens group configuration details. To use this operation, you must have the permission to perform the s3:GetStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups. For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func getStorageLensGroup(_ input: GetStorageLensGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStorageLensGroupResult {
@@ -2302,7 +2305,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the Storage Lens group configuration details. To use this operation, you must have the permission to perform the s3:GetStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups. For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes.
+    /// Retrieves the Storage Lens group configuration details. To use this operation, you must have the permission to perform the s3:GetStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups. For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID associated with the Storage Lens group that you're trying to retrieve the details for.
@@ -2321,7 +2324,7 @@ public struct S3Control: AWSService {
         return try await self.getStorageLensGroup(input, logger: logger)
     }
 
-    /// Returns the list of access grants in your S3 Access Grants instance.  Permissions  You must have the s3:ListAccessGrants permission to use this operation.
+    /// Returns the list of access grants in your S3 Access Grants instance.  Permissions  You must have the s3:ListAccessGrants permission to use this operation.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func listAccessGrants(_ input: ListAccessGrantsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccessGrantsResult {
@@ -2335,7 +2338,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Returns the list of access grants in your S3 Access Grants instance.  Permissions  You must have the s3:ListAccessGrants permission to use this operation.
+    /// Returns the list of access grants in your S3 Access Grants instance.  Permissions  You must have the s3:ListAccessGrants permission to use this operation.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID of the S3 Access Grants instance.
@@ -2372,7 +2375,7 @@ public struct S3Control: AWSService {
         return try await self.listAccessGrants(input, logger: logger)
     }
 
-    /// Returns a list of S3 Access Grants instances. An S3 Access Grants instance serves as a logical grouping for your individual access grants. You can only have one S3 Access Grants instance per Region per account.  Permissions  You must have the s3:ListAccessGrantsInstances permission to use this operation.
+    /// Returns a list of S3 Access Grants instances. An S3 Access Grants instance serves as a logical grouping for your individual access grants. You can only have one S3 Access Grants instance per Region per account.  Permissions  You must have the s3:ListAccessGrantsInstances permission to use this operation.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func listAccessGrantsInstances(_ input: ListAccessGrantsInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccessGrantsInstancesResult {
@@ -2386,7 +2389,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of S3 Access Grants instances. An S3 Access Grants instance serves as a logical grouping for your individual access grants. You can only have one S3 Access Grants instance per Region per account.  Permissions  You must have the s3:ListAccessGrantsInstances permission to use this operation.
+    /// Returns a list of S3 Access Grants instances. An S3 Access Grants instance serves as a logical grouping for your individual access grants. You can only have one S3 Access Grants instance per Region per account.  Permissions  You must have the s3:ListAccessGrantsInstances permission to use this operation.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID of the S3 Access Grants instance.
@@ -2408,7 +2411,7 @@ public struct S3Control: AWSService {
         return try await self.listAccessGrantsInstances(input, logger: logger)
     }
 
-    /// Returns a list of the locations registered in your S3 Access Grants instance.  Permissions  You must have the s3:ListAccessGrantsLocations permission to use this operation.
+    /// Returns a list of the locations registered in your S3 Access Grants instance.  Permissions  You must have the s3:ListAccessGrantsLocations permission to use this operation.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func listAccessGrantsLocations(_ input: ListAccessGrantsLocationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccessGrantsLocationsResult {
@@ -2422,7 +2425,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of the locations registered in your S3 Access Grants instance.  Permissions  You must have the s3:ListAccessGrantsLocations permission to use this operation.
+    /// Returns a list of the locations registered in your S3 Access Grants instance.  Permissions  You must have the s3:ListAccessGrantsLocations permission to use this operation.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID of the S3 Access Grants instance.
@@ -2447,7 +2450,7 @@ public struct S3Control: AWSService {
         return try await self.listAccessGrantsLocations(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Returns a list of the access points. You can retrieve up to 1,000 access points per call. If the call returns more than 1,000 access points (or the number specified in maxResults, whichever is less), the response will include a continuation token that you can use to list the additional access points. Returns only access points attached to S3 buckets by default. To return all access points specify DataSourceType as ALL.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to ListAccessPoints:    CreateAccessPoint     DeleteAccessPoint     GetAccessPoint
+    ///  This operation is not supported by directory buckets.  Returns a list of the access points. You can retrieve up to 1,000 access points per call. If the call returns more than 1,000 access points (or the number specified in maxResults, whichever is less), the response will include a continuation token that you can use to list the additional access points. Returns only access points attached to S3 buckets by default. To return all access points specify DataSourceType as ALL.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to ListAccessPoints:    CreateAccessPoint     DeleteAccessPoint     GetAccessPoint     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func listAccessPoints(_ input: ListAccessPointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccessPointsResult {
@@ -2461,7 +2464,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Returns a list of the access points. You can retrieve up to 1,000 access points per call. If the call returns more than 1,000 access points (or the number specified in maxResults, whichever is less), the response will include a continuation token that you can use to list the additional access points. Returns only access points attached to S3 buckets by default. To return all access points specify DataSourceType as ALL.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to ListAccessPoints:    CreateAccessPoint     DeleteAccessPoint     GetAccessPoint
+    ///  This operation is not supported by directory buckets.  Returns a list of the access points. You can retrieve up to 1,000 access points per call. If the call returns more than 1,000 access points (or the number specified in maxResults, whichever is less), the response will include a continuation token that you can use to list the additional access points. Returns only access points attached to S3 buckets by default. To return all access points specify DataSourceType as ALL.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to ListAccessPoints:    CreateAccessPoint     DeleteAccessPoint     GetAccessPoint     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID for the account that owns the specified access points.
@@ -2492,7 +2495,7 @@ public struct S3Control: AWSService {
         return try await self.listAccessPoints(input, logger: logger)
     }
 
-    /// Returns a list of the access points that are owned by the Amazon Web Services account and that are associated with the specified directory bucket. To list access points for general purpose buckets, see ListAccesspoints. To use this operation, you must have the permission to perform the s3express:ListAccessPointsForDirectoryBuckets action. For information about REST API errors, see REST error responses.
+    /// Returns a list of the access points that are owned by the Amazon Web Services account and that are associated with the specified directory bucket. To list access points for general purpose buckets, see ListAccesspoints. To use this operation, you must have the permission to perform the s3express:ListAccessPointsForDirectoryBuckets action. For information about REST API errors, see REST error responses.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func listAccessPointsForDirectoryBuckets(_ input: ListAccessPointsForDirectoryBucketsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccessPointsForDirectoryBucketsResult {
@@ -2505,7 +2508,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of the access points that are owned by the Amazon Web Services account and that are associated with the specified directory bucket. To list access points for general purpose buckets, see ListAccesspoints. To use this operation, you must have the permission to perform the s3express:ListAccessPointsForDirectoryBuckets action. For information about REST API errors, see REST error responses.
+    /// Returns a list of the access points that are owned by the Amazon Web Services account and that are associated with the specified directory bucket. To list access points for general purpose buckets, see ListAccesspoints. To use this operation, you must have the permission to perform the s3express:ListAccessPointsForDirectoryBuckets action. For information about REST API errors, see REST error responses.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID that owns the access points.
@@ -2530,7 +2533,7 @@ public struct S3Control: AWSService {
         return try await self.listAccessPointsForDirectoryBuckets(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Returns some or all (up to 1,000) access points associated with the Object Lambda Access Point per call. If there are more access points than what can be returned in one call, the response will include a continuation token that you can use to list the additional access points. The following actions are related to ListAccessPointsForObjectLambda:    CreateAccessPointForObjectLambda     DeleteAccessPointForObjectLambda     GetAccessPointForObjectLambda
+    ///  This operation is not supported by directory buckets.  Returns some or all (up to 1,000) access points associated with the Object Lambda Access Point per call. If there are more access points than what can be returned in one call, the response will include a continuation token that you can use to list the additional access points. The following actions are related to ListAccessPointsForObjectLambda:    CreateAccessPointForObjectLambda     DeleteAccessPointForObjectLambda     GetAccessPointForObjectLambda     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func listAccessPointsForObjectLambda(_ input: ListAccessPointsForObjectLambdaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccessPointsForObjectLambdaResult {
@@ -2544,7 +2547,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Returns some or all (up to 1,000) access points associated with the Object Lambda Access Point per call. If there are more access points than what can be returned in one call, the response will include a continuation token that you can use to list the additional access points. The following actions are related to ListAccessPointsForObjectLambda:    CreateAccessPointForObjectLambda     DeleteAccessPointForObjectLambda     GetAccessPointForObjectLambda
+    ///  This operation is not supported by directory buckets.  Returns some or all (up to 1,000) access points associated with the Object Lambda Access Point per call. If there are more access points than what can be returned in one call, the response will include a continuation token that you can use to list the additional access points. The following actions are related to ListAccessPointsForObjectLambda:    CreateAccessPointForObjectLambda     DeleteAccessPointForObjectLambda     GetAccessPointForObjectLambda     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The account ID for the account that owns the specified Object Lambda Access Point.
@@ -2566,7 +2569,7 @@ public struct S3Control: AWSService {
         return try await self.listAccessPointsForObjectLambda(input, logger: logger)
     }
 
-    /// Use this API to list the access grants that grant the caller access to Amazon S3 data through S3 Access Grants. The caller (grantee) can be an Identity and Access Management (IAM) identity or Amazon Web Services Identity Center corporate directory identity. You must pass the Amazon Web Services account of the S3 data owner (grantor) in the request. You can, optionally, narrow the results by GrantScope, using a fragment of the data's S3 path, and S3 Access Grants will return only the grants with a path that contains the path fragment. You can also pass the AllowedByApplication filter in the request, which returns only the grants authorized for applications, whether the application is the caller's Identity Center application or any other application (ALL). For more information, see List the caller's access grants in the Amazon S3 User Guide.  Permissions  You must have the s3:ListCallerAccessGrants permission to use this operation.
+    /// Use this API to list the access grants that grant the caller access to Amazon S3 data through S3 Access Grants. The caller (grantee) can be an Identity and Access Management (IAM) identity or Amazon Web Services Identity Center corporate directory identity. You must pass the Amazon Web Services account of the S3 data owner (grantor) in the request. You can, optionally, narrow the results by GrantScope, using a fragment of the data's S3 path, and S3 Access Grants will return only the grants with a path that contains the path fragment. You can also pass the AllowedByApplication filter in the request, which returns only the grants authorized for applications, whether the application is the caller's Identity Center application or any other application (ALL). For more information, see List the caller's access grants in the Amazon S3 User Guide.  Permissions  You must have the s3:ListCallerAccessGrants permission to use this operation.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func listCallerAccessGrants(_ input: ListCallerAccessGrantsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCallerAccessGrantsResult {
@@ -2580,7 +2583,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Use this API to list the access grants that grant the caller access to Amazon S3 data through S3 Access Grants. The caller (grantee) can be an Identity and Access Management (IAM) identity or Amazon Web Services Identity Center corporate directory identity. You must pass the Amazon Web Services account of the S3 data owner (grantor) in the request. You can, optionally, narrow the results by GrantScope, using a fragment of the data's S3 path, and S3 Access Grants will return only the grants with a path that contains the path fragment. You can also pass the AllowedByApplication filter in the request, which returns only the grants authorized for applications, whether the application is the caller's Identity Center application or any other application (ALL). For more information, see List the caller's access grants in the Amazon S3 User Guide.  Permissions  You must have the s3:ListCallerAccessGrants permission to use this operation.
+    /// Use this API to list the access grants that grant the caller access to Amazon S3 data through S3 Access Grants. The caller (grantee) can be an Identity and Access Management (IAM) identity or Amazon Web Services Identity Center corporate directory identity. You must pass the Amazon Web Services account of the S3 data owner (grantor) in the request. You can, optionally, narrow the results by GrantScope, using a fragment of the data's S3 path, and S3 Access Grants will return only the grants with a path that contains the path fragment. You can also pass the AllowedByApplication filter in the request, which returns only the grants authorized for applications, whether the application is the caller's Identity Center application or any other application (ALL). For more information, see List the caller's access grants in the Amazon S3 User Guide.  Permissions  You must have the s3:ListCallerAccessGrants permission to use this operation.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID of the S3 Access Grants instance.
@@ -2608,7 +2611,7 @@ public struct S3Control: AWSService {
         return try await self.listCallerAccessGrants(input, logger: logger)
     }
 
-    /// Lists current S3 Batch Operations jobs as well as the jobs that have ended within the last 90 days for the Amazon Web Services account making the request. For more information, see S3 Batch Operations in the Amazon S3 User Guide.  Permissions  To use the ListJobs operation, you must have permission to perform the s3:ListJobs action.   Related actions include:     CreateJob     DescribeJob     UpdateJobPriority     UpdateJobStatus
+    /// Lists current S3 Batch Operations jobs as well as the jobs that have ended within the last 90 days for the Amazon Web Services account making the request. For more information, see S3 Batch Operations in the Amazon S3 User Guide.  Permissions  To use the ListJobs operation, you must have permission to perform the s3:ListJobs action.   Related actions include:     CreateJob     DescribeJob     UpdateJobPriority     UpdateJobStatus     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func listJobs(_ input: ListJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListJobsResult {
@@ -2622,7 +2625,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Lists current S3 Batch Operations jobs as well as the jobs that have ended within the last 90 days for the Amazon Web Services account making the request. For more information, see S3 Batch Operations in the Amazon S3 User Guide.  Permissions  To use the ListJobs operation, you must have permission to perform the s3:ListJobs action.   Related actions include:     CreateJob     DescribeJob     UpdateJobPriority     UpdateJobStatus
+    /// Lists current S3 Batch Operations jobs as well as the jobs that have ended within the last 90 days for the Amazon Web Services account making the request. For more information, see S3 Batch Operations in the Amazon S3 User Guide.  Permissions  To use the ListJobs operation, you must have permission to perform the s3:ListJobs action.   Related actions include:     CreateJob     DescribeJob     UpdateJobPriority     UpdateJobStatus     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID associated with the S3 Batch Operations job.
@@ -2647,7 +2650,7 @@ public struct S3Control: AWSService {
         return try await self.listJobs(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Returns a list of the Multi-Region Access Points currently associated with the specified Amazon Web Services account. Each call can return up to 100 Multi-Region Access Points, the maximum number of Multi-Region Access Points that can be associated with a single account. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. The following actions are related to ListMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DeleteMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation     GetMultiRegionAccessPoint
+    ///  This operation is not supported by directory buckets.  Returns a list of the Multi-Region Access Points currently associated with the specified Amazon Web Services account. Each call can return up to 100 Multi-Region Access Points, the maximum number of Multi-Region Access Points that can be associated with a single account. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. The following actions are related to ListMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DeleteMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation     GetMultiRegionAccessPoint     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func listMultiRegionAccessPoints(_ input: ListMultiRegionAccessPointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMultiRegionAccessPointsResult {
@@ -2661,7 +2664,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Returns a list of the Multi-Region Access Points currently associated with the specified Amazon Web Services account. Each call can return up to 100 Multi-Region Access Points, the maximum number of Multi-Region Access Points that can be associated with a single account. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. The following actions are related to ListMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DeleteMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation     GetMultiRegionAccessPoint
+    ///  This operation is not supported by directory buckets.  Returns a list of the Multi-Region Access Points currently associated with the specified Amazon Web Services account. Each call can return up to 100 Multi-Region Access Points, the maximum number of Multi-Region Access Points that can be associated with a single account. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. The following actions are related to ListMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DeleteMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation     GetMultiRegionAccessPoint     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
@@ -2683,7 +2686,7 @@ public struct S3Control: AWSService {
         return try await self.listMultiRegionAccessPoints(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Returns a list of all Outposts buckets in an Outpost that are owned by the authenticated sender of the request. For more information, see Using Amazon S3 on Outposts in the Amazon S3 User Guide. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and x-amz-outpost-id in your request, see the Examples section.
+    ///  This operation is not supported by directory buckets.  Returns a list of all Outposts buckets in an Outpost that are owned by the authenticated sender of the request. For more information, see Using Amazon S3 on Outposts in the Amazon S3 User Guide. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and x-amz-outpost-id in your request, see the Examples section.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func listRegionalBuckets(_ input: ListRegionalBucketsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRegionalBucketsResult {
@@ -2697,7 +2700,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Returns a list of all Outposts buckets in an Outpost that are owned by the authenticated sender of the request. For more information, see Using Amazon S3 on Outposts in the Amazon S3 User Guide. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and x-amz-outpost-id in your request, see the Examples section.
+    ///  This operation is not supported by directory buckets.  Returns a list of all Outposts buckets in an Outpost that are owned by the authenticated sender of the request. For more information, see Using Amazon S3 on Outposts in the Amazon S3 User Guide. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and x-amz-outpost-id in your request, see the Examples section.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID of the Outposts bucket.
@@ -2722,7 +2725,7 @@ public struct S3Control: AWSService {
         return try await self.listRegionalBuckets(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Gets a list of Amazon S3 Storage Lens configurations. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:ListStorageLensConfigurations action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.
+    ///  This operation is not supported by directory buckets.  Gets a list of Amazon S3 Storage Lens configurations. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:ListStorageLensConfigurations action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.   You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func listStorageLensConfigurations(_ input: ListStorageLensConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStorageLensConfigurationsResult {
@@ -2736,7 +2739,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Gets a list of Amazon S3 Storage Lens configurations. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:ListStorageLensConfigurations action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.
+    ///  This operation is not supported by directory buckets.  Gets a list of Amazon S3 Storage Lens configurations. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:ListStorageLensConfigurations action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.   You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The account ID of the requester.
@@ -2756,7 +2759,7 @@ public struct S3Control: AWSService {
     }
 
     /// Lists all the Storage Lens groups in the specified home Region.
-    ///  To use this operation, you must have the permission to perform the s3:ListStorageLensGroups action. For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups. For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes.
+    ///  To use this operation, you must have the permission to perform the s3:ListStorageLensGroups action. For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups. For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func listStorageLensGroups(_ input: ListStorageLensGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStorageLensGroupsResult {
@@ -2771,7 +2774,7 @@ public struct S3Control: AWSService {
         )
     }
     /// Lists all the Storage Lens groups in the specified home Region.
-    ///  To use this operation, you must have the permission to perform the s3:ListStorageLensGroups action. For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups. For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes.
+    ///  To use this operation, you must have the permission to perform the s3:ListStorageLensGroups action. For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups. For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId:  The Amazon Web Services account ID that owns the Storage Lens groups.
@@ -2790,7 +2793,7 @@ public struct S3Control: AWSService {
         return try await self.listStorageLensGroups(input, logger: logger)
     }
 
-    /// This operation allows you to list all of the tags for a specified resource. Each tag is a label consisting of a key and value. Tags can help you organize, track costs for, and control access to resources.   This operation is only supported for the following Amazon S3 resources:    Directory buckets     Storage Lens groups     S3 Access Grants instances, registered locations, and grants.     Permissions  For Storage Lens groups and S3 Access Grants, you must have the s3:ListTagsForResource permission to use this operation.  For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups.  Directory bucket permissions  For directory buckets, you must have the s3express:ListTagsForResource permission to use this operation. For more information about directory buckets policies and permissions, see Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.  HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is s3express-control.region.amazonaws.com.   For information about S3 Tagging errors, see List of Amazon S3 Tagging error codes.
+    /// This operation allows you to list all of the tags for a specified resource. Each tag is a label consisting of a key and value. Tags can help you organize, track costs for, and control access to resources.   This operation is only supported for the following Amazon S3 resources:    Access Points for directory buckets     Access Points for general purpose buckets     Directory buckets     Storage Lens groups     S3 Access Grants instances, registered locations, and grants.     Permissions  For Storage Lens groups and S3 Access Grants, you must have the s3:ListTagsForResource permission to use this operation.  For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups.  Directory bucket permissions  For directory buckets and access points for directory buckets, you must have the s3express:ListTagsForResource permission to use this operation. For more information about directory buckets policies and permissions, see Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.  HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is s3express-control.region.amazonaws.com.   For information about S3 Tagging errors, see List of Amazon S3 Tagging error codes.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResult {
@@ -2804,11 +2807,11 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// This operation allows you to list all of the tags for a specified resource. Each tag is a label consisting of a key and value. Tags can help you organize, track costs for, and control access to resources.   This operation is only supported for the following Amazon S3 resources:    Directory buckets     Storage Lens groups     S3 Access Grants instances, registered locations, and grants.     Permissions  For Storage Lens groups and S3 Access Grants, you must have the s3:ListTagsForResource permission to use this operation.  For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups.  Directory bucket permissions  For directory buckets, you must have the s3express:ListTagsForResource permission to use this operation. For more information about directory buckets policies and permissions, see Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.  HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is s3express-control.region.amazonaws.com.   For information about S3 Tagging errors, see List of Amazon S3 Tagging error codes.
+    /// This operation allows you to list all of the tags for a specified resource. Each tag is a label consisting of a key and value. Tags can help you organize, track costs for, and control access to resources.   This operation is only supported for the following Amazon S3 resources:    Access Points for directory buckets     Access Points for general purpose buckets     Directory buckets     Storage Lens groups     S3 Access Grants instances, registered locations, and grants.     Permissions  For Storage Lens groups and S3 Access Grants, you must have the s3:ListTagsForResource permission to use this operation.  For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups.  Directory bucket permissions  For directory buckets and access points for directory buckets, you must have the s3express:ListTagsForResource permission to use this operation. For more information about directory buckets policies and permissions, see Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.  HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is s3express-control.region.amazonaws.com.   For information about S3 Tagging errors, see List of Amazon S3 Tagging error codes.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
-    ///   - accountId: The Amazon Web Services account ID of the resource owner.
-    ///   - resourceArn: The Amazon Resource Name (ARN) of the S3 resource that you want to list tags for. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
+    ///   - accountId:  The Amazon Web Services account ID of the resource owner.
+    ///   - resourceArn:  The Amazon Resource Name (ARN) of the S3 resource that you want to list tags for. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
     ///   - logger: Logger use during operation
     @inlinable
     public func listTagsForResource(
@@ -2823,7 +2826,7 @@ public struct S3Control: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Updates the resource policy of the S3 Access Grants instance.   Permissions  You must have the s3:PutAccessGrantsInstanceResourcePolicy permission to use this operation.
+    /// Updates the resource policy of the S3 Access Grants instance.   Permissions  You must have the s3:PutAccessGrantsInstanceResourcePolicy permission to use this operation.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func putAccessGrantsInstanceResourcePolicy(_ input: PutAccessGrantsInstanceResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAccessGrantsInstanceResourcePolicyResult {
@@ -2837,7 +2840,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Updates the resource policy of the S3 Access Grants instance.   Permissions  You must have the s3:PutAccessGrantsInstanceResourcePolicy permission to use this operation.
+    /// Updates the resource policy of the S3 Access Grants instance.   Permissions  You must have the s3:PutAccessGrantsInstanceResourcePolicy permission to use this operation.     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID of the S3 Access Grants instance.
@@ -2859,7 +2862,7 @@ public struct S3Control: AWSService {
         return try await self.putAccessGrantsInstanceResourcePolicy(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Replaces configuration for an Object Lambda Access Point. The following actions are related to PutAccessPointConfigurationForObjectLambda:    GetAccessPointConfigurationForObjectLambda
+    ///  This operation is not supported by directory buckets.  Replaces configuration for an Object Lambda Access Point. The following actions are related to PutAccessPointConfigurationForObjectLambda:    GetAccessPointConfigurationForObjectLambda     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func putAccessPointConfigurationForObjectLambda(_ input: PutAccessPointConfigurationForObjectLambdaRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -2873,7 +2876,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Replaces configuration for an Object Lambda Access Point. The following actions are related to PutAccessPointConfigurationForObjectLambda:    GetAccessPointConfigurationForObjectLambda
+    ///  This operation is not supported by directory buckets.  Replaces configuration for an Object Lambda Access Point. The following actions are related to PutAccessPointConfigurationForObjectLambda:    GetAccessPointConfigurationForObjectLambda     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The account ID for the account that owns the specified Object Lambda Access Point.
@@ -2895,7 +2898,7 @@ public struct S3Control: AWSService {
         return try await self.putAccessPointConfigurationForObjectLambda(input, logger: logger)
     }
 
-    /// Associates an access policy with the specified access point. Each access point can have only one policy, so a request made to this API replaces any existing policy associated with the specified access point.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to PutAccessPointPolicy:    GetAccessPointPolicy     DeleteAccessPointPolicy
+    /// Associates an access policy with the specified access point. Each access point can have only one policy, so a request made to this API replaces any existing policy associated with the specified access point.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to PutAccessPointPolicy:    GetAccessPointPolicy     DeleteAccessPointPolicy     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func putAccessPointPolicy(_ input: PutAccessPointPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -2909,7 +2912,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Associates an access policy with the specified access point. Each access point can have only one policy, so a request made to this API replaces any existing policy associated with the specified access point.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to PutAccessPointPolicy:    GetAccessPointPolicy     DeleteAccessPointPolicy
+    /// Associates an access policy with the specified access point. Each access point can have only one policy, so a request made to this API replaces any existing policy associated with the specified access point.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to PutAccessPointPolicy:    GetAccessPointPolicy     DeleteAccessPointPolicy     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID for owner of the bucket associated with the specified access point.
@@ -2931,7 +2934,7 @@ public struct S3Control: AWSService {
         return try await self.putAccessPointPolicy(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Creates or replaces resource policy for an Object Lambda Access Point. For an example policy, see Creating Object Lambda Access Points in the Amazon S3 User Guide. The following actions are related to PutAccessPointPolicyForObjectLambda:    DeleteAccessPointPolicyForObjectLambda     GetAccessPointPolicyForObjectLambda
+    ///  This operation is not supported by directory buckets.  Creates or replaces resource policy for an Object Lambda Access Point. For an example policy, see Creating Object Lambda Access Points in the Amazon S3 User Guide. The following actions are related to PutAccessPointPolicyForObjectLambda:    DeleteAccessPointPolicyForObjectLambda     GetAccessPointPolicyForObjectLambda     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func putAccessPointPolicyForObjectLambda(_ input: PutAccessPointPolicyForObjectLambdaRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -2945,7 +2948,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Creates or replaces resource policy for an Object Lambda Access Point. For an example policy, see Creating Object Lambda Access Points in the Amazon S3 User Guide. The following actions are related to PutAccessPointPolicyForObjectLambda:    DeleteAccessPointPolicyForObjectLambda     GetAccessPointPolicyForObjectLambda
+    ///  This operation is not supported by directory buckets.  Creates or replaces resource policy for an Object Lambda Access Point. For an example policy, see Creating Object Lambda Access Points in the Amazon S3 User Guide. The following actions are related to PutAccessPointPolicyForObjectLambda:    DeleteAccessPointPolicyForObjectLambda     GetAccessPointPolicyForObjectLambda     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The account ID for the account that owns the specified Object Lambda Access Point.
@@ -2967,7 +2970,7 @@ public struct S3Control: AWSService {
         return try await self.putAccessPointPolicyForObjectLambda(input, logger: logger)
     }
 
-    /// Creates or replaces the access point scope for a directory bucket. You can use the access point scope to restrict access to specific prefixes, API operations, or a combination of both.  You can specify any amount of prefixes, but the total length of characters of all prefixes must be less than 256 bytes in size.  To use this operation, you must have the permission to perform the s3express:PutAccessPointScope action. For information about REST API errors, see REST error responses.
+    /// Creates or replaces the access point scope for a directory bucket. You can use the access point scope to restrict access to specific prefixes, API operations, or a combination of both.  You can specify any amount of prefixes, but the total length of characters of all prefixes must be less than 256 bytes in size.  To use this operation, you must have the permission to perform the s3express:PutAccessPointScope action. For information about REST API errors, see REST error responses.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func putAccessPointScope(_ input: PutAccessPointScopeRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -2980,7 +2983,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Creates or replaces the access point scope for a directory bucket. You can use the access point scope to restrict access to specific prefixes, API operations, or a combination of both.  You can specify any amount of prefixes, but the total length of characters of all prefixes must be less than 256 bytes in size.  To use this operation, you must have the permission to perform the s3express:PutAccessPointScope action. For information about REST API errors, see REST error responses.
+    /// Creates or replaces the access point scope for a directory bucket. You can use the access point scope to restrict access to specific prefixes, API operations, or a combination of both.  You can specify any amount of prefixes, but the total length of characters of all prefixes must be less than 256 bytes in size.  To use this operation, you must have the permission to perform the s3express:PutAccessPointScope action. For information about REST API errors, see REST error responses.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId:  The Amazon Web Services account ID that owns the access point with scope that you want to create or replace.
@@ -3149,7 +3152,7 @@ public struct S3Control: AWSService {
         return try await self.putBucketTagging(input, logger: logger)
     }
 
-    ///  This operation sets the versioning state for S3 on Outposts buckets only. To set the versioning state for an S3 bucket, see PutBucketVersioning in the Amazon S3 API Reference.   Sets the versioning state for an S3 on Outposts bucket. With S3 Versioning, you can save multiple distinct copies of your objects and recover from unintended user actions and application failures. You can set the versioning state to one of the following:    Enabled - Enables versioning for the objects in the bucket. All objects added to the bucket receive a unique version ID.    Suspended - Suspends versioning for the objects in the bucket. All objects added to the bucket receive the version ID null.   If you've never set versioning on your bucket, it has no versioning state. In that case, a  GetBucketVersioning request does not return a versioning state value. When you enable S3 Versioning, for each object in your bucket, you have a current version and zero or more noncurrent versions. You can configure your bucket S3 Lifecycle rules to expire noncurrent versions after a specified time period. For more information, see  Creating and managing a lifecycle configuration for your S3 on Outposts bucket in the Amazon S3 User Guide. If you have an object expiration lifecycle configuration in your non-versioned bucket and you want to maintain the same permanent delete behavior when you enable versioning, you must add a noncurrent expiration policy. The noncurrent expiration lifecycle configuration will manage the deletes of the noncurrent object versions in the version-enabled bucket. For more information, see Versioning in the Amazon S3 User Guide. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following operations are related to PutBucketVersioning for S3 on Outposts.    GetBucketVersioning     PutBucketLifecycleConfiguration     GetBucketLifecycleConfiguration
+    ///  This operation sets the versioning state for S3 on Outposts buckets only. To set the versioning state for an S3 bucket, see PutBucketVersioning in the Amazon S3 API Reference.   Sets the versioning state for an S3 on Outposts bucket. With S3 Versioning, you can save multiple distinct copies of your objects and recover from unintended user actions and application failures. You can set the versioning state to one of the following:    Enabled - Enables versioning for the objects in the bucket. All objects added to the bucket receive a unique version ID.    Suspended - Suspends versioning for the objects in the bucket. All objects added to the bucket receive the version ID null.   If you've never set versioning on your bucket, it has no versioning state. In that case, a  GetBucketVersioning request does not return a versioning state value. When you enable S3 Versioning, for each object in your bucket, you have a current version and zero or more noncurrent versions. You can configure your bucket S3 Lifecycle rules to expire noncurrent versions after a specified time period. For more information, see  Creating and managing a lifecycle configuration for your S3 on Outposts bucket in the Amazon S3 User Guide. If you have an object expiration lifecycle configuration in your non-versioned bucket and you want to maintain the same permanent delete behavior when you enable versioning, you must add a noncurrent expiration policy. The noncurrent expiration lifecycle configuration will manage the deletes of the noncurrent object versions in the version-enabled bucket. For more information, see Versioning in the Amazon S3 User Guide. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following operations are related to PutBucketVersioning for S3 on Outposts.    GetBucketVersioning     PutBucketLifecycleConfiguration     GetBucketLifecycleConfiguration     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func putBucketVersioning(_ input: PutBucketVersioningRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -3163,7 +3166,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation sets the versioning state for S3 on Outposts buckets only. To set the versioning state for an S3 bucket, see PutBucketVersioning in the Amazon S3 API Reference.   Sets the versioning state for an S3 on Outposts bucket. With S3 Versioning, you can save multiple distinct copies of your objects and recover from unintended user actions and application failures. You can set the versioning state to one of the following:    Enabled - Enables versioning for the objects in the bucket. All objects added to the bucket receive a unique version ID.    Suspended - Suspends versioning for the objects in the bucket. All objects added to the bucket receive the version ID null.   If you've never set versioning on your bucket, it has no versioning state. In that case, a  GetBucketVersioning request does not return a versioning state value. When you enable S3 Versioning, for each object in your bucket, you have a current version and zero or more noncurrent versions. You can configure your bucket S3 Lifecycle rules to expire noncurrent versions after a specified time period. For more information, see  Creating and managing a lifecycle configuration for your S3 on Outposts bucket in the Amazon S3 User Guide. If you have an object expiration lifecycle configuration in your non-versioned bucket and you want to maintain the same permanent delete behavior when you enable versioning, you must add a noncurrent expiration policy. The noncurrent expiration lifecycle configuration will manage the deletes of the noncurrent object versions in the version-enabled bucket. For more information, see Versioning in the Amazon S3 User Guide. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following operations are related to PutBucketVersioning for S3 on Outposts.    GetBucketVersioning     PutBucketLifecycleConfiguration     GetBucketLifecycleConfiguration
+    ///  This operation sets the versioning state for S3 on Outposts buckets only. To set the versioning state for an S3 bucket, see PutBucketVersioning in the Amazon S3 API Reference.   Sets the versioning state for an S3 on Outposts bucket. With S3 Versioning, you can save multiple distinct copies of your objects and recover from unintended user actions and application failures. You can set the versioning state to one of the following:    Enabled - Enables versioning for the objects in the bucket. All objects added to the bucket receive a unique version ID.    Suspended - Suspends versioning for the objects in the bucket. All objects added to the bucket receive the version ID null.   If you've never set versioning on your bucket, it has no versioning state. In that case, a  GetBucketVersioning request does not return a versioning state value. When you enable S3 Versioning, for each object in your bucket, you have a current version and zero or more noncurrent versions. You can configure your bucket S3 Lifecycle rules to expire noncurrent versions after a specified time period. For more information, see  Creating and managing a lifecycle configuration for your S3 on Outposts bucket in the Amazon S3 User Guide. If you have an object expiration lifecycle configuration in your non-versioned bucket and you want to maintain the same permanent delete behavior when you enable versioning, you must add a noncurrent expiration policy. The noncurrent expiration lifecycle configuration will manage the deletes of the noncurrent object versions in the version-enabled bucket. For more information, see Versioning in the Amazon S3 User Guide. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following operations are related to PutBucketVersioning for S3 on Outposts.    GetBucketVersioning     PutBucketLifecycleConfiguration     GetBucketLifecycleConfiguration     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID of the S3 on Outposts bucket.
@@ -3188,7 +3191,7 @@ public struct S3Control: AWSService {
         return try await self.putBucketVersioning(input, logger: logger)
     }
 
-    /// Sets the supplied tag-set on an S3 Batch Operations job. A tag is a key-value pair. You can associate S3 Batch Operations tags with any job by sending a PUT request against the tagging subresource that is associated with the job. To modify the existing tag set, you can either replace the existing tag set entirely, or make changes within the existing tag set by retrieving the existing tag set using GetJobTagging, modify that tag set, and use this operation to replace the tag set with the one you modified. For more information, see Controlling access and labeling jobs using tags in the Amazon S3 User Guide.     If you send this request with an empty tag set, Amazon S3 deletes the existing tag set on the Batch Operations job. If you use this method, you are charged for a Tier 1 Request (PUT). For more information, see Amazon S3 pricing.   For deleting existing tags for your Batch Operations job, a DeleteJobTagging request is preferred because it achieves the same result without incurring charges.   A few things to consider about using tags:   Amazon S3 limits the maximum number of tags to 50 tags per job.   You can associate up to 50 tags with a job as long as they have unique tag keys.   A tag key can be up to 128 Unicode characters in length, and tag values can be up to 256 Unicode characters in length.   The key and values are case sensitive.   For tagging-related restrictions related to characters and encodings, see User-Defined Tag Restrictions in the Billing and Cost Management User Guide.       Permissions  To use the PutJobTagging operation, you must have permission to perform the s3:PutJobTagging action.   Related actions include:    CreateJob     GetJobTagging     DeleteJobTagging
+    /// Sets the supplied tag-set on an S3 Batch Operations job. A tag is a key-value pair. You can associate S3 Batch Operations tags with any job by sending a PUT request against the tagging subresource that is associated with the job. To modify the existing tag set, you can either replace the existing tag set entirely, or make changes within the existing tag set by retrieving the existing tag set using GetJobTagging, modify that tag set, and use this operation to replace the tag set with the one you modified. For more information, see Controlling access and labeling jobs using tags in the Amazon S3 User Guide.     If you send this request with an empty tag set, Amazon S3 deletes the existing tag set on the Batch Operations job. If you use this method, you are charged for a Tier 1 Request (PUT). For more information, see Amazon S3 pricing.   For deleting existing tags for your Batch Operations job, a DeleteJobTagging request is preferred because it achieves the same result without incurring charges.   A few things to consider about using tags:   Amazon S3 limits the maximum number of tags to 50 tags per job.   You can associate up to 50 tags with a job as long as they have unique tag keys.   A tag key can be up to 128 Unicode characters in length, and tag values can be up to 256 Unicode characters in length.   The key and values are case sensitive.   For tagging-related restrictions related to characters and encodings, see User-Defined Tag Restrictions in the Billing and Cost Management User Guide.       Permissions  To use the PutJobTagging operation, you must have permission to perform the s3:PutJobTagging action.   Related actions include:    CreateJob     GetJobTagging     DeleteJobTagging     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func putJobTagging(_ input: PutJobTaggingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutJobTaggingResult {
@@ -3202,7 +3205,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Sets the supplied tag-set on an S3 Batch Operations job. A tag is a key-value pair. You can associate S3 Batch Operations tags with any job by sending a PUT request against the tagging subresource that is associated with the job. To modify the existing tag set, you can either replace the existing tag set entirely, or make changes within the existing tag set by retrieving the existing tag set using GetJobTagging, modify that tag set, and use this operation to replace the tag set with the one you modified. For more information, see Controlling access and labeling jobs using tags in the Amazon S3 User Guide.     If you send this request with an empty tag set, Amazon S3 deletes the existing tag set on the Batch Operations job. If you use this method, you are charged for a Tier 1 Request (PUT). For more information, see Amazon S3 pricing.   For deleting existing tags for your Batch Operations job, a DeleteJobTagging request is preferred because it achieves the same result without incurring charges.   A few things to consider about using tags:   Amazon S3 limits the maximum number of tags to 50 tags per job.   You can associate up to 50 tags with a job as long as they have unique tag keys.   A tag key can be up to 128 Unicode characters in length, and tag values can be up to 256 Unicode characters in length.   The key and values are case sensitive.   For tagging-related restrictions related to characters and encodings, see User-Defined Tag Restrictions in the Billing and Cost Management User Guide.       Permissions  To use the PutJobTagging operation, you must have permission to perform the s3:PutJobTagging action.   Related actions include:    CreateJob     GetJobTagging     DeleteJobTagging
+    /// Sets the supplied tag-set on an S3 Batch Operations job. A tag is a key-value pair. You can associate S3 Batch Operations tags with any job by sending a PUT request against the tagging subresource that is associated with the job. To modify the existing tag set, you can either replace the existing tag set entirely, or make changes within the existing tag set by retrieving the existing tag set using GetJobTagging, modify that tag set, and use this operation to replace the tag set with the one you modified. For more information, see Controlling access and labeling jobs using tags in the Amazon S3 User Guide.     If you send this request with an empty tag set, Amazon S3 deletes the existing tag set on the Batch Operations job. If you use this method, you are charged for a Tier 1 Request (PUT). For more information, see Amazon S3 pricing.   For deleting existing tags for your Batch Operations job, a DeleteJobTagging request is preferred because it achieves the same result without incurring charges.   A few things to consider about using tags:   Amazon S3 limits the maximum number of tags to 50 tags per job.   You can associate up to 50 tags with a job as long as they have unique tag keys.   A tag key can be up to 128 Unicode characters in length, and tag values can be up to 256 Unicode characters in length.   The key and values are case sensitive.   For tagging-related restrictions related to characters and encodings, see User-Defined Tag Restrictions in the Billing and Cost Management User Guide.       Permissions  To use the PutJobTagging operation, you must have permission to perform the s3:PutJobTagging action.   Related actions include:    CreateJob     GetJobTagging     DeleteJobTagging     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID associated with the S3 Batch Operations job.
@@ -3224,7 +3227,7 @@ public struct S3Control: AWSService {
         return try await self.putJobTagging(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Associates an access control policy with the specified Multi-Region Access Point. Each Multi-Region Access Point can have only one policy, so a request made to this action replaces any existing policy that is associated with the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. The following actions are related to PutMultiRegionAccessPointPolicy:    GetMultiRegionAccessPointPolicy     GetMultiRegionAccessPointPolicyStatus
+    ///  This operation is not supported by directory buckets.  Associates an access control policy with the specified Multi-Region Access Point. Each Multi-Region Access Point can have only one policy, so a request made to this action replaces any existing policy that is associated with the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. The following actions are related to PutMultiRegionAccessPointPolicy:    GetMultiRegionAccessPointPolicy     GetMultiRegionAccessPointPolicyStatus     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func putMultiRegionAccessPointPolicy(_ input: PutMultiRegionAccessPointPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutMultiRegionAccessPointPolicyResult {
@@ -3238,7 +3241,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Associates an access control policy with the specified Multi-Region Access Point. Each Multi-Region Access Point can have only one policy, so a request made to this action replaces any existing policy that is associated with the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. The following actions are related to PutMultiRegionAccessPointPolicy:    GetMultiRegionAccessPointPolicy     GetMultiRegionAccessPointPolicyStatus
+    ///  This operation is not supported by directory buckets.  Associates an access control policy with the specified Multi-Region Access Point. Each Multi-Region Access Point can have only one policy, so a request made to this action replaces any existing policy that is associated with the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. The following actions are related to PutMultiRegionAccessPointPolicy:    GetMultiRegionAccessPointPolicy     GetMultiRegionAccessPointPolicyStatus     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
@@ -3260,7 +3263,7 @@ public struct S3Control: AWSService {
         return try await self.putMultiRegionAccessPointPolicy(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Creates or modifies the PublicAccessBlock configuration for an Amazon Web Services account. For this operation, users must have the s3:PutAccountPublicAccessBlock permission. For more information, see  Using Amazon S3 block public access. Related actions include:    GetPublicAccessBlock     DeletePublicAccessBlock
+    ///  This operation is not supported by directory buckets.  Creates or modifies the PublicAccessBlock configuration for an Amazon Web Services account. For this operation, users must have the s3:PutAccountPublicAccessBlock permission. For more information, see  Using Amazon S3 block public access. Related actions include:    GetPublicAccessBlock     DeletePublicAccessBlock     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func putPublicAccessBlock(_ input: PutPublicAccessBlockRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -3274,7 +3277,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Creates or modifies the PublicAccessBlock configuration for an Amazon Web Services account. For this operation, users must have the s3:PutAccountPublicAccessBlock permission. For more information, see  Using Amazon S3 block public access. Related actions include:    GetPublicAccessBlock     DeletePublicAccessBlock
+    ///  This operation is not supported by directory buckets.  Creates or modifies the PublicAccessBlock configuration for an Amazon Web Services account. For this operation, users must have the s3:PutAccountPublicAccessBlock permission. For more information, see  Using Amazon S3 block public access. Related actions include:    GetPublicAccessBlock     DeletePublicAccessBlock     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The account ID for the Amazon Web Services account whose PublicAccessBlock configuration you want to set.
@@ -3293,7 +3296,7 @@ public struct S3Control: AWSService {
         return try await self.putPublicAccessBlock(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Puts an Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Working with Amazon S3 Storage Lens in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see S3 Storage Lens metrics glossary in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:PutStorageLensConfiguration action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.
+    ///  This operation is not supported by directory buckets.  Puts an Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Working with Amazon S3 Storage Lens in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see S3 Storage Lens metrics glossary in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:PutStorageLensConfiguration action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.   You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func putStorageLensConfiguration(_ input: PutStorageLensConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -3307,7 +3310,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Puts an Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Working with Amazon S3 Storage Lens in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see S3 Storage Lens metrics glossary in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:PutStorageLensConfiguration action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.
+    ///  This operation is not supported by directory buckets.  Puts an Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Working with Amazon S3 Storage Lens in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see S3 Storage Lens metrics glossary in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:PutStorageLensConfiguration action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.   You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The account ID of the requester.
@@ -3332,7 +3335,7 @@ public struct S3Control: AWSService {
         return try await self.putStorageLensConfiguration(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Put or replace tags on an existing Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:PutStorageLensConfigurationTagging action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.
+    ///  This operation is not supported by directory buckets.  Put or replace tags on an existing Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:PutStorageLensConfigurationTagging action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.   You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func putStorageLensConfigurationTagging(_ input: PutStorageLensConfigurationTaggingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutStorageLensConfigurationTaggingResult {
@@ -3346,7 +3349,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Put or replace tags on an existing Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:PutStorageLensConfigurationTagging action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.
+    ///  This operation is not supported by directory buckets.  Put or replace tags on an existing Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To use this action, you must have permission to perform the s3:PutStorageLensConfigurationTagging action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.   You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The account ID of the requester.
@@ -3368,7 +3371,7 @@ public struct S3Control: AWSService {
         return try await self.putStorageLensConfigurationTagging(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Submits an updated route configuration for a Multi-Region Access Point. This API operation updates the routing status for the specified Regions from active to passive, or from passive to active. A value of 0 indicates a passive status, which means that traffic won't be routed to the specified Region. A value of 100 indicates an active status, which means that traffic will be routed to the specified Region. At least one Region must be active at all times. When the routing configuration is changed, any in-progress operations (uploads, copies, deletes, and so on) to formerly active Regions will continue to run to their final completion state (success or failure). The routing configurations of any Regions that aren’t specified remain unchanged.  Updated routing configurations might not be immediately applied. It can take up to 2 minutes for your changes to take effect.  To submit routing control changes and failover requests, use the Amazon S3 failover control infrastructure endpoints in these five Amazon Web Services Regions:    us-east-1     us-west-2     ap-southeast-2     ap-northeast-1     eu-west-1
+    ///  This operation is not supported by directory buckets.  Submits an updated route configuration for a Multi-Region Access Point. This API operation updates the routing status for the specified Regions from active to passive, or from passive to active. A value of 0 indicates a passive status, which means that traffic won't be routed to the specified Region. A value of 100 indicates an active status, which means that traffic will be routed to the specified Region. At least one Region must be active at all times. When the routing configuration is changed, any in-progress operations (uploads, copies, deletes, and so on) to formerly active Regions will continue to run to their final completion state (success or failure). The routing configurations of any Regions that aren’t specified remain unchanged.  Updated routing configurations might not be immediately applied. It can take up to 2 minutes for your changes to take effect.  To submit routing control changes and failover requests, use the Amazon S3 failover control infrastructure endpoints in these five Amazon Web Services Regions:    us-east-1     us-west-2     ap-southeast-2     ap-northeast-1     eu-west-1     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func submitMultiRegionAccessPointRoutes(_ input: SubmitMultiRegionAccessPointRoutesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SubmitMultiRegionAccessPointRoutesResult {
@@ -3382,7 +3385,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Submits an updated route configuration for a Multi-Region Access Point. This API operation updates the routing status for the specified Regions from active to passive, or from passive to active. A value of 0 indicates a passive status, which means that traffic won't be routed to the specified Region. A value of 100 indicates an active status, which means that traffic will be routed to the specified Region. At least one Region must be active at all times. When the routing configuration is changed, any in-progress operations (uploads, copies, deletes, and so on) to formerly active Regions will continue to run to their final completion state (success or failure). The routing configurations of any Regions that aren’t specified remain unchanged.  Updated routing configurations might not be immediately applied. It can take up to 2 minutes for your changes to take effect.  To submit routing control changes and failover requests, use the Amazon S3 failover control infrastructure endpoints in these five Amazon Web Services Regions:    us-east-1     us-west-2     ap-southeast-2     ap-northeast-1     eu-west-1
+    ///  This operation is not supported by directory buckets.  Submits an updated route configuration for a Multi-Region Access Point. This API operation updates the routing status for the specified Regions from active to passive, or from passive to active. A value of 0 indicates a passive status, which means that traffic won't be routed to the specified Region. A value of 100 indicates an active status, which means that traffic will be routed to the specified Region. At least one Region must be active at all times. When the routing configuration is changed, any in-progress operations (uploads, copies, deletes, and so on) to formerly active Regions will continue to run to their final completion state (success or failure). The routing configurations of any Regions that aren’t specified remain unchanged.  Updated routing configurations might not be immediately applied. It can take up to 2 minutes for your changes to take effect.  To submit routing control changes and failover requests, use the Amazon S3 failover control infrastructure endpoints in these five Amazon Web Services Regions:    us-east-1     us-west-2     ap-southeast-2     ap-northeast-1     eu-west-1     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
@@ -3404,7 +3407,7 @@ public struct S3Control: AWSService {
         return try await self.submitMultiRegionAccessPointRoutes(input, logger: logger)
     }
 
-    ///  Creates a new user-defined tag or updates an existing tag. Each tag is a label consisting of a key and value that is applied to your resource. Tags can help you organize, track costs for, and control access to your resources. You can add up to 50 Amazon Web Services resource tags for each S3 resource.   This operation is only supported for the following Amazon S3 resource:    Directory buckets     S3 Storage Lens groups     S3 Access Grants instances, registered locations, or grants.     Permissions  For Storage Lens groups and S3 Access Grants, you must have the s3:TagResource permission to use this operation.  For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups.  Directory bucket permissions  For directory buckets, you must have the s3express:TagResource permission to use this operation. For more information about directory buckets policies and permissions, see Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.  HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is s3express-control.region.amazonaws.com.   For information about S3 Tagging errors, see List of Amazon S3 Tagging error codes.
+    ///  Creates a new user-defined tag or updates an existing tag. Each tag is a label consisting of a key and value that is applied to your resource. Tags can help you organize, track costs for, and control access to your resources. You can add up to 50 Amazon Web Services resource tags for each S3 resource.   This operation is only supported for the following Amazon S3 resource:    Access Points for directory buckets     Access Points for general purpose buckets     Directory buckets     S3 Storage Lens groups     S3 Access Grants instances, registered locations, or grants.     This operation is only supported for the following Amazon S3 resource:    Directory buckets     S3 Storage Lens groups     S3 Access Grants instances, registered locations, or grants.     Permissions  For Storage Lens groups and S3 Access Grants, you must have the s3:TagResource permission to use this operation.  For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups.  Directory bucket permissions  For directory buckets and access points for directory buckets, you must have the s3express:TagResource permission to use this operation. For more information about directory buckets policies and permissions, see Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.  HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is s3express-control.region.amazonaws.com.   For information about S3 Tagging errors, see List of Amazon S3 Tagging error codes.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResult {
@@ -3418,12 +3421,12 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  Creates a new user-defined tag or updates an existing tag. Each tag is a label consisting of a key and value that is applied to your resource. Tags can help you organize, track costs for, and control access to your resources. You can add up to 50 Amazon Web Services resource tags for each S3 resource.   This operation is only supported for the following Amazon S3 resource:    Directory buckets     S3 Storage Lens groups     S3 Access Grants instances, registered locations, or grants.     Permissions  For Storage Lens groups and S3 Access Grants, you must have the s3:TagResource permission to use this operation.  For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups.  Directory bucket permissions  For directory buckets, you must have the s3express:TagResource permission to use this operation. For more information about directory buckets policies and permissions, see Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.  HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is s3express-control.region.amazonaws.com.   For information about S3 Tagging errors, see List of Amazon S3 Tagging error codes.
+    ///  Creates a new user-defined tag or updates an existing tag. Each tag is a label consisting of a key and value that is applied to your resource. Tags can help you organize, track costs for, and control access to your resources. You can add up to 50 Amazon Web Services resource tags for each S3 resource.   This operation is only supported for the following Amazon S3 resource:    Access Points for directory buckets     Access Points for general purpose buckets     Directory buckets     S3 Storage Lens groups     S3 Access Grants instances, registered locations, or grants.     This operation is only supported for the following Amazon S3 resource:    Directory buckets     S3 Storage Lens groups     S3 Access Grants instances, registered locations, or grants.     Permissions  For Storage Lens groups and S3 Access Grants, you must have the s3:TagResource permission to use this operation.  For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups.  Directory bucket permissions  For directory buckets and access points for directory buckets, you must have the s3express:TagResource permission to use this operation. For more information about directory buckets policies and permissions, see Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.  HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is s3express-control.region.amazonaws.com.   For information about S3 Tagging errors, see List of Amazon S3 Tagging error codes.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID that created the S3 resource that you're trying to add tags to or the requester's account ID.
     ///   - resourceArn: The Amazon Resource Name (ARN) of the S3 resource that you're applying tags to. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
-    ///   - tags: The Amazon Web Services resource tags that you want to add to the specified S3 resource.
+    ///   - tags:  The Amazon Web Services resource tags that you want to add to the specified S3 resource.
     ///   - logger: Logger use during operation
     @inlinable
     public func tagResource(
@@ -3440,7 +3443,7 @@ public struct S3Control: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    /// This operation removes the specified user-defined tags from an S3 resource. You can pass one or more tag keys.   This operation is only supported for the following Amazon S3 resources:    Directory buckets     Storage Lens groups     S3 Access Grants instances, registered locations, and grants.     Permissions  For Storage Lens groups and S3 Access Grants, you must have the s3:UntagResource permission to use this operation.  For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups.  Directory bucket permissions  For directory buckets, you must have the s3express:UntagResource permission to use this operation. For more information about directory buckets policies and permissions, see Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.  HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is s3express-control.region.amazonaws.com.   For information about S3 Tagging errors, see List of Amazon S3 Tagging error codes.
+    /// This operation removes the specified user-defined tags from an S3 resource. You can pass one or more tag keys.   This operation is only supported for the following Amazon S3 resources:    Access Points for directory buckets     Access Points for general purpose buckets     Directory buckets     Storage Lens groups     S3 Access Grants instances, registered locations, and grants.     Permissions  For Storage Lens groups and S3 Access Grants, you must have the s3:UntagResource permission to use this operation.  For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups.  Directory bucket permissions  For directory buckets and access points for directory buckets, you must have the s3express:UntagResource permission to use this operation. For more information about directory buckets policies and permissions, see Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.  HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is s3express-control.region.amazonaws.com.   For information about S3 Tagging errors, see List of Amazon S3 Tagging error codes.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResult {
@@ -3454,7 +3457,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// This operation removes the specified user-defined tags from an S3 resource. You can pass one or more tag keys.   This operation is only supported for the following Amazon S3 resources:    Directory buckets     Storage Lens groups     S3 Access Grants instances, registered locations, and grants.     Permissions  For Storage Lens groups and S3 Access Grants, you must have the s3:UntagResource permission to use this operation.  For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups.  Directory bucket permissions  For directory buckets, you must have the s3express:UntagResource permission to use this operation. For more information about directory buckets policies and permissions, see Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.  HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is s3express-control.region.amazonaws.com.   For information about S3 Tagging errors, see List of Amazon S3 Tagging error codes.
+    /// This operation removes the specified user-defined tags from an S3 resource. You can pass one or more tag keys.   This operation is only supported for the following Amazon S3 resources:    Access Points for directory buckets     Access Points for general purpose buckets     Directory buckets     Storage Lens groups     S3 Access Grants instances, registered locations, and grants.     Permissions  For Storage Lens groups and S3 Access Grants, you must have the s3:UntagResource permission to use this operation.  For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups.  Directory bucket permissions  For directory buckets and access points for directory buckets, you must have the s3express:UntagResource permission to use this operation. For more information about directory buckets policies and permissions, see Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.  HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is s3express-control.region.amazonaws.com.   For information about S3 Tagging errors, see List of Amazon S3 Tagging error codes.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId:  The Amazon Web Services account ID that owns the resource that you're trying to remove the tags from.
@@ -3476,7 +3479,7 @@ public struct S3Control: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Updates the IAM role of a registered location in your S3 Access Grants instance.  Permissions  You must have the s3:UpdateAccessGrantsLocation permission to use this operation.   Additional Permissions  You must also have the following permission: iam:PassRole
+    /// Updates the IAM role of a registered location in your S3 Access Grants instance.  Permissions  You must have the s3:UpdateAccessGrantsLocation permission to use this operation.   Additional Permissions  You must also have the following permission: iam:PassRole     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func updateAccessGrantsLocation(_ input: UpdateAccessGrantsLocationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAccessGrantsLocationResult {
@@ -3490,10 +3493,10 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Updates the IAM role of a registered location in your S3 Access Grants instance.  Permissions  You must have the s3:UpdateAccessGrantsLocation permission to use this operation.   Additional Permissions  You must also have the following permission: iam:PassRole
+    /// Updates the IAM role of a registered location in your S3 Access Grants instance.  Permissions  You must have the s3:UpdateAccessGrantsLocation permission to use this operation.   Additional Permissions  You must also have the following permission: iam:PassRole     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
-    ///   - accessGrantsLocationId: The ID of the registered location that you are updating. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.   The ID of the registered location to which you are granting access. S3 Access Grants assigned this ID when you registered the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.   If you are passing the default location, you cannot create an access grant for the entire default location. You must also specify a bucket or a bucket and prefix in the Subprefix field.
+    ///   - accessGrantsLocationId: The ID of the registered location that you are updating. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.  The ID of the registered location to which you are granting access. S3 Access Grants assigned this ID when you registered the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.  If you are passing the default location, you cannot create an access grant for the entire default location. You must also specify a bucket or a bucket and prefix in the Subprefix field.
     ///   - accountId: The Amazon Web Services account ID of the S3 Access Grants instance.
     ///   - iamRoleArn: The Amazon Resource Name (ARN) of the IAM role for the registered location. S3 Access Grants assumes this role to manage access to the registered location.
     ///   - logger: Logger use during operation
@@ -3512,7 +3515,7 @@ public struct S3Control: AWSService {
         return try await self.updateAccessGrantsLocation(input, logger: logger)
     }
 
-    /// Updates an existing S3 Batch Operations job's priority. For more information, see S3 Batch Operations in the Amazon S3 User Guide.  Permissions  To use the UpdateJobPriority operation, you must have permission to perform the s3:UpdateJobPriority action.   Related actions include:    CreateJob     ListJobs     DescribeJob     UpdateJobStatus
+    /// Updates an existing S3 Batch Operations job's priority. For more information, see S3 Batch Operations in the Amazon S3 User Guide.  Permissions  To use the UpdateJobPriority operation, you must have permission to perform the s3:UpdateJobPriority action.   Related actions include:    CreateJob     ListJobs     DescribeJob     UpdateJobStatus     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func updateJobPriority(_ input: UpdateJobPriorityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateJobPriorityResult {
@@ -3526,7 +3529,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Updates an existing S3 Batch Operations job's priority. For more information, see S3 Batch Operations in the Amazon S3 User Guide.  Permissions  To use the UpdateJobPriority operation, you must have permission to perform the s3:UpdateJobPriority action.   Related actions include:    CreateJob     ListJobs     DescribeJob     UpdateJobStatus
+    /// Updates an existing S3 Batch Operations job's priority. For more information, see S3 Batch Operations in the Amazon S3 User Guide.  Permissions  To use the UpdateJobPriority operation, you must have permission to perform the s3:UpdateJobPriority action.   Related actions include:    CreateJob     ListJobs     DescribeJob     UpdateJobStatus     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID associated with the S3 Batch Operations job.
@@ -3548,7 +3551,7 @@ public struct S3Control: AWSService {
         return try await self.updateJobPriority(input, logger: logger)
     }
 
-    /// Updates the status for the specified job. Use this operation to confirm that you want to run a job or to cancel an existing job. For more information, see S3 Batch Operations in the Amazon S3 User Guide.  Permissions  To use the UpdateJobStatus operation, you must have permission to perform the s3:UpdateJobStatus action.   Related actions include:    CreateJob     ListJobs     DescribeJob     UpdateJobStatus
+    /// Updates the status for the specified job. Use this operation to confirm that you want to run a job or to cancel an existing job. For more information, see S3 Batch Operations in the Amazon S3 User Guide.  Permissions  To use the UpdateJobStatus operation, you must have permission to perform the s3:UpdateJobStatus action.   Related actions include:    CreateJob     ListJobs     DescribeJob     UpdateJobStatus     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func updateJobStatus(_ input: UpdateJobStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateJobStatusResult {
@@ -3562,7 +3565,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Updates the status for the specified job. Use this operation to confirm that you want to run a job or to cancel an existing job. For more information, see S3 Batch Operations in the Amazon S3 User Guide.  Permissions  To use the UpdateJobStatus operation, you must have permission to perform the s3:UpdateJobStatus action.   Related actions include:    CreateJob     ListJobs     DescribeJob     UpdateJobStatus
+    /// Updates the status for the specified job. Use this operation to confirm that you want to run a job or to cancel an existing job. For more information, see S3 Batch Operations in the Amazon S3 User Guide.  Permissions  To use the UpdateJobStatus operation, you must have permission to perform the s3:UpdateJobStatus action.   Related actions include:    CreateJob     ListJobs     DescribeJob     UpdateJobStatus     You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID associated with the S3 Batch Operations job.
@@ -3587,7 +3590,7 @@ public struct S3Control: AWSService {
         return try await self.updateJobStatus(input, logger: logger)
     }
 
-    /// Updates the existing Storage Lens group. To use this operation, you must have the permission to perform the s3:UpdateStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups. For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes.
+    /// Updates the existing Storage Lens group. To use this operation, you must have the permission to perform the s3:UpdateStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups. For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     @Sendable
     @inlinable
     public func updateStorageLensGroup(_ input: UpdateStorageLensGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -3601,7 +3604,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Updates the existing Storage Lens group. To use this operation, you must have the permission to perform the s3:UpdateStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups. For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes.
+    /// Updates the existing Storage Lens group. To use this operation, you must have the permission to perform the s3:UpdateStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage Lens groups. For information about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes.  You must URL encode any signed header values that contain spaces. For example, if your header value is my  file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID of the Storage Lens group owner.

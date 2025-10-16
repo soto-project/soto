@@ -1543,8 +1543,7 @@ extension S3 {
         /// The account ID of the expected source bucket owner. If the account ID that you provide does not match the actual owner of the source bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedSourceBucketOwner: String?
         /// The date and time at which the object is no longer cacheable.
-        @OptionalCustomCoding<HTTPHeaderDateCoder>
-        public var expires: Date?
+        public let expires: String?
         /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.    This functionality is not supported for directory buckets.   This functionality is not supported for Amazon S3 on Outposts.
         public let grantFullControl: String?
         /// Allows grantee to read the object data and its metadata.    This functionality is not supported for directory buckets.   This functionality is not supported for Amazon S3 on Outposts.
@@ -1595,7 +1594,7 @@ extension S3 {
         public let websiteRedirectLocation: String?
 
         @inlinable
-        public init(acl: ObjectCannedACL? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, copySource: String, copySourceIfMatch: String? = nil, copySourceIfModifiedSince: Date? = nil, copySourceIfNoneMatch: String? = nil, copySourceIfUnmodifiedSince: Date? = nil, copySourceSSECustomerAlgorithm: String? = nil, copySourceSSECustomerKey: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, expectedBucketOwner: String? = nil, expectedSourceBucketOwner: String? = nil, expires: Date? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, metadataDirective: MetadataDirective? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, taggingDirective: TaggingDirective? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acl: ObjectCannedACL? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, copySource: String, copySourceIfMatch: String? = nil, copySourceIfModifiedSince: Date? = nil, copySourceIfNoneMatch: String? = nil, copySourceIfUnmodifiedSince: Date? = nil, copySourceSSECustomerAlgorithm: String? = nil, copySourceSSECustomerKey: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, expectedBucketOwner: String? = nil, expectedSourceBucketOwner: String? = nil, expires: String? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, metadataDirective: MetadataDirective? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, taggingDirective: TaggingDirective? = nil, websiteRedirectLocation: String? = nil) {
             self.acl = acl
             self.bucket = bucket
             self.bucketKeyEnabled = bucketKeyEnabled
@@ -1661,7 +1660,7 @@ extension S3 {
             request.encodeHeader(self.copySourceSSECustomerKeyMD5, key: "x-amz-copy-source-server-side-encryption-customer-key-MD5")
             request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
             request.encodeHeader(self.expectedSourceBucketOwner, key: "x-amz-source-expected-bucket-owner")
-            request.encodeHeader(self._expires, key: "Expires")
+            request.encodeHeader(self.expires, key: "Expires")
             request.encodeHeader(self.grantFullControl, key: "x-amz-grant-full-control")
             request.encodeHeader(self.grantRead, key: "x-amz-grant-read")
             request.encodeHeader(self.grantReadACP, key: "x-amz-grant-read-acp")
@@ -2058,8 +2057,7 @@ extension S3 {
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedBucketOwner: String?
         /// The date and time at which the object is no longer cacheable.
-        @OptionalCustomCoding<HTTPHeaderDateCoder>
-        public var expires: Date?
+        public let expires: String?
         /// Specify access permissions explicitly to give the grantee READ, READ_ACP, and WRITE_ACP permissions on the object. By default, all objects are private. Only the owner has full access control. When uploading an object, you can use this header to explicitly grant access permissions to specific Amazon Web Services accounts or groups. This header maps to specific permissions that Amazon S3 supports in an ACL. For more information, see Access Control List (ACL) Overview in the Amazon S3 User Guide. You specify each grantee as a type=value pair, where the type is one of the following:    id – if the value specified is the canonical user ID of an Amazon Web Services account    uri – if you are granting permissions to a predefined group    emailAddress – if the value specified is the email address of an Amazon Web Services account  Using email addresses to specify a grantee is only supported in the following Amazon Web Services Regions:    US East (N. Virginia)   US West (N. California)   US West (Oregon)   Asia Pacific (Singapore)   Asia Pacific (Sydney)   Asia Pacific (Tokyo)   Europe (Ireland)   South America (São Paulo)   For a list of all the Amazon S3 supported Regions and endpoints, see Regions and Endpoints in the Amazon Web Services General Reference.    For example, the following x-amz-grant-read header grants the Amazon Web Services accounts identified by account IDs permissions to read object data and its metadata:  x-amz-grant-read: id="11112222333", id="444455556666"      This functionality is not supported for directory buckets.   This functionality is not supported for Amazon S3 on Outposts.
         public let grantFullControl: String?
         /// Specify access permissions explicitly to allow grantee to read the object data and its metadata. By default, all objects are private. Only the owner has full access control. When uploading an object, you can use this header to explicitly grant access permissions to specific Amazon Web Services accounts or groups. This header maps to specific permissions that Amazon S3 supports in an ACL. For more information, see Access Control List (ACL) Overview in the Amazon S3 User Guide. You specify each grantee as a type=value pair, where the type is one of the following:    id – if the value specified is the canonical user ID of an Amazon Web Services account    uri – if you are granting permissions to a predefined group    emailAddress – if the value specified is the email address of an Amazon Web Services account  Using email addresses to specify a grantee is only supported in the following Amazon Web Services Regions:    US East (N. Virginia)   US West (N. California)   US West (Oregon)   Asia Pacific (Singapore)   Asia Pacific (Sydney)   Asia Pacific (Tokyo)   Europe (Ireland)   South America (São Paulo)   For a list of all the Amazon S3 supported Regions and endpoints, see Regions and Endpoints in the Amazon Web Services General Reference.    For example, the following x-amz-grant-read header grants the Amazon Web Services accounts identified by account IDs permissions to read object data and its metadata:  x-amz-grant-read: id="11112222333", id="444455556666"      This functionality is not supported for directory buckets.   This functionality is not supported for Amazon S3 on Outposts.
@@ -2104,7 +2102,7 @@ extension S3 {
         public let websiteRedirectLocation: String?
 
         @inlinable
-        public init(acl: ObjectCannedACL? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumType: ChecksumType? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: Date? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acl: ObjectCannedACL? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumType: ChecksumType? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: String? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acl = acl
             self.bucket = bucket
             self.bucketKeyEnabled = bucketKeyEnabled
@@ -2152,7 +2150,7 @@ extension S3 {
             request.encodeHeader(self.contentLanguage, key: "Content-Language")
             request.encodeHeader(self.contentType, key: "Content-Type")
             request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
-            request.encodeHeader(self._expires, key: "Expires")
+            request.encodeHeader(self.expires, key: "Expires")
             request.encodeHeader(self.grantFullControl, key: "x-amz-grant-full-control")
             request.encodeHeader(self.grantRead, key: "x-amz-grant-read")
             request.encodeHeader(self.grantReadACP, key: "x-amz-grant-read-acp")
@@ -4426,8 +4424,7 @@ extension S3 {
         /// If the object expiration is configured (see  PutBucketLifecycleConfiguration ), the response includes this header. It includes the expiry-date and rule-id key-value pairs providing object expiration information. The value of the rule-id is URL-encoded.  Object expiration information is not returned in directory buckets and this header returns the value "NotImplemented" in all responses for directory buckets.
         public let expiration: String?
         /// The date and time at which the object is no longer cacheable.
-        @OptionalCustomCoding<HTTPHeaderDateCoder>
-        public var expires: Date?
+        public let expires: String?
         /// Date and time when the object was last modified.  General purpose buckets  - When you specify a versionId of the object in your request, if the specified version in the request is a delete marker, the response returns a 405 Method Not Allowed error and the Last-Modified: timestamp response header.
         @OptionalCustomCoding<HTTPHeaderDateCoder>
         public var lastModified: Date?
@@ -4467,7 +4464,7 @@ extension S3 {
         public let websiteRedirectLocation: String?
 
         @inlinable
-        public init(acceptRanges: String? = nil, body: AWSHTTPBody, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumType: ChecksumType? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: Date? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acceptRanges: String? = nil, body: AWSHTTPBody, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumType: ChecksumType? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: String? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acceptRanges = acceptRanges
             self.body = body
             self.bucketKeyEnabled = bucketKeyEnabled
@@ -4530,7 +4527,7 @@ extension S3 {
             self.deleteMarker = try response.decodeHeaderIfPresent(Bool.self, key: "x-amz-delete-marker")
             self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
             self.expiration = try response.decodeHeaderIfPresent(String.self, key: "x-amz-expiration")
-            self.expires = try response.decodeHeaderIfPresent(Date.self, key: "Expires")
+            self.expires = try response.decodeHeaderIfPresent(String.self, key: "Expires")
             self.lastModified = try response.decodeHeaderIfPresent(Date.self, key: "Last-Modified")
             self.metadata = try response.decodeHeaderIfPresent([String: String].self, key: "x-amz-meta-")
             self.missingMeta = try response.decodeHeaderIfPresent(Int.self, key: "x-amz-missing-meta")
@@ -5030,8 +5027,7 @@ extension S3 {
         /// If the object expiration is configured (see  PutBucketLifecycleConfiguration ), the response includes this header. It includes the expiry-date and rule-id key-value pairs providing object expiration information. The value of the rule-id is URL-encoded.  Object expiration information is not returned in directory buckets and this header returns the value "NotImplemented" in all responses for directory buckets.
         public let expiration: String?
         /// The date and time at which the object is no longer cacheable.
-        @OptionalCustomCoding<HTTPHeaderDateCoder>
-        public var expires: Date?
+        public let expires: String?
         /// Date and time when the object was last modified.
         @OptionalCustomCoding<HTTPHeaderDateCoder>
         public var lastModified: Date?
@@ -5071,7 +5067,7 @@ extension S3 {
         public let websiteRedirectLocation: String?
 
         @inlinable
-        public init(acceptRanges: String? = nil, archiveStatus: ArchiveStatus? = nil, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumType: ChecksumType? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: Date? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acceptRanges: String? = nil, archiveStatus: ArchiveStatus? = nil, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumType: ChecksumType? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: String? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acceptRanges = acceptRanges
             self.archiveStatus = archiveStatus
             self.bucketKeyEnabled = bucketKeyEnabled
@@ -5133,7 +5129,7 @@ extension S3 {
             self.deleteMarker = try response.decodeHeaderIfPresent(Bool.self, key: "x-amz-delete-marker")
             self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
             self.expiration = try response.decodeHeaderIfPresent(String.self, key: "x-amz-expiration")
-            self.expires = try response.decodeHeaderIfPresent(Date.self, key: "Expires")
+            self.expires = try response.decodeHeaderIfPresent(String.self, key: "Expires")
             self.lastModified = try response.decodeHeaderIfPresent(Date.self, key: "Last-Modified")
             self.metadata = try response.decodeHeaderIfPresent([String: String].self, key: "x-amz-meta-")
             self.missingMeta = try response.decodeHeaderIfPresent(Int.self, key: "x-amz-missing-meta")
@@ -8698,8 +8694,7 @@ extension S3 {
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedBucketOwner: String?
         /// The date and time at which the object is no longer cacheable. For more information, see https://www.rfc-editor.org/rfc/rfc7234#section-5.3.
-        @OptionalCustomCoding<HTTPHeaderDateCoder>
-        public var expires: Date?
+        public let expires: String?
         /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.    This functionality is not supported for directory buckets.   This functionality is not supported for Amazon S3 on Outposts.
         public let grantFullControl: String?
         /// Allows grantee to read the object data and its metadata.    This functionality is not supported for directory buckets.   This functionality is not supported for Amazon S3 on Outposts.
@@ -8750,7 +8745,7 @@ extension S3 {
         public let writeOffsetBytes: Int64?
 
         @inlinable
-        public init(acl: ObjectCannedACL? = nil, body: AWSHTTPBody? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: Date? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, ifMatch: String? = nil, ifNoneMatch: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil, writeOffsetBytes: Int64? = nil) {
+        public init(acl: ObjectCannedACL? = nil, body: AWSHTTPBody? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: String? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, ifMatch: String? = nil, ifNoneMatch: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil, writeOffsetBytes: Int64? = nil) {
             self.acl = acl
             self.body = body
             self.bucket = bucket
@@ -8815,7 +8810,7 @@ extension S3 {
             request.encodeHeader(self.contentMD5, key: "Content-MD5")
             request.encodeHeader(self.contentType, key: "Content-Type")
             request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
-            request.encodeHeader(self._expires, key: "Expires")
+            request.encodeHeader(self.expires, key: "Expires")
             request.encodeHeader(self.grantFullControl, key: "x-amz-grant-full-control")
             request.encodeHeader(self.grantRead, key: "x-amz-grant-read")
             request.encodeHeader(self.grantReadACP, key: "x-amz-grant-read-acp")
@@ -9066,7 +9061,7 @@ extension S3 {
     }
 
     public struct RecordsEvent: AWSDecodableShape {
-        /// The byte array of partial, one or more result records. S3 Select doesn't guarantee that a record will be self-contained in one record frame. To ensure continuous streaming of data, S3 Select might split the same record across multiple record frames instead of aggregating the results in memory. Some S3 clients (for example, the SDKforJava) handle this behavior by creating a ByteStream out of the response by default. Other clients might not handle this behavior by default. In those cases, you must aggregate the results on the client side and parse the response.
+        /// The byte array of partial, one or more result records. S3 Select doesn't guarantee that a record will be self-contained in one record frame. To ensure continuous streaming of data, S3 Select might split the same record across multiple record frames instead of aggregating the results in memory. Some S3 clients (for example, the SDK for Java) handle this behavior by creating a ByteStream out of the response by default. Other clients might not handle this behavior by default. In those cases, you must aggregate the results on the client side and parse the response.
         public let payload: AWSEventPayload
 
         @inlinable
@@ -10610,8 +10605,7 @@ extension S3 {
         /// If the object expiration is configured (see PUT Bucket lifecycle), the response includes this header. It includes the expiry-date and rule-id key-value pairs that provide the object expiration information. The value of the rule-id is URL-encoded.
         public let expiration: String?
         /// The date and time at which the object is no longer cacheable.
-        @OptionalCustomCoding<HTTPHeaderDateCoder>
-        public var expires: Date?
+        public let expires: String?
         /// The date and time that the object was last modified.
         @OptionalCustomCoding<HTTPHeaderDateCoder>
         public var lastModified: Date?
@@ -10655,7 +10649,7 @@ extension S3 {
         public let versionId: String?
 
         @inlinable
-        public init(acceptRanges: String? = nil, body: AWSHTTPBody? = nil, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, errorCode: String? = nil, errorMessage: String? = nil, eTag: String? = nil, expiration: String? = nil, expires: Date? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, requestRoute: String, requestToken: String, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, statusCode: Int? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil) {
+        public init(acceptRanges: String? = nil, body: AWSHTTPBody? = nil, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, errorCode: String? = nil, errorMessage: String? = nil, eTag: String? = nil, expiration: String? = nil, expires: String? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, requestRoute: String, requestToken: String, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, statusCode: Int? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil) {
             self.acceptRanges = acceptRanges
             self.body = body
             self.bucketKeyEnabled = bucketKeyEnabled
@@ -10722,7 +10716,7 @@ extension S3 {
             request.encodeHeader(self.errorMessage, key: "x-amz-fwd-error-message")
             request.encodeHeader(self.eTag, key: "x-amz-fwd-header-ETag")
             request.encodeHeader(self.expiration, key: "x-amz-fwd-header-x-amz-expiration")
-            request.encodeHeader(self._expires, key: "x-amz-fwd-header-Expires")
+            request.encodeHeader(self.expires, key: "x-amz-fwd-header-Expires")
             request.encodeHeader(self._lastModified, key: "x-amz-fwd-header-Last-Modified")
             request.encodeHeader(self.metadata, key: "x-amz-meta-")
             request.encodeHeader(self.missingMeta, key: "x-amz-fwd-header-x-amz-missing-meta")

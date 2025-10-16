@@ -544,6 +544,7 @@ public struct GeoMapsErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
         case internalServerException = "InternalServerException"
+        case resourceNotFoundException = "ResourceNotFoundException"
         case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
     }
@@ -570,6 +571,8 @@ public struct GeoMapsErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The request processing has failed because of an unknown error, exception or failure.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// Exception thrown when the associated resource could not be found.
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The input fails to satisfy the constraints specified by an AWS service.

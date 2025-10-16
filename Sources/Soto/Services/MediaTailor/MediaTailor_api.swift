@@ -964,8 +964,8 @@ public struct MediaTailor: AWSService {
     /// Lists the alerts that are associated with a MediaTailor channel assembly resource.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of alerts that you want MediaTailor to return in response to the current request. If there are more than MaxResults alerts, use the value of NextToken in the response to get the next page of results.
-    ///   - nextToken: Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
+    ///   - maxResults: The maximum number of alerts that you want MediaTailor to return in response to the current request. If there are more than MaxResults alerts, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses DynamoDB-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
+    ///   - nextToken: Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results. For the first ListAlerts request, omit this value. For subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. Continue making requests until the response no longer includes a NextToken value, which indicates that all results have been retrieved.
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource.
     ///   - logger: Logger use during operation
     @inlinable
@@ -999,8 +999,8 @@ public struct MediaTailor: AWSService {
     /// Retrieves information about the channels that are associated with the current AWS account.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of channels that you want MediaTailor to return in response to the current request. If there are more than MaxResults channels, use the value of NextToken in the response to get the next page of results.
-    ///   - nextToken: Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
+    ///   - maxResults: The maximum number of channels that you want MediaTailor to return in response to the current request. If there are more than MaxResults channels, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses DynamoDB-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
+    ///   - nextToken: Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results. For the first ListChannels request, omit this value. For subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. Continue making requests until the response no longer includes a NextToken value, which indicates that all results have been retrieved.
     ///   - logger: Logger use during operation
     @inlinable
     public func listChannels(
@@ -1031,8 +1031,8 @@ public struct MediaTailor: AWSService {
     /// Lists the live sources contained in a source location. A source represents a piece of content.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of live sources that you want MediaTailor to return in response to the current request. If there are more than MaxResults live sources, use the value of NextToken in the response to get the next page of results.
-    ///   - nextToken: Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
+    ///   - maxResults: The maximum number of live sources that you want MediaTailor to return in response to the current request. If there are more than MaxResults live sources, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses DynamoDB-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
+    ///   - nextToken: Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results. For the first ListLiveSources request, omit this value. For subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. Continue making requests until the response no longer includes a NextToken value, which indicates that all results have been retrieved.
     ///   - sourceLocationName: The name of the source location associated with this Live Sources list.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1066,8 +1066,8 @@ public struct MediaTailor: AWSService {
     /// Retrieves existing playback configurations. For information about MediaTailor configurations, see Working with Configurations in AWS Elemental MediaTailor.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of playback configurations that you want MediaTailor to return in response to the current request. If there are more than MaxResults playback configurations, use the value of NextToken in the response to get the next page of results.
-    ///   - nextToken: Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
+    ///   - maxResults: The maximum number of playback configurations that you want MediaTailor to return in response to the current request. If there are more than MaxResults playback configurations, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses DynamoDB-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
+    ///   - nextToken: Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results. For the first ListPlaybackConfigurations request, omit this value. For subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. Continue making requests until the response no longer includes a NextToken value, which indicates that all results have been retrieved.
     ///   - logger: Logger use during operation
     @inlinable
     public func listPlaybackConfigurations(
@@ -1098,8 +1098,8 @@ public struct MediaTailor: AWSService {
     /// Lists the prefetch schedules for a playback configuration.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of prefetch schedules that you want MediaTailor to return in response to the current request. If there are more than MaxResults prefetch schedules, use the value of NextToken in the response to get the next page of results.
-    ///   - nextToken: (Optional) If the playback configuration has more than MaxResults prefetch schedules, use NextToken to get the second and subsequent pages of results.  For the first ListPrefetchSchedulesRequest request, omit this value.  For the second and subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request.  If the previous response didn't include a NextToken element, there are no more prefetch schedules to get.
+    ///   - maxResults: The maximum number of prefetch schedules that you want MediaTailor to return in response to the current request. If there are more than MaxResults prefetch schedules, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses DynamoDB-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
+    ///   - nextToken: Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results. For the first ListPrefetchSchedules request, omit this value. For subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. Continue making requests until the response no longer includes a NextToken value, which indicates that all results have been retrieved.
     ///   - playbackConfigurationName: Retrieves the prefetch schedule(s) for a specific playback configuration.
     ///   - scheduleType: The type of prefetch schedules that you want to list. SINGLE indicates that you want to list the configured single prefetch schedules. RECURRING indicates that you want to list the configured recurring prefetch schedules. ALL indicates that you want to list all configured prefetch schedules.
     ///   - streamId: An optional filtering parameter whereby MediaTailor filters the prefetch schedules to include only specific streams.
@@ -1139,8 +1139,8 @@ public struct MediaTailor: AWSService {
     /// Lists the source locations for a channel. A source location defines the host server URL, and contains a list of sources.
     ///
     /// Parameters:
-    ///   - maxResults:  The maximum number of source locations that you want MediaTailor to return in response to the current request. If there are more than MaxResults source locations, use the value of NextToken in the response to get the next page of results.
-    ///   - nextToken: Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
+    ///   - maxResults:  The maximum number of source locations that you want MediaTailor to return in response to the current request. If there are more than MaxResults source locations, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses DynamoDB-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
+    ///   - nextToken: Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results. For the first ListSourceLocations request, omit this value. For subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. Continue making requests until the response no longer includes a NextToken value, which indicates that all results have been retrieved.
     ///   - logger: Logger use during operation
     @inlinable
     public func listSourceLocations(
@@ -1200,8 +1200,8 @@ public struct MediaTailor: AWSService {
     /// Lists the VOD sources contained in a source location. A source represents a piece of content.
     ///
     /// Parameters:
-    ///   - maxResults:  The maximum number of VOD sources that you want MediaTailor to return in response to the current request. If there are more than MaxResults VOD sources, use the value of NextToken in the response to get the next page of results.
-    ///   - nextToken: Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
+    ///   - maxResults:  The maximum number of VOD sources that you want MediaTailor to return in response to the current request. If there are more than MaxResults VOD sources, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses DynamoDB-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
+    ///   - nextToken: Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results. For the first ListVodSources request, omit this value. For subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. Continue making requests until the response no longer includes a NextToken value, which indicates that all results have been retrieved.
     ///   - sourceLocationName: The name of the source location associated with this VOD Source list.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1718,7 +1718,7 @@ extension MediaTailor {
     /// Return PaginatorSequence for operation ``listAlerts(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of alerts that you want MediaTailor to return in response to the current request. If there are more than MaxResults alerts, use the value of NextToken in the response to get the next page of results.
+    ///   - maxResults: The maximum number of alerts that you want MediaTailor to return in response to the current request. If there are more than MaxResults alerts, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses DynamoDB-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource.
     ///   - logger: Logger used for logging
     @inlinable
@@ -1755,7 +1755,7 @@ extension MediaTailor {
     /// Return PaginatorSequence for operation ``listChannels(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of channels that you want MediaTailor to return in response to the current request. If there are more than MaxResults channels, use the value of NextToken in the response to get the next page of results.
+    ///   - maxResults: The maximum number of channels that you want MediaTailor to return in response to the current request. If there are more than MaxResults channels, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses DynamoDB-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
     ///   - logger: Logger used for logging
     @inlinable
     public func listChannelsPaginator(
@@ -1789,7 +1789,7 @@ extension MediaTailor {
     /// Return PaginatorSequence for operation ``listLiveSources(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of live sources that you want MediaTailor to return in response to the current request. If there are more than MaxResults live sources, use the value of NextToken in the response to get the next page of results.
+    ///   - maxResults: The maximum number of live sources that you want MediaTailor to return in response to the current request. If there are more than MaxResults live sources, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses DynamoDB-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
     ///   - sourceLocationName: The name of the source location associated with this Live Sources list.
     ///   - logger: Logger used for logging
     @inlinable
@@ -1826,7 +1826,7 @@ extension MediaTailor {
     /// Return PaginatorSequence for operation ``listPlaybackConfigurations(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of playback configurations that you want MediaTailor to return in response to the current request. If there are more than MaxResults playback configurations, use the value of NextToken in the response to get the next page of results.
+    ///   - maxResults: The maximum number of playback configurations that you want MediaTailor to return in response to the current request. If there are more than MaxResults playback configurations, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses DynamoDB-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
     ///   - logger: Logger used for logging
     @inlinable
     public func listPlaybackConfigurationsPaginator(
@@ -1860,7 +1860,7 @@ extension MediaTailor {
     /// Return PaginatorSequence for operation ``listPrefetchSchedules(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of prefetch schedules that you want MediaTailor to return in response to the current request. If there are more than MaxResults prefetch schedules, use the value of NextToken in the response to get the next page of results.
+    ///   - maxResults: The maximum number of prefetch schedules that you want MediaTailor to return in response to the current request. If there are more than MaxResults prefetch schedules, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses DynamoDB-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
     ///   - playbackConfigurationName: Retrieves the prefetch schedule(s) for a specific playback configuration.
     ///   - scheduleType: The type of prefetch schedules that you want to list. SINGLE indicates that you want to list the configured single prefetch schedules. RECURRING indicates that you want to list the configured recurring prefetch schedules. ALL indicates that you want to list all configured prefetch schedules.
     ///   - streamId: An optional filtering parameter whereby MediaTailor filters the prefetch schedules to include only specific streams.
@@ -1903,7 +1903,7 @@ extension MediaTailor {
     /// Return PaginatorSequence for operation ``listSourceLocations(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults:  The maximum number of source locations that you want MediaTailor to return in response to the current request. If there are more than MaxResults source locations, use the value of NextToken in the response to get the next page of results.
+    ///   - maxResults:  The maximum number of source locations that you want MediaTailor to return in response to the current request. If there are more than MaxResults source locations, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses DynamoDB-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
     ///   - logger: Logger used for logging
     @inlinable
     public func listSourceLocationsPaginator(
@@ -1937,7 +1937,7 @@ extension MediaTailor {
     /// Return PaginatorSequence for operation ``listVodSources(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults:  The maximum number of VOD sources that you want MediaTailor to return in response to the current request. If there are more than MaxResults VOD sources, use the value of NextToken in the response to get the next page of results.
+    ///   - maxResults:  The maximum number of VOD sources that you want MediaTailor to return in response to the current request. If there are more than MaxResults VOD sources, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses DynamoDB-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
     ///   - sourceLocationName: The name of the source location associated with this VOD Source list.
     ///   - logger: Logger used for logging
     @inlinable

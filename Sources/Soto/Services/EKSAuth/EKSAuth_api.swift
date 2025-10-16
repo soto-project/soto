@@ -132,6 +132,7 @@ public struct EKSAuth: AWSService {
             "ap-southeast-3": "eks-auth-fips.ap-southeast-3.api.aws",
             "ap-southeast-4": "eks-auth-fips.ap-southeast-4.api.aws",
             "ap-southeast-5": "eks-auth-fips.ap-southeast-5.api.aws",
+            "ap-southeast-6": "eks-auth-fips.ap-southeast-6.api.aws",
             "ap-southeast-7": "eks-auth-fips.ap-southeast-7.api.aws",
             "ca-central-1": "eks-auth-fips.ca-central-1.api.aws",
             "ca-west-1": "eks-auth-fips.ca-west-1.api.aws",

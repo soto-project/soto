@@ -69,7 +69,9 @@ extension ConnectCases {
 
     public enum RelatedItemType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case comment = "Comment"
+        case connectCase = "ConnectCase"
         case contact = "Contact"
+        case custom = "Custom"
         case file = "File"
         case sla = "Sla"
         public var description: String { return self.rawValue }
@@ -77,6 +79,12 @@ extension ConnectCases {
 
     public enum RuleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case required = "Required"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SearchAllRelatedItemsSortProperty: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case associationTime = "AssociationTime"
+        case caseId = "CaseId"
         public var description: String { return self.rawValue }
     }
 
@@ -205,6 +213,54 @@ extension ConnectCases {
         case not(CaseFilter)
         /// Provides "or all" filtering.
         case orAll([CaseFilter])
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .andAll(let value):
+                try container.encode(value, forKey: .andAll)
+            case .field(let value):
+                try container.encode(value, forKey: .field)
+            case .not(let value):
+                try container.encode(value, forKey: .not)
+            case .orAll(let value):
+                try container.encode(value, forKey: .orAll)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .andAll(let value):
+                try value.forEach {
+                    try $0.validate(name: "\(name).andAll[]")
+                }
+            case .field(let value):
+                try value.validate(name: "\(name).field")
+            case .not(let value):
+                try value.validate(name: "\(name).not")
+            case .orAll(let value):
+                try value.forEach {
+                    try $0.validate(name: "\(name).orAll[]")
+                }
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case andAll = "andAll"
+            case field = "field"
+            case not = "not"
+            case orAll = "orAll"
+        }
+    }
+
+    public indirect enum CustomFieldsFilter: AWSEncodableShape, Sendable {
+        /// Provides "and all" filtering.
+        case andAll([CustomFieldsFilter])
+        case field(FieldFilter)
+        /// Excludes items matching the filter.
+        case not(CustomFieldsFilter)
+        /// Provides "or all" filtering.
+        case orAll([CustomFieldsFilter])
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
@@ -429,8 +485,12 @@ extension ConnectCases {
     public enum RelatedItemContent: AWSDecodableShape, Sendable {
         /// Represents the content of a comment to be returned to agents.
         case comment(CommentContent)
+        /// Represents the Amazon Connect case to be created as a related item.
+        case connectCase(ConnectCaseContent)
         /// Represents the content of a contact to be returned to agents.
         case contact(ContactContent)
+        /// Represents the content of a Custom type related item.
+        case custom(CustomContent)
         /// Represents the content of a File to be returned to agents.
         case file(FileContent)
         /// Represents the content of an SLA to be returned to agents.
@@ -449,9 +509,15 @@ extension ConnectCases {
             case .comment:
                 let value = try container.decode(CommentContent.self, forKey: .comment)
                 self = .comment(value)
+            case .connectCase:
+                let value = try container.decode(ConnectCaseContent.self, forKey: .connectCase)
+                self = .connectCase(value)
             case .contact:
                 let value = try container.decode(ContactContent.self, forKey: .contact)
                 self = .contact(value)
+            case .custom:
+                let value = try container.decode(CustomContent.self, forKey: .custom)
+                self = .custom(value)
             case .file:
                 let value = try container.decode(FileContent.self, forKey: .file)
                 self = .file(value)
@@ -463,7 +529,9 @@ extension ConnectCases {
 
         private enum CodingKeys: String, CodingKey {
             case comment = "comment"
+            case connectCase = "connectCase"
             case contact = "contact"
+            case custom = "custom"
             case file = "file"
             case sla = "sla"
         }
@@ -472,8 +540,12 @@ extension ConnectCases {
     public enum RelatedItemInputContent: AWSEncodableShape, Sendable {
         /// Represents the content of a comment to be returned to agents.
         case comment(CommentContent)
+        /// Represents the Amazon Connect case to be created as a related item.
+        case connectCase(ConnectCaseInputContent)
         /// Object representing a contact in Amazon Connect as an API request field.
         case contact(Contact)
+        /// Represents the content of a Custom type related item.
+        case custom(CustomInputContent)
         /// A file of related items.
         case file(FileContent)
         /// Represents the content of an SLA to be created.
@@ -484,8 +556,12 @@ extension ConnectCases {
             switch self {
             case .comment(let value):
                 try container.encode(value, forKey: .comment)
+            case .connectCase(let value):
+                try container.encode(value, forKey: .connectCase)
             case .contact(let value):
                 try container.encode(value, forKey: .contact)
+            case .custom(let value):
+                try container.encode(value, forKey: .custom)
             case .file(let value):
                 try container.encode(value, forKey: .file)
             case .sla(let value):
@@ -497,8 +573,12 @@ extension ConnectCases {
             switch self {
             case .comment(let value):
                 try value.validate(name: "\(name).comment")
+            case .connectCase(let value):
+                try value.validate(name: "\(name).connectCase")
             case .contact(let value):
                 try value.validate(name: "\(name).contact")
+            case .custom(let value):
+                try value.validate(name: "\(name).custom")
             case .file(let value):
                 try value.validate(name: "\(name).file")
             case .sla(let value):
@@ -508,7 +588,9 @@ extension ConnectCases {
 
         private enum CodingKeys: String, CodingKey {
             case comment = "comment"
+            case connectCase = "connectCase"
             case contact = "contact"
+            case custom = "custom"
             case file = "file"
             case sla = "sla"
         }
@@ -517,8 +599,12 @@ extension ConnectCases {
     public enum RelatedItemTypeFilter: AWSEncodableShape, Sendable {
         /// A filter for related items of type Comment.
         case comment(CommentFilter)
+        /// Represents the Amazon Connect case to be created as a related item.
+        case connectCase(ConnectCaseFilter)
         /// A filter for related items of type Contact.
         case contact(ContactFilter)
+        /// Represents the content of a Custom type related item.
+        case custom(CustomFilter)
         /// A filter for related items of this type of File.
         case file(FileFilter)
         ///  Filter for related items of type SLA.
@@ -529,8 +615,12 @@ extension ConnectCases {
             switch self {
             case .comment(let value):
                 try container.encode(value, forKey: .comment)
+            case .connectCase(let value):
+                try container.encode(value, forKey: .connectCase)
             case .contact(let value):
                 try container.encode(value, forKey: .contact)
+            case .custom(let value):
+                try container.encode(value, forKey: .custom)
             case .file(let value):
                 try container.encode(value, forKey: .file)
             case .sla(let value):
@@ -540,8 +630,12 @@ extension ConnectCases {
 
         public func validate(name: String) throws {
             switch self {
+            case .connectCase(let value):
+                try value.validate(name: "\(name).connectCase")
             case .contact(let value):
                 try value.validate(name: "\(name).contact")
+            case .custom(let value):
+                try value.validate(name: "\(name).custom")
             case .file(let value):
                 try value.validate(name: "\(name).file")
             case .sla(let value):
@@ -553,7 +647,9 @@ extension ConnectCases {
 
         private enum CodingKeys: String, CodingKey {
             case comment = "comment"
+            case connectCase = "connectCase"
             case contact = "contact"
+            case custom = "custom"
             case file = "file"
             case sla = "sla"
         }
@@ -1027,6 +1123,58 @@ extension ConnectCases {
 
     public struct CommentFilter: AWSEncodableShape {
         public init() {}
+    }
+
+    public struct ConnectCaseContent: AWSDecodableShape {
+        /// A unique identifier of the case.
+        public let caseId: String
+
+        @inlinable
+        public init(caseId: String) {
+            self.caseId = caseId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caseId = "caseId"
+        }
+    }
+
+    public struct ConnectCaseFilter: AWSEncodableShape {
+        /// A unique identifier of the case.
+        public let caseId: String?
+
+        @inlinable
+        public init(caseId: String? = nil) {
+            self.caseId = caseId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.caseId, name: "caseId", parent: name, max: 500)
+            try self.validate(self.caseId, name: "caseId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caseId = "caseId"
+        }
+    }
+
+    public struct ConnectCaseInputContent: AWSEncodableShape {
+        /// A unique identifier of the case.
+        public let caseId: String
+
+        @inlinable
+        public init(caseId: String) {
+            self.caseId = caseId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.caseId, name: "caseId", parent: name, max: 500)
+            try self.validate(self.caseId, name: "caseId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caseId = "caseId"
+        }
     }
 
     public struct Contact: AWSEncodableShape {
@@ -1533,6 +1681,58 @@ extension ConnectCases {
         private enum CodingKeys: String, CodingKey {
             case templateArn = "templateArn"
             case templateId = "templateId"
+        }
+    }
+
+    public struct CustomContent: AWSDecodableShape {
+        /// List of field values for the Custom related item.
+        public let fields: [FieldValue]
+
+        @inlinable
+        public init(fields: [FieldValue]) {
+            self.fields = fields
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
+        }
+    }
+
+    public struct CustomFilter: AWSEncodableShape {
+        /// Filter conditions for custom fields.
+        public let fields: CustomFieldsFilter?
+
+        @inlinable
+        public init(fields: CustomFieldsFilter? = nil) {
+            self.fields = fields
+        }
+
+        public func validate(name: String) throws {
+            try self.fields?.validate(name: "\(name).fields")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
+        }
+    }
+
+    public struct CustomInputContent: AWSEncodableShape {
+        /// List of field values for the Custom related item.
+        public let fields: [FieldValue]
+
+        @inlinable
+        public init(fields: [FieldValue]) {
+            self.fields = fields
+        }
+
+        public func validate(name: String) throws {
+            try self.fields.forEach {
+                try $0.validate(name: "\(name).fields[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
         }
     }
 
@@ -2074,7 +2274,7 @@ extension ConnectCases {
         public let caseId: String
         /// The unique identifier of the Cases domain.
         public let domainId: String
-        /// The maximum number of audit events to return. The current maximum supported value is 25. This is also the default when no other value is provided.
+        /// The maximum number of audit events to return. When no value is provided, 25 is the default.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -3175,6 +3375,128 @@ extension ConnectCases {
         }
     }
 
+    public struct SearchAllRelatedItemsRequest: AWSEncodableShape {
+        /// The unique identifier of the Cases domain.
+        public let domainId: String
+        /// The list of types of related items and their parameters to use for filtering. The filters work as an OR condition: caller gets back related items that match any of the specified filter types.
+        public let filters: [RelatedItemTypeFilter]?
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// A structured set of sort terms to specify the order in which related items should be returned. Supports sorting by association time or case ID. The sorts work in the order specified: first sort term takes precedence over subsequent terms.
+        public let sorts: [SearchAllRelatedItemsSort]?
+
+        @inlinable
+        public init(domainId: String, filters: [RelatedItemTypeFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sorts: [SearchAllRelatedItemsSort]? = nil) {
+            self.domainId = domainId
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sorts = sorts
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainId, key: "domainId")
+            try container.encodeIfPresent(self.filters, forKey: .filters)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.sorts, forKey: .sorts)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainId, name: "domainId", parent: name, max: 500)
+            try self.validate(self.domainId, name: "domainId", parent: name, min: 1)
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 9000)
+            try self.validate(self.sorts, name: "sorts", parent: name, max: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sorts = "sorts"
+        }
+    }
+
+    public struct SearchAllRelatedItemsResponse: AWSDecodableShape {
+        /// The token for the next set of results. This is null if there are no more results to return.
+        public let nextToken: String?
+        /// A list of items related to a case.
+        public let relatedItems: [SearchAllRelatedItemsResponseItem]
+
+        @inlinable
+        public init(nextToken: String? = nil, relatedItems: [SearchAllRelatedItemsResponseItem]) {
+            self.nextToken = nextToken
+            self.relatedItems = relatedItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case relatedItems = "relatedItems"
+        }
+    }
+
+    public struct SearchAllRelatedItemsResponseItem: AWSDecodableShape {
+        /// Time at which a related item was associated with a case.
+        @CustomCoding<ISO8601DateCoder>
+        public var associationTime: Date
+        /// A unique identifier of the case.
+        public let caseId: String
+        public let content: RelatedItemContent
+        public let performedBy: UserUnion?
+        /// Unique identifier of a related item.
+        public let relatedItemId: String
+        /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+        /// Type of a related item.
+        public let type: RelatedItemType
+
+        @inlinable
+        public init(associationTime: Date, caseId: String, content: RelatedItemContent, performedBy: UserUnion? = nil, relatedItemId: String, tags: [String: String]? = nil, type: RelatedItemType) {
+            self.associationTime = associationTime
+            self.caseId = caseId
+            self.content = content
+            self.performedBy = performedBy
+            self.relatedItemId = relatedItemId
+            self.tags = tags
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationTime = "associationTime"
+            case caseId = "caseId"
+            case content = "content"
+            case performedBy = "performedBy"
+            case relatedItemId = "relatedItemId"
+            case tags = "tags"
+            case type = "type"
+        }
+    }
+
+    public struct SearchAllRelatedItemsSort: AWSEncodableShape {
+        /// Whether related items should be sorted by association time or case ID.
+        public let sortOrder: Order
+        /// Whether related items should be sorted in ascending or descending order.
+        public let sortProperty: SearchAllRelatedItemsSortProperty
+
+        @inlinable
+        public init(sortOrder: Order, sortProperty: SearchAllRelatedItemsSortProperty) {
+            self.sortOrder = sortOrder
+            self.sortProperty = sortProperty
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortOrder = "sortOrder"
+            case sortProperty = "sortProperty"
+        }
+    }
+
     public struct SearchCasesRequest: AWSEncodableShape {
         /// The unique identifier of the Cases domain.
         public let domainId: String
@@ -3182,7 +3504,7 @@ extension ConnectCases {
         public let fields: [FieldIdentifier]?
         /// A list of filter objects.
         public let filter: CaseFilter?
-        /// The maximum number of cases to return. The current maximum supported value is 25. This is also the default value when no other value is provided.
+        /// The maximum number of cases to return. When no value is provided, 25 is the default.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?

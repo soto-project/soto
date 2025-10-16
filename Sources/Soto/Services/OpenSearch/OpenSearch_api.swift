@@ -196,7 +196,7 @@ public struct OpenSearch: AWSService {
         return try await self.addDataSource(input, logger: logger)
     }
 
-    ///  Adds a new data source in Amazon OpenSearch Service so that you can perform direct queries on external data.
+    ///  Adds a new data source in Amazon OpenSearch Service  so that you can perform direct queries on external data.
     @Sendable
     @inlinable
     public func addDirectQueryDataSource(_ input: AddDirectQueryDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddDirectQueryDataSourceResponse {
@@ -209,13 +209,13 @@ public struct OpenSearch: AWSService {
             logger: logger
         )
     }
-    ///  Adds a new data source in Amazon OpenSearch Service so that you can perform direct queries on external data.
+    ///  Adds a new data source in Amazon OpenSearch Service  so that you can perform direct queries on external data.
     ///
     /// Parameters:
-    ///   - dataSourceName:  A unique, user-defined label to identify the data source within your OpenSearch Service environment.
+    ///   - dataSourceName:  A unique, user-defined label to identify the data source  within your OpenSearch Service environment.
     ///   - dataSourceType:  The supported Amazon Web Services service that you want to use as the source for direct queries in OpenSearch Service.
     ///   - description:  An optional text field for providing additional context and details about the data source.
-    ///   - openSearchArns:  A list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source.
+    ///   - openSearchArns:  A list of Amazon Resource Names (ARNs) for the OpenSearch  collections that are associated with the direct query data source.
     ///   - tagList: 
     ///   - logger: Logger use during operation
     @inlinable
@@ -307,7 +307,7 @@ public struct OpenSearch: AWSService {
         return try await self.associatePackage(input, logger: logger)
     }
 
-    /// Operation in the Amazon OpenSearch Service API for associating multiple packages with a domain simultaneously.
+    /// Operation in the Amazon OpenSearch Service API for associating  multiple packages with a domain simultaneously.
     @Sendable
     @inlinable
     public func associatePackages(_ input: AssociatePackagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociatePackagesResponse {
@@ -320,7 +320,7 @@ public struct OpenSearch: AWSService {
             logger: logger
         )
     }
-    /// Operation in the Amazon OpenSearch Service API for associating multiple packages with a domain simultaneously.
+    /// Operation in the Amazon OpenSearch Service API for associating  multiple packages with a domain simultaneously.
     ///
     /// Parameters:
     ///   - domainName: 
@@ -508,7 +508,7 @@ public struct OpenSearch: AWSService {
     ///   - encryptionAtRestOptions: Key-value pairs to enable encryption at rest.
     ///   - engineVersion: String of format Elasticsearch_X.Y or OpenSearch_X.Y to specify the engine version for the OpenSearch Service domain. For example, OpenSearch_1.0 or Elasticsearch_7.9. For more information, see Creating and managing Amazon OpenSearch Service domains.
     ///   - identityCenterOptions: Configuration options for enabling and managing IAM Identity Center integration within a domain.
-    ///   - ipAddressType: Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option. If you set your IP address type to dual stack, you can't change your address type later.
+    ///   - ipAddressType: Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option.  If you set your IP address type to dual stack, you can't change your address type later.
     ///   - logPublishingOptions: Key-value pairs to configure log publishing.
     ///   - nodeToNodeEncryptionOptions: Enables node-to-node encryption.
     ///   - offPeakWindowOptions: Specifies a daily 10-hour time block during which OpenSearch Service can perform configuration changes on the domain, including service software updates and Auto-Tune enhancements that require a blue/green deployment. If no options are specified, the default start time of 10:00 P.M. local time (for the Region that the domain is created in) is used.
@@ -755,7 +755,7 @@ public struct OpenSearch: AWSService {
         return try await self.deleteDataSource(input, logger: logger)
     }
 
-    ///  Deletes a previously configured direct query data source from Amazon OpenSearch Service.
+    ///  Deletes a previously configured direct query data  source from Amazon OpenSearch Service.
     @Sendable
     @inlinable
     public func deleteDirectQueryDataSource(_ input: DeleteDirectQueryDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -768,10 +768,10 @@ public struct OpenSearch: AWSService {
             logger: logger
         )
     }
-    ///  Deletes a previously configured direct query data source from Amazon OpenSearch Service.
+    ///  Deletes a previously configured direct query data  source from Amazon OpenSearch Service.
     ///
     /// Parameters:
-    ///   - dataSourceName:  A unique, user-defined label to identify the data source within your OpenSearch Service environment.
+    ///   - dataSourceName:  A unique, user-defined label to identify the data source  within your OpenSearch Service environment.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteDirectQueryDataSource(
@@ -1569,7 +1569,7 @@ public struct OpenSearch: AWSService {
         return try await self.getDataSource(input, logger: logger)
     }
 
-    ///  Returns detailed configuration information for a specific direct query data source in Amazon OpenSearch Service.
+    ///  Returns detailed configuration information for  a specific direct query data source in Amazon OpenSearch Service.
     @Sendable
     @inlinable
     public func getDirectQueryDataSource(_ input: GetDirectQueryDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDirectQueryDataSourceResponse {
@@ -1582,10 +1582,10 @@ public struct OpenSearch: AWSService {
             logger: logger
         )
     }
-    ///  Returns detailed configuration information for a specific direct query data source in Amazon OpenSearch Service.
+    ///  Returns detailed configuration information for  a specific direct query data source in Amazon OpenSearch Service.
     ///
     /// Parameters:
-    ///   - dataSourceName:  A unique, user-defined label that identifies the data source within your OpenSearch Service environment.
+    ///   - dataSourceName:  A unique, user-defined label that identifies the data source within  your OpenSearch Service environment.
     ///   - logger: Logger use during operation
     @inlinable
     public func getDirectQueryDataSource(
@@ -1630,7 +1630,7 @@ public struct OpenSearch: AWSService {
         return try await self.getDomainMaintenanceStatus(input, logger: logger)
     }
 
-    /// Returns a list of Amazon OpenSearch Service package versions, along with their creation time, commit message, and plugin properties (if the package is a zip plugin package). For more information, see Custom packages for Amazon OpenSearch Service.
+    /// Returns a list of Amazon OpenSearch Service package versions, along with their creation time, commit message, and plugin properties (if the  package is a zip plugin package). For more information, see Custom packages for Amazon OpenSearch Service.
     @Sendable
     @inlinable
     public func getPackageVersionHistory(_ input: GetPackageVersionHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPackageVersionHistoryResponse {
@@ -1643,7 +1643,7 @@ public struct OpenSearch: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of Amazon OpenSearch Service package versions, along with their creation time, commit message, and plugin properties (if the package is a zip plugin package). For more information, see Custom packages for Amazon OpenSearch Service.
+    /// Returns a list of Amazon OpenSearch Service package versions, along with their creation time, commit message, and plugin properties (if the  package is a zip plugin package). For more information, see Custom packages for Amazon OpenSearch Service.
     ///
     /// Parameters:
     ///   - maxResults: An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
@@ -1764,7 +1764,7 @@ public struct OpenSearch: AWSService {
         return try await self.listApplications(input, logger: logger)
     }
 
-    /// Lists direct-query data sources for a specific domain. For more information, see For more information, see Working with Amazon OpenSearch Service direct queries with Amazon S3.
+    /// Lists direct-query data sources for a specific domain. For more information, see  For more information, see Working with Amazon OpenSearch Service direct queries with Amazon S3.
     @Sendable
     @inlinable
     public func listDataSources(_ input: ListDataSourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataSourcesResponse {
@@ -1777,7 +1777,7 @@ public struct OpenSearch: AWSService {
             logger: logger
         )
     }
-    /// Lists direct-query data sources for a specific domain. For more information, see For more information, see Working with Amazon OpenSearch Service direct queries with Amazon S3.
+    /// Lists direct-query data sources for a specific domain. For more information, see  For more information, see Working with Amazon OpenSearch Service direct queries with Amazon S3.
     ///
     /// Parameters:
     ///   - domainName: The name of the domain.
@@ -2488,10 +2488,10 @@ public struct OpenSearch: AWSService {
     ///  Updates the configuration or properties of an existing direct query data source in Amazon OpenSearch Service.
     ///
     /// Parameters:
-    ///   - dataSourceName:  A unique, user-defined label to identify the data source within your OpenSearch Service environment.
-    ///   - dataSourceType:  The supported Amazon Web Services service that you want to use as the source for direct queries in OpenSearch Service.
-    ///   - description:  An optional text field for providing additional context and details about the data source.
-    ///   - openSearchArns:  A list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source.
+    ///   - dataSourceName:  A unique, user-defined label to identify the data  source within your OpenSearch Service environment.
+    ///   - dataSourceType:  The supported Amazon Web Services service that you want to use as the source for  direct queries in OpenSearch Service.
+    ///   - description:  An optional text field for providing additional context and  details about the data source.
+    ///   - openSearchArns:  A list of Amazon Resource Names (ARNs) for the OpenSearch  collections that are associated with the direct query data source.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateDirectQueryDataSource(
@@ -2540,7 +2540,7 @@ public struct OpenSearch: AWSService {
     ///   - ebsOptions: The type and size of the EBS volume to attach to instances in the domain.
     ///   - encryptionAtRestOptions: Encryption at rest options for the domain.
     ///   - identityCenterOptions: 
-    ///   - ipAddressType: Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option. If your IP address type is currently set to dual stack, you can't change it.
+    ///   - ipAddressType: Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option.  If your IP address type is currently set to dual stack, you can't change it.
     ///   - logPublishingOptions: Options to publish OpenSearch logs to Amazon CloudWatch Logs.
     ///   - nodeToNodeEncryptionOptions: Node-to-node encryption options for the domain.
     ///   - offPeakWindowOptions: Off-peak window options for the domain.

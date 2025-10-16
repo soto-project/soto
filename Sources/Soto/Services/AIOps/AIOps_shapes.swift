@@ -34,9 +34,9 @@ extension AIOps {
     // MARK: Shapes
 
     public struct CreateInvestigationGroupInput: AWSEncodableShape {
-        /// Use this structure to integrate CloudWatch investigations with Amazon Q in chat applications. This structure is a string array. For the first string, specify the ARN of an Amazon SNS topic. For the array of strings, specify the ARNs of one or more Amazon Q in chat applications configurations that you want to associate with that topic. For more information about these configuration ARNs, see Getting started with Amazon Q in chat applications and Resource type defined by Amazon Web Services Chatbot.
+        /// Use this structure to integrate CloudWatch investigations with chat applications. This structure is a string array. For the first string, specify the ARN of an Amazon SNS topic. For the array of strings, specify the ARNs of one or more chat applications configurations that you want to associate with that topic. For more information about these configuration ARNs, see Getting started with Amazon Q in chat applications and Resource type defined by Amazon Web Services Chatbot.
         public let chatbotNotificationChannel: [String: [String]]?
-        /// Number of sourceAccountId values that have been configured for cross-account access.
+        /// List of sourceRoleArn values that have been configured for cross-account access.
         public let crossAccountConfigurations: [CrossAccountConfiguration]?
         /// Use this structure if you want to use a customer managed KMS key to encrypt your investigation data. If you omit this parameter, CloudWatch investigations will use an Amazon Web Services key to encrypt the data. For more information, see Encryption of investigation data.
         public let encryptionConfiguration: EncryptionConfiguration?
@@ -46,9 +46,9 @@ extension AIOps {
         public let name: String
         /// Specify how long that investigation data is kept. For more information, see Operational investigation data retention.  If you omit this parameter, the default of 90 days is used.
         public let retentionInDays: Int64?
-        /// Specify the ARN of the IAM role that CloudWatch investigations will use when it gathers investigation data. The permissions in this role determine which of your resources that CloudWatch investigations will have access to during investigations. For more information, see How to control what data Amazon Q has access to during investigations.
+        /// Specify the ARN of the IAM role that CloudWatch investigations will use when it gathers investigation data. The permissions in this role determine which of your resources that CloudWatch investigations will have access to during investigations. For more information, see How to control what data CloudWatch investigations has access to during investigations.
         public let roleArn: String
-        /// Enter the existing custom tag keys for custom applications in your system. Resource tags help Amazon Q narrow the search space when it is unable to discover definite relationships between resources. For example, to discover that an Amazon ECS service depends on an Amazon RDS database, Amazon Q can discover this relationship using data sources such as X-Ray and CloudWatch Application Signals. However, if you haven't deployed these features, Amazon Q will attempt to identify possible relationships. Tag boundaries can be used to narrow the resources that will be discovered by Amazon Q in these cases. You don't need to enter tags created by myApplications or CloudFormation, because Amazon Q can automatically detect those tags.
+        /// Enter the existing custom tag keys for custom applications in your system. Resource tags help CloudWatch investigations narrow the search space when it is unable to discover definite relationships between resources. For example, to discover that an Amazon ECS service depends on an Amazon RDS database, CloudWatch investigations can discover this relationship using data sources such as X-Ray and CloudWatch Application Signals. However, if you haven't deployed these features, CloudWatch investigations will attempt to identify possible relationships. Tag boundaries can be used to narrow the resources that will be discovered by CloudWatch investigations in these cases. You don't need to enter tags created by myApplications or CloudFormation, because CloudWatch investigations can automatically detect those tags.
         public let tagKeyBoundaries: [String]?
         /// A list of key-value pairs to associate with the investigation group. You can associate as many as 50 tags with an investigation group. To be able to associate tags when you create the investigation group, you must have the cloudwatch:TagResource permission. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values.
         public let tags: [String: String]?
@@ -200,7 +200,7 @@ extension AIOps {
     public struct EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// If the investigation group uses a customer managed key for encryption, this field displays the ID of that key.
         public let kmsKeyId: String?
-        /// Displays whether investigation data is encrypted by a customer managed key or an Amazon Web Services owned kay.
+        /// Displays whether investigation data is encrypted by a customer managed key or an Amazon Web Services owned key.
         public let type: EncryptionConfigurationType?
 
         @inlinable
@@ -262,7 +262,7 @@ extension AIOps {
     }
 
     public struct GetInvestigationGroupRequest: AWSEncodableShape {
-        /// Specify either the name or the ARN of the investigation group that you want to view.
+        /// Specify either the name or the ARN of the investigation group that you want to view. This is used to set the name of the investigation group.
         public let identifier: String
 
         @inlinable
@@ -286,10 +286,10 @@ extension AIOps {
     public struct GetInvestigationGroupResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the investigation group.
         public let arn: String?
-        /// This structure is a string array. The first string is the ARN of a Amazon SNS topic. The array of strings display the ARNs of Amazon Q in chat applications configurations that are associated with that topic. For more information about these configuration ARNs, see Getting started with Amazon Q in chat applications and Resource type defined by Amazon Web Services Chatbot.
+        /// This structure is a string array. The first string is the ARN of a Amazon SNS topic. The array of strings display the ARNs of chat applications configurations that are associated with that topic. For more information about these configuration ARNs, see Getting started with Amazon Q in chat applications and Resource type defined by Amazon Web Services Chatbot.
         public let chatbotNotificationChannel: [String: [String]]?
         /// The date and time that the investigation group was created.
-        public let createdAt: Date?
+        public let createdAt: Int64?
         /// The name of the user who created the investigation group.
         public let createdBy: String?
         /// Lists the AWSAccountId of the accounts configured for cross-account access and the results of the last scan performed on each account.
@@ -299,7 +299,7 @@ extension AIOps {
         /// Specifies whether CloudWatch investigationshas access to change events that are recorded by CloudTrail.
         public let isCloudTrailEventHistoryEnabled: Bool?
         /// The date and time that the investigation group was most recently modified.
-        public let lastModifiedAt: Date?
+        public let lastModifiedAt: Int64?
         /// The name of the user who created the investigation group.
         public let lastModifiedBy: String?
         /// The name of the investigation group.
@@ -308,11 +308,11 @@ extension AIOps {
         public let retentionInDays: Int64?
         /// The ARN of the IAM role that the investigation group uses for permissions to gather data.
         public let roleArn: String?
-        /// Displays the custom tag keys for custom applications in your system that you have specified in the investigation group. Resource tags help Amazon Q narrow the search space when it is unable to discover definite relationships between resources.
+        /// Displays the custom tag keys for custom applications in your system that you have specified in the investigation group. Resource tags help CloudWatch investigations narrow the search space when it is unable to discover definite relationships between resources.
         public let tagKeyBoundaries: [String]?
 
         @inlinable
-        public init(arn: String? = nil, chatbotNotificationChannel: [String: [String]]? = nil, createdAt: Date? = nil, createdBy: String? = nil, crossAccountConfigurations: [CrossAccountConfiguration]? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, isCloudTrailEventHistoryEnabled: Bool? = nil, lastModifiedAt: Date? = nil, lastModifiedBy: String? = nil, name: String? = nil, retentionInDays: Int64? = nil, roleArn: String? = nil, tagKeyBoundaries: [String]? = nil) {
+        public init(arn: String? = nil, chatbotNotificationChannel: [String: [String]]? = nil, createdAt: Int64? = nil, createdBy: String? = nil, crossAccountConfigurations: [CrossAccountConfiguration]? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, isCloudTrailEventHistoryEnabled: Bool? = nil, lastModifiedAt: Int64? = nil, lastModifiedBy: String? = nil, name: String? = nil, retentionInDays: Int64? = nil, roleArn: String? = nil, tagKeyBoundaries: [String]? = nil) {
             self.arn = arn
             self.chatbotNotificationChannel = chatbotNotificationChannel
             self.createdAt = createdAt
@@ -553,7 +553,7 @@ extension AIOps {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the resource that you want to remove the tags from. You can use the ListInvestigationGroups operation to find the ARNs of investigation groups.
+        /// The Amazon Resource Name (ARN) of the resource that you want to remove the tags from. You can use theListInvestigationGroups operation to find the ARNs of investigation groups.
         public let resourceArn: String
         /// The list of tag keys to remove from the resource.
         public let tagKeys: [String]
@@ -592,7 +592,7 @@ extension AIOps {
     }
 
     public struct UpdateInvestigationGroupRequest: AWSEncodableShape {
-        /// Use this structure to integrate CloudWatch investigations with Amazon Q in chat applications. This structure is a string array. For the first string, specify the ARN of an Amazon SNS topic. For the array of strings, specify the ARNs of one or more Amazon Q in chat applications configurations that you want to associate with that topic. For more information about these configuration ARNs, see Getting started with Amazon Q in chat applications and Resource type defined by Amazon Web Services Chatbot.
+        /// Use this structure to integrate CloudWatch investigations with chat applications. This structure is a string array. For the first string, specify the ARN of an Amazon SNS topic. For the array of strings, specify the ARNs of one or more chat applications configurations that you want to associate with that topic. For more information about these configuration ARNs, see Getting started with Amazon Q in chat applications and Resource type defined by Amazon Web Services Chatbot.
         public let chatbotNotificationChannel: [String: [String]]?
         /// Used to configure cross-account access for an investigation group. It allows the investigation group to access resources in other accounts.
         public let crossAccountConfigurations: [CrossAccountConfiguration]?
@@ -602,9 +602,9 @@ extension AIOps {
         public let identifier: String
         /// Specify true to enable CloudWatch investigations to have access to change events that are recorded by CloudTrail. The default is true.
         public let isCloudTrailEventHistoryEnabled: Bool?
-        /// Specify this field if you want to change the IAM role that CloudWatch investigations will use when it gathers investigation data. To do so, specify the ARN of the new role. The permissions in this role determine which of your resources that CloudWatch investigations will have access to during investigations. For more information, see EHow to control what data Amazon Q has access to during investigations.
+        /// Specify this field if you want to change the IAM role that CloudWatch investigations will use when it gathers investigation data. To do so, specify the ARN of the new role. The permissions in this role determine which of your resources that CloudWatch investigations will have access to during investigations. For more information, see How to control what data CloudWatch investigations has access to during investigations.
         public let roleArn: String?
-        /// Enter the existing custom tag keys for custom applications in your system. Resource tags help Amazon Q narrow the search space when it is unable to discover definite relationships between resources. For example, to discover that an Amazon ECS service depends on an Amazon RDS database, Amazon Q can discover this relationship using data sources such as X-Ray and CloudWatch Application Signals. However, if you haven't deployed these features, Amazon Q will attempt to identify possible relationships. Tag boundaries can be used to narrow the resources that will be discovered by Amazon Q in these cases. You don't need to enter tags created by myApplications or CloudFormation, because Amazon Q can automatically detect those tags.
+        /// Enter the existing custom tag keys for custom applications in your system. Resource tags help CloudWatch investigations narrow the search space when it is unable to discover definite relationships between resources. For example, to discover that an Amazon ECS service depends on an Amazon RDS database, CloudWatch investigations can discover this relationship using data sources such as X-Ray and CloudWatch Application Signals. However, if you haven't deployed these features, CloudWatch investigations will attempt to identify possible relationships. Tag boundaries can be used to narrow the resources that will be discovered by CloudWatch investigations in these cases. You don't need to enter tags created by myApplications or CloudFormation, because CloudWatch investigations can automatically detect those tags.
         public let tagKeyBoundaries: [String]?
 
         @inlinable

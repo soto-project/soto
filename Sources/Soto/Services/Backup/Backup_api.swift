@@ -1326,16 +1326,19 @@ public struct Backup: AWSService {
     ///
     /// Parameters:
     ///   - backupPlanId: Uniquely identifies a backup plan.
+    ///   - maxScheduledRunsPreview: Number of future scheduled backup runs to preview. When set to 0 (default), no scheduled runs preview is included in the response. Valid range is 0-10.
     ///   - versionId: Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version IDs cannot be edited.
     ///   - logger: Logger use during operation
     @inlinable
     public func getBackupPlan(
         backupPlanId: String,
+        maxScheduledRunsPreview: Int? = nil,
         versionId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetBackupPlanOutput {
         let input = GetBackupPlanInput(
             backupPlanId: backupPlanId, 
+            maxScheduledRunsPreview: maxScheduledRunsPreview, 
             versionId: versionId
         )
         return try await self.getBackupPlan(input, logger: logger)
@@ -3020,7 +3023,7 @@ public struct Backup: AWSService {
         return try await self.startBackupJob(input, logger: logger)
     }
 
-    /// Starts a job to create a one-time copy of the specified resource. Does not support continuous backups.
+    /// Starts a job to create a one-time copy of the specified resource. Does not support continuous backups. See Copy  job retry for information on how Backup retries copy job  operations.
     @Sendable
     @inlinable
     public func startCopyJob(_ input: StartCopyJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartCopyJobOutput {
@@ -3033,7 +3036,7 @@ public struct Backup: AWSService {
             logger: logger
         )
     }
-    /// Starts a job to create a one-time copy of the specified resource. Does not support continuous backups.
+    /// Starts a job to create a one-time copy of the specified resource. Does not support continuous backups. See Copy  job retry for information on how Backup retries copy job  operations.
     ///
     /// Parameters:
     ///   - destinationBackupVaultArn: An Amazon Resource Name (ARN) that uniquely identifies a destination backup vault to copy to; for example, arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault.
@@ -3319,7 +3322,7 @@ public struct Backup: AWSService {
     /// Updates whether the Amazon Web Services account is opted in to cross-account backup. Returns an error if the account is not an Organizations management account. Use the DescribeGlobalSettings API to determine the current settings.
     ///
     /// Parameters:
-    ///   - globalSettings: A value for isCrossAccountBackupEnabled and a Region. Example: update-global-settings --global-settings isCrossAccountBackupEnabled=false --region us-west-2.
+    ///   - globalSettings: Inputs can include: A value for isCrossAccountBackupEnabled and a Region. Example: update-global-settings --global-settings isCrossAccountBackupEnabled=false --region us-west-2. A value for Multi-party approval, styled as "Mpa": isMpaEnabled. Values can be true or false. Example: update-global-settings --global-settings isMpaEnabled=false --region us-west-2.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateGlobalSettings(

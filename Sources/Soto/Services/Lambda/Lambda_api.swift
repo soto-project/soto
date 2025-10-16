@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS Lambda service.
 ///
-/// Lambda  Overview  Lambda is a compute service that lets you run code without provisioning or managing servers. Lambda runs your code on a high-availability compute infrastructure and performs all of the administration of the compute resources, including server and operating system maintenance, capacity provisioning and automatic scaling, code monitoring and logging. With Lambda, you can run code for virtually any type of application or backend service. For more information about the Lambda service, see What is Lambda in the Lambda Developer Guide. The Lambda API Reference provides information about each of the API methods, including details about the parameters in each API request and response.   You can use Software Development Kits (SDKs), Integrated Development Environment (IDE) Toolkits, and command line tools to access the API. For installation instructions, see Tools for Amazon Web Services.  For a list of Region-specific endpoints that Lambda supports,  see Lambda endpoints and quotas  in the Amazon Web Services General Reference..  When making the API calls, you will need to authenticate your request by providing a signature. Lambda supports signature version 4. For more information, see Signature Version 4 signing process in the Amazon Web Services General Reference..   CA certificates  Because Amazon Web Services SDKs use the CA certificates from your computer, changes to the certificates on the Amazon Web Services servers can cause connection failures when you attempt to use an SDK. You can prevent these failures by keeping your computer's CA certificates and operating system up-to-date. If you encounter this issue in a corporate environment and do not manage your own computer, you might need to ask an administrator to assist with the update process. The following list shows minimum operating system and Java versions:   Microsoft Windows versions that have updates from January 2005 or later installed contain at least one of the required CAs in their trust list.    Mac OS X 10.4 with Java for Mac OS X 10.4 Release 5 (February 2007), Mac OS X 10.5 (October 2007), and later versions contain at least one of the required CAs in their trust list.    Red Hat Enterprise Linux 5 (March 2007), 6, and 7 and CentOS 5, 6, and 7 all contain at least one of the required CAs in their default trusted CA list.    Java 1.4.2_12 (May 2006), 5 Update 2 (March 2005), and all later versions, including Java 6 (December 2006), 7, and 8, contain at least one of the required CAs in their default trusted CA list.    When accessing the Lambda management console or Lambda API endpoints, whether through browsers or programmatically, you will need to ensure your client machines support any of the following CAs:    Amazon Root CA 1   Starfield Services Root Certificate Authority - G2   Starfield Class 2 Certification Authority   Root certificates from the first two authorities are available from Amazon trust services, but keeping your computer up-to-date is the more straightforward solution. To learn more about ACM-provided certificates, see Amazon Web Services Certificate Manager FAQs.
+/// Lambda  Overview  Lambda is a compute service that lets you run code without provisioning or managing servers. Lambda runs your code on a high-availability compute infrastructure and performs all of the administration of the compute resources, including server and operating system maintenance, capacity provisioning and automatic scaling, code monitoring and logging. With Lambda, you can run code for virtually any type of application or backend service. For more information about the Lambda service, see What is Lambda in the Lambda Developer Guide. The Lambda API Reference provides information about each of the API methods, including details about the parameters in each API request and response.   You can use Software Development Kits (SDKs), Integrated Development Environment (IDE) Toolkits, and command line tools to access the API. For installation instructions, see Tools for Amazon Web Services.  For a list of Region-specific endpoints that Lambda supports, see Lambda endpoints and quotas  in the Amazon Web Services General Reference..  When making the API calls, you will need to authenticate your request by providing a signature. Lambda supports signature version 4. For more information, see Signature Version 4 signing process in the Amazon Web Services General Reference..   CA certificates  Because Amazon Web Services SDKs use the CA certificates from your computer, changes to the certificates on the Amazon Web Services servers can cause connection failures when you attempt to use an SDK. You can prevent these failures by keeping your computer's CA certificates and operating system up-to-date. If you encounter this issue in a corporate environment and do not manage your own computer, you might need to ask an administrator to assist with the update process. The following list shows minimum operating system and Java versions:   Microsoft Windows versions that have updates from January 2005 or later installed contain at least one of the required CAs in their trust list.    Mac OS X 10.4 with Java for Mac OS X 10.4 Release 5 (February 2007), Mac OS X 10.5 (October 2007), and later versions contain at least one of the required CAs in their trust list.    Red Hat Enterprise Linux 5 (March 2007), 6, and 7 and CentOS 5, 6, and 7 all contain at least one of the required CAs in their default trusted CA list.    Java 1.4.2_12 (May 2006), 5 Update 2 (March 2005), and all later versions, including Java 6 (December 2006), 7, and 8, contain at least one of the required CAs in their default trusted CA list.    When accessing the Lambda management console or Lambda API endpoints, whether through browsers or programmatically, you will need to ensure your client machines support any of the following CAs:    Amazon Root CA 1   Starfield Services Root Certificate Authority - G2   Starfield Class 2 Certification Authority   Root certificates from the first two authorities are available from Amazon trust services, but keeping your computer up-to-date is the more straightforward solution. To learn more about ACM-provided certificates, see Amazon Web Services Certificate Manager FAQs.
 public struct Lambda: AWSService {
     // MARK: Member variables
 
@@ -128,7 +128,7 @@ public struct Lambda: AWSService {
 
     // MARK: API Calls
 
-    /// Adds permissions to the resource-based policy of a version of an Lambda layer. Use this action to grant layer usage permission to other accounts. You can grant permission to a single account, all accounts in an organization, or all Amazon Web Services accounts.   To revoke permission, call RemoveLayerVersionPermission with the statement ID that you specified when you added it.
+    /// Adds permissions to the resource-based policy of a version of an Lambda layer. Use this action to grant layer usage permission to other accounts. You can grant permission to a single account, all accounts in an organization, or all Amazon Web Services accounts.  To revoke permission, call RemoveLayerVersionPermission with the statement ID that you specified when you added it.
     @Sendable
     @inlinable
     public func addLayerVersionPermission(_ input: AddLayerVersionPermissionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddLayerVersionPermissionResponse {
@@ -141,7 +141,7 @@ public struct Lambda: AWSService {
             logger: logger
         )
     }
-    /// Adds permissions to the resource-based policy of a version of an Lambda layer. Use this action to grant layer usage permission to other accounts. You can grant permission to a single account, all accounts in an organization, or all Amazon Web Services accounts.   To revoke permission, call RemoveLayerVersionPermission with the statement ID that you specified when you added it.
+    /// Adds permissions to the resource-based policy of a version of an Lambda layer. Use this action to grant layer usage permission to other accounts. You can grant permission to a single account, all accounts in an organization, or all Amazon Web Services accounts.  To revoke permission, call RemoveLayerVersionPermission with the statement ID that you specified when you added it.
     ///
     /// Parameters:
     ///   - action: The API action that grants access to the layer. For example, lambda:GetLayerVersion.
@@ -175,7 +175,7 @@ public struct Lambda: AWSService {
         return try await self.addLayerVersionPermission(input, logger: logger)
     }
 
-    /// Grants a principal  permission to use a function. You can apply the policy at the function level, or specify a qualifier to restrict access to a single version or alias. If you use a qualifier, the invoker must use the full Amazon Resource Name (ARN) of that version or alias to invoke the function. Note: Lambda does not support adding policies to version $LATEST. To grant permission to another account, specify the account ID as the Principal. To grant permission to an organization defined in Organizations, specify the organization ID as the PrincipalOrgID. For Amazon Web Services services, the principal is a domain-style identifier that the service defines, such as s3.amazonaws.com or sns.amazonaws.com. For Amazon Web Services services, you can also specify the ARN of the associated resource as the SourceArn. If you grant permission to a service principal without specifying the source, other accounts could potentially configure resources in their account to invoke your Lambda function. This operation adds a statement to a resource-based permissions policy for the function. For more information about function policies, see Using resource-based policies for Lambda.
+    /// Grants a principal permission to use a function. You can apply the policy at the function level, or specify a qualifier to restrict access to a single version or alias. If you use a qualifier, the invoker must use the full Amazon Resource Name (ARN) of that version or alias to invoke the function. Note: Lambda does not support adding policies to version $LATEST. To grant permission to another account, specify the account ID as the Principal. To grant permission to an organization defined in Organizations, specify the organization ID as the PrincipalOrgID. For Amazon Web Services services, the principal is a domain-style identifier that the service defines, such as s3.amazonaws.com or sns.amazonaws.com. For Amazon Web Services services, you can also specify the ARN of the associated resource as the SourceArn. If you grant permission to a service principal without specifying the source, other accounts could potentially configure resources in their account to invoke your Lambda function. This operation adds a statement to a resource-based permissions policy for the function. For more information about function policies, see Using resource-based policies for Lambda.
     @Sendable
     @inlinable
     public func addPermission(_ input: AddPermissionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddPermissionResponse {
@@ -188,13 +188,14 @@ public struct Lambda: AWSService {
             logger: logger
         )
     }
-    /// Grants a principal  permission to use a function. You can apply the policy at the function level, or specify a qualifier to restrict access to a single version or alias. If you use a qualifier, the invoker must use the full Amazon Resource Name (ARN) of that version or alias to invoke the function. Note: Lambda does not support adding policies to version $LATEST. To grant permission to another account, specify the account ID as the Principal. To grant permission to an organization defined in Organizations, specify the organization ID as the PrincipalOrgID. For Amazon Web Services services, the principal is a domain-style identifier that the service defines, such as s3.amazonaws.com or sns.amazonaws.com. For Amazon Web Services services, you can also specify the ARN of the associated resource as the SourceArn. If you grant permission to a service principal without specifying the source, other accounts could potentially configure resources in their account to invoke your Lambda function. This operation adds a statement to a resource-based permissions policy for the function. For more information about function policies, see Using resource-based policies for Lambda.
+    /// Grants a principal permission to use a function. You can apply the policy at the function level, or specify a qualifier to restrict access to a single version or alias. If you use a qualifier, the invoker must use the full Amazon Resource Name (ARN) of that version or alias to invoke the function. Note: Lambda does not support adding policies to version $LATEST. To grant permission to another account, specify the account ID as the Principal. To grant permission to an organization defined in Organizations, specify the organization ID as the PrincipalOrgID. For Amazon Web Services services, the principal is a domain-style identifier that the service defines, such as s3.amazonaws.com or sns.amazonaws.com. For Amazon Web Services services, you can also specify the ARN of the associated resource as the SourceArn. If you grant permission to a service principal without specifying the source, other accounts could potentially configure resources in their account to invoke your Lambda function. This operation adds a statement to a resource-based permissions policy for the function. For more information about function policies, see Using resource-based policies for Lambda.
     ///
     /// Parameters:
     ///   - action: The action that the principal can use on the function. For example, lambda:InvokeFunction or lambda:GetFunction.
     ///   - eventSourceToken: For Alexa Smart Home functions, a token that the invoker must supply.
     ///   - functionName: The name or ARN of the Lambda function, version, or alias.  Name formats     Function name – my-function (name-only), my-function:v1 (with alias).    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
     ///   - functionUrlAuthType: The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
+    ///   - invokedViaFunctionUrl: Restricts the lambda:InvokeFunction action to calls coming from a function URL. When set to true, this prevents the principal from invoking the function by any means other than the function URL. For more information, see Security and auth model for Lambda function URLs.
     ///   - principal: The Amazon Web Services service, Amazon Web Services account, IAM user, or IAM role that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service.
     ///   - principalOrgID: The identifier for your organization in Organizations. Use this to grant permissions to all the Amazon Web Services accounts under this organization.
     ///   - qualifier: Specify a version or alias to add permissions to a published version of the function.
@@ -209,6 +210,7 @@ public struct Lambda: AWSService {
         eventSourceToken: String? = nil,
         functionName: String,
         functionUrlAuthType: FunctionUrlAuthType? = nil,
+        invokedViaFunctionUrl: Bool? = nil,
         principal: String,
         principalOrgID: String? = nil,
         qualifier: String? = nil,
@@ -223,6 +225,7 @@ public struct Lambda: AWSService {
             eventSourceToken: eventSourceToken, 
             functionName: functionName, 
             functionUrlAuthType: functionUrlAuthType, 
+            invokedViaFunctionUrl: invokedViaFunctionUrl, 
             principal: principal, 
             principalOrgID: principalOrgID, 
             qualifier: qualifier, 
@@ -313,7 +316,7 @@ public struct Lambda: AWSService {
         return try await self.createCodeSigningConfig(input, logger: logger)
     }
 
-    /// Creates a mapping between an event source and an Lambda function. Lambda reads items from the event source and invokes the function. For details about how to configure different event sources, see the following topics.      Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB    The following error handling options are available only for DynamoDB and Kinesis event sources:    BisectBatchOnFunctionError – If the function returns an error, split the batch in two and retry.    MaximumRecordAgeInSeconds – Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires    MaximumRetryAttempts – Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.    ParallelizationFactor – Process multiple batches from each shard concurrently.   For stream sources (DynamoDB, Kinesis, Amazon MSK, and self-managed Apache Kafka), the following option is also available:    OnFailure – Send discarded records to an Amazon SQS queue, Amazon SNS topic, or  Amazon S3 bucket. For more information, see Adding a destination.   For information about which configuration parameters apply to each event source, see the following topics.     Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB
+    /// Creates a mapping between an event source and an Lambda function. Lambda reads items from the event source and invokes the function. For details about how to configure different event sources, see the following topics.      Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB    The following error handling options are available only for DynamoDB and Kinesis event sources:    BisectBatchOnFunctionError – If the function returns an error, split the batch in two and retry.    MaximumRecordAgeInSeconds – Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires    MaximumRetryAttempts – Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.    ParallelizationFactor – Process multiple batches from each shard concurrently.   For stream sources (DynamoDB, Kinesis, Amazon MSK, and self-managed Apache Kafka), the following option is also available:    OnFailure – Send discarded records to an Amazon SQS queue, Amazon SNS topic, or Amazon S3 bucket. For more information, see Adding a destination.   For information about which configuration parameters apply to each event source, see the following topics.     Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB
     @Sendable
     @inlinable
     public func createEventSourceMapping(_ input: CreateEventSourceMappingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EventSourceMappingConfiguration {
@@ -326,7 +329,7 @@ public struct Lambda: AWSService {
             logger: logger
         )
     }
-    /// Creates a mapping between an event source and an Lambda function. Lambda reads items from the event source and invokes the function. For details about how to configure different event sources, see the following topics.      Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB    The following error handling options are available only for DynamoDB and Kinesis event sources:    BisectBatchOnFunctionError – If the function returns an error, split the batch in two and retry.    MaximumRecordAgeInSeconds – Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires    MaximumRetryAttempts – Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.    ParallelizationFactor – Process multiple batches from each shard concurrently.   For stream sources (DynamoDB, Kinesis, Amazon MSK, and self-managed Apache Kafka), the following option is also available:    OnFailure – Send discarded records to an Amazon SQS queue, Amazon SNS topic, or  Amazon S3 bucket. For more information, see Adding a destination.   For information about which configuration parameters apply to each event source, see the following topics.     Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB
+    /// Creates a mapping between an event source and an Lambda function. Lambda reads items from the event source and invokes the function. For details about how to configure different event sources, see the following topics.      Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB    The following error handling options are available only for DynamoDB and Kinesis event sources:    BisectBatchOnFunctionError – If the function returns an error, split the batch in two and retry.    MaximumRecordAgeInSeconds – Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires    MaximumRetryAttempts – Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.    ParallelizationFactor – Process multiple batches from each shard concurrently.   For stream sources (DynamoDB, Kinesis, Amazon MSK, and self-managed Apache Kafka), the following option is also available:    OnFailure – Send discarded records to an Amazon SQS queue, Amazon SNS topic, or Amazon S3 bucket. For more information, see Adding a destination.   For information about which configuration parameters apply to each event source, see the following topics.     Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB
     ///
     /// Parameters:
     ///   - amazonManagedKafkaEventSourceConfig: Specific configuration settings for an Amazon Managed Streaming for Apache Kafka (Amazon MSK) event source.
@@ -438,16 +441,16 @@ public struct Lambda: AWSService {
     /// Parameters:
     ///   - architectures: The instruction set architecture that the function supports. Enter a string array with one of the valid values (arm64 or x86_64). The default value is x86_64.
     ///   - code: The code for the function.
-    ///   - codeSigningConfigArn: To enable code signing for this function, specify the ARN of a code-signing configuration. A code-signing configuration
+    ///   - codeSigningConfigArn: To enable code signing for this function, specify the ARN of a code-signing configuration. A code-signing configuration includes a set of signing profiles, which define the trusted publishers for this function.
     ///   - deadLetterConfig: A dead-letter queue configuration that specifies the queue or topic where Lambda sends asynchronous events when they fail processing. For more information, see Dead-letter queues.
     ///   - description: A description of the function.
     ///   - environment: Environment variables that are accessible from function code during execution.
     ///   - ephemeralStorage: The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see Configuring ephemeral storage (console).
     ///   - fileSystemConfigs: Connection settings for an Amazon EFS file system.
     ///   - functionName: The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    ///   - handler: The name of the method within your code that Lambda calls to run your function.
+    ///   - handler: The name of the method within your code that Lambda calls to run your function. Handler is required if the deployment package is a .zip file archive. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Lambda programming model.
     ///   - imageConfig: Container image configuration values that override the values in the container image Dockerfile.
-    ///   - kmsKeyArn: The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt the following resources:   The function's environment variables.   The function's Lambda SnapStart snapshots.   When used with SourceKMSKeyArn, the unzipped version of the .zip deployment package that's used for function invocations. For more information, see
+    ///   - kmsKeyArn: The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt the following resources:   The function's environment variables.   The function's Lambda SnapStart snapshots.   When used with SourceKMSKeyArn, the unzipped version of the .zip deployment package that's used for function invocations. For more information, see  Specifying a customer managed key for Lambda.   The optimized version of the container image that's used for function invocations. Note that this is not the same key that's used to protect your container image in the Amazon Elastic Container Registry (Amazon ECR). For more information, see Function lifecycle.   If you don't provide a customer managed key, Lambda uses an Amazon Web Services owned key or an Amazon Web Services managed key.
     ///   - layers: A list of function layers to add to the function's execution environment. Specify each layer by its ARN, including the version.
     ///   - loggingConfig: The function's Amazon CloudWatch Logs configuration settings.
     ///   - memorySize: The amount of memory available to the function at runtime. Increasing the function memory also increases its CPU allocation. The default value is 128 MB. The value can be any multiple of 1 MB.
@@ -458,7 +461,7 @@ public struct Lambda: AWSService {
     ///   - snapStart: The function's SnapStart setting.
     ///   - tags: A list of tags to apply to the function.
     ///   - timeout: The amount of time (in seconds) that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds. For more information, see Lambda execution environment.
-    ///   - tracingConfig: Set Mode to Active to sample and trace a subset of incoming requests with
+    ///   - tracingConfig: Set Mode to Active to sample and trace a subset of incoming requests with X-Ray.
     ///   - vpcConfig: For network connectivity to Amazon Web Services resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can access resources and the internet only through that VPC. For more information, see Configuring a Lambda function to access resources in a VPC.
     ///   - logger: Logger use during operation
     @inlinable
@@ -537,7 +540,7 @@ public struct Lambda: AWSService {
     ///   - authType: The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
     ///   - cors: The cross-origin resource sharing (CORS) settings for your function URL.
     ///   - functionName: The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    ///   - invokeMode: Use one of the following options:    BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results  are available when the payload is complete. The maximum payload size is 6 MB.    RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using  the InvokeWithResponseStream API operation. The maximum response payload size is 20 MB, however, you can request a quota increase.
+    ///   - invokeMode: Use one of the following options:    BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results are available when the payload is complete. The maximum payload size is 6 MB.    RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using the InvokeWithResponseStream API operation. The maximum response payload size is 200 MB.
     ///   - qualifier: The alias name.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1355,7 +1358,7 @@ public struct Lambda: AWSService {
         return try await self.getProvisionedConcurrencyConfig(input, logger: logger)
     }
 
-    /// Retrieves the runtime management configuration for a function's version. If the runtime update mode is Manual, this includes the ARN of the  runtime version and the runtime update mode. If the runtime update mode is Auto or Function update,  this includes the runtime update mode and null is returned for the ARN. For more information, see Runtime updates.
+    /// Retrieves the runtime management configuration for a function's version. If the runtime update mode is Manual, this includes the ARN of the runtime version and the runtime update mode. If the runtime update mode is Auto or Function update, this includes the runtime update mode and null is returned for the ARN. For more information, see Runtime updates.
     @Sendable
     @inlinable
     public func getRuntimeManagementConfig(_ input: GetRuntimeManagementConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRuntimeManagementConfigResponse {
@@ -1368,11 +1371,11 @@ public struct Lambda: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the runtime management configuration for a function's version. If the runtime update mode is Manual, this includes the ARN of the  runtime version and the runtime update mode. If the runtime update mode is Auto or Function update,  this includes the runtime update mode and null is returned for the ARN. For more information, see Runtime updates.
+    /// Retrieves the runtime management configuration for a function's version. If the runtime update mode is Manual, this includes the ARN of the runtime version and the runtime update mode. If the runtime update mode is Auto or Function update, this includes the runtime update mode and null is returned for the ARN. For more information, see Runtime updates.
     ///
     /// Parameters:
     ///   - functionName: The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    ///   - qualifier: Specify a version of the function. This can be $LATEST or a published version number. If no value is specified, the configuration for the  $LATEST version is returned.
+    ///   - qualifier: Specify a version of the function. This can be $LATEST or a published version number. If no value is specified, the configuration for the $LATEST version is returned.
     ///   - logger: Logger use during operation
     @inlinable
     public func getRuntimeManagementConfig(
@@ -1431,7 +1434,7 @@ public struct Lambda: AWSService {
         return try await self.invoke(input, logger: logger)
     }
 
-    ///  For asynchronous function invocation, use Invoke.  Invokes a function asynchronously.  If you do use the InvokeAsync action, note that it doesn't support the use of X-Ray active tracing. Trace ID is not  propagated to the function, even if X-Ray active tracing is turned on.
+    ///  For asynchronous function invocation, use Invoke.  Invokes a function asynchronously.  If you do use the InvokeAsync action, note that it doesn't support the use of X-Ray active tracing. Trace ID is not propagated to the function, even if X-Ray active tracing is turned on.
     @Sendable
     @inlinable
     public func invokeAsync(_ input: InvokeAsyncRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeAsyncResponse {
@@ -1444,7 +1447,7 @@ public struct Lambda: AWSService {
             logger: logger
         )
     }
-    ///  For asynchronous function invocation, use Invoke.  Invokes a function asynchronously.  If you do use the InvokeAsync action, note that it doesn't support the use of X-Ray active tracing. Trace ID is not  propagated to the function, even if X-Ray active tracing is turned on.
+    ///  For asynchronous function invocation, use Invoke.  Invokes a function asynchronously.  If you do use the InvokeAsync action, note that it doesn't support the use of X-Ray active tracing. Trace ID is not propagated to the function, even if X-Ray active tracing is turned on.
     ///
     /// Parameters:
     ///   - functionName: The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -1685,7 +1688,7 @@ public struct Lambda: AWSService {
         return try await self.listFunctionUrlConfigs(input, logger: logger)
     }
 
-    /// Returns a list of Lambda functions, with the version-specific configuration of each. Lambda returns up to 50 functions per call. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version.  The ListFunctions operation returns a subset of the FunctionConfiguration fields. To get the additional fields (State, StateReasonCode, StateReason, LastUpdateStatus, LastUpdateStatusReason, LastUpdateStatusReasonCode,  RuntimeVersionConfig) for a function or version, use GetFunction.
+    /// Returns a list of Lambda functions, with the version-specific configuration of each. Lambda returns up to 50 functions per call. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version.  The ListFunctions operation returns a subset of the FunctionConfiguration fields. To get the additional fields (State, StateReasonCode, StateReason, LastUpdateStatus, LastUpdateStatusReason, LastUpdateStatusReasonCode, RuntimeVersionConfig) for a function or version, use GetFunction.
     @Sendable
     @inlinable
     public func listFunctions(_ input: ListFunctionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFunctionsResponse {
@@ -1698,7 +1701,7 @@ public struct Lambda: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of Lambda functions, with the version-specific configuration of each. Lambda returns up to 50 functions per call. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version.  The ListFunctions operation returns a subset of the FunctionConfiguration fields. To get the additional fields (State, StateReasonCode, StateReason, LastUpdateStatus, LastUpdateStatusReason, LastUpdateStatusReasonCode,  RuntimeVersionConfig) for a function or version, use GetFunction.
+    /// Returns a list of Lambda functions, with the version-specific configuration of each. Lambda returns up to 50 functions per call. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version.  The ListFunctions operation returns a subset of the FunctionConfiguration fields. To get the additional fields (State, StateReasonCode, StateReason, LastUpdateStatus, LastUpdateStatusReason, LastUpdateStatusReasonCode, RuntimeVersionConfig) for a function or version, use GetFunction.
     ///
     /// Parameters:
     ///   - functionVersion: Set to ALL to include entries for all published versions of each function.
@@ -1758,7 +1761,7 @@ public struct Lambda: AWSService {
         return try await self.listFunctionsByCodeSigningConfig(input, logger: logger)
     }
 
-    /// Lists the versions of an Lambda layer. Versions that have been deleted aren't listed. Specify a runtime identifier to list only versions that indicate that they're compatible with that runtime. Specify a compatible architecture to include only  layer versions that are compatible with that architecture.
+    /// Lists the versions of an Lambda layer. Versions that have been deleted aren't listed. Specify a runtime identifier to list only versions that indicate that they're compatible with that runtime. Specify a compatible architecture to include only layer versions that are compatible with that architecture.
     @Sendable
     @inlinable
     public func listLayerVersions(_ input: ListLayerVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLayerVersionsResponse {
@@ -1771,10 +1774,10 @@ public struct Lambda: AWSService {
             logger: logger
         )
     }
-    /// Lists the versions of an Lambda layer. Versions that have been deleted aren't listed. Specify a runtime identifier to list only versions that indicate that they're compatible with that runtime. Specify a compatible architecture to include only  layer versions that are compatible with that architecture.
+    /// Lists the versions of an Lambda layer. Versions that have been deleted aren't listed. Specify a runtime identifier to list only versions that indicate that they're compatible with that runtime. Specify a compatible architecture to include only layer versions that are compatible with that architecture.
     ///
     /// Parameters:
-    ///   - compatibleArchitecture: The compatible
+    ///   - compatibleArchitecture: The compatible instruction set architecture.
     ///   - compatibleRuntime: A runtime identifier. The following list includes deprecated runtimes. For more information, see Runtime use after deprecation. For a list of all currently supported runtimes, see Supported runtimes.
     ///   - layerName: The name or Amazon Resource Name (ARN) of the layer.
     ///   - marker: A pagination token returned by a previous call.
@@ -1799,7 +1802,7 @@ public struct Lambda: AWSService {
         return try await self.listLayerVersions(input, logger: logger)
     }
 
-    /// Lists Lambda layers and shows information about the latest version of each. Specify a runtime identifier to list only layers that indicate that they're compatible with that runtime. Specify a compatible architecture to include only layers that are compatible with that  instruction set architecture.
+    /// Lists Lambda layers and shows information about the latest version of each. Specify a runtime identifier to list only layers that indicate that they're compatible with that runtime. Specify a compatible architecture to include only layers that are compatible with that instruction set architecture.
     @Sendable
     @inlinable
     public func listLayers(_ input: ListLayersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLayersResponse {
@@ -1812,10 +1815,10 @@ public struct Lambda: AWSService {
             logger: logger
         )
     }
-    /// Lists Lambda layers and shows information about the latest version of each. Specify a runtime identifier to list only layers that indicate that they're compatible with that runtime. Specify a compatible architecture to include only layers that are compatible with that  instruction set architecture.
+    /// Lists Lambda layers and shows information about the latest version of each. Specify a runtime identifier to list only layers that indicate that they're compatible with that runtime. Specify a compatible architecture to include only layers that are compatible with that instruction set architecture.
     ///
     /// Parameters:
-    ///   - compatibleArchitecture: The compatible
+    ///   - compatibleArchitecture: The compatible instruction set architecture.
     ///   - compatibleRuntime: A runtime identifier. The following list includes deprecated runtimes. For more information, see Runtime use after deprecation. For a list of all currently supported runtimes, see Supported runtimes.
     ///   - marker: A pagination token returned by a previous call.
     ///   - maxItems: The maximum number of layers to return.
@@ -1888,7 +1891,7 @@ public struct Lambda: AWSService {
     /// Returns a function, event source mapping, or code signing configuration's tags. You can also view function tags with GetFunction.
     ///
     /// Parameters:
-    ///   - resource: The resource's Amazon Resource Name (ARN).  Note: Lambda does not support adding tags to function aliases or versions.
+    ///   - resource: The resource's Amazon Resource Name (ARN). Note: Lambda does not support adding tags to function aliases or versions.
     ///   - logger: Logger use during operation
     @inlinable
     public func listTags(
@@ -1919,7 +1922,7 @@ public struct Lambda: AWSService {
     /// Parameters:
     ///   - functionName: The name or ARN of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
     ///   - marker: Specify the pagination token that's returned by a previous request to retrieve the next page of results.
-    ///   - maxItems: The maximum number of versions to return. Note that ListVersionsByFunction returns a maximum of 50 items in each response,  even if you set the number higher.
+    ///   - maxItems: The maximum number of versions to return. Note that ListVersionsByFunction returns a maximum of 50 items in each response, even if you set the number higher.
     ///   - logger: Logger use during operation
     @inlinable
     public func listVersionsByFunction(
@@ -1952,7 +1955,7 @@ public struct Lambda: AWSService {
     /// Creates an Lambda layer from a ZIP archive. Each time you call PublishLayerVersion with the same layer name, a new version is created. Add layers to your function with CreateFunction or UpdateFunctionConfiguration.
     ///
     /// Parameters:
-    ///   - compatibleArchitectures: A list of compatible
+    ///   - compatibleArchitectures: A list of compatible instruction set architectures.
     ///   - compatibleRuntimes: A list of compatible function runtimes. Used for filtering with ListLayers and ListLayerVersions. The following list includes deprecated runtimes. For more information, see Runtime deprecation policy.
     ///   - content: The function layer archive.
     ///   - description: The description of the version.
@@ -2123,7 +2126,7 @@ public struct Lambda: AWSService {
         return try await self.putFunctionEventInvokeConfig(input, logger: logger)
     }
 
-    /// Sets your function's recursive loop detection configuration. When you configure a Lambda function to output to the same service or resource that invokes the function, it's possible to create  an infinite recursive loop. For example, a Lambda function might write a message to an Amazon Simple Queue Service (Amazon SQS) queue, which then invokes the same  function. This invocation causes the function to write another message to the queue, which in turn invokes the function again. Lambda can detect certain types of recursive loops shortly after they occur. When Lambda detects a recursive loop and your  function's recursive loop detection configuration is set to Terminate, it stops your function being invoked and notifies you.
+    /// Sets your function's recursive loop detection configuration. When you configure a Lambda function to output to the same service or resource that invokes the function, it's possible to create an infinite recursive loop. For example, a Lambda function might write a message to an Amazon Simple Queue Service (Amazon SQS) queue, which then invokes the same function. This invocation causes the function to write another message to the queue, which in turn invokes the function again. Lambda can detect certain types of recursive loops shortly after they occur. When Lambda detects a recursive loop and your function's recursive loop detection configuration is set to Terminate, it stops your function being invoked and notifies you.
     @Sendable
     @inlinable
     public func putFunctionRecursionConfig(_ input: PutFunctionRecursionConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutFunctionRecursionConfigResponse {
@@ -2136,11 +2139,11 @@ public struct Lambda: AWSService {
             logger: logger
         )
     }
-    /// Sets your function's recursive loop detection configuration. When you configure a Lambda function to output to the same service or resource that invokes the function, it's possible to create  an infinite recursive loop. For example, a Lambda function might write a message to an Amazon Simple Queue Service (Amazon SQS) queue, which then invokes the same  function. This invocation causes the function to write another message to the queue, which in turn invokes the function again. Lambda can detect certain types of recursive loops shortly after they occur. When Lambda detects a recursive loop and your  function's recursive loop detection configuration is set to Terminate, it stops your function being invoked and notifies you.
+    /// Sets your function's recursive loop detection configuration. When you configure a Lambda function to output to the same service or resource that invokes the function, it's possible to create an infinite recursive loop. For example, a Lambda function might write a message to an Amazon Simple Queue Service (Amazon SQS) queue, which then invokes the same function. This invocation causes the function to write another message to the queue, which in turn invokes the function again. Lambda can detect certain types of recursive loops shortly after they occur. When Lambda detects a recursive loop and your function's recursive loop detection configuration is set to Terminate, it stops your function being invoked and notifies you.
     ///
     /// Parameters:
     ///   - functionName: The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    ///   - recursiveLoop: If you set your function's recursive loop detection configuration to Allow, Lambda doesn't take any action when it  detects your function being invoked as part of a recursive loop. We recommend that you only use this setting if your design intentionally uses a  Lambda function to write data back to the same Amazon Web Services resource that invokes it. If you set your function's recursive loop detection configuration to Terminate, Lambda stops your function being  invoked and notifies you when it detects your function being invoked as part of a recursive loop. By default, Lambda sets your function's configuration to Terminate.  If your design intentionally uses a Lambda function to write data back to the same Amazon Web Services resource that invokes the function, then use caution and implement suitable guard rails to prevent unexpected charges being billed to your Amazon Web Services account. To learn more about best practices for using recursive invocation patterns, see Recursive patterns that cause run-away Lambda functions in Serverless Land.
+    ///   - recursiveLoop: If you set your function's recursive loop detection configuration to Allow, Lambda doesn't take any action when it detects your function being invoked as part of a recursive loop. We recommend that you only use this setting if your design intentionally uses a Lambda function to write data back to the same Amazon Web Services resource that invokes it. If you set your function's recursive loop detection configuration to Terminate, Lambda stops your function being invoked and notifies you when it detects your function being invoked as part of a recursive loop. By default, Lambda sets your function's configuration to Terminate.  If your design intentionally uses a Lambda function to write data back to the same Amazon Web Services resource that invokes the function, then use caution and implement suitable guard rails to prevent unexpected charges being billed to your Amazon Web Services account. To learn more about best practices for using recursive invocation patterns, see Recursive patterns that cause run-away Lambda functions in Serverless Land.
     ///   - logger: Logger use during operation
     @inlinable
     public func putFunctionRecursionConfig(
@@ -2190,7 +2193,7 @@ public struct Lambda: AWSService {
         return try await self.putProvisionedConcurrencyConfig(input, logger: logger)
     }
 
-    /// Sets the runtime management configuration for a function's version. For more information,  see Runtime updates.
+    /// Sets the runtime management configuration for a function's version. For more information, see Runtime updates.
     @Sendable
     @inlinable
     public func putRuntimeManagementConfig(_ input: PutRuntimeManagementConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutRuntimeManagementConfigResponse {
@@ -2203,13 +2206,13 @@ public struct Lambda: AWSService {
             logger: logger
         )
     }
-    /// Sets the runtime management configuration for a function's version. For more information,  see Runtime updates.
+    /// Sets the runtime management configuration for a function's version. For more information, see Runtime updates.
     ///
     /// Parameters:
     ///   - functionName: The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    ///   - qualifier: Specify a version of the function. This can be $LATEST or a published version number. If no value is specified, the configuration for the  $LATEST version is returned.
+    ///   - qualifier: Specify a version of the function. This can be $LATEST or a published version number. If no value is specified, the configuration for the $LATEST version is returned.
     ///   - runtimeVersionArn: The ARN of the runtime version you want the function to use.  This is only required if you're using the Manual runtime update mode.
-    ///   - updateRuntimeOn: Specify the runtime update mode.    Auto (default) - Automatically update to the most recent and secure runtime version using a Two-phase runtime version rollout. This is the best  choice for most customers to ensure they always benefit from runtime updates.    Function update - Lambda updates the runtime of your function  to the most recent and secure runtime version when you update your  function. This approach synchronizes runtime updates with function deployments, giving you control over when runtime updates are applied and allowing you to detect and  mitigate rare runtime update incompatibilities early. When using this setting, you need to regularly update your functions to keep their runtime up-to-date.    Manual - You specify a runtime version in your function configuration. The function will use this runtime version indefinitely.  In the rare case where a new runtime version is incompatible with an existing function, this allows you to roll back your function to an earlier runtime version. For more information,  see Roll back a runtime version.
+    ///   - updateRuntimeOn: Specify the runtime update mode.    Auto (default) - Automatically update to the most recent and secure runtime version using a Two-phase runtime version rollout. This is the best choice for most customers to ensure they always benefit from runtime updates.    Function update - Lambda updates the runtime of your function to the most recent and secure runtime version when you update your function. This approach synchronizes runtime updates with function deployments, giving you control over when runtime updates are applied and allowing you to detect and mitigate rare runtime update incompatibilities early. When using this setting, you need to regularly update your functions to keep their runtime up-to-date.    Manual - You specify a runtime version in your function configuration. The function will use this runtime version indefinitely. In the rare case where a new runtime version is incompatible with an existing function, this allows you to roll back your function to an earlier runtime version. For more information, see Roll back a runtime version.
     ///   - logger: Logger use during operation
     @inlinable
     public func putRuntimeManagementConfig(
@@ -2450,7 +2453,7 @@ public struct Lambda: AWSService {
         return try await self.updateCodeSigningConfig(input, logger: logger)
     }
 
-    /// Updates an event source mapping. You can change the function that Lambda invokes, or pause invocation and resume later from the same location. For details about how to configure different event sources, see the following topics.      Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB    The following error handling options are available only for DynamoDB and Kinesis event sources:    BisectBatchOnFunctionError – If the function returns an error, split the batch in two and retry.    MaximumRecordAgeInSeconds – Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires    MaximumRetryAttempts – Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.    ParallelizationFactor – Process multiple batches from each shard concurrently.   For stream sources (DynamoDB, Kinesis, Amazon MSK, and self-managed Apache Kafka), the following option is also available:    OnFailure – Send discarded records to an Amazon SQS queue, Amazon SNS topic, or  Amazon S3 bucket. For more information, see Adding a destination.   For information about which configuration parameters apply to each event source, see the following topics.     Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB
+    /// Updates an event source mapping. You can change the function that Lambda invokes, or pause invocation and resume later from the same location. For details about how to configure different event sources, see the following topics.      Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB    The following error handling options are available only for DynamoDB and Kinesis event sources:    BisectBatchOnFunctionError – If the function returns an error, split the batch in two and retry.    MaximumRecordAgeInSeconds – Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires    MaximumRetryAttempts – Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.    ParallelizationFactor – Process multiple batches from each shard concurrently.   For stream sources (DynamoDB, Kinesis, Amazon MSK, and self-managed Apache Kafka), the following option is also available:    OnFailure – Send discarded records to an Amazon SQS queue, Amazon SNS topic, or Amazon S3 bucket. For more information, see Adding a destination.   For information about which configuration parameters apply to each event source, see the following topics.     Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB
     @Sendable
     @inlinable
     public func updateEventSourceMapping(_ input: UpdateEventSourceMappingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EventSourceMappingConfiguration {
@@ -2463,7 +2466,7 @@ public struct Lambda: AWSService {
             logger: logger
         )
     }
-    /// Updates an event source mapping. You can change the function that Lambda invokes, or pause invocation and resume later from the same location. For details about how to configure different event sources, see the following topics.      Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB    The following error handling options are available only for DynamoDB and Kinesis event sources:    BisectBatchOnFunctionError – If the function returns an error, split the batch in two and retry.    MaximumRecordAgeInSeconds – Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires    MaximumRetryAttempts – Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.    ParallelizationFactor – Process multiple batches from each shard concurrently.   For stream sources (DynamoDB, Kinesis, Amazon MSK, and self-managed Apache Kafka), the following option is also available:    OnFailure – Send discarded records to an Amazon SQS queue, Amazon SNS topic, or  Amazon S3 bucket. For more information, see Adding a destination.   For information about which configuration parameters apply to each event source, see the following topics.     Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB
+    /// Updates an event source mapping. You can change the function that Lambda invokes, or pause invocation and resume later from the same location. For details about how to configure different event sources, see the following topics.      Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB    The following error handling options are available only for DynamoDB and Kinesis event sources:    BisectBatchOnFunctionError – If the function returns an error, split the batch in two and retry.    MaximumRecordAgeInSeconds – Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires    MaximumRetryAttempts – Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.    ParallelizationFactor – Process multiple batches from each shard concurrently.   For stream sources (DynamoDB, Kinesis, Amazon MSK, and self-managed Apache Kafka), the following option is also available:    OnFailure – Send discarded records to an Amazon SQS queue, Amazon SNS topic, or Amazon S3 bucket. For more information, see Adding a destination.   For information about which configuration parameters apply to each event source, see the following topics.     Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB
     ///
     /// Parameters:
     ///   - amazonManagedKafkaEventSourceConfig: 
@@ -2561,11 +2564,11 @@ public struct Lambda: AWSService {
     ///   - imageUri: URI of a container image in the Amazon ECR registry. Do not use for a function defined with a .zip file archive.
     ///   - publish: Set to true to publish a new version of the function after updating the code. This has the same effect as calling PublishVersion separately.
     ///   - revisionId: Update the function only if the revision ID matches the ID that's specified. Use this option to avoid modifying a function that has changed since you last read it.
-    ///   - s3Bucket: An Amazon S3 bucket in the same Amazon Web Services Region as your function. The bucket can be in a different
+    ///   - s3Bucket: An Amazon S3 bucket in the same Amazon Web Services Region as your function. The bucket can be in a different Amazon Web Services account. Use only with a function defined with a .zip file archive deployment package.
     ///   - s3Key: The Amazon S3 key of the deployment package. Use only with a function defined with a .zip file archive deployment package.
     ///   - s3ObjectVersion: For versioned objects, the version of the deployment package object to use.
-    ///   - sourceKMSKeyArn: The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's  .zip deployment package. If you don't provide a customer managed key, Lambda uses an Amazon Web Services managed key.
-    ///   - zipFile: The base64-encoded contents of the deployment package. Amazon Web Services SDK and CLI clients
+    ///   - sourceKMSKeyArn: The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's .zip deployment package. If you don't provide a customer managed key, Lambda uses an Amazon Web Services managed key.
+    ///   - zipFile: The base64-encoded contents of the deployment package. Amazon Web Services SDK and CLI clients handle the encoding for you. Use only with a function defined with a .zip file archive deployment package.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateFunctionCode(
@@ -2620,9 +2623,9 @@ public struct Lambda: AWSService {
     ///   - ephemeralStorage: The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see Configuring ephemeral storage (console).
     ///   - fileSystemConfigs: Connection settings for an Amazon EFS file system.
     ///   - functionName: The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    ///   - handler: The name of the method within your code that Lambda calls to run your function.
+    ///   - handler: The name of the method within your code that Lambda calls to run your function. Handler is required if the deployment package is a .zip file archive. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Lambda programming model.
     ///   - imageConfig:  Container image configuration values that override the values in the container image Docker file.
-    ///   - kmsKeyArn: The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt the following resources:   The function's environment variables.   The function's Lambda SnapStart snapshots.   When used with SourceKMSKeyArn, the unzipped version of the .zip deployment package that's used for function invocations. For more information, see
+    ///   - kmsKeyArn: The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt the following resources:   The function's environment variables.   The function's Lambda SnapStart snapshots.   When used with SourceKMSKeyArn, the unzipped version of the .zip deployment package that's used for function invocations. For more information, see  Specifying a customer managed key for Lambda.   The optimized version of the container image that's used for function invocations. Note that this is not the same key that's used to protect your container image in the Amazon Elastic Container Registry (Amazon ECR). For more information, see Function lifecycle.   If you don't provide a customer managed key, Lambda uses an Amazon Web Services owned key or an Amazon Web Services managed key.
     ///   - layers: A list of function layers to add to the function's execution environment. Specify each layer by its ARN, including the version.
     ///   - loggingConfig: The function's Amazon CloudWatch Logs configuration settings.
     ///   - memorySize: The amount of memory available to the function at runtime. Increasing the function memory also increases its CPU allocation. The default value is 128 MB. The value can be any multiple of 1 MB.
@@ -2631,7 +2634,7 @@ public struct Lambda: AWSService {
     ///   - runtime: The identifier of the function's  runtime. Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see Runtime use after deprecation. For a list of all currently supported runtimes, see Supported runtimes.
     ///   - snapStart: The function's SnapStart setting.
     ///   - timeout: The amount of time (in seconds) that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds. For more information, see Lambda execution environment.
-    ///   - tracingConfig: Set Mode to Active to sample and trace a subset of incoming requests with
+    ///   - tracingConfig: Set Mode to Active to sample and trace a subset of incoming requests with X-Ray.
     ///   - vpcConfig: For network connectivity to Amazon Web Services resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can access resources and the internet only through that VPC. For more information, see Configuring a Lambda function to access resources in a VPC.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2741,7 +2744,7 @@ public struct Lambda: AWSService {
     ///   - authType: The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
     ///   - cors: The cross-origin resource sharing (CORS) settings for your function URL.
     ///   - functionName: The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    ///   - invokeMode: Use one of the following options:    BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results  are available when the payload is complete. The maximum payload size is 6 MB.    RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using  the InvokeWithResponseStream API operation. The maximum response payload size is 20 MB, however, you can request a quota increase.
+    ///   - invokeMode: Use one of the following options:    BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results are available when the payload is complete. The maximum payload size is 6 MB.    RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using the InvokeWithResponseStream API operation. The maximum response payload size is 200 MB.
     ///   - qualifier: The alias name.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2773,559 +2776,6 @@ extension Lambda {
     }
 }
 
-// MARK: Paginators
-
-@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-extension Lambda {
-    /// Return PaginatorSequence for operation ``listAliases(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - input: Input for operation
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listAliasesPaginator(
-        _ input: ListAliasesRequest,
-        logger: Logger = AWSClient.loggingDisabled
-    ) -> AWSClient.PaginatorSequence<ListAliasesRequest, ListAliasesResponse> {
-        return .init(
-            input: input,
-            command: self.listAliases,
-            inputKey: \ListAliasesRequest.marker,
-            outputKey: \ListAliasesResponse.nextMarker,
-            logger: logger
-        )
-    }
-    /// Return PaginatorSequence for operation ``listAliases(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - functionName: The name or ARN of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    ///   - functionVersion: Specify a function version to only list aliases that invoke that version.
-    ///   - maxItems: Limit the number of aliases returned.
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listAliasesPaginator(
-        functionName: String,
-        functionVersion: String? = nil,
-        maxItems: Int? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) -> AWSClient.PaginatorSequence<ListAliasesRequest, ListAliasesResponse> {
-        let input = ListAliasesRequest(
-            functionName: functionName, 
-            functionVersion: functionVersion, 
-            maxItems: maxItems
-        )
-        return self.listAliasesPaginator(input, logger: logger)
-    }
-
-    /// Return PaginatorSequence for operation ``listCodeSigningConfigs(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - input: Input for operation
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listCodeSigningConfigsPaginator(
-        _ input: ListCodeSigningConfigsRequest,
-        logger: Logger = AWSClient.loggingDisabled
-    ) -> AWSClient.PaginatorSequence<ListCodeSigningConfigsRequest, ListCodeSigningConfigsResponse> {
-        return .init(
-            input: input,
-            command: self.listCodeSigningConfigs,
-            inputKey: \ListCodeSigningConfigsRequest.marker,
-            outputKey: \ListCodeSigningConfigsResponse.nextMarker,
-            logger: logger
-        )
-    }
-    /// Return PaginatorSequence for operation ``listCodeSigningConfigs(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - maxItems: Maximum number of items to return.
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listCodeSigningConfigsPaginator(
-        maxItems: Int? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) -> AWSClient.PaginatorSequence<ListCodeSigningConfigsRequest, ListCodeSigningConfigsResponse> {
-        let input = ListCodeSigningConfigsRequest(
-            maxItems: maxItems
-        )
-        return self.listCodeSigningConfigsPaginator(input, logger: logger)
-    }
-
-    /// Return PaginatorSequence for operation ``listEventSourceMappings(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - input: Input for operation
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listEventSourceMappingsPaginator(
-        _ input: ListEventSourceMappingsRequest,
-        logger: Logger = AWSClient.loggingDisabled
-    ) -> AWSClient.PaginatorSequence<ListEventSourceMappingsRequest, ListEventSourceMappingsResponse> {
-        return .init(
-            input: input,
-            command: self.listEventSourceMappings,
-            inputKey: \ListEventSourceMappingsRequest.marker,
-            outputKey: \ListEventSourceMappingsResponse.nextMarker,
-            logger: logger
-        )
-    }
-    /// Return PaginatorSequence for operation ``listEventSourceMappings(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - eventSourceArn: The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis – The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams – The ARN of the stream.    Amazon Simple Queue Service – The ARN of the queue.    Amazon Managed Streaming for Apache Kafka – The ARN of the cluster or the ARN of the VPC connection (for cross-account event source mappings).    Amazon MQ – The ARN of the broker.    Amazon DocumentDB – The ARN of the DocumentDB change stream.
-    ///   - functionName: The name or ARN of the Lambda function.  Name formats     Function name – MyFunction.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN – 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
-    ///   - maxItems: The maximum number of event source mappings to return. Note that ListEventSourceMappings returns a maximum of 100 items in each response, even if you set the number higher.
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listEventSourceMappingsPaginator(
-        eventSourceArn: String? = nil,
-        functionName: String? = nil,
-        maxItems: Int? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) -> AWSClient.PaginatorSequence<ListEventSourceMappingsRequest, ListEventSourceMappingsResponse> {
-        let input = ListEventSourceMappingsRequest(
-            eventSourceArn: eventSourceArn, 
-            functionName: functionName, 
-            maxItems: maxItems
-        )
-        return self.listEventSourceMappingsPaginator(input, logger: logger)
-    }
-
-    /// Return PaginatorSequence for operation ``listFunctionEventInvokeConfigs(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - input: Input for operation
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listFunctionEventInvokeConfigsPaginator(
-        _ input: ListFunctionEventInvokeConfigsRequest,
-        logger: Logger = AWSClient.loggingDisabled
-    ) -> AWSClient.PaginatorSequence<ListFunctionEventInvokeConfigsRequest, ListFunctionEventInvokeConfigsResponse> {
-        return .init(
-            input: input,
-            command: self.listFunctionEventInvokeConfigs,
-            inputKey: \ListFunctionEventInvokeConfigsRequest.marker,
-            outputKey: \ListFunctionEventInvokeConfigsResponse.nextMarker,
-            logger: logger
-        )
-    }
-    /// Return PaginatorSequence for operation ``listFunctionEventInvokeConfigs(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - functionName: The name or ARN of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    ///   - maxItems: The maximum number of configurations to return.
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listFunctionEventInvokeConfigsPaginator(
-        functionName: String,
-        maxItems: Int? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) -> AWSClient.PaginatorSequence<ListFunctionEventInvokeConfigsRequest, ListFunctionEventInvokeConfigsResponse> {
-        let input = ListFunctionEventInvokeConfigsRequest(
-            functionName: functionName, 
-            maxItems: maxItems
-        )
-        return self.listFunctionEventInvokeConfigsPaginator(input, logger: logger)
-    }
-
-    /// Return PaginatorSequence for operation ``listFunctionUrlConfigs(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - input: Input for operation
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listFunctionUrlConfigsPaginator(
-        _ input: ListFunctionUrlConfigsRequest,
-        logger: Logger = AWSClient.loggingDisabled
-    ) -> AWSClient.PaginatorSequence<ListFunctionUrlConfigsRequest, ListFunctionUrlConfigsResponse> {
-        return .init(
-            input: input,
-            command: self.listFunctionUrlConfigs,
-            inputKey: \ListFunctionUrlConfigsRequest.marker,
-            outputKey: \ListFunctionUrlConfigsResponse.nextMarker,
-            logger: logger
-        )
-    }
-    /// Return PaginatorSequence for operation ``listFunctionUrlConfigs(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - functionName: The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    ///   - maxItems: The maximum number of function URLs to return in the response. Note that ListFunctionUrlConfigs returns a maximum of 50 items in each response, even if you set the number higher.
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listFunctionUrlConfigsPaginator(
-        functionName: String,
-        maxItems: Int? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) -> AWSClient.PaginatorSequence<ListFunctionUrlConfigsRequest, ListFunctionUrlConfigsResponse> {
-        let input = ListFunctionUrlConfigsRequest(
-            functionName: functionName, 
-            maxItems: maxItems
-        )
-        return self.listFunctionUrlConfigsPaginator(input, logger: logger)
-    }
-
-    /// Return PaginatorSequence for operation ``listFunctions(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - input: Input for operation
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listFunctionsPaginator(
-        _ input: ListFunctionsRequest,
-        logger: Logger = AWSClient.loggingDisabled
-    ) -> AWSClient.PaginatorSequence<ListFunctionsRequest, ListFunctionsResponse> {
-        return .init(
-            input: input,
-            command: self.listFunctions,
-            inputKey: \ListFunctionsRequest.marker,
-            outputKey: \ListFunctionsResponse.nextMarker,
-            logger: logger
-        )
-    }
-    /// Return PaginatorSequence for operation ``listFunctions(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - functionVersion: Set to ALL to include entries for all published versions of each function.
-    ///   - masterRegion: For Lambda@Edge functions, the Amazon Web Services Region of the master function. For example, us-east-1 filters the list of functions to include only Lambda@Edge functions replicated from a master function in US East (N. Virginia). If specified, you must set FunctionVersion to ALL.
-    ///   - maxItems: The maximum number of functions to return in the response. Note that ListFunctions returns a maximum of 50 items in each response, even if you set the number higher.
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listFunctionsPaginator(
-        functionVersion: FunctionVersion? = nil,
-        masterRegion: SotoCore.Region? = nil,
-        maxItems: Int? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) -> AWSClient.PaginatorSequence<ListFunctionsRequest, ListFunctionsResponse> {
-        let input = ListFunctionsRequest(
-            functionVersion: functionVersion, 
-            masterRegion: masterRegion, 
-            maxItems: maxItems
-        )
-        return self.listFunctionsPaginator(input, logger: logger)
-    }
-
-    /// Return PaginatorSequence for operation ``listFunctionsByCodeSigningConfig(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - input: Input for operation
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listFunctionsByCodeSigningConfigPaginator(
-        _ input: ListFunctionsByCodeSigningConfigRequest,
-        logger: Logger = AWSClient.loggingDisabled
-    ) -> AWSClient.PaginatorSequence<ListFunctionsByCodeSigningConfigRequest, ListFunctionsByCodeSigningConfigResponse> {
-        return .init(
-            input: input,
-            command: self.listFunctionsByCodeSigningConfig,
-            inputKey: \ListFunctionsByCodeSigningConfigRequest.marker,
-            outputKey: \ListFunctionsByCodeSigningConfigResponse.nextMarker,
-            logger: logger
-        )
-    }
-    /// Return PaginatorSequence for operation ``listFunctionsByCodeSigningConfig(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - codeSigningConfigArn: The The Amazon Resource Name (ARN) of the code signing configuration.
-    ///   - maxItems: Maximum number of items to return.
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listFunctionsByCodeSigningConfigPaginator(
-        codeSigningConfigArn: String,
-        maxItems: Int? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) -> AWSClient.PaginatorSequence<ListFunctionsByCodeSigningConfigRequest, ListFunctionsByCodeSigningConfigResponse> {
-        let input = ListFunctionsByCodeSigningConfigRequest(
-            codeSigningConfigArn: codeSigningConfigArn, 
-            maxItems: maxItems
-        )
-        return self.listFunctionsByCodeSigningConfigPaginator(input, logger: logger)
-    }
-
-    /// Return PaginatorSequence for operation ``listLayerVersions(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - input: Input for operation
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listLayerVersionsPaginator(
-        _ input: ListLayerVersionsRequest,
-        logger: Logger = AWSClient.loggingDisabled
-    ) -> AWSClient.PaginatorSequence<ListLayerVersionsRequest, ListLayerVersionsResponse> {
-        return .init(
-            input: input,
-            command: self.listLayerVersions,
-            inputKey: \ListLayerVersionsRequest.marker,
-            outputKey: \ListLayerVersionsResponse.nextMarker,
-            logger: logger
-        )
-    }
-    /// Return PaginatorSequence for operation ``listLayerVersions(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - compatibleArchitecture: The compatible
-    ///   - compatibleRuntime: A runtime identifier. The following list includes deprecated runtimes. For more information, see Runtime use after deprecation. For a list of all currently supported runtimes, see Supported runtimes.
-    ///   - layerName: The name or Amazon Resource Name (ARN) of the layer.
-    ///   - maxItems: The maximum number of versions to return.
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listLayerVersionsPaginator(
-        compatibleArchitecture: Architecture? = nil,
-        compatibleRuntime: Runtime? = nil,
-        layerName: String,
-        maxItems: Int? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) -> AWSClient.PaginatorSequence<ListLayerVersionsRequest, ListLayerVersionsResponse> {
-        let input = ListLayerVersionsRequest(
-            compatibleArchitecture: compatibleArchitecture, 
-            compatibleRuntime: compatibleRuntime, 
-            layerName: layerName, 
-            maxItems: maxItems
-        )
-        return self.listLayerVersionsPaginator(input, logger: logger)
-    }
-
-    /// Return PaginatorSequence for operation ``listLayers(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - input: Input for operation
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listLayersPaginator(
-        _ input: ListLayersRequest,
-        logger: Logger = AWSClient.loggingDisabled
-    ) -> AWSClient.PaginatorSequence<ListLayersRequest, ListLayersResponse> {
-        return .init(
-            input: input,
-            command: self.listLayers,
-            inputKey: \ListLayersRequest.marker,
-            outputKey: \ListLayersResponse.nextMarker,
-            logger: logger
-        )
-    }
-    /// Return PaginatorSequence for operation ``listLayers(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - compatibleArchitecture: The compatible
-    ///   - compatibleRuntime: A runtime identifier. The following list includes deprecated runtimes. For more information, see Runtime use after deprecation. For a list of all currently supported runtimes, see Supported runtimes.
-    ///   - maxItems: The maximum number of layers to return.
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listLayersPaginator(
-        compatibleArchitecture: Architecture? = nil,
-        compatibleRuntime: Runtime? = nil,
-        maxItems: Int? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) -> AWSClient.PaginatorSequence<ListLayersRequest, ListLayersResponse> {
-        let input = ListLayersRequest(
-            compatibleArchitecture: compatibleArchitecture, 
-            compatibleRuntime: compatibleRuntime, 
-            maxItems: maxItems
-        )
-        return self.listLayersPaginator(input, logger: logger)
-    }
-
-    /// Return PaginatorSequence for operation ``listProvisionedConcurrencyConfigs(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - input: Input for operation
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listProvisionedConcurrencyConfigsPaginator(
-        _ input: ListProvisionedConcurrencyConfigsRequest,
-        logger: Logger = AWSClient.loggingDisabled
-    ) -> AWSClient.PaginatorSequence<ListProvisionedConcurrencyConfigsRequest, ListProvisionedConcurrencyConfigsResponse> {
-        return .init(
-            input: input,
-            command: self.listProvisionedConcurrencyConfigs,
-            inputKey: \ListProvisionedConcurrencyConfigsRequest.marker,
-            outputKey: \ListProvisionedConcurrencyConfigsResponse.nextMarker,
-            logger: logger
-        )
-    }
-    /// Return PaginatorSequence for operation ``listProvisionedConcurrencyConfigs(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - functionName: The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    ///   - maxItems: Specify a number to limit the number of configurations returned.
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listProvisionedConcurrencyConfigsPaginator(
-        functionName: String,
-        maxItems: Int? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) -> AWSClient.PaginatorSequence<ListProvisionedConcurrencyConfigsRequest, ListProvisionedConcurrencyConfigsResponse> {
-        let input = ListProvisionedConcurrencyConfigsRequest(
-            functionName: functionName, 
-            maxItems: maxItems
-        )
-        return self.listProvisionedConcurrencyConfigsPaginator(input, logger: logger)
-    }
-
-    /// Return PaginatorSequence for operation ``listVersionsByFunction(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - input: Input for operation
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listVersionsByFunctionPaginator(
-        _ input: ListVersionsByFunctionRequest,
-        logger: Logger = AWSClient.loggingDisabled
-    ) -> AWSClient.PaginatorSequence<ListVersionsByFunctionRequest, ListVersionsByFunctionResponse> {
-        return .init(
-            input: input,
-            command: self.listVersionsByFunction,
-            inputKey: \ListVersionsByFunctionRequest.marker,
-            outputKey: \ListVersionsByFunctionResponse.nextMarker,
-            logger: logger
-        )
-    }
-    /// Return PaginatorSequence for operation ``listVersionsByFunction(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - functionName: The name or ARN of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    ///   - maxItems: The maximum number of versions to return. Note that ListVersionsByFunction returns a maximum of 50 items in each response,  even if you set the number higher.
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listVersionsByFunctionPaginator(
-        functionName: String,
-        maxItems: Int? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) -> AWSClient.PaginatorSequence<ListVersionsByFunctionRequest, ListVersionsByFunctionResponse> {
-        let input = ListVersionsByFunctionRequest(
-            functionName: functionName, 
-            maxItems: maxItems
-        )
-        return self.listVersionsByFunctionPaginator(input, logger: logger)
-    }
-}
-
-extension Lambda.ListAliasesRequest: AWSPaginateToken {
-    @inlinable
-    public func usingPaginationToken(_ token: String) -> Lambda.ListAliasesRequest {
-        return .init(
-            functionName: self.functionName,
-            functionVersion: self.functionVersion,
-            marker: token,
-            maxItems: self.maxItems
-        )
-    }
-}
-
-extension Lambda.ListCodeSigningConfigsRequest: AWSPaginateToken {
-    @inlinable
-    public func usingPaginationToken(_ token: String) -> Lambda.ListCodeSigningConfigsRequest {
-        return .init(
-            marker: token,
-            maxItems: self.maxItems
-        )
-    }
-}
-
-extension Lambda.ListEventSourceMappingsRequest: AWSPaginateToken {
-    @inlinable
-    public func usingPaginationToken(_ token: String) -> Lambda.ListEventSourceMappingsRequest {
-        return .init(
-            eventSourceArn: self.eventSourceArn,
-            functionName: self.functionName,
-            marker: token,
-            maxItems: self.maxItems
-        )
-    }
-}
-
-extension Lambda.ListFunctionEventInvokeConfigsRequest: AWSPaginateToken {
-    @inlinable
-    public func usingPaginationToken(_ token: String) -> Lambda.ListFunctionEventInvokeConfigsRequest {
-        return .init(
-            functionName: self.functionName,
-            marker: token,
-            maxItems: self.maxItems
-        )
-    }
-}
-
-extension Lambda.ListFunctionUrlConfigsRequest: AWSPaginateToken {
-    @inlinable
-    public func usingPaginationToken(_ token: String) -> Lambda.ListFunctionUrlConfigsRequest {
-        return .init(
-            functionName: self.functionName,
-            marker: token,
-            maxItems: self.maxItems
-        )
-    }
-}
-
-extension Lambda.ListFunctionsByCodeSigningConfigRequest: AWSPaginateToken {
-    @inlinable
-    public func usingPaginationToken(_ token: String) -> Lambda.ListFunctionsByCodeSigningConfigRequest {
-        return .init(
-            codeSigningConfigArn: self.codeSigningConfigArn,
-            marker: token,
-            maxItems: self.maxItems
-        )
-    }
-}
-
-extension Lambda.ListFunctionsRequest: AWSPaginateToken {
-    @inlinable
-    public func usingPaginationToken(_ token: String) -> Lambda.ListFunctionsRequest {
-        return .init(
-            functionVersion: self.functionVersion,
-            marker: token,
-            masterRegion: self.masterRegion,
-            maxItems: self.maxItems
-        )
-    }
-}
-
-extension Lambda.ListLayerVersionsRequest: AWSPaginateToken {
-    @inlinable
-    public func usingPaginationToken(_ token: String) -> Lambda.ListLayerVersionsRequest {
-        return .init(
-            compatibleArchitecture: self.compatibleArchitecture,
-            compatibleRuntime: self.compatibleRuntime,
-            layerName: self.layerName,
-            marker: token,
-            maxItems: self.maxItems
-        )
-    }
-}
-
-extension Lambda.ListLayersRequest: AWSPaginateToken {
-    @inlinable
-    public func usingPaginationToken(_ token: String) -> Lambda.ListLayersRequest {
-        return .init(
-            compatibleArchitecture: self.compatibleArchitecture,
-            compatibleRuntime: self.compatibleRuntime,
-            marker: token,
-            maxItems: self.maxItems
-        )
-    }
-}
-
-extension Lambda.ListProvisionedConcurrencyConfigsRequest: AWSPaginateToken {
-    @inlinable
-    public func usingPaginationToken(_ token: String) -> Lambda.ListProvisionedConcurrencyConfigsRequest {
-        return .init(
-            functionName: self.functionName,
-            marker: token,
-            maxItems: self.maxItems
-        )
-    }
-}
-
-extension Lambda.ListVersionsByFunctionRequest: AWSPaginateToken {
-    @inlinable
-    public func usingPaginationToken(_ token: String) -> Lambda.ListVersionsByFunctionRequest {
-        return .init(
-            functionName: self.functionName,
-            marker: token,
-            maxItems: self.maxItems
-        )
-    }
-}
-
 // MARK: Waiters
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -3348,6 +2798,7 @@ extension Lambda {
                 .init(state: .retry, matcher: try! JMESPathMatcher("state", expected: "Pending")),
             ],
             minDelayTime: .seconds(5),
+            maxDelayTime: .seconds(300),
             command: self.getFunctionConfiguration
         )
         return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
@@ -3389,6 +2840,7 @@ extension Lambda {
                 .init(state: .retry, matcher: try! JMESPathMatcher("configuration.state", expected: "Pending")),
             ],
             minDelayTime: .seconds(1),
+            maxDelayTime: .seconds(300),
             command: self.getFunction
         )
         return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
@@ -3429,6 +2881,7 @@ extension Lambda {
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
             ],
             minDelayTime: .seconds(1),
+            maxDelayTime: .seconds(20),
             command: self.getFunction
         )
         return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
@@ -3470,6 +2923,7 @@ extension Lambda {
                 .init(state: .retry, matcher: try! JMESPathMatcher("lastUpdateStatus", expected: "InProgress")),
             ],
             minDelayTime: .seconds(5),
+            maxDelayTime: .seconds(300),
             command: self.getFunctionConfiguration
         )
         return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
@@ -3511,6 +2965,7 @@ extension Lambda {
                 .init(state: .retry, matcher: try! JMESPathMatcher("configuration.lastUpdateStatus", expected: "InProgress")),
             ],
             minDelayTime: .seconds(1),
+            maxDelayTime: .seconds(300),
             command: self.getFunction
         )
         return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
@@ -3552,6 +3007,7 @@ extension Lambda {
                 .init(state: .retry, matcher: try! JMESPathMatcher("state", expected: "Pending")),
             ],
             minDelayTime: .seconds(5),
+            maxDelayTime: .seconds(1560),
             command: self.getFunctionConfiguration
         )
         return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)

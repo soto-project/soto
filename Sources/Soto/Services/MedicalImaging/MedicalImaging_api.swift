@@ -139,6 +139,7 @@ public struct MedicalImaging: AWSService {
     ///   - clientToken: A unique identifier for API idempotency.
     ///   - datastoreName: The data store name.
     ///   - kmsKeyArn: The Amazon Resource Name (ARN) assigned to the Key Management Service (KMS) key for accessing encrypted data.
+    ///   - lambdaAuthorizerArn: The ARN of the authorizer's Lambda function.
     ///   - tags: The tags provided when creating a data store.
     ///   - logger: Logger use during operation
     @inlinable
@@ -146,6 +147,7 @@ public struct MedicalImaging: AWSService {
         clientToken: String = CreateDatastoreRequest.idempotencyToken(),
         datastoreName: String? = nil,
         kmsKeyArn: String? = nil,
+        lambdaAuthorizerArn: String? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateDatastoreResponse {
@@ -153,6 +155,7 @@ public struct MedicalImaging: AWSService {
             clientToken: clientToken, 
             datastoreName: datastoreName, 
             kmsKeyArn: kmsKeyArn, 
+            lambdaAuthorizerArn: lambdaAuthorizerArn, 
             tags: tags
         )
         return try await self.createDatastore(input, logger: logger)

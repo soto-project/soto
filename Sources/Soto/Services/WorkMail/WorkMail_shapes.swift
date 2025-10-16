@@ -4632,11 +4632,11 @@ extension WorkMail {
         public let logGroupArn: String
         /// The ID of the organization for which the email monitoring configuration is set.
         public let organizationId: String
-        /// The Amazon Resource Name (ARN) of the IAM Role associated with the email monitoring configuration.
-        public let roleArn: String
+        /// The Amazon Resource Name (ARN) of the IAM Role associated with the email monitoring configuration. If absent, the IAM Role Arn of AWSServiceRoleForAmazonWorkMailEvents will be used.
+        public let roleArn: String?
 
         @inlinable
-        public init(logGroupArn: String, organizationId: String, roleArn: String) {
+        public init(logGroupArn: String, organizationId: String, roleArn: String? = nil) {
             self.logGroupArn = logGroupArn
             self.organizationId = organizationId
             self.roleArn = roleArn

@@ -1899,16 +1899,19 @@ extension Odb {
         public let displayName: String?
         /// The unique identifier of the ODB network that initiates the peering connection.
         public let odbNetworkId: String
+        /// A list of CIDR blocks to add to the peering connection. These CIDR blocks define the IP address ranges that can communicate through the peering connection.
+        public let peerNetworkCidrsToBeAdded: [String]?
         /// The unique identifier of the peer network. This can be either a VPC ID or another ODB network ID.
         public let peerNetworkId: String
         /// The tags to assign to the ODB peering connection.
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = CreateOdbPeeringConnectionInput.idempotencyToken(), displayName: String? = nil, odbNetworkId: String, peerNetworkId: String, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateOdbPeeringConnectionInput.idempotencyToken(), displayName: String? = nil, odbNetworkId: String, peerNetworkCidrsToBeAdded: [String]? = nil, peerNetworkId: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.displayName = displayName
             self.odbNetworkId = odbNetworkId
+            self.peerNetworkCidrsToBeAdded = peerNetworkCidrsToBeAdded
             self.peerNetworkId = peerNetworkId
             self.tags = tags
         }
@@ -1921,6 +1924,11 @@ extension Odb {
             try self.validate(self.odbNetworkId, name: "odbNetworkId", parent: name, max: 2048)
             try self.validate(self.odbNetworkId, name: "odbNetworkId", parent: name, min: 6)
             try self.validate(self.odbNetworkId, name: "odbNetworkId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+            try self.peerNetworkCidrsToBeAdded?.forEach {
+                try validate($0, name: "peerNetworkCidrsToBeAdded[]", parent: name, max: 18)
+                try validate($0, name: "peerNetworkCidrsToBeAdded[]", parent: name, min: 1)
+                try validate($0, name: "peerNetworkCidrsToBeAdded[]", parent: name, pattern: "^(?:(?:\\d|[01]?\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d|\\d)\\/(?:[1-2][0-9]|3[0-2]|[1-9])$")
+            }
             try self.validate(self.peerNetworkId, name: "peerNetworkId", parent: name, max: 2048)
             try self.validate(self.peerNetworkId, name: "peerNetworkId", parent: name, min: 6)
             try self.validate(self.peerNetworkId, name: "peerNetworkId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
@@ -1937,6 +1945,7 @@ extension Odb {
             case clientToken = "clientToken"
             case displayName = "displayName"
             case odbNetworkId = "odbNetworkId"
+            case peerNetworkCidrsToBeAdded = "peerNetworkCidrsToBeAdded"
             case peerNetworkId = "peerNetworkId"
             case tags = "tags"
         }
@@ -4062,6 +4071,8 @@ extension Odb {
         public let odbPeeringConnectionType: String?
         /// The Amazon Resource Name (ARN) of the peer network.
         public let peerNetworkArn: String?
+        /// The CIDR blocks associated with the peering connection. These CIDR blocks define the IP address ranges that can communicate through the peering connection.
+        public let peerNetworkCidrs: [String]?
         /// The percentage progress of the ODB peering connection creation or deletion.
         public let percentProgress: Float?
         /// The status of the ODB peering connection. Valid Values: provisioning | active | terminating | terminated | failed
@@ -4070,7 +4081,7 @@ extension Odb {
         public let statusReason: String?
 
         @inlinable
-        public init(createdAt: Date? = nil, displayName: String? = nil, odbNetworkArn: String? = nil, odbPeeringConnectionArn: String? = nil, odbPeeringConnectionId: String, odbPeeringConnectionType: String? = nil, peerNetworkArn: String? = nil, percentProgress: Float? = nil, status: ResourceStatus? = nil, statusReason: String? = nil) {
+        public init(createdAt: Date? = nil, displayName: String? = nil, odbNetworkArn: String? = nil, odbPeeringConnectionArn: String? = nil, odbPeeringConnectionId: String, odbPeeringConnectionType: String? = nil, peerNetworkArn: String? = nil, peerNetworkCidrs: [String]? = nil, percentProgress: Float? = nil, status: ResourceStatus? = nil, statusReason: String? = nil) {
             self.createdAt = createdAt
             self.displayName = displayName
             self.odbNetworkArn = odbNetworkArn
@@ -4078,6 +4089,7 @@ extension Odb {
             self.odbPeeringConnectionId = odbPeeringConnectionId
             self.odbPeeringConnectionType = odbPeeringConnectionType
             self.peerNetworkArn = peerNetworkArn
+            self.peerNetworkCidrs = peerNetworkCidrs
             self.percentProgress = percentProgress
             self.status = status
             self.statusReason = statusReason
@@ -4091,6 +4103,7 @@ extension Odb {
             case odbPeeringConnectionId = "odbPeeringConnectionId"
             case odbPeeringConnectionType = "odbPeeringConnectionType"
             case peerNetworkArn = "peerNetworkArn"
+            case peerNetworkCidrs = "peerNetworkCidrs"
             case percentProgress = "percentProgress"
             case status = "status"
             case statusReason = "statusReason"
@@ -4112,6 +4125,8 @@ extension Odb {
         public let odbPeeringConnectionType: String?
         /// The Amazon Resource Name (ARN) of the peer network.
         public let peerNetworkArn: String?
+        /// The CIDR blocks associated with the peering connection. These CIDR blocks define the IP address ranges that can communicate through the peering connection.
+        public let peerNetworkCidrs: [String]?
         /// The percentage progress of the ODB peering connection creation or deletion.
         public let percentProgress: Float?
         /// The status of the ODB peering connection. Valid Values: provisioning | active | terminating | terminated | failed
@@ -4120,7 +4135,7 @@ extension Odb {
         public let statusReason: String?
 
         @inlinable
-        public init(createdAt: Date? = nil, displayName: String? = nil, odbNetworkArn: String? = nil, odbPeeringConnectionArn: String? = nil, odbPeeringConnectionId: String, odbPeeringConnectionType: String? = nil, peerNetworkArn: String? = nil, percentProgress: Float? = nil, status: ResourceStatus? = nil, statusReason: String? = nil) {
+        public init(createdAt: Date? = nil, displayName: String? = nil, odbNetworkArn: String? = nil, odbPeeringConnectionArn: String? = nil, odbPeeringConnectionId: String, odbPeeringConnectionType: String? = nil, peerNetworkArn: String? = nil, peerNetworkCidrs: [String]? = nil, percentProgress: Float? = nil, status: ResourceStatus? = nil, statusReason: String? = nil) {
             self.createdAt = createdAt
             self.displayName = displayName
             self.odbNetworkArn = odbNetworkArn
@@ -4128,6 +4143,7 @@ extension Odb {
             self.odbPeeringConnectionId = odbPeeringConnectionId
             self.odbPeeringConnectionType = odbPeeringConnectionType
             self.peerNetworkArn = peerNetworkArn
+            self.peerNetworkCidrs = peerNetworkCidrs
             self.percentProgress = percentProgress
             self.status = status
             self.statusReason = statusReason
@@ -4141,6 +4157,7 @@ extension Odb {
             case odbPeeringConnectionId = "odbPeeringConnectionId"
             case odbPeeringConnectionType = "odbPeeringConnectionType"
             case peerNetworkArn = "peerNetworkArn"
+            case peerNetworkCidrs = "peerNetworkCidrs"
             case percentProgress = "percentProgress"
             case status = "status"
             case statusReason = "statusReason"
@@ -4656,6 +4673,85 @@ extension Odb {
         private enum CodingKeys: String, CodingKey {
             case displayName = "displayName"
             case odbNetworkId = "odbNetworkId"
+            case status = "status"
+            case statusReason = "statusReason"
+        }
+    }
+
+    public struct UpdateOdbPeeringConnectionInput: AWSEncodableShape {
+        /// A new display name for the peering connection.
+        public let displayName: String?
+        /// The identifier of the Oracle Database@Amazon Web Services peering connection to update.
+        public let odbPeeringConnectionId: String
+        /// A list of CIDR blocks to add to the peering connection. These CIDR blocks define the IP address ranges that can communicate through the peering connection. The CIDR blocks must not overlap with existing CIDR blocks in the Oracle Database@Amazon Web Services network.
+        public let peerNetworkCidrsToBeAdded: [String]?
+        /// A list of CIDR blocks to remove from the peering connection. The CIDR blocks must currently exist in the peering connection.
+        public let peerNetworkCidrsToBeRemoved: [String]?
+
+        @inlinable
+        public init(displayName: String? = nil, odbPeeringConnectionId: String, peerNetworkCidrsToBeAdded: [String]? = nil, peerNetworkCidrsToBeRemoved: [String]? = nil) {
+            self.displayName = displayName
+            self.odbPeeringConnectionId = odbPeeringConnectionId
+            self.peerNetworkCidrsToBeAdded = peerNetworkCidrsToBeAdded
+            self.peerNetworkCidrsToBeRemoved = peerNetworkCidrsToBeRemoved
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.displayName, forKey: .displayName)
+            request.encodePath(self.odbPeeringConnectionId, key: "odbPeeringConnectionId")
+            try container.encodeIfPresent(self.peerNetworkCidrsToBeAdded, forKey: .peerNetworkCidrsToBeAdded)
+            try container.encodeIfPresent(self.peerNetworkCidrsToBeRemoved, forKey: .peerNetworkCidrsToBeRemoved)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 255)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*$")
+            try self.validate(self.odbPeeringConnectionId, name: "odbPeeringConnectionId", parent: name, max: 2048)
+            try self.validate(self.odbPeeringConnectionId, name: "odbPeeringConnectionId", parent: name, min: 6)
+            try self.validate(self.odbPeeringConnectionId, name: "odbPeeringConnectionId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+            try self.peerNetworkCidrsToBeAdded?.forEach {
+                try validate($0, name: "peerNetworkCidrsToBeAdded[]", parent: name, max: 18)
+                try validate($0, name: "peerNetworkCidrsToBeAdded[]", parent: name, min: 1)
+                try validate($0, name: "peerNetworkCidrsToBeAdded[]", parent: name, pattern: "^(?:(?:\\d|[01]?\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d|\\d)\\/(?:[1-2][0-9]|3[0-2]|[1-9])$")
+            }
+            try self.peerNetworkCidrsToBeRemoved?.forEach {
+                try validate($0, name: "peerNetworkCidrsToBeRemoved[]", parent: name, max: 18)
+                try validate($0, name: "peerNetworkCidrsToBeRemoved[]", parent: name, min: 1)
+                try validate($0, name: "peerNetworkCidrsToBeRemoved[]", parent: name, pattern: "^(?:(?:\\d|[01]?\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d|\\d)\\/(?:[1-2][0-9]|3[0-2]|[1-9])$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "displayName"
+            case peerNetworkCidrsToBeAdded = "peerNetworkCidrsToBeAdded"
+            case peerNetworkCidrsToBeRemoved = "peerNetworkCidrsToBeRemoved"
+        }
+    }
+
+    public struct UpdateOdbPeeringConnectionOutput: AWSDecodableShape {
+        /// The display name of the peering connection.
+        public let displayName: String?
+        /// The identifier of the Oracle Database@Amazon Web Services peering connection that was updated.
+        public let odbPeeringConnectionId: String
+        /// The status of the peering connection update operation.
+        public let status: ResourceStatus?
+        /// Additional information about the status of the peering connection update operation.
+        public let statusReason: String?
+
+        @inlinable
+        public init(displayName: String? = nil, odbPeeringConnectionId: String, status: ResourceStatus? = nil, statusReason: String? = nil) {
+            self.displayName = displayName
+            self.odbPeeringConnectionId = odbPeeringConnectionId
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "displayName"
+            case odbPeeringConnectionId = "odbPeeringConnectionId"
             case status = "status"
             case statusReason = "statusReason"
         }

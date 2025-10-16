@@ -182,6 +182,21 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum CustomImageProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case byop = "BYOP"
+        case dcv = "DCV"
+        case pcoip = "PCOIP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CustomWorkspaceImageImportState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case error = "ERROR"
+        case inProgress = "IN_PROGRESS"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DataReplication: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case noReplication = "NO_REPLICATION"
         case primaryAsSource = "PRIMARY_AS_SOURCE"
@@ -253,6 +268,12 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum ImageComputeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case base = "BASE"
+        case graphicsG4Dn = "GRAPHICS_G4DN"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ImageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case owned = "OWNED"
         case shared = "SHARED"
@@ -283,6 +304,12 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum OSVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case windows10 = "Windows_10"
+        case windows11 = "Windows_11"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OperatingSystemName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amazonLinux2 = "AMAZON_LINUX_2"
         case rhel8 = "RHEL_8"
@@ -302,6 +329,11 @@ extension WorkSpaces {
 
     public enum OperatingSystemType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case linux = "LINUX"
+        case windows = "WINDOWS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Platform: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case windows = "WINDOWS"
         public var description: String { return self.rawValue }
     }
@@ -600,6 +632,70 @@ extension WorkSpaces {
         case pcoip = "PCOIP"
         case wsp = "WSP"
         public var description: String { return self.rawValue }
+    }
+
+    public enum ImageSourceIdentifier: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The identifier of the EC2 image.
+        case ec2ImageId(String)
+        /// The EC2 import task ID to import the image from the Amazon EC2 VM import process.
+        case ec2ImportTaskId(String)
+        /// The ARN of the EC2 Image Builder image.
+        case imageBuildVersionArn(String)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .ec2ImageId:
+                let value = try container.decode(String.self, forKey: .ec2ImageId)
+                self = .ec2ImageId(value)
+            case .ec2ImportTaskId:
+                let value = try container.decode(String.self, forKey: .ec2ImportTaskId)
+                self = .ec2ImportTaskId(value)
+            case .imageBuildVersionArn:
+                let value = try container.decode(String.self, forKey: .imageBuildVersionArn)
+                self = .imageBuildVersionArn(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .ec2ImageId(let value):
+                try container.encode(value, forKey: .ec2ImageId)
+            case .ec2ImportTaskId(let value):
+                try container.encode(value, forKey: .ec2ImportTaskId)
+            case .imageBuildVersionArn(let value):
+                try container.encode(value, forKey: .imageBuildVersionArn)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .ec2ImageId(let value):
+                try self.validate(value, name: "ec2ImageId", parent: name, pattern: "^ami\\-([a-f0-9]{8}|[a-f0-9]{17})$")
+            case .ec2ImportTaskId(let value):
+                try self.validate(value, name: "ec2ImportTaskId", parent: name, max: 28)
+                try self.validate(value, name: "ec2ImportTaskId", parent: name, min: 19)
+                try self.validate(value, name: "ec2ImportTaskId", parent: name, pattern: "^import-ami\\-([a-zA-Z0-9]{8}|[a-zA-Z0-9]{17})$")
+            case .imageBuildVersionArn(let value):
+                try self.validate(value, name: "imageBuildVersionArn", parent: name, max: 2048)
+                try self.validate(value, name: "imageBuildVersionArn", parent: name, min: 1)
+                try self.validate(value, name: "imageBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):image/[a-z0-9-_]+/(?:(?:([0-9]+|x)\\.([0-9]+|x)\\.([0-9]+|x))|(?:[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+))$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ec2ImageId = "Ec2ImageId"
+            case ec2ImportTaskId = "Ec2ImportTaskId"
+            case imageBuildVersionArn = "ImageBuildVersionArn"
+        }
     }
 
     // MARK: Shapes
@@ -1884,6 +1980,24 @@ extension WorkSpaces {
         }
     }
 
+    public struct CustomWorkspaceImageImportErrorDetails: AWSDecodableShape {
+        /// The error code that is returned for the image import.
+        public let errorCode: String?
+        /// The text of the error message that is returned for the image import.
+        public let errorMessage: String?
+
+        @inlinable
+        public init(errorCode: String? = nil, errorMessage: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+        }
+    }
+
     public struct DataReplicationSettings: AWSDecodableShape {
         /// Indicates whether data replication is enabled, and if enabled, the type of data replication.
         public let dataReplication: DataReplication?
@@ -2342,18 +2456,22 @@ extension WorkSpaces {
         public let dedicatedTenancyManagementCidrRange: String?
         /// The status of BYOL (whether BYOL is enabled or disabled).
         public let dedicatedTenancySupport: DedicatedTenancySupportResultEnum?
+        /// The text message to describe the status of BYOL.
+        public let message: String?
 
         @inlinable
-        public init(dedicatedTenancyAccountType: DedicatedTenancyAccountType? = nil, dedicatedTenancyManagementCidrRange: String? = nil, dedicatedTenancySupport: DedicatedTenancySupportResultEnum? = nil) {
+        public init(dedicatedTenancyAccountType: DedicatedTenancyAccountType? = nil, dedicatedTenancyManagementCidrRange: String? = nil, dedicatedTenancySupport: DedicatedTenancySupportResultEnum? = nil, message: String? = nil) {
             self.dedicatedTenancyAccountType = dedicatedTenancyAccountType
             self.dedicatedTenancyManagementCidrRange = dedicatedTenancyManagementCidrRange
             self.dedicatedTenancySupport = dedicatedTenancySupport
+            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case dedicatedTenancyAccountType = "DedicatedTenancyAccountType"
             case dedicatedTenancyManagementCidrRange = "DedicatedTenancyManagementCidrRange"
             case dedicatedTenancySupport = "DedicatedTenancySupport"
+            case message = "Message"
         }
     }
 
@@ -2764,6 +2882,66 @@ extension WorkSpaces {
         private enum CodingKeys: String, CodingKey {
             case connectionAliases = "ConnectionAliases"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeCustomWorkspaceImageImportRequest: AWSEncodableShape {
+        /// The identifier of the WorkSpace image.
+        public let imageId: String
+
+        @inlinable
+        public init(imageId: String) {
+            self.imageId = imageId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.imageId, name: "imageId", parent: name, pattern: "^wsi-[0-9a-z]{9,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageId = "ImageId"
+        }
+    }
+
+    public struct DescribeCustomWorkspaceImageImportResult: AWSDecodableShape {
+        /// The timestamp when the WorkSpace image import was created.
+        public let created: Date?
+        /// Describes in-depth details about the error. These details include the possible causes of the error and troubleshooting information.
+        public let errorDetails: [CustomWorkspaceImageImportErrorDetails]?
+        /// The image builder instance ID of the WorkSpace image.
+        public let imageBuilderInstanceId: String?
+        /// The identifier of the WorkSpace image.
+        public let imageId: String?
+        /// Describes the image import source.
+        public let imageSource: ImageSourceIdentifier?
+        /// The infrastructure configuration ARN that specifies how the WorkSpace image is built.
+        public let infrastructureConfigurationArn: String?
+        /// The timestamp when the WorkSpace image import was last updated.
+        public let lastUpdatedTime: Date?
+        /// The state of the WorkSpace image.
+        public let state: CustomWorkspaceImageImportState?
+
+        @inlinable
+        public init(created: Date? = nil, errorDetails: [CustomWorkspaceImageImportErrorDetails]? = nil, imageBuilderInstanceId: String? = nil, imageId: String? = nil, imageSource: ImageSourceIdentifier? = nil, infrastructureConfigurationArn: String? = nil, lastUpdatedTime: Date? = nil, state: CustomWorkspaceImageImportState? = nil) {
+            self.created = created
+            self.errorDetails = errorDetails
+            self.imageBuilderInstanceId = imageBuilderInstanceId
+            self.imageId = imageId
+            self.imageSource = imageSource
+            self.infrastructureConfigurationArn = infrastructureConfigurationArn
+            self.lastUpdatedTime = lastUpdatedTime
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case created = "Created"
+            case errorDetails = "ErrorDetails"
+            case imageBuilderInstanceId = "ImageBuilderInstanceId"
+            case imageId = "ImageId"
+            case imageSource = "ImageSource"
+            case infrastructureConfigurationArn = "InfrastructureConfigurationArn"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case state = "State"
         }
     }
 
@@ -3884,6 +4062,86 @@ extension WorkSpaces {
         }
     }
 
+    public struct ImportCustomWorkspaceImageRequest: AWSEncodableShape {
+        /// The supported compute type for the WorkSpace image.
+        public let computeType: ImageComputeType
+        /// The description of the WorkSpace image.
+        public let imageDescription: String
+        /// The name of the WorkSpace image.
+        public let imageName: String
+        /// The options for image import source.
+        public let imageSource: ImageSourceIdentifier
+        /// The infrastructure configuration ARN that specifies how the WorkSpace image is built.
+        public let infrastructureConfigurationArn: String
+        /// The OS version for the WorkSpace image source.
+        public let osVersion: OSVersion
+        /// The platform for the WorkSpace image source.
+        public let platform: Platform
+        /// The supported protocol for the WorkSpace image. Windows 11 does not support PCOIP protocol.
+        public let `protocol`: CustomImageProtocol
+        /// The resource tags. Each WorkSpaces resource can have a maximum of 50 tags.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(computeType: ImageComputeType, imageDescription: String, imageName: String, imageSource: ImageSourceIdentifier, infrastructureConfigurationArn: String, osVersion: OSVersion, platform: Platform, protocol: CustomImageProtocol, tags: [Tag]? = nil) {
+            self.computeType = computeType
+            self.imageDescription = imageDescription
+            self.imageName = imageName
+            self.imageSource = imageSource
+            self.infrastructureConfigurationArn = infrastructureConfigurationArn
+            self.osVersion = osVersion
+            self.platform = platform
+            self.`protocol` = `protocol`
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.imageDescription, name: "imageDescription", parent: name, max: 256)
+            try self.validate(self.imageDescription, name: "imageDescription", parent: name, min: 1)
+            try self.validate(self.imageDescription, name: "imageDescription", parent: name, pattern: "^[a-zA-Z0-9_./() -]+$")
+            try self.validate(self.imageName, name: "imageName", parent: name, max: 64)
+            try self.validate(self.imageName, name: "imageName", parent: name, min: 1)
+            try self.validate(self.imageName, name: "imageName", parent: name, pattern: "^[a-zA-Z0-9_./()\\\\-]+$")
+            try self.imageSource.validate(name: "\(name).imageSource")
+            try self.validate(self.infrastructureConfigurationArn, name: "infrastructureConfigurationArn", parent: name, max: 2048)
+            try self.validate(self.infrastructureConfigurationArn, name: "infrastructureConfigurationArn", parent: name, min: 1)
+            try self.validate(self.infrastructureConfigurationArn, name: "infrastructureConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infrastructure-configuration/[a-z0-9-_]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computeType = "ComputeType"
+            case imageDescription = "ImageDescription"
+            case imageName = "ImageName"
+            case imageSource = "ImageSource"
+            case infrastructureConfigurationArn = "InfrastructureConfigurationArn"
+            case osVersion = "OsVersion"
+            case platform = "Platform"
+            case `protocol` = "Protocol"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ImportCustomWorkspaceImageResult: AWSDecodableShape {
+        /// The identifier of the WorkSpace image.
+        public let imageId: String?
+        /// The state of the WorkSpace image.
+        public let state: CustomWorkspaceImageImportState?
+
+        @inlinable
+        public init(imageId: String? = nil, state: CustomWorkspaceImageImportState? = nil) {
+            self.imageId = imageId
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageId = "ImageId"
+            case state = "State"
+        }
+    }
+
     public struct ImportWorkspaceImageRequest: AWSEncodableShape {
         /// If specified, the version of Microsoft Office to subscribe to. Valid only for Windows 10 and 11 BYOL images. For more information about subscribing to Office for BYOL images, see  Bring Your Own Windows Desktop Licenses.    Although this parameter is an array, only one item is allowed at this time.   During the image import process, non-GPU DCV (formerly WSP) WorkSpaces with Windows 11 support only Microsoft_Office_2019. GPU DCV (formerly WSP) WorkSpaces with Windows 11 do not support Office installation.
         public let applications: [Application]?
@@ -4266,7 +4524,17 @@ extension WorkSpaces {
     }
 
     public struct ModifyAccountResult: AWSDecodableShape {
-        public init() {}
+        /// The text message to describe the status of BYOL modification.
+        public let message: String?
+
+        @inlinable
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+        }
     }
 
     public struct ModifyCertificateBasedAuthPropertiesRequest: AWSEncodableShape {

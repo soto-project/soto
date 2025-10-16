@@ -63,7 +63,14 @@ extension ECR {
 
     public enum ImageTagMutability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case immutable = "IMMUTABLE"
+        case immutableWithExclusion = "IMMUTABLE_WITH_EXCLUSION"
         case mutable = "MUTABLE"
+        case mutableWithExclusion = "MUTABLE_WITH_EXCLUSION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageTagMutabilityExclusionFilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case wildcard = "WILDCARD"
         public var description: String { return self.rawValue }
     }
 
@@ -626,6 +633,8 @@ extension ECR {
         public let encryptionConfiguration: EncryptionConfigurationForRepositoryCreationTemplate?
         /// The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
         public let imageTagMutability: ImageTagMutability?
+        /// Creates a repository creation template with a list of filters that define which image tags can override the default image tag mutability setting.
+        public let imageTagMutabilityExclusionFilters: [ImageTagMutabilityExclusionFilter]?
         /// The lifecycle policy to use for repositories created using the template.
         public let lifecyclePolicy: String?
         /// The repository namespace prefix to associate with the template. All repositories created using this namespace prefix will have the settings defined in this template applied. For example, a prefix of prod would apply to all repositories beginning with prod/. Similarly, a prefix of prod/team would apply to all repositories beginning with prod/team/. To apply a template to all repositories in your registry that don't have an associated creation template, you can use ROOT as the prefix.  There is always an assumed / applied to the end of the prefix. If you specify ecr-public as the prefix, Amazon ECR treats that as ecr-public/. When using a pull through cache rule, the repository prefix you specify during rule creation is what you should specify as your repository creation template prefix as well.
@@ -636,12 +645,13 @@ extension ECR {
         public let resourceTags: [Tag]?
 
         @inlinable
-        public init(appliedFor: [RCTAppliedFor], customRoleArn: String? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfigurationForRepositoryCreationTemplate? = nil, imageTagMutability: ImageTagMutability? = nil, lifecyclePolicy: String? = nil, prefix: String, repositoryPolicy: String? = nil, resourceTags: [Tag]? = nil) {
+        public init(appliedFor: [RCTAppliedFor], customRoleArn: String? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfigurationForRepositoryCreationTemplate? = nil, imageTagMutability: ImageTagMutability? = nil, imageTagMutabilityExclusionFilters: [ImageTagMutabilityExclusionFilter]? = nil, lifecyclePolicy: String? = nil, prefix: String, repositoryPolicy: String? = nil, resourceTags: [Tag]? = nil) {
             self.appliedFor = appliedFor
             self.customRoleArn = customRoleArn
             self.description = description
             self.encryptionConfiguration = encryptionConfiguration
             self.imageTagMutability = imageTagMutability
+            self.imageTagMutabilityExclusionFilters = imageTagMutabilityExclusionFilters
             self.lifecyclePolicy = lifecyclePolicy
             self.prefix = prefix
             self.repositoryPolicy = repositoryPolicy
@@ -652,6 +662,11 @@ extension ECR {
             try self.validate(self.customRoleArn, name: "customRoleArn", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try self.imageTagMutabilityExclusionFilters?.forEach {
+                try $0.validate(name: "\(name).imageTagMutabilityExclusionFilters[]")
+            }
+            try self.validate(self.imageTagMutabilityExclusionFilters, name: "imageTagMutabilityExclusionFilters", parent: name, max: 5)
+            try self.validate(self.imageTagMutabilityExclusionFilters, name: "imageTagMutabilityExclusionFilters", parent: name, min: 1)
             try self.validate(self.lifecyclePolicy, name: "lifecyclePolicy", parent: name, max: 30720)
             try self.validate(self.prefix, name: "prefix", parent: name, max: 256)
             try self.validate(self.prefix, name: "prefix", parent: name, min: 1)
@@ -665,6 +680,7 @@ extension ECR {
             case description = "description"
             case encryptionConfiguration = "encryptionConfiguration"
             case imageTagMutability = "imageTagMutability"
+            case imageTagMutabilityExclusionFilters = "imageTagMutabilityExclusionFilters"
             case lifecyclePolicy = "lifecyclePolicy"
             case prefix = "prefix"
             case repositoryPolicy = "repositoryPolicy"
@@ -697,6 +713,8 @@ extension ECR {
         public let imageScanningConfiguration: ImageScanningConfiguration?
         /// The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
         public let imageTagMutability: ImageTagMutability?
+        /// Creates a repository with a list of filters that define which image tags can override the default image tag mutability setting.
+        public let imageTagMutabilityExclusionFilters: [ImageTagMutabilityExclusionFilter]?
         /// The Amazon Web Services account ID associated with the registry to create the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The name to use for the repository. The repository name may be specified on its own (such as nginx-web-app) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app). The repository name must start with a letter and can only contain lowercase letters, numbers, hyphens, underscores, and forward slashes.
@@ -705,10 +723,11 @@ extension ECR {
         public let tags: [Tag]?
 
         @inlinable
-        public init(encryptionConfiguration: EncryptionConfiguration? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTagMutability: ImageTagMutability? = nil, registryId: String? = nil, repositoryName: String, tags: [Tag]? = nil) {
+        public init(encryptionConfiguration: EncryptionConfiguration? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTagMutability: ImageTagMutability? = nil, imageTagMutabilityExclusionFilters: [ImageTagMutabilityExclusionFilter]? = nil, registryId: String? = nil, repositoryName: String, tags: [Tag]? = nil) {
             self.encryptionConfiguration = encryptionConfiguration
             self.imageScanningConfiguration = imageScanningConfiguration
             self.imageTagMutability = imageTagMutability
+            self.imageTagMutabilityExclusionFilters = imageTagMutabilityExclusionFilters
             self.registryId = registryId
             self.repositoryName = repositoryName
             self.tags = tags
@@ -716,6 +735,11 @@ extension ECR {
 
         public func validate(name: String) throws {
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try self.imageTagMutabilityExclusionFilters?.forEach {
+                try $0.validate(name: "\(name).imageTagMutabilityExclusionFilters[]")
+            }
+            try self.validate(self.imageTagMutabilityExclusionFilters, name: "imageTagMutabilityExclusionFilters", parent: name, max: 5)
+            try self.validate(self.imageTagMutabilityExclusionFilters, name: "imageTagMutabilityExclusionFilters", parent: name, min: 1)
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
@@ -726,6 +750,7 @@ extension ECR {
             case encryptionConfiguration = "encryptionConfiguration"
             case imageScanningConfiguration = "imageScanningConfiguration"
             case imageTagMutability = "imageTagMutability"
+            case imageTagMutabilityExclusionFilters = "imageTagMutabilityExclusionFilters"
             case registryId = "registryId"
             case repositoryName = "repositoryName"
             case tags = "tags"
@@ -2224,6 +2249,30 @@ extension ECR {
         }
     }
 
+    public struct ImageTagMutabilityExclusionFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The value to use when filtering image tags. Must be either a regular expression pattern or a tag prefix value based on the specified filter type.
+        public let filter: String
+        /// Specifies the type of filter to use for excluding image tags from the repository's mutability setting.
+        public let filterType: ImageTagMutabilityExclusionFilterType
+
+        @inlinable
+        public init(filter: String, filterType: ImageTagMutabilityExclusionFilterType) {
+            self.filter = filter
+            self.filterType = filterType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.filter, name: "filter", parent: name, max: 128)
+            try self.validate(self.filter, name: "filter", parent: name, min: 1)
+            try self.validate(self.filter, name: "filter", parent: name, pattern: "^[0-9a-zA-Z._*-]{1,128}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "filter"
+            case filterType = "filterType"
+        }
+    }
+
     public struct InitiateLayerUploadRequest: AWSEncodableShape {
         /// The Amazon Web Services account ID associated with the registry to which you intend to upload layers. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
@@ -2783,19 +2832,27 @@ extension ECR {
     public struct PutImageTagMutabilityRequest: AWSEncodableShape {
         /// The tag mutability setting for the repository. If MUTABLE is specified, image tags can be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
         public let imageTagMutability: ImageTagMutability
+        /// Creates or updates a repository with filters that define which image tags can override the default image tag mutability setting.
+        public let imageTagMutabilityExclusionFilters: [ImageTagMutabilityExclusionFilter]?
         /// The Amazon Web Services account ID associated with the registry that contains the repository in which to update the image tag mutability settings. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The name of the repository in which to update the image tag mutability settings.
         public let repositoryName: String
 
         @inlinable
-        public init(imageTagMutability: ImageTagMutability, registryId: String? = nil, repositoryName: String) {
+        public init(imageTagMutability: ImageTagMutability, imageTagMutabilityExclusionFilters: [ImageTagMutabilityExclusionFilter]? = nil, registryId: String? = nil, repositoryName: String) {
             self.imageTagMutability = imageTagMutability
+            self.imageTagMutabilityExclusionFilters = imageTagMutabilityExclusionFilters
             self.registryId = registryId
             self.repositoryName = repositoryName
         }
 
         public func validate(name: String) throws {
+            try self.imageTagMutabilityExclusionFilters?.forEach {
+                try $0.validate(name: "\(name).imageTagMutabilityExclusionFilters[]")
+            }
+            try self.validate(self.imageTagMutabilityExclusionFilters, name: "imageTagMutabilityExclusionFilters", parent: name, max: 5)
+            try self.validate(self.imageTagMutabilityExclusionFilters, name: "imageTagMutabilityExclusionFilters", parent: name, min: 1)
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
@@ -2804,6 +2861,7 @@ extension ECR {
 
         private enum CodingKeys: String, CodingKey {
             case imageTagMutability = "imageTagMutability"
+            case imageTagMutabilityExclusionFilters = "imageTagMutabilityExclusionFilters"
             case registryId = "registryId"
             case repositoryName = "repositoryName"
         }
@@ -2812,20 +2870,24 @@ extension ECR {
     public struct PutImageTagMutabilityResponse: AWSDecodableShape {
         /// The image tag mutability setting for the repository.
         public let imageTagMutability: ImageTagMutability?
+        /// Returns a list of filters that were defined for a repository. These filters determine which image tags can override the default image tag mutability setting of the repository.
+        public let imageTagMutabilityExclusionFilters: [ImageTagMutabilityExclusionFilter]?
         /// The registry ID associated with the request.
         public let registryId: String?
         /// The repository name associated with the request.
         public let repositoryName: String?
 
         @inlinable
-        public init(imageTagMutability: ImageTagMutability? = nil, registryId: String? = nil, repositoryName: String? = nil) {
+        public init(imageTagMutability: ImageTagMutability? = nil, imageTagMutabilityExclusionFilters: [ImageTagMutabilityExclusionFilter]? = nil, registryId: String? = nil, repositoryName: String? = nil) {
             self.imageTagMutability = imageTagMutability
+            self.imageTagMutabilityExclusionFilters = imageTagMutabilityExclusionFilters
             self.registryId = registryId
             self.repositoryName = repositoryName
         }
 
         private enum CodingKeys: String, CodingKey {
             case imageTagMutability = "imageTagMutability"
+            case imageTagMutabilityExclusionFilters = "imageTagMutabilityExclusionFilters"
             case registryId = "registryId"
             case repositoryName = "repositoryName"
         }
@@ -3150,6 +3212,8 @@ extension ECR {
         public let imageScanningConfiguration: ImageScanningConfiguration?
         /// The tag mutability setting for the repository.
         public let imageTagMutability: ImageTagMutability?
+        /// The image tag mutability exclusion filters associated with the repository. These filters specify which image tags can override the repository's default image tag mutability setting.
+        public let imageTagMutabilityExclusionFilters: [ImageTagMutabilityExclusionFilter]?
         /// The Amazon Web Services account ID associated with the registry that contains the repository.
         public let registryId: String?
         /// The Amazon Resource Name (ARN) that identifies the repository. The ARN contains the arn:aws:ecr namespace, followed by the region of the repository, Amazon Web Services account ID of the repository owner, repository namespace, and repository name. For example, arn:aws:ecr:region:012345678910:repository-namespace/repository-name.
@@ -3160,11 +3224,12 @@ extension ECR {
         public let repositoryUri: String?
 
         @inlinable
-        public init(createdAt: Date? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTagMutability: ImageTagMutability? = nil, registryId: String? = nil, repositoryArn: String? = nil, repositoryName: String? = nil, repositoryUri: String? = nil) {
+        public init(createdAt: Date? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTagMutability: ImageTagMutability? = nil, imageTagMutabilityExclusionFilters: [ImageTagMutabilityExclusionFilter]? = nil, registryId: String? = nil, repositoryArn: String? = nil, repositoryName: String? = nil, repositoryUri: String? = nil) {
             self.createdAt = createdAt
             self.encryptionConfiguration = encryptionConfiguration
             self.imageScanningConfiguration = imageScanningConfiguration
             self.imageTagMutability = imageTagMutability
+            self.imageTagMutabilityExclusionFilters = imageTagMutabilityExclusionFilters
             self.registryId = registryId
             self.repositoryArn = repositoryArn
             self.repositoryName = repositoryName
@@ -3176,6 +3241,7 @@ extension ECR {
             case encryptionConfiguration = "encryptionConfiguration"
             case imageScanningConfiguration = "imageScanningConfiguration"
             case imageTagMutability = "imageTagMutability"
+            case imageTagMutabilityExclusionFilters = "imageTagMutabilityExclusionFilters"
             case registryId = "registryId"
             case repositoryArn = "repositoryArn"
             case repositoryName = "repositoryName"
@@ -3196,6 +3262,8 @@ extension ECR {
         public let encryptionConfiguration: EncryptionConfigurationForRepositoryCreationTemplate?
         /// The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
         public let imageTagMutability: ImageTagMutability?
+        /// Defines the image tag mutability exclusion filters to apply when creating repositories from this template. These filters specify which image tags can override the repository's default image tag mutability setting.
+        public let imageTagMutabilityExclusionFilters: [ImageTagMutabilityExclusionFilter]?
         /// The lifecycle policy to use for repositories created using the template.
         public let lifecyclePolicy: String?
         /// The repository namespace prefix associated with the repository creation template.
@@ -3208,13 +3276,14 @@ extension ECR {
         public let updatedAt: Date?
 
         @inlinable
-        public init(appliedFor: [RCTAppliedFor]? = nil, createdAt: Date? = nil, customRoleArn: String? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfigurationForRepositoryCreationTemplate? = nil, imageTagMutability: ImageTagMutability? = nil, lifecyclePolicy: String? = nil, prefix: String? = nil, repositoryPolicy: String? = nil, resourceTags: [Tag]? = nil, updatedAt: Date? = nil) {
+        public init(appliedFor: [RCTAppliedFor]? = nil, createdAt: Date? = nil, customRoleArn: String? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfigurationForRepositoryCreationTemplate? = nil, imageTagMutability: ImageTagMutability? = nil, imageTagMutabilityExclusionFilters: [ImageTagMutabilityExclusionFilter]? = nil, lifecyclePolicy: String? = nil, prefix: String? = nil, repositoryPolicy: String? = nil, resourceTags: [Tag]? = nil, updatedAt: Date? = nil) {
             self.appliedFor = appliedFor
             self.createdAt = createdAt
             self.customRoleArn = customRoleArn
             self.description = description
             self.encryptionConfiguration = encryptionConfiguration
             self.imageTagMutability = imageTagMutability
+            self.imageTagMutabilityExclusionFilters = imageTagMutabilityExclusionFilters
             self.lifecyclePolicy = lifecyclePolicy
             self.prefix = prefix
             self.repositoryPolicy = repositoryPolicy
@@ -3229,6 +3298,7 @@ extension ECR {
             case description = "description"
             case encryptionConfiguration = "encryptionConfiguration"
             case imageTagMutability = "imageTagMutability"
+            case imageTagMutabilityExclusionFilters = "imageTagMutabilityExclusionFilters"
             case lifecyclePolicy = "lifecyclePolicy"
             case prefix = "prefix"
             case repositoryPolicy = "repositoryPolicy"
@@ -3701,6 +3771,8 @@ extension ECR {
         public let encryptionConfiguration: EncryptionConfigurationForRepositoryCreationTemplate?
         /// Updates the tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
         public let imageTagMutability: ImageTagMutability?
+        /// Updates a repository with filters that define which image tags can override the default image tag mutability setting.
+        public let imageTagMutabilityExclusionFilters: [ImageTagMutabilityExclusionFilter]?
         /// Updates the lifecycle policy associated with the specified repository creation template.
         public let lifecyclePolicy: String?
         /// The repository namespace prefix that matches an existing repository creation template in the registry. All repositories created using this namespace prefix will have the settings defined in this template applied. For example, a prefix of prod would apply to all repositories beginning with prod/. This includes a repository named prod/team1 as well as a repository named prod/repository1. To apply a template to all repositories in your registry that don't have an associated creation template, you can use ROOT as the prefix.
@@ -3711,12 +3783,13 @@ extension ECR {
         public let resourceTags: [Tag]?
 
         @inlinable
-        public init(appliedFor: [RCTAppliedFor]? = nil, customRoleArn: String? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfigurationForRepositoryCreationTemplate? = nil, imageTagMutability: ImageTagMutability? = nil, lifecyclePolicy: String? = nil, prefix: String, repositoryPolicy: String? = nil, resourceTags: [Tag]? = nil) {
+        public init(appliedFor: [RCTAppliedFor]? = nil, customRoleArn: String? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfigurationForRepositoryCreationTemplate? = nil, imageTagMutability: ImageTagMutability? = nil, imageTagMutabilityExclusionFilters: [ImageTagMutabilityExclusionFilter]? = nil, lifecyclePolicy: String? = nil, prefix: String, repositoryPolicy: String? = nil, resourceTags: [Tag]? = nil) {
             self.appliedFor = appliedFor
             self.customRoleArn = customRoleArn
             self.description = description
             self.encryptionConfiguration = encryptionConfiguration
             self.imageTagMutability = imageTagMutability
+            self.imageTagMutabilityExclusionFilters = imageTagMutabilityExclusionFilters
             self.lifecyclePolicy = lifecyclePolicy
             self.prefix = prefix
             self.repositoryPolicy = repositoryPolicy
@@ -3727,6 +3800,11 @@ extension ECR {
             try self.validate(self.customRoleArn, name: "customRoleArn", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try self.imageTagMutabilityExclusionFilters?.forEach {
+                try $0.validate(name: "\(name).imageTagMutabilityExclusionFilters[]")
+            }
+            try self.validate(self.imageTagMutabilityExclusionFilters, name: "imageTagMutabilityExclusionFilters", parent: name, max: 5)
+            try self.validate(self.imageTagMutabilityExclusionFilters, name: "imageTagMutabilityExclusionFilters", parent: name, min: 1)
             try self.validate(self.lifecyclePolicy, name: "lifecyclePolicy", parent: name, max: 30720)
             try self.validate(self.prefix, name: "prefix", parent: name, max: 256)
             try self.validate(self.prefix, name: "prefix", parent: name, min: 1)
@@ -3740,6 +3818,7 @@ extension ECR {
             case description = "description"
             case encryptionConfiguration = "encryptionConfiguration"
             case imageTagMutability = "imageTagMutability"
+            case imageTagMutabilityExclusionFilters = "imageTagMutabilityExclusionFilters"
             case lifecyclePolicy = "lifecyclePolicy"
             case prefix = "prefix"
             case repositoryPolicy = "repositoryPolicy"

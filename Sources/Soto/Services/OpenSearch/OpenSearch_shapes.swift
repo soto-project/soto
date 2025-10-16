@@ -835,13 +835,13 @@ extension OpenSearch {
     }
 
     public struct AddDirectQueryDataSourceRequest: AWSEncodableShape {
-        ///  A unique, user-defined label to identify the data source within your OpenSearch Service environment.
+        ///  A unique, user-defined label to identify the data source  within your OpenSearch Service environment.
         public let dataSourceName: String
         ///  The supported Amazon Web Services service that you want to use as the source for direct queries in OpenSearch Service.
         public let dataSourceType: DirectQueryDataSourceType
         ///  An optional text field for providing additional context and details about the data source.
         public let description: String?
-        ///  A list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source.
+        ///  A list of Amazon Resource Names (ARNs) for the OpenSearch  collections that are associated with the direct query data source.
         public let openSearchArns: [String]
         public let tagList: [Tag]?
 
@@ -964,6 +964,8 @@ extension OpenSearch {
         public let anonymousAuthEnabled: Bool?
         /// True if fine-grained access control is enabled.
         public let enabled: Bool?
+        /// Container for information about the IAM federation configuration for an OpenSearch UI application.
+        public let iamFederationOptions: IAMFederationOptionsOutput?
         /// True if the internal user database is enabled.
         public let internalUserDatabaseEnabled: Bool?
         /// Container for information about the JWT configuration of the Amazon OpenSearch Service.
@@ -972,10 +974,11 @@ extension OpenSearch {
         public let samlOptions: SAMLOptionsOutput?
 
         @inlinable
-        public init(anonymousAuthDisableDate: Date? = nil, anonymousAuthEnabled: Bool? = nil, enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, jwtOptions: JWTOptionsOutput? = nil, samlOptions: SAMLOptionsOutput? = nil) {
+        public init(anonymousAuthDisableDate: Date? = nil, anonymousAuthEnabled: Bool? = nil, enabled: Bool? = nil, iamFederationOptions: IAMFederationOptionsOutput? = nil, internalUserDatabaseEnabled: Bool? = nil, jwtOptions: JWTOptionsOutput? = nil, samlOptions: SAMLOptionsOutput? = nil) {
             self.anonymousAuthDisableDate = anonymousAuthDisableDate
             self.anonymousAuthEnabled = anonymousAuthEnabled
             self.enabled = enabled
+            self.iamFederationOptions = iamFederationOptions
             self.internalUserDatabaseEnabled = internalUserDatabaseEnabled
             self.jwtOptions = jwtOptions
             self.samlOptions = samlOptions
@@ -985,6 +988,7 @@ extension OpenSearch {
             case anonymousAuthDisableDate = "AnonymousAuthDisableDate"
             case anonymousAuthEnabled = "AnonymousAuthEnabled"
             case enabled = "Enabled"
+            case iamFederationOptions = "IAMFederationOptions"
             case internalUserDatabaseEnabled = "InternalUserDatabaseEnabled"
             case jwtOptions = "JWTOptions"
             case samlOptions = "SAMLOptions"
@@ -996,6 +1000,8 @@ extension OpenSearch {
         public let anonymousAuthEnabled: Bool?
         /// True to enable fine-grained access control.
         public let enabled: Bool?
+        /// Container for information about the IAM federation configuration for an OpenSearch UI application.
+        public let iamFederationOptions: IAMFederationOptionsInput?
         /// True to enable the internal user database.
         public let internalUserDatabaseEnabled: Bool?
         /// Container for information about the JWT configuration of the Amazon OpenSearch Service.
@@ -1006,9 +1012,10 @@ extension OpenSearch {
         public let samlOptions: SAMLOptionsInput?
 
         @inlinable
-        public init(anonymousAuthEnabled: Bool? = nil, enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, jwtOptions: JWTOptionsInput? = nil, masterUserOptions: MasterUserOptions? = nil, samlOptions: SAMLOptionsInput? = nil) {
+        public init(anonymousAuthEnabled: Bool? = nil, enabled: Bool? = nil, iamFederationOptions: IAMFederationOptionsInput? = nil, internalUserDatabaseEnabled: Bool? = nil, jwtOptions: JWTOptionsInput? = nil, masterUserOptions: MasterUserOptions? = nil, samlOptions: SAMLOptionsInput? = nil) {
             self.anonymousAuthEnabled = anonymousAuthEnabled
             self.enabled = enabled
+            self.iamFederationOptions = iamFederationOptions
             self.internalUserDatabaseEnabled = internalUserDatabaseEnabled
             self.jwtOptions = jwtOptions
             self.masterUserOptions = masterUserOptions
@@ -1016,6 +1023,7 @@ extension OpenSearch {
         }
 
         public func validate(name: String) throws {
+            try self.iamFederationOptions?.validate(name: "\(name).iamFederationOptions")
             try self.jwtOptions?.validate(name: "\(name).jwtOptions")
             try self.masterUserOptions?.validate(name: "\(name).masterUserOptions")
             try self.samlOptions?.validate(name: "\(name).samlOptions")
@@ -1024,6 +1032,7 @@ extension OpenSearch {
         private enum CodingKeys: String, CodingKey {
             case anonymousAuthEnabled = "AnonymousAuthEnabled"
             case enabled = "Enabled"
+            case iamFederationOptions = "IAMFederationOptions"
             case internalUserDatabaseEnabled = "InternalUserDatabaseEnabled"
             case jwtOptions = "JWTOptions"
             case masterUserOptions = "MasterUserOptions"
@@ -1721,7 +1730,7 @@ extension OpenSearch {
     }
 
     public struct CloudWatchDirectQueryDataSource: AWSEncodableShape & AWSDecodableShape {
-        ///  The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source.
+        ///  The unique identifier of the IAM role that grants  OpenSearch Service permission to access the specified data source.
         public let roleArn: String
 
         @inlinable
@@ -2049,7 +2058,7 @@ extension OpenSearch {
         public let engineVersion: String?
         /// Configuration options for enabling and managing IAM Identity Center integration within a domain.
         public let identityCenterOptions: IdentityCenterOptionsInput?
-        /// Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option. If you set your IP address type to dual stack, you can't change your address type later.
+        /// Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option.  If you set your IP address type to dual stack, you can't change your address type later.
         public let ipAddressType: IPAddressType?
         /// Key-value pairs to configure log publishing.
         public let logPublishingOptions: [LogType: LogPublishingOption]?
@@ -2479,7 +2488,7 @@ extension OpenSearch {
     }
 
     public struct DeleteDirectQueryDataSourceRequest: AWSEncodableShape {
-        ///  A unique, user-defined label to identify the data source within your OpenSearch Service environment.
+        ///  A unique, user-defined label to identify the data source  within your OpenSearch Service environment.
         public let dataSourceName: String
 
         @inlinable
@@ -3442,13 +3451,13 @@ extension OpenSearch {
     public struct DirectQueryDataSource: AWSDecodableShape {
         ///  The unique, system-generated identifier that represents the data source.
         public let dataSourceArn: String?
-        ///  A unique, user-defined label to identify the data source within your OpenSearch Service environment.
+        ///  A unique, user-defined label to identify the data source  within your OpenSearch Service environment.
         public let dataSourceName: String?
         ///  The supported Amazon Web Services service that is used as the source for direct queries in OpenSearch Service.
         public let dataSourceType: DirectQueryDataSourceType?
         ///  A description that provides additional context and details about the data source.
         public let description: String?
-        ///  A list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source.
+        ///  A list of Amazon Resource Names (ARNs) for the OpenSearch  collections that are associated with the direct query data source.
         public let openSearchArns: [String]?
         ///  A list of tags attached to a direct query data source.
         public let tagList: [Tag]?
@@ -3583,7 +3592,7 @@ extension OpenSearch {
         public let engineVersion: VersionStatus?
         /// Configuration options for enabling and managing IAM Identity Center integration within a domain.
         public let identityCenterOptions: IdentityCenterOptionsStatus?
-        /// Choose either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option. If you set your IP address type to dual stack, you can't change your address type later.
+        /// Choose either dual stack or IPv4 as your IP address type.  Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option.  If you set your IP address type to dual stack, you can't change your address type later.
         public let ipAddressType: IPAddressTypeStatus?
         /// Key-value pairs to configure log publishing.
         public let logPublishingOptions: LogPublishingOptionsStatus?
@@ -4417,7 +4426,7 @@ extension OpenSearch {
     }
 
     public struct GetDirectQueryDataSourceRequest: AWSEncodableShape {
-        ///  A unique, user-defined label that identifies the data source within your OpenSearch Service environment.
+        ///  A unique, user-defined label that identifies the data source within  your OpenSearch Service environment.
         public let dataSourceName: String
 
         @inlinable
@@ -4443,13 +4452,13 @@ extension OpenSearch {
     public struct GetDirectQueryDataSourceResponse: AWSDecodableShape {
         ///  The unique, system-generated identifier that represents the data source.
         public let dataSourceArn: String?
-        ///  A unique, user-defined label to identify the data source within your OpenSearch Service environment.
+        ///  A unique, user-defined label to identify the data source  within your OpenSearch Service environment.
         public let dataSourceName: String?
-        ///  The supported Amazon Web Services service that is used as the source for direct queries in OpenSearch Service.
+        ///  The supported Amazon Web Services service that is used as the source for  direct queries in OpenSearch Service.
         public let dataSourceType: DirectQueryDataSourceType?
         ///  A description that provides additional context and details about the data source.
         public let description: String?
-        ///  A list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source.
+        ///  A list of Amazon Resource Names (ARNs) for the OpenSearch  collections that are associated with the direct query data source.
         public let openSearchArns: [String]?
 
         @inlinable
@@ -4682,6 +4691,59 @@ extension OpenSearch {
             case stepStatus = "StepStatus"
             case upgradeName = "UpgradeName"
             case upgradeStep = "UpgradeStep"
+        }
+    }
+
+    public struct IAMFederationOptionsInput: AWSEncodableShape {
+        /// True to enable IAM federation authentication for a domain.
+        public let enabled: Bool?
+        /// Element of the IAM federation assertion to use for backend roles. Default is roles.
+        public let rolesKey: String?
+        /// Element of the IAM federation assertion to use for the user name. Default is sub.
+        public let subjectKey: String?
+
+        @inlinable
+        public init(enabled: Bool? = nil, rolesKey: String? = nil, subjectKey: String? = nil) {
+            self.enabled = enabled
+            self.rolesKey = rolesKey
+            self.subjectKey = subjectKey
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.rolesKey, name: "rolesKey", parent: name, max: 64)
+            try self.validate(self.rolesKey, name: "rolesKey", parent: name, min: 1)
+            try self.validate(self.rolesKey, name: "rolesKey", parent: name, pattern: "^(null|[A-Za-z][A-Za-z0-9_.:/=+\\-@]*)$")
+            try self.validate(self.subjectKey, name: "subjectKey", parent: name, max: 64)
+            try self.validate(self.subjectKey, name: "subjectKey", parent: name, min: 1)
+            try self.validate(self.subjectKey, name: "subjectKey", parent: name, pattern: "^(null|[A-Za-z][A-Za-z0-9_.:/=+\\-@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case rolesKey = "RolesKey"
+            case subjectKey = "SubjectKey"
+        }
+    }
+
+    public struct IAMFederationOptionsOutput: AWSDecodableShape {
+        /// True if IAM federation is enabled.
+        public let enabled: Bool?
+        /// The key used for matching the IAM federation roles attribute.
+        public let rolesKey: String?
+        /// The key used for matching the IAM federation subject attribute.
+        public let subjectKey: String?
+
+        @inlinable
+        public init(enabled: Bool? = nil, rolesKey: String? = nil, subjectKey: String? = nil) {
+            self.enabled = enabled
+            self.rolesKey = rolesKey
+            self.subjectKey = subjectKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case rolesKey = "RolesKey"
+            case subjectKey = "SubjectKey"
         }
     }
 
@@ -5168,7 +5230,7 @@ extension OpenSearch {
     }
 
     public struct ListDirectQueryDataSourcesResponse: AWSDecodableShape {
-        ///  A list of the direct query data sources that are returned by the ListDirectQueryDataSources API operation.
+        ///  A list of the direct query data sources that are returned by  the ListDirectQueryDataSources API operation.
         public let directQueryDataSources: [DirectQueryDataSource]?
         public let nextToken: String?
 
@@ -6818,7 +6880,7 @@ extension OpenSearch {
     }
 
     public struct SecurityLakeDirectQueryDataSource: AWSEncodableShape & AWSDecodableShape {
-        ///  The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source.
+        ///  The unique identifier of the IAM role that grants OpenSearch  Service permission to access the specified data source.
         public let roleArn: String
 
         @inlinable
@@ -7266,13 +7328,13 @@ extension OpenSearch {
     }
 
     public struct UpdateDirectQueryDataSourceRequest: AWSEncodableShape {
-        ///  A unique, user-defined label to identify the data source within your OpenSearch Service environment.
+        ///  A unique, user-defined label to identify the data  source within your OpenSearch Service environment.
         public let dataSourceName: String
-        ///  The supported Amazon Web Services service that you want to use as the source for direct queries in OpenSearch Service.
+        ///  The supported Amazon Web Services service that you want to use as the source for  direct queries in OpenSearch Service.
         public let dataSourceType: DirectQueryDataSourceType
-        ///  An optional text field for providing additional context and details about the data source.
+        ///  An optional text field for providing additional context and  details about the data source.
         public let description: String?
-        ///  A list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source.
+        ///  A list of Amazon Resource Names (ARNs) for the OpenSearch  collections that are associated with the direct query data source.
         public let openSearchArns: [String]
 
         @inlinable
@@ -7355,7 +7417,7 @@ extension OpenSearch {
         /// Encryption at rest options for the domain.
         public let encryptionAtRestOptions: EncryptionAtRestOptions?
         public let identityCenterOptions: IdentityCenterOptionsInput?
-        /// Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option. If your IP address type is currently set to dual stack, you can't change it.
+        /// Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option.  If your IP address type is currently set to dual stack, you can't change it.
         public let ipAddressType: IPAddressType?
         /// Options to publish OpenSearch logs to Amazon CloudWatch Logs.
         public let logPublishingOptions: [LogType: LogPublishingOption]?

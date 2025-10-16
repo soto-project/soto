@@ -78,6 +78,12 @@ extension KinesisAnalyticsV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum KeyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsOwnedKey = "AWS_OWNED_KEY"
+        case customerManagedKey = "CUSTOMER_MANAGED_KEY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LogLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case debug = "DEBUG"
         case error = "ERROR"
@@ -185,7 +191,7 @@ extension KinesisAnalyticsV2 {
         public let applicationVersionId: Int64?
         /// The descriptions of the current CloudWatch logging options for the SQL-based Kinesis Data Analytics application.
         public let cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]?
-        /// Operation ID for tracking AddApplicationCloudWatchLoggingOption request
+        /// The operation ID that can be used to track the request.
         public let operationId: String?
 
         @inlinable
@@ -470,7 +476,7 @@ extension KinesisAnalyticsV2 {
         public let applicationARN: String?
         /// Provides the current application version. Managed Service for Apache Flink updates the ApplicationVersionId each time you update the application.
         public let applicationVersionId: Int64?
-        /// Operation ID for tracking AddApplicationVpcConfiguration request
+        /// The operation ID that can be used to track the request.
         public let operationId: String?
         /// The parameters of the new VPC configuration.
         public let vpcConfigurationDescription: VpcConfigurationDescription?
@@ -556,8 +562,11 @@ extension KinesisAnalyticsV2 {
     public struct ApplicationConfiguration: AWSEncodableShape {
         /// The code location and type parameters for a Managed Service for Apache Flink application.
         public let applicationCodeConfiguration: ApplicationCodeConfiguration?
+        /// The configuration to manage encryption at rest.
+        public let applicationEncryptionConfiguration: ApplicationEncryptionConfiguration?
         /// Describes whether snapshots are enabled for a Managed Service for Apache Flink application.
         public let applicationSnapshotConfiguration: ApplicationSnapshotConfiguration?
+        /// Describes whether system rollbacks are enabled for a Managed Service for Apache Flink application.
         public let applicationSystemRollbackConfiguration: ApplicationSystemRollbackConfiguration?
         /// Describes execution properties for a Managed Service for Apache Flink application.
         public let environmentProperties: EnvironmentProperties?
@@ -571,8 +580,9 @@ extension KinesisAnalyticsV2 {
         public let zeppelinApplicationConfiguration: ZeppelinApplicationConfiguration?
 
         @inlinable
-        public init(applicationCodeConfiguration: ApplicationCodeConfiguration? = nil, applicationSnapshotConfiguration: ApplicationSnapshotConfiguration? = nil, applicationSystemRollbackConfiguration: ApplicationSystemRollbackConfiguration? = nil, environmentProperties: EnvironmentProperties? = nil, flinkApplicationConfiguration: FlinkApplicationConfiguration? = nil, sqlApplicationConfiguration: SqlApplicationConfiguration? = nil, vpcConfigurations: [VpcConfiguration]? = nil, zeppelinApplicationConfiguration: ZeppelinApplicationConfiguration? = nil) {
+        public init(applicationCodeConfiguration: ApplicationCodeConfiguration? = nil, applicationEncryptionConfiguration: ApplicationEncryptionConfiguration? = nil, applicationSnapshotConfiguration: ApplicationSnapshotConfiguration? = nil, applicationSystemRollbackConfiguration: ApplicationSystemRollbackConfiguration? = nil, environmentProperties: EnvironmentProperties? = nil, flinkApplicationConfiguration: FlinkApplicationConfiguration? = nil, sqlApplicationConfiguration: SqlApplicationConfiguration? = nil, vpcConfigurations: [VpcConfiguration]? = nil, zeppelinApplicationConfiguration: ZeppelinApplicationConfiguration? = nil) {
             self.applicationCodeConfiguration = applicationCodeConfiguration
+            self.applicationEncryptionConfiguration = applicationEncryptionConfiguration
             self.applicationSnapshotConfiguration = applicationSnapshotConfiguration
             self.applicationSystemRollbackConfiguration = applicationSystemRollbackConfiguration
             self.environmentProperties = environmentProperties
@@ -584,6 +594,7 @@ extension KinesisAnalyticsV2 {
 
         public func validate(name: String) throws {
             try self.applicationCodeConfiguration?.validate(name: "\(name).applicationCodeConfiguration")
+            try self.applicationEncryptionConfiguration?.validate(name: "\(name).applicationEncryptionConfiguration")
             try self.environmentProperties?.validate(name: "\(name).environmentProperties")
             try self.flinkApplicationConfiguration?.validate(name: "\(name).flinkApplicationConfiguration")
             try self.sqlApplicationConfiguration?.validate(name: "\(name).sqlApplicationConfiguration")
@@ -595,6 +606,7 @@ extension KinesisAnalyticsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case applicationCodeConfiguration = "ApplicationCodeConfiguration"
+            case applicationEncryptionConfiguration = "ApplicationEncryptionConfiguration"
             case applicationSnapshotConfiguration = "ApplicationSnapshotConfiguration"
             case applicationSystemRollbackConfiguration = "ApplicationSystemRollbackConfiguration"
             case environmentProperties = "EnvironmentProperties"
@@ -608,8 +620,11 @@ extension KinesisAnalyticsV2 {
     public struct ApplicationConfigurationDescription: AWSDecodableShape {
         /// The details about the application code for a Managed Service for Apache Flink application.
         public let applicationCodeConfigurationDescription: ApplicationCodeConfigurationDescription?
+        /// Describes the encryption at rest configuration.
+        public let applicationEncryptionConfigurationDescription: ApplicationEncryptionConfigurationDescription?
         /// Describes whether snapshots are enabled for a Managed Service for Apache Flink application.
         public let applicationSnapshotConfigurationDescription: ApplicationSnapshotConfigurationDescription?
+        /// Describes whether system rollbacks are enabled for a Managed Service for Apache Flink application.
         public let applicationSystemRollbackConfigurationDescription: ApplicationSystemRollbackConfigurationDescription?
         /// Describes execution properties for a Managed Service for Apache Flink application.
         public let environmentPropertyDescriptions: EnvironmentPropertyDescriptions?
@@ -625,8 +640,9 @@ extension KinesisAnalyticsV2 {
         public let zeppelinApplicationConfigurationDescription: ZeppelinApplicationConfigurationDescription?
 
         @inlinable
-        public init(applicationCodeConfigurationDescription: ApplicationCodeConfigurationDescription? = nil, applicationSnapshotConfigurationDescription: ApplicationSnapshotConfigurationDescription? = nil, applicationSystemRollbackConfigurationDescription: ApplicationSystemRollbackConfigurationDescription? = nil, environmentPropertyDescriptions: EnvironmentPropertyDescriptions? = nil, flinkApplicationConfigurationDescription: FlinkApplicationConfigurationDescription? = nil, runConfigurationDescription: RunConfigurationDescription? = nil, sqlApplicationConfigurationDescription: SqlApplicationConfigurationDescription? = nil, vpcConfigurationDescriptions: [VpcConfigurationDescription]? = nil, zeppelinApplicationConfigurationDescription: ZeppelinApplicationConfigurationDescription? = nil) {
+        public init(applicationCodeConfigurationDescription: ApplicationCodeConfigurationDescription? = nil, applicationEncryptionConfigurationDescription: ApplicationEncryptionConfigurationDescription? = nil, applicationSnapshotConfigurationDescription: ApplicationSnapshotConfigurationDescription? = nil, applicationSystemRollbackConfigurationDescription: ApplicationSystemRollbackConfigurationDescription? = nil, environmentPropertyDescriptions: EnvironmentPropertyDescriptions? = nil, flinkApplicationConfigurationDescription: FlinkApplicationConfigurationDescription? = nil, runConfigurationDescription: RunConfigurationDescription? = nil, sqlApplicationConfigurationDescription: SqlApplicationConfigurationDescription? = nil, vpcConfigurationDescriptions: [VpcConfigurationDescription]? = nil, zeppelinApplicationConfigurationDescription: ZeppelinApplicationConfigurationDescription? = nil) {
             self.applicationCodeConfigurationDescription = applicationCodeConfigurationDescription
+            self.applicationEncryptionConfigurationDescription = applicationEncryptionConfigurationDescription
             self.applicationSnapshotConfigurationDescription = applicationSnapshotConfigurationDescription
             self.applicationSystemRollbackConfigurationDescription = applicationSystemRollbackConfigurationDescription
             self.environmentPropertyDescriptions = environmentPropertyDescriptions
@@ -639,6 +655,7 @@ extension KinesisAnalyticsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case applicationCodeConfigurationDescription = "ApplicationCodeConfigurationDescription"
+            case applicationEncryptionConfigurationDescription = "ApplicationEncryptionConfigurationDescription"
             case applicationSnapshotConfigurationDescription = "ApplicationSnapshotConfigurationDescription"
             case applicationSystemRollbackConfigurationDescription = "ApplicationSystemRollbackConfigurationDescription"
             case environmentPropertyDescriptions = "EnvironmentPropertyDescriptions"
@@ -653,8 +670,11 @@ extension KinesisAnalyticsV2 {
     public struct ApplicationConfigurationUpdate: AWSEncodableShape {
         /// Describes updates to an application's code configuration.
         public let applicationCodeConfigurationUpdate: ApplicationCodeConfigurationUpdate?
+        /// Represents an update for encryption at rest configuration.
+        public let applicationEncryptionConfigurationUpdate: ApplicationEncryptionConfigurationUpdate?
         /// Describes whether snapshots are enabled for a Managed Service for Apache Flink application.
         public let applicationSnapshotConfigurationUpdate: ApplicationSnapshotConfigurationUpdate?
+        /// Describes whether system rollbacks are enabled for a Managed Service for Apache Flink application.
         public let applicationSystemRollbackConfigurationUpdate: ApplicationSystemRollbackConfigurationUpdate?
         /// Describes updates to the environment properties for a Managed Service for Apache Flink application.
         public let environmentPropertyUpdates: EnvironmentPropertyUpdates?
@@ -668,8 +688,9 @@ extension KinesisAnalyticsV2 {
         public let zeppelinApplicationConfigurationUpdate: ZeppelinApplicationConfigurationUpdate?
 
         @inlinable
-        public init(applicationCodeConfigurationUpdate: ApplicationCodeConfigurationUpdate? = nil, applicationSnapshotConfigurationUpdate: ApplicationSnapshotConfigurationUpdate? = nil, applicationSystemRollbackConfigurationUpdate: ApplicationSystemRollbackConfigurationUpdate? = nil, environmentPropertyUpdates: EnvironmentPropertyUpdates? = nil, flinkApplicationConfigurationUpdate: FlinkApplicationConfigurationUpdate? = nil, sqlApplicationConfigurationUpdate: SqlApplicationConfigurationUpdate? = nil, vpcConfigurationUpdates: [VpcConfigurationUpdate]? = nil, zeppelinApplicationConfigurationUpdate: ZeppelinApplicationConfigurationUpdate? = nil) {
+        public init(applicationCodeConfigurationUpdate: ApplicationCodeConfigurationUpdate? = nil, applicationEncryptionConfigurationUpdate: ApplicationEncryptionConfigurationUpdate? = nil, applicationSnapshotConfigurationUpdate: ApplicationSnapshotConfigurationUpdate? = nil, applicationSystemRollbackConfigurationUpdate: ApplicationSystemRollbackConfigurationUpdate? = nil, environmentPropertyUpdates: EnvironmentPropertyUpdates? = nil, flinkApplicationConfigurationUpdate: FlinkApplicationConfigurationUpdate? = nil, sqlApplicationConfigurationUpdate: SqlApplicationConfigurationUpdate? = nil, vpcConfigurationUpdates: [VpcConfigurationUpdate]? = nil, zeppelinApplicationConfigurationUpdate: ZeppelinApplicationConfigurationUpdate? = nil) {
             self.applicationCodeConfigurationUpdate = applicationCodeConfigurationUpdate
+            self.applicationEncryptionConfigurationUpdate = applicationEncryptionConfigurationUpdate
             self.applicationSnapshotConfigurationUpdate = applicationSnapshotConfigurationUpdate
             self.applicationSystemRollbackConfigurationUpdate = applicationSystemRollbackConfigurationUpdate
             self.environmentPropertyUpdates = environmentPropertyUpdates
@@ -681,6 +702,7 @@ extension KinesisAnalyticsV2 {
 
         public func validate(name: String) throws {
             try self.applicationCodeConfigurationUpdate?.validate(name: "\(name).applicationCodeConfigurationUpdate")
+            try self.applicationEncryptionConfigurationUpdate?.validate(name: "\(name).applicationEncryptionConfigurationUpdate")
             try self.environmentPropertyUpdates?.validate(name: "\(name).environmentPropertyUpdates")
             try self.flinkApplicationConfigurationUpdate?.validate(name: "\(name).flinkApplicationConfigurationUpdate")
             try self.sqlApplicationConfigurationUpdate?.validate(name: "\(name).sqlApplicationConfigurationUpdate")
@@ -692,6 +714,7 @@ extension KinesisAnalyticsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case applicationCodeConfigurationUpdate = "ApplicationCodeConfigurationUpdate"
+            case applicationEncryptionConfigurationUpdate = "ApplicationEncryptionConfigurationUpdate"
             case applicationSnapshotConfigurationUpdate = "ApplicationSnapshotConfigurationUpdate"
             case applicationSystemRollbackConfigurationUpdate = "ApplicationSystemRollbackConfigurationUpdate"
             case environmentPropertyUpdates = "EnvironmentPropertyUpdates"
@@ -717,7 +740,7 @@ extension KinesisAnalyticsV2 {
         public let applicationName: String
         /// The status of the application.
         public let applicationStatus: ApplicationStatus
-        /// The current timestamp when the application version was created.
+        /// The timestamp that indicates when the application version was created.
         public let applicationVersionCreateTimestamp: Date?
         /// Provides the current application version. Managed Service for Apache Flink updates the ApplicationVersionId each time you update the application.
         public let applicationVersionId: Int64
@@ -784,6 +807,70 @@ extension KinesisAnalyticsV2 {
         }
     }
 
+    public struct ApplicationEncryptionConfiguration: AWSEncodableShape {
+        /// The key ARN, key ID, alias ARN, or alias name of the KMS key used for encryption at rest.
+        public let keyId: String?
+        /// Specifies the type of key used for encryption at rest.
+        public let keyType: KeyType
+
+        @inlinable
+        public init(keyId: String? = nil, keyType: KeyType) {
+            self.keyId = keyId
+            self.keyType = keyType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
+            try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
+            case keyType = "KeyType"
+        }
+    }
+
+    public struct ApplicationEncryptionConfigurationDescription: AWSDecodableShape {
+        /// The key ARN, key ID, alias ARN, or alias name of the KMS key used for encryption at rest.
+        public let keyId: String?
+        /// Specifies the type of key used for encryption at rest.
+        public let keyType: KeyType
+
+        @inlinable
+        public init(keyId: String? = nil, keyType: KeyType) {
+            self.keyId = keyId
+            self.keyType = keyType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
+            case keyType = "KeyType"
+        }
+    }
+
+    public struct ApplicationEncryptionConfigurationUpdate: AWSEncodableShape {
+        /// The key ARN, key ID, alias ARN, or alias name of the KMS key to be used for encryption at rest.
+        public let keyIdUpdate: String?
+        /// Specifies the type of key to be used for encryption at rest.
+        public let keyTypeUpdate: KeyType
+
+        @inlinable
+        public init(keyIdUpdate: String? = nil, keyTypeUpdate: KeyType) {
+            self.keyIdUpdate = keyIdUpdate
+            self.keyTypeUpdate = keyTypeUpdate
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyIdUpdate, name: "keyIdUpdate", parent: name, max: 2048)
+            try self.validate(self.keyIdUpdate, name: "keyIdUpdate", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyIdUpdate = "KeyIdUpdate"
+            case keyTypeUpdate = "KeyTypeUpdate"
+        }
+    }
+
     public struct ApplicationMaintenanceConfigurationDescription: AWSDecodableShape {
         /// The end time for the maintenance window.
         public let applicationMaintenanceWindowEndTime: String
@@ -823,12 +910,12 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ApplicationOperationInfo: AWSDecodableShape {
-        /// The timestamp at which the operation finished for the application
+        /// The timestamp that indicates when the operation finished.
         public let endTime: Date?
         public let operation: String?
         public let operationId: String?
         public let operationStatus: OperationStatus?
-        /// The timestamp at which the operation was created
+        /// The timestamp that indicates when the operation was created.
         public let startTime: Date?
 
         @inlinable
@@ -851,12 +938,12 @@ extension KinesisAnalyticsV2 {
 
     public struct ApplicationOperationInfoDetails: AWSDecodableShape {
         public let applicationVersionChangeDetails: ApplicationVersionChangeDetails?
-        /// The timestamp at which the operation finished for the application
+        /// The timestamp that indicates when the operation finished.
         public let endTime: Date
         public let operation: String
         public let operationFailureDetails: OperationFailureDetails?
         public let operationStatus: OperationStatus
-        /// The timestamp at which the operation was created
+        /// The timestamp that indicates when the operation was created.
         public let startTime: Date
 
         @inlinable
@@ -980,7 +1067,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ApplicationSystemRollbackConfiguration: AWSEncodableShape {
-        /// Describes whether system rollbacks are enabled for a Managed Service for Apache Flink application
+        /// Describes whether system rollbacks are enabled for a Managed Service for Apache Flink application.
         public let rollbackEnabled: Bool
 
         @inlinable
@@ -994,7 +1081,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ApplicationSystemRollbackConfigurationDescription: AWSDecodableShape {
-        /// Describes whether system rollbacks are enabled for a Managed Service for Apache Flink application
+        /// Describes whether system rollbacks are enabled for a Managed Service for Apache Flink application.
         public let rollbackEnabled: Bool
 
         @inlinable
@@ -1008,7 +1095,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ApplicationSystemRollbackConfigurationUpdate: AWSEncodableShape {
-        /// Describes whether system rollbacks are enabled for a Managed Service for Apache Flink application
+        /// Describes whether system rollbacks are enabled for a Managed Service for Apache Flink application.
         public let rollbackEnabledUpdate: Bool
 
         @inlinable
@@ -1022,9 +1109,9 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ApplicationVersionChangeDetails: AWSDecodableShape {
-        /// The operation was performed on this version of the application
+        /// The new version that the application was updated to.
         public let applicationVersionUpdatedFrom: Int64
-        /// The operation execution resulted in the transition to the following version of the application
+        /// The version that the operation execution applied to the applicartion.
         public let applicationVersionUpdatedTo: Int64
 
         @inlinable
@@ -1615,7 +1702,7 @@ extension KinesisAnalyticsV2 {
         public let applicationVersionId: Int64?
         /// The descriptions of the remaining CloudWatch logging options for the application.
         public let cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]?
-        /// Operation ID for tracking DeleteApplicationCloudWatchLoggingOption request
+        /// The operation ID that can be used to track the request.
         public let operationId: String?
 
         @inlinable
@@ -1895,7 +1982,7 @@ extension KinesisAnalyticsV2 {
         public let applicationARN: String?
         /// The updated version ID of the application.
         public let applicationVersionId: Int64?
-        /// Operation ID for tracking DeleteApplicationVpcConfiguration request
+        /// The operation ID that can be used to track the request.
         public let operationId: String?
 
         @inlinable
@@ -3418,7 +3505,7 @@ extension KinesisAnalyticsV2 {
 
     public struct OperationFailureDetails: AWSDecodableShape {
         public let errorInfo: ErrorInfo?
-        /// Provides the operation ID of a system-rollback operation executed due to failure in the current operation
+        /// The rollback operation ID of the system-rollback operation that executed due to failure in the current operation.
         public let rollbackOperationId: String?
 
         @inlinable
@@ -3557,7 +3644,7 @@ extension KinesisAnalyticsV2 {
         public let autoScalingEnabled: Bool?
         /// Describes whether the application uses the default parallelism for the Managed Service for Apache Flink service. You must set this property to CUSTOM in order to change your application's AutoScalingEnabled, Parallelism, or ParallelismPerKPU properties.
         public let configurationType: ConfigurationType
-        /// Describes the initial number of parallel tasks that a Managed Service for Apache Flink application can perform. If AutoScalingEnabled  is set to True, Managed Service for Apache Flink increases the CurrentParallelism value in response to application load. The service can increase the CurrentParallelism value up to the maximum parallelism, which is  ParalellismPerKPU times the maximum KPUs for the application.  The maximum KPUs for an application is 32 by default, and can be increased by requesting a limit increase. If  application load is reduced, the service can reduce the CurrentParallelism value down to the Parallelism setting.
+        /// Describes the initial number of parallel tasks that a Managed Service for Apache Flink application can perform. If AutoScalingEnabled is set to True, Managed Service for Apache Flink increases the CurrentParallelism value in response to application load. The service can increase the CurrentParallelism value up to the maximum parallelism, which is ParalellismPerKPU times the maximum KPUs for the application. The maximum KPUs for an application is 64 by default, and can be increased by requesting a limit increase. If application load is reduced, the service can reduce the CurrentParallelism value down to the Parallelism setting.
         public let parallelism: Int?
         /// Describes the number of parallel tasks that a Managed Service for Apache Flink application can perform per Kinesis Processing Unit  (KPU) used by the application. For more information about KPUs, see Amazon Managed Service for Apache Flink Pricing.
         public let parallelismPerKPU: Int?
@@ -3590,7 +3677,7 @@ extension KinesisAnalyticsV2 {
         public let configurationType: ConfigurationType?
         /// Describes the current number of parallel tasks that a Managed Service for Apache Flink application can perform.  If AutoScalingEnabled is set to True, Managed Service for Apache Flink can increase this value in response to application load. The service can increase this value up to the maximum parallelism, which is ParalellismPerKPU times the maximum KPUs for the application.  The maximum KPUs for an application is 32 by default, and can be increased by requesting a limit increase. If application load is reduced, the service can reduce the CurrentParallelism value down to the Parallelism setting.
         public let currentParallelism: Int?
-        /// Describes the initial number of parallel tasks that a Managed Service for Apache Flink application can perform.  If AutoScalingEnabled is set to True, then Managed Service for Apache Flink can increase the CurrentParallelism value in response to application load. The service can increase CurrentParallelism up to the maximum parallelism, which is ParalellismPerKPU times the maximum KPUs for the application.  The maximum KPUs for an application is 32 by default, and can be increased by requesting a limit increase. If application load is reduced, the service can reduce the CurrentParallelism value down to the Parallelism setting.
+        /// Describes the initial number of parallel tasks that a Managed Service for Apache Flink application can perform. If AutoScalingEnabled is set to True, then Managed Service for Apache Flink can increase the CurrentParallelism value in response to application load. The service can increase CurrentParallelism up to the maximum parallelism, which is ParalellismPerKPU times the maximum KPUs for the application. The maximum KPUs for an application is 64 by default, and can be increased by requesting a limit increase. If application load is reduced, the service can reduce the CurrentParallelism value down to the Parallelism setting.
         public let parallelism: Int?
         /// Describes the number of parallel tasks that a Managed Service for Apache Flink application can perform per  Kinesis Processing Unit (KPU) used by the application.
         public let parallelismPerKPU: Int?
@@ -3848,7 +3935,7 @@ extension KinesisAnalyticsV2 {
 
     public struct RollbackApplicationResponse: AWSDecodableShape {
         public let applicationDetail: ApplicationDetail
-        /// Operation ID for tracking RollbackApplication request
+        /// The operation ID that can be used to track the request.
         public let operationId: String?
 
         @inlinable
@@ -4188,6 +4275,8 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct SnapshotDetails: AWSDecodableShape {
+        /// Specifies the encryption settings of data at rest for the application snapshot.
+        public let applicationEncryptionConfigurationDescription: ApplicationEncryptionConfigurationDescription?
         /// The current application version ID when the snapshot was created.
         public let applicationVersionId: Int64
         /// The Flink Runtime for the application snapshot.
@@ -4200,7 +4289,8 @@ extension KinesisAnalyticsV2 {
         public let snapshotStatus: SnapshotStatus
 
         @inlinable
-        public init(applicationVersionId: Int64, runtimeEnvironment: RuntimeEnvironment? = nil, snapshotCreationTimestamp: Date? = nil, snapshotName: String, snapshotStatus: SnapshotStatus) {
+        public init(applicationEncryptionConfigurationDescription: ApplicationEncryptionConfigurationDescription? = nil, applicationVersionId: Int64, runtimeEnvironment: RuntimeEnvironment? = nil, snapshotCreationTimestamp: Date? = nil, snapshotName: String, snapshotStatus: SnapshotStatus) {
+            self.applicationEncryptionConfigurationDescription = applicationEncryptionConfigurationDescription
             self.applicationVersionId = applicationVersionId
             self.runtimeEnvironment = runtimeEnvironment
             self.snapshotCreationTimestamp = snapshotCreationTimestamp
@@ -4209,6 +4299,7 @@ extension KinesisAnalyticsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationEncryptionConfigurationDescription = "ApplicationEncryptionConfigurationDescription"
             case applicationVersionId = "ApplicationVersionId"
             case runtimeEnvironment = "RuntimeEnvironment"
             case snapshotCreationTimestamp = "SnapshotCreationTimestamp"
@@ -4391,7 +4482,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct StartApplicationResponse: AWSDecodableShape {
-        /// Operation ID for tracking StartApplication request
+        /// The operation ID that can be used to track the request.
         public let operationId: String?
 
         @inlinable
@@ -4429,7 +4520,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct StopApplicationResponse: AWSDecodableShape {
-        /// Operation ID for tracking StopApplication request
+        /// The operation ID that can be used to track the request.
         public let operationId: String?
 
         @inlinable
@@ -4661,7 +4752,7 @@ extension KinesisAnalyticsV2 {
     public struct UpdateApplicationResponse: AWSDecodableShape {
         /// Describes application updates.
         public let applicationDetail: ApplicationDetail
-        /// Operation ID for tracking UpdateApplication request
+        /// The operation ID that can be used to track the request.
         public let operationId: String?
 
         @inlinable

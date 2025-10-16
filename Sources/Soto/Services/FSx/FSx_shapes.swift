@@ -29,6 +29,7 @@ extension FSx {
         case domainNotFound = "DOMAIN_NOT_FOUND"
         case incompatibleDomainMode = "INCOMPATIBLE_DOMAIN_MODE"
         case invalidDomainStage = "INVALID_DOMAIN_STAGE"
+        case invalidNetworkType = "INVALID_NETWORK_TYPE"
         case wrongVpc = "WRONG_VPC"
         public var description: String { return self.rawValue }
     }
@@ -265,6 +266,12 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
+    public enum NetworkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dual = "DUAL"
+        case ipv4 = "IPV4"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NfsVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case nfs3 = "NFS3"
         public var description: String { return self.rawValue }
@@ -430,10 +437,12 @@ extension FSx {
     }
 
     public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case optimizing = "OPTIMIZING"
+        case paused = "PAUSED"
         case pending = "PENDING"
         case updatedOptimizing = "UPDATED_OPTIMIZING"
         public var description: String { return self.rawValue }
@@ -604,6 +613,7 @@ extension FSx {
     public struct AdministrativeAction: AWSDecodableShape {
         public let administrativeActionType: AdministrativeActionType?
         public let failureDetails: AdministrativeActionFailureDetails?
+        public let message: String?
         /// The percentage-complete status of a STORAGE_OPTIMIZATION  or DOWNLOAD_DATA_FROM_BACKUP administrative action. Does not apply to any other administrative action type.
         public let progressPercent: Int?
         /// The remaining bytes to transfer for the FSx for OpenZFS snapshot that you're copying.
@@ -620,9 +630,10 @@ extension FSx {
         public let totalTransferBytes: Int64?
 
         @inlinable
-        public init(administrativeActionType: AdministrativeActionType? = nil, failureDetails: AdministrativeActionFailureDetails? = nil, progressPercent: Int? = nil, remainingTransferBytes: Int64? = nil, requestTime: Date? = nil, status: Status? = nil, targetFileSystemValues: FileSystem? = nil, targetSnapshotValues: Snapshot? = nil, targetVolumeValues: Volume? = nil, totalTransferBytes: Int64? = nil) {
+        public init(administrativeActionType: AdministrativeActionType? = nil, failureDetails: AdministrativeActionFailureDetails? = nil, message: String? = nil, progressPercent: Int? = nil, remainingTransferBytes: Int64? = nil, requestTime: Date? = nil, status: Status? = nil, targetFileSystemValues: FileSystem? = nil, targetSnapshotValues: Snapshot? = nil, targetVolumeValues: Volume? = nil, totalTransferBytes: Int64? = nil) {
             self.administrativeActionType = administrativeActionType
             self.failureDetails = failureDetails
+            self.message = message
             self.progressPercent = progressPercent
             self.remainingTransferBytes = remainingTransferBytes
             self.requestTime = requestTime
@@ -636,6 +647,7 @@ extension FSx {
         private enum CodingKeys: String, CodingKey {
             case administrativeActionType = "AdministrativeActionType"
             case failureDetails = "FailureDetails"
+            case message = "Message"
             case progressPercent = "ProgressPercent"
             case remainingTransferBytes = "RemainingTransferBytes"
             case requestTime = "RequestTime"
@@ -1608,6 +1620,8 @@ extension FSx {
         public let fileSystemTypeVersion: String?
         public let kmsKeyId: String?
         public let lustreConfiguration: CreateFileSystemLustreConfiguration?
+        /// Sets the network type for the Amazon FSx for OpenZFS file system that you're creating from a backup.
+        public let networkType: NetworkType?
         /// The OpenZFS configuration for the file system that's being created.
         public let openZFSConfiguration: CreateFileSystemOpenZFSConfiguration?
         /// A list of IDs for the security groups that apply to the specified network interfaces created for file system access. These security groups apply to all network interfaces. This value isn't returned in later DescribeFileSystem requests.
@@ -1624,12 +1638,13 @@ extension FSx {
         public let windowsConfiguration: CreateFileSystemWindowsConfiguration?
 
         @inlinable
-        public init(backupId: String? = nil, clientRequestToken: String? = CreateFileSystemFromBackupRequest.idempotencyToken(), fileSystemTypeVersion: String? = nil, kmsKeyId: String? = nil, lustreConfiguration: CreateFileSystemLustreConfiguration? = nil, openZFSConfiguration: CreateFileSystemOpenZFSConfiguration? = nil, securityGroupIds: [String]? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, windowsConfiguration: CreateFileSystemWindowsConfiguration? = nil) {
+        public init(backupId: String? = nil, clientRequestToken: String? = CreateFileSystemFromBackupRequest.idempotencyToken(), fileSystemTypeVersion: String? = nil, kmsKeyId: String? = nil, lustreConfiguration: CreateFileSystemLustreConfiguration? = nil, networkType: NetworkType? = nil, openZFSConfiguration: CreateFileSystemOpenZFSConfiguration? = nil, securityGroupIds: [String]? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, windowsConfiguration: CreateFileSystemWindowsConfiguration? = nil) {
             self.backupId = backupId
             self.clientRequestToken = clientRequestToken
             self.fileSystemTypeVersion = fileSystemTypeVersion
             self.kmsKeyId = kmsKeyId
             self.lustreConfiguration = lustreConfiguration
+            self.networkType = networkType
             self.openZFSConfiguration = openZFSConfiguration
             self.securityGroupIds = securityGroupIds
             self.storageCapacity = storageCapacity
@@ -1682,6 +1697,7 @@ extension FSx {
             case fileSystemTypeVersion = "FileSystemTypeVersion"
             case kmsKeyId = "KmsKeyId"
             case lustreConfiguration = "LustreConfiguration"
+            case networkType = "NetworkType"
             case openZFSConfiguration = "OpenZFSConfiguration"
             case securityGroupIds = "SecurityGroupIds"
             case storageCapacity = "StorageCapacity"
@@ -1844,8 +1860,10 @@ extension FSx {
         public let deploymentType: OntapDeploymentType?
         /// The SSD IOPS configuration for the FSx for ONTAP file system.
         public let diskIopsConfiguration: DiskIopsConfiguration?
-        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx  API, Amazon FSx selects an unused IP address range for you from the 198.19.* range. By default in the  Amazon FSx  console, Amazon FSx  chooses the last 64 IP addresses from the VPC’s primary CIDR range to use as the endpoint IP address range for the file system. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
+        /// (Multi-AZ only) Specifies the IPv4 address range in which the endpoints to access your file system will be created. By default in the Amazon FSx  API, Amazon FSx selects an unused IP address range for you from the 198.19.* range. By default in the  Amazon FSx  console, Amazon FSx  chooses the last 64 IP addresses from the VPC’s primary CIDR range to use as the endpoint IP address range for the file system. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
         public let endpointIpAddressRange: String?
+        /// (Multi-AZ only) Specifies the IPv6 address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /118 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
+        public let endpointIpv6AddressRange: String?
         /// The ONTAP administrative password for the fsxadmin user with which you administer your file system using the NetApp ONTAP CLI and REST API.
         public let fsxAdminPassword: String?
         /// Specifies how many high-availability (HA) pairs of file servers will power your file system. First-generation file systems are powered by 1 HA pair. Second-generation multi-AZ file systems are powered by 1 HA pair. Second generation single-AZ file systems are powered by up to 12 HA pairs. The default value is 1.  The value of this property affects the values of StorageCapacity,  Iops, and ThroughputCapacity. For more information, see  High-availability (HA) pairs in the FSx for ONTAP user guide. Block storage protocol support  (iSCSI and NVMe over TCP) is disabled on file systems with more than 6 HA pairs. For more information, see  Using block storage protocols.  Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:   The value of HAPairs is less than 1 or greater than 12.   The value of HAPairs is greater than 1 and the value of DeploymentType is SINGLE_AZ_1, MULTI_AZ_1, or MULTI_AZ_2.
@@ -1861,12 +1879,13 @@ extension FSx {
         public let weeklyMaintenanceStartTime: String?
 
         @inlinable
-        public init(automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: OntapDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, endpointIpAddressRange: String? = nil, fsxAdminPassword: String? = nil, haPairs: Int? = nil, preferredSubnetId: String? = nil, routeTableIds: [String]? = nil, throughputCapacity: Int? = nil, throughputCapacityPerHAPair: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: OntapDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, endpointIpAddressRange: String? = nil, endpointIpv6AddressRange: String? = nil, fsxAdminPassword: String? = nil, haPairs: Int? = nil, preferredSubnetId: String? = nil, routeTableIds: [String]? = nil, throughputCapacity: Int? = nil, throughputCapacityPerHAPair: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.deploymentType = deploymentType
             self.diskIopsConfiguration = diskIopsConfiguration
             self.endpointIpAddressRange = endpointIpAddressRange
+            self.endpointIpv6AddressRange = endpointIpv6AddressRange
             self.fsxAdminPassword = fsxAdminPassword
             self.haPairs = haPairs
             self.preferredSubnetId = preferredSubnetId
@@ -1886,6 +1905,9 @@ extension FSx {
             try self.validate(self.endpointIpAddressRange, name: "endpointIpAddressRange", parent: name, max: 17)
             try self.validate(self.endpointIpAddressRange, name: "endpointIpAddressRange", parent: name, min: 9)
             try self.validate(self.endpointIpAddressRange, name: "endpointIpAddressRange", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{9,17}$")
+            try self.validate(self.endpointIpv6AddressRange, name: "endpointIpv6AddressRange", parent: name, max: 43)
+            try self.validate(self.endpointIpv6AddressRange, name: "endpointIpv6AddressRange", parent: name, min: 4)
+            try self.validate(self.endpointIpv6AddressRange, name: "endpointIpv6AddressRange", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{4,43}$")
             try self.validate(self.fsxAdminPassword, name: "fsxAdminPassword", parent: name, max: 50)
             try self.validate(self.fsxAdminPassword, name: "fsxAdminPassword", parent: name, min: 8)
             try self.validate(self.fsxAdminPassword, name: "fsxAdminPassword", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{8,50}$")
@@ -1915,6 +1937,7 @@ extension FSx {
             case deploymentType = "DeploymentType"
             case diskIopsConfiguration = "DiskIopsConfiguration"
             case endpointIpAddressRange = "EndpointIpAddressRange"
+            case endpointIpv6AddressRange = "EndpointIpv6AddressRange"
             case fsxAdminPassword = "FsxAdminPassword"
             case haPairs = "HAPairs"
             case preferredSubnetId = "PreferredSubnetId"
@@ -1935,8 +1958,10 @@ extension FSx {
         /// Specifies the file system deployment type. Valid values are the following:    MULTI_AZ_1- Creates file systems with high availability and durability by replicating your data and supporting failover across multiple Availability Zones in the same Amazon Web Services Region.    SINGLE_AZ_HA_2- Creates file systems with high availability and throughput capacities of 160 - 10,240 MB/s using an NVMe L2ARC cache by deploying a primary and standby file system within the same Availability Zone.    SINGLE_AZ_HA_1- Creates file systems with high availability and throughput capacities of 64 - 4,096 MB/s by deploying a primary and standby file system within the same Availability Zone.    SINGLE_AZ_2- Creates file systems with throughput capacities of 160 - 10,240 MB/s using an NVMe L2ARC cache that automatically recover within a single Availability Zone.    SINGLE_AZ_1- Creates file systems with throughput capacities of 64 - 4,096 MBs that automatically recover within a single Availability Zone.   For a list of which Amazon Web Services Regions each deployment type is available in, see Deployment type availability. For more information on the differences in performance between deployment types, see File system performance in the Amazon FSx for OpenZFS User Guide.
         public let deploymentType: OpenZFSDeploymentType?
         public let diskIopsConfiguration: DiskIopsConfiguration?
-        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx  API and Amazon FSx console, Amazon FSx selects an available /28 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
+        /// (Multi-AZ only) Specifies the IPv4 address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /28 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
         public let endpointIpAddressRange: String?
+        /// (Multi-AZ only) Specifies the IPv6 address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /118 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
+        public let endpointIpv6AddressRange: String?
         /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located.
         public let preferredSubnetId: String?
         ///  Specifies the optional provisioned SSD read cache on file systems that use the Intelligent-Tiering storage class.
@@ -1950,7 +1975,7 @@ extension FSx {
         public let weeklyMaintenanceStartTime: String?
 
         @inlinable
-        public init(automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, copyTagsToVolumes: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: OpenZFSDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, endpointIpAddressRange: String? = nil, preferredSubnetId: String? = nil, readCacheConfiguration: OpenZFSReadCacheConfiguration? = nil, rootVolumeConfiguration: OpenZFSCreateRootVolumeConfiguration? = nil, routeTableIds: [String]? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, copyTagsToVolumes: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: OpenZFSDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, endpointIpAddressRange: String? = nil, endpointIpv6AddressRange: String? = nil, preferredSubnetId: String? = nil, readCacheConfiguration: OpenZFSReadCacheConfiguration? = nil, rootVolumeConfiguration: OpenZFSCreateRootVolumeConfiguration? = nil, routeTableIds: [String]? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.copyTagsToVolumes = copyTagsToVolumes
@@ -1958,6 +1983,7 @@ extension FSx {
             self.deploymentType = deploymentType
             self.diskIopsConfiguration = diskIopsConfiguration
             self.endpointIpAddressRange = endpointIpAddressRange
+            self.endpointIpv6AddressRange = endpointIpv6AddressRange
             self.preferredSubnetId = preferredSubnetId
             self.readCacheConfiguration = readCacheConfiguration
             self.rootVolumeConfiguration = rootVolumeConfiguration
@@ -1976,6 +2002,9 @@ extension FSx {
             try self.validate(self.endpointIpAddressRange, name: "endpointIpAddressRange", parent: name, max: 17)
             try self.validate(self.endpointIpAddressRange, name: "endpointIpAddressRange", parent: name, min: 9)
             try self.validate(self.endpointIpAddressRange, name: "endpointIpAddressRange", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{9,17}$")
+            try self.validate(self.endpointIpv6AddressRange, name: "endpointIpv6AddressRange", parent: name, max: 43)
+            try self.validate(self.endpointIpv6AddressRange, name: "endpointIpv6AddressRange", parent: name, min: 4)
+            try self.validate(self.endpointIpv6AddressRange, name: "endpointIpv6AddressRange", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{4,43}$")
             try self.validate(self.preferredSubnetId, name: "preferredSubnetId", parent: name, max: 24)
             try self.validate(self.preferredSubnetId, name: "preferredSubnetId", parent: name, min: 15)
             try self.validate(self.preferredSubnetId, name: "preferredSubnetId", parent: name, pattern: "^(subnet-[0-9a-f]{8,})$")
@@ -2002,6 +2031,7 @@ extension FSx {
             case deploymentType = "DeploymentType"
             case diskIopsConfiguration = "DiskIopsConfiguration"
             case endpointIpAddressRange = "EndpointIpAddressRange"
+            case endpointIpv6AddressRange = "EndpointIpv6AddressRange"
             case preferredSubnetId = "PreferredSubnetId"
             case readCacheConfiguration = "ReadCacheConfiguration"
             case rootVolumeConfiguration = "RootVolumeConfiguration"
@@ -2020,6 +2050,8 @@ extension FSx {
         public let fileSystemTypeVersion: String?
         public let kmsKeyId: String?
         public let lustreConfiguration: CreateFileSystemLustreConfiguration?
+        /// The network type of the Amazon FSx file system that you are creating. Valid values are IPV4 (which supports IPv4 only) and DUAL (for dual-stack mode, which supports both IPv4 and IPv6). The default is IPV4. Supported for FSx for OpenZFS, FSx for ONTAP, and FSx for Windows File Server file systems.
+        public let networkType: NetworkType?
         public let ontapConfiguration: CreateFileSystemOntapConfiguration?
         /// The OpenZFS configuration for the file system that's being created.
         public let openZFSConfiguration: CreateFileSystemOpenZFSConfiguration?
@@ -2037,12 +2069,13 @@ extension FSx {
         public let windowsConfiguration: CreateFileSystemWindowsConfiguration?
 
         @inlinable
-        public init(clientRequestToken: String? = CreateFileSystemRequest.idempotencyToken(), fileSystemType: FileSystemType? = nil, fileSystemTypeVersion: String? = nil, kmsKeyId: String? = nil, lustreConfiguration: CreateFileSystemLustreConfiguration? = nil, ontapConfiguration: CreateFileSystemOntapConfiguration? = nil, openZFSConfiguration: CreateFileSystemOpenZFSConfiguration? = nil, securityGroupIds: [String]? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, windowsConfiguration: CreateFileSystemWindowsConfiguration? = nil) {
+        public init(clientRequestToken: String? = CreateFileSystemRequest.idempotencyToken(), fileSystemType: FileSystemType? = nil, fileSystemTypeVersion: String? = nil, kmsKeyId: String? = nil, lustreConfiguration: CreateFileSystemLustreConfiguration? = nil, networkType: NetworkType? = nil, ontapConfiguration: CreateFileSystemOntapConfiguration? = nil, openZFSConfiguration: CreateFileSystemOpenZFSConfiguration? = nil, securityGroupIds: [String]? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, windowsConfiguration: CreateFileSystemWindowsConfiguration? = nil) {
             self.clientRequestToken = clientRequestToken
             self.fileSystemType = fileSystemType
             self.fileSystemTypeVersion = fileSystemTypeVersion
             self.kmsKeyId = kmsKeyId
             self.lustreConfiguration = lustreConfiguration
+            self.networkType = networkType
             self.ontapConfiguration = ontapConfiguration
             self.openZFSConfiguration = openZFSConfiguration
             self.securityGroupIds = securityGroupIds
@@ -2094,6 +2127,7 @@ extension FSx {
             case fileSystemTypeVersion = "FileSystemTypeVersion"
             case kmsKeyId = "KmsKeyId"
             case lustreConfiguration = "LustreConfiguration"
+            case networkType = "NetworkType"
             case ontapConfiguration = "OntapConfiguration"
             case openZFSConfiguration = "OpenZFSConfiguration"
             case securityGroupIds = "SecurityGroupIds"
@@ -2122,7 +2156,7 @@ extension FSx {
     public struct CreateFileSystemWindowsConfiguration: AWSEncodableShape {
         /// The ID for an existing Amazon Web Services Managed Microsoft Active Directory (AD) instance that the file system should join when it's created.
         public let activeDirectoryId: String?
-        /// An array of one or more DNS alias names that you want to associate with the Amazon FSx file system.  Aliases allow you to use existing DNS names to access the data in your Amazon FSx file system.  You can associate up to 50 aliases with a file system at any time.  You can associate additional DNS aliases after you create the file system using the AssociateFileSystemAliases operation.  You can remove DNS aliases from the file system after it is created using the DisassociateFileSystemAliases operation. You only need to specify the alias name in the request payload. For more information, see Working with DNS Aliases and  Walkthrough 5: Using DNS aliases to access your file system, including additional steps you must take to be able to access your file system using a DNS alias. An alias name has to meet the following requirements:   Formatted as a fully-qualified domain name (FQDN), hostname.domain, for example, accounting.example.com.   Can contain alphanumeric characters, the underscore (_), and the hyphen (-).   Cannot start or end with a hyphen.   Can start with a numeric.   For DNS alias names, Amazon FSx stores alphabetic characters as lowercase letters (a-z), regardless of how you specify them:  as uppercase letters, lowercase letters, or the corresponding letters in escape codes.
+        /// An array of one or more DNS alias names that you want to associate with the Amazon FSx file system.  Aliases allow you to use existing DNS names to access the data in your Amazon FSx file system.  You can associate up to 50 aliases with a file system at any time.  You can associate additional DNS aliases after you create the file system using the AssociateFileSystemAliases operation.  You can remove DNS aliases from the file system after it is created using the DisassociateFileSystemAliases operation. You only need to specify the alias name in the request payload. For more information, see Managing DNS aliases and  Accessing data using DNS aliases. An alias name has to meet the following requirements:   Formatted as a fully-qualified domain name (FQDN), hostname.domain, for example, accounting.example.com.   Can contain alphanumeric characters, the underscore (_), and the hyphen (-).   Cannot start or end with a hyphen.   Can start with a numeric.   For DNS alias names, Amazon FSx stores alphabetic characters as lowercase letters (a-z), regardless of how you specify them:  as uppercase letters, lowercase letters, or the corresponding letters in escape codes.
         public let aliases: [String]?
         /// The configuration that Amazon FSx for Windows File Server uses to audit and log user accesses of files, folders, and file shares on the Amazon FSx for Windows File Server file system.
         public let auditLogConfiguration: WindowsAuditLogCreateConfiguration?
@@ -4516,9 +4550,9 @@ extension FSx {
 
         public func validate(name: String) throws {
             try self.dnsIps?.forEach {
-                try validate($0, name: "dnsIps[]", parent: name, max: 15)
-                try validate($0, name: "dnsIps[]", parent: name, min: 7)
-                try validate($0, name: "dnsIps[]", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$")
+                try validate($0, name: "dnsIps[]", parent: name, max: 45)
+                try validate($0, name: "dnsIps[]", parent: name, min: 1)
+                try validate($0, name: "dnsIps[]", parent: name, pattern: "^(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)$")
             }
             try self.validate(self.dnsIps, name: "dnsIps", parent: name, max: 10)
         }
@@ -4550,6 +4584,8 @@ extension FSx {
         public let lustreConfiguration: LustreFileSystemConfiguration?
         /// The IDs of the elastic network interfaces from which a specific file system is accessible. The elastic network interface is automatically created in the same virtual private cloud (VPC) that the Amazon FSx file system was created in. For more information, see Elastic Network Interfaces in the Amazon EC2 User Guide.  For an Amazon FSx for Windows File Server file system, you can have one network interface ID. For an Amazon FSx for Lustre file system, you can have more than one.
         public let networkInterfaceIds: [String]?
+        /// The network type of the file system.
+        public let networkType: NetworkType?
         /// The configuration for this Amazon FSx for NetApp ONTAP file system.
         public let ontapConfiguration: OntapFileSystemConfiguration?
         /// The configuration for this Amazon FSx for OpenZFS file system.
@@ -4572,7 +4608,7 @@ extension FSx {
         public let windowsConfiguration: WindowsFileSystemConfiguration?
 
         @inlinable
-        public init(administrativeActions: [AdministrativeAction]? = nil, creationTime: Date? = nil, dnsName: String? = nil, failureDetails: FileSystemFailureDetails? = nil, fileSystemId: String? = nil, fileSystemType: FileSystemType? = nil, fileSystemTypeVersion: String? = nil, kmsKeyId: String? = nil, lifecycle: FileSystemLifecycle? = nil, lustreConfiguration: LustreFileSystemConfiguration? = nil, networkInterfaceIds: [String]? = nil, ontapConfiguration: OntapFileSystemConfiguration? = nil, openZFSConfiguration: OpenZFSFileSystemConfiguration? = nil, ownerId: String? = nil, resourceARN: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, vpcId: String? = nil, windowsConfiguration: WindowsFileSystemConfiguration? = nil) {
+        public init(administrativeActions: [AdministrativeAction]? = nil, creationTime: Date? = nil, dnsName: String? = nil, failureDetails: FileSystemFailureDetails? = nil, fileSystemId: String? = nil, fileSystemType: FileSystemType? = nil, fileSystemTypeVersion: String? = nil, kmsKeyId: String? = nil, lifecycle: FileSystemLifecycle? = nil, lustreConfiguration: LustreFileSystemConfiguration? = nil, networkInterfaceIds: [String]? = nil, networkType: NetworkType? = nil, ontapConfiguration: OntapFileSystemConfiguration? = nil, openZFSConfiguration: OpenZFSFileSystemConfiguration? = nil, ownerId: String? = nil, resourceARN: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, vpcId: String? = nil, windowsConfiguration: WindowsFileSystemConfiguration? = nil) {
             self.administrativeActions = administrativeActions
             self.creationTime = creationTime
             self.dnsName = dnsName
@@ -4584,6 +4620,7 @@ extension FSx {
             self.lifecycle = lifecycle
             self.lustreConfiguration = lustreConfiguration
             self.networkInterfaceIds = networkInterfaceIds
+            self.networkType = networkType
             self.ontapConfiguration = ontapConfiguration
             self.openZFSConfiguration = openZFSConfiguration
             self.ownerId = ownerId
@@ -4608,6 +4645,7 @@ extension FSx {
             case lifecycle = "Lifecycle"
             case lustreConfiguration = "LustreConfiguration"
             case networkInterfaceIds = "NetworkInterfaceIds"
+            case networkType = "NetworkType"
             case ontapConfiguration = "OntapConfiguration"
             case openZFSConfiguration = "OpenZFSConfiguration"
             case ownerId = "OwnerId"
@@ -4623,18 +4661,22 @@ extension FSx {
 
     public struct FileSystemEndpoint: AWSDecodableShape {
         public let dnsName: String?
-        /// IP addresses of the file system endpoint.
+        /// The IPv4 addresses of the file system endpoint.
         public let ipAddresses: [String]?
+        /// The IPv6 addresses of the file system endpoint.
+        public let ipv6Addresses: [String]?
 
         @inlinable
-        public init(dnsName: String? = nil, ipAddresses: [String]? = nil) {
+        public init(dnsName: String? = nil, ipAddresses: [String]? = nil, ipv6Addresses: [String]? = nil) {
             self.dnsName = dnsName
             self.ipAddresses = ipAddresses
+            self.ipv6Addresses = ipv6Addresses
         }
 
         private enum CodingKeys: String, CodingKey {
             case dnsName = "DNSName"
             case ipAddresses = "IpAddresses"
+            case ipv6Addresses = "Ipv6Addresses"
         }
     }
 
@@ -5068,8 +5110,10 @@ extension FSx {
         public let deploymentType: OntapDeploymentType?
         /// The SSD IOPS configuration for the ONTAP file system, specifying the number of provisioned IOPS and the provision mode.
         public let diskIopsConfiguration: DiskIopsConfiguration?
-        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx  API, Amazon FSx selects an unused IP address range for you from the 198.19.* range. By default in the  Amazon FSx  console, Amazon FSx  chooses the last 64 IP addresses from the VPC’s primary CIDR range to use as the endpoint IP address range for the file system. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables.
+        /// (Multi-AZ only) Specifies the IPv4 address range in which the endpoints to access your file system will be created. By default in the Amazon FSx  API, Amazon FSx selects an unused IP address range for you from the 198.19.* range. By default in the  Amazon FSx  console, Amazon FSx  chooses the last 64 IP addresses from the VPC’s primary CIDR range to use as the endpoint IP address range for the file system. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables.
         public let endpointIpAddressRange: String?
+        /// (Multi-AZ only) Specifies the IPv6 address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /118 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
+        public let endpointIpv6AddressRange: String?
         /// The Management and Intercluster endpoints that are used to access data or to manage the file system using the NetApp ONTAP CLI, REST API, or NetApp SnapMirror.
         public let endpoints: FileSystemEndpoints?
         /// You can use the fsxadmin user account to access the NetApp ONTAP CLI and  REST API. The password value is always redacted in the response.
@@ -5085,12 +5129,13 @@ extension FSx {
         public let weeklyMaintenanceStartTime: String?
 
         @inlinable
-        public init(automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: OntapDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, endpointIpAddressRange: String? = nil, endpoints: FileSystemEndpoints? = nil, fsxAdminPassword: String? = nil, haPairs: Int? = nil, preferredSubnetId: String? = nil, routeTableIds: [String]? = nil, throughputCapacity: Int? = nil, throughputCapacityPerHAPair: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: OntapDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, endpointIpAddressRange: String? = nil, endpointIpv6AddressRange: String? = nil, endpoints: FileSystemEndpoints? = nil, fsxAdminPassword: String? = nil, haPairs: Int? = nil, preferredSubnetId: String? = nil, routeTableIds: [String]? = nil, throughputCapacity: Int? = nil, throughputCapacityPerHAPair: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.deploymentType = deploymentType
             self.diskIopsConfiguration = diskIopsConfiguration
             self.endpointIpAddressRange = endpointIpAddressRange
+            self.endpointIpv6AddressRange = endpointIpv6AddressRange
             self.endpoints = endpoints
             self.fsxAdminPassword = fsxAdminPassword
             self.haPairs = haPairs
@@ -5107,6 +5152,7 @@ extension FSx {
             case deploymentType = "DeploymentType"
             case diskIopsConfiguration = "DiskIopsConfiguration"
             case endpointIpAddressRange = "EndpointIpAddressRange"
+            case endpointIpv6AddressRange = "EndpointIpv6AddressRange"
             case endpoints = "Endpoints"
             case fsxAdminPassword = "FsxAdminPassword"
             case haPairs = "HAPairs"
@@ -5280,10 +5326,14 @@ extension FSx {
         /// Specifies the file-system deployment type. Amazon FSx for OpenZFS supports  MULTI_AZ_1, SINGLE_AZ_HA_2, SINGLE_AZ_HA_1, SINGLE_AZ_2, and SINGLE_AZ_1.
         public let deploymentType: OpenZFSDeploymentType?
         public let diskIopsConfiguration: DiskIopsConfiguration?
-        /// The IP address of the endpoint that is used to access data or to manage the file system.
+        /// The IPv4 address of the endpoint that is used to access data or to manage the file system.
         public let endpointIpAddress: String?
-        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx  API and Amazon FSx console, Amazon FSx selects an available /28 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables.
+        /// (Multi-AZ only) Specifies the IPv4 address range in which the endpoints to access your file system will be created. By default in the Amazon FSx  API and Amazon FSx console, Amazon FSx selects an available /28 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables.
         public let endpointIpAddressRange: String?
+        /// The IPv6 address of the endpoint that is used to access data or to manage the file system.
+        public let endpointIpv6Address: String?
+        /// (Multi-AZ only) Specifies the IPv6 address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /118 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
+        public let endpointIpv6AddressRange: String?
         /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located.
         public let preferredSubnetId: String?
         ///  Required when StorageType is set to INTELLIGENT_TIERING. Specifies the optional provisioned SSD read cache.
@@ -5297,7 +5347,7 @@ extension FSx {
         public let weeklyMaintenanceStartTime: String?
 
         @inlinable
-        public init(automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, copyTagsToVolumes: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: OpenZFSDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, endpointIpAddress: String? = nil, endpointIpAddressRange: String? = nil, preferredSubnetId: String? = nil, readCacheConfiguration: OpenZFSReadCacheConfiguration? = nil, rootVolumeId: String? = nil, routeTableIds: [String]? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, copyTagsToVolumes: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: OpenZFSDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, endpointIpAddress: String? = nil, endpointIpAddressRange: String? = nil, endpointIpv6Address: String? = nil, endpointIpv6AddressRange: String? = nil, preferredSubnetId: String? = nil, readCacheConfiguration: OpenZFSReadCacheConfiguration? = nil, rootVolumeId: String? = nil, routeTableIds: [String]? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.copyTagsToVolumes = copyTagsToVolumes
@@ -5306,6 +5356,8 @@ extension FSx {
             self.diskIopsConfiguration = diskIopsConfiguration
             self.endpointIpAddress = endpointIpAddress
             self.endpointIpAddressRange = endpointIpAddressRange
+            self.endpointIpv6Address = endpointIpv6Address
+            self.endpointIpv6AddressRange = endpointIpv6AddressRange
             self.preferredSubnetId = preferredSubnetId
             self.readCacheConfiguration = readCacheConfiguration
             self.rootVolumeId = rootVolumeId
@@ -5323,6 +5375,8 @@ extension FSx {
             case diskIopsConfiguration = "DiskIopsConfiguration"
             case endpointIpAddress = "EndpointIpAddress"
             case endpointIpAddressRange = "EndpointIpAddressRange"
+            case endpointIpv6Address = "EndpointIpv6Address"
+            case endpointIpv6AddressRange = "EndpointIpv6AddressRange"
             case preferredSubnetId = "PreferredSubnetId"
             case readCacheConfiguration = "ReadCacheConfiguration"
             case rootVolumeId = "RootVolumeId"
@@ -5934,9 +5988,9 @@ extension FSx {
 
         public func validate(name: String) throws {
             try self.dnsIps?.forEach {
-                try validate($0, name: "dnsIps[]", parent: name, max: 15)
-                try validate($0, name: "dnsIps[]", parent: name, min: 7)
-                try validate($0, name: "dnsIps[]", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$")
+                try validate($0, name: "dnsIps[]", parent: name, max: 45)
+                try validate($0, name: "dnsIps[]", parent: name, min: 1)
+                try validate($0, name: "dnsIps[]", parent: name, pattern: "^(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)$")
             }
             try self.validate(self.dnsIps, name: "dnsIps", parent: name, max: 3)
             try self.validate(self.dnsIps, name: "dnsIps", parent: name, min: 1)
@@ -5993,9 +6047,9 @@ extension FSx {
 
         public func validate(name: String) throws {
             try self.dnsIps?.forEach {
-                try validate($0, name: "dnsIps[]", parent: name, max: 15)
-                try validate($0, name: "dnsIps[]", parent: name, min: 7)
-                try validate($0, name: "dnsIps[]", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$")
+                try validate($0, name: "dnsIps[]", parent: name, max: 45)
+                try validate($0, name: "dnsIps[]", parent: name, min: 1)
+                try validate($0, name: "dnsIps[]", parent: name, pattern: "^(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)$")
             }
             try self.validate(self.dnsIps, name: "dnsIps", parent: name, max: 3)
             try self.validate(self.dnsIps, name: "dnsIps", parent: name, min: 1)
@@ -6332,18 +6386,22 @@ extension FSx {
 
     public struct SvmEndpoint: AWSDecodableShape {
         public let dnsName: String?
-        /// The SVM endpoint's IP addresses.
+        /// The SVM endpoint's IPv4 addresses.
         public let ipAddresses: [String]?
+        /// The SVM endpoint's IPv6 addresses.
+        public let ipv6Addresses: [String]?
 
         @inlinable
-        public init(dnsName: String? = nil, ipAddresses: [String]? = nil) {
+        public init(dnsName: String? = nil, ipAddresses: [String]? = nil, ipv6Addresses: [String]? = nil) {
             self.dnsName = dnsName
             self.ipAddresses = ipAddresses
+            self.ipv6Addresses = ipv6Addresses
         }
 
         private enum CodingKeys: String, CodingKey {
             case dnsName = "DNSName"
             case ipAddresses = "IpAddresses"
+            case ipv6Addresses = "Ipv6Addresses"
         }
     }
 
@@ -6722,8 +6780,10 @@ extension FSx {
         public let addRouteTableIds: [String]?
         public let automaticBackupRetentionDays: Int?
         public let dailyAutomaticBackupStartTime: String?
-        /// The SSD IOPS (input output operations per second) configuration for an Amazon FSx for NetApp ONTAP file system. The default is 3 IOPS per GB of storage capacity, but you can provision additional IOPS per GB of storage. The configuration consists of an IOPS mode (AUTOMATIC or USER_PROVISIONED), and in the case of USER_PROVISIONED IOPS, the total number of SSD IOPS provisioned.  For more information, see  Updating SSD storage capacity and IOPS.
+        /// The SSD IOPS (input output operations per second) configuration for an Amazon FSx for NetApp ONTAP file system. The default is 3 IOPS per GB of storage capacity, but you can provision additional IOPS per GB of storage. The configuration consists of an IOPS mode (AUTOMATIC or USER_PROVISIONED), and in the case of USER_PROVISIONED IOPS, the total number of SSD IOPS provisioned.  For more information, see  File system storage capacity and IOPS.
         public let diskIopsConfiguration: DiskIopsConfiguration?
+        /// (Multi-AZ only) Specifies the IPv6 address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /118 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
+        public let endpointIpv6AddressRange: String?
         /// Update the password for the fsxadmin user by entering a new password.  You use the fsxadmin user to access the NetApp ONTAP CLI and REST API to manage your file system resources.  For more information, see  Managing resources using NetApp Application.
         public let fsxAdminPassword: String?
         /// Use to update the number of high-availability (HA) pairs for a second-generation single-AZ file system.  If you increase the number of HA pairs for your file system, you must specify proportional increases for StorageCapacity,  Iops, and ThroughputCapacity. For more information, see  High-availability (HA) pairs in the FSx for ONTAP user guide. Block storage protocol support  (iSCSI and NVMe over TCP) is disabled on file systems with more than 6 HA pairs. For more information, see  Using block storage protocols.
@@ -6737,11 +6797,12 @@ extension FSx {
         public let weeklyMaintenanceStartTime: String?
 
         @inlinable
-        public init(addRouteTableIds: [String]? = nil, automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, fsxAdminPassword: String? = nil, haPairs: Int? = nil, removeRouteTableIds: [String]? = nil, throughputCapacity: Int? = nil, throughputCapacityPerHAPair: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(addRouteTableIds: [String]? = nil, automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, endpointIpv6AddressRange: String? = nil, fsxAdminPassword: String? = nil, haPairs: Int? = nil, removeRouteTableIds: [String]? = nil, throughputCapacity: Int? = nil, throughputCapacityPerHAPair: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.addRouteTableIds = addRouteTableIds
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.diskIopsConfiguration = diskIopsConfiguration
+            self.endpointIpv6AddressRange = endpointIpv6AddressRange
             self.fsxAdminPassword = fsxAdminPassword
             self.haPairs = haPairs
             self.removeRouteTableIds = removeRouteTableIds
@@ -6763,6 +6824,9 @@ extension FSx {
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, min: 5)
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, pattern: "^([01]\\d|2[0-3]):?([0-5]\\d)$")
             try self.diskIopsConfiguration?.validate(name: "\(name).diskIopsConfiguration")
+            try self.validate(self.endpointIpv6AddressRange, name: "endpointIpv6AddressRange", parent: name, max: 43)
+            try self.validate(self.endpointIpv6AddressRange, name: "endpointIpv6AddressRange", parent: name, min: 4)
+            try self.validate(self.endpointIpv6AddressRange, name: "endpointIpv6AddressRange", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{4,43}$")
             try self.validate(self.fsxAdminPassword, name: "fsxAdminPassword", parent: name, max: 50)
             try self.validate(self.fsxAdminPassword, name: "fsxAdminPassword", parent: name, min: 8)
             try self.validate(self.fsxAdminPassword, name: "fsxAdminPassword", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{8,50}$")
@@ -6788,6 +6852,7 @@ extension FSx {
             case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
             case diskIopsConfiguration = "DiskIopsConfiguration"
+            case endpointIpv6AddressRange = "EndpointIpv6AddressRange"
             case fsxAdminPassword = "FsxAdminPassword"
             case haPairs = "HAPairs"
             case removeRouteTableIds = "RemoveRouteTableIds"
@@ -6807,6 +6872,8 @@ extension FSx {
         public let copyTagsToVolumes: Bool?
         public let dailyAutomaticBackupStartTime: String?
         public let diskIopsConfiguration: DiskIopsConfiguration?
+        /// (Multi-AZ only) Specifies the IPv6 address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /118 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
+        public let endpointIpv6AddressRange: String?
         ///  The configuration for the optional provisioned SSD read cache on file systems that use the Intelligent-Tiering storage class.
         public let readCacheConfiguration: OpenZFSReadCacheConfiguration?
         /// (Multi-AZ only) A list of IDs of existing virtual private cloud (VPC) route tables to disassociate (remove) from your Amazon FSx for OpenZFS file system. You can use the  API operation to retrieve the list of VPC route table IDs for a file system.
@@ -6816,13 +6883,14 @@ extension FSx {
         public let weeklyMaintenanceStartTime: String?
 
         @inlinable
-        public init(addRouteTableIds: [String]? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, copyTagsToVolumes: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, readCacheConfiguration: OpenZFSReadCacheConfiguration? = nil, removeRouteTableIds: [String]? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(addRouteTableIds: [String]? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, copyTagsToVolumes: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, endpointIpv6AddressRange: String? = nil, readCacheConfiguration: OpenZFSReadCacheConfiguration? = nil, removeRouteTableIds: [String]? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.addRouteTableIds = addRouteTableIds
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.copyTagsToVolumes = copyTagsToVolumes
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.diskIopsConfiguration = diskIopsConfiguration
+            self.endpointIpv6AddressRange = endpointIpv6AddressRange
             self.readCacheConfiguration = readCacheConfiguration
             self.removeRouteTableIds = removeRouteTableIds
             self.throughputCapacity = throughputCapacity
@@ -6842,6 +6910,9 @@ extension FSx {
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, min: 5)
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, pattern: "^([01]\\d|2[0-3]):?([0-5]\\d)$")
             try self.diskIopsConfiguration?.validate(name: "\(name).diskIopsConfiguration")
+            try self.validate(self.endpointIpv6AddressRange, name: "endpointIpv6AddressRange", parent: name, max: 43)
+            try self.validate(self.endpointIpv6AddressRange, name: "endpointIpv6AddressRange", parent: name, min: 4)
+            try self.validate(self.endpointIpv6AddressRange, name: "endpointIpv6AddressRange", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{4,43}$")
             try self.readCacheConfiguration?.validate(name: "\(name).readCacheConfiguration")
             try self.removeRouteTableIds?.forEach {
                 try validate($0, name: "removeRouteTableIds[]", parent: name, max: 21)
@@ -6863,6 +6934,7 @@ extension FSx {
             case copyTagsToVolumes = "CopyTagsToVolumes"
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
             case diskIopsConfiguration = "DiskIopsConfiguration"
+            case endpointIpv6AddressRange = "EndpointIpv6AddressRange"
             case readCacheConfiguration = "ReadCacheConfiguration"
             case removeRouteTableIds = "RemoveRouteTableIds"
             case throughputCapacity = "ThroughputCapacity"
@@ -6878,21 +6950,24 @@ extension FSx {
         /// The Lustre version you are updating an FSx for Lustre file system to. Valid values are 2.12 and 2.15. The value you choose must be newer than the file system's current Lustre version.
         public let fileSystemTypeVersion: String?
         public let lustreConfiguration: UpdateFileSystemLustreConfiguration?
+        /// Changes the network type of an FSx for OpenZFS file system.
+        public let networkType: NetworkType?
         public let ontapConfiguration: UpdateFileSystemOntapConfiguration?
         /// The configuration updates for an FSx for OpenZFS file system.
         public let openZFSConfiguration: UpdateFileSystemOpenZFSConfiguration?
-        /// Use this parameter to increase the storage capacity of an FSx for Windows File Server, FSx for Lustre, FSx for OpenZFS, or FSx for ONTAP file system. Specifies the storage capacity target value, in GiB, to increase the storage capacity for the file system that you're updating.   You can't make a storage capacity increase request if there is an existing storage capacity increase request in progress.  For Lustre file systems, the storage capacity target value can be the following:   For SCRATCH_2, PERSISTENT_1, and PERSISTENT_2 SSD deployment types, valid values are in multiples of 2400 GiB. The value must be greater than the current storage capacity.   For PERSISTENT HDD file systems, valid values are multiples of 6000 GiB for 12-MBps throughput per TiB file systems and multiples of 1800 GiB for 40-MBps throughput per TiB file systems. The values must be greater than the current storage capacity.   For SCRATCH_1 file systems, you can't increase the storage capacity.   For more information, see Managing storage and throughput capacity in the FSx for Lustre User Guide. For FSx for OpenZFS file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. For more information, see Managing storage capacity in the FSx for OpenZFS User Guide. For Windows file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. To increase storage capacity, the file system must have at least 16 MBps of throughput capacity. For more information, see Managing storage capacity in the Amazon FSxfor Windows File Server User Guide. For ONTAP file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value.  For more information, see Managing storage capacity and provisioned IOPS in the Amazon FSx for NetApp ONTAP User Guide.
+        /// Use this parameter to increase the storage capacity of an FSx for Windows File Server, FSx for Lustre, FSx for OpenZFS, or FSx for ONTAP file system. For second-generation FSx for ONTAP file systems, you can also decrease the storage capacity. Specifies the storage capacity target value, in GiB, for the file system that you're updating.   You can't make a storage capacity increase request if there is an existing storage capacity increase request in progress.  For Lustre file systems, the storage capacity target value can be the following:   For SCRATCH_2, PERSISTENT_1, and PERSISTENT_2 SSD deployment types, valid values are in multiples of 2400 GiB. The value must be greater than the current storage capacity.   For PERSISTENT HDD file systems, valid values are multiples of 6000 GiB for 12-MBps throughput per TiB file systems and multiples of 1800 GiB for 40-MBps throughput per TiB file systems. The values must be greater than the current storage capacity.   For SCRATCH_1 file systems, you can't increase the storage capacity.   For more information, see Managing storage and throughput capacity in the FSx for Lustre User Guide. For FSx for OpenZFS file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. For more information, see Managing storage capacity in the FSx for OpenZFS User Guide. For Windows file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. To increase storage capacity, the file system must have at least 16 MBps of throughput capacity. For more information, see Managing storage capacity in the Amazon FSxfor Windows File Server User Guide. For ONTAP file systems, when increasing storage capacity, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. When decreasing storage capacity on second-generation file systems, the target value must be at least 9 percent smaller than the current SSD storage capacity. For more information, see File system storage capacity and IOPS in the Amazon FSx for NetApp ONTAP User Guide.
         public let storageCapacity: Int?
         public let storageType: StorageType?
         /// The configuration updates for an Amazon FSx for Windows File Server file system.
         public let windowsConfiguration: UpdateFileSystemWindowsConfiguration?
 
         @inlinable
-        public init(clientRequestToken: String? = UpdateFileSystemRequest.idempotencyToken(), fileSystemId: String? = nil, fileSystemTypeVersion: String? = nil, lustreConfiguration: UpdateFileSystemLustreConfiguration? = nil, ontapConfiguration: UpdateFileSystemOntapConfiguration? = nil, openZFSConfiguration: UpdateFileSystemOpenZFSConfiguration? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, windowsConfiguration: UpdateFileSystemWindowsConfiguration? = nil) {
+        public init(clientRequestToken: String? = UpdateFileSystemRequest.idempotencyToken(), fileSystemId: String? = nil, fileSystemTypeVersion: String? = nil, lustreConfiguration: UpdateFileSystemLustreConfiguration? = nil, networkType: NetworkType? = nil, ontapConfiguration: UpdateFileSystemOntapConfiguration? = nil, openZFSConfiguration: UpdateFileSystemOpenZFSConfiguration? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, windowsConfiguration: UpdateFileSystemWindowsConfiguration? = nil) {
             self.clientRequestToken = clientRequestToken
             self.fileSystemId = fileSystemId
             self.fileSystemTypeVersion = fileSystemTypeVersion
             self.lustreConfiguration = lustreConfiguration
+            self.networkType = networkType
             self.ontapConfiguration = ontapConfiguration
             self.openZFSConfiguration = openZFSConfiguration
             self.storageCapacity = storageCapacity
@@ -6923,6 +6998,7 @@ extension FSx {
             case fileSystemId = "FileSystemId"
             case fileSystemTypeVersion = "FileSystemTypeVersion"
             case lustreConfiguration = "LustreConfiguration"
+            case networkType = "NetworkType"
             case ontapConfiguration = "OntapConfiguration"
             case openZFSConfiguration = "OpenZFSConfiguration"
             case storageCapacity = "StorageCapacity"
@@ -7516,8 +7592,10 @@ extension FSx {
         public let diskIopsConfiguration: DiskIopsConfiguration?
         /// The list of maintenance operations in progress for this file system.
         public let maintenanceOperationsInProgress: [FileSystemMaintenanceOperation]?
-        /// For MULTI_AZ_1 deployment types, the IP address of the primary, or preferred, file server. Use this IP address when mounting the file system on Linux SMB clients or Windows SMB clients that  are not joined to a Microsoft Active Directory.  Applicable for all Windows file system deployment types.  This IP address is temporarily unavailable  when the file system is undergoing maintenance. For Linux and Windows  SMB clients that are joined to an Active Directory, use the file system's DNSName instead. For more information on mapping and mounting file shares, see  Accessing File Shares.
+        /// For MULTI_AZ_1 deployment types, the IPv4 address of the primary, or preferred, file server. Use this IP address when mounting the file system on Linux SMB clients or Windows SMB clients that  are not joined to a Microsoft Active Directory.  Applicable for all Windows file system deployment types.  This IPv4 address is temporarily unavailable  when the file system is undergoing maintenance. For Linux and Windows  SMB clients that are joined to an Active Directory, use the file system's DNSName instead. For more information on mapping and mounting file shares, see  Accessing data using file shares.
         public let preferredFileServerIp: String?
+        /// For MULTI_AZ_1 deployment types, the IPv6 address of the primary, or preferred, file server. Use this IP address when mounting the file system on Linux SMB clients or Windows SMB clients that are not joined to a Microsoft Active Directory. Applicable for all Windows file system deployment types. This IPv6 address is temporarily unavailable when the file system is undergoing maintenance. For Linux and Windows SMB clients that are joined to an Active Directory, use the file system's DNSName instead.
+        public let preferredFileServerIpv6: String?
         /// For MULTI_AZ_1 deployment types, it specifies the ID of the subnet where the preferred file server is located.  Must be one of the two subnet IDs specified in SubnetIds property. Amazon FSx serves traffic from this subnet except in the event of a failover to the secondary file server. For SINGLE_AZ_1 and SINGLE_AZ_2 deployment types, this value is the same as that for SubnetIDs. For more information, see  Availability and durability: Single-AZ and Multi-AZ file systems.
         public let preferredSubnetId: String?
         /// For MULTI_AZ_1 deployment types, use this endpoint when performing administrative tasks on the file system using  Amazon FSx Remote PowerShell. For SINGLE_AZ_1 and SINGLE_AZ_2 deployment types, this is the DNS name of the file system. This endpoint is temporarily unavailable when the file system is undergoing maintenance.
@@ -7529,7 +7607,7 @@ extension FSx {
         public let weeklyMaintenanceStartTime: String?
 
         @inlinable
-        public init(activeDirectoryId: String? = nil, aliases: [Alias]? = nil, auditLogConfiguration: WindowsAuditLogConfiguration? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: WindowsDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, maintenanceOperationsInProgress: [FileSystemMaintenanceOperation]? = nil, preferredFileServerIp: String? = nil, preferredSubnetId: String? = nil, remoteAdministrationEndpoint: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryAttributes? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(activeDirectoryId: String? = nil, aliases: [Alias]? = nil, auditLogConfiguration: WindowsAuditLogConfiguration? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: WindowsDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, maintenanceOperationsInProgress: [FileSystemMaintenanceOperation]? = nil, preferredFileServerIp: String? = nil, preferredFileServerIpv6: String? = nil, preferredSubnetId: String? = nil, remoteAdministrationEndpoint: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryAttributes? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.activeDirectoryId = activeDirectoryId
             self.aliases = aliases
             self.auditLogConfiguration = auditLogConfiguration
@@ -7540,6 +7618,7 @@ extension FSx {
             self.diskIopsConfiguration = diskIopsConfiguration
             self.maintenanceOperationsInProgress = maintenanceOperationsInProgress
             self.preferredFileServerIp = preferredFileServerIp
+            self.preferredFileServerIpv6 = preferredFileServerIpv6
             self.preferredSubnetId = preferredSubnetId
             self.remoteAdministrationEndpoint = remoteAdministrationEndpoint
             self.selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfiguration
@@ -7558,6 +7637,7 @@ extension FSx {
             case diskIopsConfiguration = "DiskIopsConfiguration"
             case maintenanceOperationsInProgress = "MaintenanceOperationsInProgress"
             case preferredFileServerIp = "PreferredFileServerIp"
+            case preferredFileServerIpv6 = "PreferredFileServerIpv6"
             case preferredSubnetId = "PreferredSubnetId"
             case remoteAdministrationEndpoint = "RemoteAdministrationEndpoint"
             case selfManagedActiveDirectoryConfiguration = "SelfManagedActiveDirectoryConfiguration"
@@ -7698,7 +7778,7 @@ public struct FSxErrorType: AWSErrorType {
     public static var resourceNotFound: Self { .init(.resourceNotFound) }
     /// The access point specified was not found.
     public static var s3AccessPointAttachmentNotFound: Self { .init(.s3AccessPointAttachmentNotFound) }
-    /// An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web ServicesSupport.
+    /// An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     public static var serviceLimitExceeded: Self { .init(.serviceLimitExceeded) }
     /// No Amazon FSx snapshots were found based on the supplied parameters.
     public static var snapshotNotFound: Self { .init(.snapshotNotFound) }

@@ -383,7 +383,9 @@ extension Imagebuilder {
         /// The description of the AMI distribution configuration. Minimum and maximum length are
         /// 			in characters.
         public let description: String?
-        /// The KMS key identifier used to encrypt the distributed image.
+        /// The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt the distributed image.
+        /// 			This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId)
+        /// 			in the Key Management Service Developer Guide.
         public let kmsKeyId: String?
         /// Launch permissions can be used to configure which Amazon Web Services accounts can use the AMI to
         /// 			launch instances.
@@ -434,6 +436,26 @@ extension Imagebuilder {
             case launchPermission = "launchPermission"
             case name = "name"
             case targetAccountIds = "targetAccountIds"
+        }
+    }
+
+    public struct AutoDisablePolicy: AWSEncodableShape & AWSDecodableShape {
+        /// The number of consecutive scheduled image pipeline executions that must fail before Image Builder
+        /// 			automatically disables the pipeline.
+        public let failureCount: Int
+
+        @inlinable
+        public init(failureCount: Int) {
+            self.failureCount = failureCount
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.failureCount, name: "failureCount", parent: name, max: 10)
+            try self.validate(self.failureCount, name: "failureCount", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureCount = "failureCount"
         }
     }
 
@@ -536,7 +558,8 @@ extension Imagebuilder {
         public let description: String?
         /// The encryption status of the component.
         public let encrypted: Bool?
-        /// The KMS key identifier used to encrypt the component.
+        /// The KMS key identifier used to encrypt the component. This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId)
+        /// 			in the Key Management Service Developer Guide.
         public let kmsKeyId: String?
         /// The name of the component.
         public let name: String?
@@ -928,8 +951,9 @@ extension Imagebuilder {
         /// A group of options that can be used to configure an instance for building and testing
         /// 			container images.
         public let instanceConfiguration: InstanceConfiguration?
-        /// Identifies which KMS key is used to encrypt the container image for distribution to
-        /// 			the target Region.
+        /// The Amazon Resource Name (ARN) that uniquely identifies which KMS key is used to encrypt the container image
+        /// 			for distribution to the target Region. This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId)
+        /// 			in the Key Management Service Developer Guide.
         public let kmsKeyId: String?
         /// The name of the container recipe.
         public let name: String?
@@ -1007,6 +1031,10 @@ extension Imagebuilder {
         public let containerType: ContainerType?
         /// The date when this container recipe was created.
         public let dateCreated: String?
+        /// The base image for a container build and test instance. This can contain an AMI ID
+        /// 		or it can specify an Amazon Web Services Systems Manager (SSM) Parameter Store Parameter, prefixed by ssm:,
+        /// 		followed by the parameter name or ARN. If not specified, Image Builder uses the appropriate ECS-optimized AMI as a base image.
+        public let instanceImage: String?
         /// The name of the container recipe.
         public let name: String?
         /// The owner of the container recipe.
@@ -1019,10 +1047,11 @@ extension Imagebuilder {
         public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String? = nil, containerType: ContainerType? = nil, dateCreated: String? = nil, name: String? = nil, owner: String? = nil, parentImage: String? = nil, platform: Platform? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, containerType: ContainerType? = nil, dateCreated: String? = nil, instanceImage: String? = nil, name: String? = nil, owner: String? = nil, parentImage: String? = nil, platform: Platform? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.containerType = containerType
             self.dateCreated = dateCreated
+            self.instanceImage = instanceImage
             self.name = name
             self.owner = owner
             self.parentImage = parentImage
@@ -1034,6 +1063,7 @@ extension Imagebuilder {
             case arn = "arn"
             case containerType = "containerType"
             case dateCreated = "dateCreated"
+            case instanceImage = "instanceImage"
             case name = "name"
             case owner = "owner"
             case parentImage = "parentImage"
@@ -1055,7 +1085,8 @@ extension Imagebuilder {
         public let data: String?
         /// Describes the contents of the component.
         public let description: String?
-        /// The ID of the KMS key that is used to encrypt this component.
+        /// The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt this component. This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId)
+        /// 			in the Key Management Service Developer Guide.
         public let kmsKeyId: String?
         /// The name of the component.
         public let name: String
@@ -1184,7 +1215,9 @@ extension Imagebuilder {
         /// A group of options that can be used to configure an instance for building and testing
         /// 			container images.
         public let instanceConfiguration: InstanceConfiguration?
-        /// Identifies which KMS key is used to encrypt the Dockerfile template.
+        /// The Amazon Resource Name (ARN) that uniquely identifies which KMS key is used to encrypt the Dockerfile
+        /// 			template. This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId)
+        /// 			in the Key Management Service Developer Guide.
         public let kmsKeyId: String?
         /// The name of the container recipe.
         public let name: String
@@ -1404,6 +1437,8 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the infrastructure configuration that will be used
         /// 			to build images created by this image pipeline.
         public let infrastructureConfigurationArn: String
+        /// Define logging configuration for the image build process.
+        public let loggingConfiguration: PipelineLoggingConfiguration?
         /// The name of the image pipeline.
         public let name: String
         /// The schedule of the image pipeline.
@@ -1416,7 +1451,7 @@ extension Imagebuilder {
         public let workflows: [WorkflowConfiguration]?
 
         @inlinable
-        public init(clientToken: String = CreateImagePipelineRequest.idempotencyToken(), containerRecipeArn: String? = nil, description: String? = nil, distributionConfigurationArn: String? = nil, enhancedImageMetadataEnabled: Bool? = nil, executionRole: String? = nil, imageRecipeArn: String? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String, name: String, schedule: Schedule? = nil, status: PipelineStatus? = nil, tags: [String: String]? = nil, workflows: [WorkflowConfiguration]? = nil) {
+        public init(clientToken: String = CreateImagePipelineRequest.idempotencyToken(), containerRecipeArn: String? = nil, description: String? = nil, distributionConfigurationArn: String? = nil, enhancedImageMetadataEnabled: Bool? = nil, executionRole: String? = nil, imageRecipeArn: String? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String, loggingConfiguration: PipelineLoggingConfiguration? = nil, name: String, schedule: Schedule? = nil, status: PipelineStatus? = nil, tags: [String: String]? = nil, workflows: [WorkflowConfiguration]? = nil) {
             self.clientToken = clientToken
             self.containerRecipeArn = containerRecipeArn
             self.description = description
@@ -1427,6 +1462,7 @@ extension Imagebuilder {
             self.imageScanningConfiguration = imageScanningConfiguration
             self.imageTestsConfiguration = imageTestsConfiguration
             self.infrastructureConfigurationArn = infrastructureConfigurationArn
+            self.loggingConfiguration = loggingConfiguration
             self.name = name
             self.schedule = schedule
             self.status = status
@@ -1448,6 +1484,7 @@ extension Imagebuilder {
             try self.imageScanningConfiguration?.validate(name: "\(name).imageScanningConfiguration")
             try self.imageTestsConfiguration?.validate(name: "\(name).imageTestsConfiguration")
             try self.validate(self.infrastructureConfigurationArn, name: "infrastructureConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infrastructure-configuration/[a-z0-9-_]+$")
+            try self.loggingConfiguration?.validate(name: "\(name).loggingConfiguration")
             try self.validate(self.name, name: "name", parent: name, pattern: "^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$")
             try self.schedule?.validate(name: "\(name).schedule")
             try self.tags?.forEach {
@@ -1474,6 +1511,7 @@ extension Imagebuilder {
             case imageScanningConfiguration = "imageScanningConfiguration"
             case imageTestsConfiguration = "imageTestsConfiguration"
             case infrastructureConfigurationArn = "infrastructureConfigurationArn"
+            case loggingConfiguration = "loggingConfiguration"
             case name = "name"
             case schedule = "schedule"
             case status = "status"
@@ -1508,6 +1546,9 @@ extension Imagebuilder {
     public struct CreateImageRecipeRequest: AWSEncodableShape {
         /// Specify additional settings and launch scripts for your build instances.
         public let additionalInstanceConfiguration: AdditionalInstanceConfiguration?
+        /// Tags that are applied to the AMI that Image Builder creates during the Build phase
+        /// 			prior to image distribution.
+        public let amiTags: [String: String]?
         /// The block device mappings of the image recipe.
         public let blockDeviceMappings: [InstanceBlockDeviceMapping]?
         /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
@@ -1537,8 +1578,9 @@ extension Imagebuilder {
         public let workingDirectory: String?
 
         @inlinable
-        public init(additionalInstanceConfiguration: AdditionalInstanceConfiguration? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, clientToken: String = CreateImageRecipeRequest.idempotencyToken(), components: [ComponentConfiguration], description: String? = nil, name: String, parentImage: String, semanticVersion: String, tags: [String: String]? = nil, workingDirectory: String? = nil) {
+        public init(additionalInstanceConfiguration: AdditionalInstanceConfiguration? = nil, amiTags: [String: String]? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, clientToken: String = CreateImageRecipeRequest.idempotencyToken(), components: [ComponentConfiguration], description: String? = nil, name: String, parentImage: String, semanticVersion: String, tags: [String: String]? = nil, workingDirectory: String? = nil) {
             self.additionalInstanceConfiguration = additionalInstanceConfiguration
+            self.amiTags = amiTags
             self.blockDeviceMappings = blockDeviceMappings
             self.clientToken = clientToken
             self.components = components
@@ -1552,6 +1594,14 @@ extension Imagebuilder {
 
         public func validate(name: String) throws {
             try self.additionalInstanceConfiguration?.validate(name: "\(name).additionalInstanceConfiguration")
+            try self.amiTags?.forEach {
+                try validate($0.key, name: "amiTags.key", parent: name, max: 128)
+                try validate($0.key, name: "amiTags.key", parent: name, min: 1)
+                try validate($0.key, name: "amiTags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "amiTags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.amiTags, name: "amiTags", parent: name, max: 50)
+            try self.validate(self.amiTags, name: "amiTags", parent: name, min: 1)
             try self.blockDeviceMappings?.forEach {
                 try $0.validate(name: "\(name).blockDeviceMappings[]")
             }
@@ -1581,6 +1631,7 @@ extension Imagebuilder {
 
         private enum CodingKeys: String, CodingKey {
             case additionalInstanceConfiguration = "additionalInstanceConfiguration"
+            case amiTags = "amiTags"
             case blockDeviceMappings = "blockDeviceMappings"
             case clientToken = "clientToken"
             case components = "components"
@@ -1642,13 +1693,15 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the infrastructure configuration that defines the
         /// 			environment in which your image will be built and tested.
         public let infrastructureConfigurationArn: String
+        /// Define logging configuration for the image build process.
+        public let loggingConfiguration: ImageLoggingConfiguration?
         /// The tags of the image.
         public let tags: [String: String]?
         /// Contains an array of workflow configuration objects.
         public let workflows: [WorkflowConfiguration]?
 
         @inlinable
-        public init(clientToken: String = CreateImageRequest.idempotencyToken(), containerRecipeArn: String? = nil, distributionConfigurationArn: String? = nil, enhancedImageMetadataEnabled: Bool? = nil, executionRole: String? = nil, imageRecipeArn: String? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String, tags: [String: String]? = nil, workflows: [WorkflowConfiguration]? = nil) {
+        public init(clientToken: String = CreateImageRequest.idempotencyToken(), containerRecipeArn: String? = nil, distributionConfigurationArn: String? = nil, enhancedImageMetadataEnabled: Bool? = nil, executionRole: String? = nil, imageRecipeArn: String? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String, loggingConfiguration: ImageLoggingConfiguration? = nil, tags: [String: String]? = nil, workflows: [WorkflowConfiguration]? = nil) {
             self.clientToken = clientToken
             self.containerRecipeArn = containerRecipeArn
             self.distributionConfigurationArn = distributionConfigurationArn
@@ -1658,6 +1711,7 @@ extension Imagebuilder {
             self.imageScanningConfiguration = imageScanningConfiguration
             self.imageTestsConfiguration = imageTestsConfiguration
             self.infrastructureConfigurationArn = infrastructureConfigurationArn
+            self.loggingConfiguration = loggingConfiguration
             self.tags = tags
             self.workflows = workflows
         }
@@ -1674,6 +1728,7 @@ extension Imagebuilder {
             try self.imageScanningConfiguration?.validate(name: "\(name).imageScanningConfiguration")
             try self.imageTestsConfiguration?.validate(name: "\(name).imageTestsConfiguration")
             try self.validate(self.infrastructureConfigurationArn, name: "infrastructureConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infrastructure-configuration/[a-z0-9-_]+$")
+            try self.loggingConfiguration?.validate(name: "\(name).loggingConfiguration")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1697,6 +1752,7 @@ extension Imagebuilder {
             case imageScanningConfiguration = "imageScanningConfiguration"
             case imageTestsConfiguration = "imageTestsConfiguration"
             case infrastructureConfigurationArn = "infrastructureConfigurationArn"
+            case loggingConfiguration = "loggingConfiguration"
             case tags = "tags"
             case workflows = "workflows"
         }
@@ -1972,7 +2028,9 @@ extension Imagebuilder {
         public let data: String?
         /// Describes the workflow.
         public let description: String?
-        /// The ID of the KMS key that is used to encrypt this workflow resource.
+        /// The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt this workflow resource.
+        /// 			This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId)
+        /// 			in the Key Management Service Developer Guide.
         public let kmsKeyId: String?
         /// The name of the workflow to create.
         public let name: String
@@ -2662,7 +2720,9 @@ extension Imagebuilder {
         public let encrypted: Bool?
         /// Use to configure device IOPS.
         public let iops: Int?
-        /// Use to configure the KMS key to use when encrypting the device.
+        /// The Amazon Resource Name (ARN) that uniquely identifies the KMS key to use when encrypting the device.
+        /// 			This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId)
+        /// 			in the Key Management Service Developer Guide.
         public let kmsKeyId: String?
         /// The snapshot that defines the device contents.
         public let snapshotId: String?
@@ -3713,6 +3773,9 @@ extension Imagebuilder {
         public let infrastructureConfiguration: InfrastructureConfiguration?
         /// Identifies the last runtime instance of the lifecycle policy to take action on the image.
         public let lifecycleExecutionId: String?
+        /// The logging configuration that's defined for the image. Image Builder uses the defined settings
+        /// 			to direct execution log output during image creation.
+        public let loggingConfiguration: ImageLoggingConfiguration?
         /// The name of the image.
         public let name: String?
         /// The operating system version for instances that launch from this image. For example,
@@ -3748,7 +3811,7 @@ extension Imagebuilder {
         public let workflows: [WorkflowConfiguration]?
 
         @inlinable
-        public init(arn: String? = nil, buildType: BuildType? = nil, containerRecipe: ContainerRecipe? = nil, dateCreated: String? = nil, deprecationTime: Date? = nil, distributionConfiguration: DistributionConfiguration? = nil, enhancedImageMetadataEnabled: Bool? = nil, executionRole: String? = nil, imageRecipe: ImageRecipe? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageSource: ImageSource? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfiguration: InfrastructureConfiguration? = nil, lifecycleExecutionId: String? = nil, name: String? = nil, osVersion: String? = nil, outputResources: OutputResources? = nil, platform: Platform? = nil, scanState: ImageScanState? = nil, sourcePipelineArn: String? = nil, sourcePipelineName: String? = nil, state: ImageState? = nil, tags: [String: String]? = nil, type: ImageType? = nil, version: String? = nil, workflows: [WorkflowConfiguration]? = nil) {
+        public init(arn: String? = nil, buildType: BuildType? = nil, containerRecipe: ContainerRecipe? = nil, dateCreated: String? = nil, deprecationTime: Date? = nil, distributionConfiguration: DistributionConfiguration? = nil, enhancedImageMetadataEnabled: Bool? = nil, executionRole: String? = nil, imageRecipe: ImageRecipe? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageSource: ImageSource? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfiguration: InfrastructureConfiguration? = nil, lifecycleExecutionId: String? = nil, loggingConfiguration: ImageLoggingConfiguration? = nil, name: String? = nil, osVersion: String? = nil, outputResources: OutputResources? = nil, platform: Platform? = nil, scanState: ImageScanState? = nil, sourcePipelineArn: String? = nil, sourcePipelineName: String? = nil, state: ImageState? = nil, tags: [String: String]? = nil, type: ImageType? = nil, version: String? = nil, workflows: [WorkflowConfiguration]? = nil) {
             self.arn = arn
             self.buildType = buildType
             self.containerRecipe = containerRecipe
@@ -3763,6 +3826,7 @@ extension Imagebuilder {
             self.imageTestsConfiguration = imageTestsConfiguration
             self.infrastructureConfiguration = infrastructureConfiguration
             self.lifecycleExecutionId = lifecycleExecutionId
+            self.loggingConfiguration = loggingConfiguration
             self.name = name
             self.osVersion = osVersion
             self.outputResources = outputResources
@@ -3792,6 +3856,7 @@ extension Imagebuilder {
             case imageTestsConfiguration = "imageTestsConfiguration"
             case infrastructureConfiguration = "infrastructureConfiguration"
             case lifecycleExecutionId = "lifecycleExecutionId"
+            case loggingConfiguration = "loggingConfiguration"
             case name = "name"
             case osVersion = "osVersion"
             case outputResources = "outputResources"
@@ -3826,6 +3891,27 @@ extension Imagebuilder {
         }
     }
 
+    public struct ImageLoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The log group name that Image Builder uses for image creation. If not specified, the log group
+        /// 			name defaults to /aws/imagebuilder/image-name.
+        public let logGroupName: String?
+
+        @inlinable
+        public init(logGroupName: String? = nil) {
+            self.logGroupName = logGroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
+            try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
+            try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "^[a-zA-Z0-9\\-_/\\.]{1,512}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupName = "logGroupName"
+        }
+    }
+
     public struct ImagePackage: AWSDecodableShape {
         /// The name of the package that's reported to the operating system package
         /// 			manager.
@@ -3849,6 +3935,14 @@ extension Imagebuilder {
     public struct ImagePipeline: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the image pipeline.
         public let arn: String?
+        /// Image Builder tracks the number of consecutive failures for scheduled pipeline
+        /// 			executions and takes one of the following actions each time it runs on a schedule:   If the pipeline execution is successful, the number of consecutive
+        /// 					failures resets to zero.   If the pipeline execution fails, Image Builder increments the number of
+        /// 					consecutive failures. If the failure count exceeds the limit defined in the
+        /// 					AutoDisablePolicy, Image Builder disables the pipeline.   The consecutive failure count is also reset to zero under the following
+        /// 			conditions:   The pipeline runs manually and succeeds.   The pipeline configuration is updated.   If the pipeline runs manually and fails, the count remains the same. The next
+        /// 			scheduled run continues to increment where it left off before.
+        public let consecutiveFailures: Int?
         /// The Amazon Resource Name (ARN) of the container recipe that is used for this
         /// 			pipeline.
         public let containerRecipeArn: String?
@@ -3882,6 +3976,12 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the infrastructure configuration associated with
         /// 			this image pipeline.
         public let infrastructureConfigurationArn: String?
+        /// The status of the last image that this pipeline built, such as
+        /// 			BUILDING, TESTING, FAILED,
+        /// 			or AVAILABLE.
+        public let lastRunStatus: ImageStatus?
+        /// Defines logging configuration for the output image.
+        public let loggingConfiguration: PipelineLoggingConfiguration?
         /// The name of the image pipeline.
         public let name: String?
         /// The platform of the image pipeline.
@@ -3896,8 +3996,9 @@ extension Imagebuilder {
         public let workflows: [WorkflowConfiguration]?
 
         @inlinable
-        public init(arn: String? = nil, containerRecipeArn: String? = nil, dateCreated: String? = nil, dateLastRun: String? = nil, dateNextRun: String? = nil, dateUpdated: String? = nil, description: String? = nil, distributionConfigurationArn: String? = nil, enhancedImageMetadataEnabled: Bool? = nil, executionRole: String? = nil, imageRecipeArn: String? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String? = nil, name: String? = nil, platform: Platform? = nil, schedule: Schedule? = nil, status: PipelineStatus? = nil, tags: [String: String]? = nil, workflows: [WorkflowConfiguration]? = nil) {
+        public init(arn: String? = nil, consecutiveFailures: Int? = nil, containerRecipeArn: String? = nil, dateCreated: String? = nil, dateLastRun: String? = nil, dateNextRun: String? = nil, dateUpdated: String? = nil, description: String? = nil, distributionConfigurationArn: String? = nil, enhancedImageMetadataEnabled: Bool? = nil, executionRole: String? = nil, imageRecipeArn: String? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String? = nil, lastRunStatus: ImageStatus? = nil, loggingConfiguration: PipelineLoggingConfiguration? = nil, name: String? = nil, platform: Platform? = nil, schedule: Schedule? = nil, status: PipelineStatus? = nil, tags: [String: String]? = nil, workflows: [WorkflowConfiguration]? = nil) {
             self.arn = arn
+            self.consecutiveFailures = consecutiveFailures
             self.containerRecipeArn = containerRecipeArn
             self.dateCreated = dateCreated
             self.dateLastRun = dateLastRun
@@ -3911,6 +4012,8 @@ extension Imagebuilder {
             self.imageScanningConfiguration = imageScanningConfiguration
             self.imageTestsConfiguration = imageTestsConfiguration
             self.infrastructureConfigurationArn = infrastructureConfigurationArn
+            self.lastRunStatus = lastRunStatus
+            self.loggingConfiguration = loggingConfiguration
             self.name = name
             self.platform = platform
             self.schedule = schedule
@@ -3921,6 +4024,7 @@ extension Imagebuilder {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case consecutiveFailures = "consecutiveFailures"
             case containerRecipeArn = "containerRecipeArn"
             case dateCreated = "dateCreated"
             case dateLastRun = "dateLastRun"
@@ -3934,6 +4038,8 @@ extension Imagebuilder {
             case imageScanningConfiguration = "imageScanningConfiguration"
             case imageTestsConfiguration = "imageTestsConfiguration"
             case infrastructureConfigurationArn = "infrastructureConfigurationArn"
+            case lastRunStatus = "lastRunStatus"
+            case loggingConfiguration = "loggingConfiguration"
             case name = "name"
             case platform = "platform"
             case schedule = "schedule"
@@ -3969,6 +4075,9 @@ extension Imagebuilder {
         /// 			instances. You can define settings and add scripts to run when an instance is launched
         /// 			from your AMI.
         public let additionalInstanceConfiguration: AdditionalInstanceConfiguration?
+        /// Tags that are applied to the AMI that Image Builder creates during the Build phase
+        /// 			prior to image distribution.
+        public let amiTags: [String: String]?
         /// The Amazon Resource Name (ARN) of the image recipe.
         public let arn: String?
         /// The block device mappings to apply when creating images from this recipe.
@@ -4001,8 +4110,9 @@ extension Imagebuilder {
         public let workingDirectory: String?
 
         @inlinable
-        public init(additionalInstanceConfiguration: AdditionalInstanceConfiguration? = nil, arn: String? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, components: [ComponentConfiguration]? = nil, dateCreated: String? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, parentImage: String? = nil, platform: Platform? = nil, tags: [String: String]? = nil, type: ImageType? = nil, version: String? = nil, workingDirectory: String? = nil) {
+        public init(additionalInstanceConfiguration: AdditionalInstanceConfiguration? = nil, amiTags: [String: String]? = nil, arn: String? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, components: [ComponentConfiguration]? = nil, dateCreated: String? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, parentImage: String? = nil, platform: Platform? = nil, tags: [String: String]? = nil, type: ImageType? = nil, version: String? = nil, workingDirectory: String? = nil) {
             self.additionalInstanceConfiguration = additionalInstanceConfiguration
+            self.amiTags = amiTags
             self.arn = arn
             self.blockDeviceMappings = blockDeviceMappings
             self.components = components
@@ -4020,6 +4130,7 @@ extension Imagebuilder {
 
         private enum CodingKeys: String, CodingKey {
             case additionalInstanceConfiguration = "additionalInstanceConfiguration"
+            case amiTags = "amiTags"
             case arn = "arn"
             case blockDeviceMappings = "blockDeviceMappings"
             case components = "components"
@@ -4276,6 +4387,8 @@ extension Imagebuilder {
         public let imageSource: ImageSource?
         /// Identifies the last runtime instance of the lifecycle policy to take action on the image.
         public let lifecycleExecutionId: String?
+        /// The logging configuration that's defined for the image.
+        public let loggingConfiguration: ImageLoggingConfiguration?
         /// The name of the image.
         public let name: String?
         /// The operating system version of the instances that launch from this image. For
@@ -4297,13 +4410,14 @@ extension Imagebuilder {
         public let version: String?
 
         @inlinable
-        public init(arn: String? = nil, buildType: BuildType? = nil, dateCreated: String? = nil, deprecationTime: Date? = nil, imageSource: ImageSource? = nil, lifecycleExecutionId: String? = nil, name: String? = nil, osVersion: String? = nil, outputResources: OutputResources? = nil, owner: String? = nil, platform: Platform? = nil, state: ImageState? = nil, tags: [String: String]? = nil, type: ImageType? = nil, version: String? = nil) {
+        public init(arn: String? = nil, buildType: BuildType? = nil, dateCreated: String? = nil, deprecationTime: Date? = nil, imageSource: ImageSource? = nil, lifecycleExecutionId: String? = nil, loggingConfiguration: ImageLoggingConfiguration? = nil, name: String? = nil, osVersion: String? = nil, outputResources: OutputResources? = nil, owner: String? = nil, platform: Platform? = nil, state: ImageState? = nil, tags: [String: String]? = nil, type: ImageType? = nil, version: String? = nil) {
             self.arn = arn
             self.buildType = buildType
             self.dateCreated = dateCreated
             self.deprecationTime = deprecationTime
             self.imageSource = imageSource
             self.lifecycleExecutionId = lifecycleExecutionId
+            self.loggingConfiguration = loggingConfiguration
             self.name = name
             self.osVersion = osVersion
             self.outputResources = outputResources
@@ -4322,6 +4436,7 @@ extension Imagebuilder {
             case deprecationTime = "deprecationTime"
             case imageSource = "imageSource"
             case lifecycleExecutionId = "lifecycleExecutionId"
+            case loggingConfiguration = "loggingConfiguration"
             case name = "name"
             case osVersion = "osVersion"
             case outputResources = "outputResources"
@@ -4441,7 +4556,8 @@ extension Imagebuilder {
         public let description: String?
         /// The format of the resource that you want to import as a component.
         public let format: ComponentFormat
-        /// The ID of the KMS key that should be used to encrypt this component.
+        /// The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt this component. This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId)
+        /// 			in the Key Management Service Developer Guide.
         public let kmsKeyId: String?
         /// The name of the component.
         public let name: String
@@ -4553,6 +4669,8 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the infrastructure configuration resource that's used for
         /// 			launching the EC2 instance on which the ISO image is built.
         public let infrastructureConfigurationArn: String
+        /// Define logging configuration for the image build process.
+        public let loggingConfiguration: ImageLoggingConfiguration?
         /// The name of the image resource that's created from the import.
         public let name: String
         /// The operating system version for the imported image. Allowed values include
@@ -4570,11 +4688,12 @@ extension Imagebuilder {
         public let uri: String
 
         @inlinable
-        public init(clientToken: String = ImportDiskImageRequest.idempotencyToken(), description: String? = nil, executionRole: String? = nil, infrastructureConfigurationArn: String, name: String, osVersion: String, platform: String, semanticVersion: String, tags: [String: String]? = nil, uri: String) {
+        public init(clientToken: String = ImportDiskImageRequest.idempotencyToken(), description: String? = nil, executionRole: String? = nil, infrastructureConfigurationArn: String, loggingConfiguration: ImageLoggingConfiguration? = nil, name: String, osVersion: String, platform: String, semanticVersion: String, tags: [String: String]? = nil, uri: String) {
             self.clientToken = clientToken
             self.description = description
             self.executionRole = executionRole
             self.infrastructureConfigurationArn = infrastructureConfigurationArn
+            self.loggingConfiguration = loggingConfiguration
             self.name = name
             self.osVersion = osVersion
             self.platform = platform
@@ -4592,6 +4711,7 @@ extension Imagebuilder {
             try self.validate(self.executionRole, name: "executionRole", parent: name, min: 1)
             try self.validate(self.executionRole, name: "executionRole", parent: name, pattern: "^(?:arn:aws(?:-[a-z]+)*:iam::[0-9]{12}:role/)?[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.validate(self.infrastructureConfigurationArn, name: "infrastructureConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infrastructure-configuration/[a-z0-9-_]+$")
+            try self.loggingConfiguration?.validate(name: "\(name).loggingConfiguration")
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.osVersion, name: "osVersion", parent: name, min: 1)
@@ -4613,6 +4733,7 @@ extension Imagebuilder {
             case description = "description"
             case executionRole = "executionRole"
             case infrastructureConfigurationArn = "infrastructureConfigurationArn"
+            case loggingConfiguration = "loggingConfiguration"
             case name = "name"
             case osVersion = "osVersion"
             case platform = "platform"
@@ -4645,6 +4766,8 @@ extension Imagebuilder {
         public let clientToken: String
         /// The description for the base image that is created by the import process.
         public let description: String?
+        /// Define logging configuration for the image build process.
+        public let loggingConfiguration: ImageLoggingConfiguration?
         /// The name of the base image that is created by the import process.
         public let name: String
         /// The operating system version for the imported VM.
@@ -4667,9 +4790,10 @@ extension Imagebuilder {
         public let vmImportTaskId: String
 
         @inlinable
-        public init(clientToken: String = ImportVmImageRequest.idempotencyToken(), description: String? = nil, name: String, osVersion: String? = nil, platform: Platform, semanticVersion: String, tags: [String: String]? = nil, vmImportTaskId: String) {
+        public init(clientToken: String = ImportVmImageRequest.idempotencyToken(), description: String? = nil, loggingConfiguration: ImageLoggingConfiguration? = nil, name: String, osVersion: String? = nil, platform: Platform, semanticVersion: String, tags: [String: String]? = nil, vmImportTaskId: String) {
             self.clientToken = clientToken
             self.description = description
+            self.loggingConfiguration = loggingConfiguration
             self.name = name
             self.osVersion = osVersion
             self.platform = platform
@@ -4683,6 +4807,7 @@ extension Imagebuilder {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.loggingConfiguration?.validate(name: "\(name).loggingConfiguration")
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.osVersion, name: "osVersion", parent: name, min: 1)
@@ -4702,6 +4827,7 @@ extension Imagebuilder {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case description = "description"
+            case loggingConfiguration = "loggingConfiguration"
             case name = "name"
             case osVersion = "osVersion"
             case platform = "platform"
@@ -5621,15 +5747,15 @@ extension Imagebuilder {
     public struct ListComponentBuildVersionsRequest: AWSEncodableShape {
         /// The component version Amazon Resource Name (ARN) whose versions you want to
         /// 			list.
-        public let componentVersionArn: String
-        /// The maximum items to return in a request.
+        public let componentVersionArn: String?
+        /// Specify the maximum number of items to return in a request.
         public let maxResults: Int?
         /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
         public let nextToken: String?
 
         @inlinable
-        public init(componentVersionArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(componentVersionArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.componentVersionArn = componentVersionArn
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -5679,7 +5805,7 @@ extension Imagebuilder {
         public let byName: Bool?
         /// Use the following filters to streamline results:    description     name     platform     supportedOsVersion     type     version
         public let filters: [Filter]?
-        /// The maximum items to return in a request.
+        /// Specify the maximum number of items to return in a request.
         public let maxResults: Int?
         /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
@@ -5748,7 +5874,7 @@ extension Imagebuilder {
     public struct ListContainerRecipesRequest: AWSEncodableShape {
         /// Use the following filters to streamline results:    containerType     name     parentImage     platform
         public let filters: [Filter]?
-        /// The maximum items to return in a request.
+        /// Specify the maximum number of items to return in a request.
         public let maxResults: Int?
         /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
@@ -5813,7 +5939,7 @@ extension Imagebuilder {
     public struct ListDistributionConfigurationsRequest: AWSEncodableShape {
         /// You can filter on name to streamline results.
         public let filters: [Filter]?
-        /// The maximum items to return in a request.
+        /// Specify the maximum number of items to return in a request.
         public let maxResults: Int?
         /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
@@ -5874,15 +6000,15 @@ extension Imagebuilder {
         public let filters: [Filter]?
         /// The Amazon Resource Name (ARN) of the image whose build versions you want to
         /// 			retrieve.
-        public let imageVersionArn: String
-        /// The maximum items to return in a request.
+        public let imageVersionArn: String?
+        /// Specify the maximum number of items to return in a request.
         public let maxResults: Int?
         /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
         public let nextToken: String?
 
         @inlinable
-        public init(filters: [Filter]? = nil, imageVersionArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(filters: [Filter]? = nil, imageVersionArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.imageVersionArn = imageVersionArn
             self.maxResults = maxResults
@@ -5937,7 +6063,7 @@ extension Imagebuilder {
     public struct ListImagePackagesRequest: AWSEncodableShape {
         /// Filter results for the ListImagePackages request by the Image Build Version ARN
         public let imageBuildVersionArn: String
-        /// The maximum items to return in a request.
+        /// Specify the maximum number of items to return in a request.
         public let maxResults: Int?
         /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
@@ -5995,7 +6121,7 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the image pipeline whose images you want to
         /// 			view.
         public let imagePipelineArn: String
-        /// The maximum items to return in a request.
+        /// Specify the maximum number of items to return in a request.
         public let maxResults: Int?
         /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
@@ -6057,7 +6183,7 @@ extension Imagebuilder {
     public struct ListImagePipelinesRequest: AWSEncodableShape {
         /// Use the following filters to streamline results:    description     distributionConfigurationArn     imageRecipeArn     infrastructureConfigurationArn     name     status
         public let filters: [Filter]?
-        /// The maximum items to return in a request.
+        /// Specify the maximum number of items to return in a request.
         public let maxResults: Int?
         /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
@@ -6116,15 +6242,14 @@ extension Imagebuilder {
     public struct ListImageRecipesRequest: AWSEncodableShape {
         /// Use the following filters to streamline results:    name     parentImage     platform
         public let filters: [Filter]?
-        /// The maximum items to return in a request.
+        /// Specify the maximum number of items to return in a request.
         public let maxResults: Int?
         /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
         public let nextToken: String?
-        /// The owner defines which image recipes you want to list. By default, this request will
-        /// 			only show image recipes owned by your account. You can use this field to specify if you
-        /// 			want to view image recipes owned by yourself, by Amazon, or those image recipes that
-        /// 			have been shared with you by other customers.
+        /// You can specify the recipe owner to filter results by that owner. By default, this request will
+        /// 			only show image recipes owned by your account. To filter by a different owner, specify one of the
+        /// 			Valid Values that are listed for this parameter.
         public let owner: Ownership?
 
         @inlinable
@@ -6156,7 +6281,8 @@ extension Imagebuilder {
     }
 
     public struct ListImageRecipesResponse: AWSDecodableShape {
-        /// The list of image pipelines.
+        /// A list of ImageRecipeSummary objects that contain identifying characteristics for the
+        /// 			image recipe, such as the name, the Amazon Resource Name (ARN), and the date created, along with other key details.
         public let imageRecipeSummaryList: [ImageRecipeSummary]?
         /// The next token used for paginated responses. When this field isn't empty,
         /// 	there are additional elements that the service hasn't included in this request. Use this token
@@ -6238,7 +6364,7 @@ extension Imagebuilder {
         /// An array of name value pairs that you can use to filter your results. You can use the
         /// 			following filters to streamline results:    imageBuildVersionArn     imagePipelineArn     vulnerabilityId     severity    If you don't request a filter, then all findings in your account are listed.
         public let filters: [ImageScanFindingsFilter]?
-        /// The maximum items to return in a request.
+        /// Specify the maximum number of items to return in a request.
         public let maxResults: Int?
         /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
@@ -6302,7 +6428,7 @@ extension Imagebuilder {
         public let filters: [Filter]?
         /// Includes deprecated images in the response list.
         public let includeDeprecated: Bool?
-        /// The maximum items to return in a request.
+        /// Specify the maximum number of items to return in a request.
         public let maxResults: Int?
         /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
@@ -6376,7 +6502,7 @@ extension Imagebuilder {
     public struct ListInfrastructureConfigurationsRequest: AWSEncodableShape {
         /// You can filter on name to streamline results.
         public let filters: [Filter]?
-        /// The maximum items to return in a request.
+        /// Specify the maximum number of items to return in a request.
         public let maxResults: Int?
         /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
@@ -6435,7 +6561,7 @@ extension Imagebuilder {
     public struct ListLifecycleExecutionResourcesRequest: AWSEncodableShape {
         /// Use the unique identifier for a runtime instance of the lifecycle policy to get runtime details.
         public let lifecycleExecutionId: String
-        /// The maximum items to return in a request.
+        /// Specify the maximum number of items to return in a request.
         public let maxResults: Int?
         /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
@@ -6500,7 +6626,7 @@ extension Imagebuilder {
     }
 
     public struct ListLifecycleExecutionsRequest: AWSEncodableShape {
-        /// The maximum items to return in a request.
+        /// Specify the maximum number of items to return in a request.
         public let maxResults: Int?
         /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
@@ -6554,7 +6680,7 @@ extension Imagebuilder {
         /// Streamline results based on one of the following values: Name,
         /// 			Status.
         public let filters: [Filter]?
-        /// The maximum items to return in a request.
+        /// Specify the maximum number of items to return in a request.
         public let maxResults: Int?
         /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
@@ -6644,7 +6770,7 @@ extension Imagebuilder {
     }
 
     public struct ListWaitingWorkflowStepsRequest: AWSEncodableShape {
-        /// The maximum items to return in a request.
+        /// Specify the maximum number of items to return in a request.
         public let maxResults: Int?
         /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
@@ -6691,16 +6817,16 @@ extension Imagebuilder {
     }
 
     public struct ListWorkflowBuildVersionsRequest: AWSEncodableShape {
-        /// The maximum items to return in a request.
+        /// Specify the maximum number of items to return in a request.
         public let maxResults: Int?
         /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the workflow resource for which to get a list of build versions.
-        public let workflowVersionArn: String
+        public let workflowVersionArn: String?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil, workflowVersionArn: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, workflowVersionArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.workflowVersionArn = workflowVersionArn
@@ -6746,7 +6872,7 @@ extension Imagebuilder {
         /// List all workflow runtime instances for the specified image build version
         /// 			resource ARN.
         public let imageBuildVersionArn: String
-        /// The maximum items to return in a request.
+        /// Specify the maximum number of items to return in a request.
         public let maxResults: Int?
         /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
@@ -6809,7 +6935,7 @@ extension Imagebuilder {
     }
 
     public struct ListWorkflowStepExecutionsRequest: AWSEncodableShape {
-        /// The maximum items to return in a request.
+        /// Specify the maximum number of items to return in a request.
         public let maxResults: Int?
         /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
@@ -6889,7 +7015,7 @@ extension Imagebuilder {
         public let byName: Bool?
         /// Used to streamline search results.
         public let filters: [Filter]?
-        /// The maximum items to return in a request.
+        /// Specify the maximum number of items to return in a request.
         public let maxResults: Int?
         /// A token to specify where to start paginating. This is the nextToken
         /// 	from a previously truncated response.
@@ -7035,6 +7161,36 @@ extension Imagebuilder {
             case vendorUpdatedAt = "vendorUpdatedAt"
             case vulnerabilityId = "vulnerabilityId"
             case vulnerablePackages = "vulnerablePackages"
+        }
+    }
+
+    public struct PipelineLoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The log group name that Image Builder uses for image creation. If not specified, the log group
+        /// 			name defaults to /aws/imagebuilder/image-name.
+        public let imageLogGroupName: String?
+        /// The log group name that Image Builder uses for the log output during creation of a new pipeline.
+        /// 			If not specified, the pipeline log group name defaults to
+        /// 			/aws/imagebuilder/pipeline/pipeline-name.
+        public let pipelineLogGroupName: String?
+
+        @inlinable
+        public init(imageLogGroupName: String? = nil, pipelineLogGroupName: String? = nil) {
+            self.imageLogGroupName = imageLogGroupName
+            self.pipelineLogGroupName = pipelineLogGroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.imageLogGroupName, name: "imageLogGroupName", parent: name, max: 512)
+            try self.validate(self.imageLogGroupName, name: "imageLogGroupName", parent: name, min: 1)
+            try self.validate(self.imageLogGroupName, name: "imageLogGroupName", parent: name, pattern: "^[a-zA-Z0-9\\-_/\\.]{1,512}$")
+            try self.validate(self.pipelineLogGroupName, name: "pipelineLogGroupName", parent: name, max: 512)
+            try self.validate(self.pipelineLogGroupName, name: "pipelineLogGroupName", parent: name, min: 1)
+            try self.validate(self.pipelineLogGroupName, name: "pipelineLogGroupName", parent: name, pattern: "^[a-zA-Z0-9\\-_/\\.]{1,512}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageLogGroupName = "imageLogGroupName"
+            case pipelineLogGroupName = "pipelineLogGroupName"
         }
     }
 
@@ -7431,6 +7587,9 @@ extension Imagebuilder {
     }
 
     public struct Schedule: AWSEncodableShape & AWSDecodableShape {
+        /// The policy that configures when Image Builder should automatically disable a pipeline that
+        /// 			is failing.
+        public let autoDisablePolicy: AutoDisablePolicy?
         /// The start condition configures when the pipeline should trigger a new image build,
         /// 			as follows. If no value is set Image Builder defaults to
         /// 			EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE.    EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE (default) –
@@ -7448,13 +7607,15 @@ extension Imagebuilder {
         public let timezone: String?
 
         @inlinable
-        public init(pipelineExecutionStartCondition: PipelineExecutionStartCondition? = nil, scheduleExpression: String? = nil, timezone: String? = nil) {
+        public init(autoDisablePolicy: AutoDisablePolicy? = nil, pipelineExecutionStartCondition: PipelineExecutionStartCondition? = nil, scheduleExpression: String? = nil, timezone: String? = nil) {
+            self.autoDisablePolicy = autoDisablePolicy
             self.pipelineExecutionStartCondition = pipelineExecutionStartCondition
             self.scheduleExpression = scheduleExpression
             self.timezone = timezone
         }
 
         public func validate(name: String) throws {
+            try self.autoDisablePolicy?.validate(name: "\(name).autoDisablePolicy")
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, max: 1024)
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, min: 1)
             try self.validate(self.timezone, name: "timezone", parent: name, max: 100)
@@ -7463,6 +7624,7 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoDisablePolicy = "autoDisablePolicy"
             case pipelineExecutionStartCondition = "pipelineExecutionStartCondition"
             case scheduleExpression = "scheduleExpression"
             case timezone = "timezone"
@@ -7598,22 +7760,35 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the image pipeline that you want to manually
         /// 			invoke.
         public let imagePipelineArn: String
+        /// Specify tags for Image Builder to apply to the image resource that's created
+        /// 			When it starts pipeline execution.
+        public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String = StartImagePipelineExecutionRequest.idempotencyToken(), imagePipelineArn: String) {
+        public init(clientToken: String = StartImagePipelineExecutionRequest.idempotencyToken(), imagePipelineArn: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.imagePipelineArn = imagePipelineArn
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.imagePipelineArn, name: "imagePipelineArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-pipeline/[a-z0-9-_]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case imagePipelineArn = "imagePipelineArn"
+            case tags = "tags"
         }
     }
 
@@ -7712,7 +7887,7 @@ extension Imagebuilder {
         /// Controls whether the Systems Manager agent is removed from your final build image, prior to
         /// 			creating the new AMI. If this is set to true, then the agent is removed from the final
         /// 			image. If it's set to false, then the agent is left in, so that it is included in the
-        /// 			new AMI. The default value is false.
+        /// 			new AMI. default value is false. The default behavior of uninstallAfterBuild is to remove the SSM Agent if it was installed by EC2 Image Builder
         public let uninstallAfterBuild: Bool?
 
         @inlinable
@@ -7917,6 +8092,9 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the infrastructure configuration that Image Builder uses to
         /// 			build images that this image pipeline has updated.
         public let infrastructureConfigurationArn: String
+        /// Update logging configuration for the output image that's created when
+        /// 			the pipeline runs.
+        public let loggingConfiguration: PipelineLoggingConfiguration?
         /// The schedule of the image pipeline.
         public let schedule: Schedule?
         /// The status of the image pipeline.
@@ -7925,7 +8103,7 @@ extension Imagebuilder {
         public let workflows: [WorkflowConfiguration]?
 
         @inlinable
-        public init(clientToken: String = UpdateImagePipelineRequest.idempotencyToken(), containerRecipeArn: String? = nil, description: String? = nil, distributionConfigurationArn: String? = nil, enhancedImageMetadataEnabled: Bool? = nil, executionRole: String? = nil, imagePipelineArn: String, imageRecipeArn: String? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String, schedule: Schedule? = nil, status: PipelineStatus? = nil, workflows: [WorkflowConfiguration]? = nil) {
+        public init(clientToken: String = UpdateImagePipelineRequest.idempotencyToken(), containerRecipeArn: String? = nil, description: String? = nil, distributionConfigurationArn: String? = nil, enhancedImageMetadataEnabled: Bool? = nil, executionRole: String? = nil, imagePipelineArn: String, imageRecipeArn: String? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String, loggingConfiguration: PipelineLoggingConfiguration? = nil, schedule: Schedule? = nil, status: PipelineStatus? = nil, workflows: [WorkflowConfiguration]? = nil) {
             self.clientToken = clientToken
             self.containerRecipeArn = containerRecipeArn
             self.description = description
@@ -7937,6 +8115,7 @@ extension Imagebuilder {
             self.imageScanningConfiguration = imageScanningConfiguration
             self.imageTestsConfiguration = imageTestsConfiguration
             self.infrastructureConfigurationArn = infrastructureConfigurationArn
+            self.loggingConfiguration = loggingConfiguration
             self.schedule = schedule
             self.status = status
             self.workflows = workflows
@@ -7957,6 +8136,7 @@ extension Imagebuilder {
             try self.imageScanningConfiguration?.validate(name: "\(name).imageScanningConfiguration")
             try self.imageTestsConfiguration?.validate(name: "\(name).imageTestsConfiguration")
             try self.validate(self.infrastructureConfigurationArn, name: "infrastructureConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infrastructure-configuration/[a-z0-9-_]+$")
+            try self.loggingConfiguration?.validate(name: "\(name).loggingConfiguration")
             try self.schedule?.validate(name: "\(name).schedule")
             try self.workflows?.forEach {
                 try $0.validate(name: "\(name).workflows[]")
@@ -7975,6 +8155,7 @@ extension Imagebuilder {
             case imageScanningConfiguration = "imageScanningConfiguration"
             case imageTestsConfiguration = "imageTestsConfiguration"
             case infrastructureConfigurationArn = "infrastructureConfigurationArn"
+            case loggingConfiguration = "loggingConfiguration"
             case schedule = "schedule"
             case status = "status"
             case workflows = "workflows"
@@ -8296,7 +8477,8 @@ extension Imagebuilder {
         public let dateCreated: String?
         /// The description of the workflow.
         public let description: String?
-        /// The KMS key identifier used to encrypt the workflow resource.
+        /// The KMS key identifier used to encrypt the workflow resource. This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId)
+        /// 			in the Key Management Service Developer Guide.
         public let kmsKeyId: String?
         /// The name of the workflow resource.
         public let name: String?

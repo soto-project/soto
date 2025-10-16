@@ -246,13 +246,17 @@ extension ConfigService {
         case inProgress = "IN_PROGRESS"
         case queued = "QUEUED"
         case succeeded = "SUCCEEDED"
+        case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
     public enum RemediationExecutionStepState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case exited = "EXITED"
         case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
         case pending = "PENDING"
         case succeeded = "SUCCEEDED"
+        case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
@@ -1245,7 +1249,7 @@ extension ConfigService {
         public let availabilityZone: String?
         /// The region where the resource resides.
         public let awsRegion: String?
-        /// The description of the resource configuration.
+        /// A JSON-encoded string that contains the contents for the resource configuration. This string needs to be deserialized using json.loads() before you can access the contents.
         public let configuration: String?
         /// The time when the recording of configuration changes was initiated for the resource.
         public let configurationItemCaptureTime: Date?
@@ -1259,7 +1263,9 @@ extension ConfigService {
         /// An identifier that indicates the ordering of the configuration
         /// 			items of a resource.
         public let configurationStateId: String?
-        /// The recording frequency that Config uses to record configuration changes for the resource.
+        /// The recording frequency that Config uses to record configuration changes for the resource.  This field only appears in the API response when DAILY recording is enabled for a resource type.
+        /// 				If this field is not present, CONTINUOUS recording is enabled for that resource type. For more information on daily recording and continuous recording, see Recording Frequency in the Config
+        /// 						Developer Guide.
         public let recordingFrequency: RecordingFrequency?
         /// The time stamp when the resource was created.
         public let resourceCreationTime: Date?
@@ -1269,9 +1275,9 @@ extension ConfigService {
         public let resourceName: String?
         /// The type of Amazon Web Services resource.
         public let resourceType: ResourceType?
-        /// Configuration attributes that Config returns for certain
+        /// A string to string map that contains additional contents for the resource configuration.Config returns this field for certain
         /// 			resource types to supplement the information returned for the
-        /// 			configuration parameter.
+        /// 			configuration field. This string needs to be deserialized using json.loads() before you can access the contents.
         public let supplementaryConfiguration: [String: String]?
         /// The version number of the resource configuration.
         public let version: String?
@@ -1631,7 +1637,7 @@ extension ConfigService {
         /// 			and value. Specify a scope to constrain the resources that can
         /// 			trigger an evaluation for the rule. If you do not specify a scope,
         /// 			evaluations are triggered when any resource in the recording group
-        /// 			changes.  The scope can be empty.
+        /// 			changes.
         public let scope: Scope?
         /// Provides the rule owner (Amazon Web Services for managed rules, CUSTOM_POLICY for Custom Policy rules, and CUSTOM_LAMBDA for Custom Lambda rules), the rule identifier,
         /// 			and the notifications that cause the function to evaluate your Amazon Web Services
@@ -1929,7 +1935,7 @@ extension ConfigService {
         public let availabilityZone: String?
         /// The region where the resource resides.
         public let awsRegion: String?
-        /// The description of the resource configuration.
+        /// A JSON-encoded string that contains the contents for the resource configuration. This string needs to be deserialized using json.loads() before you can access the contents.
         public let configuration: String?
         /// The time when the recording of configuration changes was
         /// 			initiated for the resource.
@@ -1949,7 +1955,9 @@ extension ConfigService {
         /// An identifier that indicates the ordering of the configuration
         /// 			items of a resource.
         public let configurationStateId: String?
-        /// The recording frequency that Config uses to record configuration changes for the resource.
+        /// The recording frequency that Config uses to record configuration changes for the resource.  This field only appears in the API response when DAILY recording is enabled for a resource type.
+        /// 				If this field is not present, CONTINUOUS recording is enabled for that resource type. For more information on daily recording and continuous recording, see Recording Frequency in the Config
+        /// 						Developer Guide.
         public let recordingFrequency: RecordingFrequency?
         /// A list of CloudTrail event IDs. A populated field indicates that the current configuration was
         /// 			initiated by the events recorded in the CloudTrail log. For more
@@ -1968,9 +1976,9 @@ extension ConfigService {
         public let resourceName: String?
         /// The type of Amazon Web Services resource.
         public let resourceType: ResourceType?
-        /// Configuration attributes that Config returns for certain
+        /// A string to string map that contains additional contents for the resource configuration.Config returns this field for certain
         /// 			resource types to supplement the information returned for the
-        /// 				configuration parameter.
+        /// 			configuration field. This string to string map needs to be deserialized using json.loads() before you can accessing the contents.
         public let supplementaryConfiguration: [String: String]?
         /// A mapping of key value tags associated with the
         /// 			resource.
@@ -2029,7 +2037,7 @@ extension ConfigService {
     public struct ConfigurationRecorder: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the specified configuration recorder.
         public let arn: String?
-        /// The name of the configuration recorder. For customer managed configuration recorders, Config automatically assigns the name of "default" when creating a configuration recorder if you do not specify a name at creation time. For service-linked configuration recorders, Config automatically assigns a name that has the prefix "AWS" to a new service-linked configuration recorder.   Changing the name of a configuration recorder  To change the name of the customer managed configuration recorder, you must delete it and create a new customer managed configuration recorder with a new name. You cannot change the name of a service-linked configuration recorder.
+        /// The name of the configuration recorder. For customer managed configuration recorders, Config automatically assigns the name of "default" when creating a configuration recorder if you do not specify a name at creation time. For service-linked configuration recorders, Config automatically assigns a name that has the prefix "AWSConfigurationRecorderFor" to a new service-linked configuration recorder.   Changing the name of a configuration recorder  To change the name of the customer managed configuration recorder, you must delete it and create a new customer managed configuration recorder with a new name. You cannot change the name of a service-linked configuration recorder.
         public let name: String?
         /// Specifies which resource types are in scope for the configuration recorder to record.   High Number of Config Evaluations  You might notice increased activity in your account during your initial month recording with Config when compared to subsequent months. During the
         /// 				initial bootstrapping process, Config runs evaluations on all the resources in your account that you have selected
@@ -3565,7 +3573,7 @@ extension ConfigService {
         /// The Amazon Resource Name (ARN) of the configuration recorder that you want to specify.
         public let arn: String?
         /// The name of the configuration recorder. If the name is not
-        /// 			specified, the opertation returns the status for the customer managed configuration recorder configured for the
+        /// 			specified, the operation returns the status for the customer managed configuration recorder configured for the
         /// 			account, if applicable.  When making a request to this operation, you can only specify one configuration recorder.
         public let configurationRecorderNames: [String]?
         /// For service-linked configuration recorders, you can use the service principal of the linked Amazon Web Services service to specify the configuration recorder.
@@ -3615,7 +3623,7 @@ extension ConfigService {
     public struct DescribeConfigurationRecordersRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the configuration recorder that you want to specify.
         public let arn: String?
-        /// A list of names of the configuration recorders that you want to specify.
+        /// A list of names of the configuration recorders that you want to specify.  When making a request to this operation, you can only specify one configuration recorder.
         public let configurationRecorderNames: [String]?
         /// For service-linked configuration recorders, you can use the service principal of the linked Amazon Web Services service to specify the configuration recorder.
         public let servicePrincipal: String?
@@ -5637,7 +5645,7 @@ extension ConfigService {
     }
 
     public struct GetResourceConfigHistoryResponse: AWSDecodableShape {
-        /// A list that contains the configuration history of one or more
+        /// An array of ConfigurationItems Objects. Contatins the configuration history for one or more
         /// 			resources.
         public let configurationItems: [ConfigurationItem]?
         /// The string that you use in a subsequent request to get the next
@@ -6886,7 +6894,7 @@ extension ConfigService {
         public let deliveryS3Bucket: String?
         /// The prefix for the Amazon S3 bucket.   This field is optional.
         public let deliveryS3KeyPrefix: String?
-        /// A string containing the full conformance pack template body. The structure containing the template body has a minimum length of 1 byte and a maximum length of 51,200 bytes.  You can use a YAML template with two resource types: Config rule (AWS::Config::ConfigRule) and remediation action (AWS::Config::RemediationConfiguration).
+        /// A string that contains the full conformance pack template body. The structure containing the template body has a minimum length of 1 byte and a maximum length of 51,200 bytes.  You can use a YAML template with two resource types: Config rule (AWS::Config::ConfigRule) and remediation action (AWS::Config::RemediationConfiguration).
         public let templateBody: String?
         /// The location of the file containing the template body (s3://bucketname/prefix). The uri must point to a conformance pack template (max size: 300 KB) that is located in an Amazon S3 bucket in the same Region as the conformance pack.   You must have access to read Amazon S3 bucket.
         /// 			In addition, in order to ensure a successful deployment, the template object must not be in an archived storage class if this parameter is passed.
@@ -7124,7 +7132,7 @@ extension ConfigService {
         public let excludedAccounts: [String]?
         /// Name of the organization conformance pack you want to create.
         public let organizationConformancePackName: String
-        /// A string containing full conformance pack template body. Structure containing the template body
+        /// A string that contains the full conformance pack template body. Structure containing the template body
         /// 			with a minimum length of 1 byte and a maximum length of 51,200 bytes.
         public let templateBody: String?
         /// Location of file containing the template body. The uri must point to the conformance pack template
@@ -7388,7 +7396,7 @@ extension ConfigService {
     public struct PutServiceLinkedConfigurationRecorderResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the specified configuration recorder.
         public let arn: String?
-        /// The name of the specified configuration recorder. For service-linked configuration recorders, Config automatically assigns a name that has the prefix "AWS" to the new service-linked configuration recorder.
+        /// The name of the specified configuration recorder. For service-linked configuration recorders, Config automatically assigns a name that has the prefix "AWSConfigurationRecorderFor" to the new service-linked configuration recorder.
         public let name: String?
 
         @inlinable
@@ -8499,7 +8507,7 @@ extension ConfigService {
         public let clientToken: String?
         /// Returns an EvaluationContext object.
         public let evaluationContext: EvaluationContext?
-        /// The mode of an evaluation. The valid values for this API are DETECTIVE and PROACTIVE.
+        /// The mode of an evaluation.  The only valid value for this API is PROACTIVE.
         public let evaluationMode: EvaluationMode
         /// The timeout for an evaluation. The default is 900 seconds. You cannot specify a number greater than 3600. If you specify 0, Config uses the default.
         public let evaluationTimeout: Int?
@@ -8911,8 +8919,7 @@ public struct ConfigServiceErrorType: AWSErrorType {
     public static var insufficientDeliveryPolicyException: Self { .init(.insufficientDeliveryPolicyException) }
     /// Indicates one of the following errors:   For PutConfigRule, the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.   For PutConfigRule, the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.   For PutOrganizationConfigRule, organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.   For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have the following permissions:    You do not have permission to call IAM GetRole action or create a service-linked role.   You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.     For PutServiceLinkedConfigurationRecorder, a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     public static var insufficientPermissionsException: Self { .init(.insufficientPermissionsException) }
-    /// You have provided a name for the customer managed configuration recorder that is not
-    /// 			valid.
+    /// The configuration recorder name is not valid. The prefix "AWSConfigurationRecorderFor" is reserved for service-linked configuration recorders.
     public static var invalidConfigurationRecorderNameException: Self { .init(.invalidConfigurationRecorderNameException) }
     /// The specified delivery channel name is not valid.
     public static var invalidDeliveryChannelNameException: Self { .init(.invalidDeliveryChannelNameException) }

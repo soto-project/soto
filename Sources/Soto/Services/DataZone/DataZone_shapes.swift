@@ -63,6 +63,12 @@ extension DataZone {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConnectionScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case domain = "DOMAIN"
+        case project = "PROJECT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConnectionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
@@ -76,6 +82,7 @@ extension DataZone {
     }
 
     public enum ConnectionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case amazonQ = "AMAZON_Q"
         case athena = "ATHENA"
         case bigquery = "BIGQUERY"
         case databricks = "DATABRICKS"
@@ -273,6 +280,11 @@ extension DataZone {
         public var description: String { return self.rawValue }
     }
 
+    public enum GlossaryUsageRestriction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case assetGovernedTerms = "ASSET_GOVERNED_TERMS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GlueConnectionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bigquery = "BIGQUERY"
         case documentdb = "DOCUMENTDB"
@@ -293,6 +305,11 @@ extension DataZone {
     public enum GovernanceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsManaged = "AWS_MANAGED"
         case userManaged = "USER_MANAGED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GovernedEntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case asset = "ASSET"
         public var description: String { return self.rawValue }
     }
 
@@ -462,6 +479,7 @@ extension DataZone {
         case active = "ACTIVE"
         case deleteFailed = "DELETE_FAILED"
         case deleting = "DELETING"
+        case moving = "MOVING"
         case updateFailed = "UPDATE_FAILED"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
@@ -470,6 +488,11 @@ extension DataZone {
     public enum RejectRuleBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
         case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResolutionStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case manual = "MANUAL"
         public var description: String { return self.rawValue }
     }
 
@@ -497,6 +520,7 @@ extension DataZone {
 
     public enum SearchOutputAdditionalAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case forms = "FORMS"
+        case textMatchRationale = "TEXT_MATCH_RATIONALE"
         case timeSeriesDataPointForms = "TIME_SERIES_DATA_POINT_FORMS"
         public var description: String { return self.rawValue }
     }
@@ -509,6 +533,11 @@ extension DataZone {
         case revokeFailed = "REVOKE_FAILED"
         case revokeInProgress = "REVOKE_IN_PROGRESS"
         case revokePending = "REVOKE_PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortFieldAccountPool: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case name = "NAME"
         public var description: String { return self.rawValue }
     }
 
@@ -727,6 +756,60 @@ extension DataZone {
         public var description: String { return self.rawValue }
     }
 
+    public enum AccountSource: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The static list of accounts within an account pool.
+        case accounts([AccountInfo])
+        /// The custom Amazon Web Services Lambda handler within an account pool.
+        case customAccountPoolHandler(CustomAccountPoolHandler)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .accounts:
+                let value = try container.decode([AccountInfo].self, forKey: .accounts)
+                self = .accounts(value)
+            case .customAccountPoolHandler:
+                let value = try container.decode(CustomAccountPoolHandler.self, forKey: .customAccountPoolHandler)
+                self = .customAccountPoolHandler(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .accounts(let value):
+                try container.encode(value, forKey: .accounts)
+            case .customAccountPoolHandler(let value):
+                try container.encode(value, forKey: .customAccountPoolHandler)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .accounts(let value):
+                try value.forEach {
+                    try $0.validate(name: "\(name).accounts[]")
+                }
+                try self.validate(value, name: "accounts", parent: name, max: 25)
+                try self.validate(value, name: "accounts", parent: name, min: 1)
+            case .customAccountPoolHandler(let value):
+                try value.validate(name: "\(name).customAccountPoolHandler")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accounts = "accounts"
+            case customAccountPoolHandler = "customAccountPoolHandler"
+        }
+    }
+
     public enum AssetFilterConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The column configuration of the asset filter.
         case columnConfiguration(ColumnFilterConfiguration)
@@ -820,6 +903,8 @@ extension DataZone {
     }
 
     public enum ConnectionPropertiesInput: AWSEncodableShape, Sendable {
+        /// The Amazon Q properties of the connection.
+        case amazonQProperties(AmazonQPropertiesInput)
         /// The Amazon Athena properties of a connection.
         case athenaProperties(AthenaPropertiesInput)
         /// The Amazon Web Services Glue properties of a connection.
@@ -840,6 +925,8 @@ extension DataZone {
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
+            case .amazonQProperties(let value):
+                try container.encode(value, forKey: .amazonQProperties)
             case .athenaProperties(let value):
                 try container.encode(value, forKey: .athenaProperties)
             case .glueProperties(let value):
@@ -873,6 +960,7 @@ extension DataZone {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case amazonQProperties = "amazonQProperties"
             case athenaProperties = "athenaProperties"
             case glueProperties = "glueProperties"
             case hyperPodProperties = "hyperPodProperties"
@@ -885,6 +973,8 @@ extension DataZone {
     }
 
     public enum ConnectionPropertiesOutput: AWSDecodableShape, Sendable {
+        /// The Amazon Q properties of the connection.
+        case amazonQProperties(AmazonQPropertiesOutput)
         /// The Amazon Athena properties of a connection.
         case athenaProperties(AthenaPropertiesOutput)
         /// The Amazon Web Services Glue properties of a connection.
@@ -912,6 +1002,9 @@ extension DataZone {
                 throw DecodingError.dataCorrupted(context)
             }
             switch key {
+            case .amazonQProperties:
+                let value = try container.decode(AmazonQPropertiesOutput.self, forKey: .amazonQProperties)
+                self = .amazonQProperties(value)
             case .athenaProperties:
                 let value = try container.decode(AthenaPropertiesOutput.self, forKey: .athenaProperties)
                 self = .athenaProperties(value)
@@ -940,6 +1033,7 @@ extension DataZone {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case amazonQProperties = "amazonQProperties"
             case athenaProperties = "athenaProperties"
             case glueProperties = "glueProperties"
             case hyperPodProperties = "hyperPodProperties"
@@ -952,6 +1046,8 @@ extension DataZone {
     }
 
     public enum ConnectionPropertiesPatch: AWSEncodableShape, Sendable {
+        /// The Amazon Q properties of the connection.
+        case amazonQProperties(AmazonQPropertiesPatch)
         /// The Amazon Athena properties of a connection properties patch.
         case athenaProperties(AthenaPropertiesPatch)
         /// The Amazon Web Services Glue properties of a connection properties patch.
@@ -968,6 +1064,8 @@ extension DataZone {
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
+            case .amazonQProperties(let value):
+                try container.encode(value, forKey: .amazonQProperties)
             case .athenaProperties(let value):
                 try container.encode(value, forKey: .athenaProperties)
             case .glueProperties(let value):
@@ -995,6 +1093,7 @@ extension DataZone {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case amazonQProperties = "amazonQProperties"
             case athenaProperties = "athenaProperties"
             case glueProperties = "glueProperties"
             case iamProperties = "iamProperties"
@@ -1314,7 +1413,7 @@ extension DataZone {
         case createEnvironmentProfile(CreateEnvironmentProfilePolicyGrantDetail)
         /// Specifies that this is a create form type policy.
         case createFormType(CreateFormTypePolicyGrantDetail)
-        /// Specifies that this is a create glossary policy.
+        ///  Specifies that this is a create glossary policy.
         case createGlossary(CreateGlossaryPolicyGrantDetail)
         /// Specifies that this is a create project policy.
         case createProject(CreateProjectPolicyGrantDetail)
@@ -2384,6 +2483,77 @@ extension DataZone {
         }
     }
 
+    public struct AccountInfo: AWSEncodableShape & AWSDecodableShape {
+        /// The account ID.
+        public let awsAccountId: String
+        /// The account name.
+        public let awsAccountName: String?
+        /// The regions supported for an account within an account pool.
+        public let supportedRegions: [String]
+
+        @inlinable
+        public init(awsAccountId: String, awsAccountName: String? = nil, supportedRegions: [String]) {
+            self.awsAccountId = awsAccountId
+            self.awsAccountName = awsAccountName
+            self.supportedRegions = supportedRegions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.awsAccountName, name: "awsAccountName", parent: name, max: 256)
+            try self.validate(self.awsAccountName, name: "awsAccountName", parent: name, min: 1)
+            try self.supportedRegions.forEach {
+                try validate($0, name: "supportedRegions[]", parent: name, pattern: "^[a-z]{2}-[a-z]{4,10}-\\d$")
+            }
+            try self.validate(self.supportedRegions, name: "supportedRegions", parent: name, max: 3)
+            try self.validate(self.supportedRegions, name: "supportedRegions", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "awsAccountId"
+            case awsAccountName = "awsAccountName"
+            case supportedRegions = "supportedRegions"
+        }
+    }
+
+    public struct AccountPoolSummary: AWSDecodableShape {
+        /// The user who created the account pool.
+        public let createdBy: String?
+        /// The ID of the domain.
+        public let domainId: String?
+        /// The ID of the domain unit.
+        public let domainUnitId: String?
+        /// The ID of the account pool.
+        public let id: String?
+        /// The name of the account pool.
+        public let name: String?
+        /// The mechanism used to resolve the account selection from the account pool.
+        public let resolutionStrategy: ResolutionStrategy?
+        /// The user who updated the account pool.
+        public let updatedBy: String?
+
+        @inlinable
+        public init(createdBy: String? = nil, domainId: String? = nil, domainUnitId: String? = nil, id: String? = nil, name: String? = nil, resolutionStrategy: ResolutionStrategy? = nil, updatedBy: String? = nil) {
+            self.createdBy = createdBy
+            self.domainId = domainId
+            self.domainUnitId = domainUnitId
+            self.id = id
+            self.name = name
+            self.resolutionStrategy = resolutionStrategy
+            self.updatedBy = updatedBy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdBy = "createdBy"
+            case domainId = "domainId"
+            case domainUnitId = "domainUnitId"
+            case id = "id"
+            case name = "name"
+            case resolutionStrategy = "resolutionStrategy"
+            case updatedBy = "updatedBy"
+        }
+    }
+
     public struct AddEntityOwnerInput: AWSEncodableShape {
         /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
         public let clientToken: String?
@@ -2490,7 +2660,17 @@ extension DataZone {
     }
 
     public struct AddPolicyGrantOutput: AWSDecodableShape {
-        public init() {}
+        /// The ID of the policy grant that was added to a specified entity.
+        public let grantId: String?
+
+        @inlinable
+        public init(grantId: String? = nil) {
+            self.grantId = grantId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grantId = "grantId"
+        }
     }
 
     public struct AddToProjectMemberPoolPolicyGrantDetail: AWSEncodableShape & AWSDecodableShape {
@@ -2507,12 +2687,147 @@ extension DataZone {
         }
     }
 
+    public struct AggregationListItem: AWSEncodableShape {
+        /// An attribute on which to compute aggregations.
+        public let attribute: String
+        /// The display value of the aggregation list item. Supported values include value and glossaryTerm.name.
+        public let displayValue: String?
+
+        @inlinable
+        public init(attribute: String, displayValue: String? = nil) {
+            self.attribute = attribute
+            self.displayValue = displayValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attribute, name: "attribute", parent: name, max: 128)
+            try self.validate(self.attribute, name: "attribute", parent: name, min: 1)
+            try self.validate(self.displayValue, name: "displayValue", parent: name, max: 100)
+            try self.validate(self.displayValue, name: "displayValue", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attribute = "attribute"
+            case displayValue = "displayValue"
+        }
+    }
+
+    public struct AggregationOutput: AWSDecodableShape {
+        /// The attribute for this aggregation.
+        public let attribute: String?
+        /// The display value of the aggregation output item.
+        public let displayValue: String?
+        /// A list of aggregation output items.
+        public let items: [AggregationOutputItem]?
+
+        @inlinable
+        public init(attribute: String? = nil, displayValue: String? = nil, items: [AggregationOutputItem]? = nil) {
+            self.attribute = attribute
+            self.displayValue = displayValue
+            self.items = items
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attribute = "attribute"
+            case displayValue = "displayValue"
+            case items = "items"
+        }
+    }
+
+    public struct AggregationOutputItem: AWSDecodableShape {
+        /// The count of the aggregation output item.
+        public let count: Int?
+        /// The display value of the aggregation. If the attribute being aggregated corresponds to the id of a public resource, the service automatically resolves the id to the provided display value.
+        public let displayValue: String?
+        /// The attribute value of the aggregation output item.
+        public let value: String?
+
+        @inlinable
+        public init(count: Int? = nil, displayValue: String? = nil, value: String? = nil) {
+            self.count = count
+            self.displayValue = displayValue
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "count"
+            case displayValue = "displayValue"
+            case value = "value"
+        }
+    }
+
     public struct AllDomainUnitsGrantFilter: AWSEncodableShape & AWSDecodableShape {
         public init() {}
     }
 
     public struct AllUsersGrantFilter: AWSEncodableShape & AWSDecodableShape {
         public init() {}
+    }
+
+    public struct AmazonQPropertiesInput: AWSEncodableShape {
+        /// The authentication mode of the connection's Amazon Q properties.
+        public let authMode: String?
+        /// Specifies whether Amazon Q is enabled for the connection.
+        public let isEnabled: Bool
+        /// The profile ARN of the connection's Amazon Q properties.
+        public let profileArn: String?
+
+        @inlinable
+        public init(authMode: String? = nil, isEnabled: Bool, profileArn: String? = nil) {
+            self.authMode = authMode
+            self.isEnabled = isEnabled
+            self.profileArn = profileArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authMode = "authMode"
+            case isEnabled = "isEnabled"
+            case profileArn = "profileArn"
+        }
+    }
+
+    public struct AmazonQPropertiesOutput: AWSDecodableShape {
+        /// The authentication mode of the connection's Amazon Q properties.
+        public let authMode: String?
+        /// Specifies whether Amazon Q is enabled for the connection.
+        public let isEnabled: Bool
+        /// The profile ARN of the connection's Amazon Q properties.
+        public let profileArn: String?
+
+        @inlinable
+        public init(authMode: String? = nil, isEnabled: Bool, profileArn: String? = nil) {
+            self.authMode = authMode
+            self.isEnabled = isEnabled
+            self.profileArn = profileArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authMode = "authMode"
+            case isEnabled = "isEnabled"
+            case profileArn = "profileArn"
+        }
+    }
+
+    public struct AmazonQPropertiesPatch: AWSEncodableShape {
+        /// The authentication mode of the connection's Amazon Q properties.
+        public let authMode: String?
+        /// Specifies whether Amazon Q is enabled for the connection.
+        public let isEnabled: Bool
+        /// The profile ARN of the connection's Amazon Q properties.
+        public let profileArn: String?
+
+        @inlinable
+        public init(authMode: String? = nil, isEnabled: Bool, profileArn: String? = nil) {
+            self.authMode = authMode
+            self.isEnabled = isEnabled
+            self.profileArn = profileArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authMode = "authMode"
+            case isEnabled = "isEnabled"
+            case profileArn = "profileArn"
+        }
     }
 
     public struct AssetFilterSummary: AWSDecodableShape {
@@ -2606,6 +2921,8 @@ extension DataZone {
         public let firstRevisionCreatedBy: String?
         /// The glossary terms attached to the Amazon DataZone inventory asset.
         public let glossaryTerms: [String]?
+        /// The restricted glossary terms accociated with an asset.
+        public let governedGlossaryTerms: [String]?
         /// the identifier of the Amazon DataZone inventory asset.
         public let identifier: String
         /// The name of the Amazon DataZone inventory asset.
@@ -2618,7 +2935,7 @@ extension DataZone {
         public let typeRevision: String
 
         @inlinable
-        public init(additionalAttributes: AssetItemAdditionalAttributes? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, externalIdentifier: String? = nil, firstRevisionCreatedAt: Date? = nil, firstRevisionCreatedBy: String? = nil, glossaryTerms: [String]? = nil, identifier: String, name: String, owningProjectId: String, typeIdentifier: String, typeRevision: String) {
+        public init(additionalAttributes: AssetItemAdditionalAttributes? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, externalIdentifier: String? = nil, firstRevisionCreatedAt: Date? = nil, firstRevisionCreatedBy: String? = nil, glossaryTerms: [String]? = nil, governedGlossaryTerms: [String]? = nil, identifier: String, name: String, owningProjectId: String, typeIdentifier: String, typeRevision: String) {
             self.additionalAttributes = additionalAttributes
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -2628,6 +2945,7 @@ extension DataZone {
             self.firstRevisionCreatedAt = firstRevisionCreatedAt
             self.firstRevisionCreatedBy = firstRevisionCreatedBy
             self.glossaryTerms = glossaryTerms
+            self.governedGlossaryTerms = governedGlossaryTerms
             self.identifier = identifier
             self.name = name
             self.owningProjectId = owningProjectId
@@ -2645,6 +2963,7 @@ extension DataZone {
             case firstRevisionCreatedAt = "firstRevisionCreatedAt"
             case firstRevisionCreatedBy = "firstRevisionCreatedBy"
             case glossaryTerms = "glossaryTerms"
+            case governedGlossaryTerms = "governedGlossaryTerms"
             case identifier = "identifier"
             case name = "name"
             case owningProjectId = "owningProjectId"
@@ -2658,19 +2977,23 @@ extension DataZone {
         public let formsOutput: [FormOutput]?
         /// The latest time series data points forms included in the additional attributes of an asset.
         public let latestTimeSeriesDataPointFormsOutput: [TimeSeriesDataPointSummaryFormOutput]?
+        /// List of rationales indicating why this item was matched by search.
+        public let matchRationale: [MatchRationaleItem]?
         /// The read-only forms included in the additional attributes of an inventory asset.
         public let readOnlyFormsOutput: [FormOutput]?
 
         @inlinable
-        public init(formsOutput: [FormOutput]? = nil, latestTimeSeriesDataPointFormsOutput: [TimeSeriesDataPointSummaryFormOutput]? = nil, readOnlyFormsOutput: [FormOutput]? = nil) {
+        public init(formsOutput: [FormOutput]? = nil, latestTimeSeriesDataPointFormsOutput: [TimeSeriesDataPointSummaryFormOutput]? = nil, matchRationale: [MatchRationaleItem]? = nil, readOnlyFormsOutput: [FormOutput]? = nil) {
             self.formsOutput = formsOutput
             self.latestTimeSeriesDataPointFormsOutput = latestTimeSeriesDataPointFormsOutput
+            self.matchRationale = matchRationale
             self.readOnlyFormsOutput = readOnlyFormsOutput
         }
 
         private enum CodingKeys: String, CodingKey {
             case formsOutput = "formsOutput"
             case latestTimeSeriesDataPointFormsOutput = "latestTimeSeriesDataPointFormsOutput"
+            case matchRationale = "matchRationale"
             case readOnlyFormsOutput = "readOnlyFormsOutput"
         }
     }
@@ -2688,19 +3011,22 @@ extension DataZone {
         public let forms: String?
         /// The glossary terms attached to an asset published in an Amazon DataZone catalog.
         public let glossaryTerms: [DetailedGlossaryTerm]?
+        /// The restricted glossary terms associated with an asset.
+        public let governedGlossaryTerms: [DetailedGlossaryTerm]?
         /// The latest time series data points forms included in the additional attributes of an asset.
         public let latestTimeSeriesDataPointForms: [TimeSeriesDataPointSummaryFormOutput]?
         /// The identifier of the project where an asset published in an Amazon DataZone catalog exists.
         public let owningProjectId: String?
 
         @inlinable
-        public init(assetId: String? = nil, assetRevision: String? = nil, assetType: String? = nil, createdAt: Date? = nil, forms: String? = nil, glossaryTerms: [DetailedGlossaryTerm]? = nil, latestTimeSeriesDataPointForms: [TimeSeriesDataPointSummaryFormOutput]? = nil, owningProjectId: String? = nil) {
+        public init(assetId: String? = nil, assetRevision: String? = nil, assetType: String? = nil, createdAt: Date? = nil, forms: String? = nil, glossaryTerms: [DetailedGlossaryTerm]? = nil, governedGlossaryTerms: [DetailedGlossaryTerm]? = nil, latestTimeSeriesDataPointForms: [TimeSeriesDataPointSummaryFormOutput]? = nil, owningProjectId: String? = nil) {
             self.assetId = assetId
             self.assetRevision = assetRevision
             self.assetType = assetType
             self.createdAt = createdAt
             self.forms = forms
             self.glossaryTerms = glossaryTerms
+            self.governedGlossaryTerms = governedGlossaryTerms
             self.latestTimeSeriesDataPointForms = latestTimeSeriesDataPointForms
             self.owningProjectId = owningProjectId
         }
@@ -2712,6 +3038,7 @@ extension DataZone {
             case createdAt = "createdAt"
             case forms = "forms"
             case glossaryTerms = "glossaryTerms"
+            case governedGlossaryTerms = "governedGlossaryTerms"
             case latestTimeSeriesDataPointForms = "latestTimeSeriesDataPointForms"
             case owningProjectId = "owningProjectId"
         }
@@ -2750,6 +3077,8 @@ extension DataZone {
         public let entityType: String?
         /// Glossary terms attached to the inventory asset.
         public let glossaryTerms: [DetailedGlossaryTerm]?
+        /// The restricted glossary terms associated with an asset.
+        public let governedGlossaryTerms: [DetailedGlossaryTerm]?
         /// The Amazon DataZone user who created the listing.
         public let listingCreatedBy: String?
         /// The identifier of the listing (asset published in Amazon DataZone catalog).
@@ -2764,7 +3093,7 @@ extension DataZone {
         public let owningProjectId: String?
 
         @inlinable
-        public init(additionalAttributes: AssetListingItemAdditionalAttributes? = nil, createdAt: Date? = nil, description: String? = nil, entityId: String? = nil, entityRevision: String? = nil, entityType: String? = nil, glossaryTerms: [DetailedGlossaryTerm]? = nil, listingCreatedBy: String? = nil, listingId: String? = nil, listingRevision: String? = nil, listingUpdatedBy: String? = nil, name: String? = nil, owningProjectId: String? = nil) {
+        public init(additionalAttributes: AssetListingItemAdditionalAttributes? = nil, createdAt: Date? = nil, description: String? = nil, entityId: String? = nil, entityRevision: String? = nil, entityType: String? = nil, glossaryTerms: [DetailedGlossaryTerm]? = nil, governedGlossaryTerms: [DetailedGlossaryTerm]? = nil, listingCreatedBy: String? = nil, listingId: String? = nil, listingRevision: String? = nil, listingUpdatedBy: String? = nil, name: String? = nil, owningProjectId: String? = nil) {
             self.additionalAttributes = additionalAttributes
             self.createdAt = createdAt
             self.description = description
@@ -2772,6 +3101,7 @@ extension DataZone {
             self.entityRevision = entityRevision
             self.entityType = entityType
             self.glossaryTerms = glossaryTerms
+            self.governedGlossaryTerms = governedGlossaryTerms
             self.listingCreatedBy = listingCreatedBy
             self.listingId = listingId
             self.listingRevision = listingRevision
@@ -2788,6 +3118,7 @@ extension DataZone {
             case entityRevision = "entityRevision"
             case entityType = "entityType"
             case glossaryTerms = "glossaryTerms"
+            case governedGlossaryTerms = "governedGlossaryTerms"
             case listingCreatedBy = "listingCreatedBy"
             case listingId = "listingId"
             case listingRevision = "listingRevision"
@@ -2802,16 +3133,20 @@ extension DataZone {
         public let forms: String?
         /// The latest time series data points forms included in the additional attributes of an asset.
         public let latestTimeSeriesDataPointForms: [TimeSeriesDataPointSummaryFormOutput]?
+        /// List of rationales indicating why this item was matched by search.
+        public let matchRationale: [MatchRationaleItem]?
 
         @inlinable
-        public init(forms: String? = nil, latestTimeSeriesDataPointForms: [TimeSeriesDataPointSummaryFormOutput]? = nil) {
+        public init(forms: String? = nil, latestTimeSeriesDataPointForms: [TimeSeriesDataPointSummaryFormOutput]? = nil, matchRationale: [MatchRationaleItem]? = nil) {
             self.forms = forms
             self.latestTimeSeriesDataPointForms = latestTimeSeriesDataPointForms
+            self.matchRationale = matchRationale
         }
 
         private enum CodingKeys: String, CodingKey {
             case forms = "forms"
             case latestTimeSeriesDataPointForms = "latestTimeSeriesDataPointForms"
+            case matchRationale = "matchRationale"
         }
     }
 
@@ -3010,6 +3345,50 @@ extension DataZone {
     }
 
     public struct AssociateEnvironmentRoleOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct AssociateGovernedTermsInput: AWSEncodableShape {
+        /// The ID of the domain where governed terms are to be associated with an asset.
+        public let domainIdentifier: String
+        /// The ID of the asset with which you want to associate a governed term.
+        public let entityIdentifier: String
+        /// The type of the asset with which you want to associate a governed term.
+        public let entityType: GovernedEntityType
+        /// The glossary terms in a restricted glossary.
+        public let governedGlossaryTerms: [String]
+
+        @inlinable
+        public init(domainIdentifier: String, entityIdentifier: String, entityType: GovernedEntityType, governedGlossaryTerms: [String]) {
+            self.domainIdentifier = domainIdentifier
+            self.entityIdentifier = entityIdentifier
+            self.entityType = entityType
+            self.governedGlossaryTerms = governedGlossaryTerms
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.entityIdentifier, key: "entityIdentifier")
+            request.encodePath(self.entityType, key: "entityType")
+            try container.encode(self.governedGlossaryTerms, forKey: .governedGlossaryTerms)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.entityIdentifier, name: "entityIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.governedGlossaryTerms.forEach {
+                try validate($0, name: "governedGlossaryTerms[]", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case governedGlossaryTerms = "governedGlossaryTerms"
+        }
+    }
+
+    public struct AssociateGovernedTermsOutput: AWSDecodableShape {
         public init() {}
     }
 
@@ -3337,7 +3716,7 @@ extension DataZone {
         }
     }
 
-    public struct CloudFormationProperties: AWSDecodableShape {
+    public struct CloudFormationProperties: AWSEncodableShape & AWSDecodableShape {
         /// The template URL of the cloud formation provisioning properties of the environment blueprint.
         public let templateUrl: String
 
@@ -3448,11 +3827,13 @@ extension DataZone {
         public let projectId: String?
         /// The connection props.
         public let props: ConnectionPropertiesOutput?
+        /// The scope of the connection.
+        public let scope: ConnectionScope?
         /// The connection type.
         public let type: ConnectionType
 
         @inlinable
-        public init(connectionId: String, domainId: String, domainUnitId: String, environmentId: String? = nil, name: String, physicalEndpoints: [PhysicalEndpoint], projectId: String? = nil, props: ConnectionPropertiesOutput? = nil, type: ConnectionType) {
+        public init(connectionId: String, domainId: String, domainUnitId: String, environmentId: String? = nil, name: String, physicalEndpoints: [PhysicalEndpoint], projectId: String? = nil, props: ConnectionPropertiesOutput? = nil, scope: ConnectionScope? = nil, type: ConnectionType) {
             self.connectionId = connectionId
             self.domainId = domainId
             self.domainUnitId = domainUnitId
@@ -3461,6 +3842,7 @@ extension DataZone {
             self.physicalEndpoints = physicalEndpoints
             self.projectId = projectId
             self.props = props
+            self.scope = scope
             self.type = type
         }
 
@@ -3473,7 +3855,110 @@ extension DataZone {
             case physicalEndpoints = "physicalEndpoints"
             case projectId = "projectId"
             case props = "props"
+            case scope = "scope"
             case type = "type"
+        }
+    }
+
+    public struct CreateAccountPoolInput: AWSEncodableShape {
+        /// The source of accounts for the account pool. In the current release, it's either a static list of accounts provided by the customer or a custom Amazon Web Services Lambda handler.
+        public let accountSource: AccountSource
+        /// The description of the account pool.
+        public let description: String?
+        /// The ID of the domain where the account pool is created.
+        public let domainIdentifier: String
+        /// The name of the account pool.
+        public let name: String
+        /// The mechanism used to resolve the account selection from the account pool.
+        public let resolutionStrategy: ResolutionStrategy
+
+        @inlinable
+        public init(accountSource: AccountSource, description: String? = nil, domainIdentifier: String, name: String, resolutionStrategy: ResolutionStrategy) {
+            self.accountSource = accountSource
+            self.description = description
+            self.domainIdentifier = domainIdentifier
+            self.name = name
+            self.resolutionStrategy = resolutionStrategy
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.accountSource, forKey: .accountSource)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.resolutionStrategy, forKey: .resolutionStrategy)
+        }
+
+        public func validate(name: String) throws {
+            try self.accountSource.validate(name: "\(name).accountSource")
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w -]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountSource = "accountSource"
+            case description = "description"
+            case name = "name"
+            case resolutionStrategy = "resolutionStrategy"
+        }
+    }
+
+    public struct CreateAccountPoolOutput: AWSDecodableShape {
+        /// The source of accounts for the account pool. In the current release, it's either a static list of accounts provided by the customer or a custom Amazon Web Services Lambda handler.
+        public let accountSource: AccountSource
+        /// The timestamp at which the account pool was created.
+        public let createdAt: Date?
+        /// The user who created the account pool.
+        public let createdBy: String
+        /// The description of the account pool.
+        public let description: String?
+        /// The ID of the domain where the account pool is created.
+        public let domainId: String?
+        /// The ID of the domain where the account pool is created.
+        public let domainUnitId: String?
+        /// The ID of the account pool.
+        public let id: String?
+        /// The timestamp at which the account pool was last updated.
+        public let lastUpdatedAt: Date?
+        /// The name of the account pool.
+        public let name: String?
+        /// The mechanism used to resolve the account selection from the account pool.
+        public let resolutionStrategy: ResolutionStrategy?
+        /// The user who last updated the account pool.
+        public let updatedBy: String?
+
+        @inlinable
+        public init(accountSource: AccountSource, createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String? = nil, domainUnitId: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, resolutionStrategy: ResolutionStrategy? = nil, updatedBy: String? = nil) {
+            self.accountSource = accountSource
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.domainId = domainId
+            self.domainUnitId = domainUnitId
+            self.id = id
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.resolutionStrategy = resolutionStrategy
+            self.updatedBy = updatedBy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountSource = "accountSource"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case description = "description"
+            case domainId = "domainId"
+            case domainUnitId = "domainUnitId"
+            case id = "id"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case resolutionStrategy = "resolutionStrategy"
+            case updatedBy = "updatedBy"
         }
     }
 
@@ -3590,7 +4075,7 @@ extension DataZone {
         public let description: String?
         /// Amazon DataZone domain where the asset is created.
         public let domainIdentifier: String
-        /// The external identifier of the asset.
+        /// The external identifier of the asset. If the value for the externalIdentifier parameter is specified, it must be a unique value.
         public let externalIdentifier: String?
         /// Metadata forms attached to the asset.
         public let formsInput: [FormInput]?
@@ -3698,6 +4183,8 @@ extension DataZone {
         public let formsOutput: [FormOutput]
         /// The glossary terms that are attached to the created asset.
         public let glossaryTerms: [String]?
+        /// The glossary terms in a restricted glossary.
+        public let governedGlossaryTerms: [String]?
         /// The unique identifier of the created asset.
         public let id: String
         /// The latest data point that was imported into the time series form for the asset.
@@ -3720,7 +4207,7 @@ extension DataZone {
         public let typeRevision: String
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, externalIdentifier: String? = nil, firstRevisionCreatedAt: Date? = nil, firstRevisionCreatedBy: String? = nil, formsOutput: [FormOutput], glossaryTerms: [String]? = nil, id: String, latestTimeSeriesDataPointFormsOutput: [TimeSeriesDataPointSummaryFormOutput]? = nil, listing: AssetListingDetails? = nil, name: String, owningProjectId: String, predictionConfiguration: PredictionConfiguration? = nil, readOnlyFormsOutput: [FormOutput]? = nil, revision: String, typeIdentifier: String, typeRevision: String) {
+        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, externalIdentifier: String? = nil, firstRevisionCreatedAt: Date? = nil, firstRevisionCreatedBy: String? = nil, formsOutput: [FormOutput], glossaryTerms: [String]? = nil, governedGlossaryTerms: [String]? = nil, id: String, latestTimeSeriesDataPointFormsOutput: [TimeSeriesDataPointSummaryFormOutput]? = nil, listing: AssetListingDetails? = nil, name: String, owningProjectId: String, predictionConfiguration: PredictionConfiguration? = nil, readOnlyFormsOutput: [FormOutput]? = nil, revision: String, typeIdentifier: String, typeRevision: String) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -3730,6 +4217,7 @@ extension DataZone {
             self.firstRevisionCreatedBy = firstRevisionCreatedBy
             self.formsOutput = formsOutput
             self.glossaryTerms = glossaryTerms
+            self.governedGlossaryTerms = governedGlossaryTerms
             self.id = id
             self.latestTimeSeriesDataPointFormsOutput = latestTimeSeriesDataPointFormsOutput
             self.listing = listing
@@ -3752,6 +4240,7 @@ extension DataZone {
             case firstRevisionCreatedBy = "firstRevisionCreatedBy"
             case formsOutput = "formsOutput"
             case glossaryTerms = "glossaryTerms"
+            case governedGlossaryTerms = "governedGlossaryTerms"
             case id = "id"
             case latestTimeSeriesDataPointFormsOutput = "latestTimeSeriesDataPointFormsOutput"
             case listing = "listing"
@@ -3864,6 +4353,8 @@ extension DataZone {
         public let formsOutput: [FormOutput]
         /// The glossary terms that were attached to the asset as part of asset revision.
         public let glossaryTerms: [String]?
+        /// The glossary terms in a restricted glossary.
+        public let governedGlossaryTerms: [String]?
         /// The unique identifier of the asset revision.
         public let id: String
         /// The latest data point that was imported into the time series form for the asset.
@@ -3886,7 +4377,7 @@ extension DataZone {
         public let typeRevision: String
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, externalIdentifier: String? = nil, firstRevisionCreatedAt: Date? = nil, firstRevisionCreatedBy: String? = nil, formsOutput: [FormOutput], glossaryTerms: [String]? = nil, id: String, latestTimeSeriesDataPointFormsOutput: [TimeSeriesDataPointSummaryFormOutput]? = nil, listing: AssetListingDetails? = nil, name: String, owningProjectId: String, predictionConfiguration: PredictionConfiguration? = nil, readOnlyFormsOutput: [FormOutput]? = nil, revision: String, typeIdentifier: String, typeRevision: String) {
+        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, externalIdentifier: String? = nil, firstRevisionCreatedAt: Date? = nil, firstRevisionCreatedBy: String? = nil, formsOutput: [FormOutput], glossaryTerms: [String]? = nil, governedGlossaryTerms: [String]? = nil, id: String, latestTimeSeriesDataPointFormsOutput: [TimeSeriesDataPointSummaryFormOutput]? = nil, listing: AssetListingDetails? = nil, name: String, owningProjectId: String, predictionConfiguration: PredictionConfiguration? = nil, readOnlyFormsOutput: [FormOutput]? = nil, revision: String, typeIdentifier: String, typeRevision: String) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -3896,6 +4387,7 @@ extension DataZone {
             self.firstRevisionCreatedBy = firstRevisionCreatedBy
             self.formsOutput = formsOutput
             self.glossaryTerms = glossaryTerms
+            self.governedGlossaryTerms = governedGlossaryTerms
             self.id = id
             self.latestTimeSeriesDataPointFormsOutput = latestTimeSeriesDataPointFormsOutput
             self.listing = listing
@@ -3918,6 +4410,7 @@ extension DataZone {
             case firstRevisionCreatedBy = "firstRevisionCreatedBy"
             case formsOutput = "formsOutput"
             case glossaryTerms = "glossaryTerms"
+            case governedGlossaryTerms = "governedGlossaryTerms"
             case id = "id"
             case latestTimeSeriesDataPointFormsOutput = "latestTimeSeriesDataPointFormsOutput"
             case listing = "listing"
@@ -4067,22 +4560,28 @@ extension DataZone {
         public let description: String?
         /// The ID of the domain where the connection is created.
         public let domainIdentifier: String
+        /// Specifies whether the trusted identity propagation is enabled.
+        public let enableTrustedIdentityPropagation: Bool?
         /// The ID of the environment where the connection is created.
-        public let environmentIdentifier: String
+        public let environmentIdentifier: String?
         /// The connection name.
         public let name: String
         /// The connection props.
         public let props: ConnectionPropertiesInput?
+        /// The scope of the connection.
+        public let scope: ConnectionScope?
 
         @inlinable
-        public init(awsLocation: AwsLocation? = nil, clientToken: String? = CreateConnectionInput.idempotencyToken(), description: String? = nil, domainIdentifier: String, environmentIdentifier: String, name: String, props: ConnectionPropertiesInput? = nil) {
+        public init(awsLocation: AwsLocation? = nil, clientToken: String? = CreateConnectionInput.idempotencyToken(), description: String? = nil, domainIdentifier: String, enableTrustedIdentityPropagation: Bool? = nil, environmentIdentifier: String? = nil, name: String, props: ConnectionPropertiesInput? = nil, scope: ConnectionScope? = nil) {
             self.awsLocation = awsLocation
             self.clientToken = clientToken
             self.description = description
             self.domainIdentifier = domainIdentifier
+            self.enableTrustedIdentityPropagation = enableTrustedIdentityPropagation
             self.environmentIdentifier = environmentIdentifier
             self.name = name
             self.props = props
+            self.scope = scope
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -4092,9 +4591,11 @@ extension DataZone {
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.domainIdentifier, key: "domainIdentifier")
-            try container.encode(self.environmentIdentifier, forKey: .environmentIdentifier)
+            try container.encodeIfPresent(self.enableTrustedIdentityPropagation, forKey: .enableTrustedIdentityPropagation)
+            try container.encodeIfPresent(self.environmentIdentifier, forKey: .environmentIdentifier)
             try container.encode(self.name, forKey: .name)
             try container.encodeIfPresent(self.props, forKey: .props)
+            try container.encodeIfPresent(self.scope, forKey: .scope)
         }
 
         public func validate(name: String) throws {
@@ -4110,9 +4611,11 @@ extension DataZone {
             case awsLocation = "awsLocation"
             case clientToken = "clientToken"
             case description = "description"
+            case enableTrustedIdentityPropagation = "enableTrustedIdentityPropagation"
             case environmentIdentifier = "environmentIdentifier"
             case name = "name"
             case props = "props"
+            case scope = "scope"
         }
     }
 
@@ -4135,11 +4638,13 @@ extension DataZone {
         public let projectId: String?
         /// The connection props.
         public let props: ConnectionPropertiesOutput?
+        /// The scope of the connection.
+        public let scope: ConnectionScope?
         /// The connection type.
         public let type: ConnectionType
 
         @inlinable
-        public init(connectionId: String, description: String? = nil, domainId: String, domainUnitId: String, environmentId: String? = nil, name: String, physicalEndpoints: [PhysicalEndpoint], projectId: String? = nil, props: ConnectionPropertiesOutput? = nil, type: ConnectionType) {
+        public init(connectionId: String, description: String? = nil, domainId: String, domainUnitId: String, environmentId: String? = nil, name: String, physicalEndpoints: [PhysicalEndpoint], projectId: String? = nil, props: ConnectionPropertiesOutput? = nil, scope: ConnectionScope? = nil, type: ConnectionType) {
             self.connectionId = connectionId
             self.description = description
             self.domainId = domainId
@@ -4149,6 +4654,7 @@ extension DataZone {
             self.physicalEndpoints = physicalEndpoints
             self.projectId = projectId
             self.props = props
+            self.scope = scope
             self.type = type
         }
 
@@ -4162,6 +4668,7 @@ extension DataZone {
             case physicalEndpoints = "physicalEndpoints"
             case projectId = "projectId"
             case props = "props"
+            case scope = "scope"
             case type = "type"
         }
     }
@@ -4964,6 +5471,106 @@ extension DataZone {
         }
     }
 
+    public struct CreateEnvironmentBlueprintInput: AWSEncodableShape {
+        /// The description of the Amazon DataZone blueprint.
+        public let description: String?
+        /// The identifier of the domain in which this blueprint is created.
+        public let domainIdentifier: String
+        /// The name of this Amazon DataZone blueprint.
+        public let name: String
+        /// The provisioning properties of this Amazon DataZone blueprint.
+        public let provisioningProperties: ProvisioningProperties
+        /// The user parameters of this Amazon DataZone blueprint.
+        public let userParameters: [CustomParameter]?
+
+        @inlinable
+        public init(description: String? = nil, domainIdentifier: String, name: String, provisioningProperties: ProvisioningProperties, userParameters: [CustomParameter]? = nil) {
+            self.description = description
+            self.domainIdentifier = domainIdentifier
+            self.name = name
+            self.provisioningProperties = provisioningProperties
+            self.userParameters = userParameters
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.provisioningProperties, forKey: .provisioningProperties)
+            try container.encodeIfPresent(self.userParameters, forKey: .userParameters)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w -]+$")
+            try self.userParameters?.forEach {
+                try $0.validate(name: "\(name).userParameters[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case provisioningProperties = "provisioningProperties"
+            case userParameters = "userParameters"
+        }
+    }
+
+    public struct CreateEnvironmentBlueprintOutput: AWSDecodableShape {
+        /// The timestamp at which the environment blueprint was created.
+        public let createdAt: Date?
+        /// The deployment properties of this Amazon DataZone blueprint.
+        public let deploymentProperties: DeploymentProperties?
+        /// The description of this Amazon DataZone blueprint.
+        public let description: String?
+        /// The glossary terms attached to this Amazon DataZone blueprint.
+        public let glossaryTerms: [String]?
+        /// The ID of this Amazon DataZone blueprint.
+        public let id: String
+        /// The name of this Amazon DataZone blueprint.
+        public let name: String
+        /// The provider of this Amazon DataZone blueprint.
+        public let provider: String
+        /// The provisioning properties of this Amazon DataZone blueprint.
+        public let provisioningProperties: ProvisioningProperties
+        /// The timestamp of when this blueprint was updated.
+        public let updatedAt: Date?
+        /// The user parameters of this Amazon DataZone blueprint.
+        public let userParameters: [CustomParameter]?
+
+        @inlinable
+        public init(createdAt: Date? = nil, deploymentProperties: DeploymentProperties? = nil, description: String? = nil, glossaryTerms: [String]? = nil, id: String, name: String, provider: String, provisioningProperties: ProvisioningProperties, updatedAt: Date? = nil, userParameters: [CustomParameter]? = nil) {
+            self.createdAt = createdAt
+            self.deploymentProperties = deploymentProperties
+            self.description = description
+            self.glossaryTerms = glossaryTerms
+            self.id = id
+            self.name = name
+            self.provider = provider
+            self.provisioningProperties = provisioningProperties
+            self.updatedAt = updatedAt
+            self.userParameters = userParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case deploymentProperties = "deploymentProperties"
+            case description = "description"
+            case glossaryTerms = "glossaryTerms"
+            case id = "id"
+            case name = "name"
+            case provider = "provider"
+            case provisioningProperties = "provisioningProperties"
+            case updatedAt = "updatedAt"
+            case userParameters = "userParameters"
+        }
+    }
+
     public struct CreateEnvironmentInput: AWSEncodableShape {
         /// The deployment order of the environment.
         public let deploymentOrder: Int?
@@ -5410,15 +6017,18 @@ extension DataZone {
         public let owningProjectIdentifier: String
         /// The status of this business glossary.
         public let status: GlossaryStatus?
+        /// The usage restriction of the restricted glossary.
+        public let usageRestrictions: [GlossaryUsageRestriction]?
 
         @inlinable
-        public init(clientToken: String? = CreateGlossaryInput.idempotencyToken(), description: String? = nil, domainIdentifier: String, name: String, owningProjectIdentifier: String, status: GlossaryStatus? = nil) {
+        public init(clientToken: String? = CreateGlossaryInput.idempotencyToken(), description: String? = nil, domainIdentifier: String, name: String, owningProjectIdentifier: String, status: GlossaryStatus? = nil, usageRestrictions: [GlossaryUsageRestriction]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.domainIdentifier = domainIdentifier
             self.name = name
             self.owningProjectIdentifier = owningProjectIdentifier
             self.status = status
+            self.usageRestrictions = usageRestrictions
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -5430,6 +6040,7 @@ extension DataZone {
             try container.encode(self.name, forKey: .name)
             try container.encode(self.owningProjectIdentifier, forKey: .owningProjectIdentifier)
             try container.encodeIfPresent(self.status, forKey: .status)
+            try container.encodeIfPresent(self.usageRestrictions, forKey: .usageRestrictions)
         }
 
         public func validate(name: String) throws {
@@ -5441,6 +6052,8 @@ extension DataZone {
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.owningProjectIdentifier, name: "owningProjectIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.usageRestrictions, name: "usageRestrictions", parent: name, max: 1)
+            try self.validate(self.usageRestrictions, name: "usageRestrictions", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5449,6 +6062,7 @@ extension DataZone {
             case name = "name"
             case owningProjectIdentifier = "owningProjectIdentifier"
             case status = "status"
+            case usageRestrictions = "usageRestrictions"
         }
     }
 
@@ -5465,15 +6079,18 @@ extension DataZone {
         public let owningProjectId: String
         /// The status of this business glossary.
         public let status: GlossaryStatus?
+        /// The usage restriction of the restricted glossary.
+        public let usageRestrictions: [GlossaryUsageRestriction]?
 
         @inlinable
-        public init(description: String? = nil, domainId: String, id: String, name: String, owningProjectId: String, status: GlossaryStatus? = nil) {
+        public init(description: String? = nil, domainId: String, id: String, name: String, owningProjectId: String, status: GlossaryStatus? = nil, usageRestrictions: [GlossaryUsageRestriction]? = nil) {
             self.description = description
             self.domainId = domainId
             self.id = id
             self.name = name
             self.owningProjectId = owningProjectId
             self.status = status
+            self.usageRestrictions = usageRestrictions
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5483,6 +6100,7 @@ extension DataZone {
             case name = "name"
             case owningProjectId = "owningProjectId"
             case status = "status"
+            case usageRestrictions = "usageRestrictions"
         }
     }
 
@@ -5584,9 +6202,11 @@ extension DataZone {
         public let status: GlossaryTermStatus
         /// The term relations of this business glossary term.
         public let termRelations: TermRelations?
+        /// The usage restriction of the restricted glossary.
+        public let usageRestrictions: [GlossaryUsageRestriction]?
 
         @inlinable
-        public init(domainId: String, glossaryId: String, id: String, longDescription: String? = nil, name: String, shortDescription: String? = nil, status: GlossaryTermStatus, termRelations: TermRelations? = nil) {
+        public init(domainId: String, glossaryId: String, id: String, longDescription: String? = nil, name: String, shortDescription: String? = nil, status: GlossaryTermStatus, termRelations: TermRelations? = nil, usageRestrictions: [GlossaryUsageRestriction]? = nil) {
             self.domainId = domainId
             self.glossaryId = glossaryId
             self.id = id
@@ -5595,6 +6215,7 @@ extension DataZone {
             self.shortDescription = shortDescription
             self.status = status
             self.termRelations = termRelations
+            self.usageRestrictions = usageRestrictions
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5606,6 +6227,7 @@ extension DataZone {
             case shortDescription = "shortDescription"
             case status = "status"
             case termRelations = "termRelations"
+            case usageRestrictions = "usageRestrictions"
         }
     }
 
@@ -6659,7 +7281,30 @@ extension DataZone {
         }
     }
 
-    public struct CustomParameter: AWSDecodableShape {
+    public struct CustomAccountPoolHandler: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the IAM role that enables Amazon SageMaker Unified Studio to invoke the Amazon Web Services Lambda funtion if the account source is the custom account pool handler.
+        public let lambdaExecutionRoleArn: String?
+        /// The ARN of the Amazon Web Services Lambda function for the custom Amazon Web Services Lambda handler.
+        public let lambdaFunctionArn: String
+
+        @inlinable
+        public init(lambdaExecutionRoleArn: String? = nil, lambdaFunctionArn: String) {
+            self.lambdaExecutionRoleArn = lambdaExecutionRoleArn
+            self.lambdaFunctionArn = lambdaFunctionArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lambdaExecutionRoleArn, name: "lambdaExecutionRoleArn", parent: name, pattern: "^arn:aws[^:]*:iam::\\d{12}:(role|role/service-role)/[\\w+=,.@-]*$")
+            try self.validate(self.lambdaFunctionArn, name: "lambdaFunctionArn", parent: name, pattern: "^arn:(?:aws|aws-cn|aws-us-gov):lambda:(?:[a-z]{2}(?:-gov)?-[a-z]+-\\d{1,}):(\\d{12}):function:[a-zA-Z0-9-_]+(?::[a-zA-Z0-9-_]+)?(?:\\$[\\w-]+)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lambdaExecutionRoleArn = "lambdaExecutionRoleArn"
+            case lambdaFunctionArn = "lambdaFunctionArn"
+        }
+    }
+
+    public struct CustomParameter: AWSEncodableShape & AWSDecodableShape {
         /// The default value of the parameter.
         public let defaultValue: String?
         /// The description of the parameter.
@@ -6670,17 +7315,24 @@ extension DataZone {
         public let isEditable: Bool?
         /// Specifies whether the custom parameter is optional.
         public let isOptional: Bool?
+        /// Specifies whether a parameter value can be updated after creation.
+        public let isUpdateSupported: Bool?
         /// The key name of the parameter.
         public let keyName: String
 
         @inlinable
-        public init(defaultValue: String? = nil, description: String? = nil, fieldType: String, isEditable: Bool? = nil, isOptional: Bool? = nil, keyName: String) {
+        public init(defaultValue: String? = nil, description: String? = nil, fieldType: String, isEditable: Bool? = nil, isOptional: Bool? = nil, isUpdateSupported: Bool? = nil, keyName: String) {
             self.defaultValue = defaultValue
             self.description = description
             self.fieldType = fieldType
             self.isEditable = isEditable
             self.isOptional = isOptional
+            self.isUpdateSupported = isUpdateSupported
             self.keyName = keyName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6689,6 +7341,7 @@ extension DataZone {
             case fieldType = "fieldType"
             case isEditable = "isEditable"
             case isOptional = "isOptional"
+            case isUpdateSupported = "isUpdateSupported"
             case keyName = "keyName"
         }
     }
@@ -6727,6 +7380,20 @@ extension DataZone {
             case identifier = "identifier"
             case itemType = "itemType"
             case revision = "revision"
+        }
+    }
+
+    public struct DataProductItemAdditionalAttributes: AWSDecodableShape {
+        /// List of rationales indicating why this item was matched by search.
+        public let matchRationale: [MatchRationaleItem]?
+
+        @inlinable
+        public init(matchRationale: [MatchRationaleItem]? = nil) {
+            self.matchRationale = matchRationale
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchRationale = "matchRationale"
         }
     }
 
@@ -6833,18 +7500,24 @@ extension DataZone {
     public struct DataProductListingItemAdditionalAttributes: AWSDecodableShape {
         /// The metadata forms of the asset of the data product.
         public let forms: String?
+        /// List of rationales indicating why this item was matched by search.
+        public let matchRationale: [MatchRationaleItem]?
 
         @inlinable
-        public init(forms: String? = nil) {
+        public init(forms: String? = nil, matchRationale: [MatchRationaleItem]? = nil) {
             self.forms = forms
+            self.matchRationale = matchRationale
         }
 
         private enum CodingKeys: String, CodingKey {
             case forms = "forms"
+            case matchRationale = "matchRationale"
         }
     }
 
     public struct DataProductResultItem: AWSDecodableShape {
+        /// The additional attributes of an Amazon DataZone data product.
+        public let additionalAttributes: DataProductItemAdditionalAttributes?
         /// The timestamp at which the data product was created.
         public let createdAt: Date?
         /// The user who created the data product.
@@ -6867,7 +7540,8 @@ extension DataZone {
         public let owningProjectId: String
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, firstRevisionCreatedAt: Date? = nil, firstRevisionCreatedBy: String? = nil, glossaryTerms: [String]? = nil, id: String, name: String, owningProjectId: String) {
+        public init(additionalAttributes: DataProductItemAdditionalAttributes? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, firstRevisionCreatedAt: Date? = nil, firstRevisionCreatedBy: String? = nil, glossaryTerms: [String]? = nil, id: String, name: String, owningProjectId: String) {
+            self.additionalAttributes = additionalAttributes
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -6881,6 +7555,7 @@ extension DataZone {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalAttributes = "additionalAttributes"
             case createdAt = "createdAt"
             case createdBy = "createdBy"
             case description = "description"
@@ -7144,6 +7819,37 @@ extension DataZone {
             case type = "type"
             case updatedAt = "updatedAt"
         }
+    }
+
+    public struct DeleteAccountPoolInput: AWSEncodableShape {
+        /// The ID of the domain where the account pool is deleted.
+        public let domainIdentifier: String
+        /// The ID of the account pool to be deleted.
+        public let identifier: String
+
+        @inlinable
+        public init(domainIdentifier: String, identifier: String) {
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAccountPoolOutput: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteAssetFilterInput: AWSEncodableShape {
@@ -7596,6 +8302,33 @@ extension DataZone {
 
     public struct DeleteEnvironmentBlueprintConfigurationOutput: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DeleteEnvironmentBlueprintInput: AWSEncodableShape {
+        /// The ID of the Amazon DataZone domain in which the blueprint is deleted.
+        public let domainIdentifier: String
+        /// The ID of the blueprint that is deleted.
+        public let identifier: String
+
+        @inlinable
+        public init(domainIdentifier: String, identifier: String) {
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteEnvironmentInput: AWSEncodableShape {
@@ -8221,6 +8954,50 @@ extension DataZone {
         public init() {}
     }
 
+    public struct DisassociateGovernedTermsInput: AWSEncodableShape {
+        /// The ID of the domain where you want to disassociate restricted terms from an asset.
+        public let domainIdentifier: String
+        /// The ID of an asset from which you want to disassociate restricted terms.
+        public let entityIdentifier: String
+        /// The type of the asset from which you want to disassociate restricted terms.
+        public let entityType: GovernedEntityType
+        /// The restricted glossary terms that you want to disassociate from an asset.
+        public let governedGlossaryTerms: [String]
+
+        @inlinable
+        public init(domainIdentifier: String, entityIdentifier: String, entityType: GovernedEntityType, governedGlossaryTerms: [String]) {
+            self.domainIdentifier = domainIdentifier
+            self.entityIdentifier = entityIdentifier
+            self.entityType = entityType
+            self.governedGlossaryTerms = governedGlossaryTerms
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.entityIdentifier, key: "entityIdentifier")
+            request.encodePath(self.entityType, key: "entityType")
+            try container.encode(self.governedGlossaryTerms, forKey: .governedGlossaryTerms)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.entityIdentifier, name: "entityIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.governedGlossaryTerms.forEach {
+                try validate($0, name: "governedGlossaryTerms[]", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case governedGlossaryTerms = "governedGlossaryTerms"
+        }
+    }
+
+    public struct DisassociateGovernedTermsOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DomainSummary: AWSDecodableShape {
         /// The ARN of the Amazon DataZone domain.
         public let arn: String
@@ -8516,10 +9293,12 @@ extension DataZone {
     }
 
     public struct EnvironmentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The account pools used by a custom project profile.
+        public let accountPools: [String]?
         /// The Amazon Web Services account of the environment.
-        public let awsAccount: AwsAccount
+        public let awsAccount: AwsAccount?
         /// The Amazon Web Services Region of the environment.
-        public let awsRegion: Region
+        public let awsRegion: Region?
         /// The configuration parameters of the environment.
         public let configurationParameters: EnvironmentConfigurationParametersDetails?
         /// The deployment mode of the environment.
@@ -8536,7 +9315,8 @@ extension DataZone {
         public let name: String
 
         @inlinable
-        public init(awsAccount: AwsAccount, awsRegion: Region, configurationParameters: EnvironmentConfigurationParametersDetails? = nil, deploymentMode: DeploymentMode? = nil, deploymentOrder: Int? = nil, description: String? = nil, environmentBlueprintId: String, id: String? = nil, name: String) {
+        public init(accountPools: [String]? = nil, awsAccount: AwsAccount? = nil, awsRegion: Region? = nil, configurationParameters: EnvironmentConfigurationParametersDetails? = nil, deploymentMode: DeploymentMode? = nil, deploymentOrder: Int? = nil, description: String? = nil, environmentBlueprintId: String, id: String? = nil, name: String) {
+            self.accountPools = accountPools
             self.awsAccount = awsAccount
             self.awsRegion = awsRegion
             self.configurationParameters = configurationParameters
@@ -8549,8 +9329,13 @@ extension DataZone {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccount.validate(name: "\(name).awsAccount")
-            try self.awsRegion.validate(name: "\(name).awsRegion")
+            try self.accountPools?.forEach {
+                try validate($0, name: "accountPools[]", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            }
+            try self.validate(self.accountPools, name: "accountPools", parent: name, max: 10)
+            try self.validate(self.accountPools, name: "accountPools", parent: name, min: 1)
+            try self.awsAccount?.validate(name: "\(name).awsAccount")
+            try self.awsRegion?.validate(name: "\(name).awsRegion")
             try self.configurationParameters?.validate(name: "\(name).configurationParameters")
             try self.validate(self.deploymentOrder, name: "deploymentOrder", parent: name, max: 16)
             try self.validate(self.deploymentOrder, name: "deploymentOrder", parent: name, min: 0)
@@ -8563,6 +9348,7 @@ extension DataZone {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountPools = "accountPools"
             case awsAccount = "awsAccount"
             case awsRegion = "awsRegion"
             case configurationParameters = "configurationParameters"
@@ -8641,12 +9427,15 @@ extension DataZone {
         public let environmentId: String?
         /// The environment parameters.
         public let environmentParameters: [EnvironmentParameter]?
+        /// Specifies the account/Region that is to be used during project creation for a particular blueprint.
+        public let environmentResolvedAccount: EnvironmentResolvedAccount?
 
         @inlinable
-        public init(environmentConfigurationName: String? = nil, environmentId: String? = nil, environmentParameters: [EnvironmentParameter]? = nil) {
+        public init(environmentConfigurationName: String? = nil, environmentId: String? = nil, environmentParameters: [EnvironmentParameter]? = nil, environmentResolvedAccount: EnvironmentResolvedAccount? = nil) {
             self.environmentConfigurationName = environmentConfigurationName
             self.environmentId = environmentId
             self.environmentParameters = environmentParameters
+            self.environmentResolvedAccount = environmentResolvedAccount
         }
 
         public func validate(name: String) throws {
@@ -8654,12 +9443,14 @@ extension DataZone {
             try self.validate(self.environmentConfigurationName, name: "environmentConfigurationName", parent: name, min: 1)
             try self.validate(self.environmentConfigurationName, name: "environmentConfigurationName", parent: name, pattern: "^[\\w -]+$")
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.environmentResolvedAccount?.validate(name: "\(name).environmentResolvedAccount")
         }
 
         private enum CodingKeys: String, CodingKey {
             case environmentConfigurationName = "environmentConfigurationName"
             case environmentId = "environmentId"
             case environmentParameters = "environmentParameters"
+            case environmentResolvedAccount = "environmentResolvedAccount"
         }
     }
 
@@ -8768,6 +9559,34 @@ extension DataZone {
             case name = "name"
             case projectId = "projectId"
             case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct EnvironmentResolvedAccount: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the resolved account.
+        public let awsAccountId: String
+        /// The name of the resolved Region.
+        public let regionName: String
+        /// The ID of the account pool.
+        public let sourceAccountPoolId: String?
+
+        @inlinable
+        public init(awsAccountId: String, regionName: String, sourceAccountPoolId: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.regionName = regionName
+            self.sourceAccountPoolId = sourceAccountPoolId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.regionName, name: "regionName", parent: name, pattern: "^[a-z]{2}-[a-z]{4,10}-\\d$")
+            try self.validate(self.sourceAccountPoolId, name: "sourceAccountPoolId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "awsAccountId"
+            case regionName = "regionName"
+            case sourceAccountPoolId = "sourceAccountPoolId"
         }
     }
 
@@ -9084,6 +9903,87 @@ extension DataZone {
         }
     }
 
+    public struct GetAccountPoolInput: AWSEncodableShape {
+        /// The ID of the domain in which the account pool lives whose details are to be displayed.
+        public let domainIdentifier: String
+        /// The ID of the account pool whose details are to be displayed.
+        public let identifier: String
+
+        @inlinable
+        public init(domainIdentifier: String, identifier: String) {
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAccountPoolOutput: AWSDecodableShape {
+        /// The source of accounts for the account pool. In the current release, it's either a static list of accounts provided by the customer or a custom Amazon Web Services Lambda handler.
+        public let accountSource: AccountSource
+        /// The timestamp at which the account pool was created.
+        public let createdAt: Date?
+        /// The user who created the account pool.
+        public let createdBy: String
+        /// The description of the account pool.
+        public let description: String?
+        /// The ID of the domain in which the account pool lives whose details are to be displayed.
+        public let domainId: String?
+        /// The domain unit ID of the account pool.
+        public let domainUnitId: String?
+        /// The ID of the account pool.
+        public let id: String?
+        /// The timestamp at which the account pool was last updated.
+        public let lastUpdatedAt: Date?
+        /// The name of the account pool.
+        public let name: String?
+        /// The mechanism used to resolve the account selection from the account pool.
+        public let resolutionStrategy: ResolutionStrategy?
+        /// The user who last updated the account pool.
+        public let updatedBy: String?
+
+        @inlinable
+        public init(accountSource: AccountSource, createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String? = nil, domainUnitId: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, resolutionStrategy: ResolutionStrategy? = nil, updatedBy: String? = nil) {
+            self.accountSource = accountSource
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.domainId = domainId
+            self.domainUnitId = domainUnitId
+            self.id = id
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.resolutionStrategy = resolutionStrategy
+            self.updatedBy = updatedBy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountSource = "accountSource"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case description = "description"
+            case domainId = "domainId"
+            case domainUnitId = "domainUnitId"
+            case id = "id"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case resolutionStrategy = "resolutionStrategy"
+            case updatedBy = "updatedBy"
+        }
+    }
+
     public struct GetAssetFilterInput: AWSEncodableShape {
         /// The ID of the data asset.
         public let assetIdentifier: String
@@ -9173,7 +10073,7 @@ extension DataZone {
     public struct GetAssetInput: AWSEncodableShape {
         /// The ID of the Amazon DataZone domain to which the asset belongs.
         public let domainIdentifier: String
-        /// The ID of the Amazon DataZone asset.
+        /// The ID of the Amazon DataZone asset. This parameter supports either the value of assetId or externalIdentifier as input. If you are passing the value of externalIdentifier, you must prefix this value with externalIdentifer%2F.
         public let identifier: String
         /// The revision of the Amazon DataZone asset.
         public let revision: String?
@@ -9222,6 +10122,8 @@ extension DataZone {
         public let formsOutput: [FormOutput]
         /// The business glossary terms attached to the asset.
         public let glossaryTerms: [String]?
+        /// The restricted glossary terms attached to an asset.
+        public let governedGlossaryTerms: [String]?
         /// The ID of the asset.
         public let id: String
         /// The latest data point that was imported into the time series form for the asset.
@@ -9242,7 +10144,7 @@ extension DataZone {
         public let typeRevision: String
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, externalIdentifier: String? = nil, firstRevisionCreatedAt: Date? = nil, firstRevisionCreatedBy: String? = nil, formsOutput: [FormOutput], glossaryTerms: [String]? = nil, id: String, latestTimeSeriesDataPointFormsOutput: [TimeSeriesDataPointSummaryFormOutput]? = nil, listing: AssetListingDetails? = nil, name: String, owningProjectId: String, readOnlyFormsOutput: [FormOutput]? = nil, revision: String, typeIdentifier: String, typeRevision: String) {
+        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, externalIdentifier: String? = nil, firstRevisionCreatedAt: Date? = nil, firstRevisionCreatedBy: String? = nil, formsOutput: [FormOutput], glossaryTerms: [String]? = nil, governedGlossaryTerms: [String]? = nil, id: String, latestTimeSeriesDataPointFormsOutput: [TimeSeriesDataPointSummaryFormOutput]? = nil, listing: AssetListingDetails? = nil, name: String, owningProjectId: String, readOnlyFormsOutput: [FormOutput]? = nil, revision: String, typeIdentifier: String, typeRevision: String) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -9252,6 +10154,7 @@ extension DataZone {
             self.firstRevisionCreatedBy = firstRevisionCreatedBy
             self.formsOutput = formsOutput
             self.glossaryTerms = glossaryTerms
+            self.governedGlossaryTerms = governedGlossaryTerms
             self.id = id
             self.latestTimeSeriesDataPointFormsOutput = latestTimeSeriesDataPointFormsOutput
             self.listing = listing
@@ -9273,6 +10176,7 @@ extension DataZone {
             case firstRevisionCreatedBy = "firstRevisionCreatedBy"
             case formsOutput = "formsOutput"
             case glossaryTerms = "glossaryTerms"
+            case governedGlossaryTerms = "governedGlossaryTerms"
             case id = "id"
             case latestTimeSeriesDataPointFormsOutput = "latestTimeSeriesDataPointFormsOutput"
             case listing = "listing"
@@ -9432,11 +10336,13 @@ extension DataZone {
         public let projectId: String?
         /// Connection props.
         public let props: ConnectionPropertiesOutput?
+        /// The scope of the connection.
+        public let scope: ConnectionScope?
         /// The type of the connection.
         public let type: ConnectionType
 
         @inlinable
-        public init(connectionCredentials: ConnectionCredentials? = nil, connectionId: String, description: String? = nil, domainId: String, domainUnitId: String, environmentId: String? = nil, environmentUserRole: String? = nil, name: String, physicalEndpoints: [PhysicalEndpoint], projectId: String? = nil, props: ConnectionPropertiesOutput? = nil, type: ConnectionType) {
+        public init(connectionCredentials: ConnectionCredentials? = nil, connectionId: String, description: String? = nil, domainId: String, domainUnitId: String, environmentId: String? = nil, environmentUserRole: String? = nil, name: String, physicalEndpoints: [PhysicalEndpoint], projectId: String? = nil, props: ConnectionPropertiesOutput? = nil, scope: ConnectionScope? = nil, type: ConnectionType) {
             self.connectionCredentials = connectionCredentials
             self.connectionId = connectionId
             self.description = description
@@ -9448,6 +10354,7 @@ extension DataZone {
             self.physicalEndpoints = physicalEndpoints
             self.projectId = projectId
             self.props = props
+            self.scope = scope
             self.type = type
         }
 
@@ -9463,6 +10370,7 @@ extension DataZone {
             case physicalEndpoints = "physicalEndpoints"
             case projectId = "projectId"
             case props = "props"
+            case scope = "scope"
             case type = "type"
         }
     }
@@ -10589,9 +11497,11 @@ extension DataZone {
         public let updatedAt: Date?
         /// The Amazon DataZone user who updated the business glossary.
         public let updatedBy: String?
+        /// The usage restriction of the restricted glossary.
+        public let usageRestrictions: [GlossaryUsageRestriction]?
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, id: String, name: String, owningProjectId: String, status: GlossaryStatus, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, id: String, name: String, owningProjectId: String, status: GlossaryStatus, updatedAt: Date? = nil, updatedBy: String? = nil, usageRestrictions: [GlossaryUsageRestriction]? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -10602,6 +11512,7 @@ extension DataZone {
             self.status = status
             self.updatedAt = updatedAt
             self.updatedBy = updatedBy
+            self.usageRestrictions = usageRestrictions
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10615,6 +11526,7 @@ extension DataZone {
             case status = "status"
             case updatedAt = "updatedAt"
             case updatedBy = "updatedBy"
+            case usageRestrictions = "usageRestrictions"
         }
     }
 
@@ -10670,9 +11582,11 @@ extension DataZone {
         public let updatedAt: Date?
         /// The Amazon DataZone user who updated the business glossary term.
         public let updatedBy: String?
+        /// The usage restriction of a term within a restricted glossary.
+        public let usageRestrictions: [GlossaryUsageRestriction]?
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String? = nil, domainId: String, glossaryId: String, id: String, longDescription: String? = nil, name: String, shortDescription: String? = nil, status: GlossaryTermStatus, termRelations: TermRelations? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String? = nil, domainId: String, glossaryId: String, id: String, longDescription: String? = nil, name: String, shortDescription: String? = nil, status: GlossaryTermStatus, termRelations: TermRelations? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, usageRestrictions: [GlossaryUsageRestriction]? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.domainId = domainId
@@ -10685,6 +11599,7 @@ extension DataZone {
             self.termRelations = termRelations
             self.updatedAt = updatedAt
             self.updatedBy = updatedBy
+            self.usageRestrictions = usageRestrictions
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10700,6 +11615,7 @@ extension DataZone {
             case termRelations = "termRelations"
             case updatedAt = "updatedAt"
             case updatedBy = "updatedBy"
+            case usageRestrictions = "usageRestrictions"
         }
     }
 
@@ -11986,6 +12902,8 @@ extension DataZone {
     }
 
     public struct GlossaryItem: AWSDecodableShape {
+        /// The additional attributes of an Amazon DataZone glossary.
+        public let additionalAttributes: GlossaryItemAdditionalAttributes?
         /// The timestamp of when the glossary was created.
         public let createdAt: Date?
         /// The Amazon DataZone user who created the glossary.
@@ -12006,9 +12924,12 @@ extension DataZone {
         public let updatedAt: Date?
         /// The Amazon DataZone user who updated the business glossary.
         public let updatedBy: String?
+        /// The usage restrictions associated with a goverened glossary term.
+        public let usageRestrictions: [GlossaryUsageRestriction]?
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, id: String, name: String, owningProjectId: String, status: GlossaryStatus, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(additionalAttributes: GlossaryItemAdditionalAttributes? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, id: String, name: String, owningProjectId: String, status: GlossaryStatus, updatedAt: Date? = nil, updatedBy: String? = nil, usageRestrictions: [GlossaryUsageRestriction]? = nil) {
+            self.additionalAttributes = additionalAttributes
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -12019,9 +12940,11 @@ extension DataZone {
             self.status = status
             self.updatedAt = updatedAt
             self.updatedBy = updatedBy
+            self.usageRestrictions = usageRestrictions
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalAttributes = "additionalAttributes"
             case createdAt = "createdAt"
             case createdBy = "createdBy"
             case description = "description"
@@ -12032,10 +12955,27 @@ extension DataZone {
             case status = "status"
             case updatedAt = "updatedAt"
             case updatedBy = "updatedBy"
+            case usageRestrictions = "usageRestrictions"
+        }
+    }
+
+    public struct GlossaryItemAdditionalAttributes: AWSDecodableShape {
+        /// List of rationales indicating why this item was matched by search.
+        public let matchRationale: [MatchRationaleItem]?
+
+        @inlinable
+        public init(matchRationale: [MatchRationaleItem]? = nil) {
+            self.matchRationale = matchRationale
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchRationale = "matchRationale"
         }
     }
 
     public struct GlossaryTermItem: AWSDecodableShape {
+        /// The additional attributes of an Amazon DataZone glossary term.
+        public let additionalAttributes: GlossaryTermItemAdditionalAttributes?
         /// The timestamp of when a business glossary term was created.
         public let createdAt: Date?
         /// The Amazon DataZone user who created the business glossary.
@@ -12060,9 +13000,12 @@ extension DataZone {
         public let updatedAt: Date?
         /// The Amazon DataZone user who updated the business glossary term.
         public let updatedBy: String?
+        /// The usage restrictions associated with a goverened glossary term.
+        public let usageRestrictions: [GlossaryUsageRestriction]?
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String? = nil, domainId: String, glossaryId: String, id: String, longDescription: String? = nil, name: String, shortDescription: String? = nil, status: GlossaryTermStatus, termRelations: TermRelations? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(additionalAttributes: GlossaryTermItemAdditionalAttributes? = nil, createdAt: Date? = nil, createdBy: String? = nil, domainId: String, glossaryId: String, id: String, longDescription: String? = nil, name: String, shortDescription: String? = nil, status: GlossaryTermStatus, termRelations: TermRelations? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, usageRestrictions: [GlossaryUsageRestriction]? = nil) {
+            self.additionalAttributes = additionalAttributes
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.domainId = domainId
@@ -12075,9 +13018,11 @@ extension DataZone {
             self.termRelations = termRelations
             self.updatedAt = updatedAt
             self.updatedBy = updatedBy
+            self.usageRestrictions = usageRestrictions
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalAttributes = "additionalAttributes"
             case createdAt = "createdAt"
             case createdBy = "createdBy"
             case domainId = "domainId"
@@ -12090,6 +13035,21 @@ extension DataZone {
             case termRelations = "termRelations"
             case updatedAt = "updatedAt"
             case updatedBy = "updatedBy"
+            case usageRestrictions = "usageRestrictions"
+        }
+    }
+
+    public struct GlossaryTermItemAdditionalAttributes: AWSDecodableShape {
+        /// List of rationales indicating why this item was matched by search.
+        public let matchRationale: [MatchRationaleItem]?
+
+        @inlinable
+        public init(matchRationale: [MatchRationaleItem]? = nil) {
+            self.matchRationale = matchRationale
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchRationale = "matchRationale"
         }
     }
 
@@ -12572,14 +13532,18 @@ extension DataZone {
     public struct IamUserProfileDetails: AWSDecodableShape {
         /// The ARN of an IAM user profile in Amazon DataZone.
         public let arn: String?
+        /// Principal ID of the IAM user.
+        public let principalId: String?
 
         @inlinable
-        public init(arn: String? = nil) {
+        public init(arn: String? = nil, principalId: String? = nil) {
             self.arn = arn
+            self.principalId = principalId
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case principalId = "principalId"
         }
     }
 
@@ -13037,6 +14001,130 @@ extension DataZone {
         }
     }
 
+    public struct ListAccountPoolsInput: AWSEncodableShape {
+        /// The ID of the domain where exsting account pools are to be listed.
+        public let domainIdentifier: String
+        /// The maximum number of account pools to return in a single call to ListAccountPools. When the number of account pools to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListAccountPools to list the next set of account pools.
+        public let maxResults: Int?
+        /// The name of the account pool to be listed.
+        public let name: String?
+        /// When the number of account pools is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of account pools, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListAccountPools to list the next set of account pools.
+        public let nextToken: String?
+        /// The sort by mechanism in which the existing account pools are to be listed.
+        public let sortBy: SortFieldAccountPool?
+        /// The sort order in which the existing account pools are to be listed.
+        public let sortOrder: SortOrder?
+
+        @inlinable
+        public init(domainIdentifier: String, maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, sortBy: SortFieldAccountPool? = nil, sortOrder: SortOrder? = nil) {
+            self.domainIdentifier = domainIdentifier
+            self.maxResults = maxResults
+            self.name = name
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.name, key: "name")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.sortBy, key: "sortBy")
+            request.encodeQuery(self.sortOrder, key: "sortOrder")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w -]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAccountPoolsOutput: AWSDecodableShape {
+        /// The results of the ListAccountPools operation.
+        public let items: [AccountPoolSummary]?
+        /// When the number of account pools is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of account pools, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListAccountPools to list the next set of account pools.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [AccountPoolSummary]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAccountsInAccountPoolInput: AWSEncodableShape {
+        /// The ID of the domain in which the accounts in the specified account pool are to be listed.
+        public let domainIdentifier: String
+        /// The ID of the account pool whose accounts are to be listed.
+        public let identifier: String
+        /// The maximum number of accounts to return in a single call to ListAccountsInAccountPool. When the number of accounts to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListAccountsInAccountPool to list the next set of accounts.
+        public let maxResults: Int?
+        /// When the number of accounts is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of accounts, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListAccountsInAccountPool to list the next set of accounts.
+        public let nextToken: String?
+
+        @inlinable
+        public init(domainIdentifier: String, identifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAccountsInAccountPoolOutput: AWSDecodableShape {
+        /// The results of the ListAccountsInAccountPool operation.
+        public let items: [AccountInfo]?
+        /// When the number of accounts is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of accounts, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListAccountsInAccountPool to list the next set of accounts.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [AccountInfo]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListAssetFiltersInput: AWSEncodableShape {
         /// The ID of the data asset.
         public let assetIdentifier: String
@@ -13167,7 +14255,9 @@ extension DataZone {
         /// When the number of connections is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of connections, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListConnections to list the next set of connections.
         public let nextToken: String?
         /// The ID of the project where you want to list connections.
-        public let projectIdentifier: String
+        public let projectIdentifier: String?
+        /// The scope of the connection.
+        public let scope: ConnectionScope?
         /// Specifies how you want to sort the listed connections.
         public let sortBy: SortFieldConnection?
         /// Specifies the sort order for the listed connections.
@@ -13176,13 +14266,14 @@ extension DataZone {
         public let type: ConnectionType?
 
         @inlinable
-        public init(domainIdentifier: String, environmentIdentifier: String? = nil, maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, projectIdentifier: String, sortBy: SortFieldConnection? = nil, sortOrder: SortOrder? = nil, type: ConnectionType? = nil) {
+        public init(domainIdentifier: String, environmentIdentifier: String? = nil, maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, projectIdentifier: String? = nil, scope: ConnectionScope? = nil, sortBy: SortFieldConnection? = nil, sortOrder: SortOrder? = nil, type: ConnectionType? = nil) {
             self.domainIdentifier = domainIdentifier
             self.environmentIdentifier = environmentIdentifier
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
             self.projectIdentifier = projectIdentifier
+            self.scope = scope
             self.sortBy = sortBy
             self.sortOrder = sortOrder
             self.type = type
@@ -13197,6 +14288,7 @@ extension DataZone {
             request.encodeQuery(self.name, key: "name")
             request.encodeQuery(self.nextToken, key: "nextToken")
             request.encodeQuery(self.projectIdentifier, key: "projectIdentifier")
+            request.encodeQuery(self.scope, key: "scope")
             request.encodeQuery(self.sortBy, key: "sortBy")
             request.encodeQuery(self.sortOrder, key: "sortOrder")
             request.encodeQuery(self.type, key: "type")
@@ -15199,6 +16291,42 @@ extension DataZone {
         }
     }
 
+    public struct ManagedEndpointCredentials: AWSDecodableShape {
+        /// The identifier of the managed endpoint credentials.
+        public let id: String?
+        /// The ARN of the managed endpoint credentials.
+        public let token: String?
+
+        @inlinable
+        public init(id: String? = nil, token: String? = nil) {
+            self.id = id
+            self.token = token
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case token = "token"
+        }
+    }
+
+    public struct MatchOffset: AWSDecodableShape {
+        /// The 0-indexed number indicating the end position (exclusive) of a matched term.
+        public let endOffset: Int?
+        /// The 0-indexed number indicating the start position (inclusive) of a matched term.
+        public let startOffset: Int?
+
+        @inlinable
+        public init(endOffset: Int? = nil, startOffset: Int? = nil) {
+            self.endOffset = endOffset
+            self.startOffset = startOffset
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endOffset = "endOffset"
+            case startOffset = "startOffset"
+        }
+    }
+
     public struct MetadataFormEnforcementDetail: AWSEncodableShape & AWSDecodableShape {
         /// The required metadata forms.
         public let requiredMetadataForms: [MetadataFormReference]?
@@ -15701,6 +16829,8 @@ extension DataZone {
     public struct PhysicalEndpoint: AWSDecodableShape {
         /// The location of a connection.
         public let awsLocation: AwsLocation?
+        /// Specified whether trusted identity propagation for the connection is enabled.
+        public let enableTrustedIdentityPropagation: Bool?
         /// The Amazon Web Services Glue connection.
         public let glueConnection: GlueConnection?
         /// The Amazon Web Services Glue connection name.
@@ -15715,8 +16845,9 @@ extension DataZone {
         public let stage: String?
 
         @inlinable
-        public init(awsLocation: AwsLocation? = nil, glueConnection: GlueConnection? = nil, glueConnectionName: String? = nil, host: String? = nil, port: Int? = nil, protocol: `Protocol`? = nil, stage: String? = nil) {
+        public init(awsLocation: AwsLocation? = nil, enableTrustedIdentityPropagation: Bool? = nil, glueConnection: GlueConnection? = nil, glueConnectionName: String? = nil, host: String? = nil, port: Int? = nil, protocol: `Protocol`? = nil, stage: String? = nil) {
             self.awsLocation = awsLocation
+            self.enableTrustedIdentityPropagation = enableTrustedIdentityPropagation
             self.glueConnection = glueConnection
             self.glueConnectionName = glueConnectionName
             self.host = host
@@ -15727,6 +16858,7 @@ extension DataZone {
 
         private enum CodingKeys: String, CodingKey {
             case awsLocation = "awsLocation"
+            case enableTrustedIdentityPropagation = "enableTrustedIdentityPropagation"
             case glueConnection = "glueConnection"
             case glueConnectionName = "glueConnectionName"
             case host = "host"
@@ -15743,14 +16875,17 @@ extension DataZone {
         public let createdBy: String?
         /// The details of the policy grant member.
         public let detail: PolicyGrantDetail?
+        /// The ID of the policy grant.
+        public let grantId: String?
         /// The principal of the policy grant member.
         public let principal: PolicyGrantPrincipal?
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String? = nil, detail: PolicyGrantDetail? = nil, principal: PolicyGrantPrincipal? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String? = nil, detail: PolicyGrantDetail? = nil, grantId: String? = nil, principal: PolicyGrantPrincipal? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.detail = detail
+            self.grantId = grantId
             self.principal = principal
         }
 
@@ -15758,6 +16893,7 @@ extension DataZone {
             case createdAt = "createdAt"
             case createdBy = "createdBy"
             case detail = "detail"
+            case grantId = "grantId"
             case principal = "principal"
         }
     }
@@ -16095,6 +17231,8 @@ extension DataZone {
         public let environmentBlueprintIdentifier: String
         /// The environment role permissions boundary.
         public let environmentRolePermissionBoundary: String?
+        /// Region-agnostic environment blueprint parameters.
+        public let globalParameters: [String: String]?
         /// The ARN of the manage access role.
         public let manageAccessRoleArn: String?
         /// The provisioning configuration of a blueprint.
@@ -16105,11 +17243,12 @@ extension DataZone {
         public let regionalParameters: [String: [String: String]]?
 
         @inlinable
-        public init(domainIdentifier: String, enabledRegions: [String], environmentBlueprintIdentifier: String, environmentRolePermissionBoundary: String? = nil, manageAccessRoleArn: String? = nil, provisioningConfigurations: [ProvisioningConfiguration]? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil) {
+        public init(domainIdentifier: String, enabledRegions: [String], environmentBlueprintIdentifier: String, environmentRolePermissionBoundary: String? = nil, globalParameters: [String: String]? = nil, manageAccessRoleArn: String? = nil, provisioningConfigurations: [ProvisioningConfiguration]? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil) {
             self.domainIdentifier = domainIdentifier
             self.enabledRegions = enabledRegions
             self.environmentBlueprintIdentifier = environmentBlueprintIdentifier
             self.environmentRolePermissionBoundary = environmentRolePermissionBoundary
+            self.globalParameters = globalParameters
             self.manageAccessRoleArn = manageAccessRoleArn
             self.provisioningConfigurations = provisioningConfigurations
             self.provisioningRoleArn = provisioningRoleArn
@@ -16123,6 +17262,7 @@ extension DataZone {
             try container.encode(self.enabledRegions, forKey: .enabledRegions)
             request.encodePath(self.environmentBlueprintIdentifier, key: "environmentBlueprintIdentifier")
             try container.encodeIfPresent(self.environmentRolePermissionBoundary, forKey: .environmentRolePermissionBoundary)
+            try container.encodeIfPresent(self.globalParameters, forKey: .globalParameters)
             try container.encodeIfPresent(self.manageAccessRoleArn, forKey: .manageAccessRoleArn)
             try container.encodeIfPresent(self.provisioningConfigurations, forKey: .provisioningConfigurations)
             try container.encodeIfPresent(self.provisioningRoleArn, forKey: .provisioningRoleArn)
@@ -16153,6 +17293,7 @@ extension DataZone {
         private enum CodingKeys: String, CodingKey {
             case enabledRegions = "enabledRegions"
             case environmentRolePermissionBoundary = "environmentRolePermissionBoundary"
+            case globalParameters = "globalParameters"
             case manageAccessRoleArn = "manageAccessRoleArn"
             case provisioningConfigurations = "provisioningConfigurations"
             case provisioningRoleArn = "provisioningRoleArn"
@@ -16789,17 +17930,20 @@ extension DataZone {
         public let entityIdentifier: String
         /// The type of the entity from which you want to remove a policy grant.
         public let entityType: TargetEntityType
+        /// The ID of the policy grant that is to be removed from a specified entity.
+        public let grantIdentifier: String?
         /// The type of the policy that you want to remove.
         public let policyType: ManagedPolicyType
         /// The principal from which you want to remove a policy grant.
         public let principal: PolicyGrantPrincipal
 
         @inlinable
-        public init(clientToken: String? = RemovePolicyGrantInput.idempotencyToken(), domainIdentifier: String, entityIdentifier: String, entityType: TargetEntityType, policyType: ManagedPolicyType, principal: PolicyGrantPrincipal) {
+        public init(clientToken: String? = RemovePolicyGrantInput.idempotencyToken(), domainIdentifier: String, entityIdentifier: String, entityType: TargetEntityType, grantIdentifier: String? = nil, policyType: ManagedPolicyType, principal: PolicyGrantPrincipal) {
             self.clientToken = clientToken
             self.domainIdentifier = domainIdentifier
             self.entityIdentifier = entityIdentifier
             self.entityType = entityType
+            self.grantIdentifier = grantIdentifier
             self.policyType = policyType
             self.principal = principal
         }
@@ -16811,6 +17955,7 @@ extension DataZone {
             request.encodePath(self.domainIdentifier, key: "domainIdentifier")
             request.encodePath(self.entityIdentifier, key: "entityIdentifier")
             request.encodePath(self.entityType, key: "entityType")
+            try container.encodeIfPresent(self.grantIdentifier, forKey: .grantIdentifier)
             try container.encode(self.policyType, forKey: .policyType)
             try container.encode(self.principal, forKey: .principal)
         }
@@ -16820,11 +17965,13 @@ extension DataZone {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x21-\\x7E]+$")
             try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.grantIdentifier, name: "grantIdentifier", parent: name, pattern: "^[A-Za-z0-9+/]{10}$")
             try self.principal.validate(name: "\(name).principal")
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
+            case grantIdentifier = "grantIdentifier"
             case policyType = "policyType"
             case principal = "principal"
         }
@@ -17367,7 +18514,7 @@ extension DataZone {
             }
             try self.validate(self.searchIn, name: "searchIn", parent: name, max: 10)
             try self.validate(self.searchIn, name: "searchIn", parent: name, min: 1)
-            try self.validate(self.searchText, name: "searchText", parent: name, max: 4096)
+            try self.validate(self.searchText, name: "searchText", parent: name, max: 512)
             try self.validate(self.searchText, name: "searchText", parent: name, min: 1)
             try self.sort?.validate(name: "\(name).sort")
         }
@@ -17388,6 +18535,8 @@ extension DataZone {
     public struct SearchListingsInput: AWSEncodableShape {
         /// Specifies additional attributes for the search.
         public let additionalAttributes: [SearchOutputAdditionalAttribute]?
+        /// Enables you to specify one or more attributes to compute and return counts grouped by field values.
+        public let aggregations: [AggregationListItem]?
         /// The identifier of the domain in which to search listings.
         public let domainIdentifier: String
         /// Specifies the filters for the search of listings.
@@ -17404,8 +18553,9 @@ extension DataZone {
         public let sort: SearchSort?
 
         @inlinable
-        public init(additionalAttributes: [SearchOutputAdditionalAttribute]? = nil, domainIdentifier: String, filters: FilterClause? = nil, maxResults: Int? = nil, nextToken: String? = nil, searchIn: [SearchInItem]? = nil, searchText: String? = nil, sort: SearchSort? = nil) {
+        public init(additionalAttributes: [SearchOutputAdditionalAttribute]? = nil, aggregations: [AggregationListItem]? = nil, domainIdentifier: String, filters: FilterClause? = nil, maxResults: Int? = nil, nextToken: String? = nil, searchIn: [SearchInItem]? = nil, searchText: String? = nil, sort: SearchSort? = nil) {
             self.additionalAttributes = additionalAttributes
+            self.aggregations = aggregations
             self.domainIdentifier = domainIdentifier
             self.filters = filters
             self.maxResults = maxResults
@@ -17419,6 +18569,7 @@ extension DataZone {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.additionalAttributes, forKey: .additionalAttributes)
+            try container.encodeIfPresent(self.aggregations, forKey: .aggregations)
             request.encodePath(self.domainIdentifier, key: "domainIdentifier")
             try container.encodeIfPresent(self.filters, forKey: .filters)
             try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
@@ -17429,6 +18580,11 @@ extension DataZone {
         }
 
         public func validate(name: String) throws {
+            try self.aggregations?.forEach {
+                try $0.validate(name: "\(name).aggregations[]")
+            }
+            try self.validate(self.aggregations, name: "aggregations", parent: name, max: 10)
+            try self.validate(self.aggregations, name: "aggregations", parent: name, min: 1)
             try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
             try self.filters?.validate(name: "\(name).filters")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
@@ -17445,6 +18601,7 @@ extension DataZone {
 
         private enum CodingKeys: String, CodingKey {
             case additionalAttributes = "additionalAttributes"
+            case aggregations = "aggregations"
             case filters = "filters"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
@@ -17455,6 +18612,8 @@ extension DataZone {
     }
 
     public struct SearchListingsOutput: AWSDecodableShape {
+        /// Contains computed counts grouped by field values based on the requested aggregation attributes for the matching listings.
+        public let aggregates: [AggregationOutput]?
         /// The results of the SearchListings action.
         public let items: [SearchResultItem]?
         /// When the number of results is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of results, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to SearchListings to list the next set of results.
@@ -17463,13 +18622,15 @@ extension DataZone {
         public let totalMatchCount: Int?
 
         @inlinable
-        public init(items: [SearchResultItem]? = nil, nextToken: String? = nil, totalMatchCount: Int? = nil) {
+        public init(aggregates: [AggregationOutput]? = nil, items: [SearchResultItem]? = nil, nextToken: String? = nil, totalMatchCount: Int? = nil) {
+            self.aggregates = aggregates
             self.items = items
             self.nextToken = nextToken
             self.totalMatchCount = totalMatchCount
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aggregates = "aggregates"
             case items = "items"
             case nextToken = "nextToken"
             case totalMatchCount = "totalMatchCount"
@@ -17580,7 +18741,7 @@ extension DataZone {
             }
             try self.validate(self.searchIn, name: "searchIn", parent: name, max: 10)
             try self.validate(self.searchIn, name: "searchIn", parent: name, min: 1)
-            try self.validate(self.searchText, name: "searchText", parent: name, max: 4096)
+            try self.validate(self.searchText, name: "searchText", parent: name, max: 512)
             try self.validate(self.searchText, name: "searchText", parent: name, min: 1)
             try self.sort?.validate(name: "\(name).sort")
         }
@@ -17742,6 +18903,8 @@ extension DataZone {
         public let javaVirtualEnv: String?
         /// The log URI of the Spark EMR.
         public let logUri: String?
+        /// The managed endpoint ARN of the EMR on EKS cluster.
+        public let managedEndpointArn: String?
         /// The Python virtual env of the Spark EMR.
         public let pythonVirtualEnv: String?
         /// The runtime role of the Spark EMR.
@@ -17750,11 +18913,12 @@ extension DataZone {
         public let trustedCertificatesS3Uri: String?
 
         @inlinable
-        public init(computeArn: String? = nil, instanceProfileArn: String? = nil, javaVirtualEnv: String? = nil, logUri: String? = nil, pythonVirtualEnv: String? = nil, runtimeRole: String? = nil, trustedCertificatesS3Uri: String? = nil) {
+        public init(computeArn: String? = nil, instanceProfileArn: String? = nil, javaVirtualEnv: String? = nil, logUri: String? = nil, managedEndpointArn: String? = nil, pythonVirtualEnv: String? = nil, runtimeRole: String? = nil, trustedCertificatesS3Uri: String? = nil) {
             self.computeArn = computeArn
             self.instanceProfileArn = instanceProfileArn
             self.javaVirtualEnv = javaVirtualEnv
             self.logUri = logUri
+            self.managedEndpointArn = managedEndpointArn
             self.pythonVirtualEnv = pythonVirtualEnv
             self.runtimeRole = runtimeRole
             self.trustedCertificatesS3Uri = trustedCertificatesS3Uri
@@ -17765,6 +18929,7 @@ extension DataZone {
             case instanceProfileArn = "instanceProfileArn"
             case javaVirtualEnv = "javaVirtualEnv"
             case logUri = "logUri"
+            case managedEndpointArn = "managedEndpointArn"
             case pythonVirtualEnv = "pythonVirtualEnv"
             case runtimeRole = "runtimeRole"
             case trustedCertificatesS3Uri = "trustedCertificatesS3Uri"
@@ -17772,6 +18937,8 @@ extension DataZone {
     }
 
     public struct SparkEmrPropertiesOutput: AWSDecodableShape {
+        /// The certificate data of the EMR on EKS cluster.
+        public let certificateData: String?
         /// The compute ARN of the Spark EMR.
         public let computeArn: String?
         /// The credentials of the Spark EMR.
@@ -17788,6 +18955,10 @@ extension DataZone {
         public let livyEndpoint: String?
         /// The log URI of the Spark EMR.
         public let logUri: String?
+        /// The managed endpoint ARN of the EMR on EKS cluster.
+        public let managedEndpointArn: String?
+        /// The managed endpoint credentials of the EMR on EKS cluster.
+        public let managedEndpointCredentials: ManagedEndpointCredentials?
         /// The Python virtual env of the Spark EMR.
         public let pythonVirtualEnv: String?
         /// The runtime role of the Spark EMR.
@@ -17796,7 +18967,8 @@ extension DataZone {
         public let trustedCertificatesS3Uri: String?
 
         @inlinable
-        public init(computeArn: String? = nil, credentials: UsernamePassword? = nil, credentialsExpiration: Date? = nil, governanceType: GovernanceType? = nil, instanceProfileArn: String? = nil, javaVirtualEnv: String? = nil, livyEndpoint: String? = nil, logUri: String? = nil, pythonVirtualEnv: String? = nil, runtimeRole: String? = nil, trustedCertificatesS3Uri: String? = nil) {
+        public init(certificateData: String? = nil, computeArn: String? = nil, credentials: UsernamePassword? = nil, credentialsExpiration: Date? = nil, governanceType: GovernanceType? = nil, instanceProfileArn: String? = nil, javaVirtualEnv: String? = nil, livyEndpoint: String? = nil, logUri: String? = nil, managedEndpointArn: String? = nil, managedEndpointCredentials: ManagedEndpointCredentials? = nil, pythonVirtualEnv: String? = nil, runtimeRole: String? = nil, trustedCertificatesS3Uri: String? = nil) {
+            self.certificateData = certificateData
             self.computeArn = computeArn
             self.credentials = credentials
             self.credentialsExpiration = credentialsExpiration
@@ -17805,12 +18977,15 @@ extension DataZone {
             self.javaVirtualEnv = javaVirtualEnv
             self.livyEndpoint = livyEndpoint
             self.logUri = logUri
+            self.managedEndpointArn = managedEndpointArn
+            self.managedEndpointCredentials = managedEndpointCredentials
             self.pythonVirtualEnv = pythonVirtualEnv
             self.runtimeRole = runtimeRole
             self.trustedCertificatesS3Uri = trustedCertificatesS3Uri
         }
 
         private enum CodingKeys: String, CodingKey {
+            case certificateData = "certificateData"
             case computeArn = "computeArn"
             case credentials = "credentials"
             case credentialsExpiration = "credentialsExpiration"
@@ -17819,6 +18994,8 @@ extension DataZone {
             case javaVirtualEnv = "javaVirtualEnv"
             case livyEndpoint = "livyEndpoint"
             case logUri = "logUri"
+            case managedEndpointArn = "managedEndpointArn"
+            case managedEndpointCredentials = "managedEndpointCredentials"
             case pythonVirtualEnv = "pythonVirtualEnv"
             case runtimeRole = "runtimeRole"
             case trustedCertificatesS3Uri = "trustedCertificatesS3Uri"
@@ -17834,6 +19011,8 @@ extension DataZone {
         public let javaVirtualEnv: String?
         /// The log URI in the Spark EMR properties patch.
         public let logUri: String?
+        /// The managed endpoint ARN of the EMR on EKS cluster.
+        public let managedEndpointArn: String?
         /// The Python virtual env in the Spark EMR properties patch.
         public let pythonVirtualEnv: String?
         /// The runtime role in the Spark EMR properties patch.
@@ -17842,11 +19021,12 @@ extension DataZone {
         public let trustedCertificatesS3Uri: String?
 
         @inlinable
-        public init(computeArn: String? = nil, instanceProfileArn: String? = nil, javaVirtualEnv: String? = nil, logUri: String? = nil, pythonVirtualEnv: String? = nil, runtimeRole: String? = nil, trustedCertificatesS3Uri: String? = nil) {
+        public init(computeArn: String? = nil, instanceProfileArn: String? = nil, javaVirtualEnv: String? = nil, logUri: String? = nil, managedEndpointArn: String? = nil, pythonVirtualEnv: String? = nil, runtimeRole: String? = nil, trustedCertificatesS3Uri: String? = nil) {
             self.computeArn = computeArn
             self.instanceProfileArn = instanceProfileArn
             self.javaVirtualEnv = javaVirtualEnv
             self.logUri = logUri
+            self.managedEndpointArn = managedEndpointArn
             self.pythonVirtualEnv = pythonVirtualEnv
             self.runtimeRole = runtimeRole
             self.trustedCertificatesS3Uri = trustedCertificatesS3Uri
@@ -17857,6 +19037,7 @@ extension DataZone {
             case instanceProfileArn = "instanceProfileArn"
             case javaVirtualEnv = "javaVirtualEnv"
             case logUri = "logUri"
+            case managedEndpointArn = "managedEndpointArn"
             case pythonVirtualEnv = "pythonVirtualEnv"
             case runtimeRole = "runtimeRole"
             case trustedCertificatesS3Uri = "trustedCertificatesS3Uri"
@@ -18389,7 +19570,7 @@ extension DataZone {
         public let subscriptionId: String?
         /// The identifier of the target of the subscription grant.
         public let subscriptionTargetId: String
-        /// The timestampf of when the subscription grant was updated.
+        /// The timestamp of when the subscription grant was updated.
         public let updatedAt: Date
         /// The Amazon DataZone user who updated the subscription grant.
         public let updatedBy: String?
@@ -18723,6 +19904,28 @@ extension DataZone {
         }
     }
 
+    public struct TextMatchItem: AWSDecodableShape {
+        /// The name of the attribute.
+        public let attribute: String?
+        /// List of offsets indicating matching terms in the TextMatchItem text.
+        public let matchOffsets: [MatchOffset]?
+        /// Snippet of attribute text containing highlighted content.
+        public let text: String?
+
+        @inlinable
+        public init(attribute: String? = nil, matchOffsets: [MatchOffset]? = nil, text: String? = nil) {
+            self.attribute = attribute
+            self.matchOffsets = matchOffsets
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attribute = "attribute"
+            case matchOffsets = "matchOffsets"
+            case text = "text"
+        }
+    }
+
     public struct TimeSeriesDataPointFormInput: AWSEncodableShape {
         /// The content of the time series data points form.
         public let content: String?
@@ -18888,6 +20091,113 @@ extension DataZone {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateAccountPoolInput: AWSEncodableShape {
+        /// The source of accounts for the account pool. In the current release, it's either a static list of accounts provided by the customer or a custom Amazon Web Services Lambda handler.
+        public let accountSource: AccountSource?
+        /// The description of the account pool that is to be udpated.
+        public let description: String?
+        /// The domain ID where the account pool that is to be updated lives.
+        public let domainIdentifier: String
+        /// The ID of the account pool that is to be updated.
+        public let identifier: String
+        /// The name of the account pool that is to be updated.
+        public let name: String?
+        /// The mechanism used to resolve the account selection from the account pool.
+        public let resolutionStrategy: ResolutionStrategy?
+
+        @inlinable
+        public init(accountSource: AccountSource? = nil, description: String? = nil, domainIdentifier: String, identifier: String, name: String? = nil, resolutionStrategy: ResolutionStrategy? = nil) {
+            self.accountSource = accountSource
+            self.description = description
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+            self.name = name
+            self.resolutionStrategy = resolutionStrategy
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.accountSource, forKey: .accountSource)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.resolutionStrategy, forKey: .resolutionStrategy)
+        }
+
+        public func validate(name: String) throws {
+            try self.accountSource?.validate(name: "\(name).accountSource")
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w -]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountSource = "accountSource"
+            case description = "description"
+            case name = "name"
+            case resolutionStrategy = "resolutionStrategy"
+        }
+    }
+
+    public struct UpdateAccountPoolOutput: AWSDecodableShape {
+        /// The source of accounts for the account pool. In the current release, it's either a static list of accounts provided by the customer or a custom Amazon Web Services Lambda handler.
+        public let accountSource: AccountSource
+        /// The timestamp at which the account pool was created.
+        public let createdAt: Date?
+        /// The user who created the account pool.
+        public let createdBy: String
+        /// The description of the account pool that is to be udpated.
+        public let description: String?
+        /// The domain ID where the account pool that is to be updated lives.
+        public let domainId: String?
+        /// The domain ID in which the account pool that is to be updated lives.
+        public let domainUnitId: String?
+        /// The ID of the account pool that is to be updated.
+        public let id: String?
+        /// The timestamp at which the account pool was last updated.
+        public let lastUpdatedAt: Date?
+        /// The name of the account pool that is to be updated.
+        public let name: String?
+        /// The mechanism used to resolve the account selection from the account pool.
+        public let resolutionStrategy: ResolutionStrategy?
+        /// The user who last updated the account pool.
+        public let updatedBy: String?
+
+        @inlinable
+        public init(accountSource: AccountSource, createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String? = nil, domainUnitId: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, resolutionStrategy: ResolutionStrategy? = nil, updatedBy: String? = nil) {
+            self.accountSource = accountSource
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.domainId = domainId
+            self.domainUnitId = domainUnitId
+            self.id = id
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.resolutionStrategy = resolutionStrategy
+            self.updatedBy = updatedBy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountSource = "accountSource"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case description = "description"
+            case domainId = "domainId"
+            case domainUnitId = "domainUnitId"
+            case id = "id"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case resolutionStrategy = "resolutionStrategy"
+            case updatedBy = "updatedBy"
+        }
     }
 
     public struct UpdateAssetFilterInput: AWSEncodableShape {
@@ -19058,11 +20368,13 @@ extension DataZone {
         public let projectId: String?
         /// The connection props.
         public let props: ConnectionPropertiesOutput?
+        /// The scope of the connection.
+        public let scope: ConnectionScope?
         /// The connection type.
         public let type: ConnectionType
 
         @inlinable
-        public init(connectionId: String, description: String? = nil, domainId: String, domainUnitId: String, environmentId: String? = nil, name: String, physicalEndpoints: [PhysicalEndpoint], projectId: String? = nil, props: ConnectionPropertiesOutput? = nil, type: ConnectionType) {
+        public init(connectionId: String, description: String? = nil, domainId: String, domainUnitId: String, environmentId: String? = nil, name: String, physicalEndpoints: [PhysicalEndpoint], projectId: String? = nil, props: ConnectionPropertiesOutput? = nil, scope: ConnectionScope? = nil, type: ConnectionType) {
             self.connectionId = connectionId
             self.description = description
             self.domainId = domainId
@@ -19072,6 +20384,7 @@ extension DataZone {
             self.physicalEndpoints = physicalEndpoints
             self.projectId = projectId
             self.props = props
+            self.scope = scope
             self.type = type
         }
 
@@ -19085,6 +20398,7 @@ extension DataZone {
             case physicalEndpoints = "physicalEndpoints"
             case projectId = "projectId"
             case props = "props"
+            case scope = "scope"
             case type = "type"
         }
     }
@@ -19547,6 +20861,102 @@ extension DataZone {
         }
     }
 
+    public struct UpdateEnvironmentBlueprintInput: AWSEncodableShape {
+        /// The description to be updated as part of the UpdateEnvironmentBlueprint action.
+        public let description: String?
+        /// The identifier of the Amazon DataZone domain in which an environment blueprint is to be updated.
+        public let domainIdentifier: String
+        /// The identifier of the environment blueprint to be updated.
+        public let identifier: String
+        /// The provisioning properties to be updated as part of the UpdateEnvironmentBlueprint action.
+        public let provisioningProperties: ProvisioningProperties?
+        /// The user parameters to be updated as part of the UpdateEnvironmentBlueprint action.
+        public let userParameters: [CustomParameter]?
+
+        @inlinable
+        public init(description: String? = nil, domainIdentifier: String, identifier: String, provisioningProperties: ProvisioningProperties? = nil, userParameters: [CustomParameter]? = nil) {
+            self.description = description
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+            self.provisioningProperties = provisioningProperties
+            self.userParameters = userParameters
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+            try container.encodeIfPresent(self.provisioningProperties, forKey: .provisioningProperties)
+            try container.encodeIfPresent(self.userParameters, forKey: .userParameters)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.userParameters?.forEach {
+                try $0.validate(name: "\(name).userParameters[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case provisioningProperties = "provisioningProperties"
+            case userParameters = "userParameters"
+        }
+    }
+
+    public struct UpdateEnvironmentBlueprintOutput: AWSDecodableShape {
+        /// The timestamp of when the environment blueprint was created.
+        public let createdAt: Date?
+        /// The deployment properties to be updated as part of the UpdateEnvironmentBlueprint action.
+        public let deploymentProperties: DeploymentProperties?
+        /// The description to be updated as part of the UpdateEnvironmentBlueprint action.
+        public let description: String?
+        /// The glossary terms to be updated as part of the UpdateEnvironmentBlueprint action.
+        public let glossaryTerms: [String]?
+        /// The identifier of the blueprint to be updated.
+        public let id: String
+        /// The name to be updated as part of the UpdateEnvironmentBlueprint action.
+        public let name: String
+        /// The provider of the blueprint to be udpated.
+        public let provider: String
+        /// The provisioning properties to be updated as part of the UpdateEnvironmentBlueprint action.
+        public let provisioningProperties: ProvisioningProperties
+        /// The timestamp of when the blueprint was updated.
+        public let updatedAt: Date?
+        /// The user parameters to be updated as part of the UpdateEnvironmentBlueprint action.
+        public let userParameters: [CustomParameter]?
+
+        @inlinable
+        public init(createdAt: Date? = nil, deploymentProperties: DeploymentProperties? = nil, description: String? = nil, glossaryTerms: [String]? = nil, id: String, name: String, provider: String, provisioningProperties: ProvisioningProperties, updatedAt: Date? = nil, userParameters: [CustomParameter]? = nil) {
+            self.createdAt = createdAt
+            self.deploymentProperties = deploymentProperties
+            self.description = description
+            self.glossaryTerms = glossaryTerms
+            self.id = id
+            self.name = name
+            self.provider = provider
+            self.provisioningProperties = provisioningProperties
+            self.updatedAt = updatedAt
+            self.userParameters = userParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case deploymentProperties = "deploymentProperties"
+            case description = "description"
+            case glossaryTerms = "glossaryTerms"
+            case id = "id"
+            case name = "name"
+            case provider = "provider"
+            case provisioningProperties = "provisioningProperties"
+            case updatedAt = "updatedAt"
+            case userParameters = "userParameters"
+        }
+    }
+
     public struct UpdateEnvironmentInput: AWSEncodableShape {
         /// The blueprint version to which the environment should be updated. You can only specify the following string for this parameter: latest.
         public let blueprintVersion: String?
@@ -19886,15 +21296,18 @@ extension DataZone {
         public let owningProjectId: String
         /// The status to be updated as part of the UpdateGlossary action.
         public let status: GlossaryStatus?
+        /// The usage restriction of the restricted glossary.
+        public let usageRestrictions: [GlossaryUsageRestriction]?
 
         @inlinable
-        public init(description: String? = nil, domainId: String, id: String, name: String, owningProjectId: String, status: GlossaryStatus? = nil) {
+        public init(description: String? = nil, domainId: String, id: String, name: String, owningProjectId: String, status: GlossaryStatus? = nil, usageRestrictions: [GlossaryUsageRestriction]? = nil) {
             self.description = description
             self.domainId = domainId
             self.id = id
             self.name = name
             self.owningProjectId = owningProjectId
             self.status = status
+            self.usageRestrictions = usageRestrictions
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -19904,6 +21317,7 @@ extension DataZone {
             case name = "name"
             case owningProjectId = "owningProjectId"
             case status = "status"
+            case usageRestrictions = "usageRestrictions"
         }
     }
 
@@ -19988,9 +21402,11 @@ extension DataZone {
         public let status: GlossaryTermStatus
         /// The term relations to be updated as part of the UpdateGlossaryTerm action.
         public let termRelations: TermRelations?
+        /// The usage restriction of a term within a restricted glossary.
+        public let usageRestrictions: [GlossaryUsageRestriction]?
 
         @inlinable
-        public init(domainId: String, glossaryId: String, id: String, longDescription: String? = nil, name: String, shortDescription: String? = nil, status: GlossaryTermStatus, termRelations: TermRelations? = nil) {
+        public init(domainId: String, glossaryId: String, id: String, longDescription: String? = nil, name: String, shortDescription: String? = nil, status: GlossaryTermStatus, termRelations: TermRelations? = nil, usageRestrictions: [GlossaryUsageRestriction]? = nil) {
             self.domainId = domainId
             self.glossaryId = glossaryId
             self.id = id
@@ -19999,6 +21415,7 @@ extension DataZone {
             self.shortDescription = shortDescription
             self.status = status
             self.termRelations = termRelations
+            self.usageRestrictions = usageRestrictions
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -20010,6 +21427,7 @@ extension DataZone {
             case shortDescription = "shortDescription"
             case status = "status"
             case termRelations = "termRelations"
+            case usageRestrictions = "usageRestrictions"
         }
     }
 
@@ -21078,6 +22496,20 @@ extension DataZone {
         }
     }
 
+    public struct MatchRationaleItem: AWSDecodableShape {
+        /// A list of TextMatchItems.
+        public let textMatches: [TextMatchItem]?
+
+        @inlinable
+        public init(textMatches: [TextMatchItem]? = nil) {
+            self.textMatches = textMatches
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case textMatches = "textMatches"
+        }
+    }
+
     public struct Model: AWSEncodableShape & AWSDecodableShape {
         /// Indicates the smithy model of the API.
         public let smithy: String?
@@ -21133,7 +22565,7 @@ extension DataZone {
         }
     }
 
-    public struct ProvisioningProperties: AWSDecodableShape {
+    public struct ProvisioningProperties: AWSEncodableShape & AWSDecodableShape {
         /// The cloud formation properties included as part of the provisioning properties of an environment blueprint.
         public let cloudFormation: CloudFormationProperties?
 

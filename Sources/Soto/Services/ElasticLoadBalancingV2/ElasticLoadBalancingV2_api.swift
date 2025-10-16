@@ -207,7 +207,7 @@ public struct ElasticLoadBalancingV2: AWSService {
     ///   - certificates: [HTTPS and TLS listeners] The default certificate for the listener. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault.
     ///   - defaultActions: The actions for the default rule.
     ///   - loadBalancerArn: The Amazon Resource Name (ARN) of the load balancer.
-    ///   - mutualAuthentication: The mutual authentication configuration information.
+    ///   - mutualAuthentication: [HTTPS listeners] The mutual authentication configuration information.
     ///   - port: The port on which the load balancer is listening. You can't specify a port for a Gateway Load Balancer.
     ///   - protocol: The protocol for connections from clients to the load balancer. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP, TLS, UDP, and TCP_UDP. You can’t specify the UDP or TCP_UDP protocol if dual-stack mode is enabled. You can't specify a protocol for a Gateway Load Balancer.
     ///   - sslPolicy: [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. For more information, see Security policies in the Application Load Balancers Guide and Security policies in the Network Load Balancers Guide.
@@ -299,7 +299,7 @@ public struct ElasticLoadBalancingV2: AWSService {
         return try await self.createLoadBalancer(input, logger: logger)
     }
 
-    /// Creates a rule for the specified listener. The listener must be associated with an Application Load Balancer. Each rule consists of a priority, one or more actions, and one or more conditions. Rules are evaluated in priority order, from the lowest value to the highest value. When the conditions for a rule are met, its actions are performed. If the conditions for no rules are met, the actions for the default rule are performed. For more information, see Listener rules in the Application Load Balancers Guide.
+    /// Creates a rule for the specified listener. The listener must be associated with an Application Load Balancer. Each rule consists of a priority, one or more actions, one or more conditions, and up to two optional transforms. Rules are evaluated in priority order, from the lowest value  to the highest value. When the conditions for a rule are met, its actions are performed.  If the conditions for no rules are met, the actions for the default rule are performed.  For more information, see Listener rules in the Application Load Balancers Guide.
     @Sendable
     @inlinable
     public func createRule(_ input: CreateRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRuleOutput {
@@ -312,7 +312,7 @@ public struct ElasticLoadBalancingV2: AWSService {
             logger: logger
         )
     }
-    /// Creates a rule for the specified listener. The listener must be associated with an Application Load Balancer. Each rule consists of a priority, one or more actions, and one or more conditions. Rules are evaluated in priority order, from the lowest value to the highest value. When the conditions for a rule are met, its actions are performed. If the conditions for no rules are met, the actions for the default rule are performed. For more information, see Listener rules in the Application Load Balancers Guide.
+    /// Creates a rule for the specified listener. The listener must be associated with an Application Load Balancer. Each rule consists of a priority, one or more actions, one or more conditions, and up to two optional transforms. Rules are evaluated in priority order, from the lowest value  to the highest value. When the conditions for a rule are met, its actions are performed.  If the conditions for no rules are met, the actions for the default rule are performed.  For more information, see Listener rules in the Application Load Balancers Guide.
     ///
     /// Parameters:
     ///   - actions: The actions.
@@ -320,6 +320,7 @@ public struct ElasticLoadBalancingV2: AWSService {
     ///   - listenerArn: The Amazon Resource Name (ARN) of the listener.
     ///   - priority: The rule priority. A listener can't have multiple rules with the same priority.
     ///   - tags: The tags to assign to the rule.
+    ///   - transforms: The transforms to apply to requests that match this rule. You can add one host header rewrite transform  and one URL rewrite transform.
     ///   - logger: Logger use during operation
     @inlinable
     public func createRule(
@@ -328,6 +329,7 @@ public struct ElasticLoadBalancingV2: AWSService {
         listenerArn: String? = nil,
         priority: Int? = nil,
         tags: [Tag]? = nil,
+        transforms: [RuleTransform]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateRuleOutput {
         let input = CreateRuleInput(
@@ -335,7 +337,8 @@ public struct ElasticLoadBalancingV2: AWSService {
             conditions: conditions, 
             listenerArn: listenerArn, 
             priority: priority, 
-            tags: tags
+            tags: tags, 
+            transforms: transforms
         )
         return try await self.createRule(input, logger: logger)
     }
@@ -1398,7 +1401,7 @@ public struct ElasticLoadBalancingV2: AWSService {
     ///   - certificates: [HTTPS and TLS listeners] The default certificate for the listener. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault.
     ///   - defaultActions: The actions for the default rule.
     ///   - listenerArn: The Amazon Resource Name (ARN) of the listener.
-    ///   - mutualAuthentication: The mutual authentication configuration information.
+    ///   - mutualAuthentication: [HTTPS listeners] The mutual authentication configuration information.
     ///   - port: The port for connections from clients to the load balancer. You can't specify a port for a Gateway Load Balancer.
     ///   - protocol: The protocol for connections from clients to the load balancer. Application Load Balancers support the HTTP and HTTPS protocols. Network Load Balancers support the TCP, TLS, UDP, and TCP_UDP protocols. You can’t change the protocol to UDP or TCP_UDP if dual-stack mode is enabled. You can't specify a protocol for a Gateway Load Balancer.
     ///   - sslPolicy: [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. For more information, see Security policies in the Application Load Balancers Guide or Security policies in the Network Load Balancers Guide.
@@ -1510,19 +1513,25 @@ public struct ElasticLoadBalancingV2: AWSService {
     /// Parameters:
     ///   - actions: The actions.
     ///   - conditions: The conditions.
+    ///   - resetTransforms: Indicates whether to remove all transforms from the rule. If you specify ResetTransforms,  you can't specify Transforms.
     ///   - ruleArn: The Amazon Resource Name (ARN) of the rule.
+    ///   - transforms: The transforms to apply to requests that match this rule. You can add one host header rewrite transform  and one URL rewrite transform. If you specify Transforms, you can't specify ResetTransforms.
     ///   - logger: Logger use during operation
     @inlinable
     public func modifyRule(
         actions: [Action]? = nil,
         conditions: [RuleCondition]? = nil,
+        resetTransforms: Bool? = nil,
         ruleArn: String? = nil,
+        transforms: [RuleTransform]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ModifyRuleOutput {
         let input = ModifyRuleInput(
             actions: actions, 
             conditions: conditions, 
-            ruleArn: ruleArn
+            resetTransforms: resetTransforms, 
+            ruleArn: ruleArn, 
+            transforms: transforms
         )
         return try await self.modifyRule(input, logger: logger)
     }
@@ -1543,7 +1552,7 @@ public struct ElasticLoadBalancingV2: AWSService {
     /// Modifies the health checks used when evaluating the health state of the targets in the specified target group.
     ///
     /// Parameters:
-    ///   - healthCheckEnabled: Indicates whether health checks are enabled.
+    ///   - healthCheckEnabled: Indicates whether health checks are enabled. If the target type is lambda, health checks are disabled by default but can be enabled. If the target type is instance, ip, or alb, health checks are always enabled and can't be disabled.
     ///   - healthCheckIntervalSeconds: The approximate amount of time, in seconds, between health checks of an individual target.
     ///   - healthCheckPath: [HTTP/HTTPS health checks] The destination for health checks on the targets. [HTTP1 or HTTP2 protocol version] The ping path. The default is /. [GRPC protocol version] The path of a custom health check method with the format /package.service/method. The default is /Amazon Web Services.ALB/healthcheck.
     ///   - healthCheckPort: The port the load balancer uses when performing health checks on targets.
@@ -1877,7 +1886,7 @@ public struct ElasticLoadBalancingV2: AWSService {
         return try await self.setSecurityGroups(input, logger: logger)
     }
 
-    /// Enables the Availability Zones for the specified public subnets for the specified Application Load Balancer, Network Load Balancer or Gateway Load Balancer. The specified subnets replace the previously enabled subnets. When you specify subnets for a Network Load Balancer, or Gateway Load Balancer you must include all subnets that were enabled previously, with their existing configurations, plus any additional subnets.
+    /// Enables the Availability Zones for the specified public subnets for the specified Application Load Balancer, Network Load Balancer or Gateway Load Balancer. The specified subnets  replace the previously enabled subnets.
     @Sendable
     @inlinable
     public func setSubnets(_ input: SetSubnetsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> SetSubnetsOutput {
@@ -1890,14 +1899,14 @@ public struct ElasticLoadBalancingV2: AWSService {
             logger: logger
         )
     }
-    /// Enables the Availability Zones for the specified public subnets for the specified Application Load Balancer, Network Load Balancer or Gateway Load Balancer. The specified subnets replace the previously enabled subnets. When you specify subnets for a Network Load Balancer, or Gateway Load Balancer you must include all subnets that were enabled previously, with their existing configurations, plus any additional subnets.
+    /// Enables the Availability Zones for the specified public subnets for the specified Application Load Balancer, Network Load Balancer or Gateway Load Balancer. The specified subnets  replace the previously enabled subnets.
     ///
     /// Parameters:
     ///   - enablePrefixForIpv6SourceNat: [Network Load Balancers with UDP listeners] Indicates whether to use an IPv6 prefix  from each subnet for source NAT. The IP address type must be dualstack. The default value is off.
     ///   - ipAddressType: The IP address type. [Application Load Balancers] The possible values are ipv4 (IPv4 addresses),  dualstack (IPv4 and IPv6 addresses), and dualstack-without-public-ipv4  (public IPv6 addresses and private IPv4 and IPv6 addresses). [Network Load Balancers and Gateway Load Balancers] The possible values are ipv4  (IPv4 addresses) and dualstack (IPv4 and IPv6 addresses).
     ///   - loadBalancerArn: The Amazon Resource Name (ARN) of the load balancer.
     ///   - subnetMappings: The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You can't specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet. For internet-facing load balancer, you can specify one IPv6 address per subnet. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones.
-    ///   - subnets: The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers and Gateway Load Balancers] You can specify subnets from one or more  Availability Zones.
+    ///   - subnets: The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones. You must include all subnets that were enabled previously, with their existing configurations,  plus any additional subnets.
     ///   - logger: Logger use during operation
     @inlinable
     public func setSubnets(

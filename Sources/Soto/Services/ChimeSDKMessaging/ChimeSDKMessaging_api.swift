@@ -217,7 +217,7 @@ public struct ChimeSDKMessaging: AWSService {
     ///
     /// Parameters:
     ///   - appInstanceArn: The ARN of the channel request.
-    ///   - channelId: The ID of the channel in the request.
+    ///   - channelId: An ID for the channel being created. If you do not specify an ID, a UUID will be created for the channel.
     ///   - chimeBearer: The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     ///   - clientRequestToken: The client token for the request. An Idempotency token.
     ///   - elasticChannelConfiguration: The attributes required to configure and create an elastic channel. An elastic channel can support a maximum of 1-million users, excluding moderators.
@@ -1054,12 +1054,15 @@ public struct ChimeSDKMessaging: AWSService {
     /// The details of the endpoint for the messaging session.
     ///
     /// Parameters:
+    ///   - networkType: The type of network for the messaging session endpoint. Either IPv4 only or dual-stack (IPv4 and IPv6).
     ///   - logger: Logger use during operation
     @inlinable
     public func getMessagingSessionEndpoint(
+        networkType: NetworkType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetMessagingSessionEndpointResponse {
         let input = GetMessagingSessionEndpointRequest(
+            networkType: networkType
         )
         return try await self.getMessagingSessionEndpoint(input, logger: logger)
     }
@@ -1622,7 +1625,7 @@ public struct ChimeSDKMessaging: AWSService {
         return try await self.putMessagingStreamingConfigurations(input, logger: logger)
     }
 
-    /// Redacts message content, but not metadata. The message exists in the back end, but the action returns null content, and the state shows as redacted.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
+    /// Redacts message content and metadata. The message exists in the back end, but the action returns null content, and the state shows as redacted.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     @Sendable
     @inlinable
     public func redactChannelMessage(_ input: RedactChannelMessageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RedactChannelMessageResponse {
@@ -1635,7 +1638,7 @@ public struct ChimeSDKMessaging: AWSService {
             logger: logger
         )
     }
-    /// Redacts message content, but not metadata. The message exists in the back end, but the action returns null content, and the state shows as redacted.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
+    /// Redacts message content and metadata. The message exists in the back end, but the action returns null content, and the state shows as redacted.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
     /// Parameters:
     ///   - channelArn: The ARN of the channel containing the messages that you want to redact.
@@ -1660,7 +1663,7 @@ public struct ChimeSDKMessaging: AWSService {
         return try await self.redactChannelMessage(input, logger: logger)
     }
 
-    /// Allows the ChimeBearer to search channels by channel members. Users or bots can search  across the channels that they belong to. Users in the AppInstanceAdmin role can search across  all channels. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
+    /// Allows the ChimeBearer to search channels by channel members. Users or bots can search  across the channels that they belong to. Users in the AppInstanceAdmin role can search across  all channels. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.  This operation isn't supported for AppInstanceUsers with a large number of memberships.
     @Sendable
     @inlinable
     public func searchChannels(_ input: SearchChannelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchChannelsResponse {
@@ -1673,7 +1676,7 @@ public struct ChimeSDKMessaging: AWSService {
             logger: logger
         )
     }
-    /// Allows the ChimeBearer to search channels by channel members. Users or bots can search  across the channels that they belong to. Users in the AppInstanceAdmin role can search across  all channels. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
+    /// Allows the ChimeBearer to search channels by channel members. Users or bots can search  across the channels that they belong to. Users in the AppInstanceAdmin role can search across  all channels. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.  This operation isn't supported for AppInstanceUsers with a large number of memberships.
     ///
     /// Parameters:
     ///   - chimeBearer: The AppInstanceUserArn of the user making the API call.

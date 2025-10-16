@@ -709,6 +709,7 @@ extension Lightsail {
         case apSouth1 = "ap-south-1"
         case apSoutheast1 = "ap-southeast-1"
         case apSoutheast2 = "ap-southeast-2"
+        case apSoutheast3 = "ap-southeast-3"
         case caCentral1 = "ca-central-1"
         case euCentral1 = "eu-central-1"
         case euNorth1 = "eu-north-1"
@@ -924,7 +925,7 @@ extension Lightsail {
         public let bpaImpactsLightsail: Bool?
         /// The timestamp of when the account-level BPA configuration was last synchronized. This value is null when the account-level BPA configuration has not been synchronized.
         public let lastSyncedAt: Date?
-        /// A message that provides a reason for a Failed or Defaulted synchronization status. The following messages are possible:    SYNC_ON_HOLD - The synchronization has not yet happened. This status message occurs immediately after you create your first Lightsail bucket. This status message should change after the first synchronization happens, approximately 1 hour after the first bucket is created.    DEFAULTED_FOR_SLR_MISSING - The synchronization failed because the required service-linked role is missing from your Amazon Web Services account. The account-level BPA configuration for your Lightsail buckets is defaulted to active until the synchronization can occur. This means that all your buckets are private and not publicly accessible. For more information about how to create the required service-linked role to allow synchronization, see Using Service-Linked Roles for Amazon Lightsail in the Amazon Lightsail Developer Guide.    DEFAULTED_FOR_SLR_MISSING_ON_HOLD - The synchronization failed because the required service-linked role is missing from your Amazon Web Services account. Account-level BPA is not yet configured for your Lightsail buckets. Therefore, only the bucket access permissions and individual object access permissions apply to your Lightsail buckets. For more information about how to create the required service-linked role to allow synchronization, see Using Service-Linked Roles for Amazon Lightsail in the Amazon Lightsail Developer Guide.    Unknown - The reason that synchronization failed is unknown. Contact Amazon Web ServicesSupport for more information.
+        /// A message that provides a reason for a Failed or Defaulted synchronization status. The following messages are possible:    SYNC_ON_HOLD - The synchronization has not yet happened. This status message occurs immediately after you create your first Lightsail bucket. This status message should change after the first synchronization happens, approximately 1 hour after the first bucket is created.    DEFAULTED_FOR_SLR_MISSING - The synchronization failed because the required service-linked role is missing from your Amazon Web Services account. The account-level BPA configuration for your Lightsail buckets is defaulted to active until the synchronization can occur. This means that all your buckets are private and not publicly accessible. For more information about how to create the required service-linked role to allow synchronization, see Using Service-Linked Roles for Amazon Lightsail in the Amazon Lightsail Developer Guide.    DEFAULTED_FOR_SLR_MISSING_ON_HOLD - The synchronization failed because the required service-linked role is missing from your Amazon Web Services account. Account-level BPA is not yet configured for your Lightsail buckets. Therefore, only the bucket access permissions and individual object access permissions apply to your Lightsail buckets. For more information about how to create the required service-linked role to allow synchronization, see Using Service-Linked Roles for Amazon Lightsail in the Amazon Lightsail Developer Guide.    Unknown - The reason that synchronization failed is unknown. Contact Amazon Web Services Support for more information.
         public let message: BPAStatusMessage?
         /// The status of the account-level BPA synchronization. The following statuses are possible:    InSync - Account-level BPA is synchronized. The Amazon S3 account-level BPA configuration applies to your Lightsail buckets.    NeverSynced - Synchronization has not yet happened. The Amazon S3 account-level BPA configuration does not apply to your Lightsail buckets.    Failed - Synchronization failed. The Amazon S3 account-level BPA configuration does not apply to your Lightsail buckets.    Defaulted - Synchronization failed and account-level BPA for your Lightsail buckets is defaulted to active.    You might need to complete further actions if the status is Failed or Defaulted. The message parameter provides more information for those statuses.
         public let status: AccountLevelBpaSyncStatus?
@@ -1498,6 +1499,8 @@ extension Lightsail {
         public let arn: String?
         /// The ID of the bundle currently applied to the bucket. A bucket bundle specifies the monthly cost, storage space, and data transfer quota for a bucket. Use the UpdateBucketBundle action to change the bundle of a bucket.
         public let bundleId: String?
+        /// An array of cross-origin resource sharing (CORS) rules that identify origins and the HTTP methods that can be executed on your bucket. This field is only included in the response when CORS configuration is requested or when updating CORS configuration. For more information, see Configuring cross-origin resource sharing (CORS).
+        public let cors: BucketCorsConfig?
         /// The timestamp when the distribution was created.
         public let createdAt: Date?
         /// An object that describes the location of the bucket, such as the Amazon Web Services Region and Availability Zone.
@@ -1522,12 +1525,13 @@ extension Lightsail {
         public let url: String?
 
         @inlinable
-        public init(ableToUpdateBundle: Bool? = nil, accessLogConfig: BucketAccessLogConfig? = nil, accessRules: AccessRules? = nil, arn: String? = nil, bundleId: String? = nil, createdAt: Date? = nil, location: ResourceLocation? = nil, name: String? = nil, objectVersioning: String? = nil, readonlyAccessAccounts: [String]? = nil, resourcesReceivingAccess: [ResourceReceivingAccess]? = nil, resourceType: String? = nil, state: BucketState? = nil, supportCode: String? = nil, tags: [Tag]? = nil, url: String? = nil) {
+        public init(ableToUpdateBundle: Bool? = nil, accessLogConfig: BucketAccessLogConfig? = nil, accessRules: AccessRules? = nil, arn: String? = nil, bundleId: String? = nil, cors: BucketCorsConfig? = nil, createdAt: Date? = nil, location: ResourceLocation? = nil, name: String? = nil, objectVersioning: String? = nil, readonlyAccessAccounts: [String]? = nil, resourcesReceivingAccess: [ResourceReceivingAccess]? = nil, resourceType: String? = nil, state: BucketState? = nil, supportCode: String? = nil, tags: [Tag]? = nil, url: String? = nil) {
             self.ableToUpdateBundle = ableToUpdateBundle
             self.accessLogConfig = accessLogConfig
             self.accessRules = accessRules
             self.arn = arn
             self.bundleId = bundleId
+            self.cors = cors
             self.createdAt = createdAt
             self.location = location
             self.name = name
@@ -1547,6 +1551,7 @@ extension Lightsail {
             case accessRules = "accessRules"
             case arn = "arn"
             case bundleId = "bundleId"
+            case cors = "cors"
             case createdAt = "createdAt"
             case location = "location"
             case name = "name"
@@ -1623,6 +1628,68 @@ extension Lightsail {
             case price = "price"
             case storagePerMonthInGb = "storagePerMonthInGb"
             case transferPerMonthInGb = "transferPerMonthInGb"
+        }
+    }
+
+    public struct BucketCorsConfig: AWSEncodableShape & AWSDecodableShape {
+        /// A set of origins and methods (cross-origin access that you want to allow). You can add up to 20 rules to the configuration. The total size is limited to 64 KB.
+        public let rules: [BucketCorsRule]?
+
+        @inlinable
+        public init(rules: [BucketCorsRule]? = nil) {
+            self.rules = rules
+        }
+
+        public func validate(name: String) throws {
+            try self.rules?.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
+            try self.validate(self.rules, name: "rules", parent: name, max: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rules = "rules"
+        }
+    }
+
+    public struct BucketCorsRule: AWSEncodableShape & AWSDecodableShape {
+        /// Headers that are specified in the Access-Control-Request-Headers header. These headers are allowed in a preflight OPTIONS request. In response to any preflight OPTIONS request, Amazon S3 returns any requested headers that are allowed.
+        public let allowedHeaders: [String]?
+        /// The HTTP methods that are allowed when accessing the bucket from the specified origin. Each CORS rule must identify at least one origin and one method. You can use the following HTTP methods:    GET - Retrieves data from the server, such as downloading files or viewing content.    PUT - Uploads or replaces data on the server, such as uploading new files.    POST - Sends data to the server for processing, such as submitting forms or creating new resources.    DELETE - Removes data from the server, such as deleting files or resources.    HEAD - Retrieves only the headers from the server without the actual content, useful for checking if a resource exists.
+        public let allowedMethods: [String]
+        /// One or more origins you want customers to be able to access the bucket from. Each CORS rule must identify at least one origin and one method.
+        public let allowedOrigins: [String]
+        /// One or more headers in the response that you want customers to be able to access from their applications (for example, from a JavaScript XMLHttpRequest object).
+        public let exposeHeaders: [String]?
+        /// A unique identifier for the CORS rule. The ID value can be up to 255 characters long. The IDs help you find a rule in the configuration.
+        public let id: String?
+        /// The time in seconds that your browser is to cache the preflight response for the specified resource. A CORS rule can have only one maxAgeSeconds element.
+        public let maxAgeSeconds: Int?
+
+        @inlinable
+        public init(allowedHeaders: [String]? = nil, allowedMethods: [String], allowedOrigins: [String], exposeHeaders: [String]? = nil, id: String? = nil, maxAgeSeconds: Int? = nil) {
+            self.allowedHeaders = allowedHeaders
+            self.allowedMethods = allowedMethods
+            self.allowedOrigins = allowedOrigins
+            self.exposeHeaders = exposeHeaders
+            self.id = id
+            self.maxAgeSeconds = maxAgeSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.allowedMethods.forEach {
+                try validate($0, name: "allowedMethods[]", parent: name, pattern: "^(DELETE|GET|HEAD|POST|PUT)$")
+            }
+            try self.validate(self.id, name: "id", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedHeaders = "allowedHeaders"
+            case allowedMethods = "allowedMethods"
+            case allowedOrigins = "allowedOrigins"
+            case exposeHeaders = "exposeHeaders"
+            case id = "id"
+            case maxAgeSeconds = "maxAgeSeconds"
         }
     }
 
@@ -3798,13 +3865,17 @@ extension Lightsail {
             self.alarmName = alarmName
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.alarmName, key: "alarmName")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.alarmName, name: "alarmName", parent: name, pattern: "^\\w[\\w\\-]*\\w$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case alarmName = "alarmName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteAlarmResult: AWSDecodableShape {
@@ -5371,16 +5442,20 @@ extension Lightsail {
             self.pageToken = pageToken
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.alarmName, key: "alarmName")
+            request.encodeQuery(self.monitoredResourceName, key: "monitoredResourceName")
+            request.encodeQuery(self.pageToken, key: "pageToken")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.alarmName, name: "alarmName", parent: name, pattern: "^\\w[\\w\\-]*\\w$")
             try self.validate(self.monitoredResourceName, name: "monitoredResourceName", parent: name, pattern: "^\\w[\\w\\-]*\\w$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case alarmName = "alarmName"
-            case monitoredResourceName = "monitoredResourceName"
-            case pageToken = "pageToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetAlarmsResult: AWSDecodableShape {
@@ -5612,13 +5687,16 @@ extension Lightsail {
         public let bucketName: String?
         /// A Boolean value that indicates whether to include Lightsail instances that were given access to the bucket using the SetResourceAccessForBucket action.
         public let includeConnectedResources: Bool?
+        /// A Boolean value that indicates whether to include Lightsail bucket CORS configuration in the response. For more information, see Configuring cross-origin resource sharing (CORS).  This parameter is only supported when getting a single bucket with bucketName specified. The default value for this parameter is False.
+        public let includeCors: Bool?
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetBuckets request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
         @inlinable
-        public init(bucketName: String? = nil, includeConnectedResources: Bool? = nil, pageToken: String? = nil) {
+        public init(bucketName: String? = nil, includeConnectedResources: Bool? = nil, includeCors: Bool? = nil, pageToken: String? = nil) {
             self.bucketName = bucketName
             self.includeConnectedResources = includeConnectedResources
+            self.includeCors = includeCors
             self.pageToken = pageToken
         }
 
@@ -5631,6 +5709,7 @@ extension Lightsail {
         private enum CodingKeys: String, CodingKey {
             case bucketName = "bucketName"
             case includeConnectedResources = "includeConnectedResources"
+            case includeCors = "includeCors"
             case pageToken = "pageToken"
         }
     }
@@ -5782,9 +5861,13 @@ extension Lightsail {
             self.protocols = protocols
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case protocols = "protocols"
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.protocols, key: "protocols")
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetContactMethodsResult: AWSDecodableShape {
@@ -9541,6 +9624,30 @@ extension Lightsail {
         }
     }
 
+    public struct RegionSetupInProgressException: AWSErrorShape {
+        public let code: String?
+        ///  Regions and Availability Zones for Lightsail
+        public let docs: String?
+        public let message: String?
+        /// Opt-in Regions typically take a few minutes to finish setting up before you can work with them. Wait a few minutes and try again.
+        public let tip: String?
+
+        @inlinable
+        public init(code: String? = nil, docs: String? = nil, message: String? = nil, tip: String? = nil) {
+            self.code = code
+            self.docs = docs
+            self.message = message
+            self.tip = tip
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case docs = "docs"
+            case message = "message"
+            case tip = "tip"
+        }
+    }
+
     public struct RegisterContainerImageRequest: AWSEncodableShape {
         /// The digest of the container image to be registered.
         public let digest: String
@@ -10837,14 +10944,18 @@ extension Lightsail {
             self.state = state
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.alarmName, key: "alarmName")
+            request.encodeQuery(self.state, key: "state")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.alarmName, name: "alarmName", parent: name, pattern: "^\\w[\\w\\-]*\\w$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case alarmName = "alarmName"
-            case state = "state"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct TestAlarmResult: AWSDecodableShape {
@@ -11006,16 +11117,19 @@ extension Lightsail {
         public let accessRules: AccessRules?
         /// The name of the bucket to update.
         public let bucketName: String
+        /// Sets the cross-origin resource sharing (CORS) configuration for your bucket. If a CORS configuration exists, it is replaced with the specified configuration. For AWS CLI operations, this parameter can also be passed as a file. For more information, see Configuring cross-origin resource sharing (CORS).  CORS information is only returned in a response when you update the CORS policy.
+        public let cors: BucketCorsConfig?
         /// An array of strings to specify the Amazon Web Services account IDs that can access the bucket. You can give a maximum of 10 Amazon Web Services accounts access to a bucket.
         public let readonlyAccessAccounts: [String]?
         /// Specifies whether to enable or suspend versioning of objects in the bucket. The following options can be specified:    Enabled - Enables versioning of objects in the specified bucket.    Suspended - Suspends versioning of objects in the specified bucket. Existing object versions are retained.
         public let versioning: String?
 
         @inlinable
-        public init(accessLogConfig: BucketAccessLogConfig? = nil, accessRules: AccessRules? = nil, bucketName: String, readonlyAccessAccounts: [String]? = nil, versioning: String? = nil) {
+        public init(accessLogConfig: BucketAccessLogConfig? = nil, accessRules: AccessRules? = nil, bucketName: String, cors: BucketCorsConfig? = nil, readonlyAccessAccounts: [String]? = nil, versioning: String? = nil) {
             self.accessLogConfig = accessLogConfig
             self.accessRules = accessRules
             self.bucketName = bucketName
+            self.cors = cors
             self.readonlyAccessAccounts = readonlyAccessAccounts
             self.versioning = versioning
         }
@@ -11025,6 +11139,7 @@ extension Lightsail {
             try self.validate(self.bucketName, name: "bucketName", parent: name, max: 54)
             try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
             try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$")
+            try self.cors?.validate(name: "\(name).cors")
             try self.readonlyAccessAccounts?.forEach {
                 try validate($0, name: "readonlyAccessAccounts[]", parent: name, pattern: "\\S")
             }
@@ -11036,6 +11151,7 @@ extension Lightsail {
             case accessLogConfig = "accessLogConfig"
             case accessRules = "accessRules"
             case bucketName = "bucketName"
+            case cors = "cors"
             case readonlyAccessAccounts = "readonlyAccessAccounts"
             case versioning = "versioning"
         }
@@ -11473,6 +11589,7 @@ public struct LightsailErrorType: AWSErrorType {
         case invalidInputException = "InvalidInputException"
         case notFoundException = "NotFoundException"
         case operationFailureException = "OperationFailureException"
+        case regionSetupInProgressException = "RegionSetupInProgressException"
         case serviceException = "ServiceException"
         case unauthenticatedException = "UnauthenticatedException"
     }
@@ -11505,6 +11622,8 @@ public struct LightsailErrorType: AWSErrorType {
     public static var notFoundException: Self { .init(.notFoundException) }
     /// Lightsail throws this exception when an operation fails to execute.
     public static var operationFailureException: Self { .init(.operationFailureException) }
+    /// Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
+    public static var regionSetupInProgressException: Self { .init(.regionSetupInProgressException) }
     /// A general service exception.
     public static var serviceException: Self { .init(.serviceException) }
     /// Lightsail throws this exception when the user has not been authenticated.
@@ -11518,6 +11637,7 @@ extension LightsailErrorType: AWSServiceErrorType {
         "InvalidInputException": Lightsail.InvalidInputException.self,
         "NotFoundException": Lightsail.NotFoundException.self,
         "OperationFailureException": Lightsail.OperationFailureException.self,
+        "RegionSetupInProgressException": Lightsail.RegionSetupInProgressException.self,
         "ServiceException": Lightsail.ServiceException.self,
         "UnauthenticatedException": Lightsail.UnauthenticatedException.self
     ]

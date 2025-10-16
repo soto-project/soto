@@ -36,13 +36,21 @@ extension TimestreamInfluxDB {
         case deleted = "DELETED"
         case deleting = "DELETING"
         case failed = "FAILED"
+        case maintenance = "MAINTENANCE"
         case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataFusionRuntimeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case multiThread = "multi-thread"
+        case multiThreadAlt = "multi-thread-alt"
         public var description: String { return self.rawValue }
     }
 
     public enum DbInstanceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dbInflux12Xlarge = "db.influx.12xlarge"
         case dbInflux16Xlarge = "db.influx.16xlarge"
+        case dbInflux24Xlarge = "db.influx.24xlarge"
         case dbInflux2Xlarge = "db.influx.2xlarge"
         case dbInflux4Xlarge = "db.influx.4xlarge"
         case dbInflux8Xlarge = "db.influx.8xlarge"
@@ -66,10 +74,18 @@ extension TimestreamInfluxDB {
     }
 
     public enum DurationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case days = "days"
         case hours = "hours"
         case milliseconds = "milliseconds"
         case minutes = "minutes"
         case seconds = "seconds"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EngineType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case influxdbV2 = "INFLUXDB_V2"
+        case influxdbV3Core = "INFLUXDB_V3_CORE"
+        case influxdbV3Enterprise = "INFLUXDB_V3_ENTERPRISE"
         public var description: String { return self.rawValue }
     }
 
@@ -80,9 +96,18 @@ extension TimestreamInfluxDB {
     }
 
     public enum InstanceMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case compact = "COMPACT"
+        case ingest = "INGEST"
         case primary = "PRIMARY"
+        case process = "PROCESS"
+        case query = "QUERY"
         case replica = "REPLICA"
         case standby = "STANDBY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LogFormats: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case full = "full"
         public var description: String { return self.rawValue }
     }
 
@@ -105,6 +130,7 @@ extension TimestreamInfluxDB {
         case deleted = "DELETED"
         case deleting = "DELETING"
         case failed = "FAILED"
+        case maintenance = "MAINTENANCE"
         case modifying = "MODIFYING"
         case updating = "UPDATING"
         case updatingDeploymentType = "UPDATING_DEPLOYMENT_TYPE"
@@ -113,6 +139,7 @@ extension TimestreamInfluxDB {
     }
 
     public enum TracingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "disabled"
         case jaeger = "jaeger"
         case log = "log"
         public var description: String { return self.rawValue }
@@ -122,6 +149,96 @@ extension TimestreamInfluxDB {
         case fieldValidationFailed = "FIELD_VALIDATION_FAILED"
         case other = "OTHER"
         public var description: String { return self.rawValue }
+    }
+
+    public enum Parameters: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// All the customer-modifiable InfluxDB v2 parameters in Timestream for InfluxDB.
+        case influxDBv2(InfluxDBv2Parameters)
+        /// All the customer-modifiable InfluxDB v3 Core parameters in Timestream for InfluxDB.
+        case influxDBv3Core(InfluxDBv3CoreParameters)
+        /// All the customer-modifiable InfluxDB v3 Enterprise parameters in Timestream for InfluxDB.
+        case influxDBv3Enterprise(InfluxDBv3EnterpriseParameters)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .influxDBv2:
+                let value = try container.decode(InfluxDBv2Parameters.self, forKey: .influxDBv2)
+                self = .influxDBv2(value)
+            case .influxDBv3Core:
+                let value = try container.decode(InfluxDBv3CoreParameters.self, forKey: .influxDBv3Core)
+                self = .influxDBv3Core(value)
+            case .influxDBv3Enterprise:
+                let value = try container.decode(InfluxDBv3EnterpriseParameters.self, forKey: .influxDBv3Enterprise)
+                self = .influxDBv3Enterprise(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .influxDBv2(let value):
+                try container.encode(value, forKey: .influxDBv2)
+            case .influxDBv3Core(let value):
+                try container.encode(value, forKey: .influxDBv3Core)
+            case .influxDBv3Enterprise(let value):
+                try container.encode(value, forKey: .influxDBv3Enterprise)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case influxDBv2 = "InfluxDBv2"
+            case influxDBv3Core = "InfluxDBv3Core"
+            case influxDBv3Enterprise = "InfluxDBv3Enterprise"
+        }
+    }
+
+    public enum PercentOrAbsoluteLong: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Absolute long for InfluxDB parameters.
+        case absolute(Int64)
+        /// Percent for InfluxDB parameters.
+        case percent(String)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .absolute:
+                let value = try container.decode(Int64.self, forKey: .absolute)
+                self = .absolute(value)
+            case .percent:
+                let value = try container.decode(String.self, forKey: .percent)
+                self = .percent(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .absolute(let value):
+                try container.encode(value, forKey: .absolute)
+            case .percent(let value):
+                try container.encode(value, forKey: .percent)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case absolute = "absolute"
+            case percent = "percent"
+        }
     }
 
     // MARK: Shapes
@@ -149,7 +266,7 @@ extension TimestreamInfluxDB {
 
     public struct CreateDbClusterInput: AWSEncodableShape {
         /// The amount of storage to allocate for your DB storage type in GiB (gibibytes).
-        public let allocatedStorage: Int
+        public let allocatedStorage: Int?
         /// The name of the initial InfluxDB bucket. All InfluxDB data is stored in a bucket. A bucket combines the concept of a database and a retention period (the duration of time that each data point persists). A bucket belongs to an organization.
         public let bucket: String?
         /// The Timestream for InfluxDB DB instance type to run InfluxDB on.
@@ -159,7 +276,7 @@ extension TimestreamInfluxDB {
         /// The Timestream for InfluxDB DB storage type to read and write InfluxDB data. You can choose between three different types of provisioned Influx IOPS Included storage according to your workload requirements:   Influx I/O Included 3000 IOPS   Influx I/O Included 12000 IOPS   Influx I/O Included 16000 IOPS
         public let dbStorageType: DbStorageType?
         /// Specifies the type of cluster to create.
-        public let deploymentType: ClusterDeploymentType
+        public let deploymentType: ClusterDeploymentType?
         /// Specifies the behavior of failure recovery when the primary node of the cluster fails.
         public let failoverMode: FailoverMode?
         /// Configuration for sending InfluxDB engine logs to a specified S3 bucket.
@@ -171,8 +288,8 @@ extension TimestreamInfluxDB {
         /// The name of the initial organization for the initial admin user in InfluxDB. An InfluxDB organization is a workspace for a group of users.
         public let organization: String?
         /// The password of the initial admin user created in InfluxDB. This password will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a secret created in Secrets Manager in your account.
-        public let password: String
-        /// The port number on which InfluxDB accepts connections. Valid Values: 1024-65535 Default: 8086 Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680
+        public let password: String?
+        /// The port number on which InfluxDB accepts connections. Valid Values: 1024-65535 Default: 8086 for InfluxDB v2, 8181 for InfluxDB v3 Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680
         public let port: Int?
         /// Configures the Timestream for InfluxDB cluster with a public IP to facilitate access from outside the VPC.
         public let publiclyAccessible: Bool?
@@ -186,7 +303,7 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int, bucket: String? = nil, dbInstanceType: DbInstanceType, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: ClusterDeploymentType, failoverMode: FailoverMode? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, networkType: NetworkType? = nil, organization: String? = nil, password: String, port: Int? = nil, publiclyAccessible: Bool? = nil, tags: [String: String]? = nil, username: String? = nil, vpcSecurityGroupIds: [String], vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int? = nil, bucket: String? = nil, dbInstanceType: DbInstanceType, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: ClusterDeploymentType? = nil, failoverMode: FailoverMode? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, networkType: NetworkType? = nil, organization: String? = nil, password: String? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, tags: [String: String]? = nil, username: String? = nil, vpcSecurityGroupIds: [String], vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.bucket = bucket
             self.dbInstanceType = dbInstanceType
@@ -310,7 +427,7 @@ extension TimestreamInfluxDB {
         public let networkType: NetworkType?
         /// The name of the initial organization for the initial admin user in InfluxDB. An InfluxDB organization is a workspace for a group of users.
         public let organization: String?
-        /// The password of the initial admin user created in InfluxDB. This password will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a Secret created in Secrets Manager in your account.
+        /// The password of the initial admin user created in InfluxDB v2. This password will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a Secret created in Secrets Manager in your account.
         public let password: String
         /// The port number on which InfluxDB accepts connections. Valid Values: 1024-65535 Default: 8086 Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680
         public let port: Int?
@@ -434,6 +551,8 @@ extension TimestreamInfluxDB {
         public let influxAuthParametersSecretArn: String?
         /// Specifies the DbInstance's role in the cluster.
         public let instanceMode: InstanceMode?
+        /// Specifies the DbInstance's roles in the cluster.
+        public let instanceModes: [InstanceMode]?
         /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
         /// The customer-supplied name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
@@ -454,7 +573,7 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbClusterId: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, instanceMode: InstanceMode? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbClusterId: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, instanceMode: InstanceMode? = nil, instanceModes: [InstanceMode]? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.availabilityZone = availabilityZone
@@ -467,6 +586,7 @@ extension TimestreamInfluxDB {
             self.id = id
             self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
             self.instanceMode = instanceMode
+            self.instanceModes = instanceModes
             self.logDeliveryConfiguration = logDeliveryConfiguration
             self.name = name
             self.networkType = networkType
@@ -491,6 +611,7 @@ extension TimestreamInfluxDB {
             case id = "id"
             case influxAuthParametersSecretArn = "influxAuthParametersSecretArn"
             case instanceMode = "instanceMode"
+            case instanceModes = "instanceModes"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
             case name = "name"
             case networkType = "networkType"
@@ -585,6 +706,8 @@ extension TimestreamInfluxDB {
         public let deploymentType: ClusterDeploymentType?
         /// The endpoint used to connect to the Timestream for InfluxDB cluster for write and read operations.
         public let endpoint: String?
+        /// The engine type of your DB cluster.
+        public let engineType: EngineType?
         /// Service-generated unique identifier of the DB cluster to retrieve.
         public let id: String
         /// Customer supplied name of the Timestream for InfluxDB cluster.
@@ -599,13 +722,14 @@ extension TimestreamInfluxDB {
         public let status: ClusterStatus?
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, dbInstanceType: DbInstanceType? = nil, dbStorageType: DbStorageType? = nil, deploymentType: ClusterDeploymentType? = nil, endpoint: String? = nil, id: String, name: String, networkType: NetworkType? = nil, port: Int? = nil, readerEndpoint: String? = nil, status: ClusterStatus? = nil) {
+        public init(allocatedStorage: Int? = nil, arn: String, dbInstanceType: DbInstanceType? = nil, dbStorageType: DbStorageType? = nil, deploymentType: ClusterDeploymentType? = nil, endpoint: String? = nil, engineType: EngineType? = nil, id: String, name: String, networkType: NetworkType? = nil, port: Int? = nil, readerEndpoint: String? = nil, status: ClusterStatus? = nil) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.dbInstanceType = dbInstanceType
             self.dbStorageType = dbStorageType
             self.deploymentType = deploymentType
             self.endpoint = endpoint
+            self.engineType = engineType
             self.id = id
             self.name = name
             self.networkType = networkType
@@ -621,6 +745,7 @@ extension TimestreamInfluxDB {
             case dbStorageType = "dbStorageType"
             case deploymentType = "deploymentType"
             case endpoint = "endpoint"
+            case engineType = "engineType"
             case id = "id"
             case name = "name"
             case networkType = "networkType"
@@ -647,6 +772,8 @@ extension TimestreamInfluxDB {
         public let id: String
         /// Specifies the DB instance's role in the cluster.
         public let instanceMode: InstanceMode?
+        /// Specifies the DB instance's roles in the cluster.
+        public let instanceModes: [InstanceMode]?
         /// A service-generated name for the DB instance based on the customer-supplied name for the DB cluster.
         public let name: String
         /// Specifies whether the network type of the Timestream for InfluxDB instance is IPv4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
@@ -657,7 +784,7 @@ extension TimestreamInfluxDB {
         public let status: Status?
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, dbInstanceType: DbInstanceType? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, instanceMode: InstanceMode? = nil, name: String, networkType: NetworkType? = nil, port: Int? = nil, status: Status? = nil) {
+        public init(allocatedStorage: Int? = nil, arn: String, dbInstanceType: DbInstanceType? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, instanceMode: InstanceMode? = nil, instanceModes: [InstanceMode]? = nil, name: String, networkType: NetworkType? = nil, port: Int? = nil, status: Status? = nil) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.dbInstanceType = dbInstanceType
@@ -666,6 +793,7 @@ extension TimestreamInfluxDB {
             self.endpoint = endpoint
             self.id = id
             self.instanceMode = instanceMode
+            self.instanceModes = instanceModes
             self.name = name
             self.networkType = networkType
             self.port = port
@@ -681,6 +809,7 @@ extension TimestreamInfluxDB {
             case endpoint = "endpoint"
             case id = "id"
             case instanceMode = "instanceMode"
+            case instanceModes = "instanceModes"
             case name = "name"
             case networkType = "networkType"
             case port = "port"
@@ -847,6 +976,8 @@ extension TimestreamInfluxDB {
         public let influxAuthParametersSecretArn: String?
         /// Specifies the DbInstance's role in the cluster.
         public let instanceMode: InstanceMode?
+        /// Specifies the DbInstance's roles in the cluster.
+        public let instanceModes: [InstanceMode]?
         /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
         /// The customer-supplied name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
@@ -867,7 +998,7 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbClusterId: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, instanceMode: InstanceMode? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbClusterId: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, instanceMode: InstanceMode? = nil, instanceModes: [InstanceMode]? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.availabilityZone = availabilityZone
@@ -880,6 +1011,7 @@ extension TimestreamInfluxDB {
             self.id = id
             self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
             self.instanceMode = instanceMode
+            self.instanceModes = instanceModes
             self.logDeliveryConfiguration = logDeliveryConfiguration
             self.name = name
             self.networkType = networkType
@@ -904,6 +1036,7 @@ extension TimestreamInfluxDB {
             case id = "id"
             case influxAuthParametersSecretArn = "influxAuthParametersSecretArn"
             case instanceMode = "instanceMode"
+            case instanceModes = "instanceModes"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
             case name = "name"
             case networkType = "networkType"
@@ -969,6 +1102,8 @@ extension TimestreamInfluxDB {
         public let deploymentType: ClusterDeploymentType?
         /// The endpoint used to connect to the Timestream for InfluxDB cluster for write and read operations.
         public let endpoint: String?
+        /// The engine type of your DB cluster.
+        public let engineType: EngineType?
         /// The configured failover mode for the DB cluster.
         public let failoverMode: FailoverMode?
         /// Service-generated unique identifier of the DB cluster to retrieve.
@@ -995,7 +1130,7 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]?
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: ClusterDeploymentType? = nil, endpoint: String? = nil, failoverMode: FailoverMode? = nil, id: String, influxAuthParametersSecretArn: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, readerEndpoint: String? = nil, status: ClusterStatus? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, arn: String, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: ClusterDeploymentType? = nil, endpoint: String? = nil, engineType: EngineType? = nil, failoverMode: FailoverMode? = nil, id: String, influxAuthParametersSecretArn: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, readerEndpoint: String? = nil, status: ClusterStatus? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.dbInstanceType = dbInstanceType
@@ -1003,6 +1138,7 @@ extension TimestreamInfluxDB {
             self.dbStorageType = dbStorageType
             self.deploymentType = deploymentType
             self.endpoint = endpoint
+            self.engineType = engineType
             self.failoverMode = failoverMode
             self.id = id
             self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
@@ -1025,6 +1161,7 @@ extension TimestreamInfluxDB {
             case dbStorageType = "dbStorageType"
             case deploymentType = "deploymentType"
             case endpoint = "endpoint"
+            case engineType = "engineType"
             case failoverMode = "failoverMode"
             case id = "id"
             case influxAuthParametersSecretArn = "influxAuthParametersSecretArn"
@@ -1085,6 +1222,8 @@ extension TimestreamInfluxDB {
         public let influxAuthParametersSecretArn: String?
         /// Specifies the DbInstance's role in the cluster.
         public let instanceMode: InstanceMode?
+        /// Specifies the DbInstance's roles in the cluster.
+        public let instanceModes: [InstanceMode]?
         /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
         /// The customer-supplied name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
@@ -1105,7 +1244,7 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbClusterId: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, instanceMode: InstanceMode? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbClusterId: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, instanceMode: InstanceMode? = nil, instanceModes: [InstanceMode]? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.availabilityZone = availabilityZone
@@ -1118,6 +1257,7 @@ extension TimestreamInfluxDB {
             self.id = id
             self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
             self.instanceMode = instanceMode
+            self.instanceModes = instanceModes
             self.logDeliveryConfiguration = logDeliveryConfiguration
             self.name = name
             self.networkType = networkType
@@ -1142,6 +1282,7 @@ extension TimestreamInfluxDB {
             case id = "id"
             case influxAuthParametersSecretArn = "influxAuthParametersSecretArn"
             case instanceMode = "instanceMode"
+            case instanceModes = "instanceModes"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
             case name = "name"
             case networkType = "networkType"
@@ -1347,6 +1488,390 @@ extension TimestreamInfluxDB {
             case storageWalMaxWriteDelay = "storageWalMaxWriteDelay"
             case tracingType = "tracingType"
             case uiDisabled = "uiDisabled"
+        }
+    }
+
+    public struct InfluxDBv3CoreParameters: AWSEncodableShape & AWSDecodableShape {
+        /// Provides custom configuration to DataFusion as a comma-separated list of key:value pairs.
+        public let dataFusionConfig: String?
+        /// When multiple parquet files are required in a sorted way (deduplication for example), specifies the maximum fanout. Default: 1000
+        public let dataFusionMaxParquetFanout: Int?
+        /// Sets the maximum number of DataFusion runtime threads to use.
+        public let dataFusionNumThreads: Int?
+        /// Disables the LIFO slot of the DataFusion runtime.
+        public let dataFusionRuntimeDisableLifoSlot: Bool?
+        /// Sets the number of scheduler ticks after which the scheduler of the DataFusion tokio runtime polls for external events–for example: timers, I/O.
+        public let dataFusionRuntimeEventInterval: Int?
+        /// Sets the number of scheduler ticks after which the scheduler of the DataFusion runtime polls the global task queue.
+        public let dataFusionRuntimeGlobalQueueInterval: Int?
+        /// Specifies the limit for additional threads spawned by the DataFusion runtime.
+        public let dataFusionRuntimeMaxBlockingThreads: Int?
+        /// Configures the maximum number of events processed per tick by the tokio DataFusion runtime.
+        public let dataFusionRuntimeMaxIoEventsPerTick: Int?
+        /// Sets a custom timeout for a thread in the blocking pool of the tokio DataFusion runtime.
+        public let dataFusionRuntimeThreadKeepAlive: Duration?
+        /// Sets the thread priority for tokio DataFusion runtime workers. Default: 10
+        public let dataFusionRuntimeThreadPriority: Int?
+        /// Specifies the DataFusion tokio runtime type. Default: multi-thread
+        public let dataFusionRuntimeType: DataFusionRuntimeType?
+        /// Uses a cached parquet loader when reading parquet files from the object store.
+        public let dataFusionUseCachedParquetLoader: Bool?
+        /// Specifies the grace period before permanently deleting data. Default: 24h
+        public let deleteGracePeriod: Duration?
+        /// Disables the in-memory Parquet cache. By default, the cache is enabled.
+        public let disableParquetMemCache: Bool?
+        /// Specifies the interval to evict expired entries from the distinct value cache, expressed as a human-readable duration–for example: 20s, 1m, 1h. Default: 10s
+        public let distinctCacheEvictionInterval: Duration?
+        /// Specifies the size of memory pool used during query execution. Can be given as absolute value in bytes or as a percentage of the total available memory–for example: 8000000000 or 10%. Default: 20%
+        public let execMemPoolBytes: PercentOrAbsoluteLong?
+        /// Specifies the threshold for the internal memory buffer. Supports either a percentage (portion of available memory) or absolute value in MB–for example: 70% or 100 Default: 70%
+        public let forceSnapshotMemThreshold: PercentOrAbsoluteLong?
+        /// Specifies the duration that Parquet files are arranged into. Data timestamps land each row into a file of this duration. Supported durations are 1m, 5m, and 10m. These files are known as “generation 1” files that the compactor in InfluxDB 3 Enterprise can merge into larger generations. Default: 10m
+        public let gen1Duration: Duration?
+        /// Specifies how far back to look when creating generation 1 Parquet files. Default: 24h
+        public let gen1LookbackDuration: Duration?
+        /// Sets the default duration for hard deletion of data. Default: 90d
+        public let hardDeleteDefaultDuration: Duration?
+        /// Specifies the interval to evict expired entries from the Last-N-Value cache, expressed as a human-readable duration–for example: 20s, 1m, 1h. Default: 10s
+        public let lastCacheEvictionInterval: Duration?
+        /// Sets the filter directive for logs.
+        public let logFilter: String?
+        /// Defines the message format for logs. Default: full
+        public let logFormat: LogFormats?
+        /// Specifies the maximum size of HTTP requests. Default: 10485760
+        public let maxHttpRequestSize: Int64?
+        /// Sets the interval to check if the in-memory Parquet cache needs to be pruned. Default: 1s
+        public let parquetMemCachePruneInterval: Duration?
+        /// Specifies the percentage of entries to prune during a prune operation on the in-memory Parquet cache. Default: 0.1
+        public let parquetMemCachePrunePercentage: Float?
+        /// Specifies the time window for caching recent Parquet files in memory. Default: 5h
+        public let parquetMemCacheQueryPathDuration: Duration?
+        /// Specifies the size of the in-memory Parquet cache in megabytes or percentage of total available memory. Default: 20%
+        public let parquetMemCacheSize: PercentOrAbsoluteLong?
+        /// Specifies the interval to prefetch into the Parquet cache during compaction. Default: 3d
+        public let preemptiveCacheAge: Duration?
+        /// Limits the number of Parquet files a query can access. If a query attempts to read more than this limit, InfluxDB 3 returns an error. Default: 432
+        public let queryFileLimit: Int?
+        /// Defines the size of the query log. Up to this many queries remain in the log before older queries are evicted to make room for new ones. Default: 1000
+        public let queryLogSize: Int?
+        /// The interval at which retention policies are checked and enforced. Enter as a human-readable time–for example: 30m or 1h. Default: 30m
+        public let retentionCheckInterval: Duration?
+        /// Specifies the number of snapshotted WAL files to retain in the object store. Flushing the WAL files does not clear the WAL files immediately; they are deleted when the number of snapshotted WAL files exceeds this number. Default: 300
+        public let snapshottedWalFilesToKeep: Int?
+        /// Limits the concurrency level for table index cache operations. Default: 8
+        public let tableIndexCacheConcurrencyLimit: Int?
+        /// Specifies the maximum number of entries in the table index cache. Default: 1000
+        public let tableIndexCacheMaxEntries: Int?
+        /// Specifies the maximum number of write requests that can be buffered before a flush must be executed and succeed. Default: 100000
+        public let walMaxWriteBufferSize: Int?
+        /// Concurrency limit during WAL replay. Setting this number too high can lead to OOM. The default is dynamically determined. Default: max(num_cpus, 10)
+        public let walReplayConcurrencyLimit: Int?
+        /// Determines whether WAL replay should fail when encountering errors. Default: false
+        public let walReplayFailOnError: Bool?
+        /// Defines the number of WAL files to attempt to remove in a snapshot. This, multiplied by the interval, determines how often snapshots are taken. Default: 600
+        public let walSnapshotSize: Int?
+
+        @inlinable
+        public init(dataFusionConfig: String? = nil, dataFusionMaxParquetFanout: Int? = nil, dataFusionNumThreads: Int? = nil, dataFusionRuntimeDisableLifoSlot: Bool? = nil, dataFusionRuntimeEventInterval: Int? = nil, dataFusionRuntimeGlobalQueueInterval: Int? = nil, dataFusionRuntimeMaxBlockingThreads: Int? = nil, dataFusionRuntimeMaxIoEventsPerTick: Int? = nil, dataFusionRuntimeThreadKeepAlive: Duration? = nil, dataFusionRuntimeThreadPriority: Int? = nil, dataFusionRuntimeType: DataFusionRuntimeType? = nil, dataFusionUseCachedParquetLoader: Bool? = nil, deleteGracePeriod: Duration? = nil, disableParquetMemCache: Bool? = nil, distinctCacheEvictionInterval: Duration? = nil, execMemPoolBytes: PercentOrAbsoluteLong? = nil, forceSnapshotMemThreshold: PercentOrAbsoluteLong? = nil, gen1Duration: Duration? = nil, gen1LookbackDuration: Duration? = nil, hardDeleteDefaultDuration: Duration? = nil, lastCacheEvictionInterval: Duration? = nil, logFilter: String? = nil, logFormat: LogFormats? = nil, maxHttpRequestSize: Int64? = nil, parquetMemCachePruneInterval: Duration? = nil, parquetMemCachePrunePercentage: Float? = nil, parquetMemCacheQueryPathDuration: Duration? = nil, parquetMemCacheSize: PercentOrAbsoluteLong? = nil, preemptiveCacheAge: Duration? = nil, queryFileLimit: Int? = nil, queryLogSize: Int? = nil, retentionCheckInterval: Duration? = nil, snapshottedWalFilesToKeep: Int? = nil, tableIndexCacheConcurrencyLimit: Int? = nil, tableIndexCacheMaxEntries: Int? = nil, walMaxWriteBufferSize: Int? = nil, walReplayConcurrencyLimit: Int? = nil, walReplayFailOnError: Bool? = nil, walSnapshotSize: Int? = nil) {
+            self.dataFusionConfig = dataFusionConfig
+            self.dataFusionMaxParquetFanout = dataFusionMaxParquetFanout
+            self.dataFusionNumThreads = dataFusionNumThreads
+            self.dataFusionRuntimeDisableLifoSlot = dataFusionRuntimeDisableLifoSlot
+            self.dataFusionRuntimeEventInterval = dataFusionRuntimeEventInterval
+            self.dataFusionRuntimeGlobalQueueInterval = dataFusionRuntimeGlobalQueueInterval
+            self.dataFusionRuntimeMaxBlockingThreads = dataFusionRuntimeMaxBlockingThreads
+            self.dataFusionRuntimeMaxIoEventsPerTick = dataFusionRuntimeMaxIoEventsPerTick
+            self.dataFusionRuntimeThreadKeepAlive = dataFusionRuntimeThreadKeepAlive
+            self.dataFusionRuntimeThreadPriority = dataFusionRuntimeThreadPriority
+            self.dataFusionRuntimeType = dataFusionRuntimeType
+            self.dataFusionUseCachedParquetLoader = dataFusionUseCachedParquetLoader
+            self.deleteGracePeriod = deleteGracePeriod
+            self.disableParquetMemCache = disableParquetMemCache
+            self.distinctCacheEvictionInterval = distinctCacheEvictionInterval
+            self.execMemPoolBytes = execMemPoolBytes
+            self.forceSnapshotMemThreshold = forceSnapshotMemThreshold
+            self.gen1Duration = gen1Duration
+            self.gen1LookbackDuration = gen1LookbackDuration
+            self.hardDeleteDefaultDuration = hardDeleteDefaultDuration
+            self.lastCacheEvictionInterval = lastCacheEvictionInterval
+            self.logFilter = logFilter
+            self.logFormat = logFormat
+            self.maxHttpRequestSize = maxHttpRequestSize
+            self.parquetMemCachePruneInterval = parquetMemCachePruneInterval
+            self.parquetMemCachePrunePercentage = parquetMemCachePrunePercentage
+            self.parquetMemCacheQueryPathDuration = parquetMemCacheQueryPathDuration
+            self.parquetMemCacheSize = parquetMemCacheSize
+            self.preemptiveCacheAge = preemptiveCacheAge
+            self.queryFileLimit = queryFileLimit
+            self.queryLogSize = queryLogSize
+            self.retentionCheckInterval = retentionCheckInterval
+            self.snapshottedWalFilesToKeep = snapshottedWalFilesToKeep
+            self.tableIndexCacheConcurrencyLimit = tableIndexCacheConcurrencyLimit
+            self.tableIndexCacheMaxEntries = tableIndexCacheMaxEntries
+            self.walMaxWriteBufferSize = walMaxWriteBufferSize
+            self.walReplayConcurrencyLimit = walReplayConcurrencyLimit
+            self.walReplayFailOnError = walReplayFailOnError
+            self.walSnapshotSize = walSnapshotSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataFusionConfig = "dataFusionConfig"
+            case dataFusionMaxParquetFanout = "dataFusionMaxParquetFanout"
+            case dataFusionNumThreads = "dataFusionNumThreads"
+            case dataFusionRuntimeDisableLifoSlot = "dataFusionRuntimeDisableLifoSlot"
+            case dataFusionRuntimeEventInterval = "dataFusionRuntimeEventInterval"
+            case dataFusionRuntimeGlobalQueueInterval = "dataFusionRuntimeGlobalQueueInterval"
+            case dataFusionRuntimeMaxBlockingThreads = "dataFusionRuntimeMaxBlockingThreads"
+            case dataFusionRuntimeMaxIoEventsPerTick = "dataFusionRuntimeMaxIoEventsPerTick"
+            case dataFusionRuntimeThreadKeepAlive = "dataFusionRuntimeThreadKeepAlive"
+            case dataFusionRuntimeThreadPriority = "dataFusionRuntimeThreadPriority"
+            case dataFusionRuntimeType = "dataFusionRuntimeType"
+            case dataFusionUseCachedParquetLoader = "dataFusionUseCachedParquetLoader"
+            case deleteGracePeriod = "deleteGracePeriod"
+            case disableParquetMemCache = "disableParquetMemCache"
+            case distinctCacheEvictionInterval = "distinctCacheEvictionInterval"
+            case execMemPoolBytes = "execMemPoolBytes"
+            case forceSnapshotMemThreshold = "forceSnapshotMemThreshold"
+            case gen1Duration = "gen1Duration"
+            case gen1LookbackDuration = "gen1LookbackDuration"
+            case hardDeleteDefaultDuration = "hardDeleteDefaultDuration"
+            case lastCacheEvictionInterval = "lastCacheEvictionInterval"
+            case logFilter = "logFilter"
+            case logFormat = "logFormat"
+            case maxHttpRequestSize = "maxHttpRequestSize"
+            case parquetMemCachePruneInterval = "parquetMemCachePruneInterval"
+            case parquetMemCachePrunePercentage = "parquetMemCachePrunePercentage"
+            case parquetMemCacheQueryPathDuration = "parquetMemCacheQueryPathDuration"
+            case parquetMemCacheSize = "parquetMemCacheSize"
+            case preemptiveCacheAge = "preemptiveCacheAge"
+            case queryFileLimit = "queryFileLimit"
+            case queryLogSize = "queryLogSize"
+            case retentionCheckInterval = "retentionCheckInterval"
+            case snapshottedWalFilesToKeep = "snapshottedWalFilesToKeep"
+            case tableIndexCacheConcurrencyLimit = "tableIndexCacheConcurrencyLimit"
+            case tableIndexCacheMaxEntries = "tableIndexCacheMaxEntries"
+            case walMaxWriteBufferSize = "walMaxWriteBufferSize"
+            case walReplayConcurrencyLimit = "walReplayConcurrencyLimit"
+            case walReplayFailOnError = "walReplayFailOnError"
+            case walSnapshotSize = "walSnapshotSize"
+        }
+    }
+
+    public struct InfluxDBv3EnterpriseParameters: AWSEncodableShape & AWSDecodableShape {
+        /// Defines how often the catalog synchronizes across cluster nodes. Default: 10s
+        public let catalogSyncInterval: Duration?
+        /// Specifies how often the compactor checks for new compaction work to perform. Default: 10s
+        public let compactionCheckInterval: Duration?
+        /// Specifies the amount of time that the compactor waits after finishing a compaction run to delete files marked as needing deletion during that compaction run. Default: 10m
+        public let compactionCleanupWait: Duration?
+        /// Specifies the duration of the first level of compaction (gen2). Later levels of compaction are multiples of this duration. This value should be equal to or greater than the gen1 duration. Default: 20m
+        public let compactionGen2Duration: Duration?
+        /// Sets the maximum number of files included in any compaction plan. Default: 500
+        public let compactionMaxNumFilesPerPlan: Int?
+        /// Specifies a comma-separated list of multiples defining the duration of each level of compaction. The number of elements in the list determines the number of compaction levels. The first element specifies the duration of the first level (gen3); subsequent levels are multiples of the previous level. Default: 3,4,6,5
+        public let compactionMultipliers: String?
+        /// Specifies the soft limit for the number of rows per file that the compactor writes. The compactor may write more rows than this limit. Default: 1000000
+        public let compactionRowLimit: Int?
+        /// Provides custom configuration to DataFusion as a comma-separated list of key:value pairs.
+        public let dataFusionConfig: String?
+        /// When multiple parquet files are required in a sorted way (deduplication for example), specifies the maximum fanout. Default: 1000
+        public let dataFusionMaxParquetFanout: Int?
+        /// Sets the maximum number of DataFusion runtime threads to use.
+        public let dataFusionNumThreads: Int?
+        /// Disables the LIFO slot of the DataFusion runtime.
+        public let dataFusionRuntimeDisableLifoSlot: Bool?
+        /// Sets the number of scheduler ticks after which the scheduler of the DataFusion tokio runtime polls for external events–for example: timers, I/O.
+        public let dataFusionRuntimeEventInterval: Int?
+        /// Sets the number of scheduler ticks after which the scheduler of the DataFusion runtime polls the global task queue.
+        public let dataFusionRuntimeGlobalQueueInterval: Int?
+        /// Specifies the limit for additional threads spawned by the DataFusion runtime.
+        public let dataFusionRuntimeMaxBlockingThreads: Int?
+        /// Configures the maximum number of events processed per tick by the tokio DataFusion runtime.
+        public let dataFusionRuntimeMaxIoEventsPerTick: Int?
+        /// Sets a custom timeout for a thread in the blocking pool of the tokio DataFusion runtime.
+        public let dataFusionRuntimeThreadKeepAlive: Duration?
+        /// Sets the thread priority for tokio DataFusion runtime workers. Default: 10
+        public let dataFusionRuntimeThreadPriority: Int?
+        /// Specifies the DataFusion tokio runtime type. Default: multi-thread
+        public let dataFusionRuntimeType: DataFusionRuntimeType?
+        /// Uses a cached parquet loader when reading parquet files from the object store.
+        public let dataFusionUseCachedParquetLoader: Bool?
+        /// Specifies if the compactor instance should be a standalone instance or not.
+        public let dedicatedCompactor: Bool
+        /// Specifies the grace period before permanently deleting data. Default: 24h
+        public let deleteGracePeriod: Duration?
+        /// Disables the in-memory Parquet cache. By default, the cache is enabled.
+        public let disableParquetMemCache: Bool?
+        /// Specifies the interval to evict expired entries from the distinct value cache, expressed as a human-readable duration–for example: 20s, 1m, 1h. Default: 10s
+        public let distinctCacheEvictionInterval: Duration?
+        /// Disables populating the distinct value cache from historical data. If disabled, the cache is still populated with data from the write-ahead log (WAL).
+        public let distinctValueCacheDisableFromHistory: Bool?
+        /// Specifies the size of memory pool used during query execution. Can be given as absolute value in bytes or as a percentage of the total available memory–for example: 8000000000 or 10%. Default: 20%
+        public let execMemPoolBytes: PercentOrAbsoluteLong?
+        /// Specifies the threshold for the internal memory buffer. Supports either a percentage (portion of available memory) or absolute value in MB–for example: 70% or 100 Default: 70%
+        public let forceSnapshotMemThreshold: PercentOrAbsoluteLong?
+        /// Specifies the duration that Parquet files are arranged into. Data timestamps land each row into a file of this duration. Supported durations are 1m, 5m, and 10m. These files are known as “generation 1” files, which the compactor can merge into larger generations. Default: 10m
+        public let gen1Duration: Duration?
+        /// Specifies how far back to look when creating generation 1 Parquet files. Default: 24h
+        public let gen1LookbackDuration: Duration?
+        /// Sets the default duration for hard deletion of data. Default: 90d
+        public let hardDeleteDefaultDuration: Duration?
+        /// Specifies number of instances in the DbCluster which can both ingest and query.
+        public let ingestQueryInstances: Int
+        /// Specifies the interval to evict expired entries from the Last-N-Value cache, expressed as a human-readable duration–for example: 20s, 1m, 1h. Default: 10s
+        public let lastCacheEvictionInterval: Duration?
+        /// Disables populating the last-N-value cache from historical data. If disabled, the cache is still populated with data from the write-ahead log (WAL).
+        public let lastValueCacheDisableFromHistory: Bool?
+        /// Sets the filter directive for logs.
+        public let logFilter: String?
+        /// Defines the message format for logs. Default: full
+        public let logFormat: LogFormats?
+        /// Specifies the maximum size of HTTP requests. Default: 10485760
+        public let maxHttpRequestSize: Int64?
+        /// Sets the interval to check if the in-memory Parquet cache needs to be pruned. Default: 1s
+        public let parquetMemCachePruneInterval: Duration?
+        /// Specifies the percentage of entries to prune during a prune operation on the in-memory Parquet cache. Default: 0.1
+        public let parquetMemCachePrunePercentage: Float?
+        /// Specifies the time window for caching recent Parquet files in memory. Default: 5h
+        public let parquetMemCacheQueryPathDuration: Duration?
+        /// Specifies the size of the in-memory Parquet cache in megabytes or percentage of total available memory. Default: 20%
+        public let parquetMemCacheSize: PercentOrAbsoluteLong?
+        /// Specifies the interval to prefetch into the Parquet cache during compaction. Default: 3d
+        public let preemptiveCacheAge: Duration?
+        /// Limits the number of Parquet files a query can access. If a query attempts to read more than this limit, InfluxDB 3 returns an error. Default: 432
+        public let queryFileLimit: Int?
+        /// Defines the size of the query log. Up to this many queries remain in the log before older queries are evicted to make room for new ones. Default: 1000
+        public let queryLogSize: Int?
+        /// Specifies number of instances in the DbCluster which can only query.
+        public let queryOnlyInstances: Int
+        /// Specifies the interval at which data replication occurs between cluster nodes. Default: 250ms
+        public let replicationInterval: Duration?
+        /// The interval at which retention policies are checked and enforced. Enter as a human-readable time–for example: 30m or 1h. Default: 30m
+        public let retentionCheckInterval: Duration?
+        /// Specifies the number of snapshotted WAL files to retain in the object store. Flushing the WAL files does not clear the WAL files immediately; they are deleted when the number of snapshotted WAL files exceeds this number. Default: 300
+        public let snapshottedWalFilesToKeep: Int?
+        /// Limits the concurrency level for table index cache operations. Default: 8
+        public let tableIndexCacheConcurrencyLimit: Int?
+        /// Specifies the maximum number of entries in the table index cache. Default: 1000
+        public let tableIndexCacheMaxEntries: Int?
+        /// Specifies the maximum number of write requests that can be buffered before a flush must be executed and succeed. Default: 100000
+        public let walMaxWriteBufferSize: Int?
+        /// Concurrency limit during WAL replay. Setting this number too high can lead to OOM. The default is dynamically determined. Default: max(num_cpus, 10)
+        public let walReplayConcurrencyLimit: Int?
+        /// Determines whether WAL replay should fail when encountering errors. Default: false
+        public let walReplayFailOnError: Bool?
+        /// Defines the number of WAL files to attempt to remove in a snapshot. This, multiplied by the interval, determines how often snapshots are taken. Default: 600
+        public let walSnapshotSize: Int?
+
+        @inlinable
+        public init(catalogSyncInterval: Duration? = nil, compactionCheckInterval: Duration? = nil, compactionCleanupWait: Duration? = nil, compactionGen2Duration: Duration? = nil, compactionMaxNumFilesPerPlan: Int? = nil, compactionMultipliers: String? = nil, compactionRowLimit: Int? = nil, dataFusionConfig: String? = nil, dataFusionMaxParquetFanout: Int? = nil, dataFusionNumThreads: Int? = nil, dataFusionRuntimeDisableLifoSlot: Bool? = nil, dataFusionRuntimeEventInterval: Int? = nil, dataFusionRuntimeGlobalQueueInterval: Int? = nil, dataFusionRuntimeMaxBlockingThreads: Int? = nil, dataFusionRuntimeMaxIoEventsPerTick: Int? = nil, dataFusionRuntimeThreadKeepAlive: Duration? = nil, dataFusionRuntimeThreadPriority: Int? = nil, dataFusionRuntimeType: DataFusionRuntimeType? = nil, dataFusionUseCachedParquetLoader: Bool? = nil, dedicatedCompactor: Bool, deleteGracePeriod: Duration? = nil, disableParquetMemCache: Bool? = nil, distinctCacheEvictionInterval: Duration? = nil, distinctValueCacheDisableFromHistory: Bool? = nil, execMemPoolBytes: PercentOrAbsoluteLong? = nil, forceSnapshotMemThreshold: PercentOrAbsoluteLong? = nil, gen1Duration: Duration? = nil, gen1LookbackDuration: Duration? = nil, hardDeleteDefaultDuration: Duration? = nil, ingestQueryInstances: Int, lastCacheEvictionInterval: Duration? = nil, lastValueCacheDisableFromHistory: Bool? = nil, logFilter: String? = nil, logFormat: LogFormats? = nil, maxHttpRequestSize: Int64? = nil, parquetMemCachePruneInterval: Duration? = nil, parquetMemCachePrunePercentage: Float? = nil, parquetMemCacheQueryPathDuration: Duration? = nil, parquetMemCacheSize: PercentOrAbsoluteLong? = nil, preemptiveCacheAge: Duration? = nil, queryFileLimit: Int? = nil, queryLogSize: Int? = nil, queryOnlyInstances: Int, replicationInterval: Duration? = nil, retentionCheckInterval: Duration? = nil, snapshottedWalFilesToKeep: Int? = nil, tableIndexCacheConcurrencyLimit: Int? = nil, tableIndexCacheMaxEntries: Int? = nil, walMaxWriteBufferSize: Int? = nil, walReplayConcurrencyLimit: Int? = nil, walReplayFailOnError: Bool? = nil, walSnapshotSize: Int? = nil) {
+            self.catalogSyncInterval = catalogSyncInterval
+            self.compactionCheckInterval = compactionCheckInterval
+            self.compactionCleanupWait = compactionCleanupWait
+            self.compactionGen2Duration = compactionGen2Duration
+            self.compactionMaxNumFilesPerPlan = compactionMaxNumFilesPerPlan
+            self.compactionMultipliers = compactionMultipliers
+            self.compactionRowLimit = compactionRowLimit
+            self.dataFusionConfig = dataFusionConfig
+            self.dataFusionMaxParquetFanout = dataFusionMaxParquetFanout
+            self.dataFusionNumThreads = dataFusionNumThreads
+            self.dataFusionRuntimeDisableLifoSlot = dataFusionRuntimeDisableLifoSlot
+            self.dataFusionRuntimeEventInterval = dataFusionRuntimeEventInterval
+            self.dataFusionRuntimeGlobalQueueInterval = dataFusionRuntimeGlobalQueueInterval
+            self.dataFusionRuntimeMaxBlockingThreads = dataFusionRuntimeMaxBlockingThreads
+            self.dataFusionRuntimeMaxIoEventsPerTick = dataFusionRuntimeMaxIoEventsPerTick
+            self.dataFusionRuntimeThreadKeepAlive = dataFusionRuntimeThreadKeepAlive
+            self.dataFusionRuntimeThreadPriority = dataFusionRuntimeThreadPriority
+            self.dataFusionRuntimeType = dataFusionRuntimeType
+            self.dataFusionUseCachedParquetLoader = dataFusionUseCachedParquetLoader
+            self.dedicatedCompactor = dedicatedCompactor
+            self.deleteGracePeriod = deleteGracePeriod
+            self.disableParquetMemCache = disableParquetMemCache
+            self.distinctCacheEvictionInterval = distinctCacheEvictionInterval
+            self.distinctValueCacheDisableFromHistory = distinctValueCacheDisableFromHistory
+            self.execMemPoolBytes = execMemPoolBytes
+            self.forceSnapshotMemThreshold = forceSnapshotMemThreshold
+            self.gen1Duration = gen1Duration
+            self.gen1LookbackDuration = gen1LookbackDuration
+            self.hardDeleteDefaultDuration = hardDeleteDefaultDuration
+            self.ingestQueryInstances = ingestQueryInstances
+            self.lastCacheEvictionInterval = lastCacheEvictionInterval
+            self.lastValueCacheDisableFromHistory = lastValueCacheDisableFromHistory
+            self.logFilter = logFilter
+            self.logFormat = logFormat
+            self.maxHttpRequestSize = maxHttpRequestSize
+            self.parquetMemCachePruneInterval = parquetMemCachePruneInterval
+            self.parquetMemCachePrunePercentage = parquetMemCachePrunePercentage
+            self.parquetMemCacheQueryPathDuration = parquetMemCacheQueryPathDuration
+            self.parquetMemCacheSize = parquetMemCacheSize
+            self.preemptiveCacheAge = preemptiveCacheAge
+            self.queryFileLimit = queryFileLimit
+            self.queryLogSize = queryLogSize
+            self.queryOnlyInstances = queryOnlyInstances
+            self.replicationInterval = replicationInterval
+            self.retentionCheckInterval = retentionCheckInterval
+            self.snapshottedWalFilesToKeep = snapshottedWalFilesToKeep
+            self.tableIndexCacheConcurrencyLimit = tableIndexCacheConcurrencyLimit
+            self.tableIndexCacheMaxEntries = tableIndexCacheMaxEntries
+            self.walMaxWriteBufferSize = walMaxWriteBufferSize
+            self.walReplayConcurrencyLimit = walReplayConcurrencyLimit
+            self.walReplayFailOnError = walReplayFailOnError
+            self.walSnapshotSize = walSnapshotSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogSyncInterval = "catalogSyncInterval"
+            case compactionCheckInterval = "compactionCheckInterval"
+            case compactionCleanupWait = "compactionCleanupWait"
+            case compactionGen2Duration = "compactionGen2Duration"
+            case compactionMaxNumFilesPerPlan = "compactionMaxNumFilesPerPlan"
+            case compactionMultipliers = "compactionMultipliers"
+            case compactionRowLimit = "compactionRowLimit"
+            case dataFusionConfig = "dataFusionConfig"
+            case dataFusionMaxParquetFanout = "dataFusionMaxParquetFanout"
+            case dataFusionNumThreads = "dataFusionNumThreads"
+            case dataFusionRuntimeDisableLifoSlot = "dataFusionRuntimeDisableLifoSlot"
+            case dataFusionRuntimeEventInterval = "dataFusionRuntimeEventInterval"
+            case dataFusionRuntimeGlobalQueueInterval = "dataFusionRuntimeGlobalQueueInterval"
+            case dataFusionRuntimeMaxBlockingThreads = "dataFusionRuntimeMaxBlockingThreads"
+            case dataFusionRuntimeMaxIoEventsPerTick = "dataFusionRuntimeMaxIoEventsPerTick"
+            case dataFusionRuntimeThreadKeepAlive = "dataFusionRuntimeThreadKeepAlive"
+            case dataFusionRuntimeThreadPriority = "dataFusionRuntimeThreadPriority"
+            case dataFusionRuntimeType = "dataFusionRuntimeType"
+            case dataFusionUseCachedParquetLoader = "dataFusionUseCachedParquetLoader"
+            case dedicatedCompactor = "dedicatedCompactor"
+            case deleteGracePeriod = "deleteGracePeriod"
+            case disableParquetMemCache = "disableParquetMemCache"
+            case distinctCacheEvictionInterval = "distinctCacheEvictionInterval"
+            case distinctValueCacheDisableFromHistory = "distinctValueCacheDisableFromHistory"
+            case execMemPoolBytes = "execMemPoolBytes"
+            case forceSnapshotMemThreshold = "forceSnapshotMemThreshold"
+            case gen1Duration = "gen1Duration"
+            case gen1LookbackDuration = "gen1LookbackDuration"
+            case hardDeleteDefaultDuration = "hardDeleteDefaultDuration"
+            case ingestQueryInstances = "ingestQueryInstances"
+            case lastCacheEvictionInterval = "lastCacheEvictionInterval"
+            case lastValueCacheDisableFromHistory = "lastValueCacheDisableFromHistory"
+            case logFilter = "logFilter"
+            case logFormat = "logFormat"
+            case maxHttpRequestSize = "maxHttpRequestSize"
+            case parquetMemCachePruneInterval = "parquetMemCachePruneInterval"
+            case parquetMemCachePrunePercentage = "parquetMemCachePrunePercentage"
+            case parquetMemCacheQueryPathDuration = "parquetMemCacheQueryPathDuration"
+            case parquetMemCacheSize = "parquetMemCacheSize"
+            case preemptiveCacheAge = "preemptiveCacheAge"
+            case queryFileLimit = "queryFileLimit"
+            case queryLogSize = "queryLogSize"
+            case queryOnlyInstances = "queryOnlyInstances"
+            case replicationInterval = "replicationInterval"
+            case retentionCheckInterval = "retentionCheckInterval"
+            case snapshottedWalFilesToKeep = "snapshottedWalFilesToKeep"
+            case tableIndexCacheConcurrencyLimit = "tableIndexCacheConcurrencyLimit"
+            case tableIndexCacheMaxEntries = "tableIndexCacheMaxEntries"
+            case walMaxWriteBufferSize = "walMaxWriteBufferSize"
+            case walReplayConcurrencyLimit = "walReplayConcurrencyLimit"
+            case walReplayFailOnError = "walReplayFailOnError"
+            case walSnapshotSize = "walSnapshotSize"
         }
     }
 
@@ -1841,6 +2366,8 @@ extension TimestreamInfluxDB {
         public let influxAuthParametersSecretArn: String?
         /// Specifies the DbInstance's role in the cluster.
         public let instanceMode: InstanceMode?
+        /// Specifies the DbInstance's roles in the cluster.
+        public let instanceModes: [InstanceMode]?
         /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
         /// This customer-supplied name uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
@@ -1861,7 +2388,7 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbClusterId: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, instanceMode: InstanceMode? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbClusterId: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, instanceMode: InstanceMode? = nil, instanceModes: [InstanceMode]? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.availabilityZone = availabilityZone
@@ -1874,6 +2401,7 @@ extension TimestreamInfluxDB {
             self.id = id
             self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
             self.instanceMode = instanceMode
+            self.instanceModes = instanceModes
             self.logDeliveryConfiguration = logDeliveryConfiguration
             self.name = name
             self.networkType = networkType
@@ -1898,6 +2426,7 @@ extension TimestreamInfluxDB {
             case id = "id"
             case influxAuthParametersSecretArn = "influxAuthParametersSecretArn"
             case instanceMode = "instanceMode"
+            case instanceModes = "instanceModes"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
             case name = "name"
             case networkType = "networkType"
@@ -1924,20 +2453,6 @@ extension TimestreamInfluxDB {
         private enum CodingKeys: String, CodingKey {
             case message = "message"
             case reason = "reason"
-        }
-    }
-
-    public struct Parameters: AWSEncodableShape & AWSDecodableShape {
-        /// All the customer-modifiable InfluxDB v2 parameters in Timestream for InfluxDB.
-        public let influxDBv2: InfluxDBv2Parameters?
-
-        @inlinable
-        public init(influxDBv2: InfluxDBv2Parameters? = nil) {
-            self.influxDBv2 = influxDBv2
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case influxDBv2 = "InfluxDBv2"
         }
     }
 }

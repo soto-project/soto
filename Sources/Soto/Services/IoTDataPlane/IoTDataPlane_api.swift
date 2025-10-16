@@ -97,6 +97,41 @@ public struct IoTDataPlane: AWSService {
 
     // MARK: API Calls
 
+    /// Disconnects a connected MQTT client from Amazon Web Services IoT Core. When you disconnect a client, Amazon Web Services IoT Core closes the client's network connection and optionally cleans the session state.
+    @Sendable
+    @inlinable
+    public func deleteConnection(_ input: DeleteConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteConnection", 
+            path: "/connections/{clientId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disconnects a connected MQTT client from Amazon Web Services IoT Core. When you disconnect a client, Amazon Web Services IoT Core closes the client's network connection and optionally cleans the session state.
+    ///
+    /// Parameters:
+    ///   - cleanSession: Specifies whether to remove the client's session state when disconnecting. Set to TRUE to delete all session information, including subscriptions and queued messages. Set to FALSE to preserve the session state. By default, this is set to FALSE (preserves the session state).
+    ///   - clientId: The unique identifier of the MQTT client to disconnect. The client ID can't start with a dollar sign ($).
+    ///   - preventWillMessage: Controls if Amazon Web Services IoT Core publishes the client's Last Will and Testament (LWT) message upon disconnection. Set to TRUE to prevent publishing the LWT message. Set to FALSE to allow publishing. By default, this is set to FALSE (allows publishing the LWT message).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteConnection(
+        cleanSession: Bool? = nil,
+        clientId: String,
+        preventWillMessage: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteConnectionRequest(
+            cleanSession: cleanSession, 
+            clientId: clientId, 
+            preventWillMessage: preventWillMessage
+        )
+        return try await self.deleteConnection(input, logger: logger)
+    }
+
     /// Deletes the shadow for the specified thing. Requires permission to access the DeleteThingShadow action. For more information, see DeleteThingShadow in the IoT Developer Guide.
     @Sendable
     @inlinable

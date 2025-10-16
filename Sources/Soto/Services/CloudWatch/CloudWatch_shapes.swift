@@ -69,6 +69,8 @@ extension CloudWatch {
 
     public enum HistoryItemType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case action = "Action"
+        case alarmContributorAction = "AlarmContributorAction"
+        case alarmContributorStateUpdate = "AlarmContributorStateUpdate"
         case configurationUpdate = "ConfigurationUpdate"
         case stateUpdate = "StateUpdate"
         public var description: String { return self.rawValue }
@@ -149,7 +151,39 @@ extension CloudWatch {
 
     // MARK: Shapes
 
+    public struct AlarmContributor: AWSDecodableShape {
+        /// A map of attributes that describe the contributor, such as metric dimensions and other identifying characteristics.
+        @OptionalCustomCoding<StandardDictionaryCoder<String, String>>
+        public var contributorAttributes: [String: String]?
+        /// The unique identifier for this alarm contributor.
+        public let contributorId: String?
+        /// An explanation for the contributor's current state, providing context about why it is in its current condition.
+        public let stateReason: String?
+        /// The timestamp when the contributor last transitioned to its current state.
+        public let stateTransitionedTimestamp: Date?
+
+        @inlinable
+        public init(contributorAttributes: [String: String]? = nil, contributorId: String? = nil, stateReason: String? = nil, stateTransitionedTimestamp: Date? = nil) {
+            self.contributorAttributes = contributorAttributes
+            self.contributorId = contributorId
+            self.stateReason = stateReason
+            self.stateTransitionedTimestamp = stateTransitionedTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contributorAttributes = "ContributorAttributes"
+            case contributorId = "ContributorId"
+            case stateReason = "StateReason"
+            case stateTransitionedTimestamp = "StateTransitionedTimestamp"
+        }
+    }
+
     public struct AlarmHistoryItem: AWSDecodableShape {
+        /// A map of attributes that describe the alarm contributor associated with this history item, providing context about the contributor's characteristics at the time of the event.
+        @OptionalCustomCoding<StandardDictionaryCoder<String, String>>
+        public var alarmContributorAttributes: [String: String]?
+        /// The unique identifier of the alarm contributor associated with this history item, if applicable.
+        public let alarmContributorId: String?
         /// The descriptive name for the alarm.
         public let alarmName: String?
         /// The type of alarm, either metric alarm or composite alarm.
@@ -164,7 +198,9 @@ extension CloudWatch {
         public let timestamp: Date?
 
         @inlinable
-        public init(alarmName: String? = nil, alarmType: AlarmType? = nil, historyData: String? = nil, historyItemType: HistoryItemType? = nil, historySummary: String? = nil, timestamp: Date? = nil) {
+        public init(alarmContributorAttributes: [String: String]? = nil, alarmContributorId: String? = nil, alarmName: String? = nil, alarmType: AlarmType? = nil, historyData: String? = nil, historyItemType: HistoryItemType? = nil, historySummary: String? = nil, timestamp: Date? = nil) {
+            self.alarmContributorAttributes = alarmContributorAttributes
+            self.alarmContributorId = alarmContributorId
             self.alarmName = alarmName
             self.alarmType = alarmType
             self.historyData = historyData
@@ -174,6 +210,8 @@ extension CloudWatch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alarmContributorAttributes = "AlarmContributorAttributes"
+            case alarmContributorId = "AlarmContributorId"
             case alarmName = "AlarmName"
             case alarmType = "AlarmType"
             case historyData = "HistoryData"
@@ -630,7 +668,51 @@ extension CloudWatch {
         public init() {}
     }
 
+    public struct DescribeAlarmContributorsInput: AWSEncodableShape {
+        /// The name of the alarm for which to retrieve contributor information.
+        public let alarmName: String?
+        /// The token returned by a previous call to indicate that there is more data available.
+        public let nextToken: String?
+
+        @inlinable
+        public init(alarmName: String? = nil, nextToken: String? = nil) {
+            self.alarmName = alarmName
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alarmName, name: "alarmName", parent: name, max: 255)
+            try self.validate(self.alarmName, name: "alarmName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmName = "AlarmName"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeAlarmContributorsOutput: AWSDecodableShape {
+        /// A list of alarm contributors that provide details about the individual time series contributing to the alarm's state.
+        @OptionalCustomCoding<StandardArrayCoder<AlarmContributor>>
+        public var alarmContributors: [AlarmContributor]?
+        /// The token that marks the start of the next batch of returned results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(alarmContributors: [AlarmContributor]? = nil, nextToken: String? = nil) {
+            self.alarmContributors = alarmContributors
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmContributors = "AlarmContributors"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct DescribeAlarmHistoryInput: AWSEncodableShape {
+        /// The unique identifier of a specific alarm contributor to filter the alarm history results.
+        public let alarmContributorId: String?
         /// The name of the alarm.
         public let alarmName: String?
         /// Use this parameter to specify whether you want the operation to return metric alarms or composite alarms. If you omit this parameter, only metric alarms are returned.
@@ -650,7 +732,8 @@ extension CloudWatch {
         public let startDate: Date?
 
         @inlinable
-        public init(alarmName: String? = nil, alarmTypes: [AlarmType]? = nil, endDate: Date? = nil, historyItemType: HistoryItemType? = nil, maxRecords: Int? = nil, nextToken: String? = nil, scanBy: ScanBy? = nil, startDate: Date? = nil) {
+        public init(alarmContributorId: String? = nil, alarmName: String? = nil, alarmTypes: [AlarmType]? = nil, endDate: Date? = nil, historyItemType: HistoryItemType? = nil, maxRecords: Int? = nil, nextToken: String? = nil, scanBy: ScanBy? = nil, startDate: Date? = nil) {
+            self.alarmContributorId = alarmContributorId
             self.alarmName = alarmName
             self.alarmTypes = alarmTypes
             self.endDate = endDate
@@ -662,6 +745,8 @@ extension CloudWatch {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.alarmContributorId, name: "alarmContributorId", parent: name, max: 1024)
+            try self.validate(self.alarmContributorId, name: "alarmContributorId", parent: name, min: 1)
             try self.validate(self.alarmName, name: "alarmName", parent: name, max: 255)
             try self.validate(self.alarmName, name: "alarmName", parent: name, min: 1)
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, max: 100)
@@ -669,6 +754,7 @@ extension CloudWatch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alarmContributorId = "AlarmContributorId"
             case alarmName = "AlarmName"
             case alarmTypes = "AlarmTypes"
             case endDate = "EndDate"
@@ -2777,7 +2863,7 @@ extension CloudWatch {
     }
 
     public struct PutInsightRuleInput: AWSEncodableShape {
-        /// Specify true to have this rule evalute log events after they have been transformed by   Log transformation. If you specify true, then the log events in log groups that have transformers will  be evaluated by Contributor Insights after being transformed. Log groups that don't have transformers will still have their original log events evaluated by Contributor Insights. The default is false   If a log group has a transformer, and transformation fails for some log events, those log events won't be evaluated by Contributor Insights. For information about investigating log transformation failures, see Transformation metrics and errors.
+        /// Specify true to have this rule evaluate log events after they have been transformed by   Log transformation. If you specify true, then the log events in log groups that have transformers will  be evaluated by Contributor Insights after being transformed. Log groups that don't have transformers will still have their original log events evaluated by Contributor Insights. The default is false   If a log group has a transformer, and transformation fails for some log events, those log events won't be evaluated by Contributor Insights. For information about investigating log transformation failures, see Transformation metrics and errors.
         public let applyOnTransformedLogs: Bool?
         /// The definition of the rule, as a JSON object. For details on the valid syntax, see Contributor Insights Rule Syntax.
         public let ruleDefinition: String?

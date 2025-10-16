@@ -127,6 +127,7 @@ extension PaymentCryptographyData {
 
     public enum PinBlockFormatForPinData: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case isoFormat0 = "ISO_FORMAT_0"
+        case isoFormat1 = "ISO_FORMAT_1"
         case isoFormat3 = "ISO_FORMAT_3"
         case isoFormat4 = "ISO_FORMAT_4"
         public var description: String { return self.rawValue }
@@ -171,6 +172,13 @@ extension PaymentCryptographyData {
         case invalidMac = "INVALID_MAC"
         case invalidPin = "INVALID_PIN"
         case invalidValidationData = "INVALID_VALIDATION_DATA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WrappedKeyMaterialFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case keyCryptogram = "KEY_CRYPTOGRAM"
+        case tr31KeyBlock = "TR31_KEY_BLOCK"
+        case tr34KeyBlock = "TR34_KEY_BLOCK"
         public var description: String { return self.rawValue }
     }
 
@@ -795,7 +803,7 @@ extension PaymentCryptographyData {
             case .tr31KeyBlock(let value):
                 try self.validate(value, name: "tr31KeyBlock", parent: name, max: 9984)
                 try self.validate(value, name: "tr31KeyBlock", parent: name, min: 56)
-                try self.validate(value, name: "tr31KeyBlock", parent: name, pattern: "^[0-9A-Z]+$")
+                try self.validate(value, name: "tr31KeyBlock", parent: name, pattern: "^[0-9a-zA-Z]+$")
             }
         }
 
@@ -1828,15 +1836,15 @@ extension PaymentCryptographyData {
         public let generationAttributes: PinGenerationAttributes
         /// The keyARN of the PEK that Amazon Web Services Payment Cryptography uses for pin data generation.
         public let generationKeyIdentifier: String
-        /// The PIN encoding format for pin data generation as specified in ISO 9564. Amazon Web Services Payment Cryptography supports ISO_Format_0 and ISO_Format_3. The ISO_Format_0 PIN block format is equivalent to the ANSI X9.8, VISA-1, and ECI-1 PIN block formats. It is similar to a VISA-4 PIN block format. It supports a PIN from 4 to 12 digits in length. The ISO_Format_3 PIN block format is the same as ISO_Format_0 except that the fill digits are random values from 10 to 15.
+        /// The PIN encoding format for pin data generation as specified in ISO 9564. Amazon Web Services Payment Cryptography supports ISO_Format_0, ISO_Format_3 and ISO_Format_4. The ISO_Format_0 PIN block format is equivalent to the ANSI X9.8, VISA-1, and ECI-1 PIN block formats. It is similar to a VISA-4 PIN block format. It supports a PIN from 4 to 12 digits in length. The ISO_Format_3 PIN block format is the same as ISO_Format_0 except that the fill digits are random values from 10 to 15. The ISO_Format_4 PIN block format is the only one supporting AES encryption. It is similar to ISO_Format_3 but doubles the pin block length by padding with fill digit A and random values from 10 to 15.
         public let pinBlockFormat: PinBlockFormatForPinData
         /// The length of PIN under generation.
         public let pinDataLength: Int?
         /// The Primary Account Number (PAN), a unique identifier for a payment credit or debit card that associates the card with a specific account holder.
-        public let primaryAccountNumber: String
+        public let primaryAccountNumber: String?
 
         @inlinable
-        public init(encryptionKeyIdentifier: String, encryptionWrappedKey: WrappedKey? = nil, generationAttributes: PinGenerationAttributes, generationKeyIdentifier: String, pinBlockFormat: PinBlockFormatForPinData, pinDataLength: Int? = nil, primaryAccountNumber: String) {
+        public init(encryptionKeyIdentifier: String, encryptionWrappedKey: WrappedKey? = nil, generationAttributes: PinGenerationAttributes, generationKeyIdentifier: String, pinBlockFormat: PinBlockFormatForPinData, pinDataLength: Int? = nil, primaryAccountNumber: String? = nil) {
             self.encryptionKeyIdentifier = encryptionKeyIdentifier
             self.encryptionWrappedKey = encryptionWrappedKey
             self.generationAttributes = generationAttributes
@@ -2098,6 +2106,63 @@ extension PaymentCryptographyData {
         }
     }
 
+    public struct IncomingDiffieHellmanTr31KeyBlock: AWSEncodableShape {
+        /// The keyArn of the certificate that signed the client's PublicKeyCertificate.
+        public let certificateAuthorityPublicKeyIdentifier: String
+        public let derivationData: DiffieHellmanDerivationData
+        /// The key algorithm of the derived ECDH key.
+        public let deriveKeyAlgorithm: SymmetricKeyAlgorithm
+        /// The key derivation function to use for deriving a key using ECDH.
+        public let keyDerivationFunction: KeyDerivationFunction
+        /// The hash type to use for deriving a key using ECDH.
+        public let keyDerivationHashAlgorithm: KeyDerivationHashAlgorithm
+        /// The keyARN of the asymmetric ECC key pair.
+        public let privateKeyIdentifier: String
+        /// The client's public key certificate in PEM format (base64 encoded) to use for ECDH key derivation.
+        public let publicKeyCertificate: String
+        /// The WrappedKeyBlock containing the transaction key wrapped using an ECDH dervied key.
+        public let wrappedKeyBlock: String
+
+        @inlinable
+        public init(certificateAuthorityPublicKeyIdentifier: String, derivationData: DiffieHellmanDerivationData, deriveKeyAlgorithm: SymmetricKeyAlgorithm, keyDerivationFunction: KeyDerivationFunction, keyDerivationHashAlgorithm: KeyDerivationHashAlgorithm, privateKeyIdentifier: String, publicKeyCertificate: String, wrappedKeyBlock: String) {
+            self.certificateAuthorityPublicKeyIdentifier = certificateAuthorityPublicKeyIdentifier
+            self.derivationData = derivationData
+            self.deriveKeyAlgorithm = deriveKeyAlgorithm
+            self.keyDerivationFunction = keyDerivationFunction
+            self.keyDerivationHashAlgorithm = keyDerivationHashAlgorithm
+            self.privateKeyIdentifier = privateKeyIdentifier
+            self.publicKeyCertificate = publicKeyCertificate
+            self.wrappedKeyBlock = wrappedKeyBlock
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.certificateAuthorityPublicKeyIdentifier, name: "certificateAuthorityPublicKeyIdentifier", parent: name, max: 322)
+            try self.validate(self.certificateAuthorityPublicKeyIdentifier, name: "certificateAuthorityPublicKeyIdentifier", parent: name, min: 7)
+            try self.validate(self.certificateAuthorityPublicKeyIdentifier, name: "certificateAuthorityPublicKeyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
+            try self.derivationData.validate(name: "\(name).derivationData")
+            try self.validate(self.privateKeyIdentifier, name: "privateKeyIdentifier", parent: name, max: 322)
+            try self.validate(self.privateKeyIdentifier, name: "privateKeyIdentifier", parent: name, min: 7)
+            try self.validate(self.privateKeyIdentifier, name: "privateKeyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
+            try self.validate(self.publicKeyCertificate, name: "publicKeyCertificate", parent: name, max: 32768)
+            try self.validate(self.publicKeyCertificate, name: "publicKeyCertificate", parent: name, min: 1)
+            try self.validate(self.publicKeyCertificate, name: "publicKeyCertificate", parent: name, pattern: "^[^\\[;\\]<>]+$")
+            try self.validate(self.wrappedKeyBlock, name: "wrappedKeyBlock", parent: name, max: 9984)
+            try self.validate(self.wrappedKeyBlock, name: "wrappedKeyBlock", parent: name, min: 56)
+            try self.validate(self.wrappedKeyBlock, name: "wrappedKeyBlock", parent: name, pattern: "^[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateAuthorityPublicKeyIdentifier = "CertificateAuthorityPublicKeyIdentifier"
+            case derivationData = "DerivationData"
+            case deriveKeyAlgorithm = "DeriveKeyAlgorithm"
+            case keyDerivationFunction = "KeyDerivationFunction"
+            case keyDerivationHashAlgorithm = "KeyDerivationHashAlgorithm"
+            case privateKeyIdentifier = "PrivateKeyIdentifier"
+            case publicKeyCertificate = "PublicKeyCertificate"
+            case wrappedKeyBlock = "WrappedKeyBlock"
+        }
+    }
+
     public struct MacAlgorithmDukpt: AWSEncodableShape {
         /// The key type derived using DUKPT from a Base Derivation Key (BDK) and Key Serial Number (KSN). This must be less than or equal to the strength of the BDK. For example, you can't use AES_128 as a derivation type for a BDK of AES_128 or TDES_2KEY.
         public let dukptDerivationType: DukptDerivationType?
@@ -2201,6 +2266,26 @@ extension PaymentCryptographyData {
             case majorKeyDerivationMode = "MajorKeyDerivationMode"
             case panSequenceNumber = "PanSequenceNumber"
             case primaryAccountNumber = "PrimaryAccountNumber"
+        }
+    }
+
+    public struct OutgoingTr31KeyBlock: AWSEncodableShape {
+        /// The keyARN of the KEK used to wrap the transaction key.
+        public let wrappingKeyIdentifier: String
+
+        @inlinable
+        public init(wrappingKeyIdentifier: String) {
+            self.wrappingKeyIdentifier = wrappingKeyIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.wrappingKeyIdentifier, name: "wrappingKeyIdentifier", parent: name, max: 322)
+            try self.validate(self.wrappingKeyIdentifier, name: "wrappingKeyIdentifier", parent: name, min: 7)
+            try self.validate(self.wrappingKeyIdentifier, name: "wrappingKeyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case wrappingKeyIdentifier = "WrappingKeyIdentifier"
         }
     }
 
@@ -2493,6 +2578,47 @@ extension PaymentCryptographyData {
             case initializationVector = "InitializationVector"
             case mode = "Mode"
             case paddingType = "PaddingType"
+        }
+    }
+
+    public struct TranslateKeyMaterialInput: AWSEncodableShape {
+        /// Parameter information of the TR31WrappedKeyBlock containing the transaction key.
+        public let incomingKeyMaterial: IncomingKeyMaterial
+        /// The key check value (KCV) algorithm used for calculating the KCV.
+        public let keyCheckValueAlgorithm: KeyCheckValueAlgorithm?
+        /// Parameter information of the wrapping key used to wrap the transaction key in the outgoing TR31WrappedKeyBlock.
+        public let outgoingKeyMaterial: OutgoingKeyMaterial
+
+        @inlinable
+        public init(incomingKeyMaterial: IncomingKeyMaterial, keyCheckValueAlgorithm: KeyCheckValueAlgorithm? = nil, outgoingKeyMaterial: OutgoingKeyMaterial) {
+            self.incomingKeyMaterial = incomingKeyMaterial
+            self.keyCheckValueAlgorithm = keyCheckValueAlgorithm
+            self.outgoingKeyMaterial = outgoingKeyMaterial
+        }
+
+        public func validate(name: String) throws {
+            try self.incomingKeyMaterial.validate(name: "\(name).incomingKeyMaterial")
+            try self.outgoingKeyMaterial.validate(name: "\(name).outgoingKeyMaterial")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case incomingKeyMaterial = "IncomingKeyMaterial"
+            case keyCheckValueAlgorithm = "KeyCheckValueAlgorithm"
+            case outgoingKeyMaterial = "OutgoingKeyMaterial"
+        }
+    }
+
+    public struct TranslateKeyMaterialOutput: AWSDecodableShape {
+        /// The outgoing KEK wrapped TR31WrappedKeyBlock.
+        public let wrappedKey: WrappedWorkingKey
+
+        @inlinable
+        public init(wrappedKey: WrappedWorkingKey) {
+            self.wrappedKey = wrappedKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case wrappedKey = "WrappedKey"
         }
     }
 
@@ -2861,14 +2987,14 @@ extension PaymentCryptographyData {
         /// The length of PIN being verified.
         public let pinDataLength: Int?
         /// The Primary Account Number (PAN), a unique identifier for a payment credit or debit card that associates the card with a specific account holder.
-        public let primaryAccountNumber: String
+        public let primaryAccountNumber: String?
         /// The attributes and values for PIN data verification.
         public let verificationAttributes: PinVerificationAttributes
         /// The keyARN of the PIN verification key.
         public let verificationKeyIdentifier: String
 
         @inlinable
-        public init(dukptAttributes: DukptAttributes? = nil, encryptedPinBlock: String, encryptionKeyIdentifier: String, encryptionWrappedKey: WrappedKey? = nil, pinBlockFormat: PinBlockFormatForPinData, pinDataLength: Int? = nil, primaryAccountNumber: String, verificationAttributes: PinVerificationAttributes, verificationKeyIdentifier: String) {
+        public init(dukptAttributes: DukptAttributes? = nil, encryptedPinBlock: String, encryptionKeyIdentifier: String, encryptionWrappedKey: WrappedKey? = nil, pinBlockFormat: PinBlockFormatForPinData, pinDataLength: Int? = nil, primaryAccountNumber: String? = nil, verificationAttributes: PinVerificationAttributes, verificationKeyIdentifier: String) {
             self.dukptAttributes = dukptAttributes
             self.encryptedPinBlock = encryptedPinBlock
             self.encryptionKeyIdentifier = encryptionKeyIdentifier
@@ -3105,6 +3231,84 @@ extension PaymentCryptographyData {
         private enum CodingKeys: String, CodingKey {
             case keyCheckValueAlgorithm = "KeyCheckValueAlgorithm"
             case wrappedKeyMaterial = "WrappedKeyMaterial"
+        }
+    }
+
+    public struct WrappedWorkingKey: AWSDecodableShape {
+        /// The key check value (KCV) of the key contained within the outgoing TR31WrappedKeyBlock.  The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. For more information on KCV, see KCV in the Amazon Web Services Payment Cryptography User Guide.
+        public let keyCheckValue: String
+        /// The wrapped key block of the outgoing transaction key.
+        public let wrappedKeyMaterial: String
+        /// The key block format of the wrapped key.
+        public let wrappedKeyMaterialFormat: WrappedKeyMaterialFormat
+
+        @inlinable
+        public init(keyCheckValue: String, wrappedKeyMaterial: String, wrappedKeyMaterialFormat: WrappedKeyMaterialFormat) {
+            self.keyCheckValue = keyCheckValue
+            self.wrappedKeyMaterial = wrappedKeyMaterial
+            self.wrappedKeyMaterialFormat = wrappedKeyMaterialFormat
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyCheckValue = "KeyCheckValue"
+            case wrappedKeyMaterial = "WrappedKeyMaterial"
+            case wrappedKeyMaterialFormat = "WrappedKeyMaterialFormat"
+        }
+    }
+
+    public struct DiffieHellmanDerivationData: AWSEncodableShape {
+        /// A string containing information that binds the ECDH derived key to the two parties involved or to the context of the key. It may include details like identities of the two parties deriving the key, context of the operation, session IDs, and optionally a nonce. It must not contain zero bytes. It is not recommended to reuse shared information for multiple ECDH key derivations, as it could result in derived key material being the same across different derivations.
+        public let sharedInformation: String?
+
+        @inlinable
+        public init(sharedInformation: String? = nil) {
+            self.sharedInformation = sharedInformation
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sharedInformation, name: "sharedInformation", parent: name, max: 2048)
+            try self.validate(self.sharedInformation, name: "sharedInformation", parent: name, min: 2)
+            try self.validate(self.sharedInformation, name: "sharedInformation", parent: name, pattern: "^(?:[0-9a-fA-F][0-9a-fA-F])+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sharedInformation = "SharedInformation"
+        }
+    }
+
+    public struct IncomingKeyMaterial: AWSEncodableShape {
+        /// Parameter information of the TR31WrappedKeyBlock containing the transaction key wrapped using an ECDH dervied key.
+        public let diffieHellmanTr31KeyBlock: IncomingDiffieHellmanTr31KeyBlock?
+
+        @inlinable
+        public init(diffieHellmanTr31KeyBlock: IncomingDiffieHellmanTr31KeyBlock? = nil) {
+            self.diffieHellmanTr31KeyBlock = diffieHellmanTr31KeyBlock
+        }
+
+        public func validate(name: String) throws {
+            try self.diffieHellmanTr31KeyBlock?.validate(name: "\(name).diffieHellmanTr31KeyBlock")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case diffieHellmanTr31KeyBlock = "DiffieHellmanTr31KeyBlock"
+        }
+    }
+
+    public struct OutgoingKeyMaterial: AWSEncodableShape {
+        /// Parameter information of the TR31WrappedKeyBlock containing the transaction key wrapped using a KEK.
+        public let tr31KeyBlock: OutgoingTr31KeyBlock?
+
+        @inlinable
+        public init(tr31KeyBlock: OutgoingTr31KeyBlock? = nil) {
+            self.tr31KeyBlock = tr31KeyBlock
+        }
+
+        public func validate(name: String) throws {
+            try self.tr31KeyBlock?.validate(name: "\(name).tr31KeyBlock")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tr31KeyBlock = "Tr31KeyBlock"
         }
     }
 }

@@ -310,7 +310,7 @@ extension DocDB {
         public let kmsKeyId: String?
         /// The URL that contains a Signature Version 4 signed request for theCopyDBClusterSnapshot API action in the Amazon Web Services Region that contains the source cluster snapshot to copy. You must use the PreSignedUrl parameter when copying a cluster snapshot from another Amazon Web Services Region. If you are using an Amazon Web Services SDK tool or the CLI, you can specify SourceRegion (or --source-region for the CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a pre-signed URL that is a valid request for the operation that can be executed in the source Amazon Web Services Region. The presigned URL must be a valid request for the CopyDBClusterSnapshot API action that can be executed in the source Amazon Web Services Region that contains the cluster snapshot to be copied. The presigned URL request must contain the following parameter values:    SourceRegion - The ID of the region that contains the snapshot to be copied.    SourceDBClusterSnapshotIdentifier - The identifier for the the encrypted cluster snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source Amazon Web Services Region. For example, if you are copying an encrypted cluster snapshot from the us-east-1 Amazon Web Services Region, then your SourceDBClusterSnapshotIdentifier looks something like the following: arn:aws:rds:us-east-1:12345678012:sample-cluster:sample-cluster-snapshot.    TargetDBClusterSnapshotIdentifier - The identifier for the new cluster snapshot to be created. This parameter isn't case sensitive.
         public let preSignedUrl: String?
-        /// The identifier of the cluster snapshot to copy. This parameter is not case sensitive. Constraints:   Must specify a valid system snapshot in the available state.   If the source snapshot is in the same Amazon Web Services Region as the copy, specify a valid snapshot identifier.   If the source snapshot is in a different Amazon Web Services Region than the copy, specify a valid cluster snapshot ARN.   Example: my-cluster-snapshot1
+        /// The identifier of the cluster snapshot to copy. This parameter is not case sensitive. Constraints:   Must specify a valid cluster snapshot in the available state.   If the source cluster snapshot is in the same Amazon Web Services Region as the copy, specify a valid snapshot identifier.   If the source cluster snapshot is in a different Amazon Web Services Region or owned by another Amazon Web Services account, specify the snapshot ARN.   Example: my-cluster-snapshot1
         public let sourceDBClusterSnapshotIdentifier: String?
         /// The tags to be assigned to the cluster snapshot.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -388,6 +388,8 @@ extension DocDB {
         public let masterUserPassword: String?
         /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if the master user password is managed by Amazon DocumentDB in Amazon Web Services Secrets Manager for the DB cluster. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.  To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt the secret.  If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. There is a default KMS key for your Amazon Web Services account.  Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
         public let masterUserSecretKmsKeyId: String?
+        /// The network type of the cluster. The network type is determined by the DBSubnetGroup specified for the cluster.  A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see DocumentDB clusters in a VPC in the Amazon DocumentDB Developer Guide. Valid Values: IPV4 | DUAL
+        public let networkType: String?
         /// The port number on which the instances in the cluster accept connections.
         public let port: Int?
         /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter.  The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.    Must be at least 30 minutes.
@@ -396,9 +398,11 @@ extension DocDB {
         public let preferredMaintenanceWindow: String?
         /// Not currently supported.
         public let preSignedUrl: String?
+        /// Contains the scaling configuration of an Amazon DocumentDB Serverless cluster.
+        public let serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration?
         /// Specifies whether the cluster is encrypted.
         public let storageEncrypted: Bool?
-        /// The storage type to associate with the DB cluster. For information on storage types for Amazon DocumentDB clusters, see  Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1  Default value is standard    When you create a DocumentDB DB cluster with the storage type set to iopt1, the storage type is returned in the response. The storage type isn't returned when you set it to standard.
+        /// The storage type to associate with the DB cluster. For information on storage types for Amazon DocumentDB clusters, see  Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1  Default value is standard    When you create an Amazon DocumentDB cluster with the storage type set to iopt1, the storage type is returned in the response. The storage type isn't returned when you set it to standard.
         public let storageType: String?
         /// The tags to be assigned to the cluster.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -408,7 +412,7 @@ extension DocDB {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, kmsKeyId: String? = nil, manageMasterUserPassword: Bool? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, kmsKeyId: String? = nil, manageMasterUserPassword: Bool? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, networkType: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.backupRetentionPeriod = backupRetentionPeriod
             self.dbClusterIdentifier = dbClusterIdentifier
@@ -424,10 +428,12 @@ extension DocDB {
             self.masterUsername = masterUsername
             self.masterUserPassword = masterUserPassword
             self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
+            self.networkType = networkType
             self.port = port
             self.preferredBackupWindow = preferredBackupWindow
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
             self.preSignedUrl = preSignedUrl
+            self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
             self.storageEncrypted = storageEncrypted
             self.storageType = storageType
             self.tags = tags
@@ -456,10 +462,12 @@ extension DocDB {
             case masterUsername = "MasterUsername"
             case masterUserPassword = "MasterUserPassword"
             case masterUserSecretKmsKeyId = "MasterUserSecretKmsKeyId"
+            case networkType = "NetworkType"
             case port = "Port"
             case preferredBackupWindow = "PreferredBackupWindow"
             case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
             case preSignedUrl = "PreSignedUrl"
+            case serverlessV2ScalingConfiguration = "ServerlessV2ScalingConfiguration"
             case storageEncrypted = "StorageEncrypted"
             case storageType = "StorageType"
             case tags = "Tags"
@@ -844,6 +852,8 @@ extension DocDB {
         public let engineVersion: String?
         /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
         public let hostedZoneId: String?
+        /// The next time you can modify the Amazon DocumentDB cluster to use the iopt1 storage type.
+        public let ioOptimizedNextAllowedModificationTime: Date?
         /// If StorageEncrypted is true, the KMS key identifier for the encrypted cluster.
         public let kmsKeyId: String?
         /// Specifies the latest time to which a database can be restored with point-in-time restore.
@@ -854,6 +864,8 @@ extension DocDB {
         public let masterUserSecret: ClusterMasterUserSecret?
         /// Specifies whether the cluster has instances in multiple Availability Zones.
         public let multiAZ: Bool?
+        /// The network type of the cluster. The network type is determined by the DBSubnetGroup specified for the cluster.  A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see DocumentDB clusters in a VPC in the Amazon DocumentDB Developer Guide. Valid Values: IPV4 | DUAL
+        public let networkType: String?
         /// Specifies the progress of the operation as a percentage.
         public let percentProgress: String?
         /// Specifies the port that the database engine is listening on.
@@ -869,18 +881,20 @@ extension DocDB {
         public var readReplicaIdentifiers: [String]?
         /// Contains the identifier of the source cluster if this cluster is a secondary cluster.
         public let replicationSourceIdentifier: String?
+        /// The scaling configuration of an Amazon DocumentDB Serverless cluster.
+        public let serverlessV2ScalingConfiguration: ServerlessV2ScalingConfigurationInfo?
         /// Specifies the current state of this cluster.
         public let status: String?
         /// Specifies whether the cluster is encrypted.
         public let storageEncrypted: Bool?
-        /// Storage type associated with your cluster Storage type associated with your cluster For information on storage types for Amazon DocumentDB clusters, see  Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1  Default value is standard
+        /// Storage type associated with your cluster For information on storage types for Amazon DocumentDB clusters, see  Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1  Default value is standard
         public let storageType: String?
         /// Provides a list of virtual private cloud (VPC) security groups that the cluster belongs to.
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
         @inlinable
-        public init(associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, dbClusterArn: String? = nil, dbClusterIdentifier: String? = nil, dbClusterMembers: [DBClusterMember]? = nil, dbClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dbSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, masterUsername: String? = nil, masterUserSecret: ClusterMasterUserSecret? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, dbClusterArn: String? = nil, dbClusterIdentifier: String? = nil, dbClusterMembers: [DBClusterMember]? = nil, dbClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dbSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, ioOptimizedNextAllowedModificationTime: Date? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, masterUsername: String? = nil, masterUserSecret: ClusterMasterUserSecret? = nil, multiAZ: Bool? = nil, networkType: String? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfigurationInfo? = nil, status: String? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.associatedRoles = associatedRoles
             self.availabilityZones = availabilityZones
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -899,11 +913,13 @@ extension DocDB {
             self.engine = engine
             self.engineVersion = engineVersion
             self.hostedZoneId = hostedZoneId
+            self.ioOptimizedNextAllowedModificationTime = ioOptimizedNextAllowedModificationTime
             self.kmsKeyId = kmsKeyId
             self.latestRestorableTime = latestRestorableTime
             self.masterUsername = masterUsername
             self.masterUserSecret = masterUserSecret
             self.multiAZ = multiAZ
+            self.networkType = networkType
             self.percentProgress = percentProgress
             self.port = port
             self.preferredBackupWindow = preferredBackupWindow
@@ -911,6 +927,7 @@ extension DocDB {
             self.readerEndpoint = readerEndpoint
             self.readReplicaIdentifiers = readReplicaIdentifiers
             self.replicationSourceIdentifier = replicationSourceIdentifier
+            self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
             self.status = status
             self.storageEncrypted = storageEncrypted
             self.storageType = storageType
@@ -936,11 +953,13 @@ extension DocDB {
             case engine = "Engine"
             case engineVersion = "EngineVersion"
             case hostedZoneId = "HostedZoneId"
+            case ioOptimizedNextAllowedModificationTime = "IOOptimizedNextAllowedModificationTime"
             case kmsKeyId = "KmsKeyId"
             case latestRestorableTime = "LatestRestorableTime"
             case masterUsername = "MasterUsername"
             case masterUserSecret = "MasterUserSecret"
             case multiAZ = "MultiAZ"
+            case networkType = "NetworkType"
             case percentProgress = "PercentProgress"
             case port = "Port"
             case preferredBackupWindow = "PreferredBackupWindow"
@@ -948,6 +967,7 @@ extension DocDB {
             case readerEndpoint = "ReaderEndpoint"
             case readReplicaIdentifiers = "ReadReplicaIdentifiers"
             case replicationSourceIdentifier = "ReplicationSourceIdentifier"
+            case serverlessV2ScalingConfiguration = "ServerlessV2ScalingConfiguration"
             case status = "Status"
             case storageEncrypted = "StorageEncrypted"
             case storageType = "StorageType"
@@ -1138,7 +1158,7 @@ extension DocDB {
         public let status: String?
         /// Specifies whether the cluster snapshot is encrypted.
         public let storageEncrypted: Bool?
-        /// Storage type associated with your cluster snapshot  For information on storage types for Amazon DocumentDB clusters, see  Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1  Default value is standard
+        /// Storage type associated with your cluster snapshot For information on storage types for Amazon DocumentDB clusters, see  Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1  Default value is standard
         public let storageType: String?
         /// Provides the virtual private cloud (VPC) ID that is associated with the cluster snapshot.
         public let vpcId: String?
@@ -1266,6 +1286,8 @@ extension DocDB {
         /// The types of logs that the database engine has available for export to Amazon CloudWatch Logs.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var exportableLogTypes: [String]?
+        /// Specifies any Amazon DocumentDB Serverless properties or limits that differ between Amazon DocumentDB engine versions.  You can test the values of this attribute when deciding which Amazon DocumentDB version to use in a new or upgraded cluster.  You can also retrieve the version of an existing cluster and check whether that version supports certain Amazon DocumentDB Serverless features before you attempt to use those features.
+        public let serverlessV2FeaturesSupport: ServerlessV2FeaturesSupport?
         /// A list of the supported CA certificate identifiers. For more information, see Updating Your Amazon DocumentDB TLS  Certificates and   Encrypting Data in Transit in the Amazon DocumentDB Developer  Guide.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var supportedCACertificateIdentifiers: [String]?
@@ -1278,13 +1300,14 @@ extension DocDB {
         public var validUpgradeTarget: [UpgradeTarget]?
 
         @inlinable
-        public init(dbEngineDescription: String? = nil, dbEngineVersionDescription: String? = nil, dbParameterGroupFamily: String? = nil, engine: String? = nil, engineVersion: String? = nil, exportableLogTypes: [String]? = nil, supportedCACertificateIdentifiers: [String]? = nil, supportsCertificateRotationWithoutRestart: Bool? = nil, supportsLogExportsToCloudwatchLogs: Bool? = nil, validUpgradeTarget: [UpgradeTarget]? = nil) {
+        public init(dbEngineDescription: String? = nil, dbEngineVersionDescription: String? = nil, dbParameterGroupFamily: String? = nil, engine: String? = nil, engineVersion: String? = nil, exportableLogTypes: [String]? = nil, serverlessV2FeaturesSupport: ServerlessV2FeaturesSupport? = nil, supportedCACertificateIdentifiers: [String]? = nil, supportsCertificateRotationWithoutRestart: Bool? = nil, supportsLogExportsToCloudwatchLogs: Bool? = nil, validUpgradeTarget: [UpgradeTarget]? = nil) {
             self.dbEngineDescription = dbEngineDescription
             self.dbEngineVersionDescription = dbEngineVersionDescription
             self.dbParameterGroupFamily = dbParameterGroupFamily
             self.engine = engine
             self.engineVersion = engineVersion
             self.exportableLogTypes = exportableLogTypes
+            self.serverlessV2FeaturesSupport = serverlessV2FeaturesSupport
             self.supportedCACertificateIdentifiers = supportedCACertificateIdentifiers
             self.supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestart
             self.supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs
@@ -1298,6 +1321,7 @@ extension DocDB {
             case engine = "Engine"
             case engineVersion = "EngineVersion"
             case exportableLogTypes = "ExportableLogTypes"
+            case serverlessV2FeaturesSupport = "ServerlessV2FeaturesSupport"
             case supportedCACertificateIdentifiers = "SupportedCACertificateIdentifiers"
             case supportsCertificateRotationWithoutRestart = "SupportsCertificateRotationWithoutRestart"
             case supportsLogExportsToCloudwatchLogs = "SupportsLogExportsToCloudwatchLogs"
@@ -1523,16 +1547,20 @@ extension DocDB {
         /// Detailed information about one or more subnets within a subnet group.
         @OptionalCustomCoding<ArrayCoder<_SubnetsEncoding, Subnet>>
         public var subnets: [Subnet]?
+        /// The network type of the DB subnet group. Valid Values: IPV4 | DUAL  A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL).
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var supportedNetworkTypes: [String]?
         /// Provides the virtual private cloud (VPC) ID of the subnet group.
         public let vpcId: String?
 
         @inlinable
-        public init(dbSubnetGroupArn: String? = nil, dbSubnetGroupDescription: String? = nil, dbSubnetGroupName: String? = nil, subnetGroupStatus: String? = nil, subnets: [Subnet]? = nil, vpcId: String? = nil) {
+        public init(dbSubnetGroupArn: String? = nil, dbSubnetGroupDescription: String? = nil, dbSubnetGroupName: String? = nil, subnetGroupStatus: String? = nil, subnets: [Subnet]? = nil, supportedNetworkTypes: [String]? = nil, vpcId: String? = nil) {
             self.dbSubnetGroupArn = dbSubnetGroupArn
             self.dbSubnetGroupDescription = dbSubnetGroupDescription
             self.dbSubnetGroupName = dbSubnetGroupName
             self.subnetGroupStatus = subnetGroupStatus
             self.subnets = subnets
+            self.supportedNetworkTypes = supportedNetworkTypes
             self.vpcId = vpcId
         }
 
@@ -1542,6 +1570,7 @@ extension DocDB {
             case dbSubnetGroupName = "DBSubnetGroupName"
             case subnetGroupStatus = "SubnetGroupStatus"
             case subnets = "Subnets"
+            case supportedNetworkTypes = "SupportedNetworkTypes"
             case vpcId = "VpcId"
         }
     }
@@ -2632,7 +2661,7 @@ extension DocDB {
         /// The list of cluster IDs for secondary clusters within the global cluster. Currently limited to one item.
         @OptionalCustomCoding<ArrayCoder<_GlobalClusterMembersEncoding, GlobalClusterMember>>
         public var globalClusterMembers: [GlobalClusterMember]?
-        /// The Amazon Web Services Region-unique, immutable identifier for the global database cluster. This identifier is found in CloudTrail log entries whenever the KMS customer master key (CMK) for the cluster is accessed.
+        /// The Amazon Web Services RegionRegion-unique, immutable identifier for the global database cluster.  This identifier is found in CloudTrail log entries whenever the KMS customer master key (CMK) for the cluster is accessed.
         public let globalClusterResourceId: String?
         /// Specifies the current state of this global cluster.
         public let status: String?
@@ -2672,7 +2701,7 @@ extension DocDB {
         public let dbClusterArn: String?
         ///  Specifies whether the Amazon DocumentDB cluster is the primary cluster (that is, has read-write capability) for the Amazon DocumentDB global cluster with which it is associated.
         public let isWriter: Bool?
-        /// The Amazon Resource Name (ARN) for each read-only secondary cluster associated with the Aurora global cluster.
+        /// The Amazon Resource Name (ARN) for each read-only secondary cluster associated with the Amazon DocumentDB global cluster.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var readers: [String]?
 
@@ -2733,7 +2762,7 @@ extension DocDB {
     public struct ModifyDBClusterMessage: AWSEncodableShape {
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
-        /// A value that indicates whether major version upgrades are allowed. Constraints: You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the DB cluster's current version.
+        /// A value that indicates whether major version upgrades are allowed. Constraints:   You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the cluster's current version.   Since some parameters are version specific, changing them requires executing a new ModifyDBCluster API call after the in-place MVU completes.    Performing an MVU directly impacts the following parameters:    MasterUserPassword     NewDBClusterIdentifier     VpcSecurityGroupIds     Port
         public let allowMajorVersionUpgrade: Bool?
         /// A value that specifies whether the changes in this request and any pending changes are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cluster. If this parameter is set to false, changes to the cluster are applied during the next maintenance window. The ApplyImmediately parameter affects only the NewDBClusterIdentifier and MasterUserPassword values. If you set this parameter value to false, the changes to the NewDBClusterIdentifier and MasterUserPassword values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false
         public let applyImmediately: Bool?
@@ -2755,6 +2784,8 @@ extension DocDB {
         public let masterUserPassword: String?
         /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if both of the following conditions are met:   The cluster doesn't manage the master user password in Amazon Web Services Secrets Manager.  If the cluster already manages the master user password in Amazon Web Services Secrets Manager, you can't change the KMS key that is used to encrypt the secret.   You are enabling ManageMasterUserPassword to manage the master user password in Amazon Web Services Secrets Manager.  If you are turning on ManageMasterUserPassword and don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt the secret.  If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key.   The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.  To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. There is a default KMS key for your Amazon Web Services account.  Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
         public let masterUserSecretKmsKeyId: String?
+        /// The network type of the cluster. The network type is determined by the DBSubnetGroup specified for the cluster.  A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see DocumentDB clusters in a VPC in the Amazon DocumentDB Developer Guide. Valid Values: IPV4 | DUAL
+        public let networkType: String?
         /// The new cluster identifier for the cluster when renaming a cluster. This value is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster2
         public let newDBClusterIdentifier: String?
         /// The port number on which the cluster accepts connections. Constraints: Must be a value from 1150 to 65535.  Default: The same port as the original cluster.
@@ -2765,6 +2796,8 @@ extension DocDB {
         public let preferredMaintenanceWindow: String?
         /// Specifies whether to rotate the secret managed by Amazon Web Services Secrets Manager for the master user password. This setting is valid only if the master user password is managed by Amazon DocumentDB in Amazon Web Services Secrets Manager for the cluster.  The secret value contains the updated password. Constraint: You must apply the change immediately when rotating the master user password.
         public let rotateMasterUserPassword: Bool?
+        /// Contains the scaling configuration of an Amazon DocumentDB Serverless cluster.
+        public let serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration?
         /// The storage type to associate with the DB cluster. For information on storage types for Amazon DocumentDB clusters, see  Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1  Default value is standard
         public let storageType: String?
         /// A list of virtual private cloud (VPC) security groups that the cluster will belong to.
@@ -2772,7 +2805,7 @@ extension DocDB {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, backupRetentionPeriod: Int? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, deletionProtection: Bool? = nil, engineVersion: String? = nil, manageMasterUserPassword: Bool? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, newDBClusterIdentifier: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, rotateMasterUserPassword: Bool? = nil, storageType: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, backupRetentionPeriod: Int? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, deletionProtection: Bool? = nil, engineVersion: String? = nil, manageMasterUserPassword: Bool? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, networkType: String? = nil, newDBClusterIdentifier: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, rotateMasterUserPassword: Bool? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, storageType: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
             self.applyImmediately = applyImmediately
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -2784,11 +2817,13 @@ extension DocDB {
             self.manageMasterUserPassword = manageMasterUserPassword
             self.masterUserPassword = masterUserPassword
             self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
+            self.networkType = networkType
             self.newDBClusterIdentifier = newDBClusterIdentifier
             self.port = port
             self.preferredBackupWindow = preferredBackupWindow
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
             self.rotateMasterUserPassword = rotateMasterUserPassword
+            self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
             self.storageType = storageType
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
         }
@@ -2805,11 +2840,13 @@ extension DocDB {
             case manageMasterUserPassword = "ManageMasterUserPassword"
             case masterUserPassword = "MasterUserPassword"
             case masterUserSecretKmsKeyId = "MasterUserSecretKmsKeyId"
+            case networkType = "NetworkType"
             case newDBClusterIdentifier = "NewDBClusterIdentifier"
             case port = "Port"
             case preferredBackupWindow = "PreferredBackupWindow"
             case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
             case rotateMasterUserPassword = "RotateMasterUserPassword"
+            case serverlessV2ScalingConfiguration = "ServerlessV2ScalingConfiguration"
             case storageType = "StorageType"
             case vpcSecurityGroupIds = "VpcSecurityGroupIds"
         }
@@ -3171,7 +3208,7 @@ extension DocDB {
         public let minimumEngineVersion: String?
         /// Specifies the name of the parameter.
         public let parameterName: String?
-        /// Specifies the value of the parameter.
+        /// Specifies the value of the parameter. Must be one or more of the cluster parameter's AllowedValues in CSV format: Valid values are:    enabled: The cluster accepts secure connections using TLS version 1.0 through 1.3.     disabled: The cluster does not accept secure connections using TLS.     fips-140-3: The cluster only accepts secure connections per the requirements of the Federal Information Processing Standards (FIPS) publication 140-3. Only supported starting with Amazon DocumentDB 5.0 (engine version 3.0.3727) clusters in these regions: ca-central-1, us-west-2, us-east-1, us-east-2, us-gov-east-1, us-gov-west-1.    tls1.2+: The cluster accepts secure connections using TLS version 1.2 and above. Only supported starting with Amazon DocumentDB 4.0 (engine version 2.0.10980) and Amazon DocumentDB 5.0 (engine version 3.0.11051).    tls1.3+: The cluster accepts secure connections using TLS version 1.3 and above. Only supported starting with Amazon DocumentDB 4.0 (engine version 2.0.10980) and Amazon DocumentDB 5.0 (engine version 3.0.11051).
         public let parameterValue: String?
         /// Indicates the source of the parameter value.
         public let source: String?
@@ -3534,8 +3571,12 @@ extension DocDB {
         public let engineVersion: String?
         /// The KMS key identifier to use when restoring an encrypted cluster from a DB snapshot or cluster snapshot. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a cluster with the same Amazon Web Services account that owns the KMS encryption key used to encrypt the new cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If you do not specify a value for the KmsKeyId parameter, then the following occurs:   If the snapshot or cluster snapshot in SnapshotIdentifier is encrypted, then the restored cluster is encrypted using the KMS key that was used to encrypt the snapshot or the cluster snapshot.   If the snapshot or the cluster snapshot in SnapshotIdentifier is not encrypted, then the restored DB cluster is not encrypted.
         public let kmsKeyId: String?
+        /// The network type of the cluster. The network type is determined by the DBSubnetGroup specified for the cluster.  A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see DocumentDB clusters in a VPC in the Amazon DocumentDB Developer Guide. Valid Values: IPV4 | DUAL
+        public let networkType: String?
         /// The port number on which the new cluster accepts connections. Constraints: Must be a value from 1150 to 65535. Default: The same port as the original cluster.
         public let port: Int?
+        /// Contains the scaling configuration of an Amazon DocumentDB Serverless cluster.
+        public let serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration?
         /// The identifier for the snapshot or cluster snapshot to restore from. You can use either the name or the Amazon Resource Name (ARN) to specify a cluster snapshot. However, you can use only the ARN to specify a snapshot. Constraints:   Must match the identifier of an existing snapshot.
         public let snapshotIdentifier: String?
         /// The storage type to associate with the DB cluster. For information on storage types for Amazon DocumentDB clusters, see  Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1  Default value is standard
@@ -3548,7 +3589,7 @@ extension DocDB {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(availabilityZones: [String]? = nil, dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, port: Int? = nil, snapshotIdentifier: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, networkType: String? = nil, port: Int? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, snapshotIdentifier: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbClusterParameterGroupName = dbClusterParameterGroupName
@@ -3558,7 +3599,9 @@ extension DocDB {
             self.engine = engine
             self.engineVersion = engineVersion
             self.kmsKeyId = kmsKeyId
+            self.networkType = networkType
             self.port = port
+            self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
             self.snapshotIdentifier = snapshotIdentifier
             self.storageType = storageType
             self.tags = tags
@@ -3575,7 +3618,9 @@ extension DocDB {
             case engine = "Engine"
             case engineVersion = "EngineVersion"
             case kmsKeyId = "KmsKeyId"
+            case networkType = "NetworkType"
             case port = "Port"
+            case serverlessV2ScalingConfiguration = "ServerlessV2ScalingConfiguration"
             case snapshotIdentifier = "SnapshotIdentifier"
             case storageType = "StorageType"
             case tags = "Tags"
@@ -3611,12 +3656,16 @@ extension DocDB {
         public var enableCloudwatchLogsExports: [String]?
         /// The KMS key identifier to use when restoring an encrypted cluster from an encrypted cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a cluster with the same Amazon Web Services account that owns the KMS encryption key used to encrypt the new cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. You can restore to a new cluster and encrypt the new cluster with an KMS key that is different from the KMS key used to encrypt the source cluster. The new DB cluster is encrypted with the KMS key identified by the KmsKeyId parameter. If you do not specify a value for the KmsKeyId parameter, then the following occurs:   If the cluster is encrypted, then the restored cluster is encrypted using the KMS key that was used to encrypt the source cluster.   If the cluster is not encrypted, then the restored cluster is not encrypted.   If DBClusterIdentifier refers to a cluster that is not encrypted, then the restore request is rejected.
         public let kmsKeyId: String?
+        /// The network type of the cluster. The network type is determined by the DBSubnetGroup specified for the cluster.  A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see DocumentDB clusters in a VPC in the Amazon DocumentDB Developer Guide. Valid Values: IPV4 | DUAL
+        public let networkType: String?
         /// The port number on which the new cluster accepts connections. Constraints: Must be a value from 1150 to 65535.  Default: The default port for the engine.
         public let port: Int?
         /// The date and time to restore the cluster to. Valid values: A time in Universal Coordinated Time (UTC) format. Constraints:   Must be before the latest restorable time for the instance.   Must be specified if the UseLatestRestorableTime parameter is not provided.   Cannot be specified if the UseLatestRestorableTime parameter is true.   Cannot be specified if the RestoreType parameter is copy-on-write.   Example: 2015-03-07T23:45:00Z
         public let restoreToTime: Date?
         /// The type of restore to be performed. You can specify one of the following values:    full-copy - The new DB cluster is restored as a full copy of the source DB cluster.    copy-on-write - The new DB cluster is restored as a clone of the source DB cluster.   Constraints: You can't specify copy-on-write if the engine version of the source DB cluster is earlier than 1.11. If you don't specify a RestoreType value, then the new DB cluster is restored as a full copy of the source DB cluster.
         public let restoreType: String?
+        /// Contains the scaling configuration of an Amazon DocumentDB Serverless cluster.
+        public let serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration?
         /// The identifier of the source cluster from which to restore. Constraints:   Must match the identifier of an existing DBCluster.
         public let sourceDBClusterIdentifier: String?
         /// The storage type to associate with the DB cluster. For information on storage types for Amazon DocumentDB clusters, see  Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1  Default value is standard
@@ -3631,15 +3680,17 @@ extension DocDB {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(dbClusterIdentifier: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, kmsKeyId: String? = nil, port: Int? = nil, restoreToTime: Date? = nil, restoreType: String? = nil, sourceDBClusterIdentifier: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(dbClusterIdentifier: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, kmsKeyId: String? = nil, networkType: String? = nil, port: Int? = nil, restoreToTime: Date? = nil, restoreType: String? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, sourceDBClusterIdentifier: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbSubnetGroupName = dbSubnetGroupName
             self.deletionProtection = deletionProtection
             self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
             self.kmsKeyId = kmsKeyId
+            self.networkType = networkType
             self.port = port
             self.restoreToTime = restoreToTime
             self.restoreType = restoreType
+            self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
             self.sourceDBClusterIdentifier = sourceDBClusterIdentifier
             self.storageType = storageType
             self.tags = tags
@@ -3653,9 +3704,11 @@ extension DocDB {
             case deletionProtection = "DeletionProtection"
             case enableCloudwatchLogsExports = "EnableCloudwatchLogsExports"
             case kmsKeyId = "KmsKeyId"
+            case networkType = "NetworkType"
             case port = "Port"
             case restoreToTime = "RestoreToTime"
             case restoreType = "RestoreType"
+            case serverlessV2ScalingConfiguration = "ServerlessV2ScalingConfiguration"
             case sourceDBClusterIdentifier = "SourceDBClusterIdentifier"
             case storageType = "StorageType"
             case tags = "Tags"
@@ -3674,6 +3727,60 @@ extension DocDB {
 
         private enum CodingKeys: String, CodingKey {
             case dbCluster = "DBCluster"
+        }
+    }
+
+    public struct ServerlessV2FeaturesSupport: AWSDecodableShape {
+        /// The maximum number of Amazon DocumentDB capacity units (DCUs) for an instance in an Amazon DocumentDB Serverless cluster. You can specify DCU values in half-step increments, such as 32, 32.5, 33, and so on.
+        public let maxCapacity: Double?
+        /// The minimum number of Amazon DocumentDB capacity units (DCUs) for an instance in an Amazon DocumentDB Serverless cluster.  You can specify DCU values in half-step increments, such as 8, 8.5, 9, and so on.
+        public let minCapacity: Double?
+
+        @inlinable
+        public init(maxCapacity: Double? = nil, minCapacity: Double? = nil) {
+            self.maxCapacity = maxCapacity
+            self.minCapacity = minCapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxCapacity = "MaxCapacity"
+            case minCapacity = "MinCapacity"
+        }
+    }
+
+    public struct ServerlessV2ScalingConfiguration: AWSEncodableShape {
+        /// The maximum number of Amazon DocumentDB capacity units (DCUs) for an instance in an Amazon DocumentDB Serverless cluster. You can specify DCU values in half-step increments, such as 32, 32.5, 33, and so on.
+        public let maxCapacity: Double?
+        /// The minimum number of Amazon DocumentDB capacity units (DCUs) for an instance in an Amazon DocumentDB Serverless cluster.  You can specify DCU values in half-step increments, such as 8, 8.5, 9, and so on.
+        public let minCapacity: Double?
+
+        @inlinable
+        public init(maxCapacity: Double? = nil, minCapacity: Double? = nil) {
+            self.maxCapacity = maxCapacity
+            self.minCapacity = minCapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxCapacity = "MaxCapacity"
+            case minCapacity = "MinCapacity"
+        }
+    }
+
+    public struct ServerlessV2ScalingConfigurationInfo: AWSDecodableShape {
+        /// The maximum number of Amazon DocumentDB capacity units (DCUs) for an instance in an Amazon DocumentDB Serverless cluster.  You can specify DCU values in half-step increments, such as 32, 32.5, 33, and so on.
+        public let maxCapacity: Double?
+        /// The minimum number of Amazon DocumentDB capacity units (DCUs) for an instance in an Amazon DocumentDB Serverless cluster.  You can specify DCU values in half-step increments, such as 8, 8.5, 9, and so on.
+        public let minCapacity: Double?
+
+        @inlinable
+        public init(maxCapacity: Double? = nil, minCapacity: Double? = nil) {
+            self.maxCapacity = maxCapacity
+            self.minCapacity = minCapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxCapacity = "MaxCapacity"
+            case minCapacity = "MinCapacity"
         }
     }
 
@@ -3926,6 +4033,7 @@ public struct DocDBErrorType: AWSErrorType {
         case invalidSubnet = "InvalidSubnet"
         case invalidVPCNetworkStateFault = "InvalidVPCNetworkStateFault"
         case kmsKeyNotAccessibleFault = "KMSKeyNotAccessibleFault"
+        case networkTypeNotSupported = "NetworkTypeNotSupported"
         case resourceNotFoundFault = "ResourceNotFoundFault"
         case sharedSnapshotQuotaExceededFault = "SharedSnapshotQuotaExceeded"
         case snapshotQuotaExceededFault = "SnapshotQuotaExceeded"
@@ -4047,6 +4155,8 @@ public struct DocDBErrorType: AWSErrorType {
     public static var invalidVPCNetworkStateFault: Self { .init(.invalidVPCNetworkStateFault) }
     /// An error occurred when accessing an KMS key.
     public static var kmsKeyNotAccessibleFault: Self { .init(.kmsKeyNotAccessibleFault) }
+    /// The network type is not supported by either DBSubnetGroup or the DB engine version.
+    public static var networkTypeNotSupported: Self { .init(.networkTypeNotSupported) }
     /// The specified resource ID was not found.
     public static var resourceNotFoundFault: Self { .init(.resourceNotFoundFault) }
     /// You have exceeded the maximum number of accounts that you can share a manual DB snapshot with.

@@ -76,8 +76,10 @@ extension NetworkFirewall {
     }
 
     public enum GeneratedRulesType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case alertlist = "ALERTLIST"
         case allowlist = "ALLOWLIST"
         case denylist = "DENYLIST"
+        case rejectlist = "REJECTLIST"
         public var description: String { return self.rawValue }
     }
 
@@ -798,7 +800,7 @@ extension NetworkFirewall {
     public struct CreateFirewallRequest: AWSEncodableShape {
         /// Optional. A setting indicating whether the firewall is protected against changes to its Availability Zone configuration. When set to TRUE, you cannot add or remove Availability Zones without first disabling this protection using UpdateAvailabilityZoneChangeProtection. Default value: FALSE
         public let availabilityZoneChangeProtection: Bool?
-        /// Required. The Availability Zones where you want to create firewall endpoints for a transit gateway-attached firewall. You must specify at least one Availability Zone. Consider enabling the firewall in every Availability Zone where you have workloads to maintain Availability Zone independence. You can modify Availability Zones later using AssociateAvailabilityZones or DisassociateAvailabilityZones, but this may briefly disrupt traffic. The AvailabilityZoneChangeProtection setting controls whether you can make these modifications.
+        /// Required. The Availability Zones where you want to create firewall endpoints for a transit gateway-attached firewall. You must specify at least one Availability Zone. Consider enabling the firewall in every Availability Zone where you have workloads to maintain Availability Zone isolation. You can modify Availability Zones later using AssociateAvailabilityZones or DisassociateAvailabilityZones, but this may briefly disrupt traffic. The AvailabilityZoneChangeProtection setting controls whether you can make these modifications.
         public let availabilityZoneMappings: [AvailabilityZoneMapping]?
         /// A flag indicating whether it is possible to delete the firewall. A setting of TRUE indicates that the firewall is protected against deletion. Use this setting to protect against accidentally deleting a firewall that is in use. When you create a firewall, the operation initializes this flag to TRUE.
         public let deleteProtection: Bool?
@@ -2309,6 +2311,8 @@ extension NetworkFirewall {
     }
 
     public struct FirewallPolicy: AWSEncodableShape & AWSDecodableShape {
+        /// When true, prevents TCP and TLS packets from reaching destination servers until TLS Inspection has evaluated Server Name Indication (SNI) rules. Requires an associated TLS Inspection configuration.
+        public let enableTLSSessionHolding: Bool?
         /// Contains variables that you can use to override default Suricata settings in your firewall policy.
         public let policyVariables: PolicyVariables?
         /// The default actions to take on a packet that doesn't match any stateful rules. The stateful default action is optional, and is only valid when using the strict rule order. Valid values of the stateful default action:   aws:drop_strict   aws:drop_established   aws:alert_strict   aws:alert_established   For more information, see Strict evaluation order in the Network Firewall Developer Guide.
@@ -2329,7 +2333,8 @@ extension NetworkFirewall {
         public let tlsInspectionConfigurationArn: String?
 
         @inlinable
-        public init(policyVariables: PolicyVariables? = nil, statefulDefaultActions: [String]? = nil, statefulEngineOptions: StatefulEngineOptions? = nil, statefulRuleGroupReferences: [StatefulRuleGroupReference]? = nil, statelessCustomActions: [CustomAction]? = nil, statelessDefaultActions: [String], statelessFragmentDefaultActions: [String], statelessRuleGroupReferences: [StatelessRuleGroupReference]? = nil, tlsInspectionConfigurationArn: String? = nil) {
+        public init(enableTLSSessionHolding: Bool? = nil, policyVariables: PolicyVariables? = nil, statefulDefaultActions: [String]? = nil, statefulEngineOptions: StatefulEngineOptions? = nil, statefulRuleGroupReferences: [StatefulRuleGroupReference]? = nil, statelessCustomActions: [CustomAction]? = nil, statelessDefaultActions: [String], statelessFragmentDefaultActions: [String], statelessRuleGroupReferences: [StatelessRuleGroupReference]? = nil, tlsInspectionConfigurationArn: String? = nil) {
+            self.enableTLSSessionHolding = enableTLSSessionHolding
             self.policyVariables = policyVariables
             self.statefulDefaultActions = statefulDefaultActions
             self.statefulEngineOptions = statefulEngineOptions
@@ -2358,6 +2363,7 @@ extension NetworkFirewall {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case enableTLSSessionHolding = "EnableTLSSessionHolding"
             case policyVariables = "PolicyVariables"
             case statefulDefaultActions = "StatefulDefaultActions"
             case statefulEngineOptions = "StatefulEngineOptions"
@@ -3932,7 +3938,7 @@ extension NetworkFirewall {
     }
 
     public struct RulesSourceList: AWSEncodableShape & AWSDecodableShape {
-        /// Whether you want to allow or deny access to the domains in your target list.
+        /// Whether you want to apply allow, reject, alert, or drop behavior to the domains in your target list.  When logging is enabled and you choose Alert, traffic that matches the domain specifications  generates an alert in the firewall's logs. Then, traffic either passes, is rejected, or drops based on other rules in the firewall policy.
         public let generatedRulesType: GeneratedRulesType
         /// The domains that you want to inspect for in your traffic flows. Valid domain specifications are the following:   Explicit names. For example, abc.example.com matches only the domain abc.example.com.   Names that use a domain wildcard, which you indicate with an initial '.'. For example,.example.com matches example.com and matches all subdomains of example.com, such as abc.example.com and www.example.com.
         public let targets: [String]
@@ -4283,7 +4289,7 @@ extension NetworkFirewall {
     public struct StatefulEngineOptions: AWSEncodableShape & AWSDecodableShape {
         /// Configures the amount of time that can pass without any traffic sent through the firewall before the firewall determines that the connection is idle.
         public let flowTimeouts: FlowTimeouts?
-        /// Indicates how to manage the order of stateful rule evaluation for the policy. STRICT_ORDER is the recommended option, but DEFAULT_ACTION_ORDER is the default option.  With STRICT_ORDER, provide your rules in the order that you want them to be evaluated.  You can then choose one or more default actions for packets that don't match any rules.  Choose STRICT_ORDER to have the stateful rules engine determine the evaluation order of your rules.  The default action for this rule order is  PASS, followed by DROP, REJECT, and ALERT actions.  Stateful rules are provided to the rule engine as Suricata compatible strings, and Suricata evaluates them based on your settings.  For more information, see Evaluation order for stateful rules in the Network Firewall Developer Guide.
+        /// Indicates how to manage the order of stateful rule evaluation for the policy. STRICT_ORDER is the recommended option, but DEFAULT_ACTION_ORDER is the default option. With STRICT_ORDER,  provide your rules in the order that you want them to be evaluated.  You can then choose one or more default actions for packets that don't match any rules.  Choose STRICT_ORDER to have the stateful rules engine determine the evaluation order of your rules.  The default action for this rule order is PASS, followed by DROP, REJECT, and ALERT actions.  Stateful rules are provided to the rule engine as Suricata compatible strings, and Suricata evaluates them based on your settings.  For more information, see Evaluation order for stateful rules in the Network Firewall Developer Guide.
         public let ruleOrder: RuleOrder?
         /// Configures how Network Firewall processes traffic when a network connection breaks midstream. Network connections can break due to disruptions in external networks or within the firewall itself.    DROP - Network Firewall fails closed and drops all subsequent traffic going to the firewall. This is the default behavior.    CONTINUE - Network Firewall continues to apply rules to the subsequent traffic without context from traffic before the break. This impacts the behavior of rules that depend on this context. For example, if you have a stateful rule to drop http traffic, Network Firewall won't match the traffic for this rule because the service won't have the context from session initialization defining the application layer protocol as HTTP. However, this behavior is rule dependent—a TCP-layer rule using a flow:stateless rule would still match, as would the aws:drop_strict default action.    REJECT - Network Firewall fails closed and drops all subsequent traffic going to the firewall. Network Firewall also sends a TCP reject packet back to your client so that the client can immediately establish a new session. Network Firewall will have context about the new session and will apply rules to the subsequent traffic.
         public let streamExceptionPolicy: StreamExceptionPolicy?

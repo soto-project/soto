@@ -80,6 +80,7 @@ public struct Proton: AWSService {
     // MARK: API Calls
 
     /// In a management account, an environment account connection request is accepted. When the environment account connection request is accepted, Proton can use the associated IAM role to provision environment infrastructure resources in the associated environment account. For more information, see Environment account connections in the Proton User guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func acceptEnvironmentAccountConnection(_ input: AcceptEnvironmentAccountConnectionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AcceptEnvironmentAccountConnectionOutput {
@@ -97,6 +98,7 @@ public struct Proton: AWSService {
     /// Parameters:
     ///   - id: The ID of the environment account connection.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func acceptEnvironmentAccountConnection(
         id: String,
@@ -109,6 +111,7 @@ public struct Proton: AWSService {
     }
 
     /// Attempts to cancel a component deployment (for a component that is in the IN_PROGRESS deployment status). For more information about components, see Proton components in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func cancelComponentDeployment(_ input: CancelComponentDeploymentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelComponentDeploymentOutput {
@@ -126,6 +129,7 @@ public struct Proton: AWSService {
     /// Parameters:
     ///   - componentName: The name of the component with the deployment to cancel.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func cancelComponentDeployment(
         componentName: String,
@@ -138,6 +142,7 @@ public struct Proton: AWSService {
     }
 
     /// Attempts to cancel an environment deployment on an UpdateEnvironment action, if the deployment is IN_PROGRESS. For more information, see Update an environment in the Proton User guide. The following list includes potential cancellation scenarios.   If the cancellation attempt succeeds, the resulting deployment state is CANCELLED.   If the cancellation attempt fails, the resulting deployment state is FAILED.   If the current UpdateEnvironment action succeeds before the cancellation attempt starts, the resulting deployment state is SUCCEEDED and the cancellation attempt has no effect.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func cancelEnvironmentDeployment(_ input: CancelEnvironmentDeploymentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelEnvironmentDeploymentOutput {
@@ -155,6 +160,7 @@ public struct Proton: AWSService {
     /// Parameters:
     ///   - environmentName: The name of the environment with the deployment to cancel.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func cancelEnvironmentDeployment(
         environmentName: String,
@@ -167,6 +173,7 @@ public struct Proton: AWSService {
     }
 
     /// Attempts to cancel a service instance deployment on an UpdateServiceInstance action, if the deployment is IN_PROGRESS. For more information, see Update a service instance in the Proton User guide. The following list includes potential cancellation scenarios.   If the cancellation attempt succeeds, the resulting deployment state is CANCELLED.   If the cancellation attempt fails, the resulting deployment state is FAILED.   If the current UpdateServiceInstance action succeeds before the cancellation attempt starts, the resulting deployment state is SUCCEEDED and the cancellation attempt has no effect.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func cancelServiceInstanceDeployment(_ input: CancelServiceInstanceDeploymentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelServiceInstanceDeploymentOutput {
@@ -185,6 +192,7 @@ public struct Proton: AWSService {
     ///   - serviceInstanceName: The name of the service instance with the deployment to cancel.
     ///   - serviceName: The name of the service with the service instance deployment to cancel.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func cancelServiceInstanceDeployment(
         serviceInstanceName: String,
@@ -199,6 +207,7 @@ public struct Proton: AWSService {
     }
 
     /// Attempts to cancel a service pipeline deployment on an UpdateServicePipeline action, if the deployment is IN_PROGRESS. For more information, see Update a service pipeline in the Proton User guide. The following list includes potential cancellation scenarios.   If the cancellation attempt succeeds, the resulting deployment state is CANCELLED.   If the cancellation attempt fails, the resulting deployment state is FAILED.   If the current UpdateServicePipeline action succeeds before the cancellation attempt starts, the resulting deployment state is SUCCEEDED and the cancellation attempt has no effect.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func cancelServicePipelineDeployment(_ input: CancelServicePipelineDeploymentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelServicePipelineDeploymentOutput {
@@ -216,6 +225,7 @@ public struct Proton: AWSService {
     /// Parameters:
     ///   - serviceName: The name of the service with the service pipeline deployment to cancel.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func cancelServicePipelineDeployment(
         serviceName: String,
@@ -228,6 +238,7 @@ public struct Proton: AWSService {
     }
 
     /// Create an Proton component. A component is an infrastructure extension for a service instance. For more information about components, see Proton components in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func createComponent(_ input: CreateComponentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateComponentOutput {
@@ -254,6 +265,7 @@ public struct Proton: AWSService {
     ///   - tags: An optional list of metadata items that you can associate with the Proton component. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton User Guide.
     ///   - templateFile: A path to the Infrastructure as Code (IaC) file describing infrastructure that a custom component provisions.  Components support a single IaC file, even if you use Terraform as your template language.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func createComponent(
         clientToken: String? = CreateComponentInput.idempotencyToken(),
@@ -284,6 +296,7 @@ public struct Proton: AWSService {
     }
 
     /// Deploy a new environment. An Proton environment is created from an environment template that defines infrastructure and resources that can be shared across services.  You can provision environments using the following methods:    Amazon Web Services-managed provisioning: Proton makes direct calls to provision your resources.   Self-managed provisioning: Proton makes pull requests on your repository to provide compiled infrastructure as code (IaC) files that your IaC engine uses to provision resources.   For more information, see Environments and Provisioning methods in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func createEnvironment(_ input: CreateEnvironmentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEnvironmentOutput {
@@ -312,6 +325,7 @@ public struct Proton: AWSService {
     ///   - templateMinorVersion: The minor version of the environment template.
     ///   - templateName: The name of the environment template. For more information, see Environment Templates in the Proton User Guide.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func createEnvironment(
         codebuildRoleArn: String? = nil,
@@ -346,6 +360,7 @@ public struct Proton: AWSService {
     }
 
     /// Create an environment account connection in an environment account so that environment infrastructure resources can be provisioned in the environment account from a management account. An environment account connection is a secure bi-directional connection between a management account and an environment account that maintains authorization and permissions. For more information, see Environment account connections in the Proton User guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func createEnvironmentAccountConnection(_ input: CreateEnvironmentAccountConnectionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEnvironmentAccountConnectionOutput {
@@ -369,6 +384,7 @@ public struct Proton: AWSService {
     ///   - roleArn: The Amazon Resource Name (ARN) of the IAM service role that's created in the environment account. Proton uses this role to provision infrastructure resources in the associated environment account.
     ///   - tags: An optional list of metadata items that you can associate with the Proton environment account connection. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton User Guide.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func createEnvironmentAccountConnection(
         clientToken: String? = CreateEnvironmentAccountConnectionInput.idempotencyToken(),
@@ -393,6 +409,7 @@ public struct Proton: AWSService {
     }
 
     /// Create an environment template for Proton. For more information, see Environment Templates in the Proton User Guide. You can create an environment template in one of the two following ways:   Register and publish a standard environment template that instructs Proton to deploy and manage environment infrastructure.   Register and publish a customer managed environment template that connects Proton to your existing provisioned infrastructure that you manage. Proton doesn't manage your existing provisioned infrastructure. To create an environment template for customer provisioned and managed infrastructure, include the provisioning parameter and set the value to CUSTOMER_MANAGED. For more information, see Register and publish an environment template in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func createEnvironmentTemplate(_ input: CreateEnvironmentTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEnvironmentTemplateOutput {
@@ -415,6 +432,7 @@ public struct Proton: AWSService {
     ///   - provisioning: When included, indicates that the environment template is for customer provisioned and managed infrastructure.
     ///   - tags: An optional list of metadata items that you can associate with the Proton environment template. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton User Guide.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func createEnvironmentTemplate(
         description: String? = nil,
@@ -437,6 +455,7 @@ public struct Proton: AWSService {
     }
 
     /// Create a new major or minor version of an environment template. A major version of an environment template is a version that isn't backwards compatible. A minor version of an environment template is a version that's backwards compatible within its major version.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func createEnvironmentTemplateVersion(_ input: CreateEnvironmentTemplateVersionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEnvironmentTemplateVersionOutput {
@@ -459,6 +478,7 @@ public struct Proton: AWSService {
     ///   - tags: An optional list of metadata items that you can associate with the Proton environment template version. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton User Guide.
     ///   - templateName: The name of the environment template.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func createEnvironmentTemplateVersion(
         clientToken: String? = CreateEnvironmentTemplateVersionInput.idempotencyToken(),
@@ -481,6 +501,7 @@ public struct Proton: AWSService {
     }
 
     /// Create and register a link to a repository. Proton uses the link to repeatedly access the repository, to either push to it (self-managed provisioning) or pull from it (template sync). You can share a linked repository across multiple resources (like environments using self-managed provisioning, or synced templates). When you create a repository link, Proton creates a service-linked role for you. For more information, see Self-managed provisioning, Template bundles, and Template sync configurations in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func createRepository(_ input: CreateRepositoryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRepositoryOutput {
@@ -502,6 +523,7 @@ public struct Proton: AWSService {
     ///   - provider: The repository provider.
     ///   - tags: An optional list of metadata items that you can associate with the Proton repository. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton User Guide.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func createRepository(
         connectionArn: String,
@@ -522,6 +544,7 @@ public struct Proton: AWSService {
     }
 
     /// Create an Proton service. An Proton service is an instantiation of a service template and often includes several service instances and pipeline. For more information, see Services in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func createService(_ input: CreateServiceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateServiceOutput {
@@ -548,6 +571,7 @@ public struct Proton: AWSService {
     ///   - templateMinorVersion: The minor version of the service template that was used to create the service.
     ///   - templateName: The name of the service template that's used to create the service.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func createService(
         branchName: String? = nil,
@@ -578,6 +602,7 @@ public struct Proton: AWSService {
     }
 
     /// Create a service instance.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func createServiceInstance(_ input: CreateServiceInstanceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateServiceInstanceOutput {
@@ -601,6 +626,7 @@ public struct Proton: AWSService {
     ///   - templateMajorVersion: To create a new major and minor version of the service template, exclude major Version.
     ///   - templateMinorVersion: To create a new minor version of the service template, include a major Version.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func createServiceInstance(
         clientToken: String? = CreateServiceInstanceInput.idempotencyToken(),
@@ -625,6 +651,7 @@ public struct Proton: AWSService {
     }
 
     /// Create the Proton Ops configuration file.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func createServiceSyncConfig(_ input: CreateServiceSyncConfigInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateServiceSyncConfigOutput {
@@ -646,6 +673,7 @@ public struct Proton: AWSService {
     ///   - repositoryProvider: The provider type for your repository.
     ///   - serviceName: The name of the service the Proton Ops file is for.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func createServiceSyncConfig(
         branch: String,
@@ -666,6 +694,7 @@ public struct Proton: AWSService {
     }
 
     /// Create a service template. The administrator creates a service template to define standardized infrastructure and an optional CI/CD service pipeline. Developers, in turn, select the service template from Proton. If the selected service template includes a service pipeline definition, they provide a link to their source code repository. Proton then deploys and manages the infrastructure defined by the selected service template. For more information, see Proton templates in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func createServiceTemplate(_ input: CreateServiceTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateServiceTemplateOutput {
@@ -688,6 +717,7 @@ public struct Proton: AWSService {
     ///   - pipelineProvisioning: By default, Proton provides a service pipeline for your service. When this parameter is included, it indicates that an Proton service pipeline isn't provided for your service. After it's included, it can't be changed. For more information, see Template bundles in the Proton User Guide.
     ///   - tags: An optional list of metadata items that you can associate with the Proton service template. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton User Guide.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func createServiceTemplate(
         description: String? = nil,
@@ -710,6 +740,7 @@ public struct Proton: AWSService {
     }
 
     /// Create a new major or minor version of a service template. A major version of a service template is a version that isn't backward compatible. A minor version of a service template is a version that's backward compatible within its major version.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func createServiceTemplateVersion(_ input: CreateServiceTemplateVersionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateServiceTemplateVersionOutput {
@@ -734,6 +765,7 @@ public struct Proton: AWSService {
     ///   - tags: An optional list of metadata items that you can associate with the Proton service template version. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton User Guide.
     ///   - templateName: The name of the service template.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func createServiceTemplateVersion(
         clientToken: String? = CreateServiceTemplateVersionInput.idempotencyToken(),
@@ -760,6 +792,7 @@ public struct Proton: AWSService {
     }
 
     /// Set up a template to create new template versions automatically by tracking a linked repository. A linked repository is a repository that has been registered with Proton. For more information, see CreateRepository. When a commit is pushed to your linked repository, Proton checks for changes to your repository template bundles. If it detects a template bundle change, a new major or minor version of its template is created, if the version doesn’t already exist. For more information, see Template sync configurations in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func createTemplateSyncConfig(_ input: CreateTemplateSyncConfigInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTemplateSyncConfigOutput {
@@ -782,6 +815,7 @@ public struct Proton: AWSService {
     ///   - templateName: The name of your registered template.
     ///   - templateType: The type of the registered template.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func createTemplateSyncConfig(
         branch: String,
@@ -804,6 +838,7 @@ public struct Proton: AWSService {
     }
 
     /// Delete an Proton component resource. For more information about components, see Proton components in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func deleteComponent(_ input: DeleteComponentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteComponentOutput {
@@ -821,6 +856,7 @@ public struct Proton: AWSService {
     /// Parameters:
     ///   - name: The name of the component to delete.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func deleteComponent(
         name: String,
@@ -833,6 +869,7 @@ public struct Proton: AWSService {
     }
 
     /// Delete the deployment.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func deleteDeployment(_ input: DeleteDeploymentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDeploymentOutput {
@@ -850,6 +887,7 @@ public struct Proton: AWSService {
     /// Parameters:
     ///   - id: The ID of the deployment to delete.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func deleteDeployment(
         id: String,
@@ -862,6 +900,7 @@ public struct Proton: AWSService {
     }
 
     /// Delete an environment.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func deleteEnvironment(_ input: DeleteEnvironmentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEnvironmentOutput {
@@ -879,6 +918,7 @@ public struct Proton: AWSService {
     /// Parameters:
     ///   - name: The name of the environment to delete.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func deleteEnvironment(
         name: String,
@@ -891,6 +931,7 @@ public struct Proton: AWSService {
     }
 
     /// In an environment account, delete an environment account connection. After you delete an environment account connection that’s in use by an Proton environment, Proton can’t manage the environment infrastructure resources until a new environment account connection is accepted for the environment account and associated environment. You're responsible for cleaning up provisioned resources that remain without an environment connection. For more information, see Environment account connections in the Proton User guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func deleteEnvironmentAccountConnection(_ input: DeleteEnvironmentAccountConnectionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEnvironmentAccountConnectionOutput {
@@ -908,6 +949,7 @@ public struct Proton: AWSService {
     /// Parameters:
     ///   - id: The ID of the environment account connection to delete.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func deleteEnvironmentAccountConnection(
         id: String,
@@ -920,6 +962,7 @@ public struct Proton: AWSService {
     }
 
     /// If no other major or minor versions of an environment template exist, delete the environment template.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func deleteEnvironmentTemplate(_ input: DeleteEnvironmentTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEnvironmentTemplateOutput {
@@ -937,6 +980,7 @@ public struct Proton: AWSService {
     /// Parameters:
     ///   - name: The name of the environment template to delete.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func deleteEnvironmentTemplate(
         name: String,
@@ -949,6 +993,7 @@ public struct Proton: AWSService {
     }
 
     /// If no other minor versions of an environment template exist, delete a major version of the environment template if it's not the Recommended version. Delete the Recommended version of the environment template if no other major versions or minor versions of the environment template exist. A major version of an environment template is a version that's not backward compatible. Delete a minor version of an environment template if it isn't the Recommended version. Delete a Recommended minor version of the environment template if no other minor versions of the environment template exist. A minor version of an environment template is a version that's backward compatible.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func deleteEnvironmentTemplateVersion(_ input: DeleteEnvironmentTemplateVersionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEnvironmentTemplateVersionOutput {
@@ -968,6 +1013,7 @@ public struct Proton: AWSService {
     ///   - minorVersion: The environment template minor version to delete.
     ///   - templateName: The name of the environment template.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func deleteEnvironmentTemplateVersion(
         majorVersion: String,
@@ -984,6 +1030,7 @@ public struct Proton: AWSService {
     }
 
     /// De-register and unlink your repository.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func deleteRepository(_ input: DeleteRepositoryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRepositoryOutput {
@@ -1002,6 +1049,7 @@ public struct Proton: AWSService {
     ///   - name: The repository name.
     ///   - provider: The repository provider.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func deleteRepository(
         name: String,
@@ -1016,6 +1064,7 @@ public struct Proton: AWSService {
     }
 
     /// Delete a service, with its instances and pipeline.  You can't delete a service if it has any service instances that have components attached to them. For more information about components, see Proton components in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func deleteService(_ input: DeleteServiceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteServiceOutput {
@@ -1033,6 +1082,7 @@ public struct Proton: AWSService {
     /// Parameters:
     ///   - name: The name of the service to delete.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func deleteService(
         name: String,
@@ -1045,6 +1095,7 @@ public struct Proton: AWSService {
     }
 
     /// Delete the Proton Ops file.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func deleteServiceSyncConfig(_ input: DeleteServiceSyncConfigInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteServiceSyncConfigOutput {
@@ -1062,6 +1113,7 @@ public struct Proton: AWSService {
     /// Parameters:
     ///   - serviceName: The name of the service that you want to delete the service sync configuration for.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func deleteServiceSyncConfig(
         serviceName: String,
@@ -1074,6 +1126,7 @@ public struct Proton: AWSService {
     }
 
     /// If no other major or minor versions of the service template exist, delete the service template.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func deleteServiceTemplate(_ input: DeleteServiceTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteServiceTemplateOutput {
@@ -1091,6 +1144,7 @@ public struct Proton: AWSService {
     /// Parameters:
     ///   - name: The name of the service template to delete.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func deleteServiceTemplate(
         name: String,
@@ -1103,6 +1157,7 @@ public struct Proton: AWSService {
     }
 
     /// If no other minor versions of a service template exist, delete a major version of the service template if it's not the Recommended version. Delete the Recommended version of the service template if no other major versions or minor versions of the service template exist. A major version of a service template is a version that isn't backwards compatible. Delete a minor version of a service template if it's not the Recommended version. Delete a Recommended minor version of the service template if no other minor versions of the service template exist. A minor version of a service template is a version that's backwards compatible.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func deleteServiceTemplateVersion(_ input: DeleteServiceTemplateVersionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteServiceTemplateVersionOutput {
@@ -1122,6 +1177,7 @@ public struct Proton: AWSService {
     ///   - minorVersion: The service template minor version to delete.
     ///   - templateName: The name of the service template.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func deleteServiceTemplateVersion(
         majorVersion: String,
@@ -1138,6 +1194,7 @@ public struct Proton: AWSService {
     }
 
     /// Delete a template sync configuration.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func deleteTemplateSyncConfig(_ input: DeleteTemplateSyncConfigInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTemplateSyncConfigOutput {
@@ -1156,6 +1213,7 @@ public struct Proton: AWSService {
     ///   - templateName: The template name.
     ///   - templateType: The template type.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func deleteTemplateSyncConfig(
         templateName: String,
@@ -1170,6 +1228,7 @@ public struct Proton: AWSService {
     }
 
     /// Get detail data for Proton account-wide settings.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func getAccountSettings(_ input: GetAccountSettingsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountSettingsOutput {
@@ -1186,6 +1245,7 @@ public struct Proton: AWSService {
     ///
     /// Parameters:
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func getAccountSettings(
         logger: Logger = AWSClient.loggingDisabled        
@@ -1196,6 +1256,7 @@ public struct Proton: AWSService {
     }
 
     /// Get detailed data for a component. For more information about components, see Proton components in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func getComponent(_ input: GetComponentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetComponentOutput {
@@ -1213,6 +1274,7 @@ public struct Proton: AWSService {
     /// Parameters:
     ///   - name: The name of the component that you want to get the detailed data for.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func getComponent(
         name: String,
@@ -1225,6 +1287,7 @@ public struct Proton: AWSService {
     }
 
     /// Get detailed data for a deployment.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func getDeployment(_ input: GetDeploymentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDeploymentOutput {
@@ -1246,6 +1309,7 @@ public struct Proton: AWSService {
     ///   - serviceInstanceName: The name of the service instance associated with the given deployment ID. serviceName must be specified to identify the service instance.
     ///   - serviceName: The name of the service associated with the given deployment ID.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func getDeployment(
         componentName: String? = nil,
@@ -1266,6 +1330,7 @@ public struct Proton: AWSService {
     }
 
     /// Get detailed data for an environment.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func getEnvironment(_ input: GetEnvironmentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEnvironmentOutput {
@@ -1283,6 +1348,7 @@ public struct Proton: AWSService {
     /// Parameters:
     ///   - name: The name of the environment that you want to get the detailed data for.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func getEnvironment(
         name: String,
@@ -1295,6 +1361,7 @@ public struct Proton: AWSService {
     }
 
     /// In an environment account, get the detailed data for an environment account connection. For more information, see Environment account connections in the Proton User guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func getEnvironmentAccountConnection(_ input: GetEnvironmentAccountConnectionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEnvironmentAccountConnectionOutput {
@@ -1312,6 +1379,7 @@ public struct Proton: AWSService {
     /// Parameters:
     ///   - id: The ID of the environment account connection that you want to get the detailed data for.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func getEnvironmentAccountConnection(
         id: String,
@@ -1324,6 +1392,7 @@ public struct Proton: AWSService {
     }
 
     /// Get detailed data for an environment template.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func getEnvironmentTemplate(_ input: GetEnvironmentTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEnvironmentTemplateOutput {
@@ -1341,6 +1410,7 @@ public struct Proton: AWSService {
     /// Parameters:
     ///   - name: The name of the environment template that you want to get the detailed data for.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func getEnvironmentTemplate(
         name: String,
@@ -1353,6 +1423,7 @@ public struct Proton: AWSService {
     }
 
     /// Get detailed data for a major or minor version of an environment template.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func getEnvironmentTemplateVersion(_ input: GetEnvironmentTemplateVersionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEnvironmentTemplateVersionOutput {
@@ -1372,6 +1443,7 @@ public struct Proton: AWSService {
     ///   - minorVersion: To get environment template minor version detail data, include minorVersion.
     ///   - templateName: The name of the environment template a version of which you want to get detailed data for.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func getEnvironmentTemplateVersion(
         majorVersion: String,
@@ -1388,6 +1460,7 @@ public struct Proton: AWSService {
     }
 
     /// Get detail data for a linked repository.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func getRepository(_ input: GetRepositoryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRepositoryOutput {
@@ -1406,6 +1479,7 @@ public struct Proton: AWSService {
     ///   - name: The repository name, for example myrepos/myrepo.
     ///   - provider: The repository provider.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func getRepository(
         name: String,
@@ -1420,6 +1494,7 @@ public struct Proton: AWSService {
     }
 
     /// Get the sync status of a repository used for Proton template sync. For more information about template sync, see .  A repository sync status isn't tied to the Proton Repository resource (or any other Proton resource). Therefore, tags on an Proton Repository resource have no effect on this action. Specifically, you can't use these tags to control access to this action using Attribute-based access control (ABAC). For more information about ABAC, see ABAC in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func getRepositorySyncStatus(_ input: GetRepositorySyncStatusInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRepositorySyncStatusOutput {
@@ -1440,6 +1515,7 @@ public struct Proton: AWSService {
     ///   - repositoryProvider: The repository provider.
     ///   - syncType: The repository sync type.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func getRepositorySyncStatus(
         branch: String,
@@ -1458,6 +1534,7 @@ public struct Proton: AWSService {
     }
 
     /// Get counts of Proton resources. For infrastructure-provisioning resources (environments, services, service instances, pipelines), the action returns staleness counts. A resource is stale when it's behind the recommended version of the Proton template that it uses and it needs an update to become current. The action returns staleness counts (counts of resources that are up-to-date, behind a template major version, or behind a template minor version), the total number of resources, and the number of resources that are in a failed state, grouped by resource type. Components, environments, and service templates return less information - see the components, environments, and serviceTemplates field descriptions. For context, the action also returns the total number of each type of Proton template in the Amazon Web Services account. For more information, see Proton dashboard in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func getResourcesSummary(_ input: GetResourcesSummaryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcesSummaryOutput {
@@ -1474,6 +1551,7 @@ public struct Proton: AWSService {
     ///
     /// Parameters:
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func getResourcesSummary(
         logger: Logger = AWSClient.loggingDisabled        
@@ -1484,6 +1562,7 @@ public struct Proton: AWSService {
     }
 
     /// Get detailed data for a service.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func getService(_ input: GetServiceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceOutput {
@@ -1501,6 +1580,7 @@ public struct Proton: AWSService {
     /// Parameters:
     ///   - name: The name of the service that you want to get the detailed data for.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func getService(
         name: String,
@@ -1513,6 +1593,7 @@ public struct Proton: AWSService {
     }
 
     /// Get detailed data for a service instance. A service instance is an instantiation of service template and it runs in a specific environment.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func getServiceInstance(_ input: GetServiceInstanceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceInstanceOutput {
@@ -1531,6 +1612,7 @@ public struct Proton: AWSService {
     ///   - name: The name of a service instance that you want to get the detailed data for.
     ///   - serviceName: The name of the service that you want the service instance input for.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func getServiceInstance(
         name: String,
@@ -1545,6 +1627,7 @@ public struct Proton: AWSService {
     }
 
     /// Get the status of the synced service instance.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func getServiceInstanceSyncStatus(_ input: GetServiceInstanceSyncStatusInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceInstanceSyncStatusOutput {
@@ -1563,6 +1646,7 @@ public struct Proton: AWSService {
     ///   - serviceInstanceName: The name of the service instance that you want the sync status input for.
     ///   - serviceName: The name of the service that the service instance belongs to.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func getServiceInstanceSyncStatus(
         serviceInstanceName: String,
@@ -1577,6 +1661,7 @@ public struct Proton: AWSService {
     }
 
     /// Get detailed data for the service sync blocker summary.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func getServiceSyncBlockerSummary(_ input: GetServiceSyncBlockerSummaryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceSyncBlockerSummaryOutput {
@@ -1595,6 +1680,7 @@ public struct Proton: AWSService {
     ///   - serviceInstanceName: The name of the service instance that you want to get the service sync blocker summary for. If given bothe the instance name and the service name, only the instance is blocked.
     ///   - serviceName: The name of the service that you want to get the service sync blocker summary for. If given only the service name, all instances are blocked.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func getServiceSyncBlockerSummary(
         serviceInstanceName: String? = nil,
@@ -1609,6 +1695,7 @@ public struct Proton: AWSService {
     }
 
     /// Get detailed information for the service sync configuration.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func getServiceSyncConfig(_ input: GetServiceSyncConfigInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceSyncConfigOutput {
@@ -1626,6 +1713,7 @@ public struct Proton: AWSService {
     /// Parameters:
     ///   - serviceName: The name of the service that you want to get the service sync configuration for.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func getServiceSyncConfig(
         serviceName: String,
@@ -1638,6 +1726,7 @@ public struct Proton: AWSService {
     }
 
     /// Get detailed data for a service template.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func getServiceTemplate(_ input: GetServiceTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceTemplateOutput {
@@ -1655,6 +1744,7 @@ public struct Proton: AWSService {
     /// Parameters:
     ///   - name: The name of the service template that you want to get detailed data for.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func getServiceTemplate(
         name: String,
@@ -1667,6 +1757,7 @@ public struct Proton: AWSService {
     }
 
     /// Get detailed data for a major or minor version of a service template.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func getServiceTemplateVersion(_ input: GetServiceTemplateVersionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceTemplateVersionOutput {
@@ -1686,6 +1777,7 @@ public struct Proton: AWSService {
     ///   - minorVersion: To get service template minor version detail data, include minorVersion.
     ///   - templateName: The name of the service template a version of which you want to get detailed data for.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func getServiceTemplateVersion(
         majorVersion: String,
@@ -1702,6 +1794,7 @@ public struct Proton: AWSService {
     }
 
     /// Get detail data for a template sync configuration.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func getTemplateSyncConfig(_ input: GetTemplateSyncConfigInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTemplateSyncConfigOutput {
@@ -1720,6 +1813,7 @@ public struct Proton: AWSService {
     ///   - templateName: The template name.
     ///   - templateType: The template type.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func getTemplateSyncConfig(
         templateName: String,
@@ -1734,6 +1828,7 @@ public struct Proton: AWSService {
     }
 
     /// Get the status of a template sync.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func getTemplateSyncStatus(_ input: GetTemplateSyncStatusInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTemplateSyncStatusOutput {
@@ -1753,6 +1848,7 @@ public struct Proton: AWSService {
     ///   - templateType: The template type.
     ///   - templateVersion: The template major version.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func getTemplateSyncStatus(
         templateName: String,
@@ -1769,6 +1865,7 @@ public struct Proton: AWSService {
     }
 
     /// Get a list of component Infrastructure as Code (IaC) outputs. For more information about components, see Proton components in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func listComponentOutputs(_ input: ListComponentOutputsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListComponentOutputsOutput {
@@ -1788,6 +1885,7 @@ public struct Proton: AWSService {
     ///   - deploymentId: The ID of the deployment whose outputs you want.
     ///   - nextToken: A token that indicates the location of the next output in the array of outputs, after the list of outputs that was previously requested.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listComponentOutputs(
         componentName: String,
@@ -1804,6 +1902,7 @@ public struct Proton: AWSService {
     }
 
     /// List provisioned resources for a component with details. For more information about components, see Proton components in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func listComponentProvisionedResources(_ input: ListComponentProvisionedResourcesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListComponentProvisionedResourcesOutput {
@@ -1822,6 +1921,7 @@ public struct Proton: AWSService {
     ///   - componentName: The name of the component whose provisioned resources you want.
     ///   - nextToken: A token that indicates the location of the next provisioned resource in the array of provisioned resources, after the list of provisioned resources that was previously requested.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listComponentProvisionedResources(
         componentName: String,
@@ -1836,6 +1936,7 @@ public struct Proton: AWSService {
     }
 
     /// List components with summary data. You can filter the result list by environment, service, or a single service instance. For more information about components, see Proton components in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func listComponents(_ input: ListComponentsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListComponentsOutput {
@@ -1857,6 +1958,7 @@ public struct Proton: AWSService {
     ///   - serviceInstanceName: The name of a service instance for result list filtering. Proton returns the component attached to the service instance, if any.
     ///   - serviceName: The name of a service for result list filtering. Proton returns components attached to service instances of the service.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listComponents(
         environmentName: String? = nil,
@@ -1877,6 +1979,7 @@ public struct Proton: AWSService {
     }
 
     /// List deployments. You can filter the result list by environment, service, or a single service instance.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func listDeployments(_ input: ListDeploymentsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDeploymentsOutput {
@@ -1899,6 +2002,7 @@ public struct Proton: AWSService {
     ///   - serviceInstanceName: The name of a service instance for result list filtering. Proton returns the deployments associated with the service instance.
     ///   - serviceName: The name of a service for result list filtering. Proton returns deployments associated with service instances of the service.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listDeployments(
         componentName: String? = nil,
@@ -1921,6 +2025,7 @@ public struct Proton: AWSService {
     }
 
     /// View a list of environment account connections. For more information, see Environment account connections in the Proton User guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func listEnvironmentAccountConnections(_ input: ListEnvironmentAccountConnectionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEnvironmentAccountConnectionsOutput {
@@ -1942,6 +2047,7 @@ public struct Proton: AWSService {
     ///   - requestedBy: The type of account making the ListEnvironmentAccountConnections request.
     ///   - statuses: The status details for each listed environment account connection.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listEnvironmentAccountConnections(
         environmentName: String? = nil,
@@ -1962,6 +2068,7 @@ public struct Proton: AWSService {
     }
 
     /// List the infrastructure as code outputs for your environment.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func listEnvironmentOutputs(_ input: ListEnvironmentOutputsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEnvironmentOutputsOutput {
@@ -1981,6 +2088,7 @@ public struct Proton: AWSService {
     ///   - environmentName: The environment name.
     ///   - nextToken: A token that indicates the location of the next environment output in the array of environment outputs, after the list of environment outputs that was previously requested.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listEnvironmentOutputs(
         deploymentId: String? = nil,
@@ -1997,6 +2105,7 @@ public struct Proton: AWSService {
     }
 
     /// List the provisioned resources for your environment.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func listEnvironmentProvisionedResources(_ input: ListEnvironmentProvisionedResourcesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEnvironmentProvisionedResourcesOutput {
@@ -2015,6 +2124,7 @@ public struct Proton: AWSService {
     ///   - environmentName: The environment name.
     ///   - nextToken: A token that indicates the location of the next environment provisioned resource in the array of environment provisioned resources, after the list of environment provisioned resources that was previously requested.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listEnvironmentProvisionedResources(
         environmentName: String,
@@ -2029,6 +2139,7 @@ public struct Proton: AWSService {
     }
 
     /// List major or minor versions of an environment template with detail data.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func listEnvironmentTemplateVersions(_ input: ListEnvironmentTemplateVersionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEnvironmentTemplateVersionsOutput {
@@ -2049,6 +2160,7 @@ public struct Proton: AWSService {
     ///   - nextToken: A token that indicates the location of the next major or minor version in the array of major or minor versions of an environment template, after the list of major or minor versions that was previously requested.
     ///   - templateName: The name of the environment template.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listEnvironmentTemplateVersions(
         majorVersion: String? = nil,
@@ -2067,6 +2179,7 @@ public struct Proton: AWSService {
     }
 
     /// List environment templates.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func listEnvironmentTemplates(_ input: ListEnvironmentTemplatesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEnvironmentTemplatesOutput {
@@ -2085,6 +2198,7 @@ public struct Proton: AWSService {
     ///   - maxResults: The maximum number of environment templates to list.
     ///   - nextToken: A token that indicates the location of the next environment template in the array of environment templates, after the list of environment templates that was previously requested.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listEnvironmentTemplates(
         maxResults: Int? = nil,
@@ -2099,6 +2213,7 @@ public struct Proton: AWSService {
     }
 
     /// List environments with detail data summaries.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func listEnvironments(_ input: ListEnvironmentsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEnvironmentsOutput {
@@ -2118,6 +2233,7 @@ public struct Proton: AWSService {
     ///   - maxResults: The maximum number of environments to list.
     ///   - nextToken: A token that indicates the location of the next environment in the array of environments, after the list of environments that was previously requested.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listEnvironments(
         environmentTemplates: [EnvironmentTemplateFilter]? = nil,
@@ -2134,6 +2250,7 @@ public struct Proton: AWSService {
     }
 
     /// List linked repositories with detail data.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func listRepositories(_ input: ListRepositoriesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRepositoriesOutput {
@@ -2152,6 +2269,7 @@ public struct Proton: AWSService {
     ///   - maxResults: The maximum number of repositories to list.
     ///   - nextToken: A token that indicates the location of the next repository in the array of repositories, after the list of repositories previously requested.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listRepositories(
         maxResults: Int? = nil,
@@ -2166,6 +2284,7 @@ public struct Proton: AWSService {
     }
 
     /// List repository sync definitions with detail data.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func listRepositorySyncDefinitions(_ input: ListRepositorySyncDefinitionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRepositorySyncDefinitionsOutput {
@@ -2186,6 +2305,7 @@ public struct Proton: AWSService {
     ///   - repositoryProvider: The repository provider.
     ///   - syncType: The sync type. The only supported value is TEMPLATE_SYNC.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listRepositorySyncDefinitions(
         nextToken: String? = nil,
@@ -2204,6 +2324,7 @@ public struct Proton: AWSService {
     }
 
     /// Get a list service of instance Infrastructure as Code (IaC) outputs.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func listServiceInstanceOutputs(_ input: ListServiceInstanceOutputsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServiceInstanceOutputsOutput {
@@ -2224,6 +2345,7 @@ public struct Proton: AWSService {
     ///   - serviceInstanceName: The name of the service instance whose outputs you want.
     ///   - serviceName: The name of the service that serviceInstanceName is associated to.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listServiceInstanceOutputs(
         deploymentId: String? = nil,
@@ -2242,6 +2364,7 @@ public struct Proton: AWSService {
     }
 
     /// List provisioned resources for a service instance with details.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func listServiceInstanceProvisionedResources(_ input: ListServiceInstanceProvisionedResourcesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServiceInstanceProvisionedResourcesOutput {
@@ -2261,6 +2384,7 @@ public struct Proton: AWSService {
     ///   - serviceInstanceName: The name of the service instance whose provisioned resources you want.
     ///   - serviceName: The name of the service that serviceInstanceName is associated to.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listServiceInstanceProvisionedResources(
         nextToken: String? = nil,
@@ -2277,6 +2401,7 @@ public struct Proton: AWSService {
     }
 
     /// List service instances with summary data. This action lists service instances of all services in the Amazon Web Services account.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func listServiceInstances(_ input: ListServiceInstancesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServiceInstancesOutput {
@@ -2299,6 +2424,7 @@ public struct Proton: AWSService {
     ///   - sortBy: The field that the result list is sorted by. When you choose to sort by serviceName, service instances within each service are sorted by service instance name. Default: serviceName
     ///   - sortOrder: Result list sort order. Default: ASCENDING
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listServiceInstances(
         filters: [ListServiceInstancesFilter]? = nil,
@@ -2321,6 +2447,7 @@ public struct Proton: AWSService {
     }
 
     /// Get a list of service pipeline Infrastructure as Code (IaC) outputs.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func listServicePipelineOutputs(_ input: ListServicePipelineOutputsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServicePipelineOutputsOutput {
@@ -2340,6 +2467,7 @@ public struct Proton: AWSService {
     ///   - nextToken: A token that indicates the location of the next output in the array of outputs, after the list of outputs that was previously requested.
     ///   - serviceName: The name of the service whose pipeline's outputs you want.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listServicePipelineOutputs(
         deploymentId: String? = nil,
@@ -2356,6 +2484,7 @@ public struct Proton: AWSService {
     }
 
     /// List provisioned resources for a service and pipeline with details.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func listServicePipelineProvisionedResources(_ input: ListServicePipelineProvisionedResourcesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServicePipelineProvisionedResourcesOutput {
@@ -2374,6 +2503,7 @@ public struct Proton: AWSService {
     ///   - nextToken: A token that indicates the location of the next provisioned resource in the array of provisioned resources, after the list of provisioned resources that was previously requested.
     ///   - serviceName: The name of the service whose pipeline's provisioned resources you want.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listServicePipelineProvisionedResources(
         nextToken: String? = nil,
@@ -2388,6 +2518,7 @@ public struct Proton: AWSService {
     }
 
     /// List major or minor versions of a service template with detail data.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func listServiceTemplateVersions(_ input: ListServiceTemplateVersionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServiceTemplateVersionsOutput {
@@ -2408,6 +2539,7 @@ public struct Proton: AWSService {
     ///   - nextToken: A token that indicates the location of the next major or minor version in the array of major or minor versions of a service template, after the list of major or minor versions that was previously requested.
     ///   - templateName: The name of the service template.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listServiceTemplateVersions(
         majorVersion: String? = nil,
@@ -2426,6 +2558,7 @@ public struct Proton: AWSService {
     }
 
     /// List service templates with detail data.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func listServiceTemplates(_ input: ListServiceTemplatesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServiceTemplatesOutput {
@@ -2444,6 +2577,7 @@ public struct Proton: AWSService {
     ///   - maxResults: The maximum number of service templates to list.
     ///   - nextToken: A token that indicates the location of the next service template in the array of service templates, after the list of service templates previously requested.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listServiceTemplates(
         maxResults: Int? = nil,
@@ -2458,6 +2592,7 @@ public struct Proton: AWSService {
     }
 
     /// List services with summaries of detail data.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func listServices(_ input: ListServicesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServicesOutput {
@@ -2476,6 +2611,7 @@ public struct Proton: AWSService {
     ///   - maxResults: The maximum number of services to list.
     ///   - nextToken: A token that indicates the location of the next service in the array of services, after the list of services that was previously requested.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listServices(
         maxResults: Int? = nil,
@@ -2490,6 +2626,7 @@ public struct Proton: AWSService {
     }
 
     /// List tags for a resource. For more information, see Proton resources and tagging in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceOutput {
@@ -2509,6 +2646,7 @@ public struct Proton: AWSService {
     ///   - nextToken: A token that indicates the location of the next resource tag in the array of resource tags, after the list of resource tags that was previously requested.
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource for the listed tags.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listTagsForResource(
         maxResults: Int? = nil,
@@ -2525,6 +2663,7 @@ public struct Proton: AWSService {
     }
 
     /// Notify Proton of status changes to a provisioned resource when you use self-managed provisioning. For more information, see Self-managed provisioning in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func notifyResourceDeploymentStatusChange(_ input: NotifyResourceDeploymentStatusChangeInput, logger: Logger = AWSClient.loggingDisabled) async throws -> NotifyResourceDeploymentStatusChangeOutput {
@@ -2546,6 +2685,7 @@ public struct Proton: AWSService {
     ///   - status: The status of your provisioned resource.
     ///   - statusMessage: The deployment status message for your provisioned resource.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func notifyResourceDeploymentStatusChange(
         deploymentId: String? = nil,
@@ -2566,6 +2706,7 @@ public struct Proton: AWSService {
     }
 
     /// In a management account, reject an environment account connection from another environment account. After you reject an environment account connection request, you can't accept or use the rejected environment account connection. You can’t reject an environment account connection that's connected to an environment. For more information, see Environment account connections in the Proton User guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func rejectEnvironmentAccountConnection(_ input: RejectEnvironmentAccountConnectionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> RejectEnvironmentAccountConnectionOutput {
@@ -2583,6 +2724,7 @@ public struct Proton: AWSService {
     /// Parameters:
     ///   - id: The ID of the environment account connection to reject.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func rejectEnvironmentAccountConnection(
         id: String,
@@ -2595,6 +2737,7 @@ public struct Proton: AWSService {
     }
 
     /// Tag a resource. A tag is a key-value pair of metadata that you associate with an Proton resource. For more information, see Proton resources and tagging in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceOutput {
@@ -2613,6 +2756,7 @@ public struct Proton: AWSService {
     ///   - resourceArn: The Amazon Resource Name (ARN) of the Proton resource to apply customer tags to.
     ///   - tags: A list of customer tags to apply to the Proton resource.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func tagResource(
         resourceArn: String,
@@ -2627,6 +2771,7 @@ public struct Proton: AWSService {
     }
 
     /// Remove a customer tag from a resource. A tag is a key-value pair of metadata associated with an Proton resource. For more information, see Proton resources and tagging in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceOutput {
@@ -2645,6 +2790,7 @@ public struct Proton: AWSService {
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource to remove customer tags from.
     ///   - tagKeys: A list of customer tag keys that indicate the customer tags to be removed from the resource.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func untagResource(
         resourceArn: String,
@@ -2659,6 +2805,7 @@ public struct Proton: AWSService {
     }
 
     /// Update Proton settings that are used for multiple services in the Amazon Web Services account.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func updateAccountSettings(_ input: UpdateAccountSettingsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAccountSettingsOutput {
@@ -2679,6 +2826,7 @@ public struct Proton: AWSService {
     ///   - pipelineProvisioningRepository: A linked repository for pipeline provisioning. Specify it if you have environments configured for self-managed provisioning with services that include pipelines. A linked repository is a repository that has been registered with Proton. For more information, see CreateRepository. To remove a previously configured repository, set deletePipelineProvisioningRepository to true, and don't set pipelineProvisioningRepository.
     ///   - pipelineServiceRoleArn: The Amazon Resource Name (ARN) of the service role you want to use for provisioning pipelines. Assumed by Proton for Amazon Web Services-managed provisioning, and by customer-owned automation for self-managed provisioning. To remove a previously configured ARN, specify an empty string.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func updateAccountSettings(
         deletePipelineProvisioningRepository: Bool? = nil,
@@ -2697,6 +2845,7 @@ public struct Proton: AWSService {
     }
 
     /// Update a component. There are a few modes for updating a component. The deploymentType field defines the mode.  You can't update a component while its deployment status, or the deployment status of a service instance attached to it, is IN_PROGRESS.  For more information about components, see Proton components in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func updateComponent(_ input: UpdateComponentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateComponentOutput {
@@ -2721,6 +2870,7 @@ public struct Proton: AWSService {
     ///   - serviceSpec: The service spec that you want the component to use to access service inputs. Set this only when the component is attached to a service instance.
     ///   - templateFile: A path to the Infrastructure as Code (IaC) file describing infrastructure that a custom component provisions.  Components support a single IaC file, even if you use Terraform as your template language.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func updateComponent(
         clientToken: String? = UpdateComponentInput.idempotencyToken(),
@@ -2747,6 +2897,7 @@ public struct Proton: AWSService {
     }
 
     /// Update an environment. If the environment is associated with an environment account connection, don't update or include the protonServiceRoleArn and provisioningRepository parameter to update or connect to an environment account connection. You can only update to a new environment account connection if that connection was created in the same environment account that the current environment account connection was created in. The account connection must also be associated with the current environment. If the environment isn't associated with an environment account connection, don't update or include the environmentAccountConnectionId parameter. You can't update or connect the environment to an environment account connection if it isn't already associated with an environment connection. You can update either the environmentAccountConnectionId or protonServiceRoleArn parameter and value. You can’t update both. If the environment was configured for Amazon Web Services-managed provisioning, omit the provisioningRepository parameter. If the environment was configured for self-managed provisioning, specify the provisioningRepository parameter and omit the protonServiceRoleArn and environmentAccountConnectionId parameters. For more information, see Environments and Provisioning methods in the Proton User Guide. There are four modes for updating an environment. The deploymentType field defines the mode.     NONE  In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated.     CURRENT_VERSION  In this mode, the environment is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include minor or major version parameters when you use this deployment-type.     MINOR_VERSION  In this mode, the environment is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can also specify a different minor version of the current major version in use.     MAJOR_VERSION  In this mode, the environment is deployed and updated with the published, recommended (latest) major and minor version of the current template, by default. You can also specify a different major version that's higher than the major version in use and a minor version.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func updateEnvironment(_ input: UpdateEnvironmentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEnvironmentOutput {
@@ -2774,6 +2925,7 @@ public struct Proton: AWSService {
     ///   - templateMajorVersion: The major version of the environment to update.
     ///   - templateMinorVersion: The minor version of the environment to update.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func updateEnvironment(
         codebuildRoleArn: String? = nil,
@@ -2806,6 +2958,7 @@ public struct Proton: AWSService {
     }
 
     /// In an environment account, update an environment account connection to use a new IAM role. For more information, see Environment account connections in the Proton User guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func updateEnvironmentAccountConnection(_ input: UpdateEnvironmentAccountConnectionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEnvironmentAccountConnectionOutput {
@@ -2826,6 +2979,7 @@ public struct Proton: AWSService {
     ///   - id: The ID of the environment account connection to update.
     ///   - roleArn: The Amazon Resource Name (ARN) of the IAM service role that's associated with the environment account connection to update.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func updateEnvironmentAccountConnection(
         codebuildRoleArn: String? = nil,
@@ -2844,6 +2998,7 @@ public struct Proton: AWSService {
     }
 
     /// Update an environment template.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func updateEnvironmentTemplate(_ input: UpdateEnvironmentTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEnvironmentTemplateOutput {
@@ -2863,6 +3018,7 @@ public struct Proton: AWSService {
     ///   - displayName: The name of the environment template to update as displayed in the developer interface.
     ///   - name: The name of the environment template to update.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func updateEnvironmentTemplate(
         description: String? = nil,
@@ -2879,6 +3035,7 @@ public struct Proton: AWSService {
     }
 
     /// Update a major or minor version of an environment template.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func updateEnvironmentTemplateVersion(_ input: UpdateEnvironmentTemplateVersionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEnvironmentTemplateVersionOutput {
@@ -2900,6 +3057,7 @@ public struct Proton: AWSService {
     ///   - status: The status of the environment template minor version to update.
     ///   - templateName: The name of the environment template.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func updateEnvironmentTemplateVersion(
         description: String? = nil,
@@ -2920,6 +3078,7 @@ public struct Proton: AWSService {
     }
 
     /// Edit a service description or use a spec to add and delete service instances.  Existing service instances and the service pipeline can't be edited using this API. They can only be deleted.  Use the description parameter to modify the description. Edit the spec parameter to add or delete instances.  You can't delete a service instance (remove it from the spec) if it has an attached component. For more information about components, see Proton components in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func updateService(_ input: UpdateServiceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServiceOutput {
@@ -2939,6 +3098,7 @@ public struct Proton: AWSService {
     ///   - name: The name of the service to edit.
     ///   - spec: Lists the service instances to add and the existing service instances to remain. Omit the existing service instances to delete from the list. Don't include edits to the existing service instances or pipeline. For more information, see Edit a service in the Proton User Guide.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func updateService(
         description: String? = nil,
@@ -2955,6 +3115,7 @@ public struct Proton: AWSService {
     }
 
     /// Update a service instance. There are a few modes for updating a service instance. The deploymentType field defines the mode.  You can't update a service instance while its deployment status, or the deployment status of a component attached to it, is IN_PROGRESS. For more information about components, see Proton components in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func updateServiceInstance(_ input: UpdateServiceInstanceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServiceInstanceOutput {
@@ -2978,6 +3139,7 @@ public struct Proton: AWSService {
     ///   - templateMajorVersion: The major version of the service template to update.
     ///   - templateMinorVersion: The minor version of the service template to update.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func updateServiceInstance(
         clientToken: String? = UpdateServiceInstanceInput.idempotencyToken(),
@@ -3002,6 +3164,7 @@ public struct Proton: AWSService {
     }
 
     /// Update the service pipeline. There are four modes for updating a service pipeline. The deploymentType field defines the mode.     NONE  In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated.     CURRENT_VERSION  In this mode, the service pipeline is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include major or minor version parameters when you use this deployment-type.     MINOR_VERSION  In this mode, the service pipeline is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can specify a different minor version of the current major version in use.     MAJOR_VERSION  In this mode, the service pipeline is deployed and updated with the published, recommended (latest) major and minor version of the current template by default. You can specify a different major version that's higher than the major version in use and a minor version.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func updateServicePipeline(_ input: UpdateServicePipelineInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServicePipelineOutput {
@@ -3023,6 +3186,7 @@ public struct Proton: AWSService {
     ///   - templateMajorVersion: The major version of the service template that was used to create the service that the pipeline is associated with.
     ///   - templateMinorVersion: The minor version of the service template that was used to create the service that the pipeline is associated with.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func updateServicePipeline(
         deploymentType: DeploymentUpdateType,
@@ -3043,6 +3207,7 @@ public struct Proton: AWSService {
     }
 
     /// Update the service sync blocker by resolving it.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func updateServiceSyncBlocker(_ input: UpdateServiceSyncBlockerInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServiceSyncBlockerOutput {
@@ -3061,6 +3226,7 @@ public struct Proton: AWSService {
     ///   - id: The ID of the service sync blocker.
     ///   - resolvedReason: The reason the service sync blocker was resolved.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func updateServiceSyncBlocker(
         id: String,
@@ -3075,6 +3241,7 @@ public struct Proton: AWSService {
     }
 
     /// Update the Proton Ops config file.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func updateServiceSyncConfig(_ input: UpdateServiceSyncConfigInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServiceSyncConfigOutput {
@@ -3096,6 +3263,7 @@ public struct Proton: AWSService {
     ///   - repositoryProvider: The name of the repository provider where the Proton Ops file is found.
     ///   - serviceName: The name of the service the Proton Ops file is for.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func updateServiceSyncConfig(
         branch: String,
@@ -3116,6 +3284,7 @@ public struct Proton: AWSService {
     }
 
     /// Update a service template.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func updateServiceTemplate(_ input: UpdateServiceTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServiceTemplateOutput {
@@ -3135,6 +3304,7 @@ public struct Proton: AWSService {
     ///   - displayName: The name of the service template to update that's displayed in the developer interface.
     ///   - name: The name of the service template to update.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func updateServiceTemplate(
         description: String? = nil,
@@ -3151,6 +3321,7 @@ public struct Proton: AWSService {
     }
 
     /// Update a major or minor version of a service template.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func updateServiceTemplateVersion(_ input: UpdateServiceTemplateVersionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServiceTemplateVersionOutput {
@@ -3174,6 +3345,7 @@ public struct Proton: AWSService {
     ///   - supportedComponentSources: An array of supported component sources. Components with supported sources can be attached to service instances based on this service template version.  A change to supportedComponentSources doesn't impact existing component attachments to instances based on this template version. A change only affects later associations.  For more information about components, see Proton components in the Proton User Guide.
     ///   - templateName: The name of the service template.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func updateServiceTemplateVersion(
         compatibleEnvironmentTemplates: [CompatibleEnvironmentTemplateInput]? = nil,
@@ -3198,6 +3370,7 @@ public struct Proton: AWSService {
     }
 
     /// Update template sync configuration parameters, except for the templateName and templateType. Repository details (branch, name, and provider) should be of a linked repository. A linked repository is a repository that has been registered with Proton. For more information, see CreateRepository.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @Sendable
     @inlinable
     public func updateTemplateSyncConfig(_ input: UpdateTemplateSyncConfigInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTemplateSyncConfigOutput {
@@ -3220,6 +3393,7 @@ public struct Proton: AWSService {
     ///   - templateName: The synced template name.
     ///   - templateType: The synced template type.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func updateTemplateSyncConfig(
         branch: String,
@@ -3260,6 +3434,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listComponentOutputsPaginator(
         _ input: ListComponentOutputsInput,
@@ -3279,6 +3454,7 @@ extension Proton {
     ///   - componentName: The name of the component whose outputs you want.
     ///   - deploymentId: The ID of the deployment whose outputs you want.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listComponentOutputsPaginator(
         componentName: String,
@@ -3297,6 +3473,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listComponentProvisionedResourcesPaginator(
         _ input: ListComponentProvisionedResourcesInput,
@@ -3315,6 +3492,7 @@ extension Proton {
     /// - Parameters:
     ///   - componentName: The name of the component whose provisioned resources you want.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listComponentProvisionedResourcesPaginator(
         componentName: String,
@@ -3331,6 +3509,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listComponentsPaginator(
         _ input: ListComponentsInput,
@@ -3352,6 +3531,7 @@ extension Proton {
     ///   - serviceInstanceName: The name of a service instance for result list filtering. Proton returns the component attached to the service instance, if any.
     ///   - serviceName: The name of a service for result list filtering. Proton returns components attached to service instances of the service.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listComponentsPaginator(
         environmentName: String? = nil,
@@ -3374,6 +3554,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listDeploymentsPaginator(
         _ input: ListDeploymentsInput,
@@ -3396,6 +3577,7 @@ extension Proton {
     ///   - serviceInstanceName: The name of a service instance for result list filtering. Proton returns the deployments associated with the service instance.
     ///   - serviceName: The name of a service for result list filtering. Proton returns deployments associated with service instances of the service.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listDeploymentsPaginator(
         componentName: String? = nil,
@@ -3420,6 +3602,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listEnvironmentAccountConnectionsPaginator(
         _ input: ListEnvironmentAccountConnectionsInput,
@@ -3441,6 +3624,7 @@ extension Proton {
     ///   - requestedBy: The type of account making the ListEnvironmentAccountConnections request.
     ///   - statuses: The status details for each listed environment account connection.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listEnvironmentAccountConnectionsPaginator(
         environmentName: String? = nil,
@@ -3463,6 +3647,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listEnvironmentOutputsPaginator(
         _ input: ListEnvironmentOutputsInput,
@@ -3482,6 +3667,7 @@ extension Proton {
     ///   - deploymentId: The ID of the deployment whose outputs you want.
     ///   - environmentName: The environment name.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listEnvironmentOutputsPaginator(
         deploymentId: String? = nil,
@@ -3500,6 +3686,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listEnvironmentProvisionedResourcesPaginator(
         _ input: ListEnvironmentProvisionedResourcesInput,
@@ -3518,6 +3705,7 @@ extension Proton {
     /// - Parameters:
     ///   - environmentName: The environment name.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listEnvironmentProvisionedResourcesPaginator(
         environmentName: String,
@@ -3534,6 +3722,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listEnvironmentTemplateVersionsPaginator(
         _ input: ListEnvironmentTemplateVersionsInput,
@@ -3554,6 +3743,7 @@ extension Proton {
     ///   - maxResults: The maximum number of major or minor versions of an environment template to list.
     ///   - templateName: The name of the environment template.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listEnvironmentTemplateVersionsPaginator(
         majorVersion: String? = nil,
@@ -3574,6 +3764,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listEnvironmentTemplatesPaginator(
         _ input: ListEnvironmentTemplatesInput,
@@ -3592,6 +3783,7 @@ extension Proton {
     /// - Parameters:
     ///   - maxResults: The maximum number of environment templates to list.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listEnvironmentTemplatesPaginator(
         maxResults: Int? = nil,
@@ -3608,6 +3800,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listEnvironmentsPaginator(
         _ input: ListEnvironmentsInput,
@@ -3627,6 +3820,7 @@ extension Proton {
     ///   - environmentTemplates: An array of the versions of the environment template.
     ///   - maxResults: The maximum number of environments to list.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listEnvironmentsPaginator(
         environmentTemplates: [EnvironmentTemplateFilter]? = nil,
@@ -3645,6 +3839,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listRepositoriesPaginator(
         _ input: ListRepositoriesInput,
@@ -3663,6 +3858,7 @@ extension Proton {
     /// - Parameters:
     ///   - maxResults: The maximum number of repositories to list.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listRepositoriesPaginator(
         maxResults: Int? = nil,
@@ -3679,6 +3875,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listRepositorySyncDefinitionsPaginator(
         _ input: ListRepositorySyncDefinitionsInput,
@@ -3699,6 +3896,7 @@ extension Proton {
     ///   - repositoryProvider: The repository provider.
     ///   - syncType: The sync type. The only supported value is TEMPLATE_SYNC.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listRepositorySyncDefinitionsPaginator(
         repositoryName: String,
@@ -3719,6 +3917,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listServiceInstanceOutputsPaginator(
         _ input: ListServiceInstanceOutputsInput,
@@ -3739,6 +3938,7 @@ extension Proton {
     ///   - serviceInstanceName: The name of the service instance whose outputs you want.
     ///   - serviceName: The name of the service that serviceInstanceName is associated to.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listServiceInstanceOutputsPaginator(
         deploymentId: String? = nil,
@@ -3759,6 +3959,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listServiceInstanceProvisionedResourcesPaginator(
         _ input: ListServiceInstanceProvisionedResourcesInput,
@@ -3778,6 +3979,7 @@ extension Proton {
     ///   - serviceInstanceName: The name of the service instance whose provisioned resources you want.
     ///   - serviceName: The name of the service that serviceInstanceName is associated to.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listServiceInstanceProvisionedResourcesPaginator(
         serviceInstanceName: String,
@@ -3796,6 +3998,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listServiceInstancesPaginator(
         _ input: ListServiceInstancesInput,
@@ -3818,6 +4021,7 @@ extension Proton {
     ///   - sortBy: The field that the result list is sorted by. When you choose to sort by serviceName, service instances within each service are sorted by service instance name. Default: serviceName
     ///   - sortOrder: Result list sort order. Default: ASCENDING
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listServiceInstancesPaginator(
         filters: [ListServiceInstancesFilter]? = nil,
@@ -3842,6 +4046,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listServicePipelineOutputsPaginator(
         _ input: ListServicePipelineOutputsInput,
@@ -3861,6 +4066,7 @@ extension Proton {
     ///   - deploymentId: The ID of the deployment you want the outputs for.
     ///   - serviceName: The name of the service whose pipeline's outputs you want.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listServicePipelineOutputsPaginator(
         deploymentId: String? = nil,
@@ -3879,6 +4085,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listServicePipelineProvisionedResourcesPaginator(
         _ input: ListServicePipelineProvisionedResourcesInput,
@@ -3897,6 +4104,7 @@ extension Proton {
     /// - Parameters:
     ///   - serviceName: The name of the service whose pipeline's provisioned resources you want.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listServicePipelineProvisionedResourcesPaginator(
         serviceName: String,
@@ -3913,6 +4121,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listServiceTemplateVersionsPaginator(
         _ input: ListServiceTemplateVersionsInput,
@@ -3933,6 +4142,7 @@ extension Proton {
     ///   - maxResults: The maximum number of major or minor versions of a service template to list.
     ///   - templateName: The name of the service template.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listServiceTemplateVersionsPaginator(
         majorVersion: String? = nil,
@@ -3953,6 +4163,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listServiceTemplatesPaginator(
         _ input: ListServiceTemplatesInput,
@@ -3971,6 +4182,7 @@ extension Proton {
     /// - Parameters:
     ///   - maxResults: The maximum number of service templates to list.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listServiceTemplatesPaginator(
         maxResults: Int? = nil,
@@ -3987,6 +4199,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listServicesPaginator(
         _ input: ListServicesInput,
@@ -4005,6 +4218,7 @@ extension Proton {
     /// - Parameters:
     ///   - maxResults: The maximum number of services to list.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listServicesPaginator(
         maxResults: Int? = nil,
@@ -4021,6 +4235,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listTagsForResourcePaginator(
         _ input: ListTagsForResourceInput,
@@ -4040,6 +4255,7 @@ extension Proton {
     ///   - maxResults: The maximum number of tags to list.
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource for the listed tags.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func listTagsForResourcePaginator(
         maxResults: Int? = nil,

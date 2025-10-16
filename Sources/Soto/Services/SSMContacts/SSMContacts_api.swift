@@ -186,7 +186,7 @@ public struct SSMContacts: AWSService {
     ///   - idempotencyToken: A token ensuring that the operation is called only once with the specified details.
     ///   - plan: A list of stages. A contact has an engagement plan with stages that contact specified contact channels. An escalation plan uses stages that contact specified contacts.
     ///   - tags: Adds a tag to the target. You can only tag resources created in the first Region of your replication set.
-    ///   - type: To create an escalation plan use ESCALATION. To create a contact use PERSONAL.
+    ///   - type: The type of contact to create.    PERSONAL: A single, individual contact.    ESCALATION: An escalation plan.    ONCALL_SCHEDULE: An on-call schedule.
     ///   - logger: Logger use during operation
     @inlinable
     public func createContact(
@@ -269,13 +269,13 @@ public struct SSMContacts: AWSService {
     /// Creates a rotation in an on-call schedule.
     ///
     /// Parameters:
-    ///   - contactIds: The Amazon Resource Names (ARNs) of the contacts to add to the rotation. The order that you list the contacts in is their shift order in the rotation schedule. To change the order of the contact's shifts, use the UpdateRotation operation.
+    ///   - contactIds: The Amazon Resource Names (ARNs) of the contacts to add to the rotation.  Only the PERSONAL contact type is supported. The contact types ESCALATION and ONCALL_SCHEDULE are not supported for this operation.   The order that you list the contacts in is their shift order in the rotation schedule. To change the order of the contact's shifts, use the UpdateRotation operation.
     ///   - idempotencyToken: A token that ensures that the operation is called only once with the specified details.
     ///   - name: The name of the rotation.
     ///   - recurrence: Information about the rule that specifies when a shift's team members rotate.
     ///   - startTime: The date and time that the rotation goes into effect.
     ///   - tags: Optional metadata to assign to the rotation. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For more information, see Tagging Incident Manager resources in the Incident Manager User Guide.
-    ///   - timeZoneId: The time zone to base the rotation’s activity on in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.  Designators for time zones that don’t support Daylight Savings Time rules, such as Pacific Standard Time (PST) and Pacific Daylight Time (PDT), are not supported.
+    ///   - timeZoneId: The time zone to base the rotation’s activity on in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.  Designators for time zones that don’t support Daylight Savings Time rules, such as Pacific Standard Time (PST), are not supported.
     ///   - logger: Logger use during operation
     @inlinable
     public func createRotation(
@@ -370,7 +370,7 @@ public struct SSMContacts: AWSService {
         return try await self.deactivateContactChannel(input, logger: logger)
     }
 
-    /// To remove a contact from Incident Manager, you can delete the contact. Deleting a contact removes them from all escalation plans and related response plans. Deleting an escalation plan removes it from all related response plans. You will have to recreate the contact and its contact channels before you can use it again.
+    /// To remove a contact from Incident Manager, you can delete the contact. However, deleting a contact does not remove it from escalation plans and related response plans. Deleting an escalation plan also does not remove it from all related response plans. To modify an escalation plan, we recommend using the UpdateContact action to specify a different existing contact.
     @Sendable
     @inlinable
     public func deleteContact(_ input: DeleteContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteContactResult {
@@ -383,7 +383,7 @@ public struct SSMContacts: AWSService {
             logger: logger
         )
     }
-    /// To remove a contact from Incident Manager, you can delete the contact. Deleting a contact removes them from all escalation plans and related response plans. Deleting an escalation plan removes it from all related response plans. You will have to recreate the contact and its contact channels before you can use it again.
+    /// To remove a contact from Incident Manager, you can delete the contact. However, deleting a contact does not remove it from escalation plans and related response plans. Deleting an escalation plan also does not remove it from all related response plans. To modify an escalation plan, we recommend using the UpdateContact action to specify a different existing contact.
     ///
     /// Parameters:
     ///   - contactId: The Amazon Resource Name (ARN) of the contact that you're deleting.
@@ -399,7 +399,7 @@ public struct SSMContacts: AWSService {
         return try await self.deleteContact(input, logger: logger)
     }
 
-    /// To no longer receive engagements on a contact channel, you can delete the channel from a contact. Deleting the contact channel removes it from the contact's engagement plan. If you delete the only contact channel for a contact, you won't be able to engage that contact during an incident.
+    /// To stop receiving engagements on a contact channel, you can delete the channel from a contact. Deleting the contact channel does not remove it from the contact's engagement plan, but the stage that includes the channel will be ignored. If you delete the only contact channel for a contact, you'll no longer be able to engage that contact during an incident.
     @Sendable
     @inlinable
     public func deleteContactChannel(_ input: DeleteContactChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteContactChannelResult {
@@ -412,7 +412,7 @@ public struct SSMContacts: AWSService {
             logger: logger
         )
     }
-    /// To no longer receive engagements on a contact channel, you can delete the channel from a contact. Deleting the contact channel removes it from the contact's engagement plan. If you delete the only contact channel for a contact, you won't be able to engage that contact during an incident.
+    /// To stop receiving engagements on a contact channel, you can delete the channel from a contact. Deleting the contact channel does not remove it from the contact's engagement plan, but the stage that includes the channel will be ignored. If you delete the only contact channel for a contact, you'll no longer be able to engage that contact during an incident.
     ///
     /// Parameters:
     ///   - contactChannelId: The Amazon Resource Name (ARN) of the contact channel.
@@ -749,7 +749,7 @@ public struct SSMContacts: AWSService {
     ///   - aliasPrefix: Used to list only contacts who's aliases start with the specified prefix.
     ///   - maxResults: The maximum number of contacts and escalation plans per page of results.
     ///   - nextToken: The pagination token to continue to the next page of results.
-    ///   - type: The type of contact. A contact is type PERSONAL and an escalation plan is type ESCALATION.
+    ///   - type: The type of contact.
     ///   - logger: Logger use during operation
     @inlinable
     public func listContacts(
@@ -1113,7 +1113,7 @@ public struct SSMContacts: AWSService {
         return try await self.listRotations(input, logger: logger)
     }
 
-    /// Lists the tags of an escalation plan or contact.
+    /// Lists the tags of a contact, escalation plan, rotation, or on-call schedule.
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResult {
@@ -1126,10 +1126,10 @@ public struct SSMContacts: AWSService {
             logger: logger
         )
     }
-    /// Lists the tags of an escalation plan or contact.
+    /// Lists the tags of a contact, escalation plan, rotation, or on-call schedule.
     ///
     /// Parameters:
-    ///   - resourceARN: The Amazon Resource Name (ARN) of the contact or escalation plan.
+    ///   - resourceARN: The Amazon Resource Name (ARN) of the contact, escalation plan, rotation, or on-call schedule.
     ///   - logger: Logger use during operation
     @inlinable
     public func listTagsForResource(
@@ -1435,11 +1435,11 @@ public struct SSMContacts: AWSService {
     /// Updates the information specified for an on-call rotation.
     ///
     /// Parameters:
-    ///   - contactIds: The Amazon Resource Names (ARNs) of the contacts to include in the updated rotation.  The order in which you list the contacts is their shift order in the rotation schedule.
+    ///   - contactIds: The Amazon Resource Names (ARNs) of the contacts to include in the updated rotation.   Only the PERSONAL contact type is supported. The contact types ESCALATION and ONCALL_SCHEDULE are not supported for this operation.   The order in which you list the contacts is their shift order in the rotation schedule.
     ///   - recurrence: Information about how long the updated rotation lasts before restarting at the beginning of the shift order.
     ///   - rotationId: The Amazon Resource Name (ARN) of the rotation to update.
     ///   - startTime: The date and time the rotation goes into effect.
-    ///   - timeZoneId: The time zone to base the updated rotation’s activity on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.  Designators for time zones that don’t support Daylight Savings Time Rules, such as Pacific Standard Time (PST) and Pacific Daylight Time (PDT), aren't supported.
+    ///   - timeZoneId: The time zone to base the updated rotation’s activity on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.  Designators for time zones that don’t support Daylight Savings Time Rules, such as Pacific Standard Time (PST), aren't supported.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateRotation(
@@ -1534,7 +1534,7 @@ extension SSMContacts {
     /// - Parameters:
     ///   - aliasPrefix: Used to list only contacts who's aliases start with the specified prefix.
     ///   - maxResults: The maximum number of contacts and escalation plans per page of results.
-    ///   - type: The type of contact. A contact is type PERSONAL and an escalation plan is type ESCALATION.
+    ///   - type: The type of contact.
     ///   - logger: Logger used for logging
     @inlinable
     public func listContactsPaginator(

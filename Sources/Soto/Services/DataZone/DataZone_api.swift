@@ -115,6 +115,7 @@ public struct DataZone: AWSService {
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
+            "ap-east-1": "datazone-fips.ap-east-1.api.aws",
             "ap-east-2": "datazone-fips.ap-east-2.api.aws",
             "ap-northeast-1": "datazone-fips.ap-northeast-1.api.aws",
             "ap-northeast-2": "datazone-fips.ap-northeast-2.api.aws",
@@ -126,12 +127,14 @@ public struct DataZone: AWSService {
             "ap-southeast-3": "datazone-fips.ap-southeast-3.api.aws",
             "ap-southeast-4": "datazone-fips.ap-southeast-4.api.aws",
             "ap-southeast-5": "datazone-fips.ap-southeast-5.api.aws",
+            "ap-southeast-6": "datazone-fips.ap-southeast-6.api.aws",
             "ap-southeast-7": "datazone-fips.ap-southeast-7.api.aws",
             "ca-central-1": "datazone-fips.ca-central-1.amazonaws.com",
             "ca-west-1": "datazone-fips.ca-west-1.api.aws",
             "cn-north-1": "datazone-fips.cn-north-1.api.amazonwebservices.com.cn",
             "cn-northwest-1": "datazone-fips.cn-northwest-1.api.amazonwebservices.com.cn",
             "eu-central-1": "datazone-fips.eu-central-1.api.aws",
+            "eu-central-2": "datazone-fips.eu-central-2.api.aws",
             "eu-north-1": "datazone-fips.eu-north-1.api.aws",
             "eu-south-1": "datazone-fips.eu-south-1.api.aws",
             "eu-west-1": "datazone-fips.eu-west-1.api.aws",
@@ -358,7 +361,45 @@ public struct DataZone: AWSService {
         return try await self.associateEnvironmentRole(input, logger: logger)
     }
 
-    /// Cancels the metadata generation run.
+    /// Associates governed terms with an asset.
+    @Sendable
+    @inlinable
+    public func associateGovernedTerms(_ input: AssociateGovernedTermsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateGovernedTermsOutput {
+        try await self.client.execute(
+            operation: "AssociateGovernedTerms", 
+            path: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/associate-governed-terms", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates governed terms with an asset.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The ID of the domain where governed terms are to be associated with an asset.
+    ///   - entityIdentifier: The ID of the asset with which you want to associate a governed term.
+    ///   - entityType: The type of the asset with which you want to associate a governed term.
+    ///   - governedGlossaryTerms: The glossary terms in a restricted glossary.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateGovernedTerms(
+        domainIdentifier: String,
+        entityIdentifier: String,
+        entityType: GovernedEntityType,
+        governedGlossaryTerms: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AssociateGovernedTermsOutput {
+        let input = AssociateGovernedTermsInput(
+            domainIdentifier: domainIdentifier, 
+            entityIdentifier: entityIdentifier, 
+            entityType: entityType, 
+            governedGlossaryTerms: governedGlossaryTerms
+        )
+        return try await self.associateGovernedTerms(input, logger: logger)
+    }
+
+    /// Cancels the metadata generation run. Prerequisites:   The run must exist and be in a cancelable status (e.g., SUBMITTED, IN_PROGRESS).    Runs in SUCCEEDED status cannot be cancelled.   User must have access to the run and cancel permissions.
     @Sendable
     @inlinable
     public func cancelMetadataGenerationRun(_ input: CancelMetadataGenerationRunInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelMetadataGenerationRunOutput {
@@ -371,7 +412,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Cancels the metadata generation run.
+    /// Cancels the metadata generation run. Prerequisites:   The run must exist and be in a cancelable status (e.g., SUBMITTED, IN_PROGRESS).    Runs in SUCCEEDED status cannot be cancelled.   User must have access to the run and cancel permissions.
     ///
     /// Parameters:
     ///   - domainIdentifier: The ID of the Amazon DataZone domain in which the metadata generation run is to be cancelled.
@@ -422,7 +463,48 @@ public struct DataZone: AWSService {
         return try await self.cancelSubscription(input, logger: logger)
     }
 
-    /// Creates an asset in Amazon DataZone catalog.
+    /// Creates an account pool.
+    @Sendable
+    @inlinable
+    public func createAccountPool(_ input: CreateAccountPoolInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAccountPoolOutput {
+        try await self.client.execute(
+            operation: "CreateAccountPool", 
+            path: "/v2/domains/{domainIdentifier}/account-pools", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an account pool.
+    ///
+    /// Parameters:
+    ///   - accountSource: The source of accounts for the account pool. In the current release, it's either a static list of accounts provided by the customer or a custom Amazon Web Services Lambda handler.
+    ///   - description: The description of the account pool.
+    ///   - domainIdentifier: The ID of the domain where the account pool is created.
+    ///   - name: The name of the account pool.
+    ///   - resolutionStrategy: The mechanism used to resolve the account selection from the account pool.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAccountPool(
+        accountSource: AccountSource,
+        description: String? = nil,
+        domainIdentifier: String,
+        name: String,
+        resolutionStrategy: ResolutionStrategy,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAccountPoolOutput {
+        let input = CreateAccountPoolInput(
+            accountSource: accountSource, 
+            description: description, 
+            domainIdentifier: domainIdentifier, 
+            name: name, 
+            resolutionStrategy: resolutionStrategy
+        )
+        return try await self.createAccountPool(input, logger: logger)
+    }
+
+    /// Creates an asset in Amazon DataZone catalog. Before creating assets, make sure that the following requirements are met:    --domain-identifier must refer to an existing domain.    --owning-project-identifier must be a valid project within the domain.   Asset type must be created beforehand using create-asset-type, or be a supported system-defined type. For more information, see create-asset-type.    --type-revision (if used) must match a valid revision of the asset type.    formsInput is required when it is associated as required in the asset-type. For more information, see create-form-type.   Form content must include all required fields as per the form schema (e.g., bucketArn).   You must invoke the following pre-requisite commands before invoking this API:    CreateFormType     CreateAssetType
     @Sendable
     @inlinable
     public func createAsset(_ input: CreateAssetInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAssetOutput {
@@ -435,13 +517,13 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Creates an asset in Amazon DataZone catalog.
+    /// Creates an asset in Amazon DataZone catalog. Before creating assets, make sure that the following requirements are met:    --domain-identifier must refer to an existing domain.    --owning-project-identifier must be a valid project within the domain.   Asset type must be created beforehand using create-asset-type, or be a supported system-defined type. For more information, see create-asset-type.    --type-revision (if used) must match a valid revision of the asset type.    formsInput is required when it is associated as required in the asset-type. For more information, see create-form-type.   Form content must include all required fields as per the form schema (e.g., bucketArn).   You must invoke the following pre-requisite commands before invoking this API:    CreateFormType     CreateAssetType
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
     ///   - description: Asset description.
     ///   - domainIdentifier: Amazon DataZone domain where the asset is created.
-    ///   - externalIdentifier: The external identifier of the asset.
+    ///   - externalIdentifier: The external identifier of the asset. If the value for the externalIdentifier parameter is specified, it must be a unique value.
     ///   - formsInput: Metadata forms attached to the asset.
     ///   - glossaryTerms: Glossary terms attached to the asset.
     ///   - name: Asset name.
@@ -481,7 +563,7 @@ public struct DataZone: AWSService {
         return try await self.createAsset(input, logger: logger)
     }
 
-    /// Creates a data asset filter.
+    /// Creates a data asset filter. Asset filters provide a sophisticated way to create controlled views of data assets by selecting specific columns or applying row-level filters. This capability is crucial for organizations that need to share data while maintaining security and privacy controls. For example, your database might be filtered to show only non-PII fields to certain users, or sales data might be filtered by region for different regional teams. Asset filters enable fine-grained access control while maintaining a single source of truth. Prerequisites:   A valid domain (--domain-identifier) must exist.    A data asset (--asset-identifier) must already be created under that domain.   The asset must have the referenced columns available in its schema for column-based filtering.   You cannot specify both (columnConfiguration, rowConfiguration)at the same time.
     @Sendable
     @inlinable
     public func createAssetFilter(_ input: CreateAssetFilterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAssetFilterOutput {
@@ -494,7 +576,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Creates a data asset filter.
+    /// Creates a data asset filter. Asset filters provide a sophisticated way to create controlled views of data assets by selecting specific columns or applying row-level filters. This capability is crucial for organizations that need to share data while maintaining security and privacy controls. For example, your database might be filtered to show only non-PII fields to certain users, or sales data might be filtered by region for different regional teams. Asset filters enable fine-grained access control while maintaining a single source of truth. Prerequisites:   A valid domain (--domain-identifier) must exist.    A data asset (--asset-identifier) must already be created under that domain.   The asset must have the referenced columns available in its schema for column-based filtering.   You cannot specify both (columnConfiguration, rowConfiguration)at the same time.
     ///
     /// Parameters:
     ///   - assetIdentifier: The ID of the data asset.
@@ -525,7 +607,7 @@ public struct DataZone: AWSService {
         return try await self.createAssetFilter(input, logger: logger)
     }
 
-    /// Creates a revision of the asset.
+    /// Creates a revision of the asset. Asset revisions represent new versions of existing assets, capturing changes to either the underlying data or its metadata. They maintain a historical record of how assets evolve over time, who made changes, and when those changes occurred. This versioning capability is crucial for governance and compliance, allowing organizations to track changes, understand their impact, and roll back if necessary. Prerequisites:   Asset must already exist in the domain with identifier.     formsInput is required when asset has the form type. typeRevision should be the latest version of form type.    The form content must include all required fields (e.g., bucketArn for S3ObjectCollectionForm).   The owning project of the original asset must still exist and be active.   User must have write access to the project and domain.
     @Sendable
     @inlinable
     public func createAssetRevision(_ input: CreateAssetRevisionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAssetRevisionOutput {
@@ -538,7 +620,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Creates a revision of the asset.
+    /// Creates a revision of the asset. Asset revisions represent new versions of existing assets, capturing changes to either the underlying data or its metadata. They maintain a historical record of how assets evolve over time, who made changes, and when those changes occurred. This versioning capability is crucial for governance and compliance, allowing organizations to track changes, understand their impact, and roll back if necessary. Prerequisites:   Asset must already exist in the domain with identifier.     formsInput is required when asset has the form type. typeRevision should be the latest version of form type.    The form content must include all required fields (e.g., bucketArn for S3ObjectCollectionForm).   The owning project of the original asset must still exist and be active.   User must have write access to the project and domain.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
@@ -578,7 +660,7 @@ public struct DataZone: AWSService {
         return try await self.createAssetRevision(input, logger: logger)
     }
 
-    /// Creates a custom asset type.
+    /// Creates a custom asset type. Prerequisites:   The formsInput field is required, however, can be passed as empty (e.g. -forms-input {}).    You must have CreateAssetType permissions.   The domain-identifier and owning-project-identifier must be valid and active.   The name of the asset type must be unique within the domain — duplicate names will cause failure.   JSON input must be valid — incorrect formatting causes Invalid JSON errors.
     @Sendable
     @inlinable
     public func createAssetType(_ input: CreateAssetTypeInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAssetTypeOutput {
@@ -591,7 +673,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Creates a custom asset type.
+    /// Creates a custom asset type. Prerequisites:   The formsInput field is required, however, can be passed as empty (e.g. -forms-input {}).    You must have CreateAssetType permissions.   The domain-identifier and owning-project-identifier must be valid and active.   The name of the asset type must be unique within the domain — duplicate names will cause failure.   JSON input must be valid — incorrect formatting causes Invalid JSON errors.
     ///
     /// Parameters:
     ///   - description: The descripton of the custom asset type.
@@ -639,9 +721,11 @@ public struct DataZone: AWSService {
     ///   - clientToken: A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
     ///   - description: A connection description.
     ///   - domainIdentifier: The ID of the domain where the connection is created.
+    ///   - enableTrustedIdentityPropagation: Specifies whether the trusted identity propagation is enabled.
     ///   - environmentIdentifier: The ID of the environment where the connection is created.
     ///   - name: The connection name.
     ///   - props: The connection props.
+    ///   - scope: The scope of the connection.
     ///   - logger: Logger use during operation
     @inlinable
     public func createConnection(
@@ -649,9 +733,11 @@ public struct DataZone: AWSService {
         clientToken: String? = CreateConnectionInput.idempotencyToken(),
         description: String? = nil,
         domainIdentifier: String,
-        environmentIdentifier: String,
+        enableTrustedIdentityPropagation: Bool? = nil,
+        environmentIdentifier: String? = nil,
         name: String,
         props: ConnectionPropertiesInput? = nil,
+        scope: ConnectionScope? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateConnectionOutput {
         let input = CreateConnectionInput(
@@ -659,14 +745,16 @@ public struct DataZone: AWSService {
             clientToken: clientToken, 
             description: description, 
             domainIdentifier: domainIdentifier, 
+            enableTrustedIdentityPropagation: enableTrustedIdentityPropagation, 
             environmentIdentifier: environmentIdentifier, 
             name: name, 
-            props: props
+            props: props, 
+            scope: scope
         )
         return try await self.createConnection(input, logger: logger)
     }
 
-    /// Creates a data product.
+    /// Creates a data product. A data product is a comprehensive package that combines data assets with their associated metadata, documentation, and access controls. It's designed to serve specific business needs or use cases, making it easier for users to find and consume data appropriately. Data products include important information about data quality, freshness, and usage guidelines, effectively bridging the gap between data producers and consumers while ensuring proper governance. Prerequisites:   The domain must exist and be accessible.    The owning project must be valid and active.   The name must be unique within the domain (no existing data product with the same name).   User must have create permissions for data products in the project.
     @Sendable
     @inlinable
     public func createDataProduct(_ input: CreateDataProductInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataProductOutput {
@@ -679,7 +767,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Creates a data product.
+    /// Creates a data product. A data product is a comprehensive package that combines data assets with their associated metadata, documentation, and access controls. It's designed to serve specific business needs or use cases, making it easier for users to find and consume data appropriately. Data products include important information about data quality, freshness, and usage guidelines, effectively bridging the gap between data producers and consumers while ensuring proper governance. Prerequisites:   The domain must exist and be accessible.    The owning project must be valid and active.   The name must be unique within the domain (no existing data product with the same name).   User must have create permissions for data products in the project.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
@@ -716,7 +804,7 @@ public struct DataZone: AWSService {
         return try await self.createDataProduct(input, logger: logger)
     }
 
-    /// Creates a data product revision.
+    /// Creates a data product revision. Prerequisites:   The original data product must exist in the given domain.    User must have permissions on the data product.   The domain must be valid and accessible.   The new revision name must comply with naming constraints (if required).
     @Sendable
     @inlinable
     public func createDataProductRevision(_ input: CreateDataProductRevisionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataProductRevisionOutput {
@@ -729,7 +817,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Creates a data product revision.
+    /// Creates a data product revision. Prerequisites:   The original data product must exist in the given domain.    User must have permissions on the data product.   The domain must be valid and accessible.   The new revision name must comply with naming constraints (if required).
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
@@ -1031,6 +1119,47 @@ public struct DataZone: AWSService {
         return try await self.createEnvironmentAction(input, logger: logger)
     }
 
+    /// Creates a Amazon DataZone blueprint.
+    @Sendable
+    @inlinable
+    public func createEnvironmentBlueprint(_ input: CreateEnvironmentBlueprintInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEnvironmentBlueprintOutput {
+        try await self.client.execute(
+            operation: "CreateEnvironmentBlueprint", 
+            path: "/v2/domains/{domainIdentifier}/environment-blueprints", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a Amazon DataZone blueprint.
+    ///
+    /// Parameters:
+    ///   - description: The description of the Amazon DataZone blueprint.
+    ///   - domainIdentifier: The identifier of the domain in which this blueprint is created.
+    ///   - name: The name of this Amazon DataZone blueprint.
+    ///   - provisioningProperties: The provisioning properties of this Amazon DataZone blueprint.
+    ///   - userParameters: The user parameters of this Amazon DataZone blueprint.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createEnvironmentBlueprint(
+        description: String? = nil,
+        domainIdentifier: String,
+        name: String,
+        provisioningProperties: ProvisioningProperties,
+        userParameters: [CustomParameter]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateEnvironmentBlueprintOutput {
+        let input = CreateEnvironmentBlueprintInput(
+            description: description, 
+            domainIdentifier: domainIdentifier, 
+            name: name, 
+            provisioningProperties: provisioningProperties, 
+            userParameters: userParameters
+        )
+        return try await self.createEnvironmentBlueprint(input, logger: logger)
+    }
+
     /// Creates an Amazon DataZone environment profile.
     @Sendable
     @inlinable
@@ -1081,7 +1210,7 @@ public struct DataZone: AWSService {
         return try await self.createEnvironmentProfile(input, logger: logger)
     }
 
-    /// Creates a metadata form type.
+    /// Creates a metadata form type. Prerequisites:   The domain must exist and be in an ENABLED state.    The owning project must exist and be accessible.   The name must be unique within the domain.   For custom form types, to indicate that a field should be searchable, annotate it with @amazon.datazone#searchable. By default, searchable fields are indexed for semantic search, where related query terms will match the attribute value even if they are not stemmed or keyword matches. To indicate that a field should be indexed for lexical search (which disables semantic search but supports stemmed and partial matches), annotate it with @amazon.datazone#searchable(modes:["LEXICAL"]). To indicate that a field should be indexed for technical identifier search (for more information on technical identifier search, see: https://aws.amazon.com/blogs/big-data/streamline-data-discovery-with-precise-technical-identifier-search-in-amazon-sagemaker-unified-studio/), annotate it with @amazon.datazone#searchable(modes:["TECHNICAL"]). To denote that a field will store glossary term ids (which are filterable via the Search/SearchListings APIs), annotate it with @amazon.datazone#glossaryterm("${GLOSSARY_ID}"), where ${GLOSSARY_ID} is the id of the glossary that the glossary terms stored in the field belong to.
     @Sendable
     @inlinable
     public func createFormType(_ input: CreateFormTypeInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFormTypeOutput {
@@ -1094,7 +1223,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Creates a metadata form type.
+    /// Creates a metadata form type. Prerequisites:   The domain must exist and be in an ENABLED state.    The owning project must exist and be accessible.   The name must be unique within the domain.   For custom form types, to indicate that a field should be searchable, annotate it with @amazon.datazone#searchable. By default, searchable fields are indexed for semantic search, where related query terms will match the attribute value even if they are not stemmed or keyword matches. To indicate that a field should be indexed for lexical search (which disables semantic search but supports stemmed and partial matches), annotate it with @amazon.datazone#searchable(modes:["LEXICAL"]). To indicate that a field should be indexed for technical identifier search (for more information on technical identifier search, see: https://aws.amazon.com/blogs/big-data/streamline-data-discovery-with-precise-technical-identifier-search-in-amazon-sagemaker-unified-studio/), annotate it with @amazon.datazone#searchable(modes:["TECHNICAL"]). To denote that a field will store glossary term ids (which are filterable via the Search/SearchListings APIs), annotate it with @amazon.datazone#glossaryterm("${GLOSSARY_ID}"), where ${GLOSSARY_ID} is the id of the glossary that the glossary terms stored in the field belong to.
     ///
     /// Parameters:
     ///   - description: The description of this Amazon DataZone metadata form type.
@@ -1125,7 +1254,7 @@ public struct DataZone: AWSService {
         return try await self.createFormType(input, logger: logger)
     }
 
-    /// Creates an Amazon DataZone business glossary.
+    /// Creates an Amazon DataZone business glossary. Specifies that this is a create glossary policy. A glossary serves as the central repository for business terminology and definitions within an organization. It helps establish and maintain a common language across different departments and teams, reducing miscommunication and ensuring consistent interpretation of business concepts. Glossaries can include hierarchical relationships between terms, cross-references, and links to actual data assets, making them invaluable for both business users and technical teams trying to understand and use data correctly. Prerequisites:   Domain must exist and be in an active state.    Owning project must exist and be accessible by the caller.   The glossary name must be unique within the domain.
     @Sendable
     @inlinable
     public func createGlossary(_ input: CreateGlossaryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGlossaryOutput {
@@ -1138,7 +1267,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Creates an Amazon DataZone business glossary.
+    /// Creates an Amazon DataZone business glossary. Specifies that this is a create glossary policy. A glossary serves as the central repository for business terminology and definitions within an organization. It helps establish and maintain a common language across different departments and teams, reducing miscommunication and ensuring consistent interpretation of business concepts. Glossaries can include hierarchical relationships between terms, cross-references, and links to actual data assets, making them invaluable for both business users and technical teams trying to understand and use data correctly. Prerequisites:   Domain must exist and be in an active state.    Owning project must exist and be accessible by the caller.   The glossary name must be unique within the domain.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
@@ -1147,6 +1276,7 @@ public struct DataZone: AWSService {
     ///   - name: The name of this business glossary.
     ///   - owningProjectIdentifier: The ID of the project that currently owns business glossary.
     ///   - status: The status of this business glossary.
+    ///   - usageRestrictions: The usage restriction of the restricted glossary.
     ///   - logger: Logger use during operation
     @inlinable
     public func createGlossary(
@@ -1156,6 +1286,7 @@ public struct DataZone: AWSService {
         name: String,
         owningProjectIdentifier: String,
         status: GlossaryStatus? = nil,
+        usageRestrictions: [GlossaryUsageRestriction]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateGlossaryOutput {
         let input = CreateGlossaryInput(
@@ -1164,12 +1295,13 @@ public struct DataZone: AWSService {
             domainIdentifier: domainIdentifier, 
             name: name, 
             owningProjectIdentifier: owningProjectIdentifier, 
-            status: status
+            status: status, 
+            usageRestrictions: usageRestrictions
         )
         return try await self.createGlossary(input, logger: logger)
     }
 
-    /// Creates a business glossary term.
+    /// Creates a business glossary term. A glossary term represents an individual entry within the Amazon DataZone glossary, serving as a standardized definition for a specific business concept or data element. Each term can include rich metadata such as detailed definitions, synonyms, related terms, and usage examples. Glossary terms can be linked directly to data assets, providing business context to technical data elements. This linking capability helps users understand the business meaning of data fields and ensures consistent interpretation across different systems and teams. Terms can also have relationships with other terms, creating a semantic network that reflects the complexity of business concepts. Prerequisites:   Domain must exist.    Glossary must exist.   The term name must be unique within the glossary.   Ensure term does not conflict with existing terms in hierarchy.
     @Sendable
     @inlinable
     public func createGlossaryTerm(_ input: CreateGlossaryTermInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGlossaryTermOutput {
@@ -1182,7 +1314,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Creates a business glossary term.
+    /// Creates a business glossary term. A glossary term represents an individual entry within the Amazon DataZone glossary, serving as a standardized definition for a specific business concept or data element. Each term can include rich metadata such as detailed definitions, synonyms, related terms, and usage examples. Glossary terms can be linked directly to data assets, providing business context to technical data elements. This linking capability helps users understand the business meaning of data fields and ensures consistent interpretation across different systems and teams. Terms can also have relationships with other terms, creating a semantic network that reflects the complexity of business concepts. Prerequisites:   Domain must exist.    Glossary must exist.   The term name must be unique within the glossary.   Ensure term does not conflict with existing terms in hierarchy.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
@@ -1659,7 +1791,39 @@ public struct DataZone: AWSService {
         return try await self.createUserProfile(input, logger: logger)
     }
 
-    /// Deletes an asset in Amazon DataZone.
+    /// Deletes an account pool.
+    @Sendable
+    @inlinable
+    public func deleteAccountPool(_ input: DeleteAccountPoolInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAccountPoolOutput {
+        try await self.client.execute(
+            operation: "DeleteAccountPool", 
+            path: "/v2/domains/{domainIdentifier}/account-pools/{identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an account pool.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The ID of the domain where the account pool is deleted.
+    ///   - identifier: The ID of the account pool to be deleted.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAccountPool(
+        domainIdentifier: String,
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteAccountPoolOutput {
+        let input = DeleteAccountPoolInput(
+            domainIdentifier: domainIdentifier, 
+            identifier: identifier
+        )
+        return try await self.deleteAccountPool(input, logger: logger)
+    }
+
+    /// Deletes an asset in Amazon DataZone.   --domain-identifier must refer to a valid and existing domain.    --identifier must refer to an existing asset in the specified domain.   Asset must not be referenced in any existing asset filters.   Asset must not be linked to any draft or published data product.   User must have delete permissions for the domain and project.
     @Sendable
     @inlinable
     public func deleteAsset(_ input: DeleteAssetInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAssetOutput {
@@ -1672,7 +1836,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Deletes an asset in Amazon DataZone.
+    /// Deletes an asset in Amazon DataZone.   --domain-identifier must refer to a valid and existing domain.    --identifier must refer to an existing asset in the specified domain.   Asset must not be referenced in any existing asset filters.   Asset must not be linked to any draft or published data product.   User must have delete permissions for the domain and project.
     ///
     /// Parameters:
     ///   - domainIdentifier: The ID of the Amazon DataZone domain in which the asset is deleted.
@@ -1691,7 +1855,7 @@ public struct DataZone: AWSService {
         return try await self.deleteAsset(input, logger: logger)
     }
 
-    /// Deletes an asset filter.
+    /// Deletes an asset filter. Prerequisites:   The asset filter must exist.    The domain and asset must not have been deleted.   Ensure the --identifier refers to a valid filter ID.
     @Sendable
     @inlinable
     public func deleteAssetFilter(_ input: DeleteAssetFilterInput, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1704,7 +1868,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Deletes an asset filter.
+    /// Deletes an asset filter. Prerequisites:   The asset filter must exist.    The domain and asset must not have been deleted.   Ensure the --identifier refers to a valid filter ID.
     ///
     /// Parameters:
     ///   - assetIdentifier: The ID of the data asset.
@@ -1726,7 +1890,7 @@ public struct DataZone: AWSService {
         return try await self.deleteAssetFilter(input, logger: logger)
     }
 
-    /// Deletes an asset type in Amazon DataZone.
+    /// Deletes an asset type in Amazon DataZone. Prerequisites:   The asset type must exist in the domain.    You must have DeleteAssetType permission.   The asset type must not be in use (e.g., assigned to any asset). If used, deletion will fail.   You should retrieve the asset type using get-asset-type to confirm its presence before deletion.
     @Sendable
     @inlinable
     public func deleteAssetType(_ input: DeleteAssetTypeInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAssetTypeOutput {
@@ -1739,7 +1903,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Deletes an asset type in Amazon DataZone.
+    /// Deletes an asset type in Amazon DataZone. Prerequisites:   The asset type must exist in the domain.    You must have DeleteAssetType permission.   The asset type must not be in use (e.g., assigned to any asset). If used, deletion will fail.   You should retrieve the asset type using get-asset-type to confirm its presence before deletion.
     ///
     /// Parameters:
     ///   - domainIdentifier: The ID of the Amazon DataZone domain in which the asset type is deleted.
@@ -1790,7 +1954,7 @@ public struct DataZone: AWSService {
         return try await self.deleteConnection(input, logger: logger)
     }
 
-    /// Deletes a data product in Amazon DataZone.
+    /// Deletes a data product in Amazon DataZone. Prerequisites:   The data product must exist and not be deleted or archived.    The user must have delete permissions for the data product.   Domain and project must be active.
     @Sendable
     @inlinable
     public func deleteDataProduct(_ input: DeleteDataProductInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataProductOutput {
@@ -1803,7 +1967,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Deletes a data product in Amazon DataZone.
+    /// Deletes a data product in Amazon DataZone. Prerequisites:   The data product must exist and not be deleted or archived.    The user must have delete permissions for the data product.   Domain and project must be active.
     ///
     /// Parameters:
     ///   - domainIdentifier: The ID of the Amazon DataZone domain in which the data product is deleted.
@@ -1991,6 +2155,38 @@ public struct DataZone: AWSService {
         return try await self.deleteEnvironmentAction(input, logger: logger)
     }
 
+    /// Deletes a blueprint in Amazon DataZone.
+    @Sendable
+    @inlinable
+    public func deleteEnvironmentBlueprint(_ input: DeleteEnvironmentBlueprintInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteEnvironmentBlueprint", 
+            path: "/v2/domains/{domainIdentifier}/environment-blueprints/{identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a blueprint in Amazon DataZone.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The ID of the Amazon DataZone domain in which the blueprint is deleted.
+    ///   - identifier: The ID of the blueprint that is deleted.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteEnvironmentBlueprint(
+        domainIdentifier: String,
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteEnvironmentBlueprintInput(
+            domainIdentifier: domainIdentifier, 
+            identifier: identifier
+        )
+        return try await self.deleteEnvironmentBlueprint(input, logger: logger)
+    }
+
     /// Deletes the blueprint configuration in Amazon DataZone.
     @Sendable
     @inlinable
@@ -2055,7 +2251,7 @@ public struct DataZone: AWSService {
         return try await self.deleteEnvironmentProfile(input, logger: logger)
     }
 
-    /// Delets and metadata form type in Amazon DataZone.
+    /// Deletes and metadata form type in Amazon DataZone. Prerequisites:   The form type must exist in the domain.    The form type must not be in use by any asset types or assets.   The domain must be valid and accessible.   User must have delete permissions on the form type.   Any dependencies (such as linked asset types) must be removed first.
     @Sendable
     @inlinable
     public func deleteFormType(_ input: DeleteFormTypeInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFormTypeOutput {
@@ -2068,7 +2264,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Delets and metadata form type in Amazon DataZone.
+    /// Deletes and metadata form type in Amazon DataZone. Prerequisites:   The form type must exist in the domain.    The form type must not be in use by any asset types or assets.   The domain must be valid and accessible.   User must have delete permissions on the form type.   Any dependencies (such as linked asset types) must be removed first.
     ///
     /// Parameters:
     ///   - domainIdentifier: The ID of the Amazon DataZone domain in which the metadata form type is deleted.
@@ -2087,7 +2283,7 @@ public struct DataZone: AWSService {
         return try await self.deleteFormType(input, logger: logger)
     }
 
-    /// Deletes a business glossary in Amazon DataZone.
+    /// Deletes a business glossary in Amazon DataZone. Prerequisites:   The glossary must be in DISABLED state.    The glossary must not have any glossary terms associated with it.   The glossary must exist in the specified domain.   The caller must have the datazone:DeleteGlossary permission in the domain and glossary.   Glossary should not be linked to any active metadata forms.
     @Sendable
     @inlinable
     public func deleteGlossary(_ input: DeleteGlossaryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGlossaryOutput {
@@ -2100,7 +2296,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Deletes a business glossary in Amazon DataZone.
+    /// Deletes a business glossary in Amazon DataZone. Prerequisites:   The glossary must be in DISABLED state.    The glossary must not have any glossary terms associated with it.   The glossary must exist in the specified domain.   The caller must have the datazone:DeleteGlossary permission in the domain and glossary.   Glossary should not be linked to any active metadata forms.
     ///
     /// Parameters:
     ///   - domainIdentifier: The ID of the Amazon DataZone domain in which the business glossary is deleted.
@@ -2119,7 +2315,7 @@ public struct DataZone: AWSService {
         return try await self.deleteGlossary(input, logger: logger)
     }
 
-    /// Deletes a business glossary term in Amazon DataZone.
+    /// Deletes a business glossary term in Amazon DataZone. Prerequisites:   Glossary term must exist and be active.    The term must not be linked to other assets or child terms.   Caller must have delete permissions in the domain/glossary.   Ensure all associations (such as to assets or parent terms) are removed before deletion.
     @Sendable
     @inlinable
     public func deleteGlossaryTerm(_ input: DeleteGlossaryTermInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGlossaryTermOutput {
@@ -2132,7 +2328,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Deletes a business glossary term in Amazon DataZone.
+    /// Deletes a business glossary term in Amazon DataZone. Prerequisites:   Glossary term must exist and be active.    The term must not be linked to other assets or child terms.   Caller must have delete permissions in the domain/glossary.   Ensure all associations (such as to assets or parent terms) are removed before deletion.
     ///
     /// Parameters:
     ///   - domainIdentifier: The ID of the Amazon DataZone domain in which the business glossary term is deleted.
@@ -2492,7 +2688,77 @@ public struct DataZone: AWSService {
         return try await self.disassociateEnvironmentRole(input, logger: logger)
     }
 
-    /// Gets an Amazon DataZone asset.
+    /// Disassociates restricted terms from an asset.
+    @Sendable
+    @inlinable
+    public func disassociateGovernedTerms(_ input: DisassociateGovernedTermsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateGovernedTermsOutput {
+        try await self.client.execute(
+            operation: "DisassociateGovernedTerms", 
+            path: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/disassociate-governed-terms", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disassociates restricted terms from an asset.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The ID of the domain where you want to disassociate restricted terms from an asset.
+    ///   - entityIdentifier: The ID of an asset from which you want to disassociate restricted terms.
+    ///   - entityType: The type of the asset from which you want to disassociate restricted terms.
+    ///   - governedGlossaryTerms: The restricted glossary terms that you want to disassociate from an asset.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateGovernedTerms(
+        domainIdentifier: String,
+        entityIdentifier: String,
+        entityType: GovernedEntityType,
+        governedGlossaryTerms: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisassociateGovernedTermsOutput {
+        let input = DisassociateGovernedTermsInput(
+            domainIdentifier: domainIdentifier, 
+            entityIdentifier: entityIdentifier, 
+            entityType: entityType, 
+            governedGlossaryTerms: governedGlossaryTerms
+        )
+        return try await self.disassociateGovernedTerms(input, logger: logger)
+    }
+
+    /// Gets the details of the account pool.
+    @Sendable
+    @inlinable
+    public func getAccountPool(_ input: GetAccountPoolInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountPoolOutput {
+        try await self.client.execute(
+            operation: "GetAccountPool", 
+            path: "/v2/domains/{domainIdentifier}/account-pools/{identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets the details of the account pool.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The ID of the domain in which the account pool lives whose details are to be displayed.
+    ///   - identifier: The ID of the account pool whose details are to be displayed.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAccountPool(
+        domainIdentifier: String,
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAccountPoolOutput {
+        let input = GetAccountPoolInput(
+            domainIdentifier: domainIdentifier, 
+            identifier: identifier
+        )
+        return try await self.getAccountPool(input, logger: logger)
+    }
+
+    /// Gets an Amazon DataZone asset. An asset is the fundamental building block in Amazon DataZone, representing any data resource that needs to be cataloged and managed. It can take many forms, from Amazon S3 buckets and database tables to dashboards and machine learning models. Each asset contains comprehensive metadata about the resource, including its location, schema, ownership, and lineage information. Assets are essential for organizing and managing data resources across an organization, making them discoverable and usable while maintaining proper governance. Before using the Amazon DataZone GetAsset command, ensure the following prerequisites are met:   Domain identifier must exist and be valid   Asset identifier must exist   User must have the required permissions to perform the action
     @Sendable
     @inlinable
     public func getAsset(_ input: GetAssetInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAssetOutput {
@@ -2505,11 +2771,11 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Gets an Amazon DataZone asset.
+    /// Gets an Amazon DataZone asset. An asset is the fundamental building block in Amazon DataZone, representing any data resource that needs to be cataloged and managed. It can take many forms, from Amazon S3 buckets and database tables to dashboards and machine learning models. Each asset contains comprehensive metadata about the resource, including its location, schema, ownership, and lineage information. Assets are essential for organizing and managing data resources across an organization, making them discoverable and usable while maintaining proper governance. Before using the Amazon DataZone GetAsset command, ensure the following prerequisites are met:   Domain identifier must exist and be valid   Asset identifier must exist   User must have the required permissions to perform the action
     ///
     /// Parameters:
     ///   - domainIdentifier: The ID of the Amazon DataZone domain to which the asset belongs.
-    ///   - identifier: The ID of the Amazon DataZone asset.
+    ///   - identifier: The ID of the Amazon DataZone asset. This parameter supports either the value of assetId or externalIdentifier as input. If you are passing the value of externalIdentifier, you must prefix this value with externalIdentifer%2F.
     ///   - revision: The revision of the Amazon DataZone asset.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2527,7 +2793,7 @@ public struct DataZone: AWSService {
         return try await self.getAsset(input, logger: logger)
     }
 
-    /// Gets an asset filter.
+    /// Gets an asset filter. Prerequisites:   Domain (--domain-identifier), asset (--asset-identifier), and filter (--identifier) must all exist.    The asset filter should not have been deleted.   The asset must still exist (since the filter is linked to it).
     @Sendable
     @inlinable
     public func getAssetFilter(_ input: GetAssetFilterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAssetFilterOutput {
@@ -2540,7 +2806,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Gets an asset filter.
+    /// Gets an asset filter. Prerequisites:   Domain (--domain-identifier), asset (--asset-identifier), and filter (--identifier) must all exist.    The asset filter should not have been deleted.   The asset must still exist (since the filter is linked to it).
     ///
     /// Parameters:
     ///   - assetIdentifier: The ID of the data asset.
@@ -2562,7 +2828,7 @@ public struct DataZone: AWSService {
         return try await self.getAssetFilter(input, logger: logger)
     }
 
-    /// Gets an Amazon DataZone asset type.
+    /// Gets an Amazon DataZone asset type. Asset types define the categories and characteristics of different kinds of data assets within Amazon DataZone.. They determine what metadata fields are required, what operations are possible, and how the asset integrates with other Amazon Web Services services. Asset types can range from built-in types like Amazon S3 buckets and Amazon Web Services Glue tables to custom types defined for specific organizational needs. Understanding asset types is crucial for properly organizing and managing different kinds of data resources. Prerequisites:   The asset type with identifier must exist in the domain. ResourceNotFoundException.   You must have the GetAssetType permission.   Ensure the domain-identifier value is correct and accessible.
     @Sendable
     @inlinable
     public func getAssetType(_ input: GetAssetTypeInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAssetTypeOutput {
@@ -2575,7 +2841,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Gets an Amazon DataZone asset type.
+    /// Gets an Amazon DataZone asset type. Asset types define the categories and characteristics of different kinds of data assets within Amazon DataZone.. They determine what metadata fields are required, what operations are possible, and how the asset integrates with other Amazon Web Services services. Asset types can range from built-in types like Amazon S3 buckets and Amazon Web Services Glue tables to custom types defined for specific organizational needs. Understanding asset types is crucial for properly organizing and managing different kinds of data resources. Prerequisites:   The asset type with identifier must exist in the domain. ResourceNotFoundException.   You must have the GetAssetType permission.   Ensure the domain-identifier value is correct and accessible.
     ///
     /// Parameters:
     ///   - domainIdentifier: The ID of the Amazon DataZone domain in which the asset type exists.
@@ -2632,7 +2898,7 @@ public struct DataZone: AWSService {
         return try await self.getConnection(input, logger: logger)
     }
 
-    /// Gets the data product.
+    /// Gets the data product. Prerequisites:   The data product ID must exist.    The domain must be valid and accessible.   User must have read or discovery permissions for the data product.
     @Sendable
     @inlinable
     public func getDataProduct(_ input: GetDataProductInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataProductOutput {
@@ -2645,7 +2911,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Gets the data product.
+    /// Gets the data product. Prerequisites:   The data product ID must exist.    The domain must be valid and accessible.   User must have read or discovery permissions for the data product.
     ///
     /// Parameters:
     ///   - domainIdentifier: The ID of the domain where the data product lives.
@@ -2987,7 +3253,7 @@ public struct DataZone: AWSService {
         return try await self.getEnvironmentProfile(input, logger: logger)
     }
 
-    /// Gets a metadata form type in Amazon DataZone.
+    /// Gets a metadata form type in Amazon DataZone. Form types define the structure and validation rules for collecting metadata about assets in Amazon DataZone. They act as templates that ensure consistent metadata capture across similar types of assets, while allowing for customization to meet specific organizational needs. Form types can include required fields, validation rules, and dependencies, helping maintain high-quality metadata that makes data assets more discoverable and usable.   The form type with the specified identifier must exist in the given domain.    The domain must be valid and active.   User must have permission on the form type.   The form type should not be deleted or in an invalid state.   One use case for this API is to determine whether a form field is indexed for search.  A searchable field will be annotated with @amazon.datazone#searchable. By default, searchable fields are indexed for semantic search, where related query terms will match the attribute value even if they are not stemmed or keyword matches. If a field is indexed technical identifier search, it will be annotated with @amazon.datazone#searchable(modes:["TECHNICAL"]). If a field is indexed for lexical search (supports stemmed and prefix matches but not semantic matches), it will be annotated with @amazon.datazone#searchable(modes:["LEXICAL"]). A field storing glossary term IDs (which is filterable) will be annotated with @amazon.datazone#glossaryterm("${glossaryId}").
     @Sendable
     @inlinable
     public func getFormType(_ input: GetFormTypeInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFormTypeOutput {
@@ -3000,7 +3266,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Gets a metadata form type in Amazon DataZone.
+    /// Gets a metadata form type in Amazon DataZone. Form types define the structure and validation rules for collecting metadata about assets in Amazon DataZone. They act as templates that ensure consistent metadata capture across similar types of assets, while allowing for customization to meet specific organizational needs. Form types can include required fields, validation rules, and dependencies, helping maintain high-quality metadata that makes data assets more discoverable and usable.   The form type with the specified identifier must exist in the given domain.    The domain must be valid and active.   User must have permission on the form type.   The form type should not be deleted or in an invalid state.   One use case for this API is to determine whether a form field is indexed for search.  A searchable field will be annotated with @amazon.datazone#searchable. By default, searchable fields are indexed for semantic search, where related query terms will match the attribute value even if they are not stemmed or keyword matches. If a field is indexed technical identifier search, it will be annotated with @amazon.datazone#searchable(modes:["TECHNICAL"]). If a field is indexed for lexical search (supports stemmed and prefix matches but not semantic matches), it will be annotated with @amazon.datazone#searchable(modes:["LEXICAL"]). A field storing glossary term IDs (which is filterable) will be annotated with @amazon.datazone#glossaryterm("${glossaryId}").
     ///
     /// Parameters:
     ///   - domainIdentifier: The ID of the Amazon DataZone domain in which this metadata form type exists.
@@ -3022,7 +3288,7 @@ public struct DataZone: AWSService {
         return try await self.getFormType(input, logger: logger)
     }
 
-    /// Gets a business glossary in Amazon DataZone.
+    /// Gets a business glossary in Amazon DataZone. Prerequisites:   The specified glossary ID must exist and be associated with the given domain.    The caller must have the datazone:GetGlossary permission on the domain.
     @Sendable
     @inlinable
     public func getGlossary(_ input: GetGlossaryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetGlossaryOutput {
@@ -3035,7 +3301,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Gets a business glossary in Amazon DataZone.
+    /// Gets a business glossary in Amazon DataZone. Prerequisites:   The specified glossary ID must exist and be associated with the given domain.    The caller must have the datazone:GetGlossary permission on the domain.
     ///
     /// Parameters:
     ///   - domainIdentifier: The ID of the Amazon DataZone domain in which this business glossary exists.
@@ -3054,7 +3320,7 @@ public struct DataZone: AWSService {
         return try await self.getGlossary(input, logger: logger)
     }
 
-    /// Gets a business glossary term in Amazon DataZone.
+    /// Gets a business glossary term in Amazon DataZone. Prerequisites:   Glossary term with identifier must exist in the domain.    User must have permission on the glossary term.   Domain must be accessible and active.
     @Sendable
     @inlinable
     public func getGlossaryTerm(_ input: GetGlossaryTermInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetGlossaryTermOutput {
@@ -3067,7 +3333,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Gets a business glossary term in Amazon DataZone.
+    /// Gets a business glossary term in Amazon DataZone. Prerequisites:   Glossary term with identifier must exist in the domain.    User must have permission on the glossary term.   Domain must be accessible and active.
     ///
     /// Parameters:
     ///   - domainIdentifier: The ID of the Amazon DataZone domain in which this business glossary term exists.
@@ -3281,7 +3547,7 @@ public struct DataZone: AWSService {
         return try await self.getListing(input, logger: logger)
     }
 
-    /// Gets a metadata generation run in Amazon DataZone.
+    /// Gets a metadata generation run in Amazon DataZone. Prerequisites:   Valid domain and run identifier.    The metadata generation run must exist.   User must have read access to the metadata run.
     @Sendable
     @inlinable
     public func getMetadataGenerationRun(_ input: GetMetadataGenerationRunInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMetadataGenerationRunOutput {
@@ -3294,7 +3560,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Gets a metadata generation run in Amazon DataZone.
+    /// Gets a metadata generation run in Amazon DataZone. Prerequisites:   Valid domain and run identifier.    The metadata generation run must exist.   User must have read access to the metadata run.
     ///
     /// Parameters:
     ///   - domainIdentifier: The ID of the Amazon DataZone domain the metadata generation run of which you want to get.
@@ -3619,7 +3885,89 @@ public struct DataZone: AWSService {
         return try await self.getUserProfile(input, logger: logger)
     }
 
-    /// Lists asset filters.
+    /// Lists existing account pools.
+    @Sendable
+    @inlinable
+    public func listAccountPools(_ input: ListAccountPoolsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccountPoolsOutput {
+        try await self.client.execute(
+            operation: "ListAccountPools", 
+            path: "/v2/domains/{domainIdentifier}/account-pools", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists existing account pools.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The ID of the domain where exsting account pools are to be listed.
+    ///   - maxResults: The maximum number of account pools to return in a single call to ListAccountPools. When the number of account pools to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListAccountPools to list the next set of account pools.
+    ///   - name: The name of the account pool to be listed.
+    ///   - nextToken: When the number of account pools is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of account pools, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListAccountPools to list the next set of account pools.
+    ///   - sortBy: The sort by mechanism in which the existing account pools are to be listed.
+    ///   - sortOrder: The sort order in which the existing account pools are to be listed.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAccountPools(
+        domainIdentifier: String,
+        maxResults: Int? = nil,
+        name: String? = nil,
+        nextToken: String? = nil,
+        sortBy: SortFieldAccountPool? = nil,
+        sortOrder: SortOrder? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAccountPoolsOutput {
+        let input = ListAccountPoolsInput(
+            domainIdentifier: domainIdentifier, 
+            maxResults: maxResults, 
+            name: name, 
+            nextToken: nextToken, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder
+        )
+        return try await self.listAccountPools(input, logger: logger)
+    }
+
+    /// Lists the accounts in the specified account pool.
+    @Sendable
+    @inlinable
+    public func listAccountsInAccountPool(_ input: ListAccountsInAccountPoolInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccountsInAccountPoolOutput {
+        try await self.client.execute(
+            operation: "ListAccountsInAccountPool", 
+            path: "/v2/domains/{domainIdentifier}/account-pools/{identifier}/accounts", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the accounts in the specified account pool.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The ID of the domain in which the accounts in the specified account pool are to be listed.
+    ///   - identifier: The ID of the account pool whose accounts are to be listed.
+    ///   - maxResults: The maximum number of accounts to return in a single call to ListAccountsInAccountPool. When the number of accounts to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListAccountsInAccountPool to list the next set of accounts.
+    ///   - nextToken: When the number of accounts is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of accounts, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListAccountsInAccountPool to list the next set of accounts.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAccountsInAccountPool(
+        domainIdentifier: String,
+        identifier: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAccountsInAccountPoolOutput {
+        let input = ListAccountsInAccountPoolInput(
+            domainIdentifier: domainIdentifier, 
+            identifier: identifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAccountsInAccountPool(input, logger: logger)
+    }
+
+    /// Lists asset filters. Prerequisites:   A valid domain and asset must exist.    The asset must have at least one filter created to return results.
     @Sendable
     @inlinable
     public func listAssetFilters(_ input: ListAssetFiltersInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAssetFiltersOutput {
@@ -3632,7 +3980,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Lists asset filters.
+    /// Lists asset filters. Prerequisites:   A valid domain and asset must exist.    The asset must have at least one filter created to return results.
     ///
     /// Parameters:
     ///   - assetIdentifier: The ID of the data asset.
@@ -3660,7 +4008,7 @@ public struct DataZone: AWSService {
         return try await self.listAssetFilters(input, logger: logger)
     }
 
-    /// Lists the revisions for the asset.
+    /// Lists the revisions for the asset. Prerequisites:   The asset must exist in the domain.    There must be at least one revision of the asset (which happens automatically after creation).   The domain must be valid and active.   User must have permissions on the asset and domain.
     @Sendable
     @inlinable
     public func listAssetRevisions(_ input: ListAssetRevisionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAssetRevisionsOutput {
@@ -3673,7 +4021,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Lists the revisions for the asset.
+    /// Lists the revisions for the asset. Prerequisites:   The asset must exist in the domain.    There must be at least one revision of the asset (which happens automatically after creation).   The domain must be valid and active.   User must have permissions on the asset and domain.
     ///
     /// Parameters:
     ///   - domainIdentifier: The identifier of the domain.
@@ -3720,6 +4068,7 @@ public struct DataZone: AWSService {
     ///   - name: The name of the connection.
     ///   - nextToken: When the number of connections is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of connections, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListConnections to list the next set of connections.
     ///   - projectIdentifier: The ID of the project where you want to list connections.
+    ///   - scope: The scope of the connection.
     ///   - sortBy: Specifies how you want to sort the listed connections.
     ///   - sortOrder: Specifies the sort order for the listed connections.
     ///   - type: The type of connection.
@@ -3731,7 +4080,8 @@ public struct DataZone: AWSService {
         maxResults: Int? = nil,
         name: String? = nil,
         nextToken: String? = nil,
-        projectIdentifier: String,
+        projectIdentifier: String? = nil,
+        scope: ConnectionScope? = nil,
         sortBy: SortFieldConnection? = nil,
         sortOrder: SortOrder? = nil,
         type: ConnectionType? = nil,
@@ -3744,6 +4094,7 @@ public struct DataZone: AWSService {
             name: name, 
             nextToken: nextToken, 
             projectIdentifier: projectIdentifier, 
+            scope: scope, 
             sortBy: sortBy, 
             sortOrder: sortOrder, 
             type: type
@@ -3751,7 +4102,7 @@ public struct DataZone: AWSService {
         return try await self.listConnections(input, logger: logger)
     }
 
-    /// Lists data product revisions.
+    /// Lists data product revisions. Prerequisites:   The data product ID must exist within the domain.    User must have view permissions on the data product.   The domain must be in a valid and accessible state.
     @Sendable
     @inlinable
     public func listDataProductRevisions(_ input: ListDataProductRevisionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataProductRevisionsOutput {
@@ -3764,7 +4115,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Lists data product revisions.
+    /// Lists data product revisions. Prerequisites:   The data product ID must exist within the domain.    User must have view permissions on the data product.   The domain must be in a valid and accessible state.
     ///
     /// Parameters:
     ///   - domainIdentifier: The ID of the domain of the data product revisions that you want to list.
@@ -4402,7 +4753,7 @@ public struct DataZone: AWSService {
         return try await self.listLineageNodeHistory(input, logger: logger)
     }
 
-    /// Lists all metadata generation runs.
+    /// Lists all metadata generation runs. Metadata generation runs represent automated processes that leverage AI/ML capabilities to create or enhance asset metadata at scale. This feature helps organizations maintain comprehensive and consistent metadata across large numbers of assets without manual intervention. It can automatically generate business descriptions, tags, and other metadata elements, significantly reducing the time and effort required for metadata management while improving consistency and completeness. Prerequisites:   Valid domain identifier.    User must have access to metadata generation runs in the domain.
     @Sendable
     @inlinable
     public func listMetadataGenerationRuns(_ input: ListMetadataGenerationRunsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMetadataGenerationRunsOutput {
@@ -4415,7 +4766,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Lists all metadata generation runs.
+    /// Lists all metadata generation runs. Metadata generation runs represent automated processes that leverage AI/ML capabilities to create or enhance asset metadata at scale. This feature helps organizations maintain comprehensive and consistent metadata across large numbers of assets without manual intervention. It can automatically generate business descriptions, tags, and other metadata elements, significantly reducing the time and effort required for metadata management while improving consistency and completeness. Prerequisites:   Valid domain identifier.    User must have access to metadata generation runs in the domain.
     ///
     /// Parameters:
     ///   - domainIdentifier: The ID of the Amazon DataZone domain where you want to list metadata generation runs.
@@ -5112,6 +5463,7 @@ public struct DataZone: AWSService {
     ///   - enabledRegions: Specifies the enabled Amazon Web Services Regions.
     ///   - environmentBlueprintIdentifier: The identifier of the environment blueprint.
     ///   - environmentRolePermissionBoundary: The environment role permissions boundary.
+    ///   - globalParameters: Region-agnostic environment blueprint parameters.
     ///   - manageAccessRoleArn: The ARN of the manage access role.
     ///   - provisioningConfigurations: The provisioning configuration of a blueprint.
     ///   - provisioningRoleArn: The ARN of the provisioning role.
@@ -5123,6 +5475,7 @@ public struct DataZone: AWSService {
         enabledRegions: [String],
         environmentBlueprintIdentifier: String,
         environmentRolePermissionBoundary: String? = nil,
+        globalParameters: [String: String]? = nil,
         manageAccessRoleArn: String? = nil,
         provisioningConfigurations: [ProvisioningConfiguration]? = nil,
         provisioningRoleArn: String? = nil,
@@ -5134,6 +5487,7 @@ public struct DataZone: AWSService {
             enabledRegions: enabledRegions, 
             environmentBlueprintIdentifier: environmentBlueprintIdentifier, 
             environmentRolePermissionBoundary: environmentRolePermissionBoundary, 
+            globalParameters: globalParameters, 
             manageAccessRoleArn: manageAccessRoleArn, 
             provisioningConfigurations: provisioningConfigurations, 
             provisioningRoleArn: provisioningRoleArn, 
@@ -5282,6 +5636,7 @@ public struct DataZone: AWSService {
     ///   - domainIdentifier: The ID of the domain where you want to remove a policy grant.
     ///   - entityIdentifier: The ID of the entity from which you want to remove a policy grant.
     ///   - entityType: The type of the entity from which you want to remove a policy grant.
+    ///   - grantIdentifier: The ID of the policy grant that is to be removed from a specified entity.
     ///   - policyType: The type of the policy that you want to remove.
     ///   - principal: The principal from which you want to remove a policy grant.
     ///   - logger: Logger use during operation
@@ -5291,6 +5646,7 @@ public struct DataZone: AWSService {
         domainIdentifier: String,
         entityIdentifier: String,
         entityType: TargetEntityType,
+        grantIdentifier: String? = nil,
         policyType: ManagedPolicyType,
         principal: PolicyGrantPrincipal,
         logger: Logger = AWSClient.loggingDisabled        
@@ -5300,6 +5656,7 @@ public struct DataZone: AWSService {
             domainIdentifier: domainIdentifier, 
             entityIdentifier: entityIdentifier, 
             entityType: entityType, 
+            grantIdentifier: grantIdentifier, 
             policyType: policyType, 
             principal: principal
         )
@@ -5341,7 +5698,7 @@ public struct DataZone: AWSService {
         return try await self.revokeSubscription(input, logger: logger)
     }
 
-    /// Searches for assets in Amazon DataZone.
+    /// Searches for assets in Amazon DataZone. Search in Amazon DataZone is a powerful capability that enables users to discover and explore data assets, glossary terms, and data products across their organization. It provides both basic and advanced search functionality, allowing users to find resources based on names, descriptions, metadata, and other attributes. Search can be scoped to specific types of resources (like assets, glossary terms, or data products) and can be filtered using various criteria such as creation date, owner, or status. The search functionality is essential for making the wealth of data resources in an organization discoverable and usable, helping users find the right data for their needs quickly and efficiently. Many search commands in Amazon DataZone are paginated, including search and search-types. When the result set is large, Amazon DataZone returns a nextToken in the response. This token can be used to retrieve the next page of results.  Prerequisites:   The --domain-identifier must refer to an existing Amazon DataZone domain.    --search-scope must be one of: ASSET, GLOSSARY_TERM, DATA_PRODUCT, or GLOSSARY.   The user must have search permissions in the specified domain.   If using --filters, ensure that the JSON is well-formed and that each filter includes valid attribute and value keys.    For paginated results, be prepared to use --next-token to fetch additional pages.
     @Sendable
     @inlinable
     public func search(_ input: SearchInput, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchOutput {
@@ -5354,7 +5711,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Searches for assets in Amazon DataZone.
+    /// Searches for assets in Amazon DataZone. Search in Amazon DataZone is a powerful capability that enables users to discover and explore data assets, glossary terms, and data products across their organization. It provides both basic and advanced search functionality, allowing users to find resources based on names, descriptions, metadata, and other attributes. Search can be scoped to specific types of resources (like assets, glossary terms, or data products) and can be filtered using various criteria such as creation date, owner, or status. The search functionality is essential for making the wealth of data resources in an organization discoverable and usable, helping users find the right data for their needs quickly and efficiently. Many search commands in Amazon DataZone are paginated, including search and search-types. When the result set is large, Amazon DataZone returns a nextToken in the response. This token can be used to retrieve the next page of results.  Prerequisites:   The --domain-identifier must refer to an existing Amazon DataZone domain.    --search-scope must be one of: ASSET, GLOSSARY_TERM, DATA_PRODUCT, or GLOSSARY.   The user must have search permissions in the specified domain.   If using --filters, ensure that the JSON is well-formed and that each filter includes valid attribute and value keys.    For paginated results, be prepared to use --next-token to fetch additional pages.
     ///
     /// Parameters:
     ///   - additionalAttributes: Specifies additional attributes for the Search action.
@@ -5438,7 +5795,7 @@ public struct DataZone: AWSService {
         return try await self.searchGroupProfiles(input, logger: logger)
     }
 
-    /// Searches listings (records of an asset at a given time) in Amazon DataZone.
+    /// Searches listings in Amazon DataZone. SearchListings is a powerful capability that enables users to discover and explore published assets and data products across their organization. It provides both basic and advanced search functionality, allowing users to find resources based on names, descriptions, metadata, and other attributes. SearchListings also supports filtering using various criteria such as creation date, owner, or status. This API is essential for making the wealth of data resources in an organization discoverable and usable, helping users find the right data for their needs quickly and efficiently. SearchListings returns results in a paginated format. When the result set is large, the response will include a nextToken, which can be used to retrieve the next page of results. The SearchListings API gives users flexibility in specifying what kind of search is run. To run a free-text search, the searchText parameter must be supplied. By default, all searchable fields are indexed for semantic search and will return semantic matches for SearchListings queries. To prevent semantic search indexing for a custom form attribute, see the CreateFormType API documentation. To run a lexical search query, enclose the query with double quotes (""). This will disable semantic search even for fields that have semantic search enabled and will only return results that contain the keywords wrapped by double quotes (order of tokens in the query is not enforced). Free-text search is supported for all attributes annotated with @amazon.datazone#searchable. To run a filtered search, provide filter clause using the filters parameter. To filter on glossary terms, use the special attribute __DataZoneGlossaryTerms.  To find out whether an attribute has been annotated and indexed for a given search type, use the GetFormType API to retrieve the form containing the attribute.
     @Sendable
     @inlinable
     public func searchListings(_ input: SearchListingsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchListingsOutput {
@@ -5451,10 +5808,11 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Searches listings (records of an asset at a given time) in Amazon DataZone.
+    /// Searches listings in Amazon DataZone. SearchListings is a powerful capability that enables users to discover and explore published assets and data products across their organization. It provides both basic and advanced search functionality, allowing users to find resources based on names, descriptions, metadata, and other attributes. SearchListings also supports filtering using various criteria such as creation date, owner, or status. This API is essential for making the wealth of data resources in an organization discoverable and usable, helping users find the right data for their needs quickly and efficiently. SearchListings returns results in a paginated format. When the result set is large, the response will include a nextToken, which can be used to retrieve the next page of results. The SearchListings API gives users flexibility in specifying what kind of search is run. To run a free-text search, the searchText parameter must be supplied. By default, all searchable fields are indexed for semantic search and will return semantic matches for SearchListings queries. To prevent semantic search indexing for a custom form attribute, see the CreateFormType API documentation. To run a lexical search query, enclose the query with double quotes (""). This will disable semantic search even for fields that have semantic search enabled and will only return results that contain the keywords wrapped by double quotes (order of tokens in the query is not enforced). Free-text search is supported for all attributes annotated with @amazon.datazone#searchable. To run a filtered search, provide filter clause using the filters parameter. To filter on glossary terms, use the special attribute __DataZoneGlossaryTerms.  To find out whether an attribute has been annotated and indexed for a given search type, use the GetFormType API to retrieve the form containing the attribute.
     ///
     /// Parameters:
     ///   - additionalAttributes: Specifies additional attributes for the search.
+    ///   - aggregations: Enables you to specify one or more attributes to compute and return counts grouped by field values.
     ///   - domainIdentifier: The identifier of the domain in which to search listings.
     ///   - filters: Specifies the filters for the search of listings.
     ///   - maxResults: The maximum number of results to return in a single call to SearchListings. When the number of results to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to SearchListings to list the next set of results.
@@ -5466,6 +5824,7 @@ public struct DataZone: AWSService {
     @inlinable
     public func searchListings(
         additionalAttributes: [SearchOutputAdditionalAttribute]? = nil,
+        aggregations: [AggregationListItem]? = nil,
         domainIdentifier: String,
         filters: FilterClause? = nil,
         maxResults: Int? = nil,
@@ -5477,6 +5836,7 @@ public struct DataZone: AWSService {
     ) async throws -> SearchListingsOutput {
         let input = SearchListingsInput(
             additionalAttributes: additionalAttributes, 
+            aggregations: aggregations, 
             domainIdentifier: domainIdentifier, 
             filters: filters, 
             maxResults: maxResults, 
@@ -5488,7 +5848,7 @@ public struct DataZone: AWSService {
         return try await self.searchListings(input, logger: logger)
     }
 
-    /// Searches for types in Amazon DataZone.
+    /// Searches for types in Amazon DataZone. Prerequisites:   The --domain-identifier must refer to an existing Amazon DataZone domain.    --search-scope must be one of the valid values including: ASSET_TYPE, GLOSSARY_TERM_TYPE, DATA_PRODUCT_TYPE.   The --managed flag must be present without a value.   The user must have permissions for form or asset types in the domain.   If using --filters, ensure that the JSON is valid.   Filters contain correct structure (attribute, value, operator).
     @Sendable
     @inlinable
     public func searchTypes(_ input: SearchTypesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchTypesOutput {
@@ -5501,7 +5861,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Searches for types in Amazon DataZone.
+    /// Searches for types in Amazon DataZone. Prerequisites:   The --domain-identifier must refer to an existing Amazon DataZone domain.    --search-scope must be one of the valid values including: ASSET_TYPE, GLOSSARY_TERM_TYPE, DATA_PRODUCT_TYPE.   The --managed flag must be present without a value.   The user must have permissions for form or asset types in the domain.   If using --filters, ensure that the JSON is valid.   Filters contain correct structure (attribute, value, operator).
     ///
     /// Parameters:
     ///   - domainIdentifier: The identifier of the Amazon DataZone domain in which to invoke the SearchTypes action.
@@ -5617,7 +5977,7 @@ public struct DataZone: AWSService {
         return try await self.startDataSourceRun(input, logger: logger)
     }
 
-    /// Starts the metadata generation run.
+    /// Starts the metadata generation run. Prerequisites:   Asset must be created and belong to the specified domain and project.    Asset type must be supported for metadata generation (e.g., Amazon Web Services Glue table).   Asset must have a structured schema with valid rows and columns.   Valid values for --type: BUSINESS_DESCRIPTIONS, BUSINESS_NAMES.   The user must have permission to run metadata generation in the domain/project.
     @Sendable
     @inlinable
     public func startMetadataGenerationRun(_ input: StartMetadataGenerationRunInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMetadataGenerationRunOutput {
@@ -5630,7 +5990,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Starts the metadata generation run.
+    /// Starts the metadata generation run. Prerequisites:   Asset must be created and belong to the specified domain and project.    Asset type must be supported for metadata generation (e.g., Amazon Web Services Glue table).   Asset must have a structured schema with valid rows and columns.   Valid values for --type: BUSINESS_DESCRIPTIONS, BUSINESS_NAMES.   The user must have permission to run metadata generation in the domain/project.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
@@ -5722,7 +6082,51 @@ public struct DataZone: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Updates an asset filter.
+    /// Updates the account pool.
+    @Sendable
+    @inlinable
+    public func updateAccountPool(_ input: UpdateAccountPoolInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAccountPoolOutput {
+        try await self.client.execute(
+            operation: "UpdateAccountPool", 
+            path: "/v2/domains/{domainIdentifier}/account-pools/{identifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the account pool.
+    ///
+    /// Parameters:
+    ///   - accountSource: The source of accounts for the account pool. In the current release, it's either a static list of accounts provided by the customer or a custom Amazon Web Services Lambda handler.
+    ///   - description: The description of the account pool that is to be udpated.
+    ///   - domainIdentifier: The domain ID where the account pool that is to be updated lives.
+    ///   - identifier: The ID of the account pool that is to be updated.
+    ///   - name: The name of the account pool that is to be updated.
+    ///   - resolutionStrategy: The mechanism used to resolve the account selection from the account pool.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAccountPool(
+        accountSource: AccountSource? = nil,
+        description: String? = nil,
+        domainIdentifier: String,
+        identifier: String,
+        name: String? = nil,
+        resolutionStrategy: ResolutionStrategy? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateAccountPoolOutput {
+        let input = UpdateAccountPoolInput(
+            accountSource: accountSource, 
+            description: description, 
+            domainIdentifier: domainIdentifier, 
+            identifier: identifier, 
+            name: name, 
+            resolutionStrategy: resolutionStrategy
+        )
+        return try await self.updateAccountPool(input, logger: logger)
+    }
+
+    /// Updates an asset filter. Prerequisites:   The domain, asset, and asset filter identifier must all exist.    The asset must contain the columns being referenced in the update.   If applying a row filter, ensure the column referenced in the expression exists in the asset schema.
     @Sendable
     @inlinable
     public func updateAssetFilter(_ input: UpdateAssetFilterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAssetFilterOutput {
@@ -5735,7 +6139,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Updates an asset filter.
+    /// Updates an asset filter. Prerequisites:   The domain, asset, and asset filter identifier must all exist.    The asset must contain the columns being referenced in the update.   If applying a row filter, ensure the column referenced in the expression exists in the asset schema.
     ///
     /// Parameters:
     ///   - assetIdentifier: The ID of the data asset.
@@ -6042,6 +6446,47 @@ public struct DataZone: AWSService {
         return try await self.updateEnvironmentAction(input, logger: logger)
     }
 
+    /// Updates an environment blueprint in Amazon DataZone.
+    @Sendable
+    @inlinable
+    public func updateEnvironmentBlueprint(_ input: UpdateEnvironmentBlueprintInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEnvironmentBlueprintOutput {
+        try await self.client.execute(
+            operation: "UpdateEnvironmentBlueprint", 
+            path: "/v2/domains/{domainIdentifier}/environment-blueprints/{identifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an environment blueprint in Amazon DataZone.
+    ///
+    /// Parameters:
+    ///   - description: The description to be updated as part of the UpdateEnvironmentBlueprint action.
+    ///   - domainIdentifier: The identifier of the Amazon DataZone domain in which an environment blueprint is to be updated.
+    ///   - identifier: The identifier of the environment blueprint to be updated.
+    ///   - provisioningProperties: The provisioning properties to be updated as part of the UpdateEnvironmentBlueprint action.
+    ///   - userParameters: The user parameters to be updated as part of the UpdateEnvironmentBlueprint action.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateEnvironmentBlueprint(
+        description: String? = nil,
+        domainIdentifier: String,
+        identifier: String,
+        provisioningProperties: ProvisioningProperties? = nil,
+        userParameters: [CustomParameter]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateEnvironmentBlueprintOutput {
+        let input = UpdateEnvironmentBlueprintInput(
+            description: description, 
+            domainIdentifier: domainIdentifier, 
+            identifier: identifier, 
+            provisioningProperties: provisioningProperties, 
+            userParameters: userParameters
+        )
+        return try await self.updateEnvironmentBlueprint(input, logger: logger)
+    }
+
     /// Updates the specified environment profile in Amazon DataZone.
     @Sendable
     @inlinable
@@ -6089,7 +6534,7 @@ public struct DataZone: AWSService {
         return try await self.updateEnvironmentProfile(input, logger: logger)
     }
 
-    /// Updates the business glossary in Amazon DataZone.
+    /// Updates the business glossary in Amazon DataZone. Prerequisites:   The glossary must exist in the given domain.    The caller must have the datazone:UpdateGlossary permission to update it.   When updating the name, the new name must be unique within the domain.   The glossary must not be deleted or in a terminal state.
     @Sendable
     @inlinable
     public func updateGlossary(_ input: UpdateGlossaryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGlossaryOutput {
@@ -6102,7 +6547,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Updates the business glossary in Amazon DataZone.
+    /// Updates the business glossary in Amazon DataZone. Prerequisites:   The glossary must exist in the given domain.    The caller must have the datazone:UpdateGlossary permission to update it.   When updating the name, the new name must be unique within the domain.   The glossary must not be deleted or in a terminal state.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
@@ -6133,7 +6578,7 @@ public struct DataZone: AWSService {
         return try await self.updateGlossary(input, logger: logger)
     }
 
-    /// Updates a business glossary term in Amazon DataZone.
+    /// Updates a business glossary term in Amazon DataZone. Prerequisites:   Glossary term must exist in the specified domain.    New name must not conflict with existing terms in the same glossary.   User must have permissions on the term.   The term must not be in DELETED status.
     @Sendable
     @inlinable
     public func updateGlossaryTerm(_ input: UpdateGlossaryTermInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGlossaryTermOutput {
@@ -6146,7 +6591,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Updates a business glossary term in Amazon DataZone.
+    /// Updates a business glossary term in Amazon DataZone. Prerequisites:   Glossary term must exist in the specified domain.    New name must not conflict with existing terms in the same glossary.   User must have permissions on the term.   The term must not be in DELETED status.
     ///
     /// Parameters:
     ///   - domainIdentifier: The identifier of the Amazon DataZone domain in which a business glossary term is to be updated.
@@ -6549,6 +6994,92 @@ extension DataZone {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension DataZone {
+    /// Return PaginatorSequence for operation ``listAccountPools(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAccountPoolsPaginator(
+        _ input: ListAccountPoolsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAccountPoolsInput, ListAccountPoolsOutput> {
+        return .init(
+            input: input,
+            command: self.listAccountPools,
+            inputKey: \ListAccountPoolsInput.nextToken,
+            outputKey: \ListAccountPoolsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAccountPools(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - domainIdentifier: The ID of the domain where exsting account pools are to be listed.
+    ///   - maxResults: The maximum number of account pools to return in a single call to ListAccountPools. When the number of account pools to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListAccountPools to list the next set of account pools.
+    ///   - name: The name of the account pool to be listed.
+    ///   - sortBy: The sort by mechanism in which the existing account pools are to be listed.
+    ///   - sortOrder: The sort order in which the existing account pools are to be listed.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAccountPoolsPaginator(
+        domainIdentifier: String,
+        maxResults: Int? = nil,
+        name: String? = nil,
+        sortBy: SortFieldAccountPool? = nil,
+        sortOrder: SortOrder? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAccountPoolsInput, ListAccountPoolsOutput> {
+        let input = ListAccountPoolsInput(
+            domainIdentifier: domainIdentifier, 
+            maxResults: maxResults, 
+            name: name, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder
+        )
+        return self.listAccountPoolsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAccountsInAccountPool(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAccountsInAccountPoolPaginator(
+        _ input: ListAccountsInAccountPoolInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAccountsInAccountPoolInput, ListAccountsInAccountPoolOutput> {
+        return .init(
+            input: input,
+            command: self.listAccountsInAccountPool,
+            inputKey: \ListAccountsInAccountPoolInput.nextToken,
+            outputKey: \ListAccountsInAccountPoolOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAccountsInAccountPool(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - domainIdentifier: The ID of the domain in which the accounts in the specified account pool are to be listed.
+    ///   - identifier: The ID of the account pool whose accounts are to be listed.
+    ///   - maxResults: The maximum number of accounts to return in a single call to ListAccountsInAccountPool. When the number of accounts to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListAccountsInAccountPool to list the next set of accounts.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAccountsInAccountPoolPaginator(
+        domainIdentifier: String,
+        identifier: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAccountsInAccountPoolInput, ListAccountsInAccountPoolOutput> {
+        let input = ListAccountsInAccountPoolInput(
+            domainIdentifier: domainIdentifier, 
+            identifier: identifier, 
+            maxResults: maxResults
+        )
+        return self.listAccountsInAccountPoolPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listAssetFilters(_:logger:)``.
     ///
     /// - Parameters:
@@ -6618,6 +7149,7 @@ extension DataZone {
     ///   - maxResults: The maximum number of connections to return in a single call to ListConnections. When the number of connections to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListConnections to list the next set of connections.
     ///   - name: The name of the connection.
     ///   - projectIdentifier: The ID of the project where you want to list connections.
+    ///   - scope: The scope of the connection.
     ///   - sortBy: Specifies how you want to sort the listed connections.
     ///   - sortOrder: Specifies the sort order for the listed connections.
     ///   - type: The type of connection.
@@ -6628,7 +7160,8 @@ extension DataZone {
         environmentIdentifier: String? = nil,
         maxResults: Int? = nil,
         name: String? = nil,
-        projectIdentifier: String,
+        projectIdentifier: String? = nil,
+        scope: ConnectionScope? = nil,
         sortBy: SortFieldConnection? = nil,
         sortOrder: SortOrder? = nil,
         type: ConnectionType? = nil,
@@ -6640,6 +7173,7 @@ extension DataZone {
             maxResults: maxResults, 
             name: name, 
             projectIdentifier: projectIdentifier, 
+            scope: scope, 
             sortBy: sortBy, 
             sortOrder: sortOrder, 
             type: type
@@ -8060,6 +8594,7 @@ extension DataZone {
     ///
     /// - Parameters:
     ///   - additionalAttributes: Specifies additional attributes for the search.
+    ///   - aggregations: Enables you to specify one or more attributes to compute and return counts grouped by field values.
     ///   - domainIdentifier: The identifier of the domain in which to search listings.
     ///   - filters: Specifies the filters for the search of listings.
     ///   - maxResults: The maximum number of results to return in a single call to SearchListings. When the number of results to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to SearchListings to list the next set of results.
@@ -8070,6 +8605,7 @@ extension DataZone {
     @inlinable
     public func searchListingsPaginator(
         additionalAttributes: [SearchOutputAdditionalAttribute]? = nil,
+        aggregations: [AggregationListItem]? = nil,
         domainIdentifier: String,
         filters: FilterClause? = nil,
         maxResults: Int? = nil,
@@ -8080,6 +8616,7 @@ extension DataZone {
     ) -> AWSClient.PaginatorSequence<SearchListingsInput, SearchListingsOutput> {
         let input = SearchListingsInput(
             additionalAttributes: additionalAttributes, 
+            aggregations: aggregations, 
             domainIdentifier: domainIdentifier, 
             filters: filters, 
             maxResults: maxResults, 
@@ -8189,6 +8726,32 @@ extension DataZone {
     }
 }
 
+extension DataZone.ListAccountPoolsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> DataZone.ListAccountPoolsInput {
+        return .init(
+            domainIdentifier: self.domainIdentifier,
+            maxResults: self.maxResults,
+            name: self.name,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
+extension DataZone.ListAccountsInAccountPoolInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> DataZone.ListAccountsInAccountPoolInput {
+        return .init(
+            domainIdentifier: self.domainIdentifier,
+            identifier: self.identifier,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension DataZone.ListAssetFiltersInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> DataZone.ListAssetFiltersInput {
@@ -8212,6 +8775,7 @@ extension DataZone.ListConnectionsInput: AWSPaginateToken {
             name: self.name,
             nextToken: token,
             projectIdentifier: self.projectIdentifier,
+            scope: self.scope,
             sortBy: self.sortBy,
             sortOrder: self.sortOrder,
             type: self.type
@@ -8649,6 +9213,7 @@ extension DataZone.SearchListingsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DataZone.SearchListingsInput {
         return .init(
             additionalAttributes: self.additionalAttributes,
+            aggregations: self.aggregations,
             domainIdentifier: self.domainIdentifier,
             filters: self.filters,
             maxResults: self.maxResults,

@@ -428,6 +428,27 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
+    public enum ThreatEntitySetFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case alienVault = "ALIEN_VAULT"
+        case fireEye = "FIRE_EYE"
+        case otxCsv = "OTX_CSV"
+        case proofPoint = "PROOF_POINT"
+        case stix = "STIX"
+        case txt = "TXT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ThreatEntitySetStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case activating = "ACTIVATING"
+        case active = "ACTIVE"
+        case deactivating = "DEACTIVATING"
+        case deletePending = "DELETE_PENDING"
+        case deleted = "DELETED"
+        case error = "ERROR"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ThreatIntelSetFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case alienVault = "ALIEN_VAULT"
         case fireEye = "FIRE_EYE"
@@ -439,6 +460,27 @@ extension GuardDuty {
     }
 
     public enum ThreatIntelSetStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case activating = "ACTIVATING"
+        case active = "ACTIVE"
+        case deactivating = "DEACTIVATING"
+        case deletePending = "DELETE_PENDING"
+        case deleted = "DELETED"
+        case error = "ERROR"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrustedEntitySetFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case alienVault = "ALIEN_VAULT"
+        case fireEye = "FIRE_EYE"
+        case otxCsv = "OTX_CSV"
+        case proofPoint = "PROOF_POINT"
+        case stix = "STIX"
+        case txt = "TXT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrustedEntitySetStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case activating = "ACTIVATING"
         case active = "ACTIVE"
         case deactivating = "DEACTIVATING"
@@ -660,7 +702,7 @@ extension GuardDuty {
     public struct AccountDetail: AWSEncodableShape {
         /// The member account ID.
         public let accountId: String?
-        /// The email address of the member account. The rules for a valid email address:   The email address must be a minimum of 6 and a maximum of 64 characters long.   All characters must be 7-bit ASCII characters.   There must be one and only one @ symbol, which separates the local name from the domain name.   The local name can't contain any of the following characters: whitespace, " ' ( )  [ ] : ' , \ | % &   The local name can't begin with a dot (.).   The domain name can consist of only the characters [a-z], [A-Z], [0-9], hyphen (-), or dot (.).   The domain name can't begin or end with a dot (.) or hyphen (-).   The domain name must contain at least one dot.
+        /// The email address of the member account. The following list includes the rules for a valid email address:   The email address must be a minimum of 6 and a maximum of 64 characters long.   All characters must be 7-bit ASCII characters.   There must be one and only one @ symbol, which separates the local name from the domain name.   The local name can't contain any of the following characters: whitespace, " ' ( )  [ ] : ' , \ | % &   The local name can't begin with a dot (.).   The domain name can consist of only the characters [a-z], [A-Z], [0-9], hyphen (-), or dot (.).   The domain name can't begin or end with a dot (.) or hyphen (-).   The domain name must contain at least one dot.
         public let email: String?
 
         @inlinable
@@ -674,7 +716,6 @@ extension GuardDuty {
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.email, name: "email", parent: name, max: 64)
             try self.validate(self.email, name: "email", parent: name, min: 6)
-            try self.validate(self.email, name: "email", parent: name, pattern: "^See rules in parameter description$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1698,7 +1739,7 @@ extension GuardDuty {
         /// The detector ID associated with the GuardDuty account for which you want to create a filter. To find the detectorId in the current Region, see the
         /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
-        /// Represents the criteria to be used in the filter for querying findings. You can only use the following attributes to query findings:   accountId   id   region   severity To filter on the basis of severity, the API and CLI use the following input list for the FindingCriteria condition:    Low: ["1", "2", "3"]     Medium: ["4", "5", "6"]     High: ["7", "8"]     Critical: ["9", "10"]    For more information, see Findings severity levels in the Amazon GuardDuty User Guide.   type   updatedAt Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds.   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.outpostArn   resource.resourceType   resource.s3BucketDetails.publicAccess.effectivePermissions   resource.s3BucketDetails.name   resource.s3BucketDetails.tags.key   resource.s3BucketDetails.tags.value   resource.s3BucketDetails.type   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.errorCode   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.ipAddressV6   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.dnsRequestAction.domainWithSuffix   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.ipAddressV6   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.action.awsApiCallAction.remoteAccountDetails.affiliated   service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV4   service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV6   service.action.kubernetesApiCallAction.namespace   service.action.kubernetesApiCallAction.remoteIpDetails.organization.asn   service.action.kubernetesApiCallAction.requestUri   service.action.kubernetesApiCallAction.statusCode   service.action.networkConnectionAction.localIpDetails.ipAddressV4   service.action.networkConnectionAction.localIpDetails.ipAddressV6   service.action.networkConnectionAction.protocol   service.action.awsApiCallAction.serviceName   service.action.awsApiCallAction.remoteAccountDetails.accountId   service.additionalInfo.threatListName   service.resourceRole   resource.eksClusterDetails.name   resource.kubernetesDetails.kubernetesWorkloadDetails.name   resource.kubernetesDetails.kubernetesWorkloadDetails.namespace   resource.kubernetesDetails.kubernetesUserDetails.username   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.image   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.imagePrefix   service.ebsVolumeScanDetails.scanId   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.name   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.severity   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.filePaths.hash   resource.ecsClusterDetails.name   resource.ecsClusterDetails.taskDetails.containers.image   resource.ecsClusterDetails.taskDetails.definitionArn   resource.containerDetails.image   resource.rdsDbInstanceDetails.dbInstanceIdentifier   resource.rdsDbInstanceDetails.dbClusterIdentifier   resource.rdsDbInstanceDetails.engine   resource.rdsDbUserDetails.user   resource.rdsDbInstanceDetails.tags.key   resource.rdsDbInstanceDetails.tags.value   service.runtimeDetails.process.executableSha256   service.runtimeDetails.process.name   service.runtimeDetails.process.executablePath   resource.lambdaDetails.functionName   resource.lambdaDetails.functionArn   resource.lambdaDetails.tags.key   resource.lambdaDetails.tags.value
+        /// Represents the criteria to be used in the filter for querying findings. You can only use the following attributes to query findings:   accountId   id   region   severity To filter on the basis of severity, the API and CLI use the following input list for the FindingCriteria condition:    Low: ["1", "2", "3"]     Medium: ["4", "5", "6"]     High: ["7", "8"]     Critical: ["9", "10"]    For more information, see Findings severity levels in the Amazon GuardDuty User Guide.   type   updatedAt Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds.   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.outpostArn   resource.resourceType   resource.s3BucketDetails.publicAccess.effectivePermissions   resource.s3BucketDetails.name   resource.s3BucketDetails.tags.key   resource.s3BucketDetails.tags.value   resource.s3BucketDetails.type   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.errorCode   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.ipAddressV6   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.dnsRequestAction.domainWithSuffix   service.action.dnsRequestAction.vpcOwnerAccountId   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.ipAddressV6   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.action.awsApiCallAction.remoteAccountDetails.affiliated   service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV4   service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV6   service.action.kubernetesApiCallAction.namespace   service.action.kubernetesApiCallAction.remoteIpDetails.organization.asn   service.action.kubernetesApiCallAction.requestUri   service.action.kubernetesApiCallAction.statusCode   service.action.networkConnectionAction.localIpDetails.ipAddressV4   service.action.networkConnectionAction.localIpDetails.ipAddressV6   service.action.networkConnectionAction.protocol   service.action.awsApiCallAction.serviceName   service.action.awsApiCallAction.remoteAccountDetails.accountId   service.additionalInfo.threatListName   service.resourceRole   resource.eksClusterDetails.name   resource.kubernetesDetails.kubernetesWorkloadDetails.name   resource.kubernetesDetails.kubernetesWorkloadDetails.namespace   resource.kubernetesDetails.kubernetesUserDetails.username   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.image   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.imagePrefix   service.ebsVolumeScanDetails.scanId   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.name   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.severity   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.filePaths.hash   resource.ecsClusterDetails.name   resource.ecsClusterDetails.taskDetails.containers.image   resource.ecsClusterDetails.taskDetails.definitionArn   resource.containerDetails.image   resource.rdsDbInstanceDetails.dbInstanceIdentifier   resource.rdsDbInstanceDetails.dbClusterIdentifier   resource.rdsDbInstanceDetails.engine   resource.rdsDbUserDetails.user   resource.rdsDbInstanceDetails.tags.key   resource.rdsDbInstanceDetails.tags.value   service.runtimeDetails.process.executableSha256   service.runtimeDetails.process.name   service.runtimeDetails.process.executablePath   resource.lambdaDetails.functionName   resource.lambdaDetails.functionArn   resource.lambdaDetails.tags.key   resource.lambdaDetails.tags.value
         public let findingCriteria: FindingCriteria?
         /// The name of the filter. Valid characters include period (.), underscore (_), dash (-), and alphanumeric characters. A whitespace is considered to be an invalid character.
         public let name: String?
@@ -2105,12 +2146,102 @@ extension GuardDuty {
         public init() {}
     }
 
+    public struct CreateThreatEntitySetRequest: AWSEncodableShape {
+        /// A boolean value that indicates whether GuardDuty should start using the uploaded threat entity set to generate findings.
+        public let activate: Bool?
+        /// The idempotency token for the create request.
+        public let clientToken: String?
+        /// The unique ID of the detector of the GuardDuty account for which you want to create a threat entity set. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        public let detectorId: String
+        /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
+        public let expectedBucketOwner: String?
+        /// The format of the file that contains the threat entity set.
+        public let format: ThreatEntitySetFormat?
+        /// The URI of the file that contains the threat entity set. The format of the Location URL must be a valid Amazon S3 URL format. Invalid URL formats will result in an error, regardless of whether you activate the entity set or not. For more information about format of the location URLs, see Format of location URL under Step 2: Adding trusted or threat intelligence data in the Amazon GuardDuty User Guide.
+        public let location: String?
+        /// A user-friendly name to identify the threat entity set. The name of your list can include  lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
+        public let name: String?
+        /// The tags to be added to a new threat entity set resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(activate: Bool? = nil, clientToken: String? = CreateThreatEntitySetRequest.idempotencyToken(), detectorId: String, expectedBucketOwner: String? = nil, format: ThreatEntitySetFormat? = nil, location: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.activate = activate
+            self.clientToken = clientToken
+            self.detectorId = detectorId
+            self.expectedBucketOwner = expectedBucketOwner
+            self.format = format
+            self.location = location
+            self.name = name
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.activate, forKey: .activate)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.detectorId, key: "detectorId")
+            try container.encodeIfPresent(self.expectedBucketOwner, forKey: .expectedBucketOwner)
+            try container.encodeIfPresent(self.format, forKey: .format)
+            try container.encodeIfPresent(self.location, forKey: .location)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
+            try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, max: 12)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, min: 12)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.location, name: "location", parent: name, max: 300)
+            try self.validate(self.location, name: "location", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 300)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activate = "activate"
+            case clientToken = "clientToken"
+            case expectedBucketOwner = "expectedBucketOwner"
+            case format = "format"
+            case location = "location"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateThreatEntitySetResponse: AWSDecodableShape {
+        /// The ID returned by GuardDuty after creation of the threat entity set resource.
+        public let threatEntitySetId: String?
+
+        @inlinable
+        public init(threatEntitySetId: String? = nil) {
+            self.threatEntitySetId = threatEntitySetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case threatEntitySetId = "threatEntitySetId"
+        }
+    }
+
     public struct CreateThreatIntelSetRequest: AWSEncodableShape {
         /// A Boolean value that indicates whether GuardDuty is to start using the uploaded ThreatIntelSet.
         public let activate: Bool?
         /// The idempotency token for the create request.
         public let clientToken: String?
-        /// The unique ID of the detector of the GuardDuty account for which you want to create a ThreatIntelSet. To find the detectorId in the current Region, see the
+        /// The unique ID of the detector of the GuardDuty account for which you want to create a threatIntelSet. To find the detectorId in the current Region, see the
         /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
@@ -2191,6 +2322,96 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case threatIntelSetId = "threatIntelSetId"
+        }
+    }
+
+    public struct CreateTrustedEntitySetRequest: AWSEncodableShape {
+        /// A boolean value that indicates whether GuardDuty is to start using the uploaded trusted entity set.
+        public let activate: Bool?
+        /// The idempotency token for the create request.
+        public let clientToken: String?
+        /// The unique ID of the detector of the GuardDuty account for which you want to create a trusted entity set. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        public let detectorId: String
+        /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
+        public let expectedBucketOwner: String?
+        /// The format of the file that contains the trusted entity set.
+        public let format: TrustedEntitySetFormat?
+        /// The URI of the file that contains the threat entity set. The format of the Location URL must be a valid Amazon S3 URL format. Invalid URL formats will result in an error, regardless of whether you activate the entity set or not. For more information about format of the location URLs, see Format of location URL under Step 2: Adding trusted or threat intelligence data in the Amazon GuardDuty User Guide.
+        public let location: String?
+        /// A user-friendly name to identify the trusted entity set. The name of your list can include  lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
+        public let name: String?
+        /// The tags to be added to a new trusted entity set resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(activate: Bool? = nil, clientToken: String? = CreateTrustedEntitySetRequest.idempotencyToken(), detectorId: String, expectedBucketOwner: String? = nil, format: TrustedEntitySetFormat? = nil, location: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.activate = activate
+            self.clientToken = clientToken
+            self.detectorId = detectorId
+            self.expectedBucketOwner = expectedBucketOwner
+            self.format = format
+            self.location = location
+            self.name = name
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.activate, forKey: .activate)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.detectorId, key: "detectorId")
+            try container.encodeIfPresent(self.expectedBucketOwner, forKey: .expectedBucketOwner)
+            try container.encodeIfPresent(self.format, forKey: .format)
+            try container.encodeIfPresent(self.location, forKey: .location)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
+            try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, max: 12)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, min: 12)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.location, name: "location", parent: name, max: 300)
+            try self.validate(self.location, name: "location", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 300)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activate = "activate"
+            case clientToken = "clientToken"
+            case expectedBucketOwner = "expectedBucketOwner"
+            case format = "format"
+            case location = "location"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateTrustedEntitySetResponse: AWSDecodableShape {
+        /// The ID returned by GuardDuty after creation of the trusted entity set resource.
+        public let trustedEntitySetId: String?
+
+        @inlinable
+        public init(trustedEntitySetId: String? = nil) {
+            self.trustedEntitySetId = trustedEntitySetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trustedEntitySetId = "trustedEntitySetId"
         }
     }
 
@@ -2622,6 +2843,38 @@ extension GuardDuty {
         public init() {}
     }
 
+    public struct DeleteThreatEntitySetRequest: AWSEncodableShape {
+        /// The unique ID of the detector associated with the threat entity set resource. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        public let detectorId: String
+        /// The unique ID that helps GuardDuty identify which threat entity set needs to be deleted.
+        public let threatEntitySetId: String
+
+        @inlinable
+        public init(detectorId: String, threatEntitySetId: String) {
+            self.detectorId = detectorId
+            self.threatEntitySetId = threatEntitySetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.threatEntitySetId, key: "threatEntitySetId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
+            try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteThreatEntitySetResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteThreatIntelSetRequest: AWSEncodableShape {
         /// The unique ID of the detector that is associated with the threatIntelSet. To find the detectorId in the current Region, see the
         /// Settings page in the GuardDuty console, or run the ListDetectors API.
@@ -2651,6 +2904,38 @@ extension GuardDuty {
     }
 
     public struct DeleteThreatIntelSetResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteTrustedEntitySetRequest: AWSEncodableShape {
+        /// The unique ID of the detector associated with the trusted entity set resource. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        public let detectorId: String
+        /// The unique ID that helps GuardDuty identify which trusted entity set needs to be deleted.
+        public let trustedEntitySetId: String
+
+        @inlinable
+        public init(detectorId: String, trustedEntitySetId: String) {
+            self.detectorId = detectorId
+            self.trustedEntitySetId = trustedEntitySetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.trustedEntitySetId, key: "trustedEntitySetId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
+            try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteTrustedEntitySetResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -3133,13 +3418,16 @@ extension GuardDuty {
         public let domainWithSuffix: String?
         /// The network connection protocol observed in the activity that prompted GuardDuty to generate the finding.
         public let `protocol`: String?
+        /// The Amazon Web Services account ID that owns the VPC through which the DNS request was made.
+        public let vpcOwnerAccountId: String?
 
         @inlinable
-        public init(blocked: Bool? = nil, domain: String? = nil, domainWithSuffix: String? = nil, protocol: String? = nil) {
+        public init(blocked: Bool? = nil, domain: String? = nil, domainWithSuffix: String? = nil, protocol: String? = nil, vpcOwnerAccountId: String? = nil) {
             self.blocked = blocked
             self.domain = domain
             self.domainWithSuffix = domainWithSuffix
             self.`protocol` = `protocol`
+            self.vpcOwnerAccountId = vpcOwnerAccountId
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3147,6 +3435,7 @@ extension GuardDuty {
             case domain = "domain"
             case domainWithSuffix = "domainWithSuffix"
             case `protocol` = "protocol"
+            case vpcOwnerAccountId = "vpcOwnerAccountId"
         }
     }
 
@@ -4560,6 +4849,80 @@ extension GuardDuty {
         }
     }
 
+    public struct GetThreatEntitySetRequest: AWSEncodableShape {
+        /// The unique ID of the detector associated with the threat entity set resource. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        public let detectorId: String
+        /// The unique ID that helps GuardDuty identify the threat entity set.
+        public let threatEntitySetId: String
+
+        @inlinable
+        public init(detectorId: String, threatEntitySetId: String) {
+            self.detectorId = detectorId
+            self.threatEntitySetId = threatEntitySetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.threatEntitySetId, key: "threatEntitySetId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
+            try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetThreatEntitySetResponse: AWSDecodableShape {
+        /// The timestamp when the associated threat entity set was created.
+        public let createdAt: Date?
+        /// The error details when the status is shown as ERROR.
+        public let errorDetails: String?
+        /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
+        public let expectedBucketOwner: String?
+        /// The format of the file that contains the threat entity set.
+        public let format: ThreatEntitySetFormat?
+        /// The URI of the file that contains the threat entity set.
+        public let location: String?
+        /// The name of the threat entity set associated with the specified threatEntitySetId.
+        public let name: String?
+        /// The status of the associated threat entity set.
+        public let status: ThreatEntitySetStatus?
+        /// The tags associated with the threat entity set resource.
+        public let tags: [String: String]?
+        /// The timestamp when the associated threat entity set was updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(createdAt: Date? = nil, errorDetails: String? = nil, expectedBucketOwner: String? = nil, format: ThreatEntitySetFormat? = nil, location: String? = nil, name: String? = nil, status: ThreatEntitySetStatus? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.errorDetails = errorDetails
+            self.expectedBucketOwner = expectedBucketOwner
+            self.format = format
+            self.location = location
+            self.name = name
+            self.status = status
+            self.tags = tags
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case errorDetails = "errorDetails"
+            case expectedBucketOwner = "expectedBucketOwner"
+            case format = "format"
+            case location = "location"
+            case name = "name"
+            case status = "status"
+            case tags = "tags"
+            case updatedAt = "updatedAt"
+        }
+    }
+
     public struct GetThreatIntelSetRequest: AWSEncodableShape {
         /// The unique ID of the detector that is associated with the threatIntelSet. To find the detectorId in the current Region, see the
         /// Settings page in the GuardDuty console, or run the ListDetectors API.
@@ -4619,6 +4982,79 @@ extension GuardDuty {
             case name = "name"
             case status = "status"
             case tags = "tags"
+        }
+    }
+
+    public struct GetTrustedEntitySetRequest: AWSEncodableShape {
+        /// The unique ID of the GuardDuty detector associated with this trusted entity set.
+        public let detectorId: String
+        /// The unique ID that helps GuardDuty identify the trusted entity set.
+        public let trustedEntitySetId: String
+
+        @inlinable
+        public init(detectorId: String, trustedEntitySetId: String) {
+            self.detectorId = detectorId
+            self.trustedEntitySetId = trustedEntitySetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.trustedEntitySetId, key: "trustedEntitySetId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
+            try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetTrustedEntitySetResponse: AWSDecodableShape {
+        /// The timestamp when the associated trusted entity set was created.
+        public let createdAt: Date?
+        /// The error details when the status is shown as ERROR.
+        public let errorDetails: String?
+        /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
+        public let expectedBucketOwner: String?
+        /// The format of the file that contains the trusted entity set.
+        public let format: TrustedEntitySetFormat?
+        /// The URI of the file that contains the trusted entity set.
+        public let location: String?
+        /// The name of the threat entity set associated with the specified trustedEntitySetId.
+        public let name: String?
+        /// The status of the associated trusted entity set.
+        public let status: TrustedEntitySetStatus?
+        /// The tags associated with trusted entity set resource.
+        public let tags: [String: String]?
+        /// The timestamp when the associated trusted entity set was updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(createdAt: Date? = nil, errorDetails: String? = nil, expectedBucketOwner: String? = nil, format: TrustedEntitySetFormat? = nil, location: String? = nil, name: String? = nil, status: TrustedEntitySetStatus? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.errorDetails = errorDetails
+            self.expectedBucketOwner = expectedBucketOwner
+            self.format = format
+            self.location = location
+            self.name = name
+            self.status = status
+            self.tags = tags
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case errorDetails = "errorDetails"
+            case expectedBucketOwner = "expectedBucketOwner"
+            case format = "format"
+            case location = "location"
+            case name = "name"
+            case status = "status"
+            case tags = "tags"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -5710,7 +6146,7 @@ extension GuardDuty {
     }
 
     public struct ListMalwareProtectionPlansRequest: AWSEncodableShape {
-        /// You can use this parameter when paginating results. Set the value  of this parameter to null on your first call to the list action.  For subsequent calls to the action, fill nextToken in the request  with the value of NextToken from the previous response to  continue listing data.
+        /// You can use this parameter when paginating results. Set the value  of this parameter to null on your first call to the list action.  For subsequent calls to the action, fill nextToken in the request  with the value of NextToken from the previous response to  continue listing data. The default page size is 100 plans.
         public let nextToken: String?
 
         @inlinable
@@ -5934,6 +6370,58 @@ extension GuardDuty {
         }
     }
 
+    public struct ListThreatEntitySetsRequest: AWSEncodableShape {
+        /// The unique ID of the GuardDuty detector that is associated with this threat entity set. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        public let detectorId: String
+        /// You can use this parameter to indicate the maximum number of  items you want in the response. The default value is 50.
+        public let maxResults: Int?
+        /// You can use this parameter when paginating results. Set the value  of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request  with the value of NextToken from the previous response to continue listing data.
+        public let nextToken: String?
+
+        @inlinable
+        public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.detectorId = detectorId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
+            try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListThreatEntitySetsResponse: AWSDecodableShape {
+        /// The pagination parameter to be used on the next list operation to retrieve more items.
+        public let nextToken: String?
+        /// The IDs of the threat entity set resources.
+        public let threatEntitySetIds: [String]?
+
+        @inlinable
+        public init(nextToken: String? = nil, threatEntitySetIds: [String]? = nil) {
+            self.nextToken = nextToken
+            self.threatEntitySetIds = threatEntitySetIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case threatEntitySetIds = "threatEntitySetIds"
+        }
+    }
+
     public struct ListThreatIntelSetsRequest: AWSEncodableShape {
         /// The unique ID of the detector that is associated with the threatIntelSet. To find the detectorId in the current Region, see the
         /// Settings page in the GuardDuty console, or run the ListDetectors API.
@@ -5983,6 +6471,58 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case threatIntelSetIds = "threatIntelSetIds"
+        }
+    }
+
+    public struct ListTrustedEntitySetsRequest: AWSEncodableShape {
+        /// The unique ID of the GuardDuty detector that is associated with this threat entity set. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        public let detectorId: String
+        /// You can use this parameter to indicate the maximum number of  items you want in the response. The default value is 50.
+        public let maxResults: Int?
+        /// You can use this parameter when paginating results. Set the value  of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request  with the value of NextToken from the previous response to continue listing data.
+        public let nextToken: String?
+
+        @inlinable
+        public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.detectorId = detectorId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
+            try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTrustedEntitySetsResponse: AWSDecodableShape {
+        /// The pagination parameter to be used on the next list operation to retrieve more items.
+        public let nextToken: String?
+        /// The IDs of the trusted entity set resources.
+        public let trustedEntitySetIds: [String]?
+
+        @inlinable
+        public init(nextToken: String? = nil, trustedEntitySetIds: [String]? = nil) {
+            self.nextToken = nextToken
+            self.trustedEntitySetIds = trustedEntitySetIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case trustedEntitySetIds = "trustedEntitySetIds"
         }
     }
 
@@ -9380,6 +9920,66 @@ extension GuardDuty {
         }
     }
 
+    public struct UpdateThreatEntitySetRequest: AWSEncodableShape {
+        /// A boolean value that indicates whether GuardDuty is to start using this updated threat entity set. After you update an entity set, you will need to activate it again. It might take up to 15 minutes for the updated entity set to be effective.
+        public let activate: Bool?
+        /// The unique ID of the GuardDuty detector associated with the threat entity set that you want to update. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        public let detectorId: String
+        /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
+        public let expectedBucketOwner: String?
+        /// The URI of the file that contains the trusted entity set.
+        public let location: String?
+        /// A user-friendly name to identify the trusted entity set. The name of your list can include  lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
+        public let name: String?
+        /// The ID returned by GuardDuty after updating the threat entity set resource.
+        public let threatEntitySetId: String
+
+        @inlinable
+        public init(activate: Bool? = nil, detectorId: String, expectedBucketOwner: String? = nil, location: String? = nil, name: String? = nil, threatEntitySetId: String) {
+            self.activate = activate
+            self.detectorId = detectorId
+            self.expectedBucketOwner = expectedBucketOwner
+            self.location = location
+            self.name = name
+            self.threatEntitySetId = threatEntitySetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.activate, forKey: .activate)
+            request.encodePath(self.detectorId, key: "detectorId")
+            try container.encodeIfPresent(self.expectedBucketOwner, forKey: .expectedBucketOwner)
+            try container.encodeIfPresent(self.location, forKey: .location)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            request.encodePath(self.threatEntitySetId, key: "threatEntitySetId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
+            try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, max: 12)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, min: 12)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.location, name: "location", parent: name, max: 300)
+            try self.validate(self.location, name: "location", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 300)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activate = "activate"
+            case expectedBucketOwner = "expectedBucketOwner"
+            case location = "location"
+            case name = "name"
+        }
+    }
+
+    public struct UpdateThreatEntitySetResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateThreatIntelSetRequest: AWSEncodableShape {
         /// The updated Boolean value that specifies whether the ThreateIntelSet is active or not.
         public let activate: Bool?
@@ -9436,6 +10036,66 @@ extension GuardDuty {
     }
 
     public struct UpdateThreatIntelSetResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateTrustedEntitySetRequest: AWSEncodableShape {
+        /// A boolean value that indicates whether GuardDuty is to start using this updated trusted entity set. After you update an entity set, you will need to activate it again. It might take up to 15 minutes for the updated entity set to be effective.
+        public let activate: Bool?
+        /// The unique ID of the GuardDuty detector associated with the threat entity set that you want to update. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        public let detectorId: String
+        /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
+        public let expectedBucketOwner: String?
+        /// The URI of the file that contains the trusted entity set.
+        public let location: String?
+        /// A user-friendly name to identify the trusted entity set. The name of your list can include  lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
+        public let name: String?
+        /// The ID returned by GuardDuty after updating the trusted entity set resource.
+        public let trustedEntitySetId: String
+
+        @inlinable
+        public init(activate: Bool? = nil, detectorId: String, expectedBucketOwner: String? = nil, location: String? = nil, name: String? = nil, trustedEntitySetId: String) {
+            self.activate = activate
+            self.detectorId = detectorId
+            self.expectedBucketOwner = expectedBucketOwner
+            self.location = location
+            self.name = name
+            self.trustedEntitySetId = trustedEntitySetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.activate, forKey: .activate)
+            request.encodePath(self.detectorId, key: "detectorId")
+            try container.encodeIfPresent(self.expectedBucketOwner, forKey: .expectedBucketOwner)
+            try container.encodeIfPresent(self.location, forKey: .location)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            request.encodePath(self.trustedEntitySetId, key: "trustedEntitySetId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
+            try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, max: 12)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, min: 12)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.location, name: "location", parent: name, max: 300)
+            try self.validate(self.location, name: "location", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 300)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activate = "activate"
+            case expectedBucketOwner = "expectedBucketOwner"
+            case location = "location"
+            case name = "name"
+        }
+    }
+
+    public struct UpdateTrustedEntitySetResponse: AWSDecodableShape {
         public init() {}
     }
 

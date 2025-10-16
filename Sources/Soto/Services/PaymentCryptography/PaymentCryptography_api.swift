@@ -80,6 +80,38 @@ public struct PaymentCryptography: AWSService {
 
     // MARK: API Calls
 
+    /// Adds replication Amazon Web Services Regions to an existing Amazon Web Services Payment Cryptography key, enabling the key to be used for cryptographic operations in additional Amazon Web Services Regions. Multi-region keys allow you to use the same key material across multiple Amazon Web Services Regions, providing lower latency for applications distributed across regions. When you add Replication Regions, Amazon Web Services Payment Cryptography securely replicates the key material to the specified Amazon Web Services Regions. The key must be in an active state to add Replication Regions. You can add multiple regions in a single operation, and the key will be available for use in those regions once replication is complete.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     RemoveKeyReplicationRegions     EnableDefaultKeyReplicationRegions     GetDefaultKeyReplicationRegions
+    @Sendable
+    @inlinable
+    public func addKeyReplicationRegions(_ input: AddKeyReplicationRegionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AddKeyReplicationRegionsOutput {
+        try await self.client.execute(
+            operation: "AddKeyReplicationRegions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Adds replication Amazon Web Services Regions to an existing Amazon Web Services Payment Cryptography key, enabling the key to be used for cryptographic operations in additional Amazon Web Services Regions. Multi-region keys allow you to use the same key material across multiple Amazon Web Services Regions, providing lower latency for applications distributed across regions. When you add Replication Regions, Amazon Web Services Payment Cryptography securely replicates the key material to the specified Amazon Web Services Regions. The key must be in an active state to add Replication Regions. You can add multiple regions in a single operation, and the key will be available for use in those regions once replication is complete.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     RemoveKeyReplicationRegions     EnableDefaultKeyReplicationRegions     GetDefaultKeyReplicationRegions
+    ///
+    /// Parameters:
+    ///   - keyIdentifier: The key identifier (ARN or alias) of the key for which to add replication regions. This key must exist and be in a valid state for replication operations.
+    ///   - replicationRegions: The list of Amazon Web Services Regions to add to the key's replication configuration. Each region must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available. The key will be replicated to these regions, allowing cryptographic operations to be performed closer to your applications.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func addKeyReplicationRegions(
+        keyIdentifier: String,
+        replicationRegions: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AddKeyReplicationRegionsOutput {
+        let input = AddKeyReplicationRegionsInput(
+            keyIdentifier: keyIdentifier, 
+            replicationRegions: replicationRegions
+        )
+        return try await self.addKeyReplicationRegions(input, logger: logger)
+    }
+
     /// Creates an alias, or a friendly name, for an Amazon Web Services Payment Cryptography key. You can use an alias to identify a key in the console and when you call cryptographic operations such as EncryptData or DecryptData. You can associate the alias with any key in the same Amazon Web Services Region. Each alias is associated with only one key at a time, but a key can have multiple aliases. You can't create an alias without a key. The alias must be unique in the account and Amazon Web Services Region, but you can create another alias with the same name in a different Amazon Web Services Region. To change the key that's associated with the alias, call UpdateAlias. To delete the alias, call DeleteAlias. These operations don't affect the underlying key. To get the alias that you created, call ListAliases.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     DeleteAlias     GetAlias     ListAliases     UpdateAlias
     @Sendable
     @inlinable
@@ -133,6 +165,7 @@ public struct PaymentCryptography: AWSService {
     ///   - exportable: Specifies whether the key is exportable from the service.
     ///   - keyAttributes: The role of the key, the algorithm it supports, and the cryptographic operations allowed with the key. This data is immutable after the key is created.
     ///   - keyCheckValueAlgorithm: The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV). It is used to validate the key integrity. For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of zero and retaining the 3 highest order bytes of the encrypted result.
+    ///   - replicationRegions: 
     ///   - tags: Assigns one or more tags to the Amazon Web Services Payment Cryptography key. Use this parameter to tag a key when it is created. To tag an existing Amazon Web Services Payment Cryptography key, use the TagResource operation. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You can't have more than one tag on an Amazon Web Services Payment Cryptography key with the same tag key.   Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.   Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key.
     ///   - logger: Logger use during operation
     @inlinable
@@ -142,6 +175,7 @@ public struct PaymentCryptography: AWSService {
         exportable: Bool,
         keyAttributes: KeyAttributes,
         keyCheckValueAlgorithm: KeyCheckValueAlgorithm? = nil,
+        replicationRegions: [String]? = nil,
         tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateKeyOutput {
@@ -151,6 +185,7 @@ public struct PaymentCryptography: AWSService {
             exportable: exportable, 
             keyAttributes: keyAttributes, 
             keyCheckValueAlgorithm: keyCheckValueAlgorithm, 
+            replicationRegions: replicationRegions, 
             tags: tags
         )
         return try await self.createKey(input, logger: logger)
@@ -217,6 +252,64 @@ public struct PaymentCryptography: AWSService {
         return try await self.deleteKey(input, logger: logger)
     }
 
+    /// Disables multi-region key replication settings for the specified Amazon Web Services Regions in your account, preventing new keys from being automatically replicated to those regions. After disabling default replication for specific regions, new keys created in your account will not be automatically replicated to those regions. You can still manually add replication to those regions for individual keys using the AddKeyReplicationRegions operation. This operation does not affect existing keys or their current replication configuration.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     EnableDefaultKeyReplicationRegions     GetDefaultKeyReplicationRegions
+    @Sendable
+    @inlinable
+    public func disableDefaultKeyReplicationRegions(_ input: DisableDefaultKeyReplicationRegionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableDefaultKeyReplicationRegionsOutput {
+        try await self.client.execute(
+            operation: "DisableDefaultKeyReplicationRegions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disables multi-region key replication settings for the specified Amazon Web Services Regions in your account, preventing new keys from being automatically replicated to those regions. After disabling default replication for specific regions, new keys created in your account will not be automatically replicated to those regions. You can still manually add replication to those regions for individual keys using the AddKeyReplicationRegions operation. This operation does not affect existing keys or their current replication configuration.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     EnableDefaultKeyReplicationRegions     GetDefaultKeyReplicationRegions
+    ///
+    /// Parameters:
+    ///   - replicationRegions: The list of Amazon Web Services Regions to remove from the account's default replication regions. New keys created after this operation will not automatically be replicated to these regions, though existing keys with replication to these regions will be unaffected.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disableDefaultKeyReplicationRegions(
+        replicationRegions: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisableDefaultKeyReplicationRegionsOutput {
+        let input = DisableDefaultKeyReplicationRegionsInput(
+            replicationRegions: replicationRegions
+        )
+        return try await self.disableDefaultKeyReplicationRegions(input, logger: logger)
+    }
+
+    /// Enables multi-region key replication settings for your account, causing new keys to be automatically replicated to the specified Amazon Web Services Regions when created. When default Replication Regions are enabled, any new keys created in your account will automatically be replicated to these regions unless you explicitly override this behavior during key creation. This simplifies key management for applications that operate across multiple regions. Existing keys are not affected by this operation - only keys created after enabling default replication will be automatically replicated.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     DisableDefaultKeyReplicationRegions     GetDefaultKeyReplicationRegions
+    @Sendable
+    @inlinable
+    public func enableDefaultKeyReplicationRegions(_ input: EnableDefaultKeyReplicationRegionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableDefaultKeyReplicationRegionsOutput {
+        try await self.client.execute(
+            operation: "EnableDefaultKeyReplicationRegions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Enables multi-region key replication settings for your account, causing new keys to be automatically replicated to the specified Amazon Web Services Regions when created. When default Replication Regions are enabled, any new keys created in your account will automatically be replicated to these regions unless you explicitly override this behavior during key creation. This simplifies key management for applications that operate across multiple regions. Existing keys are not affected by this operation - only keys created after enabling default replication will be automatically replicated.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     DisableDefaultKeyReplicationRegions     GetDefaultKeyReplicationRegions
+    ///
+    /// Parameters:
+    ///   - replicationRegions: The list of Amazon Web Services Regions to enable as default replication regions for the account. New keys created in this account will automatically be replicated to these regions unless explicitly overridden during key creation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func enableDefaultKeyReplicationRegions(
+        replicationRegions: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> EnableDefaultKeyReplicationRegionsOutput {
+        let input = EnableDefaultKeyReplicationRegionsInput(
+            replicationRegions: replicationRegions
+        )
+        return try await self.enableDefaultKeyReplicationRegions(input, logger: logger)
+    }
+
     /// Exports a key from Amazon Web Services Payment Cryptography. Amazon Web Services Payment Cryptography simplifies key exchange by replacing the existing paper-based approach with a modern electronic approach. With ExportKey you can export symmetric keys using either symmetric and asymmetric key exchange mechanisms. Using this operation, you can share your Amazon Web Services Payment Cryptography generated keys with other service partners to perform cryptographic operations outside of Amazon Web Services Payment Cryptography  For symmetric key exchange, Amazon Web Services Payment Cryptography uses the ANSI X9 TR-31 norm in accordance with PCI PIN guidelines. And for asymmetric key exchange, Amazon Web Services Payment Cryptography supports ANSI X9 TR-34 norm, RSA unwrap, and ECDH (Elliptic Curve Diffie-Hellman) key exchange mechanisms. Asymmetric key exchange methods are typically used to establish bi-directional trust between the two parties exhanging keys and are used for initial key exchange such as Key Encryption Key (KEK). After which you can export working keys using symmetric method to perform various cryptographic operations within Amazon Web Services Payment Cryptography. PCI requires specific minimum key strength of wrapping keys used to protect the keys being exchanged electronically. These requirements can change when PCI standards are revised. The rules specify that wrapping keys used for transport must be at least as strong as the key being protected. For more information on recommended key strength of wrapping keys and key exchange mechanism, see Importing and exporting keys in the Amazon Web Services Payment Cryptography User Guide. You can also use ExportKey functionality to generate and export an IPEK (Initial Pin Encryption Key) from Amazon Web Services Payment Cryptography using either TR-31 or TR-34 export key exchange. IPEK is generated from BDK (Base Derivation Key) and ExportDukptInitialKey attribute KSN (KeySerialNumber). The generated IPEK does not persist within Amazon Web Services Payment Cryptography and has to be re-generated each time during export. For key exchange using TR-31 or TR-34 key blocks, you can also export optional blocks within the key block header which contain additional attribute information about the key. The KeyVersion within KeyBlockHeaders indicates the version of the key within the key block. Furthermore, KeyExportability within KeyBlockHeaders can be used to further restrict exportability of the key after export from Amazon Web Services Payment Cryptography. The OptionalBlocks contain the additional data related to the key. For information on data type that can be included within optional blocks, refer to ASC X9.143-2022.  Data included in key block headers is signed but transmitted in clear text. Sensitive or confidential information should not be included in optional blocks. Refer to ASC X9.143-2022 standard for information on allowed data type.   To export initial keys (KEK) or IPEK using TR-34  Using this operation, you can export initial key using TR-34 asymmetric key exchange. You can only export KEK generated within Amazon Web Services Payment Cryptography. In TR-34 terminology, the sending party of the key is called Key Distribution Host (KDH) and the receiving party of the key is called Key Receiving Device (KRD). During key export process, KDH is Amazon Web Services Payment Cryptography which initiates key export and KRD is the user receiving the key. To initiate TR-34 key export, the KRD must obtain an export token by calling GetParametersForExport. This operation also generates a key pair for the purpose of key export, signs the key and returns back the signing public key certificate (also known as KDH signing certificate) and root certificate chain. The KDH uses the private key to sign the the export payload and the signing public key certificate is provided to KRD to verify the signature. The KRD can import the root certificate into its Hardware Security Module (HSM), as required. The export token and the associated KDH signing certificate expires after 30 days.  Next the KRD generates a key pair for the the purpose of encrypting the KDH key and provides the public key cerificate (also known as KRD wrapping certificate) back to KDH. The KRD will also import the root cerificate chain into Amazon Web Services Payment Cryptography by calling ImportKey for RootCertificatePublicKey. The KDH, Amazon Web Services Payment Cryptography, will use the KRD wrapping cerificate to encrypt (wrap) the key under export and signs it with signing private key to generate a TR-34 WrappedKeyBlock. For more information on TR-34 key export, see section Exporting symmetric keys in the Amazon Web Services Payment Cryptography User Guide.  Set the following parameters:    ExportAttributes: Specify export attributes in case of IPEK export. This parameter is optional for KEK export.    ExportKeyIdentifier: The KeyARN of the KEK or BDK (in case of IPEK) under export.    KeyMaterial: Use Tr34KeyBlock parameters.    CertificateAuthorityPublicKeyIdentifier: The KeyARN of the certificate chain that signed the KRD wrapping key certificate.    ExportToken: Obtained from KDH by calling GetParametersForImport.    WrappingKeyCertificate: The public key certificate in PEM format (base64 encoded) of the KRD wrapping key Amazon Web Services Payment Cryptography uses for encryption of the TR-34 export payload. This certificate must be signed by the root certificate (CertificateAuthorityPublicKeyIdentifier) imported into Amazon Web Services Payment Cryptography.   When this operation is successful, Amazon Web Services Payment Cryptography returns the KEK or IPEK as a TR-34 WrappedKeyBlock.   To export initial keys (KEK) or IPEK using RSA Wrap and Unwrap  Using this operation, you can export initial key using asymmetric RSA wrap and unwrap key exchange method. To initiate export, generate an asymmetric key pair on the receiving HSM and obtain the public key certificate in PEM format (base64 encoded) for the purpose of wrapping and the root certifiate chain. Import the root certificate into Amazon Web Services Payment Cryptography by calling ImportKey for RootCertificatePublicKey. Next call ExportKey and set the following parameters:    CertificateAuthorityPublicKeyIdentifier: The KeyARN of the certificate chain that signed wrapping key certificate.    KeyMaterial: Set to KeyCryptogram.    WrappingKeyCertificate: The public key certificate in PEM format (base64 encoded) obtained by the receiving HSM and signed by the root certificate (CertificateAuthorityPublicKeyIdentifier) imported into Amazon Web Services Payment Cryptography. The receiving HSM uses its private key component to unwrap the WrappedKeyCryptogram.   When this operation is successful, Amazon Web Services Payment Cryptography returns the WrappedKeyCryptogram.   To export working keys or IPEK using TR-31  Using this operation, you can export working keys or IPEK using TR-31 symmetric key exchange. In TR-31, you must use an initial key such as KEK to encrypt or wrap the key under export. To establish a KEK, you can use CreateKey or ImportKey.  Set the following parameters:    ExportAttributes: Specify export attributes in case of IPEK export. This parameter is optional for KEK export.    ExportKeyIdentifier: The KeyARN of the KEK or BDK (in case of IPEK) under export.    KeyMaterial: Use Tr31KeyBlock parameters.    To export working keys using ECDH  You can also use ECDH key agreement to export working keys in a TR-31 keyblock, where the wrapping key is an ECDH derived key. To initiate a TR-31 key export using ECDH, both sides must create an ECC key pair with key usage K3 and exchange public key certificates. In Amazon Web Services Payment Cryptography, you can do this by calling CreateKey. If you have not already done so, you must import the CA chain that issued the receiving public key certificate by calling ImportKey with input RootCertificatePublicKey for root CA or TrustedPublicKey for intermediate CA. You can then complete a TR-31 key export by deriving a shared wrapping key using the service ECC key pair, public certificate of your ECC key pair outside of Amazon Web Services Payment Cryptography, and the key derivation parameters including key derivation function, hash algorithm, derivation data, key algorithm.    KeyMaterial: Use DiffieHellmanTr31KeyBlock parameters.    PrivateKeyIdentifier: The KeyArn of the ECC key pair created within Amazon Web Services Payment Cryptography to derive a shared KEK.    PublicKeyCertificate: The public key certificate of the receiving ECC key pair in PEM format (base64 encoded) to derive a shared KEK.    CertificateAuthorityPublicKeyIdentifier: The keyARN of the CA that signed the public key certificate of the receiving ECC key pair.   When this operation is successful, Amazon Web Services Payment Cryptography returns the working key as a TR-31 WrappedKeyBlock, where the wrapping key is the ECDH derived key.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     GetParametersForExport     ImportKey
     @Sendable
     @inlinable
@@ -281,7 +374,68 @@ public struct PaymentCryptography: AWSService {
         return try await self.getAlias(input, logger: logger)
     }
 
-    /// Gets the key material for an Amazon Web Services Payment Cryptography key, including the immutable and mutable data specified when the key was created.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     CreateKey     DeleteKey     ListKeys
+    /// Used to retrieve the public key for a keypair.
+    @Sendable
+    @inlinable
+    public func getCertificateSigningRequest(_ input: GetCertificateSigningRequestInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCertificateSigningRequestOutput {
+        try await self.client.execute(
+            operation: "GetCertificateSigningRequest", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Used to retrieve the public key for a keypair.
+    ///
+    /// Parameters:
+    ///   - certificateSubject: Certificate subject data
+    ///   - keyIdentifier: Asymmetric key used for generating the certificate signing request
+    ///   - signingAlgorithm: Algorithm used to generate the certificate signing request
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCertificateSigningRequest(
+        certificateSubject: CertificateSubjectType,
+        keyIdentifier: String,
+        signingAlgorithm: SigningAlgorithmType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCertificateSigningRequestOutput {
+        let input = GetCertificateSigningRequestInput(
+            certificateSubject: certificateSubject, 
+            keyIdentifier: keyIdentifier, 
+            signingAlgorithm: signingAlgorithm
+        )
+        return try await self.getCertificateSigningRequest(input, logger: logger)
+    }
+
+    /// Retrieves the list of regions where default key replication is currently enabled for your account. This operation returns the current configuration of default Replication Regions. New keys created in your account will be automatically replicated to these regions unless explicitly overridden during key creation.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     EnableDefaultKeyReplicationRegions     DisableDefaultKeyReplicationRegions
+    @Sendable
+    @inlinable
+    public func getDefaultKeyReplicationRegions(_ input: GetDefaultKeyReplicationRegionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDefaultKeyReplicationRegionsOutput {
+        try await self.client.execute(
+            operation: "GetDefaultKeyReplicationRegions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the list of regions where default key replication is currently enabled for your account. This operation returns the current configuration of default Replication Regions. New keys created in your account will be automatically replicated to these regions unless explicitly overridden during key creation.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     EnableDefaultKeyReplicationRegions     DisableDefaultKeyReplicationRegions
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDefaultKeyReplicationRegions(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDefaultKeyReplicationRegionsOutput {
+        let input = GetDefaultKeyReplicationRegionsInput(
+        )
+        return try await self.getDefaultKeyReplicationRegions(input, logger: logger)
+    }
+
+    /// Gets the key metadata for an Amazon Web Services Payment Cryptography key, including the immutable and mutable attributes specified when the key was created. Returns key metadata including attributes, state, and timestamps, but does not return the actual cryptographic key material.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     CreateKey     DeleteKey     ListKeys
     @Sendable
     @inlinable
     public func getKey(_ input: GetKeyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetKeyOutput {
@@ -294,7 +448,7 @@ public struct PaymentCryptography: AWSService {
             logger: logger
         )
     }
-    /// Gets the key material for an Amazon Web Services Payment Cryptography key, including the immutable and mutable data specified when the key was created.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     CreateKey     DeleteKey     ListKeys
+    /// Gets the key metadata for an Amazon Web Services Payment Cryptography key, including the immutable and mutable attributes specified when the key was created. Returns key metadata including attributes, state, and timestamps, but does not return the actual cryptographic key material.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     CreateKey     DeleteKey     ListKeys
     ///
     /// Parameters:
     ///   - keyIdentifier: The KeyARN of the Amazon Web Services Payment Cryptography key.
@@ -422,6 +576,7 @@ public struct PaymentCryptography: AWSService {
     ///   - enabled: Specifies whether import key is enabled.
     ///   - keyCheckValueAlgorithm: The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV). It is used to validate the key integrity. For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of zero and retaining the 3 highest order bytes of the encrypted result.
     ///   - keyMaterial: The key or public key certificate type to use during key material import, for example TR-34 or RootCertificatePublicKey.
+    ///   - replicationRegions: 
     ///   - tags: Assigns one or more tags to the Amazon Web Services Payment Cryptography key. Use this parameter to tag a key when it is imported. To tag an existing Amazon Web Services Payment Cryptography key, use the TagResource operation. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You can't have more than one tag on an Amazon Web Services Payment Cryptography key with the same tag key. If you specify an existing tag key with a different tag value, Amazon Web Services Payment Cryptography replaces the current tag value with the specified one.  Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.   Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key.
     ///   - logger: Logger use during operation
     @inlinable
@@ -429,6 +584,7 @@ public struct PaymentCryptography: AWSService {
         enabled: Bool? = nil,
         keyCheckValueAlgorithm: KeyCheckValueAlgorithm? = nil,
         keyMaterial: ImportKeyMaterial,
+        replicationRegions: [String]? = nil,
         tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ImportKeyOutput {
@@ -436,6 +592,7 @@ public struct PaymentCryptography: AWSService {
             enabled: enabled, 
             keyCheckValueAlgorithm: keyCheckValueAlgorithm, 
             keyMaterial: keyMaterial, 
+            replicationRegions: replicationRegions, 
             tags: tags
         )
         return try await self.importKey(input, logger: logger)
@@ -544,6 +701,38 @@ public struct PaymentCryptography: AWSService {
             resourceArn: resourceArn
         )
         return try await self.listTagsForResource(input, logger: logger)
+    }
+
+    /// Removes Replication Regions from an existing Amazon Web Services Payment Cryptography key, disabling the key's availability for cryptographic operations in the specified Amazon Web Services Regions. When you remove Replication Regions, the key material is securely deleted from those regions and can no longer be used for cryptographic operations there. This operation is irreversible for the specified Amazon Web Services Regions. Ensure that no active cryptographic operations or applications depend on the key in the regions you're removing before performing this operation.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     AddKeyReplicationRegions     DisableDefaultKeyReplicationRegions
+    @Sendable
+    @inlinable
+    public func removeKeyReplicationRegions(_ input: RemoveKeyReplicationRegionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveKeyReplicationRegionsOutput {
+        try await self.client.execute(
+            operation: "RemoveKeyReplicationRegions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes Replication Regions from an existing Amazon Web Services Payment Cryptography key, disabling the key's availability for cryptographic operations in the specified Amazon Web Services Regions. When you remove Replication Regions, the key material is securely deleted from those regions and can no longer be used for cryptographic operations there. This operation is irreversible for the specified Amazon Web Services Regions. Ensure that no active cryptographic operations or applications depend on the key in the regions you're removing before performing this operation.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     AddKeyReplicationRegions     DisableDefaultKeyReplicationRegions
+    ///
+    /// Parameters:
+    ///   - keyIdentifier: The key identifier (ARN or alias) of the key from which to remove replication regions. This key must exist and have replication enabled in the specified regions.
+    ///   - replicationRegions: The list of Amazon Web Services Regions to remove from the key's replication configuration. The key will no longer be available for cryptographic operations in these regions after removal. Ensure no active operations depend on the key in these regions before removal.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func removeKeyReplicationRegions(
+        keyIdentifier: String,
+        replicationRegions: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RemoveKeyReplicationRegionsOutput {
+        let input = RemoveKeyReplicationRegionsInput(
+            keyIdentifier: keyIdentifier, 
+            replicationRegions: replicationRegions
+        )
+        return try await self.removeKeyReplicationRegions(input, logger: logger)
     }
 
     /// Cancels a scheduled key deletion during the waiting period. Use this operation to restore a Key that is scheduled for deletion. During the waiting period, the KeyState is DELETE_PENDING and deletePendingTimestamp contains the date and time after which the Key will be deleted. After Key is restored, the KeyState is CREATE_COMPLETE, and the value for deletePendingTimestamp is removed.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     DeleteKey     StartKeyUsage     StopKeyUsage

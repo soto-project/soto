@@ -81,6 +81,7 @@ extension RDS {
 
     public enum ClusterScalabilityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case limitless = "limitless"
+        case scaleout = "scaleout"
         case standard = "standard"
         public var description: String { return self.rawValue }
     }
@@ -124,6 +125,19 @@ extension RDS {
     public enum DatabaseInsightsMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case advanced = "advanced"
         case standard = "standard"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DefaultAuthScheme: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case iamAuth = "IAM_AUTH"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EndpointNetworkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dual = "DUAL"
+        case ipv4 = "IPV4"
+        case ipv6 = "IPV6"
         public var description: String { return self.rawValue }
     }
 
@@ -198,6 +212,12 @@ extension RDS {
         public var description: String { return self.rawValue }
     }
 
+    public enum MasterUserAuthenticationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case iamDbAuth = "iam-db-auth"
+        case password = "password"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReplicaMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mounted = "mounted"
         case openReadOnly = "open-read-only"
@@ -213,7 +233,15 @@ extension RDS {
         case dbParameterGroup = "db-parameter-group"
         case dbProxy = "db-proxy"
         case dbSecurityGroup = "db-security-group"
+        case dbShardGroup = "db-shard-group"
         case dbSnapshot = "db-snapshot"
+        case zeroEtl = "zero-etl"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetConnectionNetworkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ipv4 = "IPV4"
+        case ipv6 = "IPV6"
         public var description: String { return self.rawValue }
     }
 
@@ -222,6 +250,7 @@ extension RDS {
         case connectionFailed = "CONNECTION_FAILED"
         case invalidReplicationState = "INVALID_REPLICATION_STATE"
         case pendingProxyCapacity = "PENDING_PROXY_CAPACITY"
+        case promoted = "PROMOTED"
         case unreachable = "UNREACHABLE"
         public var description: String { return self.rawValue }
     }
@@ -237,6 +266,7 @@ extension RDS {
         case available = "AVAILABLE"
         case registering = "REGISTERING"
         case unavailable = "UNAVAILABLE"
+        case unused = "UNUSED"
         public var description: String { return self.rawValue }
     }
 
@@ -928,7 +958,7 @@ extension RDS {
         public let kmsKeyId: String?
         /// When you are copying a DB cluster snapshot from one Amazon Web Services GovCloud (US) Region to another, the URL that contains a Signature Version 4 signed request for the CopyDBClusterSnapshot API operation in the Amazon Web Services Region that contains the source DB cluster snapshot to copy. Use the PreSignedUrl parameter when copying an encrypted DB cluster snapshot from another Amazon Web Services Region. Don't specify PreSignedUrl when copying an encrypted DB cluster snapshot in the same Amazon Web Services Region. This setting applies only to Amazon Web Services GovCloud (US) Regions. It's ignored in other Amazon Web Services Regions. The presigned URL must be a valid request for the CopyDBClusterSnapshot API operation that can run in the source Amazon Web Services Region that contains the encrypted DB cluster snapshot to copy. The presigned URL request must contain the following parameter values:    KmsKeyId - The KMS key identifier for the KMS key to use to encrypt the copy of the DB cluster snapshot in the destination Amazon Web Services Region. This is the same identifier for both the CopyDBClusterSnapshot operation that is called in the destination Amazon Web Services Region, and the operation contained in the presigned URL.    DestinationRegion - The name of the Amazon Web Services Region  that the DB cluster snapshot is to be created in.    SourceDBClusterSnapshotIdentifier - The DB cluster snapshot identifier for the encrypted DB cluster  snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source Amazon Web Services Region. For example,  if you are copying an encrypted DB cluster snapshot from the us-west-2 Amazon Web Services Region, then your SourceDBClusterSnapshotIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:cluster-snapshot:aurora-cluster1-snapshot-20161115.   To learn how to generate a Signature Version 4 signed request, see   Authenticating Requests: Using Query Parameters (Amazon Web Services Signature Version 4) and  Signature Version 4 Signing Process.  If you are using an Amazon Web Services SDK tool or the CLI, you can specify SourceRegion (or --source-region for the CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a presigned URL that is a valid request for the operation that can run in the source Amazon Web Services Region.
         public let preSignedUrl: String?
-        /// The identifier of the DB cluster snapshot to copy. This parameter isn't case-sensitive. You can't copy an encrypted, shared DB cluster snapshot from one Amazon Web Services Region to another. Constraints:   Must specify a valid system snapshot in the "available" state.   If the source snapshot is in the same Amazon Web Services Region as the copy, specify a valid DB snapshot identifier.   If the source snapshot is in a different Amazon Web Services Region than the copy, specify a valid DB cluster snapshot ARN. For more information, go to  Copying Snapshots Across Amazon Web Services Regions in the Amazon Aurora User Guide.   Example: my-cluster-snapshot1
+        /// The identifier of the DB cluster snapshot to copy. This parameter isn't case-sensitive. Constraints:   Must specify a valid source snapshot in the "available" state.   If the source snapshot is in the same Amazon Web Services Region as the copy, specify a valid DB snapshot identifier.   If the source snapshot is in a different Amazon Web Services Region than the copy, specify a valid DB cluster snapshot ARN. You can also specify an ARN of a snapshot that is in a different account and a different Amazon Web Services Region. For more information, go to  Copying Snapshots Across Amazon Web Services Regions in the Amazon Aurora User Guide.   Example: my-cluster-snapshot1
         public let sourceDBClusterSnapshotIdentifier: String?
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
@@ -1026,7 +1056,7 @@ extension RDS {
         public let snapshotAvailabilityZone: String?
         /// Configures the location where RDS will store copied snapshots. Valid Values:    local (Dedicated Local Zone)    outposts (Amazon Web Services Outposts)    region (Amazon Web Services Region)
         public let snapshotTarget: String?
-        /// The identifier for the source DB snapshot. If the source snapshot is in the same Amazon Web Services Region as the copy, specify a valid DB snapshot identifier. For example, you might specify rds:mysql-instance1-snapshot-20130805. If the source snapshot is in a different Amazon Web Services Region than the copy, specify a valid DB snapshot ARN. For example, you might specify arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20130805. If you are copying from a shared manual DB snapshot,  this parameter must be the Amazon Resource Name (ARN) of the shared DB snapshot. If you are copying an encrypted snapshot this parameter must be in the ARN format for the source Amazon Web Services Region. Constraints:   Must specify a valid system snapshot in the "available" state.   Example: rds:mydb-2012-04-02-00-01  Example: arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20130805
+        /// The identifier for the source DB snapshot. If the source snapshot is in the same Amazon Web Services Region as the copy, specify a valid DB snapshot identifier. For example, you might specify rds:mysql-instance1-snapshot-20130805. If you are copying from a shared manual DB snapshot,  this parameter must be the Amazon Resource Name (ARN) of the shared DB snapshot. If the source snapshot is in a different Amazon Web Services Region than the copy, specify a valid DB snapshot ARN. You can also specify an ARN of a snapshot that is in a different account and a different Amazon Web Services Region. For example, you might specify arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20130805. Constraints:   Must specify a valid source snapshot in the "available" state.   Example: rds:mydb-2012-04-02-00-01  Example: arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20130805
         public let sourceDBSnapshotIdentifier: String?
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
@@ -1167,7 +1197,7 @@ extension RDS {
         public func validate(name: String) throws {
             try self.validate(self.blueGreenDeploymentName, name: "blueGreenDeploymentName", parent: name, max: 60)
             try self.validate(self.blueGreenDeploymentName, name: "blueGreenDeploymentName", parent: name, min: 1)
-            try self.validate(self.blueGreenDeploymentName, name: "blueGreenDeploymentName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
+            try self.validate(self.blueGreenDeploymentName, name: "blueGreenDeploymentName", parent: name, pattern: "^[a-zA-Z](?:-?[a-zA-Z0-9]+)*$")
             try self.validate(self.source, name: "source", parent: name, max: 2048)
             try self.validate(self.source, name: "source", parent: name, min: 1)
             try self.validate(self.source, name: "source", parent: name, pattern: "^arn:[A-Za-z][0-9A-Za-z-:._]*$")
@@ -1348,7 +1378,7 @@ extension RDS {
         public let allocatedStorage: Int?
         /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window.  By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB cluster. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version.
         public let autoMinorVersionUpgrade: Bool?
-        /// A list of Availability Zones (AZs) where you specifically want to create DB instances in the DB cluster. For information on AZs, see  Availability Zones in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only Constraints:   Can't specify more than three AZs.
+        /// A list of Availability Zones (AZs) where you specifically want to create DB instances in the DB cluster. For the first three DB instances that you create, RDS distributes each DB instance to a different AZ that you specify. For additional DB instances that you create, RDS randomly distributes them to the AZs that you specified. For example, if you create a DB cluster with one writer instance and three reader instances, RDS might distribute the writer instance to AZ 1, the first reader instance to AZ 2, the second reader instance to AZ 3, and the third reader instance to either AZ 1, AZ 2, or AZ 3.  For more information, see Availability Zones and High availability for Aurora DB instances in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only Constraints:   Can't specify more than three AZs.
         @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
         public var availabilityZones: [String]?
         /// The target backtrack window, in seconds. To disable backtracking, set this value to 0. Valid for Cluster Type: Aurora MySQL DB clusters only Default: 0  Constraints:   If specified, this value must be set to a number from 0 to 259,200 (72 hours).
@@ -1414,6 +1444,8 @@ extension RDS {
         public let kmsKeyId: String?
         /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. For more information, see Password management with Amazon Web Services Secrets Manager  in the Amazon RDS User Guide and Password management with Amazon Web Services Secrets Manager  in the Amazon Aurora User Guide.  Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:   Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword  is specified.
         public let manageMasterUserPassword: Bool?
+        /// Specifies the authentication type for the master user. With IAM master user authentication, you can configure the master DB user with IAM database authentication when you create a DB cluster. You can specify one of the following values:    password - Use standard database authentication with a password.    iam-db-auth - Use IAM database authentication for the master user.   Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters This option is only valid for RDS for PostgreSQL and Aurora PostgreSQL engines.
+        public let masterUserAuthenticationType: MasterUserAuthenticationType?
         /// The name of the master user for the DB cluster. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:   Must be 1 to 16 letters or numbers.   First character must be a letter.   Can't be a reserved word for the chosen database engine.
         public let masterUsername: String?
         /// The password for the master database user. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:   Must contain from 8 to 41 characters.   Can contain any printable ASCII character except "/", """, or "@".   Can't be specified if ManageMasterUserPassword is turned on.
@@ -1461,7 +1493,7 @@ extension RDS {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZones: [String]? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, characterSetName: String? = nil, clusterScalabilityType: ClusterScalabilityType? = nil, copyTagsToSnapshot: Bool? = nil, databaseInsightsMode: DatabaseInsightsMode? = nil, databaseName: String? = nil, dbClusterIdentifier: String? = nil, dbClusterInstanceClass: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, dbSystemId: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableGlobalWriteForwarding: Bool? = nil, enableHttpEndpoint: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enableLimitlessDatabase: Bool? = nil, enableLocalWriteForwarding: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineMode: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, manageMasterUserPassword: Bool? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, networkType: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, publiclyAccessible: Bool? = nil, rdsCustomClusterConfiguration: RdsCustomClusterConfiguration? = nil, replicationSourceIdentifier: String? = nil, scalingConfiguration: ScalingConfiguration? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZones: [String]? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, characterSetName: String? = nil, clusterScalabilityType: ClusterScalabilityType? = nil, copyTagsToSnapshot: Bool? = nil, databaseInsightsMode: DatabaseInsightsMode? = nil, databaseName: String? = nil, dbClusterIdentifier: String? = nil, dbClusterInstanceClass: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, dbSystemId: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableGlobalWriteForwarding: Bool? = nil, enableHttpEndpoint: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enableLimitlessDatabase: Bool? = nil, enableLocalWriteForwarding: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineMode: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, manageMasterUserPassword: Bool? = nil, masterUserAuthenticationType: MasterUserAuthenticationType? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, networkType: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, publiclyAccessible: Bool? = nil, rdsCustomClusterConfiguration: RdsCustomClusterConfiguration? = nil, replicationSourceIdentifier: String? = nil, scalingConfiguration: ScalingConfiguration? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZones = availabilityZones
@@ -1496,6 +1528,7 @@ extension RDS {
             self.iops = iops
             self.kmsKeyId = kmsKeyId
             self.manageMasterUserPassword = manageMasterUserPassword
+            self.masterUserAuthenticationType = masterUserAuthenticationType
             self.masterUsername = masterUsername
             self.masterUserPassword = masterUserPassword
             self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
@@ -1518,6 +1551,12 @@ extension RDS {
             self.storageType = storageType
             self.tags = tags
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "^[A-Za-z][0-9A-Za-z-:._]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1555,6 +1594,7 @@ extension RDS {
             case iops = "Iops"
             case kmsKeyId = "KmsKeyId"
             case manageMasterUserPassword = "ManageMasterUserPassword"
+            case masterUserAuthenticationType = "MasterUserAuthenticationType"
             case masterUsername = "MasterUsername"
             case masterUserPassword = "MasterUserPassword"
             case masterUserSecretKmsKeyId = "MasterUserSecretKmsKeyId"
@@ -1752,10 +1792,12 @@ extension RDS {
         public let iops: Int?
         /// The Amazon Web Services KMS key identifier for an encrypted DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. This setting doesn't apply to Amazon Aurora DB instances. The Amazon Web Services KMS key identifier is managed by the DB cluster. For more information, see CreateDBCluster. If StorageEncrypted is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS uses your default KMS key. There is a   default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. For Amazon RDS Custom, a KMS key is required for DB instances. For most RDS engines, if you leave this parameter empty  while enabling StorageEncrypted, the engine uses the default KMS key. However, RDS Custom  doesn't use the default key when this parameter is empty. You must explicitly specify a key.
         public let kmsKeyId: String?
-        /// The license model information for this DB instance.  License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see Amazon RDS for Db2 licensing options in the Amazon RDS User Guide. The default for RDS for Db2 is bring-your-own-license.  This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:   RDS for Db2 - bring-your-own-license | marketplace-license    RDS for MariaDB - general-public-license    RDS for Microsoft SQL Server - license-included    RDS for MySQL - general-public-license    RDS for Oracle - bring-your-own-license | license-included    RDS for PostgreSQL - postgresql-license
+        /// The license model information for this DB instance.  License models for RDS for Db2 require additional configuration. The bring your own license (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see Amazon RDS for Db2 licensing options in the Amazon RDS User Guide. The default for RDS for Db2 is bring-your-own-license.  This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:   RDS for Db2 - bring-your-own-license | marketplace-license    RDS for MariaDB - general-public-license    RDS for Microsoft SQL Server - license-included    RDS for MySQL - general-public-license    RDS for Oracle - bring-your-own-license | license-included    RDS for PostgreSQL - postgresql-license
         public let licenseModel: String?
         /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. For more information, see Password management with Amazon Web Services Secrets Manager  in the Amazon RDS User Guide.  Constraints:   Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword  is specified.
         public let manageMasterUserPassword: Bool?
+        /// Specifies the authentication type for the master user. With IAM master user authentication, you can configure the master DB user with IAM database authentication when you create a DB instance. You can specify one of the following values:    password - Use standard database authentication with a password.    iam-db-auth - Use IAM database authentication for the master user.   This option is only valid for RDS for PostgreSQL and Aurora PostgreSQL engines.
+        public let masterUserAuthenticationType: MasterUserAuthenticationType?
         /// The name for the master user. This setting doesn't apply to Amazon Aurora DB instances. The name for the master user is managed by the DB cluster. This setting is required for RDS DB instances. Constraints:   Must be 1 to 16 letters, numbers, or underscores.   First character must be a letter.   Can't be a reserved word for the chosen database engine.
         public let masterUsername: String?
         /// The password for the master user. This setting doesn't apply to Amazon Aurora DB instances. The password for the master user is managed by the DB cluster. Constraints:   Can't be specified if ManageMasterUserPassword is turned on.   Can include any printable ASCII character except "/", """, or "@". For RDS for Oracle, can't include the "&" (ampersand) or  the "'" (single quotes) character.   Length Constraints:   RDS for Db2 - Must contain from 8 to 255 characters.   RDS for MariaDB - Must contain from 8 to 41 characters.   RDS for Microsoft SQL Server - Must contain from 8 to 128 characters.   RDS for MySQL - Must contain from 8 to 41 characters.   RDS for Oracle - Must contain from 8 to 30 characters.   RDS for PostgreSQL - Must contain from 8 to 128 characters.
@@ -1815,7 +1857,7 @@ extension RDS {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, backupTarget: String? = nil, caCertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, databaseInsightsMode: DatabaseInsightsMode? = nil, dbClusterIdentifier: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSecurityGroups: [String]? = nil, dbSubnetGroupName: String? = nil, dbSystemId: String? = nil, dedicatedLogVolume: Bool? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainAuthSecretArn: String? = nil, domainDnsIps: [String]? = nil, domainFqdn: String? = nil, domainIAMRoleName: String? = nil, domainOu: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineVersion: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, manageMasterUserPassword: Bool? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, multiTenant: Bool? = nil, ncharCharacterSetName: String? = nil, networkType: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, storageEncrypted: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, timezone: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, backupTarget: String? = nil, caCertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, databaseInsightsMode: DatabaseInsightsMode? = nil, dbClusterIdentifier: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSecurityGroups: [String]? = nil, dbSubnetGroupName: String? = nil, dbSystemId: String? = nil, dedicatedLogVolume: Bool? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainAuthSecretArn: String? = nil, domainDnsIps: [String]? = nil, domainFqdn: String? = nil, domainIAMRoleName: String? = nil, domainOu: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineVersion: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, manageMasterUserPassword: Bool? = nil, masterUserAuthenticationType: MasterUserAuthenticationType? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, multiTenant: Bool? = nil, ncharCharacterSetName: String? = nil, networkType: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, storageEncrypted: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, timezone: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -1853,6 +1895,7 @@ extension RDS {
             self.kmsKeyId = kmsKeyId
             self.licenseModel = licenseModel
             self.manageMasterUserPassword = manageMasterUserPassword
+            self.masterUserAuthenticationType = masterUserAuthenticationType
             self.masterUsername = masterUsername
             self.masterUserPassword = masterUserPassword
             self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
@@ -1920,6 +1963,7 @@ extension RDS {
             case kmsKeyId = "KmsKeyId"
             case licenseModel = "LicenseModel"
             case manageMasterUserPassword = "ManageMasterUserPassword"
+            case masterUserAuthenticationType = "MasterUserAuthenticationType"
             case masterUsername = "MasterUsername"
             case masterUserPassword = "MasterUserPassword"
             case masterUserSecretKmsKeyId = "MasterUserSecretKmsKeyId"
@@ -1975,7 +2019,7 @@ extension RDS {
         public let dbInstanceClass: String?
         /// The DB instance identifier of the read replica. This identifier is the unique key that identifies a DB instance. This parameter is stored as a lowercase string.
         public let dbInstanceIdentifier: String?
-        /// The name of the DB parameter group to associate with this read replica DB instance. For the Db2 DB engine, if your source DB instance uses the Bring Your Own License model, then a custom parameter group must be associated with the replica. For a same Amazon Web Services Region replica, if you don't specify a custom parameter group, Amazon RDS associates the custom parameter group associated with the source DB instance. For a cross-Region replica, you must specify a custom parameter group. This custom parameter group must include your IBM Site ID and IBM Customer ID. For more information, see IBM IDs for Bring Your Own License for Db2.  For Single-AZ or Multi-AZ DB instance read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the DBParameterGroup of the source DB instance for a same Region read replica, or the default DBParameterGroup for the specified DB engine for a cross-Region read replica. For Multi-AZ DB cluster same Region read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the default DBParameterGroup. Specifying a parameter group for this operation is only supported for MySQL DB instances for cross-Region read replicas, for Multi-AZ DB cluster read replica instances, for Db2 DB instances, and for Oracle DB instances. It isn't supported for MySQL DB instances for same Region read replicas or for RDS Custom. Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.
+        /// The name of the DB parameter group to associate with this read replica DB instance. For the Db2 DB engine, if your source DB instance uses the bring your own license (BYOL) model, then a custom parameter group must be associated with the replica. For a same Amazon Web Services Region replica, if you don't specify a custom parameter group, Amazon RDS associates the custom parameter group associated with the source DB instance. For a cross-Region replica, you must specify a custom parameter group. This custom parameter group must include your IBM Site ID and IBM Customer ID. For more information, see IBM IDs for bring your own license (BYOL) for Db2.  For Single-AZ or Multi-AZ DB instance read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the DBParameterGroup of the source DB instance for a same Region read replica, or the default DBParameterGroup for the specified DB engine for a cross-Region read replica. For Multi-AZ DB cluster same Region read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the default DBParameterGroup. Specifying a parameter group for this operation is only supported for MySQL DB instances for cross-Region read replicas, for Multi-AZ DB cluster read replica instances, for Db2 DB instances, and for Oracle DB instances. It isn't supported for MySQL DB instances for same Region read replicas or for RDS Custom. Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.
         public let dbParameterGroupName: String?
         /// A DB subnet group for the DB instance. The new DB instance is created in the VPC associated with the DB subnet group. If no DB subnet group is specified, then the new DB instance isn't created in a VPC. Constraints:   If supplied, must match the name of an existing DB subnet group.   The specified DB subnet group must be in the same Amazon Web Services Region in which the operation is running.   All read replicas in one Amazon Web Services Region that are created from the same source DB instance must either:   Specify DB subnet groups from the same VPC. All these read replicas are created in the same VPC.   Not specify a DB subnet group. All these read replicas are created outside of any VPC.     Example: mydbsubnetgroup
         public let dbSubnetGroupName: String?
@@ -2034,7 +2078,7 @@ extension RDS {
         public var processorFeatures: [ProcessorFeature]?
         /// Specifies whether the DB instance is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB cluster is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. For more information, see CreateDBInstance.
         public let publiclyAccessible: Bool?
-        /// The open mode of the replica database.  This parameter is only supported for Db2 DB instances and Oracle DB instances.   Db2  Standby DB replicas are included in Db2 Advanced Edition (AE) and Db2 Standard Edition (SE). The main use case for standby replicas is cross-Region disaster recovery. Because it doesn't accept user connections, a standby replica can't serve a read-only workload. You can create a combination of standby and read-only DB replicas for the same primary DB instance. For more information, see Working with read replicas for Amazon RDS for Db2 in the Amazon RDS User Guide. To create standby DB replicas for RDS for Db2, set this parameter to mounted.  Oracle  Mounted DB replicas are included in Oracle Database Enterprise Edition. The main use case for mounted replicas is cross-Region disaster recovery. The primary database doesn't use Active Data Guard to transmit information to the mounted replica. Because it doesn't accept user connections, a mounted replica can't serve a read-only workload. You can create a combination of mounted and read-only DB replicas for the same primary DB instance. For more information, see Working with read replicas for Amazon RDS for Oracle  in the Amazon RDS User Guide. For RDS Custom, you must specify this parameter and set it to mounted. The value won't be set by default. After replica creation, you can manage the open mode manually.
+        /// The open mode of the replica database. This parameter is only supported for Db2 DB instances and Oracle DB instances.  Db2  Standby DB replicas are included in Db2 Advanced Edition (AE) and Db2 Standard Edition (SE). The main use case for standby replicas is cross-Region disaster recovery. Because it doesn't accept user connections, a standby replica can't serve a read-only workload. You can create a combination of standby and read-only DB replicas for the same primary DB instance. For more information, see Working with replicas for Amazon RDS for Db2 in the Amazon RDS User Guide. To create standby DB replicas for RDS for Db2, set this parameter to mounted.  Oracle  Mounted DB replicas are included in Oracle Database Enterprise Edition. The main use case for mounted replicas is cross-Region disaster recovery. The primary database doesn't use Active Data Guard to transmit information to the mounted replica. Because it doesn't accept user connections, a mounted replica can't serve a read-only workload. You can create a combination of mounted and read-only DB replicas for the same primary DB instance. For more information, see Working with read replicas for Amazon RDS for Oracle  in the Amazon RDS User Guide. For RDS Custom, you must specify this parameter and set it to mounted. The value won't be set by default. After replica creation, you can manage the open mode manually.
         public let replicaMode: ReplicaMode?
         /// The identifier of the Multi-AZ DB cluster that will act as the source for the read replica. Each DB cluster can have up to 15 read replicas. Constraints:   Must be the identifier of an existing Multi-AZ DB cluster.   Can't be specified if the SourceDBInstanceIdentifier parameter is also specified.   The specified DB cluster must have automatic backups enabled, that is, its backup retention period must be greater than 0.   The source DB cluster must be in the same Amazon Web Services Region as the read replica. Cross-Region replication isn't supported.
         public let sourceDBClusterIdentifier: String?
@@ -2231,6 +2275,8 @@ extension RDS {
         public let dbProxyEndpointName: String?
         /// The name of the DB proxy associated with the DB proxy endpoint that you create.
         public let dbProxyName: String?
+        /// The network type of the DB proxy endpoint. The network type determines the IP version that the proxy endpoint supports. Valid values:    IPV4 - The proxy endpoint supports IPv4 only.    IPV6 - The proxy endpoint supports IPv6 only.    DUAL - The proxy endpoint supports both IPv4 and IPv6.   Default: IPV4  Constraints:   If you specify IPV6 or DUAL, the VPC and all subnets must have an IPv6 CIDR block.   If you specify IPV6 or DUAL, the VPC tenancy cannot be dedicated.
+        public let endpointNetworkType: EndpointNetworkType?
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
         /// The role of the DB proxy endpoint. The role determines whether the endpoint can be used for read/write or only read operations. The default is READ_WRITE. The only role that proxies for RDS for Microsoft SQL Server  support is READ_WRITE.
@@ -2243,9 +2289,10 @@ extension RDS {
         public var vpcSubnetIds: [String]?
 
         @inlinable
-        public init(dbProxyEndpointName: String? = nil, dbProxyName: String? = nil, tags: [Tag]? = nil, targetRole: DBProxyEndpointTargetRole? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
+        public init(dbProxyEndpointName: String? = nil, dbProxyName: String? = nil, endpointNetworkType: EndpointNetworkType? = nil, tags: [Tag]? = nil, targetRole: DBProxyEndpointTargetRole? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
             self.dbProxyEndpointName = dbProxyEndpointName
             self.dbProxyName = dbProxyName
+            self.endpointNetworkType = endpointNetworkType
             self.tags = tags
             self.targetRole = targetRole
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
@@ -2255,15 +2302,16 @@ extension RDS {
         public func validate(name: String) throws {
             try self.validate(self.dbProxyEndpointName, name: "dbProxyEndpointName", parent: name, max: 63)
             try self.validate(self.dbProxyEndpointName, name: "dbProxyEndpointName", parent: name, min: 1)
-            try self.validate(self.dbProxyEndpointName, name: "dbProxyEndpointName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
+            try self.validate(self.dbProxyEndpointName, name: "dbProxyEndpointName", parent: name, pattern: "^[a-zA-Z](?:-?[a-zA-Z0-9]+)*$")
             try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, max: 63)
             try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, min: 1)
-            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
+            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, pattern: "^[a-zA-Z](?:-?[a-zA-Z0-9]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case dbProxyEndpointName = "DBProxyEndpointName"
             case dbProxyName = "DBProxyName"
+            case endpointNetworkType = "EndpointNetworkType"
             case tags = "Tags"
             case targetRole = "TargetRole"
             case vpcSecurityGroupIds = "VpcSecurityGroupIds"
@@ -2293,8 +2341,12 @@ extension RDS {
         public var auth: [UserAuthConfig]?
         /// The identifier for the proxy. This name must be unique for all proxies owned by your Amazon Web Services account in the specified Amazon Web Services Region. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens.
         public let dbProxyName: String?
-        /// Specifies whether the proxy includes detailed information about SQL statements in its logs. This information helps you to debug issues involving SQL behavior or the performance and scalability of the proxy connections. The debug information includes the text of SQL statements that you submit through the proxy. Thus, only enable this setting when needed for debugging, and only when you have security measures in place to safeguard any sensitive information that appears in the logs.
+        /// Specifies whether the proxy logs detailed connection and query information.  When you enable DebugLogging, the proxy captures connection details  and connection pool behavior from your queries. Debug logging increases CloudWatch costs  and can impact proxy performance. Enable this option only when you need  to troubleshoot connection or performance issues.
         public let debugLogging: Bool?
+        /// The default authentication scheme that the proxy uses for client connections to the proxy and connections from the proxy to the underlying database.  Valid values are NONE and IAM_AUTH.  When set to IAM_AUTH, the proxy uses end-to-end IAM authentication to connect to the database.  If you don't specify DefaultAuthScheme or specify this parameter  as NONE, you must specify the Auth option.
+        public let defaultAuthScheme: DefaultAuthScheme?
+        /// The network type of the DB proxy endpoint. The network type determines the IP version that the proxy endpoint supports. Valid values:    IPV4 - The proxy endpoint supports IPv4 only.    IPV6 - The proxy endpoint supports IPv6 only.    DUAL - The proxy endpoint supports both IPv4 and IPv6.   Default: IPV4  Constraints:   If you specify IPV6 or DUAL, the VPC and all subnets must have an IPv6 CIDR block.   If you specify IPV6 or DUAL, the VPC tenancy cannot be dedicated.
+        public let endpointNetworkType: EndpointNetworkType?
         /// The kinds of databases that the proxy can connect to.  This value determines which database network protocol the proxy recognizes when it interprets network traffic to and from the database. For Aurora MySQL, RDS for MariaDB, and RDS for MySQL databases, specify MYSQL.  For Aurora PostgreSQL and RDS for PostgreSQL databases, specify POSTGRESQL. For RDS for Microsoft SQL Server, specify  SQLSERVER.
         public let engineFamily: EngineFamily?
         /// The number of seconds that a connection to the proxy can be inactive before the proxy disconnects it. You can set this value higher or lower than the connection timeout limit for the associated database.
@@ -2306,6 +2358,8 @@ extension RDS {
         /// An optional set of key-value pairs to associate arbitrary data of your choosing with the proxy.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
+        /// The network type that the proxy uses to connect to the target database. The network type determines the IP version that the proxy uses for connections to the database. Valid values:    IPV4 - The proxy connects to the database using IPv4 only.    IPV6 - The proxy connects to the database using IPv6 only.   Default: IPV4  Constraints:   If you specify IPV6, the database must support dual-stack mode. RDS doesn't support IPv6-only databases.   All targets registered with the proxy must be compatible with the specified network type.
+        public let targetConnectionNetworkType: TargetConnectionNetworkType?
         /// One or more VPC security group IDs to associate with the new proxy.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var vpcSecurityGroupIds: [String]?
@@ -2314,28 +2368,46 @@ extension RDS {
         public var vpcSubnetIds: [String]?
 
         @inlinable
-        public init(auth: [UserAuthConfig]? = nil, dbProxyName: String? = nil, debugLogging: Bool? = nil, engineFamily: EngineFamily? = nil, idleClientTimeout: Int? = nil, requireTLS: Bool? = nil, roleArn: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
+        public init(auth: [UserAuthConfig]? = nil, dbProxyName: String? = nil, debugLogging: Bool? = nil, defaultAuthScheme: DefaultAuthScheme? = nil, endpointNetworkType: EndpointNetworkType? = nil, engineFamily: EngineFamily? = nil, idleClientTimeout: Int? = nil, requireTLS: Bool? = nil, roleArn: String? = nil, tags: [Tag]? = nil, targetConnectionNetworkType: TargetConnectionNetworkType? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
             self.auth = auth
             self.dbProxyName = dbProxyName
             self.debugLogging = debugLogging
+            self.defaultAuthScheme = defaultAuthScheme
+            self.endpointNetworkType = endpointNetworkType
             self.engineFamily = engineFamily
             self.idleClientTimeout = idleClientTimeout
             self.requireTLS = requireTLS
             self.roleArn = roleArn
             self.tags = tags
+            self.targetConnectionNetworkType = targetConnectionNetworkType
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
             self.vpcSubnetIds = vpcSubnetIds
+        }
+
+        public func validate(name: String) throws {
+            try self.auth?.forEach {
+                try $0.validate(name: "\(name).auth[]")
+            }
+            try self.validate(self.auth, name: "auth", parent: name, max: 200)
+            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, max: 63)
+            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, min: 1)
+            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, pattern: "^[a-zA-Z](?:-?[a-zA-Z0-9]+)*$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
             case auth = "Auth"
             case dbProxyName = "DBProxyName"
             case debugLogging = "DebugLogging"
+            case defaultAuthScheme = "DefaultAuthScheme"
+            case endpointNetworkType = "EndpointNetworkType"
             case engineFamily = "EngineFamily"
             case idleClientTimeout = "IdleClientTimeout"
             case requireTLS = "RequireTLS"
             case roleArn = "RoleArn"
             case tags = "Tags"
+            case targetConnectionNetworkType = "TargetConnectionNetworkType"
             case vpcSecurityGroupIds = "VpcSecurityGroupIds"
             case vpcSubnetIds = "VpcSubnetIds"
         }
@@ -2607,6 +2679,12 @@ extension RDS {
             self.tags = tags
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "^[A-Za-z][0-9A-Za-z-:._]*$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case databaseName = "DatabaseName"
             case deletionProtection = "DeletionProtection"
@@ -2674,7 +2752,7 @@ extension RDS {
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.validate(self.integrationName, name: "integrationName", parent: name, max: 63)
             try self.validate(self.integrationName, name: "integrationName", parent: name, min: 1)
-            try self.validate(self.integrationName, name: "integrationName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
+            try self.validate(self.integrationName, name: "integrationName", parent: name, pattern: "^[a-zA-Z](?:-?[a-zA-Z0-9]+)*$")
             try self.validate(self.sourceArn, name: "sourceArn", parent: name, max: 255)
             try self.validate(self.sourceArn, name: "sourceArn", parent: name, min: 1)
             try self.validate(self.sourceArn, name: "sourceArn", parent: name, pattern: "^arn:aws[a-z\\-]*:rds(-[a-z]*)?:[a-z0-9\\-]*:[0-9]*:(cluster|db):[a-z][a-z0-9]*(-[a-z0-9]+)*$")
@@ -2986,6 +3064,8 @@ extension RDS {
         /// The identifier of the source DB cluster if this DB cluster is a read replica.
         public let replicationSourceIdentifier: String?
         public let scalingConfigurationInfo: ScalingConfigurationInfo?
+        /// The version of the Aurora Serverless V2 platform used by the DB cluster. For more information, see Using Aurora Serverless v2 in the Amazon Aurora User Guide.
+        public let serverlessV2PlatformVersion: String?
         public let serverlessV2ScalingConfiguration: ServerlessV2ScalingConfigurationInfo?
         /// The current state of this DB cluster.
         public let status: String?
@@ -3005,7 +3085,7 @@ extension RDS {
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
         @inlinable
-        public init(activityStreamKinesisStreamName: String? = nil, activityStreamKmsKeyId: String? = nil, activityStreamMode: ActivityStreamMode? = nil, activityStreamStatus: ActivityStreamStatus? = nil, allocatedStorage: Int? = nil, associatedRoles: [DBClusterRole]? = nil, automaticRestartTime: Date? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZones: [String]? = nil, awsBackupRecoveryPointArn: String? = nil, backtrackConsumedChangeRecords: Int64? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int? = nil, capacity: Int? = nil, certificateDetails: CertificateDetails? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, clusterScalabilityType: ClusterScalabilityType? = nil, copyTagsToSnapshot: Bool? = nil, crossAccountClone: Bool? = nil, customEndpoints: [String]? = nil, databaseInsightsMode: DatabaseInsightsMode? = nil, databaseName: String? = nil, dbClusterArn: String? = nil, dbClusterIdentifier: String? = nil, dbClusterInstanceClass: String? = nil, dbClusterMembers: [DBClusterMember]? = nil, dbClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dbClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dbSubnetGroup: String? = nil, dbSystemId: String? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, earliestBacktrackTime: Date? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineMode: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, globalWriteForwardingRequested: Bool? = nil, globalWriteForwardingStatus: WriteForwardingStatus? = nil, hostedZoneId: String? = nil, httpEndpointEnabled: Bool? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, ioOptimizedNextAllowedModificationTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, limitlessDatabase: LimitlessDatabase? = nil, localWriteForwardingStatus: LocalWriteForwardingStatus? = nil, masterUsername: String? = nil, masterUserSecret: MasterUserSecret? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, pendingModifiedValues: ClusterPendingModifiedValues? = nil, percentProgress: String? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, rdsCustomClusterConfiguration: RdsCustomClusterConfiguration? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, scalingConfigurationInfo: ScalingConfigurationInfo? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfigurationInfo? = nil, status: String? = nil, statusInfos: [DBClusterStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tagList: [Tag]? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(activityStreamKinesisStreamName: String? = nil, activityStreamKmsKeyId: String? = nil, activityStreamMode: ActivityStreamMode? = nil, activityStreamStatus: ActivityStreamStatus? = nil, allocatedStorage: Int? = nil, associatedRoles: [DBClusterRole]? = nil, automaticRestartTime: Date? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZones: [String]? = nil, awsBackupRecoveryPointArn: String? = nil, backtrackConsumedChangeRecords: Int64? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int? = nil, capacity: Int? = nil, certificateDetails: CertificateDetails? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, clusterScalabilityType: ClusterScalabilityType? = nil, copyTagsToSnapshot: Bool? = nil, crossAccountClone: Bool? = nil, customEndpoints: [String]? = nil, databaseInsightsMode: DatabaseInsightsMode? = nil, databaseName: String? = nil, dbClusterArn: String? = nil, dbClusterIdentifier: String? = nil, dbClusterInstanceClass: String? = nil, dbClusterMembers: [DBClusterMember]? = nil, dbClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dbClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dbSubnetGroup: String? = nil, dbSystemId: String? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, earliestBacktrackTime: Date? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineMode: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, globalWriteForwardingRequested: Bool? = nil, globalWriteForwardingStatus: WriteForwardingStatus? = nil, hostedZoneId: String? = nil, httpEndpointEnabled: Bool? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, ioOptimizedNextAllowedModificationTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, limitlessDatabase: LimitlessDatabase? = nil, localWriteForwardingStatus: LocalWriteForwardingStatus? = nil, masterUsername: String? = nil, masterUserSecret: MasterUserSecret? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, pendingModifiedValues: ClusterPendingModifiedValues? = nil, percentProgress: String? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, rdsCustomClusterConfiguration: RdsCustomClusterConfiguration? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, scalingConfigurationInfo: ScalingConfigurationInfo? = nil, serverlessV2PlatformVersion: String? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfigurationInfo? = nil, status: String? = nil, statusInfos: [DBClusterStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tagList: [Tag]? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.activityStreamKinesisStreamName = activityStreamKinesisStreamName
             self.activityStreamKmsKeyId = activityStreamKmsKeyId
             self.activityStreamMode = activityStreamMode
@@ -3081,6 +3161,7 @@ extension RDS {
             self.readReplicaIdentifiers = readReplicaIdentifiers
             self.replicationSourceIdentifier = replicationSourceIdentifier
             self.scalingConfigurationInfo = scalingConfigurationInfo
+            self.serverlessV2PlatformVersion = serverlessV2PlatformVersion
             self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
             self.status = status
             self.statusInfos = statusInfos
@@ -3167,6 +3248,7 @@ extension RDS {
             case readReplicaIdentifiers = "ReadReplicaIdentifiers"
             case replicationSourceIdentifier = "ReplicationSourceIdentifier"
             case scalingConfigurationInfo = "ScalingConfigurationInfo"
+            case serverlessV2PlatformVersion = "ServerlessV2PlatformVersion"
             case serverlessV2ScalingConfiguration = "ServerlessV2ScalingConfiguration"
             case status = "Status"
             case statusInfos = "StatusInfos"
@@ -4206,7 +4288,7 @@ extension RDS {
         public let readReplicaSourceDBClusterIdentifier: String?
         /// The identifier of the source DB instance if this DB instance is a read replica.
         public let readReplicaSourceDBInstanceIdentifier: String?
-        /// The open mode of a Db2 or an Oracle read replica. The default is open-read-only. For more information, see  Working with read replicas for Amazon RDS for Db2  and Working with read replicas for Amazon RDS for Oracle in the Amazon RDS User Guide.   This attribute is only supported in RDS for Db2, RDS for Oracle, and RDS Custom for Oracle.
+        /// The open mode of a Db2 or an Oracle read replica. The default is open-read-only. For more information, see Working with replicas for Amazon RDS for Db2 and Working with read replicas for Amazon RDS for Oracle in the Amazon RDS User Guide.   This attribute is only supported in RDS for Db2, RDS for Oracle, and RDS Custom for Oracle.
         public let replicaMode: ReplicaMode?
         /// The number of minutes to pause the automation. When the time period ends, RDS Custom resumes full automation.  The minimum value is 60 (default). The maximum value is 1,440.
         public let resumeFullAutomationModeTime: Date?
@@ -4789,10 +4871,14 @@ extension RDS {
         public let dbProxyArn: String?
         /// The identifier for the proxy. This name must be unique for all proxies owned by your Amazon Web Services account in the specified Amazon Web Services Region.
         public let dbProxyName: String?
-        /// Indicates whether the proxy includes detailed information about SQL statements in its logs. This information helps you to debug issues involving SQL behavior or the performance and scalability of the proxy connections. The debug information includes the text of SQL statements that you submit through the proxy. Thus, only enable this setting when needed for debugging, and only when you have security measures in place to safeguard any sensitive information that appears in the logs.
+        /// Specifies whether the proxy logs detailed connection and query information.  When you enable DebugLogging, the proxy captures connection details  and connection pool behavior from your queries. Debug logging increases CloudWatch costs  and can impact proxy performance. Enable this option only when you need  to troubleshoot connection or performance issues.
         public let debugLogging: Bool?
+        /// The default authentication scheme that the proxy uses for client connections to the proxy and connections from the proxy to the underlying database.  Valid values are NONE and IAM_AUTH.  When set to IAM_AUTH, the proxy uses end-to-end IAM authentication to connect to the database.
+        public let defaultAuthScheme: String?
         /// The endpoint that you can use to connect to the DB proxy. You include the endpoint value in the connection string for a database client application.
         public let endpoint: String?
+        /// The network type of the DB proxy endpoint. The network type determines the IP version that the proxy endpoint supports. Valid values:    IPV4 - The proxy endpoint supports IPv4 only.    IPV6 - The proxy endpoint supports IPv6 only.    DUAL - The proxy endpoint supports both IPv4 and IPv6.
+        public let endpointNetworkType: EndpointNetworkType?
         /// The kinds of databases that the proxy can connect to. This value determines which database network protocol  the proxy recognizes when it interprets network traffic to and from the database. MYSQL supports Aurora MySQL,  RDS for MariaDB, and RDS for MySQL databases. POSTGRESQL supports Aurora PostgreSQL and RDS for PostgreSQL databases.  SQLSERVER supports RDS for Microsoft SQL Server databases.
         public let engineFamily: String?
         /// The number of seconds a connection to the proxy can have no activity before the proxy drops the client connection. The proxy keeps the underlying database connection open and puts it back into the connection pool for reuse by later connection requests. Default: 1800 (30 minutes) Constraints: 1 to 28,800
@@ -4803,6 +4889,8 @@ extension RDS {
         public let roleArn: String?
         /// The current status of this proxy. A status of available means the proxy is ready to handle requests. Other values indicate that you must wait for the proxy to be ready, or take some action to resolve an issue.
         public let status: DBProxyStatus?
+        /// The network type that the proxy uses to connect to the target database. The network type determines the IP version that the proxy uses for connections to the database. Valid values:    IPV4 - The proxy connects to the database using IPv4 only.    IPV6 - The proxy connects to the database using IPv6 only.
+        public let targetConnectionNetworkType: TargetConnectionNetworkType?
         /// The date and time when the proxy was last updated.
         public let updatedDate: Date?
         /// Provides the VPC ID of the DB proxy.
@@ -4815,18 +4903,21 @@ extension RDS {
         public var vpcSubnetIds: [String]?
 
         @inlinable
-        public init(auth: [UserAuthConfigInfo]? = nil, createdDate: Date? = nil, dbProxyArn: String? = nil, dbProxyName: String? = nil, debugLogging: Bool? = nil, endpoint: String? = nil, engineFamily: String? = nil, idleClientTimeout: Int? = nil, requireTLS: Bool? = nil, roleArn: String? = nil, status: DBProxyStatus? = nil, updatedDate: Date? = nil, vpcId: String? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
+        public init(auth: [UserAuthConfigInfo]? = nil, createdDate: Date? = nil, dbProxyArn: String? = nil, dbProxyName: String? = nil, debugLogging: Bool? = nil, defaultAuthScheme: String? = nil, endpoint: String? = nil, endpointNetworkType: EndpointNetworkType? = nil, engineFamily: String? = nil, idleClientTimeout: Int? = nil, requireTLS: Bool? = nil, roleArn: String? = nil, status: DBProxyStatus? = nil, targetConnectionNetworkType: TargetConnectionNetworkType? = nil, updatedDate: Date? = nil, vpcId: String? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
             self.auth = auth
             self.createdDate = createdDate
             self.dbProxyArn = dbProxyArn
             self.dbProxyName = dbProxyName
             self.debugLogging = debugLogging
+            self.defaultAuthScheme = defaultAuthScheme
             self.endpoint = endpoint
+            self.endpointNetworkType = endpointNetworkType
             self.engineFamily = engineFamily
             self.idleClientTimeout = idleClientTimeout
             self.requireTLS = requireTLS
             self.roleArn = roleArn
             self.status = status
+            self.targetConnectionNetworkType = targetConnectionNetworkType
             self.updatedDate = updatedDate
             self.vpcId = vpcId
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
@@ -4839,12 +4930,15 @@ extension RDS {
             case dbProxyArn = "DBProxyArn"
             case dbProxyName = "DBProxyName"
             case debugLogging = "DebugLogging"
+            case defaultAuthScheme = "DefaultAuthScheme"
             case endpoint = "Endpoint"
+            case endpointNetworkType = "EndpointNetworkType"
             case engineFamily = "EngineFamily"
             case idleClientTimeout = "IdleClientTimeout"
             case requireTLS = "RequireTLS"
             case roleArn = "RoleArn"
             case status = "Status"
+            case targetConnectionNetworkType = "TargetConnectionNetworkType"
             case updatedDate = "UpdatedDate"
             case vpcId = "VpcId"
             case vpcSecurityGroupIds = "VpcSecurityGroupIds"
@@ -4863,6 +4957,8 @@ extension RDS {
         public let dbProxyName: String?
         /// The endpoint that you can use to connect to the DB proxy. You include the endpoint value in the connection string for a database client application.
         public let endpoint: String?
+        /// The network type of the DB proxy endpoint. The network type determines the IP version that the proxy endpoint supports. Valid values:    IPV4 - The proxy endpoint supports IPv4 only.    IPV6 - The proxy endpoint supports IPv6 only.    DUAL - The proxy endpoint supports both IPv4 and IPv6.
+        public let endpointNetworkType: EndpointNetworkType?
         /// Indicates whether this endpoint is the default endpoint for the associated DB proxy. Default DB proxy endpoints always have read/write capability. Other endpoints that you associate with the DB proxy can be either read/write or read-only.
         public let isDefault: Bool?
         /// The current status of this DB proxy endpoint. A status of available means the endpoint is ready to handle requests. Other values indicate that you must wait for the endpoint to be ready, or take some action to resolve an issue.
@@ -4879,12 +4975,13 @@ extension RDS {
         public var vpcSubnetIds: [String]?
 
         @inlinable
-        public init(createdDate: Date? = nil, dbProxyEndpointArn: String? = nil, dbProxyEndpointName: String? = nil, dbProxyName: String? = nil, endpoint: String? = nil, isDefault: Bool? = nil, status: DBProxyEndpointStatus? = nil, targetRole: DBProxyEndpointTargetRole? = nil, vpcId: String? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
+        public init(createdDate: Date? = nil, dbProxyEndpointArn: String? = nil, dbProxyEndpointName: String? = nil, dbProxyName: String? = nil, endpoint: String? = nil, endpointNetworkType: EndpointNetworkType? = nil, isDefault: Bool? = nil, status: DBProxyEndpointStatus? = nil, targetRole: DBProxyEndpointTargetRole? = nil, vpcId: String? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
             self.createdDate = createdDate
             self.dbProxyEndpointArn = dbProxyEndpointArn
             self.dbProxyEndpointName = dbProxyEndpointName
             self.dbProxyName = dbProxyName
             self.endpoint = endpoint
+            self.endpointNetworkType = endpointNetworkType
             self.isDefault = isDefault
             self.status = status
             self.targetRole = targetRole
@@ -4899,6 +4996,7 @@ extension RDS {
             case dbProxyEndpointName = "DBProxyEndpointName"
             case dbProxyName = "DBProxyName"
             case endpoint = "Endpoint"
+            case endpointNetworkType = "EndpointNetworkType"
             case isDefault = "IsDefault"
             case status = "Status"
             case targetRole = "TargetRole"
@@ -5908,7 +6006,7 @@ extension RDS {
         public func validate(name: String) throws {
             try self.validate(self.dbProxyEndpointName, name: "dbProxyEndpointName", parent: name, max: 63)
             try self.validate(self.dbProxyEndpointName, name: "dbProxyEndpointName", parent: name, min: 1)
-            try self.validate(self.dbProxyEndpointName, name: "dbProxyEndpointName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
+            try self.validate(self.dbProxyEndpointName, name: "dbProxyEndpointName", parent: name, pattern: "^[a-zA-Z](?:-?[a-zA-Z0-9]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5937,6 +6035,12 @@ extension RDS {
         @inlinable
         public init(dbProxyName: String? = nil) {
             self.dbProxyName = dbProxyName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, max: 63)
+            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, min: 1)
+            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, pattern: "^[a-zA-Z](?:-?[a-zA-Z0-9]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5984,7 +6088,7 @@ extension RDS {
         public func validate(name: String) throws {
             try self.validate(self.dbShardGroupIdentifier, name: "dbShardGroupIdentifier", parent: name, max: 63)
             try self.validate(self.dbShardGroupIdentifier, name: "dbShardGroupIdentifier", parent: name, min: 1)
-            try self.validate(self.dbShardGroupIdentifier, name: "dbShardGroupIdentifier", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
+            try self.validate(self.dbShardGroupIdentifier, name: "dbShardGroupIdentifier", parent: name, pattern: "^[a-zA-Z](?:-?[a-zA-Z0-9]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6067,6 +6171,12 @@ extension RDS {
         @inlinable
         public init(globalClusterIdentifier: String? = nil) {
             self.globalClusterIdentifier = globalClusterIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "^[A-Za-z][0-9A-Za-z-:._]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6178,6 +6288,15 @@ extension RDS {
             self.dbInstanceIdentifiers = dbInstanceIdentifiers
             self.dbProxyName = dbProxyName
             self.targetGroupName = targetGroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, max: 63)
+            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, min: 1)
+            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, pattern: "^[a-zA-Z](?:-?[a-zA-Z0-9]+)*$")
+            try self.validate(self.targetGroupName, name: "targetGroupName", parent: name, max: 63)
+            try self.validate(self.targetGroupName, name: "targetGroupName", parent: name, min: 1)
+            try self.validate(self.targetGroupName, name: "targetGroupName", parent: name, pattern: "^[a-zA-Z](?:-?[a-zA-Z0-9]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6896,6 +7015,9 @@ extension RDS {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, max: 63)
+            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, min: 1)
+            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, pattern: "^[a-zA-Z](?:-?[a-zA-Z0-9]+)*$")
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, max: 100)
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, min: 20)
         }
@@ -6954,10 +7076,10 @@ extension RDS {
         public func validate(name: String) throws {
             try self.validate(self.dbProxyEndpointName, name: "dbProxyEndpointName", parent: name, max: 63)
             try self.validate(self.dbProxyEndpointName, name: "dbProxyEndpointName", parent: name, min: 1)
-            try self.validate(self.dbProxyEndpointName, name: "dbProxyEndpointName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
+            try self.validate(self.dbProxyEndpointName, name: "dbProxyEndpointName", parent: name, pattern: "^[a-zA-Z](?:-?[a-zA-Z0-9]+)*$")
             try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, max: 63)
             try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, min: 1)
-            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
+            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, pattern: "^[a-zA-Z](?:-?[a-zA-Z0-9]+)*$")
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, max: 100)
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, min: 20)
         }
@@ -7015,8 +7137,14 @@ extension RDS {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, max: 63)
+            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, min: 1)
+            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, pattern: "^[a-zA-Z](?:-?[a-zA-Z0-9]+)*$")
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, max: 100)
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, min: 20)
+            try self.validate(self.targetGroupName, name: "targetGroupName", parent: name, max: 63)
+            try self.validate(self.targetGroupName, name: "targetGroupName", parent: name, min: 1)
+            try self.validate(self.targetGroupName, name: "targetGroupName", parent: name, pattern: "^[a-zA-Z](?:-?[a-zA-Z0-9]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7072,8 +7200,14 @@ extension RDS {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, max: 63)
+            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, min: 1)
+            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, pattern: "^[a-zA-Z](?:-?[a-zA-Z0-9]+)*$")
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, max: 100)
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, min: 20)
+            try self.validate(self.targetGroupName, name: "targetGroupName", parent: name, max: 63)
+            try self.validate(self.targetGroupName, name: "targetGroupName", parent: name, min: 1)
+            try self.validate(self.targetGroupName, name: "targetGroupName", parent: name, pattern: "^[a-zA-Z](?:-?[a-zA-Z0-9]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7194,7 +7328,7 @@ extension RDS {
         public func validate(name: String) throws {
             try self.validate(self.dbShardGroupIdentifier, name: "dbShardGroupIdentifier", parent: name, max: 63)
             try self.validate(self.dbShardGroupIdentifier, name: "dbShardGroupIdentifier", parent: name, min: 1)
-            try self.validate(self.dbShardGroupIdentifier, name: "dbShardGroupIdentifier", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
+            try self.validate(self.dbShardGroupIdentifier, name: "dbShardGroupIdentifier", parent: name, pattern: "^[a-zA-Z](?:-?[a-zA-Z0-9]+)*$")
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, max: 100)
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, min: 20)
         }
@@ -7620,6 +7754,12 @@ extension RDS {
             self.globalClusterIdentifier = globalClusterIdentifier
             self.marker = marker
             self.maxRecords = maxRecords
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "^[A-Za-z][0-9A-Za-z-:._]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8710,7 +8850,7 @@ extension RDS {
         /// The list of primary and secondary clusters within the global database cluster.
         @OptionalCustomCoding<ArrayCoder<_GlobalClusterMembersEncoding, GlobalClusterMember>>
         public var globalClusterMembers: [GlobalClusterMember]?
-        /// The Amazon Web Services Region-unique, immutable identifier for the global database cluster. This identifier is found in Amazon Web Services CloudTrail log entries whenever the Amazon Web Services KMS key for the DB cluster is accessed.
+        /// The Amazon Web Services partition-unique, immutable identifier for the global database cluster. This identifier is found in Amazon Web Services CloudTrail log entries whenever the Amazon Web Services KMS key for the DB cluster is accessed.
         public let globalClusterResourceId: String?
         /// Specifies the current state of this global database cluster.
         public let status: String?
@@ -9258,7 +9398,7 @@ extension RDS {
         public let cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration?
         /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster.  The default is not to copy them. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
         public let copyTagsToSnapshot: Bool?
-        /// Specifies the mode of Database Insights to enable for the DB cluster. If you change the value from standard to advanced, you must set the  PerformanceInsightsEnabled parameter to true and the  PerformanceInsightsRetentionPeriod parameter to 465. If you change the value from advanced to standard, you must  set the PerformanceInsightsEnabled parameter to false. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+        /// Specifies the mode of Database Insights to enable for the DB cluster. If you change the value from standard to advanced, you must set the  PerformanceInsightsEnabled parameter to true and the  PerformanceInsightsRetentionPeriod parameter to 465. If you change the value from advanced to standard, you can set the PerformanceInsightsEnabled parameter to true to collect detailed database counter and per-query metrics. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
         public let databaseInsightsMode: DatabaseInsightsMode?
         /// The DB cluster identifier for the cluster being modified. This parameter isn't case-sensitive. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:   Must match the identifier of an existing DB cluster.
         public let dbClusterIdentifier: String?
@@ -9294,6 +9434,8 @@ extension RDS {
         public let iops: Int?
         /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the DB cluster doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn  on this management. In this case, you can't specify MasterUserPassword. If the DB cluster already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the  master user password is not managed with Amazon Web Services Secrets Manager, then you must specify MasterUserPassword.  In this case, RDS deletes the secret and uses the new password for the master user specified by  MasterUserPassword. For more information, see Password management with Amazon Web Services Secrets Manager  in the Amazon RDS User Guide and Password management with Amazon Web Services Secrets Manager  in the Amazon Aurora User Guide.  Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
         public let manageMasterUserPassword: Bool?
+        /// Specifies the authentication type for the master user. With IAM master user authentication, you can change the master DB user to use IAM database authentication. You can specify one of the following values:    password - Use standard database authentication with a password.    iam-db-auth - Use IAM database authentication for the master user.   Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters This option is only valid for RDS for PostgreSQL and Aurora PostgreSQL engines.
+        public let masterUserAuthenticationType: MasterUserAuthenticationType?
         /// The new password for the master database user. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:   Must contain from 8 to 41 characters.   Can contain any printable ASCII character except "/", """, or "@".   Can't be specified if ManageMasterUserPassword is turned on.
         public let masterUserPassword: String?
         /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and  managed in Amazon Web Services Secrets Manager. This setting is valid only if both of the following conditions are met:   The DB cluster doesn't manage the master user password in Amazon Web Services Secrets Manager. If the DB cluster already manages the master user password in Amazon Web Services Secrets Manager, you can't change the KMS key that is used to encrypt the secret.   You are turning on ManageMasterUserPassword to manage the master user password  in Amazon Web Services Secrets Manager. If you are turning on ManageMasterUserPassword and don't specify  MasterUserSecretKmsKeyId, then the aws/secretsmanager  KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't  use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer  managed KMS key.   The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
@@ -9330,7 +9472,7 @@ extension RDS {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, allowEngineModeChange: Bool? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, awsBackupRecoveryPointArn: String? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, databaseInsightsMode: DatabaseInsightsMode? = nil, dbClusterIdentifier: String? = nil, dbClusterInstanceClass: String? = nil, dbClusterParameterGroupName: String? = nil, dbInstanceParameterGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableGlobalWriteForwarding: Bool? = nil, enableHttpEndpoint: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enableLimitlessDatabase: Bool? = nil, enableLocalWriteForwarding: Bool? = nil, enablePerformanceInsights: Bool? = nil, engineMode: String? = nil, engineVersion: String? = nil, iops: Int? = nil, manageMasterUserPassword: Bool? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, networkType: String? = nil, newDBClusterIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, rotateMasterUserPassword: Bool? = nil, scalingConfiguration: ScalingConfiguration? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, storageType: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, allowEngineModeChange: Bool? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, awsBackupRecoveryPointArn: String? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, databaseInsightsMode: DatabaseInsightsMode? = nil, dbClusterIdentifier: String? = nil, dbClusterInstanceClass: String? = nil, dbClusterParameterGroupName: String? = nil, dbInstanceParameterGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableGlobalWriteForwarding: Bool? = nil, enableHttpEndpoint: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enableLimitlessDatabase: Bool? = nil, enableLocalWriteForwarding: Bool? = nil, enablePerformanceInsights: Bool? = nil, engineMode: String? = nil, engineVersion: String? = nil, iops: Int? = nil, manageMasterUserPassword: Bool? = nil, masterUserAuthenticationType: MasterUserAuthenticationType? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, networkType: String? = nil, newDBClusterIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, rotateMasterUserPassword: Bool? = nil, scalingConfiguration: ScalingConfiguration? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, storageType: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.allowEngineModeChange = allowEngineModeChange
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
@@ -9360,6 +9502,7 @@ extension RDS {
             self.engineVersion = engineVersion
             self.iops = iops
             self.manageMasterUserPassword = manageMasterUserPassword
+            self.masterUserAuthenticationType = masterUserAuthenticationType
             self.masterUserPassword = masterUserPassword
             self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
             self.monitoringInterval = monitoringInterval
@@ -9415,6 +9558,7 @@ extension RDS {
             case engineVersion = "EngineVersion"
             case iops = "Iops"
             case manageMasterUserPassword = "ManageMasterUserPassword"
+            case masterUserAuthenticationType = "MasterUserAuthenticationType"
             case masterUserPassword = "MasterUserPassword"
             case masterUserSecretKmsKeyId = "MasterUserSecretKmsKeyId"
             case monitoringInterval = "MonitoringInterval"
@@ -9590,6 +9734,8 @@ extension RDS {
         public let licenseModel: String?
         /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the DB instance doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn  on this management. In this case, you can't specify MasterUserPassword. If the DB instance already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the  master user password is not managed with Amazon Web Services Secrets Manager, then you must specify MasterUserPassword.  In this case, Amazon RDS deletes the secret and uses the new password for the master user specified by  MasterUserPassword. For more information, see Password management with Amazon Web Services Secrets Manager  in the Amazon RDS User Guide.  Constraints:   Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword  is specified.   Can't specify for RDS for Oracle CDB instances in the multi-tenant configuration. Use ModifyTenantDatabase instead.   Can't specify the parameters ManageMasterUserPassword and MultiTenant in the same operation.
         public let manageMasterUserPassword: Bool?
+        /// Specifies the authentication type for the master user. With IAM master user authentication, you can change the master DB user to use IAM database authentication. You can specify one of the following values:    password - Use standard database authentication with a password.    iam-db-auth - Use IAM database authentication for the master user.   This option is only valid for RDS for PostgreSQL and Aurora PostgreSQL engines.
+        public let masterUserAuthenticationType: MasterUserAuthenticationType?
         /// The new password for the master user. Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible.  Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response.  Amazon RDS API operations never return the password,  so this operation provides a way to regain access to a primary instance user if the password is lost.  This includes restoring privileges that might have been accidentally revoked.  This setting doesn't apply to the following DB instances:   Amazon Aurora The password for the master user is managed by the DB cluster. For more information, see ModifyDBCluster.   RDS Custom   RDS for Oracle CDBs in the multi-tenant configuration Specify the master password in ModifyTenantDatabase instead.   Default: Uses existing setting Constraints:   Can't be specified if ManageMasterUserPassword is turned on.   Can include any printable ASCII character except "/", """, or "@". For RDS for Oracle, can't include the "&" (ampersand) or  the "'" (single quotes) character.   Length Constraints:   RDS for Db2 - Must contain from 8 to 255 characters.   RDS for MariaDB - Must contain from 8 to 41 characters.   RDS for Microsoft SQL Server - Must contain from 8 to 128 characters.   RDS for MySQL - Must contain from 8 to 41 characters.   RDS for Oracle - Must contain from 8 to 30 characters.   RDS for PostgreSQL - Must contain from 8 to 128 characters.
         public let masterUserPassword: String?
         /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and  managed in Amazon Web Services Secrets Manager. This setting is valid only if both of the following conditions are met:   The DB instance doesn't manage the master user password in Amazon Web Services Secrets Manager. If the DB instance already manages the master user password in Amazon Web Services Secrets Manager,  you can't change the KMS key used to encrypt the secret.   You are turning on ManageMasterUserPassword to manage the master user password  in Amazon Web Services Secrets Manager. If you are turning on ManageMasterUserPassword and don't specify  MasterUserSecretKmsKeyId, then the aws/secretsmanager  KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't  use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer  managed KMS key.   The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
@@ -9625,9 +9771,9 @@ extension RDS {
         public let promotionTier: Int?
         /// Specifies whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private cloud (VPC),  its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB instance,  the endpoint resolves to the private IP address. Access to the DB instance is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB instance doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address.  PubliclyAccessible only applies to DB instances in a VPC. The DB instance must be part of a  public subnet and PubliclyAccessible must be enabled for it to be publicly accessible. Changes to the PubliclyAccessible parameter are applied immediately regardless of the value of the ApplyImmediately parameter.
         public let publiclyAccessible: Bool?
-        /// The open mode of a replica database.  This parameter is only supported for Db2 DB instances and Oracle DB instances.   Db2  Standby DB replicas are included in Db2 Advanced Edition (AE) and Db2 Standard Edition (SE). The main use case for standby replicas is cross-Region disaster recovery. Because it doesn't accept user connections, a standby replica can't serve a read-only workload. You can create a combination of standby and read-only DB replicas for the same primary DB instance. For more information, see Working with read replicas for Amazon RDS for Db2 in the Amazon RDS User Guide. To create standby DB replicas for RDS for Db2, set this parameter to mounted.  Oracle  Mounted DB replicas are included in Oracle Database Enterprise Edition. The main use case for mounted replicas is cross-Region disaster recovery. The primary database doesn't use Active Data Guard to transmit information to the mounted replica. Because it doesn't accept user connections, a mounted replica can't serve a read-only workload. You can create a combination of mounted and read-only DB replicas for the same primary DB instance. For more information, see Working with read replicas for Amazon RDS for Oracle in the Amazon RDS User Guide. For RDS Custom, you must specify this parameter and set it to mounted. The value won't be set by default. After replica creation, you can manage the open mode manually.
+        /// The open mode of a replica database. This parameter is only supported for Db2 DB instances and Oracle DB instances.  Db2  Standby DB replicas are included in Db2 Advanced Edition (AE) and Db2 Standard Edition (SE). The main use case for standby replicas is cross-Region disaster recovery. Because it doesn't accept user connections, a standby replica can't serve a read-only workload. You can create a combination of standby and read-only DB replicas for the same primary DB instance. For more information, see Working with replicas for Amazon RDS for Db2 in the Amazon RDS User Guide. To create standby DB replicas for RDS for Db2, set this parameter to mounted.  Oracle  Mounted DB replicas are included in Oracle Database Enterprise Edition. The main use case for mounted replicas is cross-Region disaster recovery. The primary database doesn't use Active Data Guard to transmit information to the mounted replica. Because it doesn't accept user connections, a mounted replica can't serve a read-only workload. You can create a combination of mounted and read-only DB replicas for the same primary DB instance. For more information, see Working with read replicas for Amazon RDS for Oracle in the Amazon RDS User Guide. For RDS Custom, you must specify this parameter and set it to mounted. The value won't be set by default. After replica creation, you can manage the open mode manually.
         public let replicaMode: ReplicaMode?
-        /// The number of minutes to pause the automation. When the time period ends, RDS Custom resumes  full automation. Default: 60  Constraints:   Must be at least 60.   Must be no more than 1,440.
+        /// The number of minutes to pause the automation. When the time period ends, RDS Custom resumes full automation. Default: 60  Constraints:   Must be at least 60.   Must be no more than 1,440.
         public let resumeFullAutomationModeMinutes: Int?
         /// Specifies whether to rotate the secret managed by Amazon Web Services Secrets Manager for the  master user password. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets  Manager for the DB instance. The secret value contains the updated password. For more information, see Password management with Amazon Web Services Secrets Manager  in the Amazon RDS User Guide.  Constraints:   You must apply the change immediately when rotating the master user password.
         public let rotateMasterUserPassword: Bool?
@@ -9646,7 +9792,7 @@ extension RDS {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, automationMode: AutomationMode? = nil, autoMinorVersionUpgrade: Bool? = nil, awsBackupRecoveryPointArn: String? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, certificateRotationRestart: Bool? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, databaseInsightsMode: DatabaseInsightsMode? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbParameterGroupName: String? = nil, dbPortNumber: Int? = nil, dbSecurityGroups: [String]? = nil, dbSubnetGroupName: String? = nil, dedicatedLogVolume: Bool? = nil, deletionProtection: Bool? = nil, disableDomain: Bool? = nil, domain: String? = nil, domainAuthSecretArn: String? = nil, domainDnsIps: [String]? = nil, domainFqdn: String? = nil, domainIAMRoleName: String? = nil, domainOu: String? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, iops: Int? = nil, licenseModel: String? = nil, manageMasterUserPassword: Bool? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, multiTenant: Bool? = nil, networkType: String? = nil, newDBInstanceIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, replicaMode: ReplicaMode? = nil, resumeFullAutomationModeMinutes: Int? = nil, rotateMasterUserPassword: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, automationMode: AutomationMode? = nil, autoMinorVersionUpgrade: Bool? = nil, awsBackupRecoveryPointArn: String? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, certificateRotationRestart: Bool? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, databaseInsightsMode: DatabaseInsightsMode? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbParameterGroupName: String? = nil, dbPortNumber: Int? = nil, dbSecurityGroups: [String]? = nil, dbSubnetGroupName: String? = nil, dedicatedLogVolume: Bool? = nil, deletionProtection: Bool? = nil, disableDomain: Bool? = nil, domain: String? = nil, domainAuthSecretArn: String? = nil, domainDnsIps: [String]? = nil, domainFqdn: String? = nil, domainIAMRoleName: String? = nil, domainOu: String? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, iops: Int? = nil, licenseModel: String? = nil, manageMasterUserPassword: Bool? = nil, masterUserAuthenticationType: MasterUserAuthenticationType? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, multiTenant: Bool? = nil, networkType: String? = nil, newDBInstanceIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, replicaMode: ReplicaMode? = nil, resumeFullAutomationModeMinutes: Int? = nil, rotateMasterUserPassword: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
             self.applyImmediately = applyImmediately
@@ -9682,6 +9828,7 @@ extension RDS {
             self.iops = iops
             self.licenseModel = licenseModel
             self.manageMasterUserPassword = manageMasterUserPassword
+            self.masterUserAuthenticationType = masterUserAuthenticationType
             self.masterUserPassword = masterUserPassword
             self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
             self.maxAllocatedStorage = maxAllocatedStorage
@@ -9752,6 +9899,7 @@ extension RDS {
             case iops = "Iops"
             case licenseModel = "LicenseModel"
             case manageMasterUserPassword = "ManageMasterUserPassword"
+            case masterUserAuthenticationType = "MasterUserAuthenticationType"
             case masterUserPassword = "MasterUserPassword"
             case masterUserSecretKmsKeyId = "MasterUserSecretKmsKeyId"
             case maxAllocatedStorage = "MaxAllocatedStorage"
@@ -9834,10 +9982,10 @@ extension RDS {
         public func validate(name: String) throws {
             try self.validate(self.dbProxyEndpointName, name: "dbProxyEndpointName", parent: name, max: 63)
             try self.validate(self.dbProxyEndpointName, name: "dbProxyEndpointName", parent: name, min: 1)
-            try self.validate(self.dbProxyEndpointName, name: "dbProxyEndpointName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
+            try self.validate(self.dbProxyEndpointName, name: "dbProxyEndpointName", parent: name, pattern: "^[a-zA-Z](?:-?[a-zA-Z0-9]+)*$")
             try self.validate(self.newDBProxyEndpointName, name: "newDBProxyEndpointName", parent: name, max: 63)
             try self.validate(self.newDBProxyEndpointName, name: "newDBProxyEndpointName", parent: name, min: 1)
-            try self.validate(self.newDBProxyEndpointName, name: "newDBProxyEndpointName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
+            try self.validate(self.newDBProxyEndpointName, name: "newDBProxyEndpointName", parent: name, pattern: "^[a-zA-Z](?:-?[a-zA-Z0-9]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9867,8 +10015,10 @@ extension RDS {
         public var auth: [UserAuthConfig]?
         /// The identifier for the DBProxy to modify.
         public let dbProxyName: String?
-        /// Whether the proxy includes detailed information about SQL statements in its logs. This information helps you to debug issues involving SQL behavior or the performance and scalability of the proxy connections. The debug information includes the text of SQL statements that you submit through the proxy. Thus, only enable this setting when needed for debugging, and only when you have security measures in place to safeguard any sensitive information that appears in the logs.
+        /// Specifies whether the proxy logs detailed connection and query information.  When you enable DebugLogging, the proxy captures connection details  and connection pool behavior from your queries. Debug logging increases CloudWatch costs  and can impact proxy performance. Enable this option only when you need  to troubleshoot connection or performance issues.
         public let debugLogging: Bool?
+        /// The default authentication scheme that the proxy uses for client connections to the proxy and connections from the proxy to the underlying database.  Valid values are NONE and IAM_AUTH.  When set to IAM_AUTH, the proxy uses end-to-end IAM authentication to connect to the database.
+        public let defaultAuthScheme: DefaultAuthScheme?
         /// The number of seconds that a connection to the proxy can be inactive before the proxy disconnects it. You can set this value higher or lower than the connection timeout limit for the associated database.
         public let idleClientTimeout: Int?
         /// The new identifier for the DBProxy. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens.
@@ -9882,10 +10032,11 @@ extension RDS {
         public var securityGroups: [String]?
 
         @inlinable
-        public init(auth: [UserAuthConfig]? = nil, dbProxyName: String? = nil, debugLogging: Bool? = nil, idleClientTimeout: Int? = nil, newDBProxyName: String? = nil, requireTLS: Bool? = nil, roleArn: String? = nil, securityGroups: [String]? = nil) {
+        public init(auth: [UserAuthConfig]? = nil, dbProxyName: String? = nil, debugLogging: Bool? = nil, defaultAuthScheme: DefaultAuthScheme? = nil, idleClientTimeout: Int? = nil, newDBProxyName: String? = nil, requireTLS: Bool? = nil, roleArn: String? = nil, securityGroups: [String]? = nil) {
             self.auth = auth
             self.dbProxyName = dbProxyName
             self.debugLogging = debugLogging
+            self.defaultAuthScheme = defaultAuthScheme
             self.idleClientTimeout = idleClientTimeout
             self.newDBProxyName = newDBProxyName
             self.requireTLS = requireTLS
@@ -9893,10 +10044,26 @@ extension RDS {
             self.securityGroups = securityGroups
         }
 
+        public func validate(name: String) throws {
+            try self.auth?.forEach {
+                try $0.validate(name: "\(name).auth[]")
+            }
+            try self.validate(self.auth, name: "auth", parent: name, max: 200)
+            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, max: 63)
+            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, min: 1)
+            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, pattern: "^[a-zA-Z](?:-?[a-zA-Z0-9]+)*$")
+            try self.validate(self.newDBProxyName, name: "newDBProxyName", parent: name, max: 63)
+            try self.validate(self.newDBProxyName, name: "newDBProxyName", parent: name, min: 1)
+            try self.validate(self.newDBProxyName, name: "newDBProxyName", parent: name, pattern: "^[a-zA-Z](?:-?[a-zA-Z0-9]+)*$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case auth = "Auth"
             case dbProxyName = "DBProxyName"
             case debugLogging = "DebugLogging"
+            case defaultAuthScheme = "DefaultAuthScheme"
             case idleClientTimeout = "IdleClientTimeout"
             case newDBProxyName = "NewDBProxyName"
             case requireTLS = "RequireTLS"
@@ -9935,6 +10102,15 @@ extension RDS {
             self.dbProxyName = dbProxyName
             self.newName = newName
             self.targetGroupName = targetGroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, max: 63)
+            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, min: 1)
+            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, pattern: "^[a-zA-Z](?:-?[a-zA-Z0-9]+)*$")
+            try self.validate(self.targetGroupName, name: "targetGroupName", parent: name, max: 63)
+            try self.validate(self.targetGroupName, name: "targetGroupName", parent: name, min: 1)
+            try self.validate(self.targetGroupName, name: "targetGroupName", parent: name, pattern: "^[a-zA-Z](?:-?[a-zA-Z0-9]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10007,7 +10183,7 @@ extension RDS {
         public func validate(name: String) throws {
             try self.validate(self.dbShardGroupIdentifier, name: "dbShardGroupIdentifier", parent: name, max: 63)
             try self.validate(self.dbShardGroupIdentifier, name: "dbShardGroupIdentifier", parent: name, min: 1)
-            try self.validate(self.dbShardGroupIdentifier, name: "dbShardGroupIdentifier", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
+            try self.validate(self.dbShardGroupIdentifier, name: "dbShardGroupIdentifier", parent: name, pattern: "^[a-zA-Z](?:-?[a-zA-Z0-9]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10065,7 +10241,7 @@ extension RDS {
     public struct ModifyDBSnapshotMessage: AWSEncodableShape {
         /// The identifier of the DB snapshot to modify.
         public let dbSnapshotIdentifier: String?
-        /// The engine version to upgrade the DB snapshot to. The following are the database engines and engine versions that are available when you upgrade a DB snapshot.  MySQL  For the list of engine versions that are available for upgrading a DB snapshot, see   Upgrading a MySQL DB snapshot engine version in the Amazon RDS User Guide.   Oracle     19.0.0.0.ru-2022-01.rur-2022-01.r1 (supported for 12.2.0.1 DB snapshots)    19.0.0.0.ru-2022-07.rur-2022-07.r1 (supported for 12.1.0.2 DB snapshots)    12.1.0.2.v8  (supported for 12.1.0.1 DB snapshots)    11.2.0.4.v12 (supported for 11.2.0.2 DB snapshots)    11.2.0.4.v11 (supported for 11.2.0.3 DB snapshots)    PostgreSQL  For the list of engine versions that are available for upgrading a DB snapshot, see   Upgrading a PostgreSQL DB snapshot engine version in the Amazon RDS User Guide.
+        /// The engine version to upgrade the DB snapshot to. The following are the database engines and engine versions that are available when you upgrade a DB snapshot.  MariaDB  For the list of engine versions that are available for upgrading a DB snapshot, see   Upgrading a MariaDB DB snapshot engine version in the Amazon RDS User Guide.   MySQL  For the list of engine versions that are available for upgrading a DB snapshot, see   Upgrading a MySQL DB snapshot engine version in the Amazon RDS User Guide.   Oracle     21.0.0.0.ru-2025-04.rur-2025-04.r1 (supported for 21.0.0.0.ru-2022-01.rur-2022-01.r1, 21.0.0.0.ru-2022-04.rur-2022-04.r1, 21.0.0.0.ru-2022-07.rur-2022-07.r1, 21.0.0.0.ru-2022-10.rur-2022-10.r1, 21.0.0.0.ru-2023-01.rur-2023-01.r1 and 21.0.0.0.ru-2023-01.rur-2023-01.r2 DB snapshots)    19.0.0.0.ru-2025-04.rur-2025-04.r1 (supported for 19.0.0.0.ru-2019-07.rur-2019-07.r1, 19.0.0.0.ru-2019-10.rur-2019-10.r1 and 0.0.0.ru-2020-01.rur-2020-01.r1 DB snapshots)    19.0.0.0.ru-2022-01.rur-2022-01.r1 (supported for 12.2.0.1 DB snapshots)    19.0.0.0.ru-2022-07.rur-2022-07.r1 (supported for 12.1.0.2 DB snapshots)    12.1.0.2.v8  (supported for 12.1.0.1 DB snapshots)    11.2.0.4.v12 (supported for 11.2.0.2 DB snapshots)    11.2.0.4.v11 (supported for 11.2.0.3 DB snapshots)    PostgreSQL  For the list of engine versions that are available for upgrading a DB snapshot, see   Upgrading a PostgreSQL DB snapshot engine version in the Amazon RDS User Guide.
         public let engineVersion: String?
         /// The option group to identify with the upgraded DB snapshot. You can specify this parameter when you upgrade an Oracle DB snapshot. The same option group considerations apply when upgrading a DB snapshot as when upgrading a DB instance. For more information, see  Option group considerations in the Amazon RDS User Guide.
         public let optionGroupName: String?
@@ -10202,6 +10378,15 @@ extension RDS {
             self.newGlobalClusterIdentifier = newGlobalClusterIdentifier
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "^[A-Za-z][0-9A-Za-z-:._]*$")
+            try self.validate(self.newGlobalClusterIdentifier, name: "newGlobalClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.newGlobalClusterIdentifier, name: "newGlobalClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.newGlobalClusterIdentifier, name: "newGlobalClusterIdentifier", parent: name, pattern: "^[A-Za-z][0-9A-Za-z-:._]*$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case allowMajorVersionUpgrade = "AllowMajorVersionUpgrade"
             case deletionProtection = "DeletionProtection"
@@ -10253,7 +10438,7 @@ extension RDS {
             try self.validate(self.integrationIdentifier, name: "integrationIdentifier", parent: name, pattern: "^[a-zA-Z0-9_:\\-\\/]+$")
             try self.validate(self.integrationName, name: "integrationName", parent: name, max: 63)
             try self.validate(self.integrationName, name: "integrationName", parent: name, min: 1)
-            try self.validate(self.integrationName, name: "integrationName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
+            try self.validate(self.integrationName, name: "integrationName", parent: name, pattern: "^[a-zA-Z](?:-?[a-zA-Z0-9]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10829,6 +11014,8 @@ extension RDS {
         public let supportsEnhancedMonitoring: Bool?
         /// Indicates whether you can use Aurora global databases with a specific combination of other DB engine attributes.
         public let supportsGlobalDatabases: Bool?
+        /// Indicates whether a DB instance supports HTTP endpoints.
+        public let supportsHttpEndpoint: Bool?
         /// Indicates whether a DB instance supports IAM database authentication.
         public let supportsIAMDatabaseAuthentication: Bool?
         /// Indicates whether a DB instance supports provisioned IOPS.
@@ -10847,7 +11034,7 @@ extension RDS {
         public let vpc: Bool?
 
         @inlinable
-        public init(availabilityZoneGroup: String? = nil, availabilityZones: [AvailabilityZone]? = nil, availableProcessorFeatures: [AvailableProcessorFeature]? = nil, dbInstanceClass: String? = nil, engine: String? = nil, engineVersion: String? = nil, licenseModel: String? = nil, maxIopsPerDbInstance: Int? = nil, maxIopsPerGib: Double? = nil, maxStorageSize: Int? = nil, maxStorageThroughputPerDbInstance: Int? = nil, maxStorageThroughputPerIops: Double? = nil, minIopsPerDbInstance: Int? = nil, minIopsPerGib: Double? = nil, minStorageSize: Int? = nil, minStorageThroughputPerDbInstance: Int? = nil, minStorageThroughputPerIops: Double? = nil, multiAZCapable: Bool? = nil, outpostCapable: Bool? = nil, readReplicaCapable: Bool? = nil, storageType: String? = nil, supportedActivityStreamModes: [String]? = nil, supportedEngineModes: [String]? = nil, supportedNetworkTypes: [String]? = nil, supportsClusters: Bool? = nil, supportsDedicatedLogVolume: Bool? = nil, supportsEnhancedMonitoring: Bool? = nil, supportsGlobalDatabases: Bool? = nil, supportsIAMDatabaseAuthentication: Bool? = nil, supportsIops: Bool? = nil, supportsKerberosAuthentication: Bool? = nil, supportsPerformanceInsights: Bool? = nil, supportsStorageAutoscaling: Bool? = nil, supportsStorageEncryption: Bool? = nil, supportsStorageThroughput: Bool? = nil, vpc: Bool? = nil) {
+        public init(availabilityZoneGroup: String? = nil, availabilityZones: [AvailabilityZone]? = nil, availableProcessorFeatures: [AvailableProcessorFeature]? = nil, dbInstanceClass: String? = nil, engine: String? = nil, engineVersion: String? = nil, licenseModel: String? = nil, maxIopsPerDbInstance: Int? = nil, maxIopsPerGib: Double? = nil, maxStorageSize: Int? = nil, maxStorageThroughputPerDbInstance: Int? = nil, maxStorageThroughputPerIops: Double? = nil, minIopsPerDbInstance: Int? = nil, minIopsPerGib: Double? = nil, minStorageSize: Int? = nil, minStorageThroughputPerDbInstance: Int? = nil, minStorageThroughputPerIops: Double? = nil, multiAZCapable: Bool? = nil, outpostCapable: Bool? = nil, readReplicaCapable: Bool? = nil, storageType: String? = nil, supportedActivityStreamModes: [String]? = nil, supportedEngineModes: [String]? = nil, supportedNetworkTypes: [String]? = nil, supportsClusters: Bool? = nil, supportsDedicatedLogVolume: Bool? = nil, supportsEnhancedMonitoring: Bool? = nil, supportsGlobalDatabases: Bool? = nil, supportsHttpEndpoint: Bool? = nil, supportsIAMDatabaseAuthentication: Bool? = nil, supportsIops: Bool? = nil, supportsKerberosAuthentication: Bool? = nil, supportsPerformanceInsights: Bool? = nil, supportsStorageAutoscaling: Bool? = nil, supportsStorageEncryption: Bool? = nil, supportsStorageThroughput: Bool? = nil, vpc: Bool? = nil) {
             self.availabilityZoneGroup = availabilityZoneGroup
             self.availabilityZones = availabilityZones
             self.availableProcessorFeatures = availableProcessorFeatures
@@ -10876,6 +11063,7 @@ extension RDS {
             self.supportsDedicatedLogVolume = supportsDedicatedLogVolume
             self.supportsEnhancedMonitoring = supportsEnhancedMonitoring
             self.supportsGlobalDatabases = supportsGlobalDatabases
+            self.supportsHttpEndpoint = supportsHttpEndpoint
             self.supportsIAMDatabaseAuthentication = supportsIAMDatabaseAuthentication
             self.supportsIops = supportsIops
             self.supportsKerberosAuthentication = supportsKerberosAuthentication
@@ -10915,6 +11103,7 @@ extension RDS {
             case supportsDedicatedLogVolume = "SupportsDedicatedLogVolume"
             case supportsEnhancedMonitoring = "SupportsEnhancedMonitoring"
             case supportsGlobalDatabases = "SupportsGlobalDatabases"
+            case supportsHttpEndpoint = "SupportsHttpEndpoint"
             case supportsIAMDatabaseAuthentication = "SupportsIAMDatabaseAuthentication"
             case supportsIops = "SupportsIops"
             case supportsKerberosAuthentication = "SupportsKerberosAuthentication"
@@ -11494,7 +11683,7 @@ extension RDS {
         public func validate(name: String) throws {
             try self.validate(self.dbShardGroupIdentifier, name: "dbShardGroupIdentifier", parent: name, max: 63)
             try self.validate(self.dbShardGroupIdentifier, name: "dbShardGroupIdentifier", parent: name, min: 1)
-            try self.validate(self.dbShardGroupIdentifier, name: "dbShardGroupIdentifier", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
+            try self.validate(self.dbShardGroupIdentifier, name: "dbShardGroupIdentifier", parent: name, pattern: "^[a-zA-Z](?:-?[a-zA-Z0-9]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11639,6 +11828,15 @@ extension RDS {
             self.targetGroupName = targetGroupName
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, max: 63)
+            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, min: 1)
+            try self.validate(self.dbProxyName, name: "dbProxyName", parent: name, pattern: "^[a-zA-Z](?:-?[a-zA-Z0-9]+)*$")
+            try self.validate(self.targetGroupName, name: "targetGroupName", parent: name, max: 63)
+            try self.validate(self.targetGroupName, name: "targetGroupName", parent: name, min: 1)
+            try self.validate(self.targetGroupName, name: "targetGroupName", parent: name, pattern: "^[a-zA-Z](?:-?[a-zA-Z0-9]+)*$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dbClusterIdentifiers = "DBClusterIdentifiers"
             case dbInstanceIdentifiers = "DBInstanceIdentifiers"
@@ -11672,6 +11870,12 @@ extension RDS {
         public init(dbClusterIdentifier: String? = nil, globalClusterIdentifier: String? = nil) {
             self.dbClusterIdentifier = dbClusterIdentifier
             self.globalClusterIdentifier = globalClusterIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "^[A-Za-z][0-9A-Za-z-:._]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12607,7 +12811,7 @@ extension RDS {
         public let engineLifecycleSupport: String?
         /// Specifies the amount of provisioned IOPS for the DB instance, expressed in I/O operations per second.  If this parameter isn't specified, the IOPS value is taken from the backup.  If this parameter is set to 0, the new instance is converted to a non-PIOPS instance.  The conversion takes additional time, though your DB instance is available for connections before the conversion starts. The provisioned IOPS value must follow the requirements for your database engine. For more information, see  Amazon RDS Provisioned IOPS storage  in the Amazon RDS User Guide.  Constraints: Must be an integer greater than 1000.
         public let iops: Int?
-        /// License model information for the restored DB instance.  License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see Amazon RDS for Db2 licensing options in the Amazon RDS User Guide.  This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:   RDS for Db2 - bring-your-own-license | marketplace-license    RDS for MariaDB - general-public-license    RDS for Microsoft SQL Server - license-included    RDS for MySQL - general-public-license    RDS for Oracle - bring-your-own-license | license-included    RDS for PostgreSQL - postgresql-license    Default: Same as the source.
+        /// License model information for the restored DB instance.  License models for RDS for Db2 require additional configuration. The bring your own license (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see Amazon RDS for Db2 licensing options in the Amazon RDS User Guide.  This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:   RDS for Db2 - bring-your-own-license | marketplace-license    RDS for MariaDB - general-public-license    RDS for Microsoft SQL Server - license-included    RDS for MySQL - general-public-license    RDS for Oracle - bring-your-own-license | license-included    RDS for PostgreSQL - postgresql-license    Default: Same as the source.
         public let licenseModel: String?
         /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager in the restored DB instance. For more information, see Password management with Amazon Web Services Secrets Manager  in the Amazon RDS User Guide. Constraints:   Applies to RDS for Oracle only.
         public let manageMasterUserPassword: Bool?
@@ -13049,7 +13253,7 @@ extension RDS {
         public let engineLifecycleSupport: String?
         /// The amount of Provisioned IOPS (input/output operations per second) to initially allocate for the DB instance. This setting doesn't apply to SQL Server. Constraints:   Must be an integer greater than 1000.
         public let iops: Int?
-        /// The license model information for the restored DB instance.  License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see Amazon RDS for Db2 licensing options in the Amazon RDS User Guide.  This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:   RDS for Db2 - bring-your-own-license | marketplace-license    RDS for MariaDB - general-public-license    RDS for Microsoft SQL Server - license-included    RDS for MySQL - general-public-license    RDS for Oracle - bring-your-own-license | license-included    RDS for PostgreSQL - postgresql-license    Default: Same as the source.
+        /// The license model information for the restored DB instance.  License models for RDS for Db2 require additional configuration. The bring your own license (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see Amazon RDS for Db2 licensing options in the Amazon RDS User Guide.  This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:   RDS for Db2 - bring-your-own-license | marketplace-license    RDS for MariaDB - general-public-license    RDS for Microsoft SQL Server - license-included    RDS for MySQL - general-public-license    RDS for Oracle - bring-your-own-license | license-included    RDS for PostgreSQL - postgresql-license    Default: Same as the source.
         public let licenseModel: String?
         /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager in the restored DB instance. For more information, see Password management with Amazon Web Services Secrets Manager  in the Amazon RDS User Guide. Constraints:   Applies to RDS for Oracle only.
         public let manageMasterUserPassword: Bool?
@@ -13359,9 +13563,9 @@ extension RDS {
     }
 
     public struct ServerlessV2FeaturesSupport: AWSDecodableShape {
-        ///  Specifies the upper Aurora Serverless v2 capacity limit for a particular engine version. Depending on the engine version, the maximum capacity for an Aurora Serverless v2 cluster might be 256 or 128.
+        ///  Specifies the upper Aurora Serverless v2 capacity limit for a particular engine version or platform version. Depending on the engine version, the maximum capacity for an Aurora Serverless v2 cluster might be 256 or 128.
         public let maxCapacity: Double?
-        /// If the minimum capacity is 0 ACUs, the engine version supports the automatic pause/resume feature of Aurora Serverless v2.
+        /// If the minimum capacity is 0 ACUs, the engine version or platform version supports the automatic pause/resume feature of Aurora Serverless v2.
         public let minCapacity: Double?
 
         @inlinable
@@ -13377,7 +13581,7 @@ extension RDS {
     }
 
     public struct ServerlessV2ScalingConfiguration: AWSEncodableShape {
-        /// The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value that you can use is 256 for recent Aurora versions, or 128 for older versions.
+        /// The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value that you can use is 256 for recent Aurora versions, or 128 for older versions. You can check the attributes of your engine version or platform version to determine the specific maximum capacity supported.
         public let maxCapacity: Double?
         /// The minimum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 8, 8.5, 9, and so on. For Aurora versions that support the Aurora Serverless v2 auto-pause feature, the smallest value that you can use is 0. For versions that don't support Aurora Serverless v2 auto-pause, the smallest value that you can use is 0.5.
         public let minCapacity: Double?
@@ -13399,7 +13603,7 @@ extension RDS {
     }
 
     public struct ServerlessV2ScalingConfigurationInfo: AWSDecodableShape {
-        /// The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value that you can use is 256 for recent Aurora versions, or 128 for older versions.
+        /// The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value that you can use is 256 for recent Aurora versions, or 128 for older versions. You can check the attributes of your engine version or platform version to determine the specific maximum capacity supported.
         public let maxCapacity: Double?
         /// The minimum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 8, 8.5, 9, and so on. For Aurora versions that support the Aurora Serverless v2 auto-pause feature, the smallest value that you can use is 0. For versions that don't support Aurora Serverless v2 auto-pause, the smallest value that you can use is 0.5.
         public let minCapacity: Double?
@@ -14220,6 +14424,16 @@ extension RDS {
             self.iamAuth = iamAuth
             self.secretArn = secretArn
             self.userName = userName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.validate(self.secretArn, name: "secretArn", parent: name, max: 2048)
+            try self.validate(self.secretArn, name: "secretArn", parent: name, min: 20)
+            try self.validate(self.userName, name: "userName", parent: name, max: 128)
+            try self.validate(self.userName, name: "userName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

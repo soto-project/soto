@@ -2051,18 +2051,21 @@ public struct DynamoDB: AWSService {
     ///
     /// Parameters:
     ///   - contributorInsightsAction: Represents the contributor insights action.
+    ///   - contributorInsightsMode: Specifies whether to track all access and throttled events or throttled events only for the DynamoDB table or index.
     ///   - indexName: The global secondary index name, if applicable.
     ///   - tableName: The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateContributorInsights(
         contributorInsightsAction: ContributorInsightsAction,
+        contributorInsightsMode: ContributorInsightsMode? = nil,
         indexName: String? = nil,
         tableName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateContributorInsightsOutput {
         let input = UpdateContributorInsightsInput(
             contributorInsightsAction: contributorInsightsAction, 
+            contributorInsightsMode: contributorInsightsMode, 
             indexName: indexName, 
             tableName: tableName
         )

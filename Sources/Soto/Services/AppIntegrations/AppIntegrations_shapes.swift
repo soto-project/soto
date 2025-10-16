@@ -25,6 +25,12 @@ import Foundation
 extension AppIntegrations {
     // MARK: Enums
 
+    public enum ContactHandlingScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case crossContacts = "CROSS_CONTACTS"
+        case perContact = "PER_CONTACT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExecutionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case onDemand = "ON_DEMAND"
         case scheduled = "SCHEDULED"
@@ -62,6 +68,20 @@ extension AppIntegrations {
         }
     }
 
+    public struct ApplicationConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The contact handling configuration for the application.
+        public let contactHandling: ContactHandling?
+
+        @inlinable
+        public init(contactHandling: ContactHandling? = nil) {
+            self.contactHandling = contactHandling
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactHandling = "ContactHandling"
+        }
+    }
+
     public struct ApplicationSourceConfig: AWSEncodableShape & AWSDecodableShape {
         /// The external URL source for the application.
         public let externalUrlConfig: ExternalUrlConfig?
@@ -87,6 +107,8 @@ extension AppIntegrations {
         public let createdTime: Date?
         /// A unique identifier for the Application.
         public let id: String?
+        /// Indicates whether the application is a service.
+        public let isService: Bool?
         /// The time when the application was last modified.
         public let lastModifiedTime: Date?
         /// The name of the application.
@@ -95,10 +117,11 @@ extension AppIntegrations {
         public let namespace: String?
 
         @inlinable
-        public init(arn: String? = nil, createdTime: Date? = nil, id: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil) {
+        public init(arn: String? = nil, createdTime: Date? = nil, id: String? = nil, isService: Bool? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
+            self.isService = isService
             self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.namespace = namespace
@@ -108,19 +131,42 @@ extension AppIntegrations {
             case arn = "Arn"
             case createdTime = "CreatedTime"
             case id = "Id"
+            case isService = "IsService"
             case lastModifiedTime = "LastModifiedTime"
             case name = "Name"
             case namespace = "Namespace"
         }
     }
 
+    public struct ContactHandling: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether the application refreshes for each contact or refreshes only with each new browser session.
+        public let scope: ContactHandlingScope?
+
+        @inlinable
+        public init(scope: ContactHandlingScope? = nil) {
+            self.scope = scope
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scope = "Scope"
+        }
+    }
+
     public struct CreateApplicationRequest: AWSEncodableShape {
+        /// The configuration settings for the application.
+        public let applicationConfig: ApplicationConfig?
         /// The configuration for where the application should be loaded from.
         public let applicationSourceConfig: ApplicationSourceConfig
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The description of the application.
         public let description: String?
+        /// The iframe configuration for the application.
+        public let iframeConfig: IframeConfig?
+        /// The maximum time in milliseconds allowed to establish a connection with the workspace.
+        public let initializationTimeout: Int?
+        /// Indicates whether the application is a service.
+        public let isService: Bool?
         /// The name of the application.
         public let name: String
         /// The namespace of the application.
@@ -135,10 +181,14 @@ extension AppIntegrations {
         public let tags: [String: String]?
 
         @inlinable
-        public init(applicationSourceConfig: ApplicationSourceConfig, clientToken: String? = CreateApplicationRequest.idempotencyToken(), description: String? = nil, name: String, namespace: String, permissions: [String]? = nil, tags: [String: String]? = nil) {
+        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig, clientToken: String? = CreateApplicationRequest.idempotencyToken(), description: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, isService: Bool? = nil, name: String, namespace: String, permissions: [String]? = nil, tags: [String: String]? = nil) {
+            self.applicationConfig = applicationConfig
             self.applicationSourceConfig = applicationSourceConfig
             self.clientToken = clientToken
             self.description = description
+            self.iframeConfig = iframeConfig
+            self.initializationTimeout = initializationTimeout
+            self.isService = isService
             self.name = name
             self.namespace = namespace
             self.permissions = permissions
@@ -149,10 +199,14 @@ extension AppIntegrations {
 
         @available(*, deprecated, message: "Members publications, subscriptions have been deprecated")
         @inlinable
-        public init(applicationSourceConfig: ApplicationSourceConfig, clientToken: String? = CreateApplicationRequest.idempotencyToken(), description: String? = nil, name: String, namespace: String, permissions: [String]? = nil, publications: [Publication]? = nil, subscriptions: [Subscription]? = nil, tags: [String: String]? = nil) {
+        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig, clientToken: String? = CreateApplicationRequest.idempotencyToken(), description: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, isService: Bool? = nil, name: String, namespace: String, permissions: [String]? = nil, publications: [Publication]? = nil, subscriptions: [Subscription]? = nil, tags: [String: String]? = nil) {
+            self.applicationConfig = applicationConfig
             self.applicationSourceConfig = applicationSourceConfig
             self.clientToken = clientToken
             self.description = description
+            self.iframeConfig = iframeConfig
+            self.initializationTimeout = initializationTimeout
+            self.isService = isService
             self.name = name
             self.namespace = namespace
             self.permissions = permissions
@@ -168,6 +222,9 @@ extension AppIntegrations {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: ".*")
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.iframeConfig?.validate(name: "\(name).iframeConfig")
+            try self.validate(self.initializationTimeout, name: "initializationTimeout", parent: name, max: 600000)
+            try self.validate(self.initializationTimeout, name: "initializationTimeout", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9\\/\\._ \\-]+$")
@@ -199,9 +256,13 @@ extension AppIntegrations {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationConfig = "ApplicationConfig"
             case applicationSourceConfig = "ApplicationSourceConfig"
             case clientToken = "ClientToken"
             case description = "Description"
+            case iframeConfig = "IframeConfig"
+            case initializationTimeout = "InitializationTimeout"
+            case isService = "IsService"
             case name = "Name"
             case namespace = "Namespace"
             case permissions = "Permissions"
@@ -870,6 +931,8 @@ extension AppIntegrations {
     }
 
     public struct GetApplicationResponse: AWSDecodableShape {
+        /// The configuration settings for the application.
+        public let applicationConfig: ApplicationConfig?
         /// The configuration for where the application should be loaded from.
         public let applicationSourceConfig: ApplicationSourceConfig?
         /// The Amazon Resource Name (ARN) of the Application.
@@ -880,6 +943,12 @@ extension AppIntegrations {
         public let description: String?
         /// A unique identifier for the Application.
         public let id: String?
+        /// The iframe configuration for the application.
+        public let iframeConfig: IframeConfig?
+        /// The maximum time in milliseconds allowed to establish a connection with the workspace.
+        public let initializationTimeout: Int?
+        /// Indicates whether the application is a service.
+        public let isService: Bool?
         /// The last modified time of the Application.
         public let lastModifiedTime: Date?
         /// The name of the application.
@@ -896,12 +965,16 @@ extension AppIntegrations {
         public let tags: [String: String]?
 
         @inlinable
-        public init(applicationSourceConfig: ApplicationSourceConfig? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, id: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil, permissions: [String]? = nil, tags: [String: String]? = nil) {
+        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, id: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, isService: Bool? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil, permissions: [String]? = nil, tags: [String: String]? = nil) {
+            self.applicationConfig = applicationConfig
             self.applicationSourceConfig = applicationSourceConfig
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
             self.id = id
+            self.iframeConfig = iframeConfig
+            self.initializationTimeout = initializationTimeout
+            self.isService = isService
             self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.namespace = namespace
@@ -913,12 +986,16 @@ extension AppIntegrations {
 
         @available(*, deprecated, message: "Members publications, subscriptions have been deprecated")
         @inlinable
-        public init(applicationSourceConfig: ApplicationSourceConfig? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, id: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil, permissions: [String]? = nil, publications: [Publication]? = nil, subscriptions: [Subscription]? = nil, tags: [String: String]? = nil) {
+        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, id: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, isService: Bool? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil, permissions: [String]? = nil, publications: [Publication]? = nil, subscriptions: [Subscription]? = nil, tags: [String: String]? = nil) {
+            self.applicationConfig = applicationConfig
             self.applicationSourceConfig = applicationSourceConfig
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
             self.id = id
+            self.iframeConfig = iframeConfig
+            self.initializationTimeout = initializationTimeout
+            self.isService = isService
             self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.namespace = namespace
@@ -929,11 +1006,15 @@ extension AppIntegrations {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationConfig = "ApplicationConfig"
             case applicationSourceConfig = "ApplicationSourceConfig"
             case arn = "Arn"
             case createdTime = "CreatedTime"
             case description = "Description"
             case id = "Id"
+            case iframeConfig = "IframeConfig"
+            case initializationTimeout = "InitializationTimeout"
+            case isService = "IsService"
             case lastModifiedTime = "LastModifiedTime"
             case name = "Name"
             case namespace = "Namespace"
@@ -1073,6 +1154,39 @@ extension AppIntegrations {
             case eventIntegrationArn = "EventIntegrationArn"
             case name = "Name"
             case tags = "Tags"
+        }
+    }
+
+    public struct IframeConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The list of features that are allowed in the iframe.
+        public let allow: [String]?
+        /// The list of sandbox attributes for the iframe.
+        public let sandbox: [String]?
+
+        @inlinable
+        public init(allow: [String]? = nil, sandbox: [String]? = nil) {
+            self.allow = allow
+            self.sandbox = sandbox
+        }
+
+        public func validate(name: String) throws {
+            try self.allow?.forEach {
+                try validate($0, name: "allow[]", parent: name, max: 100)
+                try validate($0, name: "allow[]", parent: name, min: 1)
+                try validate($0, name: "allow[]", parent: name, pattern: "^[a-z-]+$")
+            }
+            try self.validate(self.allow, name: "allow", parent: name, max: 25)
+            try self.sandbox?.forEach {
+                try validate($0, name: "sandbox[]", parent: name, max: 100)
+                try validate($0, name: "sandbox[]", parent: name, min: 1)
+                try validate($0, name: "sandbox[]", parent: name, pattern: "^[a-z-]+$")
+            }
+            try self.validate(self.sandbox, name: "sandbox", parent: name, max: 25)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allow = "Allow"
+            case sandbox = "Sandbox"
         }
     }
 
@@ -1649,12 +1763,20 @@ extension AppIntegrations {
     }
 
     public struct UpdateApplicationRequest: AWSEncodableShape {
+        /// The configuration settings for the application.
+        public let applicationConfig: ApplicationConfig?
         /// The configuration for where the application should be loaded from.
         public let applicationSourceConfig: ApplicationSourceConfig?
         /// The Amazon Resource Name (ARN) of the Application.
         public let arn: String
         /// The description of the application.
         public let description: String?
+        /// The iframe configuration for the application.
+        public let iframeConfig: IframeConfig?
+        /// The maximum time in milliseconds allowed to establish a connection with the workspace.
+        public let initializationTimeout: Int?
+        /// Indicates whether the application is a service.
+        public let isService: Bool?
         /// The name of the application.
         public let name: String?
         /// The configuration of events or requests that the application has access to.
@@ -1665,10 +1787,14 @@ extension AppIntegrations {
         public let subscriptions: [Subscription]?
 
         @inlinable
-        public init(applicationSourceConfig: ApplicationSourceConfig? = nil, arn: String, description: String? = nil, name: String? = nil, permissions: [String]? = nil) {
+        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig? = nil, arn: String, description: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, isService: Bool? = nil, name: String? = nil, permissions: [String]? = nil) {
+            self.applicationConfig = applicationConfig
             self.applicationSourceConfig = applicationSourceConfig
             self.arn = arn
             self.description = description
+            self.iframeConfig = iframeConfig
+            self.initializationTimeout = initializationTimeout
+            self.isService = isService
             self.name = name
             self.permissions = permissions
             self.publications = nil
@@ -1677,10 +1803,14 @@ extension AppIntegrations {
 
         @available(*, deprecated, message: "Members publications, subscriptions have been deprecated")
         @inlinable
-        public init(applicationSourceConfig: ApplicationSourceConfig? = nil, arn: String, description: String? = nil, name: String? = nil, permissions: [String]? = nil, publications: [Publication]? = nil, subscriptions: [Subscription]? = nil) {
+        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig? = nil, arn: String, description: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, isService: Bool? = nil, name: String? = nil, permissions: [String]? = nil, publications: [Publication]? = nil, subscriptions: [Subscription]? = nil) {
+            self.applicationConfig = applicationConfig
             self.applicationSourceConfig = applicationSourceConfig
             self.arn = arn
             self.description = description
+            self.iframeConfig = iframeConfig
+            self.initializationTimeout = initializationTimeout
+            self.isService = isService
             self.name = name
             self.permissions = permissions
             self.publications = publications
@@ -1690,9 +1820,13 @@ extension AppIntegrations {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.applicationConfig, forKey: .applicationConfig)
             try container.encodeIfPresent(self.applicationSourceConfig, forKey: .applicationSourceConfig)
             request.encodePath(self.arn, key: "Arn")
             try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.iframeConfig, forKey: .iframeConfig)
+            try container.encodeIfPresent(self.initializationTimeout, forKey: .initializationTimeout)
+            try container.encodeIfPresent(self.isService, forKey: .isService)
             try container.encodeIfPresent(self.name, forKey: .name)
             try container.encodeIfPresent(self.permissions, forKey: .permissions)
             try container.encodeIfPresent(self.publications, forKey: .publications)
@@ -1706,6 +1840,9 @@ extension AppIntegrations {
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})(:[\\w\\$]+)?$")
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.iframeConfig?.validate(name: "\(name).iframeConfig")
+            try self.validate(self.initializationTimeout, name: "initializationTimeout", parent: name, max: 600000)
+            try self.validate(self.initializationTimeout, name: "initializationTimeout", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9\\/\\._ \\-]+$")
@@ -1726,8 +1863,12 @@ extension AppIntegrations {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationConfig = "ApplicationConfig"
             case applicationSourceConfig = "ApplicationSourceConfig"
             case description = "Description"
+            case iframeConfig = "IframeConfig"
+            case initializationTimeout = "InitializationTimeout"
+            case isService = "IsService"
             case name = "Name"
             case permissions = "Permissions"
             case publications = "Publications"

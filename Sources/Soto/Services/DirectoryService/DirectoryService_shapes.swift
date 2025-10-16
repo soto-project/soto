@@ -25,6 +25,16 @@ import Foundation
 extension DirectoryService {
     // MARK: Enums
 
+    public enum CaEnrollmentPolicyStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "Disabled"
+        case disabling = "Disabling"
+        case failed = "Failed"
+        case impaired = "Impaired"
+        case inProgress = "InProgress"
+        case success = "Success"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CertificateState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deregisterFailed = "DeregisterFailed"
         case deregistered = "Deregistered"
@@ -73,6 +83,7 @@ extension DirectoryService {
 
     public enum DirectoryEdition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case enterprise = "Enterprise"
+        case hybrid = "Hybrid"
         case standard = "Standard"
         public var description: String { return self.rawValue }
     }
@@ -119,6 +130,12 @@ extension DirectoryService {
         public var description: String { return self.rawValue }
     }
 
+    public enum HybridUpdateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case hybridAdministratorAccount = "HybridAdministratorAccount"
+        case selfManagedInstances = "SelfManagedInstances"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IpRouteStatusMsg: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case addFailed = "AddFailed"
         case added = "Added"
@@ -139,6 +156,13 @@ extension DirectoryService {
 
     public enum LDAPSType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case client = "Client"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NetworkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dualStack = "Dual-stack"
+        case ipv4Only = "IPv4"
+        case ipv6Only = "IPv6"
         public var description: String { return self.rawValue }
     }
 
@@ -274,11 +298,29 @@ extension DirectoryService {
     }
 
     public enum UpdateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case network = "NETWORK"
         case os = "OS"
+        case size = "SIZE"
         public var description: String { return self.rawValue }
     }
 
     // MARK: Shapes
+
+    public struct ADAssessmentLimitExceededException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
 
     public struct AcceptSharedDirectoryRequest: AWSEncodableShape {
         /// Identifier of the shared directory in the directory consumer account. This identifier is different for each directory owner account.
@@ -420,6 +462,223 @@ extension DirectoryService {
 
     public struct AddTagsToResourceResult: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct Assessment: AWSDecodableShape {
+        /// The unique identifier of the directory assessment.
+        public let assessmentId: String?
+        /// The IP addresses of the DNS servers or domain controllers in your self-managed AD environment.
+        public let customerDnsIps: [String]?
+        /// The identifier of the directory associated with this assessment.
+        public let directoryId: String?
+        /// The fully qualified domain name (FQDN) of the Active Directory domain being assessed.
+        public let dnsName: String?
+        /// The date and time when the assessment status was last updated.
+        public let lastUpdateDateTime: Date?
+        /// The type of assessment report generated. Valid values are CUSTOMER and SYSTEM.
+        public let reportType: String?
+        /// The security groups identifiers attached to the network interfaces.
+        public let securityGroupIds: [String]?
+        /// The identifiers of the self-managed AD instances used to perform the assessment.
+        public let selfManagedInstanceIds: [String]?
+        /// The date and time when the assessment was initiated.
+        public let startTime: Date?
+        /// The current status of the assessment. Valid values include SUCCESS, FAILED, PENDING, and IN_PROGRESS.
+        public let status: String?
+        /// A detailed status code providing additional information about the assessment state.
+        public let statusCode: String?
+        /// A human-readable description of the current assessment status, including any error details or progress information.
+        public let statusReason: String?
+        /// A list of subnet identifiers in the Amazon VPC in which the hybrid directory is created.
+        public let subnetIds: [String]?
+        /// The version of the assessment framework used to evaluate your self-managed AD environment.
+        public let version: String?
+        /// Contains Amazon VPC information for the StartADAssessment operation.
+        public let vpcId: String?
+
+        @inlinable
+        public init(assessmentId: String? = nil, customerDnsIps: [String]? = nil, directoryId: String? = nil, dnsName: String? = nil, lastUpdateDateTime: Date? = nil, reportType: String? = nil, securityGroupIds: [String]? = nil, selfManagedInstanceIds: [String]? = nil, startTime: Date? = nil, status: String? = nil, statusCode: String? = nil, statusReason: String? = nil, subnetIds: [String]? = nil, version: String? = nil, vpcId: String? = nil) {
+            self.assessmentId = assessmentId
+            self.customerDnsIps = customerDnsIps
+            self.directoryId = directoryId
+            self.dnsName = dnsName
+            self.lastUpdateDateTime = lastUpdateDateTime
+            self.reportType = reportType
+            self.securityGroupIds = securityGroupIds
+            self.selfManagedInstanceIds = selfManagedInstanceIds
+            self.startTime = startTime
+            self.status = status
+            self.statusCode = statusCode
+            self.statusReason = statusReason
+            self.subnetIds = subnetIds
+            self.version = version
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentId = "AssessmentId"
+            case customerDnsIps = "CustomerDnsIps"
+            case directoryId = "DirectoryId"
+            case dnsName = "DnsName"
+            case lastUpdateDateTime = "LastUpdateDateTime"
+            case reportType = "ReportType"
+            case securityGroupIds = "SecurityGroupIds"
+            case selfManagedInstanceIds = "SelfManagedInstanceIds"
+            case startTime = "StartTime"
+            case status = "Status"
+            case statusCode = "StatusCode"
+            case statusReason = "StatusReason"
+            case subnetIds = "SubnetIds"
+            case version = "Version"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public struct AssessmentConfiguration: AWSEncodableShape {
+        /// A list of IP addresses for the DNS servers or domain controllers in your self-managed AD that are tested during the assessment.
+        public let customerDnsIps: [String]
+        /// The fully qualified domain name (FQDN) of the self-managed AD domain to assess.
+        public let dnsName: String
+        /// The identifiers of the self-managed instances with SSM that are used to perform connectivity and validation tests.
+        public let instanceIds: [String]
+        /// By default, the service attaches a security group to allow network access to the self-managed nodes in your Amazon VPC. You can optionally supply your own security group that allows network traffic to and from your self-managed domain controllers outside of your Amazon VPC.
+        public let securityGroupIds: [String]?
+        public let vpcSettings: DirectoryVpcSettings
+
+        @inlinable
+        public init(customerDnsIps: [String], dnsName: String, instanceIds: [String], securityGroupIds: [String]? = nil, vpcSettings: DirectoryVpcSettings) {
+            self.customerDnsIps = customerDnsIps
+            self.dnsName = dnsName
+            self.instanceIds = instanceIds
+            self.securityGroupIds = securityGroupIds
+            self.vpcSettings = vpcSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.customerDnsIps.forEach {
+                try validate($0, name: "customerDnsIps[]", parent: name, pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
+            }
+            try self.validate(self.customerDnsIps, name: "customerDnsIps", parent: name, max: 2)
+            try self.validate(self.customerDnsIps, name: "customerDnsIps", parent: name, min: 2)
+            try self.validate(self.dnsName, name: "dnsName", parent: name, pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+$")
+            try self.instanceIds.forEach {
+                try validate($0, name: "instanceIds[]", parent: name, pattern: "^(i-[0-9a-f]{8}|i-[0-9a-f]{17}|mi-[0-9a-f]{8}|mi-[0-9a-f]{17})$")
+            }
+            try self.validate(self.instanceIds, name: "instanceIds", parent: name, max: 2)
+            try self.validate(self.instanceIds, name: "instanceIds", parent: name, min: 2)
+            try self.securityGroupIds?.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^(sg-[0-9a-f]{8}|sg-[0-9a-f]{17})$")
+            }
+            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 1)
+            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, min: 1)
+            try self.vpcSettings.validate(name: "\(name).vpcSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerDnsIps = "CustomerDnsIps"
+            case dnsName = "DnsName"
+            case instanceIds = "InstanceIds"
+            case securityGroupIds = "SecurityGroupIds"
+            case vpcSettings = "VpcSettings"
+        }
+    }
+
+    public struct AssessmentReport: AWSDecodableShape {
+        /// The IP address of the domain controller that was tested during the assessment.
+        public let domainControllerIp: String?
+        /// A list of validation results for different test categories performed against this domain controller.
+        public let validations: [AssessmentValidation]?
+
+        @inlinable
+        public init(domainControllerIp: String? = nil, validations: [AssessmentValidation]? = nil) {
+            self.domainControllerIp = domainControllerIp
+            self.validations = validations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainControllerIp = "DomainControllerIp"
+            case validations = "Validations"
+        }
+    }
+
+    public struct AssessmentSummary: AWSDecodableShape {
+        /// The unique identifier of the directory assessment.
+        public let assessmentId: String?
+        /// The IP addresses of the DNS servers or domain controllers in your self-managed AD environment.
+        public let customerDnsIps: [String]?
+        /// The identifier of the directory associated with this assessment.
+        public let directoryId: String?
+        /// The fully qualified domain name (FQDN) of the Active Directory domain being assessed.
+        public let dnsName: String?
+        /// The date and time when the assessment status was last updated.
+        public let lastUpdateDateTime: Date?
+        /// The type of assessment report generated. Valid values include CUSTOMER and SYSTEM.
+        public let reportType: String?
+        /// The date and time when the assessment was initiated.
+        public let startTime: Date?
+        /// The current status of the assessment. Valid values include SUCCESS, FAILED, PENDING, and IN_PROGRESS.
+        public let status: String?
+
+        @inlinable
+        public init(assessmentId: String? = nil, customerDnsIps: [String]? = nil, directoryId: String? = nil, dnsName: String? = nil, lastUpdateDateTime: Date? = nil, reportType: String? = nil, startTime: Date? = nil, status: String? = nil) {
+            self.assessmentId = assessmentId
+            self.customerDnsIps = customerDnsIps
+            self.directoryId = directoryId
+            self.dnsName = dnsName
+            self.lastUpdateDateTime = lastUpdateDateTime
+            self.reportType = reportType
+            self.startTime = startTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentId = "AssessmentId"
+            case customerDnsIps = "CustomerDnsIps"
+            case directoryId = "DirectoryId"
+            case dnsName = "DnsName"
+            case lastUpdateDateTime = "LastUpdateDateTime"
+            case reportType = "ReportType"
+            case startTime = "StartTime"
+            case status = "Status"
+        }
+    }
+
+    public struct AssessmentValidation: AWSDecodableShape {
+        /// The category of the validation test.
+        public let category: String?
+        /// The date and time when the validation test was completed or last updated.
+        public let lastUpdateDateTime: Date?
+        /// The name of the specific validation test performed within the category.
+        public let name: String?
+        /// The date and time when the validation test was started.
+        public let startTime: Date?
+        /// The result status of the validation test. Valid values include SUCCESS, FAILED, PENDING, and IN_PROGRESS.
+        public let status: String?
+        /// A detailed status code providing additional information about the validation result.
+        public let statusCode: String?
+        /// A human-readable description of the validation result, including any error details or recommendations.
+        public let statusReason: String?
+
+        @inlinable
+        public init(category: String? = nil, lastUpdateDateTime: Date? = nil, name: String? = nil, startTime: Date? = nil, status: String? = nil, statusCode: String? = nil, statusReason: String? = nil) {
+            self.category = category
+            self.lastUpdateDateTime = lastUpdateDateTime
+            self.name = name
+            self.startTime = startTime
+            self.status = status
+            self.statusCode = statusCode
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "Category"
+            case lastUpdateDateTime = "LastUpdateDateTime"
+            case name = "Name"
+            case startTime = "StartTime"
+            case status = "Status"
+            case statusCode = "StatusCode"
+            case statusReason = "StatusReason"
+        }
     }
 
     public struct Attribute: AWSEncodableShape & AWSDecodableShape {
@@ -708,20 +967,24 @@ extension DirectoryService {
     public struct ConditionalForwarder: AWSDecodableShape {
         /// The IP addresses of the remote DNS server associated with RemoteDomainName. This is the IP address of the DNS server that your conditional forwarder points to.
         public let dnsIpAddrs: [String]?
+        /// The IPv6 addresses of the remote DNS server associated with RemoteDomainName. This is the IPv6 address of the DNS server that your conditional forwarder points to.
+        public let dnsIpv6Addrs: [String]?
         /// The fully qualified domain name (FQDN) of the remote domains pointed to by the conditional forwarder.
         public let remoteDomainName: String?
         /// The replication scope of the conditional forwarder. The only allowed value is Domain, which will replicate the conditional forwarder to all of the domain controllers for your Amazon Web Services directory.
         public let replicationScope: ReplicationScope?
 
         @inlinable
-        public init(dnsIpAddrs: [String]? = nil, remoteDomainName: String? = nil, replicationScope: ReplicationScope? = nil) {
+        public init(dnsIpAddrs: [String]? = nil, dnsIpv6Addrs: [String]? = nil, remoteDomainName: String? = nil, replicationScope: ReplicationScope? = nil) {
             self.dnsIpAddrs = dnsIpAddrs
+            self.dnsIpv6Addrs = dnsIpv6Addrs
             self.remoteDomainName = remoteDomainName
             self.replicationScope = replicationScope
         }
 
         private enum CodingKeys: String, CodingKey {
             case dnsIpAddrs = "DnsIpAddrs"
+            case dnsIpv6Addrs = "DnsIpv6Addrs"
             case remoteDomainName = "RemoteDomainName"
             case replicationScope = "ReplicationScope"
         }
@@ -734,6 +997,8 @@ extension DirectoryService {
         public let description: String?
         /// The fully qualified name of your self-managed directory, such as corp.example.com.
         public let name: String
+        /// The network type for your directory. The default value is IPv4 or IPv6 based on the provided subnet capabilities.
+        public let networkType: NetworkType?
         /// The password for your self-managed user account.
         public let password: String
         /// The NetBIOS name of your self-managed directory, such as CORP.
@@ -744,10 +1009,11 @@ extension DirectoryService {
         public let tags: [Tag]?
 
         @inlinable
-        public init(connectSettings: DirectoryConnectSettings, description: String? = nil, name: String, password: String, shortName: String? = nil, size: DirectorySize, tags: [Tag]? = nil) {
+        public init(connectSettings: DirectoryConnectSettings, description: String? = nil, name: String, networkType: NetworkType? = nil, password: String, shortName: String? = nil, size: DirectorySize, tags: [Tag]? = nil) {
             self.connectSettings = connectSettings
             self.description = description
             self.name = name
+            self.networkType = networkType
             self.password = password
             self.shortName = shortName
             self.size = size
@@ -771,6 +1037,7 @@ extension DirectoryService {
             case connectSettings = "ConnectSettings"
             case description = "Description"
             case name = "Name"
+            case networkType = "NetworkType"
             case password = "Password"
             case shortName = "ShortName"
             case size = "Size"
@@ -897,21 +1164,27 @@ extension DirectoryService {
         /// The directory ID of the Amazon Web Services directory for which you are creating the conditional forwarder.
         public let directoryId: String
         /// The IP addresses of the remote DNS server associated with RemoteDomainName.
-        public let dnsIpAddrs: [String]
+        public let dnsIpAddrs: [String]?
+        /// The IPv6 addresses of the remote DNS server associated with RemoteDomainName.
+        public let dnsIpv6Addrs: [String]?
         /// The fully qualified domain name (FQDN) of the remote domain with which you will set up a trust relationship.
         public let remoteDomainName: String
 
         @inlinable
-        public init(directoryId: String, dnsIpAddrs: [String], remoteDomainName: String) {
+        public init(directoryId: String, dnsIpAddrs: [String]? = nil, dnsIpv6Addrs: [String]? = nil, remoteDomainName: String) {
             self.directoryId = directoryId
             self.dnsIpAddrs = dnsIpAddrs
+            self.dnsIpv6Addrs = dnsIpv6Addrs
             self.remoteDomainName = remoteDomainName
         }
 
         public func validate(name: String) throws {
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
-            try self.dnsIpAddrs.forEach {
+            try self.dnsIpAddrs?.forEach {
                 try validate($0, name: "dnsIpAddrs[]", parent: name, pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
+            }
+            try self.dnsIpv6Addrs?.forEach {
+                try validate($0, name: "dnsIpv6Addrs[]", parent: name, pattern: "^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$")
             }
             try self.validate(self.remoteDomainName, name: "remoteDomainName", parent: name, max: 1024)
             try self.validate(self.remoteDomainName, name: "remoteDomainName", parent: name, pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+[.]?$")
@@ -920,6 +1193,7 @@ extension DirectoryService {
         private enum CodingKeys: String, CodingKey {
             case directoryId = "DirectoryId"
             case dnsIpAddrs = "DnsIpAddrs"
+            case dnsIpv6Addrs = "DnsIpv6Addrs"
             case remoteDomainName = "RemoteDomainName"
         }
     }
@@ -933,6 +1207,8 @@ extension DirectoryService {
         public let description: String?
         /// The fully qualified name for the directory, such as corp.example.com.
         public let name: String
+        /// The network type for your directory. Simple AD supports IPv4 and Dual-stack only.
+        public let networkType: NetworkType?
         /// The password for the directory administrator. The directory creation process creates a directory administrator account with the user name Administrator and this password. If you need to change the password for the administrator account, you can use the ResetUserPassword API call. The regex pattern for this string is made up of the following conditions:   Length (?=^.{8,64}$) – Must be between 8 and 64 characters   AND any 3 of the following password complexity rules required by Active Directory:   Numbers and upper case and lowercase (?=.*\d)(?=.*[A-Z])(?=.*[a-z])   Numbers and special characters and lower case (?=.*\d)(?=.*[^A-Za-z0-9\s])(?=.*[a-z])   Special characters and upper case and lower case (?=.*[^A-Za-z0-9\s])(?=.*[A-Z])(?=.*[a-z])   Numbers and upper case and special characters (?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9\s])   For additional information about how Active Directory passwords are enforced, see Password must meet complexity requirements on the Microsoft website.
         public let password: String
         /// The NetBIOS name of the directory, such as CORP.
@@ -945,9 +1221,10 @@ extension DirectoryService {
         public let vpcSettings: DirectoryVpcSettings?
 
         @inlinable
-        public init(description: String? = nil, name: String, password: String, shortName: String? = nil, size: DirectorySize, tags: [Tag]? = nil, vpcSettings: DirectoryVpcSettings? = nil) {
+        public init(description: String? = nil, name: String, networkType: NetworkType? = nil, password: String, shortName: String? = nil, size: DirectorySize, tags: [Tag]? = nil, vpcSettings: DirectoryVpcSettings? = nil) {
             self.description = description
             self.name = name
+            self.networkType = networkType
             self.password = password
             self.shortName = shortName
             self.size = size
@@ -970,6 +1247,7 @@ extension DirectoryService {
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case name = "Name"
+            case networkType = "NetworkType"
             case password = "Password"
             case shortName = "ShortName"
             case size = "Size"
@@ -980,6 +1258,50 @@ extension DirectoryService {
 
     public struct CreateDirectoryResult: AWSDecodableShape {
         /// The identifier of the directory that was created.
+        public let directoryId: String?
+
+        @inlinable
+        public init(directoryId: String? = nil) {
+            self.directoryId = directoryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+        }
+    }
+
+    public struct CreateHybridADRequest: AWSEncodableShape {
+        /// The unique identifier of the successful directory assessment that validates your self-managed AD environment. You must have a successful directory assessment before you create a hybrid directory.
+        public let assessmentId: String
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the credentials for the service account used to join hybrid domain controllers to your self-managed AD domain. This secret is used once and not stored. The secret must contain key-value pairs with keys matching customerAdAdminDomainUsername and customerAdAdminDomainPassword. For example: {"customerAdAdminDomainUsername":"carlos_salazar","customerAdAdminDomainPassword":"ExamplePassword123!"}.
+        public let secretArn: String
+        /// The tags to be assigned to the directory. Each tag consists of a key and value pair. You can specify multiple tags as a list.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(assessmentId: String, secretArn: String, tags: [Tag]? = nil) {
+            self.assessmentId = assessmentId
+            self.secretArn = secretArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assessmentId, name: "assessmentId", parent: name, pattern: "^da-[0-9a-f]{18}$")
+            try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "^arn:aws:secretsmanager:[a-z0-9-]+:\\d{12}:secret:[a-zA-Z0-9/_+=.@-]+-[a-zA-Z0-9]{6}$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentId = "AssessmentId"
+            case secretArn = "SecretArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateHybridADResult: AWSDecodableShape {
+        /// The unique identifier of the newly created hybrid directory.
         public let directoryId: String?
 
         @inlinable
@@ -1028,6 +1350,8 @@ extension DirectoryService {
         public let edition: DirectoryEdition?
         /// The fully qualified domain name for the Managed Microsoft AD directory, such as corp.example.com. This name will resolve inside your VPC only. It does not need to be publicly resolvable.
         public let name: String
+        ///  The network type for your domain. The default value is IPv4 or IPv6 based on the provided subnet capabilities.
+        public let networkType: NetworkType?
         /// The password for the default administrative user named Admin. If you need to change the password for the administrator account, you can use the ResetUserPassword API call.
         public let password: String
         /// The NetBIOS name for your domain, such as CORP. If you don't specify a NetBIOS name, it will default to the first part of your directory DNS. For example, CORP for the directory DNS corp.example.com.
@@ -1038,10 +1362,11 @@ extension DirectoryService {
         public let vpcSettings: DirectoryVpcSettings
 
         @inlinable
-        public init(description: String? = nil, edition: DirectoryEdition? = nil, name: String, password: String, shortName: String? = nil, tags: [Tag]? = nil, vpcSettings: DirectoryVpcSettings) {
+        public init(description: String? = nil, edition: DirectoryEdition? = nil, name: String, networkType: NetworkType? = nil, password: String, shortName: String? = nil, tags: [Tag]? = nil, vpcSettings: DirectoryVpcSettings) {
             self.description = description
             self.edition = edition
             self.name = name
+            self.networkType = networkType
             self.password = password
             self.shortName = shortName
             self.tags = tags
@@ -1064,6 +1389,7 @@ extension DirectoryService {
             case description = "Description"
             case edition = "Edition"
             case name = "Name"
+            case networkType = "NetworkType"
             case password = "Password"
             case shortName = "ShortName"
             case tags = "Tags"
@@ -1126,6 +1452,8 @@ extension DirectoryService {
     public struct CreateTrustRequest: AWSEncodableShape {
         /// The IP addresses of the remote DNS server associated with RemoteDomainName.
         public let conditionalForwarderIpAddrs: [String]?
+        /// The IPv6 addresses of the remote DNS server associated with RemoteDomainName.
+        public let conditionalForwarderIpv6Addrs: [String]?
         /// The Directory ID of the Managed Microsoft AD directory for which to establish the trust relationship.
         public let directoryId: String
         /// The Fully Qualified Domain Name (FQDN) of the external domain for which to create the trust relationship.
@@ -1140,8 +1468,9 @@ extension DirectoryService {
         public let trustType: TrustType?
 
         @inlinable
-        public init(conditionalForwarderIpAddrs: [String]? = nil, directoryId: String, remoteDomainName: String, selectiveAuth: SelectiveAuth? = nil, trustDirection: TrustDirection, trustPassword: String, trustType: TrustType? = nil) {
+        public init(conditionalForwarderIpAddrs: [String]? = nil, conditionalForwarderIpv6Addrs: [String]? = nil, directoryId: String, remoteDomainName: String, selectiveAuth: SelectiveAuth? = nil, trustDirection: TrustDirection, trustPassword: String, trustType: TrustType? = nil) {
             self.conditionalForwarderIpAddrs = conditionalForwarderIpAddrs
+            self.conditionalForwarderIpv6Addrs = conditionalForwarderIpv6Addrs
             self.directoryId = directoryId
             self.remoteDomainName = remoteDomainName
             self.selectiveAuth = selectiveAuth
@@ -1154,6 +1483,9 @@ extension DirectoryService {
             try self.conditionalForwarderIpAddrs?.forEach {
                 try validate($0, name: "conditionalForwarderIpAddrs[]", parent: name, pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
             }
+            try self.conditionalForwarderIpv6Addrs?.forEach {
+                try validate($0, name: "conditionalForwarderIpv6Addrs[]", parent: name, pattern: "^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$")
+            }
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
             try self.validate(self.remoteDomainName, name: "remoteDomainName", parent: name, max: 1024)
             try self.validate(self.remoteDomainName, name: "remoteDomainName", parent: name, pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+[.]?$")
@@ -1164,6 +1496,7 @@ extension DirectoryService {
 
         private enum CodingKeys: String, CodingKey {
             case conditionalForwarderIpAddrs = "ConditionalForwarderIpAddrs"
+            case conditionalForwarderIpv6Addrs = "ConditionalForwarderIpv6Addrs"
             case directoryId = "DirectoryId"
             case remoteDomainName = "RemoteDomainName"
             case selectiveAuth = "SelectiveAuth"
@@ -1184,6 +1517,38 @@ extension DirectoryService {
 
         private enum CodingKeys: String, CodingKey {
             case trustId = "TrustId"
+        }
+    }
+
+    public struct DeleteADAssessmentRequest: AWSEncodableShape {
+        /// The unique identifier of the directory assessment to delete.
+        public let assessmentId: String
+
+        @inlinable
+        public init(assessmentId: String) {
+            self.assessmentId = assessmentId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assessmentId, name: "assessmentId", parent: name, pattern: "^da-[0-9a-f]{18}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentId = "AssessmentId"
+        }
+    }
+
+    public struct DeleteADAssessmentResult: AWSDecodableShape {
+        /// The unique identifier of the deleted directory assessment.
+        public let assessmentId: String?
+
+        @inlinable
+        public init(assessmentId: String? = nil) {
+            self.assessmentId = assessmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentId = "AssessmentId"
         }
     }
 
@@ -1391,6 +1756,90 @@ extension DirectoryService {
 
     public struct DeregisterEventTopicResult: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DescribeADAssessmentRequest: AWSEncodableShape {
+        /// The identifier of the directory assessment to describe.
+        public let assessmentId: String
+
+        @inlinable
+        public init(assessmentId: String) {
+            self.assessmentId = assessmentId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assessmentId, name: "assessmentId", parent: name, pattern: "^da-[0-9a-f]{18}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentId = "AssessmentId"
+        }
+    }
+
+    public struct DescribeADAssessmentResult: AWSDecodableShape {
+        /// Detailed information about the self-managed instance settings (IDs and DNS IPs).
+        public let assessment: Assessment?
+        /// A list of assessment reports containing validation results for each domain controller and test category. Each report includes specific validation details and outcomes.
+        public let assessmentReports: [AssessmentReport]?
+
+        @inlinable
+        public init(assessment: Assessment? = nil, assessmentReports: [AssessmentReport]? = nil) {
+            self.assessment = assessment
+            self.assessmentReports = assessmentReports
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessment = "Assessment"
+            case assessmentReports = "AssessmentReports"
+        }
+    }
+
+    public struct DescribeCAEnrollmentPolicyRequest: AWSEncodableShape {
+        /// The identifier of the directory for which to retrieve the CA enrollment policy information.
+        public let directoryId: String
+
+        @inlinable
+        public init(directoryId: String) {
+            self.directoryId = directoryId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+        }
+    }
+
+    public struct DescribeCAEnrollmentPolicyResult: AWSDecodableShape {
+        /// The current status of the CA enrollment policy. This indicates if automatic certificate enrollment is currently active, inactive, or in a transitional state. Valid values:    IN_PROGRESS - The policy is being activated T    SUCCESS - The policy is active and automatic certificate enrollment is operational    FAILED - The policy activation or deactivation failed    DISABLING - The policy is being deactivated    DISABLED - The policy is inactive and automatic certificate enrollment is not available    IMPAIRED - Network connectivity is impaired.
+        public let caEnrollmentPolicyStatus: CaEnrollmentPolicyStatus?
+        /// Additional information explaining the current status of the CA enrollment policy, particularly useful when the policy is in an error or transitional state.
+        public let caEnrollmentPolicyStatusReason: String?
+        /// The identifier of the directory associated with this CA enrollment policy.
+        public let directoryId: String?
+        /// The date and time when the CA enrollment policy was last modified or updated.
+        public let lastUpdatedDateTime: Date?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Private Certificate Authority (PCA) connector that is configured for automatic certificate enrollment in this directory.
+        public let pcaConnectorArn: String?
+
+        @inlinable
+        public init(caEnrollmentPolicyStatus: CaEnrollmentPolicyStatus? = nil, caEnrollmentPolicyStatusReason: String? = nil, directoryId: String? = nil, lastUpdatedDateTime: Date? = nil, pcaConnectorArn: String? = nil) {
+            self.caEnrollmentPolicyStatus = caEnrollmentPolicyStatus
+            self.caEnrollmentPolicyStatusReason = caEnrollmentPolicyStatusReason
+            self.directoryId = directoryId
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.pcaConnectorArn = pcaConnectorArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caEnrollmentPolicyStatus = "CaEnrollmentPolicyStatus"
+            case caEnrollmentPolicyStatusReason = "CaEnrollmentPolicyStatusReason"
+            case directoryId = "DirectoryId"
+            case lastUpdatedDateTime = "LastUpdatedDateTime"
+            case pcaConnectorArn = "PcaConnectorArn"
+        }
     }
 
     public struct DescribeCertificateRequest: AWSEncodableShape {
@@ -1689,6 +2138,50 @@ extension DirectoryService {
 
         private enum CodingKeys: String, CodingKey {
             case eventTopics = "EventTopics"
+        }
+    }
+
+    public struct DescribeHybridADUpdateRequest: AWSEncodableShape {
+        /// The identifier of the hybrid directory for which to retrieve update information.
+        public let directoryId: String
+        /// The pagination token from a previous request to DescribeHybridADUpdate. Pass null if this is the first request.
+        public let nextToken: String?
+        /// The type of update activities to retrieve. Valid values include SelfManagedInstances and HybridAdministratorAccount.
+        public let updateType: HybridUpdateType?
+
+        @inlinable
+        public init(directoryId: String, nextToken: String? = nil, updateType: HybridUpdateType? = nil) {
+            self.directoryId = directoryId
+            self.nextToken = nextToken
+            self.updateType = updateType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case nextToken = "NextToken"
+            case updateType = "UpdateType"
+        }
+    }
+
+    public struct DescribeHybridADUpdateResult: AWSDecodableShape {
+        /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent request to retrieve the next set of items.
+        public let nextToken: String?
+        /// Information about update activities for the hybrid directory, organized by update type.
+        public let updateActivities: HybridUpdateActivities?
+
+        @inlinable
+        public init(nextToken: String? = nil, updateActivities: HybridUpdateActivities? = nil) {
+            self.nextToken = nextToken
+            self.updateActivities = updateActivities
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case updateActivities = "UpdateActivities"
         }
     }
 
@@ -2075,8 +2568,10 @@ extension DirectoryService {
     }
 
     public struct DirectoryConnectSettings: AWSEncodableShape {
-        /// A list of one or more IP addresses of DNS servers or domain controllers in your self-managed directory.
-        public let customerDnsIps: [String]
+        /// The IP addresses of DNS servers or domain controllers in your self-managed directory.
+        public let customerDnsIps: [String]?
+        /// The IPv6 addresses of DNS servers or domain controllers in your self-managed directory.
+        public let customerDnsIpsV6: [String]?
         /// The user name of an account in your self-managed directory that is used to connect to the directory. This account must have the following permissions:   Read users and groups   Create computer objects   Join computers to the domain
         public let customerUserName: String
         /// A list of subnet identifiers in the VPC in which the AD Connector is created.
@@ -2085,16 +2580,20 @@ extension DirectoryService {
         public let vpcId: String
 
         @inlinable
-        public init(customerDnsIps: [String], customerUserName: String, subnetIds: [String], vpcId: String) {
+        public init(customerDnsIps: [String]? = nil, customerDnsIpsV6: [String]? = nil, customerUserName: String, subnetIds: [String], vpcId: String) {
             self.customerDnsIps = customerDnsIps
+            self.customerDnsIpsV6 = customerDnsIpsV6
             self.customerUserName = customerUserName
             self.subnetIds = subnetIds
             self.vpcId = vpcId
         }
 
         public func validate(name: String) throws {
-            try self.customerDnsIps.forEach {
+            try self.customerDnsIps?.forEach {
                 try validate($0, name: "customerDnsIps[]", parent: name, pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
+            }
+            try self.customerDnsIpsV6?.forEach {
+                try validate($0, name: "customerDnsIpsV6[]", parent: name, pattern: "^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$")
             }
             try self.validate(self.customerUserName, name: "customerUserName", parent: name, min: 1)
             try self.validate(self.customerUserName, name: "customerUserName", parent: name, pattern: "^[a-zA-Z0-9._-]+$")
@@ -2106,6 +2605,7 @@ extension DirectoryService {
 
         private enum CodingKeys: String, CodingKey {
             case customerDnsIps = "CustomerDnsIps"
+            case customerDnsIpsV6 = "CustomerDnsIpsV6"
             case customerUserName = "CustomerUserName"
             case subnetIds = "SubnetIds"
             case vpcId = "VpcId"
@@ -2113,10 +2613,12 @@ extension DirectoryService {
     }
 
     public struct DirectoryConnectSettingsDescription: AWSDecodableShape {
-        /// A list of the Availability Zones that the directory is in.
+        /// The Availability Zones that the directory is in.
         public let availabilityZones: [String]?
         /// The IP addresses of the AD Connector servers.
         public let connectIps: [String]?
+        /// The IPv6 addresses of the AD Connector servers.
+        public let connectIpsV6: [String]?
         /// The user name of the service account in your self-managed directory.
         public let customerUserName: String?
         /// The security group identifier for the AD Connector directory.
@@ -2127,9 +2629,10 @@ extension DirectoryService {
         public let vpcId: String?
 
         @inlinable
-        public init(availabilityZones: [String]? = nil, connectIps: [String]? = nil, customerUserName: String? = nil, securityGroupId: String? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
+        public init(availabilityZones: [String]? = nil, connectIps: [String]? = nil, connectIpsV6: [String]? = nil, customerUserName: String? = nil, securityGroupId: String? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.connectIps = connectIps
+            self.connectIpsV6 = connectIpsV6
             self.customerUserName = customerUserName
             self.securityGroupId = securityGroupId
             self.subnetIds = subnetIds
@@ -2139,6 +2642,7 @@ extension DirectoryService {
         private enum CodingKeys: String, CodingKey {
             case availabilityZones = "AvailabilityZones"
             case connectIps = "ConnectIps"
+            case connectIpsV6 = "ConnectIpsV6"
             case customerUserName = "CustomerUserName"
             case securityGroupId = "SecurityGroupId"
             case subnetIds = "SubnetIds"
@@ -2147,11 +2651,11 @@ extension DirectoryService {
     }
 
     public struct DirectoryDescription: AWSDecodableShape {
-        /// The access URL for the directory, such as http://.awsapps.com. If no alias has been created for the directory,  is the directory identifier, such as d-XXXXXXXXXX.
+        /// The access URL for the directory, such as http://.awsapps.com. If no alias exists, is the directory identifier, such as d-XXXXXXXXXX.
         public let accessUrl: String?
-        /// The alias for the directory. If no alias has been created for the directory, the alias is the directory identifier, such as d-XXXXXXXXXX.
+        /// The alias for the directory. If no alias exists, the alias is the directory identifier, such as d-XXXXXXXXXX.
         public let alias: String?
-        /// A DirectoryConnectSettingsDescription object that contains additional information about an AD Connector directory. This member is only present if the directory is an AD Connector directory.
+        ///  DirectoryConnectSettingsDescription object that contains additional information about an AD Connector directory. Present only for AD Connector directories.
         public let connectSettings: DirectoryConnectSettingsDescription?
         /// The description for the directory.
         public let description: String?
@@ -2159,19 +2663,25 @@ extension DirectoryService {
         public let desiredNumberOfDomainControllers: Int?
         /// The directory identifier.
         public let directoryId: String?
-        /// The IP addresses of the DNS servers for the directory. For a Simple AD or Microsoft AD directory, these are the IP addresses of the Simple AD or Microsoft AD directory servers. For an AD Connector directory, these are the IP addresses of the DNS servers or domain controllers in your self-managed directory to which the AD Connector is connected.
+        /// The IP addresses of the DNS servers for the directory. For a Simple AD or Microsoft AD directory, these are the IP addresses of the Simple AD or Microsoft AD directory servers. For an AD Connector directory, these are the IP addresses of self-managed directory to which the AD Connector is connected.
         public let dnsIpAddrs: [String]?
+        /// The IPv6 addresses of the DNS servers for the directory. For a Simple AD or Microsoft AD directory, these are the IPv6 addresses of the Simple AD or Microsoft AD directory servers. For an AD Connector directory, these are the IPv6 addresses of the DNS servers or domain controllers in your self-managed directory to which the AD Connector is connected.
+        public let dnsIpv6Addrs: [String]?
         /// The edition associated with this directory.
         public let edition: DirectoryEdition?
-        /// Specifies when the directory was created.
+        /// Contains information about the hybrid directory configuration for the directory, including Amazon Web Services System Manager managed node identifiers and DNS IPs.
+        public let hybridSettings: HybridSettingsDescription?
+        /// The date and time when the directory was created.
         public let launchTime: Date?
         /// The fully qualified name of the directory.
         public let name: String?
+        /// The network type of the directory.
+        public let networkType: NetworkType?
         /// The operating system (OS) version of the directory.
         public let osVersion: OSVersion?
         /// Describes the Managed Microsoft AD directory in the directory owner account.
         public let ownerDirectoryDescription: OwnerDirectoryDescription?
-        /// A RadiusSettings object that contains information about the RADIUS server configured for this directory.
+        /// Information about the RadiusSettings object configured for this directory.
         public let radiusSettings: RadiusSettings?
         /// The status of the RADIUS MFA server connection.
         public let radiusStatus: RadiusStatus?
@@ -2187,21 +2697,21 @@ extension DirectoryService {
         public let shortName: String?
         /// The directory size.
         public let size: DirectorySize?
-        /// Indicates if single sign-on is enabled for the directory. For more information, see EnableSso and DisableSso.
+        /// Indicates whether single sign-on is enabled for the directory. For more information, see EnableSso and DisableSso.
         public let ssoEnabled: Bool?
         /// The current stage of the directory.
         public let stage: DirectoryStage?
-        /// The date and time that the stage was last updated.
+        /// The date and time when the stage was last updated.
         public let stageLastUpdatedDateTime: Date?
         /// Additional information about the directory stage.
         public let stageReason: String?
         /// The directory type.
         public let type: DirectoryType?
-        /// A DirectoryVpcSettingsDescription object that contains additional information about a directory. This member is only present if the directory is a Simple AD or Managed Microsoft AD directory.
+        /// A DirectoryVpcSettingsDescription object that contains additional information about a directory. Present only for Simple AD and Managed Microsoft AD directories.
         public let vpcSettings: DirectoryVpcSettingsDescription?
 
         @inlinable
-        public init(accessUrl: String? = nil, alias: String? = nil, connectSettings: DirectoryConnectSettingsDescription? = nil, description: String? = nil, desiredNumberOfDomainControllers: Int? = nil, directoryId: String? = nil, dnsIpAddrs: [String]? = nil, edition: DirectoryEdition? = nil, launchTime: Date? = nil, name: String? = nil, osVersion: OSVersion? = nil, ownerDirectoryDescription: OwnerDirectoryDescription? = nil, radiusSettings: RadiusSettings? = nil, radiusStatus: RadiusStatus? = nil, regionsInfo: RegionsInfo? = nil, shareMethod: ShareMethod? = nil, shareNotes: String? = nil, shareStatus: ShareStatus? = nil, shortName: String? = nil, size: DirectorySize? = nil, ssoEnabled: Bool? = nil, stage: DirectoryStage? = nil, stageLastUpdatedDateTime: Date? = nil, stageReason: String? = nil, type: DirectoryType? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil) {
+        public init(accessUrl: String? = nil, alias: String? = nil, connectSettings: DirectoryConnectSettingsDescription? = nil, description: String? = nil, desiredNumberOfDomainControllers: Int? = nil, directoryId: String? = nil, dnsIpAddrs: [String]? = nil, dnsIpv6Addrs: [String]? = nil, edition: DirectoryEdition? = nil, hybridSettings: HybridSettingsDescription? = nil, launchTime: Date? = nil, name: String? = nil, networkType: NetworkType? = nil, osVersion: OSVersion? = nil, ownerDirectoryDescription: OwnerDirectoryDescription? = nil, radiusSettings: RadiusSettings? = nil, radiusStatus: RadiusStatus? = nil, regionsInfo: RegionsInfo? = nil, shareMethod: ShareMethod? = nil, shareNotes: String? = nil, shareStatus: ShareStatus? = nil, shortName: String? = nil, size: DirectorySize? = nil, ssoEnabled: Bool? = nil, stage: DirectoryStage? = nil, stageLastUpdatedDateTime: Date? = nil, stageReason: String? = nil, type: DirectoryType? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil) {
             self.accessUrl = accessUrl
             self.alias = alias
             self.connectSettings = connectSettings
@@ -2209,9 +2719,12 @@ extension DirectoryService {
             self.desiredNumberOfDomainControllers = desiredNumberOfDomainControllers
             self.directoryId = directoryId
             self.dnsIpAddrs = dnsIpAddrs
+            self.dnsIpv6Addrs = dnsIpv6Addrs
             self.edition = edition
+            self.hybridSettings = hybridSettings
             self.launchTime = launchTime
             self.name = name
+            self.networkType = networkType
             self.osVersion = osVersion
             self.ownerDirectoryDescription = ownerDirectoryDescription
             self.radiusSettings = radiusSettings
@@ -2238,9 +2751,12 @@ extension DirectoryService {
             case desiredNumberOfDomainControllers = "DesiredNumberOfDomainControllers"
             case directoryId = "DirectoryId"
             case dnsIpAddrs = "DnsIpAddrs"
+            case dnsIpv6Addrs = "DnsIpv6Addrs"
             case edition = "Edition"
+            case hybridSettings = "HybridSettings"
             case launchTime = "LaunchTime"
             case name = "Name"
+            case networkType = "NetworkType"
             case osVersion = "OsVersion"
             case ownerDirectoryDescription = "OwnerDirectoryDescription"
             case radiusSettings = "RadiusSettings"
@@ -2370,6 +2886,20 @@ extension DirectoryService {
         }
     }
 
+    public struct DirectorySizeUpdateSettings: AWSEncodableShape {
+        /// The target directory size for the update operation.
+        public let directorySize: DirectorySize?
+
+        @inlinable
+        public init(directorySize: DirectorySize? = nil) {
+            self.directorySize = directorySize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directorySize = "DirectorySize"
+        }
+    }
+
     public struct DirectoryUnavailableException: AWSErrorShape {
         public let message: String?
         public let requestId: String?
@@ -2435,6 +2965,44 @@ extension DirectoryService {
             case subnetIds = "SubnetIds"
             case vpcId = "VpcId"
         }
+    }
+
+    public struct DisableAlreadyInProgressException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct DisableCAEnrollmentPolicyRequest: AWSEncodableShape {
+        /// The identifier of the directory for which to disable the CA enrollment policy.
+        public let directoryId: String
+
+        @inlinable
+        public init(directoryId: String) {
+            self.directoryId = directoryId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+        }
+    }
+
+    public struct DisableCAEnrollmentPolicyResult: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DisableClientAuthenticationRequest: AWSEncodableShape {
@@ -2574,6 +3142,8 @@ extension DirectoryService {
         public let directoryId: String?
         /// The IP address of the domain controller.
         public let dnsIpAddr: String?
+        /// The IPv6 address of the domain controller.
+        public let dnsIpv6Addr: String?
         /// Identifies a specific domain controller in the directory.
         public let domainControllerId: String?
         /// Specifies when the domain controller was created.
@@ -2590,10 +3160,11 @@ extension DirectoryService {
         public let vpcId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, directoryId: String? = nil, dnsIpAddr: String? = nil, domainControllerId: String? = nil, launchTime: Date? = nil, status: DomainControllerStatus? = nil, statusLastUpdatedDateTime: Date? = nil, statusReason: String? = nil, subnetId: String? = nil, vpcId: String? = nil) {
+        public init(availabilityZone: String? = nil, directoryId: String? = nil, dnsIpAddr: String? = nil, dnsIpv6Addr: String? = nil, domainControllerId: String? = nil, launchTime: Date? = nil, status: DomainControllerStatus? = nil, statusLastUpdatedDateTime: Date? = nil, statusReason: String? = nil, subnetId: String? = nil, vpcId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.directoryId = directoryId
             self.dnsIpAddr = dnsIpAddr
+            self.dnsIpv6Addr = dnsIpv6Addr
             self.domainControllerId = domainControllerId
             self.launchTime = launchTime
             self.status = status
@@ -2607,6 +3178,7 @@ extension DirectoryService {
             case availabilityZone = "AvailabilityZone"
             case directoryId = "DirectoryId"
             case dnsIpAddr = "DnsIpAddr"
+            case dnsIpv6Addr = "DnsIpv6Addr"
             case domainControllerId = "DomainControllerId"
             case launchTime = "LaunchTime"
             case status = "Status"
@@ -2631,6 +3203,49 @@ extension DirectoryService {
             case message = "Message"
             case requestId = "RequestId"
         }
+    }
+
+    public struct EnableAlreadyInProgressException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct EnableCAEnrollmentPolicyRequest: AWSEncodableShape {
+        /// The identifier of the directory for which to enable the CA enrollment policy.
+        public let directoryId: String
+        /// The Amazon Resource Name (ARN) of the Private Certificate Authority (PCA) connector to use for automatic certificate enrollment. This connector must be properly configured and accessible from the directory. The ARN format is: arn:aws:pca-connector-ad:region:account-id:connector/connector-id
+        public let pcaConnectorArn: String
+
+        @inlinable
+        public init(directoryId: String, pcaConnectorArn: String) {
+            self.directoryId = directoryId
+            self.pcaConnectorArn = pcaConnectorArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.validate(self.pcaConnectorArn, name: "pcaConnectorArn", parent: name, pattern: "^arn:[\\w-]+:pca-connector-ad:[\\w-]+:[0-9]+:connector\\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case pcaConnectorArn = "PcaConnectorArn"
+        }
+    }
+
+    public struct EnableCAEnrollmentPolicyResult: AWSDecodableShape {
+        public init() {}
     }
 
     public struct EnableClientAuthenticationRequest: AWSEncodableShape {
@@ -2880,6 +3495,151 @@ extension DirectoryService {
         }
     }
 
+    public struct HybridAdministratorAccountUpdate: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the credentials for the AD administrator user, and enables hybrid domain controllers to join the managed AD domain. For example:   {"customerAdAdminDomainUsername":"carlos_salazar","customerAdAdminDomainPassword":"ExamplePassword123!"}.
+        public let secretArn: String
+
+        @inlinable
+        public init(secretArn: String) {
+            self.secretArn = secretArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "^arn:aws:secretsmanager:[a-z0-9-]+:\\d{12}:secret:[a-zA-Z0-9/_+=.@-]+-[a-zA-Z0-9]{6}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case secretArn = "SecretArn"
+        }
+    }
+
+    public struct HybridCustomerInstancesSettings: AWSEncodableShape {
+        /// The IP addresses of the DNS servers or domain controllers in your self-managed AD environment.
+        public let customerDnsIps: [String]
+        /// The identifiers of the self-managed instances with SSM used in hybrid directory.
+        public let instanceIds: [String]
+
+        @inlinable
+        public init(customerDnsIps: [String], instanceIds: [String]) {
+            self.customerDnsIps = customerDnsIps
+            self.instanceIds = instanceIds
+        }
+
+        public func validate(name: String) throws {
+            try self.customerDnsIps.forEach {
+                try validate($0, name: "customerDnsIps[]", parent: name, pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
+            }
+            try self.validate(self.customerDnsIps, name: "customerDnsIps", parent: name, max: 2)
+            try self.validate(self.customerDnsIps, name: "customerDnsIps", parent: name, min: 2)
+            try self.instanceIds.forEach {
+                try validate($0, name: "instanceIds[]", parent: name, pattern: "^(i-[0-9a-f]{8}|i-[0-9a-f]{17}|mi-[0-9a-f]{8}|mi-[0-9a-f]{17})$")
+            }
+            try self.validate(self.instanceIds, name: "instanceIds", parent: name, max: 2)
+            try self.validate(self.instanceIds, name: "instanceIds", parent: name, min: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerDnsIps = "CustomerDnsIps"
+            case instanceIds = "InstanceIds"
+        }
+    }
+
+    public struct HybridSettingsDescription: AWSDecodableShape {
+        /// The IP addresses of the DNS servers in your self-managed AD environment.
+        public let selfManagedDnsIpAddrs: [String]?
+        /// The identifiers of the self-managed instances with SSM used for hybrid directory operations.
+        public let selfManagedInstanceIds: [String]?
+
+        @inlinable
+        public init(selfManagedDnsIpAddrs: [String]? = nil, selfManagedInstanceIds: [String]? = nil) {
+            self.selfManagedDnsIpAddrs = selfManagedDnsIpAddrs
+            self.selfManagedInstanceIds = selfManagedInstanceIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case selfManagedDnsIpAddrs = "SelfManagedDnsIpAddrs"
+            case selfManagedInstanceIds = "SelfManagedInstanceIds"
+        }
+    }
+
+    public struct HybridUpdateActivities: AWSDecodableShape {
+        /// A list of update activities related to hybrid directory administrator account changes.
+        public let hybridAdministratorAccount: [HybridUpdateInfoEntry]?
+        /// A list of update activities related to the self-managed instances with SSM in the self-managed instances with SSM hybrid directory configuration.
+        public let selfManagedInstances: [HybridUpdateInfoEntry]?
+
+        @inlinable
+        public init(hybridAdministratorAccount: [HybridUpdateInfoEntry]? = nil, selfManagedInstances: [HybridUpdateInfoEntry]? = nil) {
+            self.hybridAdministratorAccount = hybridAdministratorAccount
+            self.selfManagedInstances = selfManagedInstances
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hybridAdministratorAccount = "HybridAdministratorAccount"
+            case selfManagedInstances = "SelfManagedInstances"
+        }
+    }
+
+    public struct HybridUpdateInfoEntry: AWSDecodableShape {
+        /// The identifier of the assessment performed to validate this update configuration.
+        public let assessmentId: String?
+        /// Specifies if the update was initiated by the customer or Amazon Web Services.
+        public let initiatedBy: String?
+        /// The date and time when the update activity status was last updated.
+        public let lastUpdatedDateTime: Date?
+        /// The new configuration values being applied in this update.
+        public let newValue: HybridUpdateValue?
+        /// The previous configuration values before this update was applied.
+        public let previousValue: HybridUpdateValue?
+        /// The date and time when the update activity was initiated.
+        public let startTime: Date?
+        /// The current status of the update activity. Valid values include UPDATED, UPDATING, and UPDATE_FAILED.
+        public let status: UpdateStatus?
+        /// A human-readable description of the update status, including any error details or progress information.
+        public let statusReason: String?
+
+        @inlinable
+        public init(assessmentId: String? = nil, initiatedBy: String? = nil, lastUpdatedDateTime: Date? = nil, newValue: HybridUpdateValue? = nil, previousValue: HybridUpdateValue? = nil, startTime: Date? = nil, status: UpdateStatus? = nil, statusReason: String? = nil) {
+            self.assessmentId = assessmentId
+            self.initiatedBy = initiatedBy
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.newValue = newValue
+            self.previousValue = previousValue
+            self.startTime = startTime
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentId = "AssessmentId"
+            case initiatedBy = "InitiatedBy"
+            case lastUpdatedDateTime = "LastUpdatedDateTime"
+            case newValue = "NewValue"
+            case previousValue = "PreviousValue"
+            case startTime = "StartTime"
+            case status = "Status"
+            case statusReason = "StatusReason"
+        }
+    }
+
+    public struct HybridUpdateValue: AWSDecodableShape {
+        /// The IP addresses of the DNS servers or domain controllers in the hybrid directory configuration.
+        public let dnsIps: [String]?
+        /// The identifiers of the self-managed instances with SSM in the hybrid directory configuration.
+        public let instanceIds: [String]?
+
+        @inlinable
+        public init(dnsIps: [String]? = nil, instanceIds: [String]? = nil) {
+            self.dnsIps = dnsIps
+            self.instanceIds = instanceIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dnsIps = "DnsIps"
+            case instanceIds = "InstanceIds"
+        }
+    }
+
     public struct IncompatibleSettingsException: AWSErrorShape {
         public let message: String?
         public let requestId: String?
@@ -3025,25 +3785,30 @@ extension DirectoryService {
     }
 
     public struct IpRoute: AWSEncodableShape {
-        /// IP address block using CIDR format, for example 10.0.0.0/24. This is often the address block of the DNS server used for your self-managed domain. For a single IP address use a CIDR address block with /32. For example 10.0.0.0/32.
+        /// IP address block in CIDR format, such as 10.0.0.0/24. This is often the address block of the DNS server used for your self-managed domain. For a single IP address, use a CIDR address block with /32. For example, 10.0.0.0/32.
         public let cidrIp: String?
+        /// IPv6 address block in CIDR format, such as 2001:db8::/32. This is often the address block of the DNS server used for your self-managed domain. For a single IPv6 address, use a CIDR address block with /128. For example, 2001:db8::1/128.
+        public let cidrIpv6: String?
         /// Description of the address block.
         public let description: String?
 
         @inlinable
-        public init(cidrIp: String? = nil, description: String? = nil) {
+        public init(cidrIp: String? = nil, cidrIpv6: String? = nil, description: String? = nil) {
             self.cidrIp = cidrIp
+            self.cidrIpv6 = cidrIpv6
             self.description = description
         }
 
         public func validate(name: String) throws {
             try self.validate(self.cidrIp, name: "cidrIp", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([1-9]|[1-2][0-9]|3[0-2]))$")
+            try self.validate(self.cidrIpv6, name: "cidrIpv6", parent: name, pattern: "^((([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4})|(([0-9a-fA-F]{1,4}:){1,7}:)|(([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4})|(([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2})|(([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3})|(([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4})|(([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5})|([0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6}))|(:((:[0-9a-fA-F]{1,4}){1,7}|:)))\\/(12[0-8]|1[01][0-9]|[1-9]?[0-9])$")
             try self.validate(self.description, name: "description", parent: name, max: 128)
             try self.validate(self.description, name: "description", parent: name, pattern: "^([a-zA-Z0-9_])[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case cidrIp = "CidrIp"
+            case cidrIpv6 = "CidrIpv6"
             case description = "Description"
         }
     }
@@ -3053,6 +3818,8 @@ extension DirectoryService {
         public let addedDateTime: Date?
         /// IP address block in the IpRoute.
         public let cidrIp: String?
+        /// IPv6 address block in the IpRoute.
+        public let cidrIpv6: String?
         /// Description of the IpRouteInfo.
         public let description: String?
         /// Identifier (ID) of the directory associated with the IP addresses.
@@ -3063,9 +3830,10 @@ extension DirectoryService {
         public let ipRouteStatusReason: String?
 
         @inlinable
-        public init(addedDateTime: Date? = nil, cidrIp: String? = nil, description: String? = nil, directoryId: String? = nil, ipRouteStatusMsg: IpRouteStatusMsg? = nil, ipRouteStatusReason: String? = nil) {
+        public init(addedDateTime: Date? = nil, cidrIp: String? = nil, cidrIpv6: String? = nil, description: String? = nil, directoryId: String? = nil, ipRouteStatusMsg: IpRouteStatusMsg? = nil, ipRouteStatusReason: String? = nil) {
             self.addedDateTime = addedDateTime
             self.cidrIp = cidrIp
+            self.cidrIpv6 = cidrIpv6
             self.description = description
             self.directoryId = directoryId
             self.ipRouteStatusMsg = ipRouteStatusMsg
@@ -3075,6 +3843,7 @@ extension DirectoryService {
         private enum CodingKeys: String, CodingKey {
             case addedDateTime = "AddedDateTime"
             case cidrIp = "CidrIp"
+            case cidrIpv6 = "CidrIpv6"
             case description = "Description"
             case directoryId = "DirectoryId"
             case ipRouteStatusMsg = "IpRouteStatusMsg"
@@ -3117,6 +3886,52 @@ extension DirectoryService {
             case lastUpdatedDateTime = "LastUpdatedDateTime"
             case ldapsStatus = "LDAPSStatus"
             case ldapsStatusReason = "LDAPSStatusReason"
+        }
+    }
+
+    public struct ListADAssessmentsRequest: AWSEncodableShape {
+        /// The identifier of the directory for which to list assessments. If not specified, all assessments in your account are returned.
+        public let directoryId: String?
+        /// The maximum number of assessment summaries to return.
+        public let limit: Int?
+        /// The pagination token from a previous request to ListADAssessments. Pass null if this is the first request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(directoryId: String? = nil, limit: Int? = nil, nextToken: String? = nil) {
+            self.directoryId = directoryId
+            self.limit = limit
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.validate(self.limit, name: "limit", parent: name, max: 100)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListADAssessmentsResult: AWSDecodableShape {
+        /// A list of assessment summaries containing basic information about each directory assessment.
+        public let assessments: [AssessmentSummary]?
+        /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent request to retrieve the next set of items.
+        public let nextToken: String?
+
+        @inlinable
+        public init(assessments: [AssessmentSummary]? = nil, nextToken: String? = nil) {
+            self.assessments = assessments
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessments = "Assessments"
+            case nextToken = "NextToken"
         }
     }
 
@@ -3368,6 +4183,30 @@ extension DirectoryService {
         }
     }
 
+    public struct NetworkUpdateSettings: AWSEncodableShape {
+        /// IPv6 addresses of DNS servers or domain controllers in the self-managed directory. Required only when updating an AD Connector directory.
+        public let customerDnsIpsV6: [String]?
+        /// The target network type for the directory update.
+        public let networkType: NetworkType?
+
+        @inlinable
+        public init(customerDnsIpsV6: [String]? = nil, networkType: NetworkType? = nil) {
+            self.customerDnsIpsV6 = customerDnsIpsV6
+            self.networkType = networkType
+        }
+
+        public func validate(name: String) throws {
+            try self.customerDnsIpsV6?.forEach {
+                try validate($0, name: "customerDnsIpsV6[]", parent: name, pattern: "^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerDnsIpsV6 = "CustomerDnsIpsV6"
+            case networkType = "NetworkType"
+        }
+    }
+
     public struct NoAvailableCertificateException: AWSErrorShape {
         public let message: String?
         public let requestId: String?
@@ -3385,7 +4224,7 @@ extension DirectoryService {
     }
 
     public struct OSUpdateSettings: AWSEncodableShape & AWSDecodableShape {
-        ///  OS version that the directory needs to be updated to.
+        /// OS version that the directory needs to be updated to.
         public let osVersion: OSVersion?
 
         @inlinable
@@ -3421,18 +4260,24 @@ extension DirectoryService {
         public let directoryId: String?
         /// IP address of the directory’s domain controllers.
         public let dnsIpAddrs: [String]?
-        /// A RadiusSettings object that contains information about the RADIUS server.
+        /// IPv6 addresses of the directory’s domain controllers.
+        public let dnsIpv6Addrs: [String]?
+        /// Network type of the directory in the directory owner account.
+        public let networkType: NetworkType?
+        /// Information about the RadiusSettings object server configuration.
         public let radiusSettings: RadiusSettings?
-        /// Information about the status of the RADIUS server.
+        /// The status of the RADIUS server.
         public let radiusStatus: RadiusStatus?
         /// Information about the VPC settings for the directory.
         public let vpcSettings: DirectoryVpcSettingsDescription?
 
         @inlinable
-        public init(accountId: String? = nil, directoryId: String? = nil, dnsIpAddrs: [String]? = nil, radiusSettings: RadiusSettings? = nil, radiusStatus: RadiusStatus? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil) {
+        public init(accountId: String? = nil, directoryId: String? = nil, dnsIpAddrs: [String]? = nil, dnsIpv6Addrs: [String]? = nil, networkType: NetworkType? = nil, radiusSettings: RadiusSettings? = nil, radiusStatus: RadiusStatus? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil) {
             self.accountId = accountId
             self.directoryId = directoryId
             self.dnsIpAddrs = dnsIpAddrs
+            self.dnsIpv6Addrs = dnsIpv6Addrs
+            self.networkType = networkType
             self.radiusSettings = radiusSettings
             self.radiusStatus = radiusStatus
             self.vpcSettings = vpcSettings
@@ -3442,6 +4287,8 @@ extension DirectoryService {
             case accountId = "AccountId"
             case directoryId = "DirectoryId"
             case dnsIpAddrs = "DnsIpAddrs"
+            case dnsIpv6Addrs = "DnsIpv6Addrs"
+            case networkType = "NetworkType"
             case radiusSettings = "RadiusSettings"
             case radiusStatus = "RadiusStatus"
             case vpcSettings = "VpcSettings"
@@ -3457,8 +4304,10 @@ extension DirectoryService {
         public let radiusPort: Int?
         /// The maximum number of times that communication with the RADIUS server is retried after the initial attempt.
         public let radiusRetries: Int?
-        /// An array of strings that contains the fully qualified domain name (FQDN) or IP addresses of the RADIUS server endpoints, or the FQDN or IP addresses of your RADIUS server load balancer.
+        /// The fully qualified domain name (FQDN) or IP addresses of the RADIUS server endpoints, or the FQDN or IP addresses of your RADIUS server load balancer.
         public let radiusServers: [String]?
+        /// The IPv6 addresses of the RADIUS server endpoints or RADIUS server load balancer.
+        public let radiusServersIpv6: [String]?
         /// The amount of time, in seconds, to wait for the RADIUS server to respond.
         public let radiusTimeout: Int?
         /// Required for enabling RADIUS on the directory.
@@ -3467,12 +4316,13 @@ extension DirectoryService {
         public let useSameUsername: Bool?
 
         @inlinable
-        public init(authenticationProtocol: RadiusAuthenticationProtocol? = nil, displayLabel: String? = nil, radiusPort: Int? = nil, radiusRetries: Int? = nil, radiusServers: [String]? = nil, radiusTimeout: Int? = nil, sharedSecret: String? = nil, useSameUsername: Bool? = nil) {
+        public init(authenticationProtocol: RadiusAuthenticationProtocol? = nil, displayLabel: String? = nil, radiusPort: Int? = nil, radiusRetries: Int? = nil, radiusServers: [String]? = nil, radiusServersIpv6: [String]? = nil, radiusTimeout: Int? = nil, sharedSecret: String? = nil, useSameUsername: Bool? = nil) {
             self.authenticationProtocol = authenticationProtocol
             self.displayLabel = displayLabel
             self.radiusPort = radiusPort
             self.radiusRetries = radiusRetries
             self.radiusServers = radiusServers
+            self.radiusServersIpv6 = radiusServersIpv6
             self.radiusTimeout = radiusTimeout
             self.sharedSecret = sharedSecret
             self.useSameUsername = useSameUsername
@@ -3489,6 +4339,10 @@ extension DirectoryService {
                 try validate($0, name: "radiusServers[]", parent: name, max: 256)
                 try validate($0, name: "radiusServers[]", parent: name, min: 1)
             }
+            try self.radiusServersIpv6?.forEach {
+                try validate($0, name: "radiusServersIpv6[]", parent: name, max: 256)
+                try validate($0, name: "radiusServersIpv6[]", parent: name, min: 1)
+            }
             try self.validate(self.radiusTimeout, name: "radiusTimeout", parent: name, max: 50)
             try self.validate(self.radiusTimeout, name: "radiusTimeout", parent: name, min: 1)
             try self.validate(self.sharedSecret, name: "sharedSecret", parent: name, max: 512)
@@ -3502,6 +4356,7 @@ extension DirectoryService {
             case radiusPort = "RadiusPort"
             case radiusRetries = "RadiusRetries"
             case radiusServers = "RadiusServers"
+            case radiusServersIpv6 = "RadiusServersIpv6"
             case radiusTimeout = "RadiusTimeout"
             case sharedSecret = "SharedSecret"
             case useSameUsername = "UseSameUsername"
@@ -3697,25 +4552,32 @@ extension DirectoryService {
 
     public struct RemoveIpRoutesRequest: AWSEncodableShape {
         /// IP address blocks that you want to remove.
-        public let cidrIps: [String]
+        public let cidrIps: [String]?
+        /// IPv6 address blocks that you want to remove.
+        public let cidrIpv6s: [String]?
         /// Identifier (ID) of the directory from which you want to remove the IP addresses.
         public let directoryId: String
 
         @inlinable
-        public init(cidrIps: [String], directoryId: String) {
+        public init(cidrIps: [String]? = nil, cidrIpv6s: [String]? = nil, directoryId: String) {
             self.cidrIps = cidrIps
+            self.cidrIpv6s = cidrIpv6s
             self.directoryId = directoryId
         }
 
         public func validate(name: String) throws {
-            try self.cidrIps.forEach {
+            try self.cidrIps?.forEach {
                 try validate($0, name: "cidrIps[]", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([1-9]|[1-2][0-9]|3[0-2]))$")
+            }
+            try self.cidrIpv6s?.forEach {
+                try validate($0, name: "cidrIpv6s[]", parent: name, pattern: "^((([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4})|(([0-9a-fA-F]{1,4}:){1,7}:)|(([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4})|(([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2})|(([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3})|(([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4})|(([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5})|([0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6}))|(:((:[0-9a-fA-F]{1,4}){1,7}|:)))\\/(12[0-8]|1[01][0-9]|[1-9]?[0-9])$")
             }
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case cidrIps = "CidrIps"
+            case cidrIpv6s = "CidrIpv6s"
             case directoryId = "DirectoryId"
         }
     }
@@ -4172,6 +5034,43 @@ extension DirectoryService {
         }
     }
 
+    public struct StartADAssessmentRequest: AWSEncodableShape {
+        /// Configuration parameters for the directory assessment, including DNS server information, domain name, Amazon VPC subnet, and Amazon Web Services System Manager managed node details.
+        public let assessmentConfiguration: AssessmentConfiguration?
+        /// The identifier of the directory for which to perform the assessment. This should be an existing directory. If the assessment is not for an existing directory, this parameter should be omitted.
+        public let directoryId: String?
+
+        @inlinable
+        public init(assessmentConfiguration: AssessmentConfiguration? = nil, directoryId: String? = nil) {
+            self.assessmentConfiguration = assessmentConfiguration
+            self.directoryId = directoryId
+        }
+
+        public func validate(name: String) throws {
+            try self.assessmentConfiguration?.validate(name: "\(name).assessmentConfiguration")
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentConfiguration = "AssessmentConfiguration"
+            case directoryId = "DirectoryId"
+        }
+    }
+
+    public struct StartADAssessmentResult: AWSDecodableShape {
+        /// The unique identifier of the newly started directory assessment. Use this identifier to monitor assessment progress and retrieve results.
+        public let assessmentId: String?
+
+        @inlinable
+        public init(assessmentId: String? = nil) {
+            self.assessmentId = assessmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentId = "AssessmentId"
+        }
+    }
+
     public struct StartSchemaExtensionRequest: AWSEncodableShape {
         /// If true, creates a snapshot of the directory before applying the schema extension.
         public let createSnapshotBeforeSchemaExtension: Bool
@@ -4412,21 +5311,27 @@ extension DirectoryService {
         /// The directory ID of the Amazon Web Services directory for which to update the conditional forwarder.
         public let directoryId: String
         /// The updated IP addresses of the remote DNS server associated with the conditional forwarder.
-        public let dnsIpAddrs: [String]
+        public let dnsIpAddrs: [String]?
+        /// The updated IPv6 addresses of the remote DNS server associated with the conditional forwarder.
+        public let dnsIpv6Addrs: [String]?
         /// The fully qualified domain name (FQDN) of the remote domain with which you will set up a trust relationship.
         public let remoteDomainName: String
 
         @inlinable
-        public init(directoryId: String, dnsIpAddrs: [String], remoteDomainName: String) {
+        public init(directoryId: String, dnsIpAddrs: [String]? = nil, dnsIpv6Addrs: [String]? = nil, remoteDomainName: String) {
             self.directoryId = directoryId
             self.dnsIpAddrs = dnsIpAddrs
+            self.dnsIpv6Addrs = dnsIpv6Addrs
             self.remoteDomainName = remoteDomainName
         }
 
         public func validate(name: String) throws {
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
-            try self.dnsIpAddrs.forEach {
+            try self.dnsIpAddrs?.forEach {
                 try validate($0, name: "dnsIpAddrs[]", parent: name, pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
+            }
+            try self.dnsIpv6Addrs?.forEach {
+                try validate($0, name: "dnsIpv6Addrs[]", parent: name, pattern: "^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$")
             }
             try self.validate(self.remoteDomainName, name: "remoteDomainName", parent: name, max: 1024)
             try self.validate(self.remoteDomainName, name: "remoteDomainName", parent: name, pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+[.]?$")
@@ -4435,6 +5340,7 @@ extension DirectoryService {
         private enum CodingKeys: String, CodingKey {
             case directoryId = "DirectoryId"
             case dnsIpAddrs = "DnsIpAddrs"
+            case dnsIpv6Addrs = "DnsIpv6Addrs"
             case remoteDomainName = "RemoteDomainName"
         }
     }
@@ -4444,30 +5350,39 @@ extension DirectoryService {
     }
 
     public struct UpdateDirectorySetupRequest: AWSEncodableShape {
-        ///  The boolean that specifies if a snapshot for the directory needs to be taken before updating the directory.
+        /// Specifies whether to create a directory snapshot before performing the update.
         public let createSnapshotBeforeUpdate: Bool?
-        ///  The identifier of the directory on which you want to perform the update.
+        /// The identifier of the directory to update.
         public let directoryId: String
-        ///  The settings for the OS update that needs to be performed on the directory.
+        /// Directory size configuration to apply during the update operation.
+        public let directorySizeUpdateSettings: DirectorySizeUpdateSettings?
+        /// Network configuration to apply during the directory update operation.
+        public let networkUpdateSettings: NetworkUpdateSettings?
+        /// Operating system configuration to apply during the directory update operation.
         public let osUpdateSettings: OSUpdateSettings?
-        ///  The type of update that needs to be performed on the directory. For example, OS.
+        /// The type of update to perform on the directory.
         public let updateType: UpdateType
 
         @inlinable
-        public init(createSnapshotBeforeUpdate: Bool? = nil, directoryId: String, osUpdateSettings: OSUpdateSettings? = nil, updateType: UpdateType) {
+        public init(createSnapshotBeforeUpdate: Bool? = nil, directoryId: String, directorySizeUpdateSettings: DirectorySizeUpdateSettings? = nil, networkUpdateSettings: NetworkUpdateSettings? = nil, osUpdateSettings: OSUpdateSettings? = nil, updateType: UpdateType) {
             self.createSnapshotBeforeUpdate = createSnapshotBeforeUpdate
             self.directoryId = directoryId
+            self.directorySizeUpdateSettings = directorySizeUpdateSettings
+            self.networkUpdateSettings = networkUpdateSettings
             self.osUpdateSettings = osUpdateSettings
             self.updateType = updateType
         }
 
         public func validate(name: String) throws {
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.networkUpdateSettings?.validate(name: "\(name).networkUpdateSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
             case createSnapshotBeforeUpdate = "CreateSnapshotBeforeUpdate"
             case directoryId = "DirectoryId"
+            case directorySizeUpdateSettings = "DirectorySizeUpdateSettings"
+            case networkUpdateSettings = "NetworkUpdateSettings"
             case osUpdateSettings = "OSUpdateSettings"
             case updateType = "UpdateType"
         }
@@ -4475,6 +5390,52 @@ extension DirectoryService {
 
     public struct UpdateDirectorySetupResult: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateHybridADRequest: AWSEncodableShape {
+        /// The identifier of the hybrid directory to update.
+        public let directoryId: String
+        /// We create a hybrid directory administrator account when we create a hybrid directory. Use HybridAdministratorAccountUpdate to recover the hybrid directory administrator account if you have deleted it. To recover your hybrid directory administrator account, we need temporary access to a user in your self-managed AD with administrator permissions in the form of a secret from Amazon Web Services Secrets Manager. We use these credentials once during recovery and don't store them. If your hybrid directory administrator account exists, then you don’t need to use HybridAdministratorAccountUpdate, even if you have updated your self-managed AD administrator user.
+        public let hybridAdministratorAccountUpdate: HybridAdministratorAccountUpdate?
+        /// Updates to the self-managed AD configuration, including DNS server IP addresses and Amazon Web Services System Manager managed node identifiers.
+        public let selfManagedInstancesSettings: HybridCustomerInstancesSettings?
+
+        @inlinable
+        public init(directoryId: String, hybridAdministratorAccountUpdate: HybridAdministratorAccountUpdate? = nil, selfManagedInstancesSettings: HybridCustomerInstancesSettings? = nil) {
+            self.directoryId = directoryId
+            self.hybridAdministratorAccountUpdate = hybridAdministratorAccountUpdate
+            self.selfManagedInstancesSettings = selfManagedInstancesSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.hybridAdministratorAccountUpdate?.validate(name: "\(name).hybridAdministratorAccountUpdate")
+            try self.selfManagedInstancesSettings?.validate(name: "\(name).selfManagedInstancesSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case hybridAdministratorAccountUpdate = "HybridAdministratorAccountUpdate"
+            case selfManagedInstancesSettings = "SelfManagedInstancesSettings"
+        }
+    }
+
+    public struct UpdateHybridADResult: AWSDecodableShape {
+        /// The identifier of the assessment performed to validate the update configuration. This assessment ensures the updated settings are compatible with your environment.
+        public let assessmentId: String?
+        /// The identifier of the updated hybrid directory.
+        public let directoryId: String?
+
+        @inlinable
+        public init(assessmentId: String? = nil, directoryId: String? = nil) {
+            self.assessmentId = assessmentId
+            self.directoryId = directoryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentId = "AssessmentId"
+            case directoryId = "DirectoryId"
+        }
     }
 
     public struct UpdateInfoEntry: AWSDecodableShape {
@@ -4720,6 +5681,7 @@ extension DirectoryService {
 public struct DirectoryServiceErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
+        case adAssessmentLimitExceededException = "ADAssessmentLimitExceededException"
         case authenticationFailedException = "AuthenticationFailedException"
         case certificateAlreadyExistsException = "CertificateAlreadyExistsException"
         case certificateDoesNotExistException = "CertificateDoesNotExistException"
@@ -4733,7 +5695,9 @@ public struct DirectoryServiceErrorType: AWSErrorType {
         case directoryLimitExceededException = "DirectoryLimitExceededException"
         case directoryNotSharedException = "DirectoryNotSharedException"
         case directoryUnavailableException = "DirectoryUnavailableException"
+        case disableAlreadyInProgressException = "DisableAlreadyInProgressException"
         case domainControllerLimitExceededException = "DomainControllerLimitExceededException"
+        case enableAlreadyInProgressException = "EnableAlreadyInProgressException"
         case entityAlreadyExistsException = "EntityAlreadyExistsException"
         case entityDoesNotExistException = "EntityDoesNotExistException"
         case incompatibleSettingsException = "IncompatibleSettingsException"
@@ -4778,6 +5742,8 @@ public struct DirectoryServiceErrorType: AWSErrorType {
 
     /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// A directory assessment is automatically created when you create a hybrid directory. There are two types of assessments: CUSTOMER and SYSTEM. Your Amazon Web Services account has a limit of 100 CUSTOMER directory assessments. If you attempt to create a hybrid directory; and you already have 100 CUSTOMER directory assessments;, you will encounter an error. Delete assessments to free up capacity before trying again. You can request an increase to your CUSTOMER directory assessment quota by contacting customer support or delete existing CUSTOMER directory assessments; to free up capacity.
+    public static var adAssessmentLimitExceededException: Self { .init(.adAssessmentLimitExceededException) }
     /// An authentication error occurred.
     public static var authenticationFailedException: Self { .init(.authenticationFailedException) }
     /// The certificate has already been registered into the system.
@@ -4804,8 +5770,12 @@ public struct DirectoryServiceErrorType: AWSErrorType {
     public static var directoryNotSharedException: Self { .init(.directoryNotSharedException) }
     /// The specified directory is unavailable.
     public static var directoryUnavailableException: Self { .init(.directoryUnavailableException) }
+    /// A disable operation for CA enrollment policy is already in progress for this directory.
+    public static var disableAlreadyInProgressException: Self { .init(.disableAlreadyInProgressException) }
     /// The maximum allowed number of domain controllers per directory was exceeded. The default limit per directory is 20 domain controllers.
     public static var domainControllerLimitExceededException: Self { .init(.domainControllerLimitExceededException) }
+    /// An enable operation for CA enrollment policy is already in progress for this directory.
+    public static var enableAlreadyInProgressException: Self { .init(.enableAlreadyInProgressException) }
     /// The specified entity already exists.
     public static var entityAlreadyExistsException: Self { .init(.entityAlreadyExistsException) }
     /// The specified entity could not be found.
@@ -4854,6 +5824,7 @@ public struct DirectoryServiceErrorType: AWSErrorType {
 
 extension DirectoryServiceErrorType: AWSServiceErrorType {
     public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ADAssessmentLimitExceededException": DirectoryService.ADAssessmentLimitExceededException.self,
         "AccessDeniedException": DirectoryService.AccessDeniedException.self,
         "AuthenticationFailedException": DirectoryService.AuthenticationFailedException.self,
         "CertificateAlreadyExistsException": DirectoryService.CertificateAlreadyExistsException.self,
@@ -4868,7 +5839,9 @@ extension DirectoryServiceErrorType: AWSServiceErrorType {
         "DirectoryLimitExceededException": DirectoryService.DirectoryLimitExceededException.self,
         "DirectoryNotSharedException": DirectoryService.DirectoryNotSharedException.self,
         "DirectoryUnavailableException": DirectoryService.DirectoryUnavailableException.self,
+        "DisableAlreadyInProgressException": DirectoryService.DisableAlreadyInProgressException.self,
         "DomainControllerLimitExceededException": DirectoryService.DomainControllerLimitExceededException.self,
+        "EnableAlreadyInProgressException": DirectoryService.EnableAlreadyInProgressException.self,
         "EntityAlreadyExistsException": DirectoryService.EntityAlreadyExistsException.self,
         "EntityDoesNotExistException": DirectoryService.EntityDoesNotExistException.self,
         "IncompatibleSettingsException": DirectoryService.IncompatibleSettingsException.self,

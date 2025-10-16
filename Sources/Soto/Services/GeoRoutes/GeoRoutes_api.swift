@@ -108,9 +108,9 @@ public struct GeoRoutes: AWSService {
     ///   - optimizeRoutingFor: Specifies the optimization criteria for calculating a route. Default Value: FastestRoute
     ///   - origin: The start position for the route.
     ///   - originOptions: Origin related options.
-    ///   - thresholds: Threshold to be used for the isoline calculation. Up to 3 thresholds per provided type can be requested. You incur a calculation charge for each threshold. Using a large amount of thresholds in a request can lead you to incur unexpected charges. See  Amazon Location's pricing page for more information.
+    ///   - thresholds: Threshold to be used for the isoline calculation. Up to 3 thresholds per provided type can be requested.  You incur a calculation charge for each threshold. Using a large amount of thresholds in a request can lead you to incur unexpected charges. See  Amazon Location's pricing page for more information.
     ///   - traffic: Traffic related options.
-    ///   - travelMode: Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility.  The mode Scooter also applies to motorcycles, set to Scooter when wanted to calculate options for motorcycles.  Default Value: Car
+    ///   - travelMode: Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility.   The mode Scooter also applies to motorcycles, set to Scooter when wanted to calculate options for motorcycles.  Default Value: Car
     ///   - travelModeOptions: Travel mode related options for the provided travel mode.
     ///   - logger: Logger use during operation
     @inlinable

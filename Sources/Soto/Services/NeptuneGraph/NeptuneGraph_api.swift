@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS NeptuneGraph service.
 ///
-/// Neptune Analytics is a new analytics database engine for Amazon Neptune that helps customers get to  insights faster by quickly processing large amounts of graph data, invoking popular graph analytic  algorithms in low-latency queries, and getting analytics results in seconds.
+/// Neptune Analytics is a new analytics database engine for Amazon Neptune that helps customers get to insights faster by quickly processing large amounts of graph data, invoking popular graph analytic algorithms in low-latency queries, and getting analytics results in seconds.
 public struct NeptuneGraph: AWSService {
     // MARK: Member variables
 
@@ -270,14 +270,14 @@ public struct NeptuneGraph: AWSService {
     /// Creates a new Neptune Analytics graph and imports data into it, either from Amazon Simple Storage Service (S3) or from a Neptune database or a Neptune database snapshot. The data can be loaded from files in S3 that in either the Gremlin CSV format or the openCypher load format.
     ///
     /// Parameters:
-    ///   - blankNodeHandling: The method to handle blank nodes in the dataset. Currently, only convertToIri is supported,  meaning blank nodes are converted to unique IRIs at load time. Must be provided when format is ntriples.  For more information, see Handling RDF values.
+    ///   - blankNodeHandling: The method to handle blank nodes in the dataset. Currently, only convertToIri is supported, meaning blank nodes are converted to unique IRIs at load time. Must be provided when format is ntriples. For more information, see Handling RDF values.
     ///   - deletionProtection: Indicates whether or not to enable deletion protection on the graph. The graph can’t be deleted when deletion protection is enabled. (true or false).
     ///   - failOnError: If set to true, the task halts when an import error is encountered. If set to false, the task skips the data that caused the error and continues if possible.
     ///   - format: Specifies the format of S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format, OPEN_CYPHER, which identifies the openCypher load format, or ntriples, which identifies the RDF n-triples format.
     ///   - graphName: A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
     ///   - importOptions: Contains options for controlling the import process. For example, if the failOnError key is set to false, the import skips problem data and attempts to continue (whereas if set to true, the default, or if omitted, the import operation halts immediately when an error is encountered.
     ///   - kmsKeyIdentifier: Specifies a KMS key to use to encrypt data imported into the new graph.
-    ///   - maxProvisionedMemory: The maximum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 1024, or the approved upper limit for your account. If both the minimum and maximum values are specified, the final provisioned-memory will be chosen per the actual size of your imported data. If neither value is specified,  128 m-NCUs are used.
+    ///   - maxProvisionedMemory: The maximum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 1024, or the approved upper limit for your account.  If both the minimum and maximum values are specified, the final provisioned-memory will be chosen per the actual size of your imported data. If neither value is specified, 128 m-NCUs are used.
     ///   - minProvisionedMemory: The minimum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 16
     ///   - parquetType: The parquet type of the import task.
     ///   - publicConnectivity: Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable).
@@ -459,7 +459,7 @@ public struct NeptuneGraph: AWSService {
         return try await self.deletePrivateGraphEndpoint(input, logger: logger)
     }
 
-    /// Execute an openCypher query.  When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have a policy attached  that allows one of the following IAM actions in that cluster, depending on the query:    neptune-graph:ReadDataViaQuery   neptune-graph:WriteDataViaQuery   neptune-graph:DeleteDataViaQuery
+    /// Execute an openCypher query.  When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have a policy attached that allows one of the following IAM actions in that cluster, depending on the query:    neptune-graph:ReadDataViaQuery   neptune-graph:WriteDataViaQuery   neptune-graph:DeleteDataViaQuery
     @Sendable
     @inlinable
     public func executeQuery(_ input: ExecuteQueryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ExecuteQueryOutput {
@@ -473,14 +473,14 @@ public struct NeptuneGraph: AWSService {
             logger: logger
         )
     }
-    /// Execute an openCypher query.  When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have a policy attached  that allows one of the following IAM actions in that cluster, depending on the query:    neptune-graph:ReadDataViaQuery   neptune-graph:WriteDataViaQuery   neptune-graph:DeleteDataViaQuery
+    /// Execute an openCypher query.  When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have a policy attached that allows one of the following IAM actions in that cluster, depending on the query:    neptune-graph:ReadDataViaQuery   neptune-graph:WriteDataViaQuery   neptune-graph:DeleteDataViaQuery
     ///
     /// Parameters:
-    ///   - explainMode: The explain mode parameter returns a query explain instead of the actual query results. A query explain can  be used to gather insights about the query execution such as planning decisions, time spent on each operator, solutions  flowing etc.
+    ///   - explainMode: The explain mode parameter returns a query explain instead of the actual query results. A query explain can be used to gather insights about the query execution such as planning decisions, time spent on each operator, solutions flowing etc.
     ///   - graphIdentifier: The unique identifier of the Neptune Analytics graph.
     ///   - language: The query language the query is written in. Currently only openCypher is supported.
     ///   - parameters: The data parameters the query can use in JSON format. For example: {"name": "john", "age": 20}. (optional)
-    ///   - planCache: Query plan cache is a feature that saves the query plan and reuses it on successive executions of the same query.  This reduces query latency, and works for both READ and UPDATE queries. The plan cache is an  LRU cache with a 5 minute TTL and a capacity of 1000.
+    ///   - planCache: Query plan cache is a feature that saves the query plan and reuses it on successive executions of the same query. This reduces query latency, and works for both READ and UPDATE queries. The plan cache is an LRU cache with a 5 minute TTL and a capacity of 1000.
     ///   - queryString: The query string to be executed.
     ///   - queryTimeoutMilliseconds: Specifies the query timeout duration, in milliseconds. (optional)
     ///   - logger: Logger use during operation
@@ -688,7 +688,7 @@ public struct NeptuneGraph: AWSService {
         return try await self.getPrivateGraphEndpoint(input, logger: logger)
     }
 
-    /// Retrieves the status of a specified query.   When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have the  neptune-graph:GetQueryStatus IAM action attached.
+    /// Retrieves the status of a specified query.   When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have the neptune-graph:GetQueryStatus IAM action attached.
     @Sendable
     @inlinable
     public func getQuery(_ input: GetQueryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetQueryOutput {
@@ -702,7 +702,7 @@ public struct NeptuneGraph: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the status of a specified query.   When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have the  neptune-graph:GetQueryStatus IAM action attached.
+    /// Retrieves the status of a specified query.   When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have the neptune-graph:GetQueryStatus IAM action attached.
     ///
     /// Parameters:
     ///   - graphIdentifier: The unique identifier of the Neptune Analytics graph.
@@ -1084,6 +1084,35 @@ public struct NeptuneGraph: AWSService {
         return try await self.startExportTask(input, logger: logger)
     }
 
+    /// Starts the specific graph.
+    @Sendable
+    @inlinable
+    public func startGraph(_ input: StartGraphInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartGraphOutput {
+        try await self.client.execute(
+            operation: "StartGraph", 
+            path: "/graphs/{graphIdentifier}/start", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts the specific graph.
+    ///
+    /// Parameters:
+    ///   - graphIdentifier: The unique identifier of the Neptune Analytics graph.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startGraph(
+        graphIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartGraphOutput {
+        let input = StartGraphInput(
+            graphIdentifier: graphIdentifier
+        )
+        return try await self.startGraph(input, logger: logger)
+    }
+
     /// Import data into existing Neptune Analytics graph from Amazon Simple Storage Service (S3). The graph needs to be empty and in the AVAILABLE state.
     @Sendable
     @inlinable
@@ -1100,14 +1129,14 @@ public struct NeptuneGraph: AWSService {
     /// Import data into existing Neptune Analytics graph from Amazon Simple Storage Service (S3). The graph needs to be empty and in the AVAILABLE state.
     ///
     /// Parameters:
-    ///   - blankNodeHandling: The method to handle blank nodes in the dataset. Currently, only convertToIri is supported,  meaning blank nodes are converted to unique IRIs at load time. Must be provided when format is ntriples.  For more information, see Handling RDF values.
-    ///   - failOnError: If set to true, the task halts when an import error is encountered. If set to false, the task skips the data that  caused the error and continues if possible.
-    ///   - format: Specifies the format of Amazon S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or  OPENCYPHER, which identies the openCypher load format.
+    ///   - blankNodeHandling: The method to handle blank nodes in the dataset. Currently, only convertToIri is supported, meaning blank nodes are converted to unique IRIs at load time. Must be provided when format is ntriples. For more information, see Handling RDF values.
+    ///   - failOnError: If set to true, the task halts when an import error is encountered. If set to false, the task skips the data that caused the error and continues if possible.
+    ///   - format: Specifies the format of Amazon S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or OPENCYPHER, which identies the openCypher load format.
     ///   - graphIdentifier: The unique identifier of the Neptune Analytics graph.
     ///   - importOptions: 
     ///   - parquetType: The parquet type of the import task.
     ///   - roleArn: The ARN of the IAM role that will allow access to the data that is to be imported.
-    ///   - source: A URL identifying the location of the data to be imported. This can be an Amazon S3 path, or can point to a  Neptune database endpoint or snapshot.
+    ///   - source: A URL identifying the location of the data to be imported. This can be an Amazon S3 path, or can point to a Neptune database endpoint or snapshot.
     ///   - logger: Logger use during operation
     @inlinable
     public func startImportTask(
@@ -1132,6 +1161,35 @@ public struct NeptuneGraph: AWSService {
             source: source
         )
         return try await self.startImportTask(input, logger: logger)
+    }
+
+    /// Stops the specific graph.
+    @Sendable
+    @inlinable
+    public func stopGraph(_ input: StopGraphInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StopGraphOutput {
+        try await self.client.execute(
+            operation: "StopGraph", 
+            path: "/graphs/{graphIdentifier}/stop", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops the specific graph.
+    ///
+    /// Parameters:
+    ///   - graphIdentifier: The unique identifier of the Neptune Analytics graph.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopGraph(
+        graphIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopGraphOutput {
+        let input = StopGraphInput(
+            graphIdentifier: graphIdentifier
+        )
+        return try await self.stopGraph(input, logger: logger)
     }
 
     /// Adds tags to the specified resource.
@@ -1717,6 +1775,44 @@ extension NeptuneGraph {
             snapshotIdentifier: snapshotIdentifier
         )
         try await self.waitUntilGraphSnapshotDeleted(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getGraph(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilGraphStopped(
+        _ input: GetGraphInput,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetGraphInput, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "STOPPED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status != 'stoppinG'", expected: "true")),
+            ],
+            minDelayTime: .seconds(20),
+            maxDelayTime: .seconds(1800),
+            command: self.getGraph
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getGraph(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - graphIdentifier: The unique identifier of the Neptune Analytics graph.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilGraphStopped(
+        graphIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetGraphInput(
+            graphIdentifier: graphIdentifier
+        )
+        try await self.waitUntilGraphStopped(input, logger: logger)
     }
 
     /// Waiter for operation ``getImportTask(_:logger:)``.

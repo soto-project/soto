@@ -914,6 +914,79 @@ public struct MemoryDB: AWSService {
         return try await self.describeMultiRegionClusters(input, logger: logger)
     }
 
+    /// Returns a list of multi-region parameter groups.
+    @Sendable
+    @inlinable
+    public func describeMultiRegionParameterGroups(_ input: DescribeMultiRegionParameterGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMultiRegionParameterGroupsResponse {
+        try await self.client.execute(
+            operation: "DescribeMultiRegionParameterGroups", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of multi-region parameter groups.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+    ///   - multiRegionParameterGroupName: The request for information on a specific multi-region parameter group.
+    ///   - nextToken: An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeMultiRegionParameterGroups(
+        maxResults: Int? = nil,
+        multiRegionParameterGroupName: String? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeMultiRegionParameterGroupsResponse {
+        let input = DescribeMultiRegionParameterGroupsRequest(
+            maxResults: maxResults, 
+            multiRegionParameterGroupName: multiRegionParameterGroupName, 
+            nextToken: nextToken
+        )
+        return try await self.describeMultiRegionParameterGroups(input, logger: logger)
+    }
+
+    /// Returns the detailed parameter list for a particular multi-region parameter group.
+    @Sendable
+    @inlinable
+    public func describeMultiRegionParameters(_ input: DescribeMultiRegionParametersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMultiRegionParametersResponse {
+        try await self.client.execute(
+            operation: "DescribeMultiRegionParameters", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the detailed parameter list for a particular multi-region parameter group.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+    ///   - multiRegionParameterGroupName: The name of the multi-region parameter group to return details for.
+    ///   - nextToken: An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
+    ///   - source: The parameter types to return. Valid values: user | system | engine-default
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeMultiRegionParameters(
+        maxResults: Int? = nil,
+        multiRegionParameterGroupName: String,
+        nextToken: String? = nil,
+        source: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeMultiRegionParametersResponse {
+        let input = DescribeMultiRegionParametersRequest(
+            maxResults: maxResults, 
+            multiRegionParameterGroupName: multiRegionParameterGroupName, 
+            nextToken: nextToken, 
+            source: source
+        )
+        return try await self.describeMultiRegionParameters(input, logger: logger)
+    }
+
     /// Returns a list of parameter group descriptions. If a parameter group name is specified, the list contains only the descriptions for that group.
     @Sendable
     @inlinable

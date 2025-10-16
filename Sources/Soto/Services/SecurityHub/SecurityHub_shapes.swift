@@ -510,6 +510,7 @@ extension SecurityHub {
         case invalidInput = "INVALID_INPUT"
         case limitExceeded = "LIMIT_EXCEEDED"
         case notFound = "NOT_FOUND"
+        case resourceNotFound = "RESOURCE_NOT_FOUND"
         public var description: String { return self.rawValue }
     }
 
@@ -21700,6 +21701,34 @@ extension SecurityHub {
         }
     }
 
+    public struct CodeRepositoryDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the code security integration associated with the repository.
+        public let codeSecurityIntegrationArn: String?
+        ///  The name of the project in the code repository.
+        public let projectName: String?
+        ///  The type of repository provider.
+        public let providerType: String?
+
+        @inlinable
+        public init(codeSecurityIntegrationArn: String? = nil, projectName: String? = nil, providerType: String? = nil) {
+            self.codeSecurityIntegrationArn = codeSecurityIntegrationArn
+            self.projectName = projectName
+            self.providerType = providerType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.codeSecurityIntegrationArn, name: "codeSecurityIntegrationArn", parent: name, pattern: "\\S")
+            try self.validate(self.projectName, name: "projectName", parent: name, pattern: "\\S")
+            try self.validate(self.providerType, name: "providerType", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeSecurityIntegrationArn = "CodeSecurityIntegrationArn"
+            case projectName = "ProjectName"
+            case providerType = "ProviderType"
+        }
+    }
+
     public struct CodeVulnerabilitiesFilePath: AWSEncodableShape & AWSDecodableShape {
         ///  	The line number of the last line of code in which the vulnerability is located.
         public let endLine: Int?
@@ -24650,7 +24679,7 @@ extension SecurityHub {
     }
 
     public struct GetFindingHistoryRequest: AWSEncodableShape {
-        ///  An ISO 8601-formatted timestamp that indicates the end time of the requested finding history. If you provide values for both StartTime and EndTime, Security Hub returns finding history for the specified time period. If you provide a value for StartTime but not for EndTime, Security Hub returns finding history from the StartTime to the time at which the API is called. If you provide a value for EndTime but not for StartTime, Security Hub returns finding history from the CreatedAt timestamp of the finding to the EndTime. If you provide neither StartTime nor EndTime, Security Hub returns finding history from the CreatedAt timestamp of the finding to the time at which the API is called. In all of these scenarios, the response is limited to 100 results, and the maximum time period is  limited to 90 days. For more information about the validation and formatting of timestamp fields in Security Hub, see Timestamps.
+        ///  An ISO 8601-formatted timestamp that indicates the end time of the requested finding history. If you provide values for both StartTime and EndTime, Security Hub returns finding history for the specified time period. If you provide a value for StartTime but not for EndTime, Security Hub returns finding history from the StartTime to the time at which the API is called. If you provide a value for EndTime but not for StartTime, Security Hub returns finding history from the CreatedAt timestamp of the finding to the EndTime. If you provide neither StartTime nor EndTime, Security Hub returns finding history from the CreatedAt timestamp of the finding to the time at which the API is called. In all of these scenarios, the response is limited to 100 results. For more information about the validation and formatting of timestamp fields in Security Hub, see Timestamps.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var endTime: Date?
         public let findingIdentifier: AwsSecurityFindingIdentifier?
@@ -24658,7 +24687,7 @@ extension SecurityHub {
         public let maxResults: Int?
         ///  A token for pagination purposes. Provide NULL as the initial value. In subsequent requests, provide the  token included in the response to get up to an additional 100 results of finding history. If you don’t provide  NextToken, Security Hub returns up to 100 results of finding history for each request.
         public let nextToken: String?
-        /// A timestamp that indicates the start time of the requested finding history. If you provide values for both StartTime and EndTime, Security Hub returns finding history for the specified time period. If you provide a value for StartTime but not for EndTime, Security Hub returns finding history from the StartTime to the time at which the API is called. If you provide a value for EndTime but not for StartTime, Security Hub returns finding history from the CreatedAt timestamp of the finding to the EndTime. If you provide neither StartTime nor EndTime, Security Hub returns finding history from the CreatedAt timestamp of the finding to the time at which the API is called. In all of these scenarios, the response is limited to 100 results, and the maximum time period is  limited to 90 days. For more information about the validation and formatting of timestamp fields in Security Hub, see Timestamps.
+        /// A timestamp that indicates the start time of the requested finding history. If you provide values for both StartTime and EndTime, Security Hub returns finding history for the specified time period. If you provide a value for StartTime but not for EndTime, Security Hub returns finding history from the StartTime to the time at which the API is called. If you provide a value for EndTime but not for StartTime, Security Hub returns finding history from the CreatedAt timestamp of the finding to the EndTime. If you provide neither StartTime nor EndTime, Security Hub returns finding history from the CreatedAt timestamp of the finding to the time at which the API is called. In all of these scenarios, the response is limited to 100 results. For more information about the validation and formatting of timestamp fields in Security Hub, see Timestamps.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var startTime: Date?
 
@@ -27866,13 +27895,15 @@ extension SecurityHub {
         public let awsWafWebAcl: AwsWafWebAclDetails?
         /// Information about the encryption configuration for X-Ray.
         public let awsXrayEncryptionConfig: AwsXrayEncryptionConfigDetails?
+        ///  Details about an external code repository with which you can connect your Amazon Web Services resources.  The connection is established through Amazon Inspector.
+        public let codeRepository: CodeRepositoryDetails?
         /// Details about a container resource related to a finding.
         public let container: ContainerDetails?
         /// Details about a resource that are not available in a type-specific details object. Use the Other object in the following cases.   The type-specific object does not contain all of the fields that you want to populate. In this case, first use the type-specific object to populate those fields. Use the Other object to populate the fields that are missing from the type-specific object.   The resource type does not have a corresponding object. This includes resources for which the type is Other.
         public let other: [String: String]?
 
         @inlinable
-        public init(awsAmazonMqBroker: AwsAmazonMqBrokerDetails? = nil, awsApiGatewayRestApi: AwsApiGatewayRestApiDetails? = nil, awsApiGatewayStage: AwsApiGatewayStageDetails? = nil, awsApiGatewayV2Api: AwsApiGatewayV2ApiDetails? = nil, awsApiGatewayV2Stage: AwsApiGatewayV2StageDetails? = nil, awsAppSyncGraphQlApi: AwsAppSyncGraphQlApiDetails? = nil, awsAthenaWorkGroup: AwsAthenaWorkGroupDetails? = nil, awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails? = nil, awsAutoScalingLaunchConfiguration: AwsAutoScalingLaunchConfigurationDetails? = nil, awsBackupBackupPlan: AwsBackupBackupPlanDetails? = nil, awsBackupBackupVault: AwsBackupBackupVaultDetails? = nil, awsBackupRecoveryPoint: AwsBackupRecoveryPointDetails? = nil, awsCertificateManagerCertificate: AwsCertificateManagerCertificateDetails? = nil, awsCloudFormationStack: AwsCloudFormationStackDetails? = nil, awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsCloudTrailTrail: AwsCloudTrailTrailDetails? = nil, awsCloudWatchAlarm: AwsCloudWatchAlarmDetails? = nil, awsCodeBuildProject: AwsCodeBuildProjectDetails? = nil, awsDmsEndpoint: AwsDmsEndpointDetails? = nil, awsDmsReplicationInstance: AwsDmsReplicationInstanceDetails? = nil, awsDmsReplicationTask: AwsDmsReplicationTaskDetails? = nil, awsDynamoDbTable: AwsDynamoDbTableDetails? = nil, awsEc2ClientVpnEndpoint: AwsEc2ClientVpnEndpointDetails? = nil, awsEc2Eip: AwsEc2EipDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEc2LaunchTemplate: AwsEc2LaunchTemplateDetails? = nil, awsEc2NetworkAcl: AwsEc2NetworkAclDetails? = nil, awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails? = nil, awsEc2RouteTable: AwsEc2RouteTableDetails? = nil, awsEc2SecurityGroup: AwsEc2SecurityGroupDetails? = nil, awsEc2Subnet: AwsEc2SubnetDetails? = nil, awsEc2TransitGateway: AwsEc2TransitGatewayDetails? = nil, awsEc2Volume: AwsEc2VolumeDetails? = nil, awsEc2Vpc: AwsEc2VpcDetails? = nil, awsEc2VpcEndpointService: AwsEc2VpcEndpointServiceDetails? = nil, awsEc2VpcPeeringConnection: AwsEc2VpcPeeringConnectionDetails? = nil, awsEc2VpnConnection: AwsEc2VpnConnectionDetails? = nil, awsEcrContainerImage: AwsEcrContainerImageDetails? = nil, awsEcrRepository: AwsEcrRepositoryDetails? = nil, awsEcsCluster: AwsEcsClusterDetails? = nil, awsEcsContainer: AwsEcsContainerDetails? = nil, awsEcsService: AwsEcsServiceDetails? = nil, awsEcsTask: AwsEcsTaskDetails? = nil, awsEcsTaskDefinition: AwsEcsTaskDefinitionDetails? = nil, awsEfsAccessPoint: AwsEfsAccessPointDetails? = nil, awsEksCluster: AwsEksClusterDetails? = nil, awsElasticBeanstalkEnvironment: AwsElasticBeanstalkEnvironmentDetails? = nil, awsElasticsearchDomain: AwsElasticsearchDomainDetails? = nil, awsElbLoadBalancer: AwsElbLoadBalancerDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsEventSchemasRegistry: AwsEventSchemasRegistryDetails? = nil, awsEventsEndpoint: AwsEventsEndpointDetails? = nil, awsEventsEventbus: AwsEventsEventbusDetails? = nil, awsGuardDutyDetector: AwsGuardDutyDetectorDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamGroup: AwsIamGroupDetails? = nil, awsIamPolicy: AwsIamPolicyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsIamUser: AwsIamUserDetails? = nil, awsKinesisStream: AwsKinesisStreamDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsLambdaLayerVersion: AwsLambdaLayerVersionDetails? = nil, awsMskCluster: AwsMskClusterDetails? = nil, awsNetworkFirewallFirewall: AwsNetworkFirewallFirewallDetails? = nil, awsNetworkFirewallFirewallPolicy: AwsNetworkFirewallFirewallPolicyDetails? = nil, awsNetworkFirewallRuleGroup: AwsNetworkFirewallRuleGroupDetails? = nil, awsOpenSearchServiceDomain: AwsOpenSearchServiceDomainDetails? = nil, awsRdsDbCluster: AwsRdsDbClusterDetails? = nil, awsRdsDbClusterSnapshot: AwsRdsDbClusterSnapshotDetails? = nil, awsRdsDbInstance: AwsRdsDbInstanceDetails? = nil, awsRdsDbSecurityGroup: AwsRdsDbSecurityGroupDetails? = nil, awsRdsDbSnapshot: AwsRdsDbSnapshotDetails? = nil, awsRdsEventSubscription: AwsRdsEventSubscriptionDetails? = nil, awsRedshiftCluster: AwsRedshiftClusterDetails? = nil, awsRoute53HostedZone: AwsRoute53HostedZoneDetails? = nil, awsS3AccessPoint: AwsS3AccessPointDetails? = nil, awsS3AccountPublicAccessBlock: AwsS3AccountPublicAccessBlockDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsS3Object: AwsS3ObjectDetails? = nil, awsSageMakerNotebookInstance: AwsSageMakerNotebookInstanceDetails? = nil, awsSecretsManagerSecret: AwsSecretsManagerSecretDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, awsSsmPatchCompliance: AwsSsmPatchComplianceDetails? = nil, awsStepFunctionStateMachine: AwsStepFunctionStateMachineDetails? = nil, awsWafRateBasedRule: AwsWafRateBasedRuleDetails? = nil, awsWafRegionalRateBasedRule: AwsWafRegionalRateBasedRuleDetails? = nil, awsWafRegionalRule: AwsWafRegionalRuleDetails? = nil, awsWafRegionalRuleGroup: AwsWafRegionalRuleGroupDetails? = nil, awsWafRegionalWebAcl: AwsWafRegionalWebAclDetails? = nil, awsWafRule: AwsWafRuleDetails? = nil, awsWafRuleGroup: AwsWafRuleGroupDetails? = nil, awsWafv2RuleGroup: AwsWafv2RuleGroupDetails? = nil, awsWafv2WebAcl: AwsWafv2WebAclDetails? = nil, awsWafWebAcl: AwsWafWebAclDetails? = nil, awsXrayEncryptionConfig: AwsXrayEncryptionConfigDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
+        public init(awsAmazonMqBroker: AwsAmazonMqBrokerDetails? = nil, awsApiGatewayRestApi: AwsApiGatewayRestApiDetails? = nil, awsApiGatewayStage: AwsApiGatewayStageDetails? = nil, awsApiGatewayV2Api: AwsApiGatewayV2ApiDetails? = nil, awsApiGatewayV2Stage: AwsApiGatewayV2StageDetails? = nil, awsAppSyncGraphQlApi: AwsAppSyncGraphQlApiDetails? = nil, awsAthenaWorkGroup: AwsAthenaWorkGroupDetails? = nil, awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails? = nil, awsAutoScalingLaunchConfiguration: AwsAutoScalingLaunchConfigurationDetails? = nil, awsBackupBackupPlan: AwsBackupBackupPlanDetails? = nil, awsBackupBackupVault: AwsBackupBackupVaultDetails? = nil, awsBackupRecoveryPoint: AwsBackupRecoveryPointDetails? = nil, awsCertificateManagerCertificate: AwsCertificateManagerCertificateDetails? = nil, awsCloudFormationStack: AwsCloudFormationStackDetails? = nil, awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsCloudTrailTrail: AwsCloudTrailTrailDetails? = nil, awsCloudWatchAlarm: AwsCloudWatchAlarmDetails? = nil, awsCodeBuildProject: AwsCodeBuildProjectDetails? = nil, awsDmsEndpoint: AwsDmsEndpointDetails? = nil, awsDmsReplicationInstance: AwsDmsReplicationInstanceDetails? = nil, awsDmsReplicationTask: AwsDmsReplicationTaskDetails? = nil, awsDynamoDbTable: AwsDynamoDbTableDetails? = nil, awsEc2ClientVpnEndpoint: AwsEc2ClientVpnEndpointDetails? = nil, awsEc2Eip: AwsEc2EipDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEc2LaunchTemplate: AwsEc2LaunchTemplateDetails? = nil, awsEc2NetworkAcl: AwsEc2NetworkAclDetails? = nil, awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails? = nil, awsEc2RouteTable: AwsEc2RouteTableDetails? = nil, awsEc2SecurityGroup: AwsEc2SecurityGroupDetails? = nil, awsEc2Subnet: AwsEc2SubnetDetails? = nil, awsEc2TransitGateway: AwsEc2TransitGatewayDetails? = nil, awsEc2Volume: AwsEc2VolumeDetails? = nil, awsEc2Vpc: AwsEc2VpcDetails? = nil, awsEc2VpcEndpointService: AwsEc2VpcEndpointServiceDetails? = nil, awsEc2VpcPeeringConnection: AwsEc2VpcPeeringConnectionDetails? = nil, awsEc2VpnConnection: AwsEc2VpnConnectionDetails? = nil, awsEcrContainerImage: AwsEcrContainerImageDetails? = nil, awsEcrRepository: AwsEcrRepositoryDetails? = nil, awsEcsCluster: AwsEcsClusterDetails? = nil, awsEcsContainer: AwsEcsContainerDetails? = nil, awsEcsService: AwsEcsServiceDetails? = nil, awsEcsTask: AwsEcsTaskDetails? = nil, awsEcsTaskDefinition: AwsEcsTaskDefinitionDetails? = nil, awsEfsAccessPoint: AwsEfsAccessPointDetails? = nil, awsEksCluster: AwsEksClusterDetails? = nil, awsElasticBeanstalkEnvironment: AwsElasticBeanstalkEnvironmentDetails? = nil, awsElasticsearchDomain: AwsElasticsearchDomainDetails? = nil, awsElbLoadBalancer: AwsElbLoadBalancerDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsEventSchemasRegistry: AwsEventSchemasRegistryDetails? = nil, awsEventsEndpoint: AwsEventsEndpointDetails? = nil, awsEventsEventbus: AwsEventsEventbusDetails? = nil, awsGuardDutyDetector: AwsGuardDutyDetectorDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamGroup: AwsIamGroupDetails? = nil, awsIamPolicy: AwsIamPolicyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsIamUser: AwsIamUserDetails? = nil, awsKinesisStream: AwsKinesisStreamDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsLambdaLayerVersion: AwsLambdaLayerVersionDetails? = nil, awsMskCluster: AwsMskClusterDetails? = nil, awsNetworkFirewallFirewall: AwsNetworkFirewallFirewallDetails? = nil, awsNetworkFirewallFirewallPolicy: AwsNetworkFirewallFirewallPolicyDetails? = nil, awsNetworkFirewallRuleGroup: AwsNetworkFirewallRuleGroupDetails? = nil, awsOpenSearchServiceDomain: AwsOpenSearchServiceDomainDetails? = nil, awsRdsDbCluster: AwsRdsDbClusterDetails? = nil, awsRdsDbClusterSnapshot: AwsRdsDbClusterSnapshotDetails? = nil, awsRdsDbInstance: AwsRdsDbInstanceDetails? = nil, awsRdsDbSecurityGroup: AwsRdsDbSecurityGroupDetails? = nil, awsRdsDbSnapshot: AwsRdsDbSnapshotDetails? = nil, awsRdsEventSubscription: AwsRdsEventSubscriptionDetails? = nil, awsRedshiftCluster: AwsRedshiftClusterDetails? = nil, awsRoute53HostedZone: AwsRoute53HostedZoneDetails? = nil, awsS3AccessPoint: AwsS3AccessPointDetails? = nil, awsS3AccountPublicAccessBlock: AwsS3AccountPublicAccessBlockDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsS3Object: AwsS3ObjectDetails? = nil, awsSageMakerNotebookInstance: AwsSageMakerNotebookInstanceDetails? = nil, awsSecretsManagerSecret: AwsSecretsManagerSecretDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, awsSsmPatchCompliance: AwsSsmPatchComplianceDetails? = nil, awsStepFunctionStateMachine: AwsStepFunctionStateMachineDetails? = nil, awsWafRateBasedRule: AwsWafRateBasedRuleDetails? = nil, awsWafRegionalRateBasedRule: AwsWafRegionalRateBasedRuleDetails? = nil, awsWafRegionalRule: AwsWafRegionalRuleDetails? = nil, awsWafRegionalRuleGroup: AwsWafRegionalRuleGroupDetails? = nil, awsWafRegionalWebAcl: AwsWafRegionalWebAclDetails? = nil, awsWafRule: AwsWafRuleDetails? = nil, awsWafRuleGroup: AwsWafRuleGroupDetails? = nil, awsWafv2RuleGroup: AwsWafv2RuleGroupDetails? = nil, awsWafv2WebAcl: AwsWafv2WebAclDetails? = nil, awsWafWebAcl: AwsWafWebAclDetails? = nil, awsXrayEncryptionConfig: AwsXrayEncryptionConfigDetails? = nil, codeRepository: CodeRepositoryDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
             self.awsAmazonMqBroker = awsAmazonMqBroker
             self.awsApiGatewayRestApi = awsApiGatewayRestApi
             self.awsApiGatewayStage = awsApiGatewayStage
@@ -27970,6 +28001,7 @@ extension SecurityHub {
             self.awsWafv2WebAcl = awsWafv2WebAcl
             self.awsWafWebAcl = awsWafWebAcl
             self.awsXrayEncryptionConfig = awsXrayEncryptionConfig
+            self.codeRepository = codeRepository
             self.container = container
             self.other = other
         }
@@ -28071,6 +28103,7 @@ extension SecurityHub {
             try self.awsWafv2WebAcl?.validate(name: "\(name).awsWafv2WebAcl")
             try self.awsWafWebAcl?.validate(name: "\(name).awsWafWebAcl")
             try self.awsXrayEncryptionConfig?.validate(name: "\(name).awsXrayEncryptionConfig")
+            try self.codeRepository?.validate(name: "\(name).codeRepository")
             try self.container?.validate(name: "\(name).container")
             try self.other?.forEach {
                 try validate($0.key, name: "other.key", parent: name, pattern: "\\S")
@@ -28176,6 +28209,7 @@ extension SecurityHub {
             case awsWafv2WebAcl = "AwsWafv2WebAcl"
             case awsWafWebAcl = "AwsWafWebAcl"
             case awsXrayEncryptionConfig = "AwsXrayEncryptionConfig"
+            case codeRepository = "CodeRepository"
             case container = "Container"
             case other = "Other"
         }

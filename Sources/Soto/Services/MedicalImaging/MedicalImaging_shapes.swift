@@ -49,6 +49,9 @@ extension MedicalImaging {
         case created = "CREATED"
         case deleted = "DELETED"
         case deleting = "DELETING"
+        case importFailed = "IMPORT_FAILED"
+        case imported = "IMPORTED"
+        case importing = "IMPORTING"
         case updateFailed = "UPDATE_FAILED"
         case updated = "UPDATED"
         case updating = "UPDATING"
@@ -165,14 +168,14 @@ extension MedicalImaging {
                 try self.validate(value, name: "dicomPatientId", parent: name, max: 256)
             case .dicomSeriesInstanceUID(let value):
                 try self.validate(value, name: "dicomSeriesInstanceUID", parent: name, max: 256)
-                try self.validate(value, name: "dicomSeriesInstanceUID", parent: name, pattern: "^(?:[0-9][0-9]*|0)(\\.(?:[1-9][0-9]*|0))*$")
+                try self.validate(value, name: "dicomSeriesInstanceUID", parent: name, pattern: "^(?:[0-9][0-9]*|0)(\\.(?:[0-9][0-9]*|0))*$")
             case .dicomStudyDateAndTime(let value):
                 try value.validate(name: "\(name).dicomStudyDateAndTime")
             case .dicomStudyId(let value):
-                try self.validate(value, name: "dicomStudyId", parent: name, max: 16)
+                try self.validate(value, name: "dicomStudyId", parent: name, max: 256)
             case .dicomStudyInstanceUID(let value):
                 try self.validate(value, name: "dicomStudyInstanceUID", parent: name, max: 256)
-                try self.validate(value, name: "dicomStudyInstanceUID", parent: name, pattern: "^(?:[0-9][0-9]*|0)(\\.(?:[1-9][0-9]*|0))*$")
+                try self.validate(value, name: "dicomStudyInstanceUID", parent: name, pattern: "^(?:[0-9][0-9]*|0)(\\.(?:[0-9][0-9]*|0))*$")
             default:
                 break
             }
@@ -407,14 +410,17 @@ extension MedicalImaging {
         public let datastoreName: String?
         /// The Amazon Resource Name (ARN) assigned to the Key Management Service (KMS) key for accessing encrypted data.
         public let kmsKeyArn: String?
+        /// The ARN of the authorizer's Lambda function.
+        public let lambdaAuthorizerArn: String?
         /// The tags provided when creating a data store.
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String = CreateDatastoreRequest.idempotencyToken(), datastoreName: String? = nil, kmsKeyArn: String? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String = CreateDatastoreRequest.idempotencyToken(), datastoreName: String? = nil, kmsKeyArn: String? = nil, lambdaAuthorizerArn: String? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.datastoreName = datastoreName
             self.kmsKeyArn = kmsKeyArn
+            self.lambdaAuthorizerArn = lambdaAuthorizerArn
             self.tags = tags
         }
 
@@ -428,6 +434,7 @@ extension MedicalImaging {
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 512)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 1)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws[a-zA-Z-]{0,16}:kms:[a-z]{2}(-[a-z]{1,16}){1,3}-\\d{1}:\\d{12}:((key/[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})|(alias/[a-zA-Z0-9:/_-]{1,256}))$")
+            try self.validate(self.lambdaAuthorizerArn, name: "lambdaAuthorizerArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -440,6 +447,7 @@ extension MedicalImaging {
             case clientToken = "clientToken"
             case datastoreName = "datastoreName"
             case kmsKeyArn = "kmsKeyArn"
+            case lambdaAuthorizerArn = "lambdaAuthorizerArn"
             case tags = "tags"
         }
     }
@@ -689,17 +697,20 @@ extension MedicalImaging {
         public let datastoreStatus: DatastoreStatus
         /// The Amazon Resource Name (ARN) assigned to the Key Management Service (KMS) key for accessing encrypted data.
         public let kmsKeyArn: String?
+        /// The ARN of the authorizer's Lambda function.
+        public let lambdaAuthorizerArn: String?
         /// The timestamp when the data store was last updated.
         public let updatedAt: Date?
 
         @inlinable
-        public init(createdAt: Date? = nil, datastoreArn: String? = nil, datastoreId: String, datastoreName: String, datastoreStatus: DatastoreStatus, kmsKeyArn: String? = nil, updatedAt: Date? = nil) {
+        public init(createdAt: Date? = nil, datastoreArn: String? = nil, datastoreId: String, datastoreName: String, datastoreStatus: DatastoreStatus, kmsKeyArn: String? = nil, lambdaAuthorizerArn: String? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.datastoreArn = datastoreArn
             self.datastoreId = datastoreId
             self.datastoreName = datastoreName
             self.datastoreStatus = datastoreStatus
             self.kmsKeyArn = kmsKeyArn
+            self.lambdaAuthorizerArn = lambdaAuthorizerArn
             self.updatedAt = updatedAt
         }
 
@@ -710,6 +721,7 @@ extension MedicalImaging {
             case datastoreName = "datastoreName"
             case datastoreStatus = "datastoreStatus"
             case kmsKeyArn = "kmsKeyArn"
+            case lambdaAuthorizerArn = "lambdaAuthorizerArn"
             case updatedAt = "updatedAt"
         }
     }

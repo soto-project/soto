@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS SecurityIR service.
 ///
-/// This guide provides documents the action and response elements for customer use of the service.
+/// This guide documents the action and response elements for use of the service.
 public struct SecurityIR: AWSService {
     // MARK: Member variables
 
@@ -78,7 +78,7 @@ public struct SecurityIR: AWSService {
 
     // MARK: API Calls
 
-    /// Grants permission to view an existing membership.
+    /// Provides information on whether the supplied account IDs are associated with a membership.   AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123. Not zero-prepending to 12 digits could result in errors.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_BatchGetMemberAccountDetails.html
     @Sendable
     @inlinable
@@ -92,11 +92,11 @@ public struct SecurityIR: AWSService {
             logger: logger
         )
     }
-    /// Grants permission to view an existing membership.
+    /// Provides information on whether the supplied account IDs are associated with a membership.   AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123. Not zero-prepending to 12 digits could result in errors.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_BatchGetMemberAccountDetails.html
     ///
     /// Parameters:
-    ///   - accountIds: Optional element to query the membership relationship status to a provided list of account IDs.
+    ///   - accountIds: Optional element to query the membership relationship status to a provided list of account IDs.   AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123. Not zero-prepending to 12 digits could result in errors.
     ///   - membershipId: Required element used in combination with BatchGetMemberAccountDetails to identify the membership ID to query.
     ///   - logger: Logger use during operation
     @inlinable
@@ -112,7 +112,7 @@ public struct SecurityIR: AWSService {
         return try await self.batchGetMemberAccountDetails(input, logger: logger)
     }
 
-    /// Grants permissions to cancel an existing membership.
+    /// Cancels an existing membership.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_CancelMembership.html
     @Sendable
     @inlinable
@@ -126,7 +126,7 @@ public struct SecurityIR: AWSService {
             logger: logger
         )
     }
-    /// Grants permissions to cancel an existing membership.
+    /// Cancels an existing membership.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_CancelMembership.html
     ///
     /// Parameters:
@@ -143,7 +143,7 @@ public struct SecurityIR: AWSService {
         return try await self.cancelMembership(input, logger: logger)
     }
 
-    /// Grants permission to close an existing case.
+    /// Closes an existing case.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_CloseCase.html
     @Sendable
     @inlinable
@@ -157,7 +157,7 @@ public struct SecurityIR: AWSService {
             logger: logger
         )
     }
-    /// Grants permission to close an existing case.
+    /// Closes an existing case.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_CloseCase.html
     ///
     /// Parameters:
@@ -174,7 +174,7 @@ public struct SecurityIR: AWSService {
         return try await self.closeCase(input, logger: logger)
     }
 
-    /// Grants permission to create a new case.
+    /// Creates a new case.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_CreateCase.html
     @Sendable
     @inlinable
@@ -188,18 +188,18 @@ public struct SecurityIR: AWSService {
             logger: logger
         )
     }
-    /// Grants permission to create a new case.
+    /// Creates a new case.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_CreateCase.html
     ///
     /// Parameters:
-    ///   - clientToken: Required element used in combination with CreateCase.
+    ///   - clientToken:  The clientToken field is an idempotency key used to ensure that repeated attempts for a single action will be ignored by the server during retries. A caller supplied unique ID (typically a UUID) should be provided.
     ///   - description: Required element used in combination with CreateCase to provide a description for the new case.
     ///   - engagementType: Required element used in combination with CreateCase to provide an engagement type for the new cases. Available engagement types include Security Incident | Investigation
-    ///   - impactedAccounts: Required element used in combination with CreateCase to provide a list of impacted accounts.
+    ///   - impactedAccounts: Required element used in combination with CreateCase to provide a list of impacted accounts.   AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123. Not zero-prepending to 12 digits could result in errors.
     ///   - impactedAwsRegions: An optional element used in combination with CreateCase to provide a list of impacted regions.
     ///   - impactedServices: An optional element used in combination with CreateCase to provide a list of services impacted.
     ///   - reportedIncidentStartDate: Required element used in combination with CreateCase to provide an initial start date for the unauthorized activity.
-    ///   - resolverType: Required element used in combination with CreateCase to identify the resolver type. Available resolvers include self-supported | aws-supported.
+    ///   - resolverType: Required element used in combination with CreateCase to identify the resolver type.
     ///   - tags: An optional element used in combination with CreateCase to add customer specified tags to a case.
     ///   - threatActorIpAddresses: An optional element used in combination with CreateCase to provide a list of suspicious internet protocol addresses associated with unauthorized activity.
     ///   - title: Required element used in combination with CreateCase to provide a title for the new case.
@@ -238,7 +238,7 @@ public struct SecurityIR: AWSService {
         return try await self.createCase(input, logger: logger)
     }
 
-    /// Grants permission to add a comment to an existing case.
+    /// Adds a comment to an existing case.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_CreateCaseComment.html
     @Sendable
     @inlinable
@@ -252,13 +252,13 @@ public struct SecurityIR: AWSService {
             logger: logger
         )
     }
-    /// Grants permission to add a comment to an existing case.
+    /// Adds a comment to an existing case.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_CreateCaseComment.html
     ///
     /// Parameters:
     ///   - body: Required element used in combination with CreateCaseComment to add content for the new comment.
     ///   - caseId: Required element used in combination with CreateCaseComment to specify a case ID.
-    ///   - clientToken: An optional element used in combination with CreateCaseComment.
+    ///   - clientToken:  The clientToken field is an idempotency key used to ensure that repeated attempts for a single action will be ignored by the server during retries. A caller supplied unique ID (typically a UUID) should be provided.
     ///   - logger: Logger use during operation
     @inlinable
     public func createCaseComment(
@@ -275,7 +275,7 @@ public struct SecurityIR: AWSService {
         return try await self.createCaseComment(input, logger: logger)
     }
 
-    /// Grants permissions to create a new membership.
+    /// Creates a new membership.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_CreateMembership.html
     @Sendable
     @inlinable
@@ -289,19 +289,21 @@ public struct SecurityIR: AWSService {
             logger: logger
         )
     }
-    /// Grants permissions to create a new membership.
+    /// Creates a new membership.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_CreateMembership.html
     ///
     /// Parameters:
-    ///   - clientToken: An optional element used in combination with CreateMembership.
-    ///   - incidentResponseTeam: Required element use in combination with CreateMembership to add customer incident response team members and trusted partners to the membership.
-    ///   - membershipName: Required element use in combination with CreateMembership to create a name for the membership.
+    ///   - clientToken:  The clientToken field is an idempotency key used to ensure that repeated attempts for a single action will be ignored by the server during retries. A caller supplied unique ID (typically a UUID) should be provided.
+    ///   - coverEntireOrganization: The coverEntireOrganization parameter is a boolean flag that determines whether the membership should be applied to the entire Amazon Web Services Organization. When set to true, the membership will be created for all accounts within the organization. When set to false, the membership will only be created for specified accounts.  This parameter is optional. If not specified, the default value is false.   If set to true: The membership will automatically include all existing and future accounts in the Amazon Web Services Organization.    If set to false: The membership will only apply to explicitly specified accounts.
+    ///   - incidentResponseTeam: Required element used in combination with CreateMembership to add customer incident response team members and trusted partners to the membership.
+    ///   - membershipName: Required element used in combination with CreateMembership to create a name for the membership.
     ///   - optInFeatures: Optional element to enable the monitoring and investigation opt-in features for the service.
     ///   - tags: Optional element for customer configured tags.
     ///   - logger: Logger use during operation
     @inlinable
     public func createMembership(
         clientToken: String? = nil,
+        coverEntireOrganization: Bool? = nil,
         incidentResponseTeam: [IncidentResponder],
         membershipName: String,
         optInFeatures: [OptInFeature]? = nil,
@@ -310,6 +312,7 @@ public struct SecurityIR: AWSService {
     ) async throws -> CreateMembershipResponse {
         let input = CreateMembershipRequest(
             clientToken: clientToken, 
+            coverEntireOrganization: coverEntireOrganization, 
             incidentResponseTeam: incidentResponseTeam, 
             membershipName: membershipName, 
             optInFeatures: optInFeatures, 
@@ -318,7 +321,7 @@ public struct SecurityIR: AWSService {
         return try await self.createMembership(input, logger: logger)
     }
 
-    /// Grant permission to view a designated case.
+    /// Returns the attributes of a case.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_GetCase.html
     @Sendable
     @inlinable
@@ -332,7 +335,7 @@ public struct SecurityIR: AWSService {
             logger: logger
         )
     }
-    /// Grant permission to view a designated case.
+    /// Returns the attributes of a case.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_GetCase.html
     ///
     /// Parameters:
@@ -349,7 +352,7 @@ public struct SecurityIR: AWSService {
         return try await self.getCase(input, logger: logger)
     }
 
-    /// Grants permission to obtain an Amazon S3 presigned URL to download an attachment.
+    /// Returns a Pre-Signed URL for uploading attachments into a case.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_GetCaseAttachmentDownloadUrl.html
     @Sendable
     @inlinable
@@ -363,7 +366,7 @@ public struct SecurityIR: AWSService {
             logger: logger
         )
     }
-    /// Grants permission to obtain an Amazon S3 presigned URL to download an attachment.
+    /// Returns a Pre-Signed URL for uploading attachments into a case.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_GetCaseAttachmentDownloadUrl.html
     ///
     /// Parameters:
@@ -383,7 +386,7 @@ public struct SecurityIR: AWSService {
         return try await self.getCaseAttachmentDownloadUrl(input, logger: logger)
     }
 
-    /// Grants permission to upload an attachment to a case.
+    /// Uploads an attachment to a case.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_GetCaseAttachmentUploadUrl.html
     @Sendable
     @inlinable
@@ -397,13 +400,13 @@ public struct SecurityIR: AWSService {
             logger: logger
         )
     }
-    /// Grants permission to upload an attachment to a case.
+    /// Uploads an attachment to a case.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_GetCaseAttachmentUploadUrl.html
     ///
     /// Parameters:
-    ///   - caseId: Required element for GetCaseAttachmentUploadUrl to identify the case ID for uploading an attachment to.
-    ///   - clientToken: Optional element for customer provided token.
-    ///   - contentLength: Required element for GetCaseAttachmentUploadUrl to identify the size od the file attachment.
+    ///   - caseId: Required element for GetCaseAttachmentUploadUrl to identify the case ID for uploading an attachment.
+    ///   - clientToken:  The clientToken field is an idempotency key used to ensure that repeated attempts for a single action will be ignored by the server during retries. A caller supplied unique ID (typically a UUID) should be provided.
+    ///   - contentLength: Required element for GetCaseAttachmentUploadUrl to identify the size of the file attachment.
     ///   - fileName: Required element for GetCaseAttachmentUploadUrl to identify the file name of the attachment to upload.
     ///   - logger: Logger use during operation
     @inlinable
@@ -423,7 +426,7 @@ public struct SecurityIR: AWSService {
         return try await self.getCaseAttachmentUploadUrl(input, logger: logger)
     }
 
-    /// Grants permission to get details of a designated service membership.
+    /// Returns the attributes of a membership.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_GetMembership.html
     @Sendable
     @inlinable
@@ -437,7 +440,7 @@ public struct SecurityIR: AWSService {
             logger: logger
         )
     }
-    /// Grants permission to get details of a designated service membership.
+    /// Returns the attributes of a membership.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_GetMembership.html
     ///
     /// Parameters:
@@ -454,7 +457,7 @@ public struct SecurityIR: AWSService {
         return try await self.getMembership(input, logger: logger)
     }
 
-    /// Grants permissions to view the aidt log for edits made to a designated case.
+    /// Views the case history for edits made to a designated case.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_ListCaseEdits.html
     @Sendable
     @inlinable
@@ -468,13 +471,13 @@ public struct SecurityIR: AWSService {
             logger: logger
         )
     }
-    /// Grants permissions to view the aidt log for edits made to a designated case.
+    /// Views the case history for edits made to a designated case.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_ListCaseEdits.html
     ///
     /// Parameters:
     ///   - caseId: Required element used with ListCaseEdits to identify the case to query.
     ///   - maxResults: Optional element to identify how many results to obtain. There is a maximum value of 25.
-    ///   - nextToken: Optional element for a customer provided token.
+    ///   - nextToken: An optional string that, if supplied, must be copied from the output of a previous call to ListCaseEdits. When provided in this manner, the API fetches the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listCaseEdits(
@@ -491,7 +494,7 @@ public struct SecurityIR: AWSService {
         return try await self.listCaseEdits(input, logger: logger)
     }
 
-    /// Grants permission to list all cases the requester has access to.
+    /// Lists all cases the requester has access to.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_ListCases.html
     @Sendable
     @inlinable
@@ -505,12 +508,12 @@ public struct SecurityIR: AWSService {
             logger: logger
         )
     }
-    /// Grants permission to list all cases the requester has access to.
+    /// Lists all cases the requester has access to.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_ListCases.html
     ///
     /// Parameters:
     ///   - maxResults: Optional element for ListCases to limit the number of responses.
-    ///   - nextToken: Optional element.
+    ///   - nextToken: An optional string that, if supplied, must be copied from the output of a previous call to ListCases. When provided in this manner, the API fetches the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listCases(
@@ -525,7 +528,7 @@ public struct SecurityIR: AWSService {
         return try await self.listCases(input, logger: logger)
     }
 
-    /// Grants permissions to list and view comments for a designated case.
+    /// Returns comments for a designated case.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_ListComments.html
     @Sendable
     @inlinable
@@ -539,13 +542,13 @@ public struct SecurityIR: AWSService {
             logger: logger
         )
     }
-    /// Grants permissions to list and view comments for a designated case.
+    /// Returns comments for a designated case.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_ListComments.html
     ///
     /// Parameters:
     ///   - caseId: Required element for ListComments to designate the case to query.
     ///   - maxResults: Optional element for ListComments to limit the number of responses.
-    ///   - nextToken: Optional element.
+    ///   - nextToken: An optional string that, if supplied, must be copied from the output of a previous call to ListComments. When provided in this manner, the API fetches the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listComments(
@@ -562,7 +565,7 @@ public struct SecurityIR: AWSService {
         return try await self.listComments(input, logger: logger)
     }
 
-    /// Grants permission to query the memberships a principal has access to.
+    /// Returns the memberships that the calling principal can access.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_ListMemberships.html
     @Sendable
     @inlinable
@@ -576,12 +579,12 @@ public struct SecurityIR: AWSService {
             logger: logger
         )
     }
-    /// Grants permission to query the memberships a principal has access to.
+    /// Returns the memberships that the calling principal can access.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_ListMemberships.html
     ///
     /// Parameters:
     ///   - maxResults: Request element for ListMemberships to limit the number of responses.
-    ///   - nextToken: Optional element.
+    ///   - nextToken: An optional string that, if supplied, must be copied from the output of a previous call to ListMemberships. When provided in this manner, the API fetches the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listMemberships(
@@ -596,7 +599,7 @@ public struct SecurityIR: AWSService {
         return try await self.listMemberships(input, logger: logger)
     }
 
-    /// Grants permission to view currently configured tags on a resource.
+    /// Returns currently configured tags on a resource.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_ListTagsForResource.html
     @Sendable
     @inlinable
@@ -610,7 +613,7 @@ public struct SecurityIR: AWSService {
             logger: logger
         )
     }
-    /// Grants permission to view currently configured tags on a resource.
+    /// Returns currently configured tags on a resource.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_ListTagsForResource.html
     ///
     /// Parameters:
@@ -627,7 +630,7 @@ public struct SecurityIR: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Grants permission to add a tag(s) to a designated resource.
+    /// Adds a tag(s) to a designated resource.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_TagResource.html
     @Sendable
     @inlinable
@@ -641,7 +644,7 @@ public struct SecurityIR: AWSService {
             logger: logger
         )
     }
-    /// Grants permission to add a tag(s) to a designated resource.
+    /// Adds a tag(s) to a designated resource.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_TagResource.html
     ///
     /// Parameters:
@@ -661,7 +664,7 @@ public struct SecurityIR: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    /// Grants permission to remove a tag(s) from a designate resource.
+    /// Removes a tag(s) from a designate resource.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_UntagResource.html
     @Sendable
     @inlinable
@@ -675,7 +678,7 @@ public struct SecurityIR: AWSService {
             logger: logger
         )
     }
-    /// Grants permission to remove a tag(s) from a designate resource.
+    /// Removes a tag(s) from a designate resource.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_UntagResource.html
     ///
     /// Parameters:
@@ -695,7 +698,7 @@ public struct SecurityIR: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Grants permission to update an existing case.
+    /// Updates an existing case.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_UpdateCase.html
     @Sendable
     @inlinable
@@ -709,7 +712,7 @@ public struct SecurityIR: AWSService {
             logger: logger
         )
     }
-    /// Grants permission to update an existing case.
+    /// Updates an existing case.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_UpdateCase.html
     ///
     /// Parameters:
@@ -717,8 +720,8 @@ public struct SecurityIR: AWSService {
     ///   - caseId: Required element for UpdateCase to identify the case ID for updates.
     ///   - description: Optional element for UpdateCase to provide content for the description field.
     ///   - engagementType: Optional element for UpdateCase to provide content for the engagement type field. Available engagement types include Security Incident | Investigation.
-    ///   - impactedAccountsToAdd: Optional element for UpdateCase to provide content to add accounts impacted.
-    ///   - impactedAccountsToDelete: Optional element for UpdateCase to provide content to add accounts impacted.
+    ///   - impactedAccountsToAdd: Optional element for UpdateCase to provide content to add accounts impacted.   AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123. Not zero-prepending to 12 digits could result in errors.
+    ///   - impactedAccountsToDelete: Optional element for UpdateCase to provide content to add accounts impacted.   AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123. Not zero-prepending to 12 digits could result in errors.
     ///   - impactedAwsRegionsToAdd: Optional element for UpdateCase to provide content to add regions impacted.
     ///   - impactedAwsRegionsToDelete: Optional element for UpdateCase to provide content to remove regions impacted.
     ///   - impactedServicesToAdd: Optional element for UpdateCase to provide content to add services impacted.
@@ -771,7 +774,7 @@ public struct SecurityIR: AWSService {
         return try await self.updateCase(input, logger: logger)
     }
 
-    /// Grants permission to update an existing case comment.
+    /// Updates an existing case comment.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_UpdateCaseComment.html
     @Sendable
     @inlinable
@@ -785,7 +788,7 @@ public struct SecurityIR: AWSService {
             logger: logger
         )
     }
-    /// Grants permission to update an existing case comment.
+    /// Updates an existing case comment.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_UpdateCaseComment.html
     ///
     /// Parameters:
@@ -808,7 +811,7 @@ public struct SecurityIR: AWSService {
         return try await self.updateCaseComment(input, logger: logger)
     }
 
-    /// Grants permission to update the status for a designated cases. Options include Submitted | Detection and Analysis | Eradication, Containment and Recovery | Post-Incident Activities | Closed.
+    /// Updates the state transitions for a designated cases.  Self-managed: the following states are available for self-managed cases.    Submitted → Detection and Analysis   Detection and Analysis → Containment, Eradication, and Recovery   Detection and Analysis → Post-incident Activities   Containment, Eradication, and Recovery → Detection and Analysis   Containment, Eradication, and Recovery → Post-incident Activities   Post-incident Activities → Containment, Eradication, and Recovery   Post-incident Activities → Detection and Analysis   Any → Closed    AWS supported: You must use the CloseCase API to close.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_UpdateCaseStatus.html
     @Sendable
     @inlinable
@@ -822,7 +825,7 @@ public struct SecurityIR: AWSService {
             logger: logger
         )
     }
-    /// Grants permission to update the status for a designated cases. Options include Submitted | Detection and Analysis | Eradication, Containment and Recovery | Post-Incident Activities | Closed.
+    /// Updates the state transitions for a designated cases.  Self-managed: the following states are available for self-managed cases.    Submitted → Detection and Analysis   Detection and Analysis → Containment, Eradication, and Recovery   Detection and Analysis → Post-incident Activities   Containment, Eradication, and Recovery → Detection and Analysis   Containment, Eradication, and Recovery → Post-incident Activities   Post-incident Activities → Containment, Eradication, and Recovery   Post-incident Activities → Detection and Analysis   Any → Closed    AWS supported: You must use the CloseCase API to close.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_UpdateCaseStatus.html
     ///
     /// Parameters:
@@ -842,7 +845,7 @@ public struct SecurityIR: AWSService {
         return try await self.updateCaseStatus(input, logger: logger)
     }
 
-    /// Grants access to UpdateMembership to change membership configuration.
+    /// Updates membership configuration.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_UpdateMembership.html
     @Sendable
     @inlinable
@@ -856,33 +859,39 @@ public struct SecurityIR: AWSService {
             logger: logger
         )
     }
-    /// Grants access to UpdateMembership to change membership configuration.
+    /// Updates membership configuration.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_UpdateMembership.html
     ///
     /// Parameters:
     ///   - incidentResponseTeam: Optional element for UpdateMembership to update the membership name.
+    ///   - membershipAccountsConfigurationsUpdate: The membershipAccountsConfigurationsUpdate field in the UpdateMembershipRequest structure allows you to update the configuration settings for accounts within a membership.  This field is optional and contains a structure of type MembershipAccountsConfigurationsUpdate  that specifies the updated account configurations for the membership.
     ///   - membershipId: Required element for UpdateMembership to identify the membership to update.
     ///   - membershipName: Optional element for UpdateMembership to update the membership name.
     ///   - optInFeatures: Optional element for UpdateMembership to enable or disable opt-in features for the service.
+    ///   - undoMembershipCancellation: The undoMembershipCancellation parameter is a boolean flag that indicates whether to reverse a previously requested membership cancellation. When set to true, this will revoke the cancellation request and maintain the membership status.  This parameter is optional and can be used in scenarios where you need to restore a membership that was marked for cancellation but hasn't been fully terminated yet.    If set to true, the cancellation request will be revoked    If set to false the service will throw a ValidationException.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateMembership(
         incidentResponseTeam: [IncidentResponder]? = nil,
+        membershipAccountsConfigurationsUpdate: MembershipAccountsConfigurationsUpdate? = nil,
         membershipId: String,
         membershipName: String? = nil,
         optInFeatures: [OptInFeature]? = nil,
+        undoMembershipCancellation: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateMembershipResponse {
         let input = UpdateMembershipRequest(
             incidentResponseTeam: incidentResponseTeam, 
+            membershipAccountsConfigurationsUpdate: membershipAccountsConfigurationsUpdate, 
             membershipId: membershipId, 
             membershipName: membershipName, 
-            optInFeatures: optInFeatures
+            optInFeatures: optInFeatures, 
+            undoMembershipCancellation: undoMembershipCancellation
         )
         return try await self.updateMembership(input, logger: logger)
     }
 
-    /// Grants permission to update the resolver type for a case.  This is a one-way action and cannot be reversed.  Options include self-supported &gt; AWS-supported.
+    /// Updates the resolver type for a case.  This is a one-way action and cannot be reversed.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_UpdateResolverType.html
     @Sendable
     @inlinable
@@ -896,7 +905,7 @@ public struct SecurityIR: AWSService {
             logger: logger
         )
     }
-    /// Grants permission to update the resolver type for a case.  This is a one-way action and cannot be reversed.  Options include self-supported &gt; AWS-supported.
+    /// Updates the resolver type for a case.  This is a one-way action and cannot be reversed.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_UpdateResolverType.html
     ///
     /// Parameters:

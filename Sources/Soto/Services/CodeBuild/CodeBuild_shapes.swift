@@ -275,6 +275,31 @@ extension CodeBuild {
         public var description: String { return self.rawValue }
     }
 
+    public enum PullRequestBuildApproverRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bitbucketAdmin = "BITBUCKET_ADMIN"
+        case bitbucketRead = "BITBUCKET_READ"
+        case bitbucketWrite = "BITBUCKET_WRITE"
+        case githubAdmin = "GITHUB_ADMIN"
+        case githubMaintain = "GITHUB_MAINTAIN"
+        case githubRead = "GITHUB_READ"
+        case githubTriage = "GITHUB_TRIAGE"
+        case githubWrite = "GITHUB_WRITE"
+        case gitlabDeveloper = "GITLAB_DEVELOPER"
+        case gitlabGuest = "GITLAB_GUEST"
+        case gitlabMaintainer = "GITLAB_MAINTAINER"
+        case gitlabOwner = "GITLAB_OWNER"
+        case gitlabPlanner = "GITLAB_PLANNER"
+        case gitlabReporter = "GITLAB_REPORTER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PullRequestBuildCommentApproval: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allPullRequests = "ALL_PULL_REQUESTS"
+        case disabled = "DISABLED"
+        case forkPullRequests = "FORK_PULL_REQUESTS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReportCodeCoverageSortByType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case filePath = "FILE_PATH"
         case lineCoveragePercentage = "LINE_COVERAGE_PERCENTAGE"
@@ -1821,16 +1846,19 @@ extension CodeBuild {
         public let manualCreation: Bool?
         /// The name of the CodeBuild project.
         public let projectName: String
+        /// A PullRequestBuildPolicy object that defines comment-based approval requirements for triggering builds on pull requests. This policy helps control when automated builds are executed based on contributor permissions and approval workflows.
+        public let pullRequestBuildPolicy: PullRequestBuildPolicy?
         /// The scope configuration for global or organization webhooks.  Global or organization webhooks are only available for GitHub and Github Enterprise webhooks.
         public let scopeConfiguration: ScopeConfiguration?
 
         @inlinable
-        public init(branchFilter: String? = nil, buildType: WebhookBuildType? = nil, filterGroups: [[WebhookFilter]]? = nil, manualCreation: Bool? = nil, projectName: String, scopeConfiguration: ScopeConfiguration? = nil) {
+        public init(branchFilter: String? = nil, buildType: WebhookBuildType? = nil, filterGroups: [[WebhookFilter]]? = nil, manualCreation: Bool? = nil, projectName: String, pullRequestBuildPolicy: PullRequestBuildPolicy? = nil, scopeConfiguration: ScopeConfiguration? = nil) {
             self.branchFilter = branchFilter
             self.buildType = buildType
             self.filterGroups = filterGroups
             self.manualCreation = manualCreation
             self.projectName = projectName
+            self.pullRequestBuildPolicy = pullRequestBuildPolicy
             self.scopeConfiguration = scopeConfiguration
         }
 
@@ -1846,6 +1874,7 @@ extension CodeBuild {
             case filterGroups = "filterGroups"
             case manualCreation = "manualCreation"
             case projectName = "projectName"
+            case pullRequestBuildPolicy = "pullRequestBuildPolicy"
             case scopeConfiguration = "scopeConfiguration"
         }
     }
@@ -3907,6 +3936,24 @@ extension CodeBuild {
         }
     }
 
+    public struct PullRequestBuildPolicy: AWSEncodableShape & AWSDecodableShape {
+        /// List of repository roles that have approval privileges for pull request builds when comment approval is required. Only users with these roles can provide valid comment approvals. If a pull request contributor is one of these roles, their pull request builds will trigger automatically. This field is only applicable when requiresCommentApproval is not DISABLED.
+        public let approverRoles: [PullRequestBuildApproverRole]?
+        /// Specifies when comment-based approval is required before triggering a build on pull requests. This setting determines whether builds run automatically or require explicit approval through comments.    DISABLED: Builds trigger automatically without requiring comment approval    ALL_PULL_REQUESTS: All pull requests require comment approval before builds execute (unless contributor is one of the approver roles)    FORK_PULL_REQUESTS: Only pull requests from forked repositories require comment approval (unless contributor is one of the approver roles)
+        public let requiresCommentApproval: PullRequestBuildCommentApproval
+
+        @inlinable
+        public init(approverRoles: [PullRequestBuildApproverRole]? = nil, requiresCommentApproval: PullRequestBuildCommentApproval) {
+            self.approverRoles = approverRoles
+            self.requiresCommentApproval = requiresCommentApproval
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approverRoles = "approverRoles"
+            case requiresCommentApproval = "requiresCommentApproval"
+        }
+    }
+
     public struct PutResourcePolicyInput: AWSEncodableShape {
         ///  A JSON-formatted resource policy. For more information, see Sharing a Project and Sharing a Report Group in the CodeBuild User Guide.
         public let policy: String
@@ -4778,7 +4825,7 @@ extension CodeBuild {
         public let artifactsOverride: ProjectArtifacts?
         /// The maximum number of additional automatic retries after a failed build. For example, if the  auto-retry limit is set to 2, CodeBuild will call the RetryBuild API to automatically  retry your build for up to 2 additional times.
         public let autoRetryLimitOverride: Int?
-        /// A buildspec file declaration that overrides the latest one defined  in the build project, for this build only. The buildspec defined on the project is not changed. If this value is set, it can be either an inline buildspec definition, the path to an alternate buildspec file relative to the value of the built-in CODEBUILD_SRC_DIR environment variable, or the path to an S3 bucket. The bucket must be in the same Amazon Web Services Region as the build project. Specify the buildspec file using its ARN (for example, arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or is set to an empty string, the source code must contain a buildspec file in its root directory. For more information, see Buildspec File Name and Storage Location.  Since this property allows you to change the build commands that will run in the container,  you should note that an IAM principal with the ability to call this API and set this parameter  can override the default settings. Moreover, we encourage that you use a trustworthy buildspec location  like a file in your source repository or a Amazon S3 bucket.
+        /// A buildspec file declaration that overrides the latest one defined  in the build project, for this build only. The buildspec defined on the project is not changed. If this value is set, it can be either an inline buildspec definition, the path to an alternate buildspec file relative to the value of the built-in CODEBUILD_SRC_DIR environment variable, or the path to an S3 bucket. The bucket must be in the same Amazon Web Services Region as the build project. Specify the buildspec file using its ARN (for example, arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or is set to an empty string, the source code must contain a buildspec file in its root directory. For more information, see Buildspec File Name and Storage Location.  Since this property allows you to change the build commands that will run in the container,  you should note that an IAM principal with the ability to call this API and set this parameter  can override the default settings. Moreover, we encourage that you use a trustworthy buildspec location  like a file in your source repository or a Amazon S3 bucket. Alternatively, you can restrict overrides  to the buildspec by using a condition key: Prevent unauthorized modifications to project buildspec.
         public let buildspecOverride: String?
         /// Contains information that defines how the build project reports the build status to the source provider. This option is only used when the source provider is GITHUB, GITHUB_ENTERPRISE, or BITBUCKET.
         public let buildStatusConfigOverride: BuildStatusConfig?
@@ -5607,15 +5654,18 @@ extension CodeBuild {
         public let filterGroups: [[WebhookFilter]]?
         /// The name of the CodeBuild project.
         public let projectName: String
+        /// A PullRequestBuildPolicy object that defines comment-based approval requirements for triggering builds on pull requests. This policy helps control when automated builds are executed based on contributor permissions and approval workflows.
+        public let pullRequestBuildPolicy: PullRequestBuildPolicy?
         ///  A boolean value that specifies whether the associated GitHub repository's secret token should be updated. If you use Bitbucket for your repository, rotateSecret is ignored.
         public let rotateSecret: Bool?
 
         @inlinable
-        public init(branchFilter: String? = nil, buildType: WebhookBuildType? = nil, filterGroups: [[WebhookFilter]]? = nil, projectName: String, rotateSecret: Bool? = nil) {
+        public init(branchFilter: String? = nil, buildType: WebhookBuildType? = nil, filterGroups: [[WebhookFilter]]? = nil, projectName: String, pullRequestBuildPolicy: PullRequestBuildPolicy? = nil, rotateSecret: Bool? = nil) {
             self.branchFilter = branchFilter
             self.buildType = buildType
             self.filterGroups = filterGroups
             self.projectName = projectName
+            self.pullRequestBuildPolicy = pullRequestBuildPolicy
             self.rotateSecret = rotateSecret
         }
 
@@ -5630,6 +5680,7 @@ extension CodeBuild {
             case buildType = "buildType"
             case filterGroups = "filterGroups"
             case projectName = "projectName"
+            case pullRequestBuildPolicy = "pullRequestBuildPolicy"
             case rotateSecret = "rotateSecret"
         }
     }
@@ -5695,6 +5746,7 @@ extension CodeBuild {
         public let manualCreation: Bool?
         /// The CodeBuild endpoint where webhook events are sent.
         public let payloadUrl: String?
+        public let pullRequestBuildPolicy: PullRequestBuildPolicy?
         /// The scope configuration for global or organization webhooks.  Global or organization webhooks are only available for GitHub and Github Enterprise webhooks.
         public let scopeConfiguration: ScopeConfiguration?
         /// The secret token of the associated repository.   A Bitbucket webhook does not support secret.
@@ -5707,13 +5759,14 @@ extension CodeBuild {
         public let url: String?
 
         @inlinable
-        public init(branchFilter: String? = nil, buildType: WebhookBuildType? = nil, filterGroups: [[WebhookFilter]]? = nil, lastModifiedSecret: Date? = nil, manualCreation: Bool? = nil, payloadUrl: String? = nil, scopeConfiguration: ScopeConfiguration? = nil, secret: String? = nil, status: WebhookStatus? = nil, statusMessage: String? = nil, url: String? = nil) {
+        public init(branchFilter: String? = nil, buildType: WebhookBuildType? = nil, filterGroups: [[WebhookFilter]]? = nil, lastModifiedSecret: Date? = nil, manualCreation: Bool? = nil, payloadUrl: String? = nil, pullRequestBuildPolicy: PullRequestBuildPolicy? = nil, scopeConfiguration: ScopeConfiguration? = nil, secret: String? = nil, status: WebhookStatus? = nil, statusMessage: String? = nil, url: String? = nil) {
             self.branchFilter = branchFilter
             self.buildType = buildType
             self.filterGroups = filterGroups
             self.lastModifiedSecret = lastModifiedSecret
             self.manualCreation = manualCreation
             self.payloadUrl = payloadUrl
+            self.pullRequestBuildPolicy = pullRequestBuildPolicy
             self.scopeConfiguration = scopeConfiguration
             self.secret = secret
             self.status = status
@@ -5728,6 +5781,7 @@ extension CodeBuild {
             case lastModifiedSecret = "lastModifiedSecret"
             case manualCreation = "manualCreation"
             case payloadUrl = "payloadUrl"
+            case pullRequestBuildPolicy = "pullRequestBuildPolicy"
             case scopeConfiguration = "scopeConfiguration"
             case secret = "secret"
             case status = "status"

@@ -40,6 +40,12 @@ extension ChimeSDKMeetings {
         public var description: String { return self.rawValue }
     }
 
+    public enum MediaPlacementNetworkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dualStack = "DualStack"
+        case ipv4Only = "Ipv4Only"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MeetingFeatureStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case unavailable = "UNAVAILABLE"
@@ -154,7 +160,7 @@ extension ChimeSDKMeetings {
     public struct Attendee: AWSDecodableShape {
         /// The Amazon Chime SDK attendee ID.
         public let attendeeId: String?
-        /// The capabilities assigned to an attendee: audio, video, or content.  You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see  .  When using capabilities, be aware of these corner cases:   If you specify MeetingFeatures:Video:MaxResolution:None when you create a meeting, all API requests  that include SendReceive, Send, or Receive for AttendeeCapabilities:Video will be rejected with ValidationError 400.   If you specify MeetingFeatures:Content:MaxResolution:None when you create a meeting, all API requests that include SendReceive, Send, or  Receive for AttendeeCapabilities:Content will be rejected with ValidationError 400.   You can't set content capabilities to SendReceive or Receive unless you also set video capabilities to SendReceive  or Receive. If you don't set the video capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your video capability  to receive and you set your content capability to not receive.   When you change an audio capability from None or Receive to Send or SendReceive ,  and if the attendee left their microphone unmuted, audio will flow from the attendee to the other meeting participants.   When you change a video or content capability from None or Receive to Send or SendReceive ,  and if the attendee turned on their video or content streams, remote attendees can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
+        /// The capabilities assigned to an attendee: audio, video, or content.  You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see  .  When using capabilities, be aware of these corner cases:   If you specify MeetingFeatures:Video:MaxResolution:None when you create a meeting, all API requests  that include SendReceive, Send, or Receive for AttendeeCapabilities:Video will be rejected with ValidationError 400.   If you specify MeetingFeatures:Content:MaxResolution:None when you create a meeting, all API requests that include SendReceive, Send, or  Receive for AttendeeCapabilities:Content will be rejected with ValidationError 400.   You can't set content capabilities to SendReceive or Receive unless you also set video capabilities to SendReceive  or Receive. If you don't set the video capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your video capability  to receive and you set your content capability to not receive.   If meeting features is defined as Video:MaxResolution:None but Content:MaxResolution is defined as something other than None and attendee capabilities are not defined in the API request, then the default attendee video capability is set to Receive and attendee content capability is set to SendReceive. This is because content SendReceive requires video to be at least Receive.   When you change an audio capability from None or Receive to Send or SendReceive ,  and if the attendee left their microphone unmuted, audio will flow from the attendee to the other meeting participants.   When you change a video or content capability from None or Receive to Send or SendReceive ,  and if the attendee turned on their video or content streams, remote attendees can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
         public let capabilities: AttendeeCapabilities?
         /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application. Pattern: [-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*  Values that begin with aws: are reserved. You can't configure a value that uses this prefix.  Case insensitive.
         public let externalUserId: String?
@@ -416,7 +422,7 @@ extension ChimeSDKMeetings {
     }
 
     public struct CreateAttendeeRequest: AWSEncodableShape {
-        /// The capabilities (audio, video, or content) that you want to grant an attendee. If you don't specify capabilities, all users have send and receive capabilities on  all media channels by default.  You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see  .  When using capabilities, be aware of these corner cases:   If you specify MeetingFeatures:Video:MaxResolution:None when you create a meeting, all API requests  that include SendReceive, Send, or Receive for AttendeeCapabilities:Video will be rejected with ValidationError 400.   If you specify MeetingFeatures:Content:MaxResolution:None when you create a meeting, all API requests that include SendReceive, Send, or  Receive for AttendeeCapabilities:Content will be rejected with ValidationError 400.   You can't set content capabilities to SendReceive or Receive unless you also set video capabilities to SendReceive  or Receive. If you don't set the video capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your video capability  to receive and you set your content capability to not receive.   When you change an audio capability from None or Receive to Send or SendReceive ,  and if the attendee left their microphone unmuted, audio will flow from the attendee to the other meeting participants.   When you change a video or content capability from None or Receive to Send or SendReceive ,  and if the attendee turned on their video or content streams, remote attendees can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
+        /// The capabilities (audio, video, or content) that you want to grant an attendee. If you don't specify capabilities, all users have send and receive capabilities on  all media channels by default.  You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see  .  When using capabilities, be aware of these corner cases:   If you specify MeetingFeatures:Video:MaxResolution:None when you create a meeting, all API requests  that include SendReceive, Send, or Receive for AttendeeCapabilities:Video will be rejected with ValidationError 400.   If you specify MeetingFeatures:Content:MaxResolution:None when you create a meeting, all API requests that include SendReceive, Send, or  Receive for AttendeeCapabilities:Content will be rejected with ValidationError 400.   You can't set content capabilities to SendReceive or Receive unless you also set video capabilities to SendReceive  or Receive. If you don't set the video capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your video capability  to receive and you set your content capability to not receive.   If meeting features is defined as Video:MaxResolution:None but Content:MaxResolution is defined as something other than None and attendee capabilities are not defined in the API request, then the default attendee video capability is set to Receive and attendee content capability is set to SendReceive. This is because content SendReceive requires video to be at least Receive.   When you change an audio capability from None or Receive to Send or SendReceive ,  and if the attendee left their microphone unmuted, audio will flow from the attendee to the other meeting participants.   When you change a video or content capability from None or Receive to Send or SendReceive ,  and if the attendee turned on their video or content streams, remote attendees can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
         public let capabilities: AttendeeCapabilities?
         /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application. Pattern: [-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*  Values that begin with aws: are reserved. You can't configure a value that uses this prefix.
         public let externalUserId: String
@@ -492,6 +498,8 @@ extension ChimeSDKMeetings {
         public let clientRequestToken: String
         /// The external meeting ID. Pattern: [-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*  Values that begin with aws: are reserved. You can't configure a value that uses this prefix.  Case insensitive.
         public let externalMeetingId: String
+        /// The type of network for the media placement. Either IPv4 only or dual-stack (IPv4 and IPv6).
+        public let mediaPlacementNetworkType: MediaPlacementNetworkType?
         /// The Region in which to create the meeting.  Available values:  af-south-1,  ap-northeast-1,  ap-northeast-2,  ap-south-1,  ap-southeast-1,  ap-southeast-2,            ca-central-1,  eu-central-1,  eu-north-1,  eu-south-1,  eu-west-1,  eu-west-2,  eu-west-3,             sa-east-1,  us-east-1,  us-east-2,  us-west-1,  us-west-2.  Available values in Amazon Web Services GovCloud (US) Regions: us-gov-east-1, us-gov-west-1.
         public let mediaRegion: String
         /// Lists the audio and video features enabled for a meeting, such as echo reduction.
@@ -508,9 +516,10 @@ extension ChimeSDKMeetings {
         public let tenantIds: [String]?
 
         @inlinable
-        public init(clientRequestToken: String = CreateMeetingRequest.idempotencyToken(), externalMeetingId: String, mediaRegion: String, meetingFeatures: MeetingFeaturesConfiguration? = nil, meetingHostId: String? = nil, notificationsConfiguration: NotificationsConfiguration? = nil, primaryMeetingId: String? = nil, tags: [Tag]? = nil, tenantIds: [String]? = nil) {
+        public init(clientRequestToken: String = CreateMeetingRequest.idempotencyToken(), externalMeetingId: String, mediaPlacementNetworkType: MediaPlacementNetworkType? = nil, mediaRegion: String, meetingFeatures: MeetingFeaturesConfiguration? = nil, meetingHostId: String? = nil, notificationsConfiguration: NotificationsConfiguration? = nil, primaryMeetingId: String? = nil, tags: [Tag]? = nil, tenantIds: [String]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.externalMeetingId = externalMeetingId
+            self.mediaPlacementNetworkType = mediaPlacementNetworkType
             self.mediaRegion = mediaRegion
             self.meetingFeatures = meetingFeatures
             self.meetingHostId = meetingHostId
@@ -550,6 +559,7 @@ extension ChimeSDKMeetings {
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
             case externalMeetingId = "ExternalMeetingId"
+            case mediaPlacementNetworkType = "MediaPlacementNetworkType"
             case mediaRegion = "MediaRegion"
             case meetingFeatures = "MeetingFeatures"
             case meetingHostId = "MeetingHostId"
@@ -581,6 +591,8 @@ extension ChimeSDKMeetings {
         public let clientRequestToken: String
         /// The external meeting ID. Pattern: [-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*  Values that begin with aws: are reserved. You can't configure a value that uses this prefix.  Case insensitive.
         public let externalMeetingId: String
+        /// The type of network for the media placement. Either IPv4 only or dual-stack (IPv4 and IPv6).
+        public let mediaPlacementNetworkType: MediaPlacementNetworkType?
         /// The Region in which to create the meeting.  Available values:  af-south-1,  ap-northeast-1,  ap-northeast-2,  ap-south-1,  ap-southeast-1,  ap-southeast-2,            ca-central-1,  eu-central-1,  eu-north-1,  eu-south-1,  eu-west-1,  eu-west-2,  eu-west-3,             sa-east-1,  us-east-1,  us-east-2,  us-west-1,  us-west-2.  Available values in Amazon Web Services GovCloud (US) Regions: us-gov-east-1, us-gov-west-1.
         public let mediaRegion: String
         /// Lists the audio and video features enabled for a meeting, such as echo reduction.
@@ -597,10 +609,11 @@ extension ChimeSDKMeetings {
         public let tenantIds: [String]?
 
         @inlinable
-        public init(attendees: [CreateAttendeeRequestItem], clientRequestToken: String = CreateMeetingWithAttendeesRequest.idempotencyToken(), externalMeetingId: String, mediaRegion: String, meetingFeatures: MeetingFeaturesConfiguration? = nil, meetingHostId: String? = nil, notificationsConfiguration: NotificationsConfiguration? = nil, primaryMeetingId: String? = nil, tags: [Tag]? = nil, tenantIds: [String]? = nil) {
+        public init(attendees: [CreateAttendeeRequestItem], clientRequestToken: String = CreateMeetingWithAttendeesRequest.idempotencyToken(), externalMeetingId: String, mediaPlacementNetworkType: MediaPlacementNetworkType? = nil, mediaRegion: String, meetingFeatures: MeetingFeaturesConfiguration? = nil, meetingHostId: String? = nil, notificationsConfiguration: NotificationsConfiguration? = nil, primaryMeetingId: String? = nil, tags: [Tag]? = nil, tenantIds: [String]? = nil) {
             self.attendees = attendees
             self.clientRequestToken = clientRequestToken
             self.externalMeetingId = externalMeetingId
+            self.mediaPlacementNetworkType = mediaPlacementNetworkType
             self.mediaRegion = mediaRegion
             self.meetingFeatures = meetingFeatures
             self.meetingHostId = meetingHostId
@@ -646,6 +659,7 @@ extension ChimeSDKMeetings {
             case attendees = "Attendees"
             case clientRequestToken = "ClientRequestToken"
             case externalMeetingId = "ExternalMeetingId"
+            case mediaPlacementNetworkType = "MediaPlacementNetworkType"
             case mediaRegion = "MediaRegion"
             case meetingFeatures = "MeetingFeatures"
             case meetingHostId = "MeetingHostId"

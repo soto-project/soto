@@ -79,7 +79,7 @@ public struct OpenSearchServerless: AWSService {
 
     // MARK: API Calls
 
-    /// Returns attributes for one or more collections, including the collection endpoint and the OpenSearch Dashboards endpoint. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
+    /// Returns attributes for one or more collections, including the collection endpoint, the OpenSearch Dashboards endpoint, and FIPS-compliant endpoints. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
     @Sendable
     @inlinable
     public func batchGetCollection(_ input: BatchGetCollectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetCollectionResponse {
@@ -92,7 +92,7 @@ public struct OpenSearchServerless: AWSService {
             logger: logger
         )
     }
-    /// Returns attributes for one or more collections, including the collection endpoint and the OpenSearch Dashboards endpoint. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
+    /// Returns attributes for one or more collections, including the collection endpoint, the OpenSearch Dashboards endpoint, and FIPS-compliant endpoints. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
     ///
     /// Parameters:
     ///   - ids: A list of collection IDs. You can't provide names and IDs in the same request. The ID is part of the collection endpoint. You can also retrieve it using the ListCollections API.
@@ -283,6 +283,41 @@ public struct OpenSearchServerless: AWSService {
         return try await self.createCollection(input, logger: logger)
     }
 
+    /// Creates an index within an OpenSearch Serverless collection. Unlike other OpenSearch indexes, indexes created by this API are automatically configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment in the OpenSearch User Guide.
+    @Sendable
+    @inlinable
+    public func createIndex(_ input: CreateIndexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIndexResponse {
+        try await self.client.execute(
+            operation: "CreateIndex", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an index within an OpenSearch Serverless collection. Unlike other OpenSearch indexes, indexes created by this API are automatically configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment in the OpenSearch User Guide.
+    ///
+    /// Parameters:
+    ///   - id: The unique identifier of the collection in which to create the index.
+    ///   - indexName: The name of the index to create. Index names must be lowercase and can't begin with underscores (_) or hyphens (-).
+    ///   - indexSchema: The JSON schema definition for the index, including field mappings and settings.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createIndex(
+        id: String,
+        indexName: String,
+        indexSchema: AWSDocument? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateIndexResponse {
+        let input = CreateIndexRequest(
+            id: id, 
+            indexName: indexName, 
+            indexSchema: indexSchema
+        )
+        return try await self.createIndex(input, logger: logger)
+    }
+
     /// Creates a lifecyle policy to be applied to OpenSearch Serverless indexes. Lifecycle policies define the number of days or hours to retain the data on an OpenSearch Serverless index. For more information, see Creating data lifecycle policies.
     @Sendable
     @inlinable
@@ -342,15 +377,17 @@ public struct OpenSearchServerless: AWSService {
     /// Parameters:
     ///   - clientToken: Unique, case-sensitive identifier to ensure idempotency of the request.
     ///   - description: A description of the security configuration.
+    ///   - iamFederationOptions: Describes IAM federation options in the form of a key-value map. This field is required if you specify iamFederation for the type parameter.
     ///   - iamIdentityCenterOptions: Describes IAM Identity Center options in the form of a key-value map. This field is required if you specify iamidentitycenter for the type parameter.
     ///   - name: The name of the security configuration.
-    ///   - samlOptions: Describes SAML options in in the form of a key-value map. This field is required if you specify saml for the type parameter.
+    ///   - samlOptions: Describes SAML options in in the form of a key-value map. This field is required if you specify SAML for the type parameter.
     ///   - type: The type of security configuration.
     ///   - logger: Logger use during operation
     @inlinable
     public func createSecurityConfig(
         clientToken: String? = CreateSecurityConfigRequest.idempotencyToken(),
         description: String? = nil,
+        iamFederationOptions: IamFederationConfigOptions? = nil,
         iamIdentityCenterOptions: CreateIamIdentityCenterConfigOptions? = nil,
         name: String,
         samlOptions: SamlConfigOptions? = nil,
@@ -360,6 +397,7 @@ public struct OpenSearchServerless: AWSService {
         let input = CreateSecurityConfigRequest(
             clientToken: clientToken, 
             description: description, 
+            iamFederationOptions: iamFederationOptions, 
             iamIdentityCenterOptions: iamIdentityCenterOptions, 
             name: name, 
             samlOptions: samlOptions, 
@@ -515,6 +553,38 @@ public struct OpenSearchServerless: AWSService {
             id: id
         )
         return try await self.deleteCollection(input, logger: logger)
+    }
+
+    /// Deletes an index from an OpenSearch Serverless collection. Be aware that the index might be configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment.
+    @Sendable
+    @inlinable
+    public func deleteIndex(_ input: DeleteIndexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIndexResponse {
+        try await self.client.execute(
+            operation: "DeleteIndex", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an index from an OpenSearch Serverless collection. Be aware that the index might be configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment.
+    ///
+    /// Parameters:
+    ///   - id: The unique identifier of the collection containing the index to delete.
+    ///   - indexName: The name of the index to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteIndex(
+        id: String,
+        indexName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteIndexResponse {
+        let input = DeleteIndexRequest(
+            id: id, 
+            indexName: indexName
+        )
+        return try await self.deleteIndex(input, logger: logger)
     }
 
     /// Deletes an OpenSearch Serverless lifecycle policy. For more information, see Deleting data lifecycle policies.
@@ -707,6 +777,38 @@ public struct OpenSearchServerless: AWSService {
         let input = GetAccountSettingsRequest(
         )
         return try await self.getAccountSettings(input, logger: logger)
+    }
+
+    /// Retrieves information about an index in an OpenSearch Serverless collection, including its schema definition. The index might be configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment.
+    @Sendable
+    @inlinable
+    public func getIndex(_ input: GetIndexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIndexResponse {
+        try await self.client.execute(
+            operation: "GetIndex", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about an index in an OpenSearch Serverless collection, including its schema definition. The index might be configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment.
+    ///
+    /// Parameters:
+    ///   - id: The unique identifier of the collection containing the index.
+    ///   - indexName: The name of the index to retrieve information about.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getIndex(
+        id: String,
+        indexName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetIndexResponse {
+        let input = GetIndexRequest(
+            id: id, 
+            indexName: indexName
+        )
+        return try await self.getIndex(input, logger: logger)
     }
 
     /// Returns statistical information about your OpenSearch Serverless access policies, security configurations, and security policies.
@@ -1216,6 +1318,41 @@ public struct OpenSearchServerless: AWSService {
         return try await self.updateCollection(input, logger: logger)
     }
 
+    /// Updates an existing index in an OpenSearch Serverless collection. This operation allows you to modify the index schema, including adding new fields or changing field mappings. You can also enable automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment.
+    @Sendable
+    @inlinable
+    public func updateIndex(_ input: UpdateIndexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIndexResponse {
+        try await self.client.execute(
+            operation: "UpdateIndex", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing index in an OpenSearch Serverless collection. This operation allows you to modify the index schema, including adding new fields or changing field mappings. You can also enable automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment.
+    ///
+    /// Parameters:
+    ///   - id: The unique identifier of the collection containing the index to update.
+    ///   - indexName: The name of the index to update.
+    ///   - indexSchema: The updated JSON schema definition for the index, including field mappings and settings.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateIndex(
+        id: String,
+        indexName: String,
+        indexSchema: AWSDocument? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateIndexResponse {
+        let input = UpdateIndexRequest(
+            id: id, 
+            indexName: indexName, 
+            indexSchema: indexSchema
+        )
+        return try await self.updateIndex(input, logger: logger)
+    }
+
     /// Updates an OpenSearch Serverless access policy. For more information, see Updating data lifecycle policies.
     @Sendable
     @inlinable
@@ -1279,6 +1416,7 @@ public struct OpenSearchServerless: AWSService {
     ///   - clientToken: Unique, case-sensitive identifier to ensure idempotency of the request.
     ///   - configVersion: The version of the security configuration to be updated. You can find the most recent version of a security configuration using the GetSecurityPolicy command.
     ///   - description: A description of the security configuration.
+    ///   - iamFederationOptions: Describes IAM federation options in the form of a key-value map for updating an existing security configuration. Use this field to modify IAM federation settings for the security configuration.
     ///   - iamIdentityCenterOptionsUpdates: Describes IAM Identity Center options in the form of a key-value map.
     ///   - id: The security configuration identifier. For SAML the ID will be saml/&lt;accountId&gt;/&lt;idpProviderName&gt;. For example, saml/123456789123/OKTADev.
     ///   - samlOptions: SAML options in in the form of a key-value map.
@@ -1288,6 +1426,7 @@ public struct OpenSearchServerless: AWSService {
         clientToken: String? = UpdateSecurityConfigRequest.idempotencyToken(),
         configVersion: String,
         description: String? = nil,
+        iamFederationOptions: IamFederationConfigOptions? = nil,
         iamIdentityCenterOptionsUpdates: UpdateIamIdentityCenterConfigOptions? = nil,
         id: String,
         samlOptions: SamlConfigOptions? = nil,
@@ -1297,6 +1436,7 @@ public struct OpenSearchServerless: AWSService {
             clientToken: clientToken, 
             configVersion: configVersion, 
             description: description, 
+            iamFederationOptions: iamFederationOptions, 
             iamIdentityCenterOptionsUpdates: iamIdentityCenterOptionsUpdates, 
             id: id, 
             samlOptions: samlOptions

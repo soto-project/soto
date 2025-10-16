@@ -638,6 +638,70 @@ public struct SESv2: AWSService {
         return try await self.createMultiRegionEndpoint(input, logger: logger)
     }
 
+    /// Create a tenant.  Tenants are logical containers that group related SES resources together. Each tenant can have its own set of resources like email identities, configuration sets, and templates, along with reputation metrics and sending status. This helps isolate and manage email sending for different customers or business units within your Amazon SES API v2 account.
+    @Sendable
+    @inlinable
+    public func createTenant(_ input: CreateTenantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTenantResponse {
+        try await self.client.execute(
+            operation: "CreateTenant", 
+            path: "/v2/email/tenants", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Create a tenant.  Tenants are logical containers that group related SES resources together. Each tenant can have its own set of resources like email identities, configuration sets, and templates, along with reputation metrics and sending status. This helps isolate and manage email sending for different customers or business units within your Amazon SES API v2 account.
+    ///
+    /// Parameters:
+    ///   - tags: An array of objects that define the tags (keys and values) to associate with the tenant
+    ///   - tenantName: The name of the tenant to create. The name can contain up to 64 alphanumeric characters, including letters, numbers, hyphens (-) and underscores (_) only.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createTenant(
+        tags: [Tag]? = nil,
+        tenantName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateTenantResponse {
+        let input = CreateTenantRequest(
+            tags: tags, 
+            tenantName: tenantName
+        )
+        return try await self.createTenant(input, logger: logger)
+    }
+
+    /// Associate a resource with a tenant.  Resources can be email identities, configuration sets, or email templates. When you associate a resource with a tenant, you can use that resource when sending emails on behalf of that tenant. A single resource can be associated with multiple tenants, allowing for resource sharing across different tenants while maintaining isolation in email sending operations.
+    @Sendable
+    @inlinable
+    public func createTenantResourceAssociation(_ input: CreateTenantResourceAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTenantResourceAssociationResponse {
+        try await self.client.execute(
+            operation: "CreateTenantResourceAssociation", 
+            path: "/v2/email/tenants/resources", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associate a resource with a tenant.  Resources can be email identities, configuration sets, or email templates. When you associate a resource with a tenant, you can use that resource when sending emails on behalf of that tenant. A single resource can be associated with multiple tenants, allowing for resource sharing across different tenants while maintaining isolation in email sending operations.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource to associate with the tenant.
+    ///   - tenantName: The name of the tenant to associate the resource with.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createTenantResourceAssociation(
+        resourceArn: String,
+        tenantName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateTenantResourceAssociationResponse {
+        let input = CreateTenantResourceAssociationRequest(
+            resourceArn: resourceArn, 
+            tenantName: tenantName
+        )
+        return try await self.createTenantResourceAssociation(input, logger: logger)
+    }
+
     /// Delete an existing configuration set.  Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     @Sendable
     @inlinable
@@ -964,6 +1028,67 @@ public struct SESv2: AWSService {
             emailAddress: emailAddress
         )
         return try await self.deleteSuppressedDestination(input, logger: logger)
+    }
+
+    /// Delete an existing tenant. When you delete a tenant, its associations with resources are removed, but the resources themselves are not deleted.
+    @Sendable
+    @inlinable
+    public func deleteTenant(_ input: DeleteTenantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTenantResponse {
+        try await self.client.execute(
+            operation: "DeleteTenant", 
+            path: "/v2/email/tenants/delete", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Delete an existing tenant. When you delete a tenant, its associations with resources are removed, but the resources themselves are not deleted.
+    ///
+    /// Parameters:
+    ///   - tenantName: The name of the tenant to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteTenant(
+        tenantName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteTenantResponse {
+        let input = DeleteTenantRequest(
+            tenantName: tenantName
+        )
+        return try await self.deleteTenant(input, logger: logger)
+    }
+
+    /// Delete an association between a tenant and a resource. When you delete a tenant-resource association, the resource itself is not deleted, only its association with the specific tenant is removed. After removal, the resource will no longer be available for use with that tenant's email sending operations.
+    @Sendable
+    @inlinable
+    public func deleteTenantResourceAssociation(_ input: DeleteTenantResourceAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTenantResourceAssociationResponse {
+        try await self.client.execute(
+            operation: "DeleteTenantResourceAssociation", 
+            path: "/v2/email/tenants/resources/delete", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Delete an association between a tenant and a resource. When you delete a tenant-resource association, the resource itself is not deleted, only its association with the specific tenant is removed. After removal, the resource will no longer be available for use with that tenant's email sending operations.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource to remove from the tenant association.
+    ///   - tenantName: The name of the tenant to remove the resource association from.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteTenantResourceAssociation(
+        resourceArn: String,
+        tenantName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteTenantResourceAssociationResponse {
+        let input = DeleteTenantResourceAssociationRequest(
+            resourceArn: resourceArn, 
+            tenantName: tenantName
+        )
+        return try await self.deleteTenantResourceAssociation(input, logger: logger)
     }
 
     /// Obtain information about the email-sending status and capabilities of your Amazon SES account in the current Amazon Web Services Region.
@@ -1584,6 +1709,38 @@ public struct SESv2: AWSService {
         return try await self.getMultiRegionEndpoint(input, logger: logger)
     }
 
+    /// Retrieve information about a specific reputation entity, including its reputation  management policy, customer-managed status, Amazon Web Services Amazon SES-managed status, and aggregate  sending status.  Reputation entities represent resources in your Amazon SES account that have reputation  tracking and management capabilities. The reputation impact reflects the highest  impact reputation finding for the entity. Reputation findings can be retrieved  using the ListRecommendations operation.
+    @Sendable
+    @inlinable
+    public func getReputationEntity(_ input: GetReputationEntityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetReputationEntityResponse {
+        try await self.client.execute(
+            operation: "GetReputationEntity", 
+            path: "/v2/email/reputation/entities/{ReputationEntityType}/{ReputationEntityReference}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieve information about a specific reputation entity, including its reputation  management policy, customer-managed status, Amazon Web Services Amazon SES-managed status, and aggregate  sending status.  Reputation entities represent resources in your Amazon SES account that have reputation  tracking and management capabilities. The reputation impact reflects the highest  impact reputation finding for the entity. Reputation findings can be retrieved  using the ListRecommendations operation.
+    ///
+    /// Parameters:
+    ///   - reputationEntityReference: The unique identifier for the reputation entity. For resource-type entities,  this is the Amazon Resource Name (ARN) of the resource.
+    ///   - reputationEntityType: The type of reputation entity. Currently, only RESOURCE type entities are supported.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getReputationEntity(
+        reputationEntityReference: String,
+        reputationEntityType: ReputationEntityType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetReputationEntityResponse {
+        let input = GetReputationEntityRequest(
+            reputationEntityReference: reputationEntityReference, 
+            reputationEntityType: reputationEntityType
+        )
+        return try await self.getReputationEntity(input, logger: logger)
+    }
+
     /// Retrieves information about a specific email address that's on the suppression list for your account.
     @Sendable
     @inlinable
@@ -1611,6 +1768,35 @@ public struct SESv2: AWSService {
             emailAddress: emailAddress
         )
         return try await self.getSuppressedDestination(input, logger: logger)
+    }
+
+    /// Get information about a specific tenant, including the tenant's name, ID, ARN, creation timestamp, tags, and sending status.
+    @Sendable
+    @inlinable
+    public func getTenant(_ input: GetTenantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTenantResponse {
+        try await self.client.execute(
+            operation: "GetTenant", 
+            path: "/v2/email/tenants/get", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Get information about a specific tenant, including the tenant's name, ID, ARN, creation timestamp, tags, and sending status.
+    ///
+    /// Parameters:
+    ///   - tenantName: The name of the tenant to retrieve information about.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTenant(
+        tenantName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTenantResponse {
+        let input = GetTenantRequest(
+            tenantName: tenantName
+        )
+        return try await self.getTenant(input, logger: logger)
     }
 
     /// List all of the configuration sets associated with your account in the current region.  Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
@@ -2056,6 +2242,76 @@ public struct SESv2: AWSService {
         return try await self.listRecommendations(input, logger: logger)
     }
 
+    /// List reputation entities in your Amazon SES account in the current Amazon Web Services Region.  You can filter the results by entity type, reputation impact, sending status,  or entity reference prefix.  Reputation entities represent resources in your account that have reputation  tracking and management capabilities. Use this operation to get an overview of  all entities and their current reputation status.
+    @Sendable
+    @inlinable
+    public func listReputationEntities(_ input: ListReputationEntitiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReputationEntitiesResponse {
+        try await self.client.execute(
+            operation: "ListReputationEntities", 
+            path: "/v2/email/reputation/entities", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List reputation entities in your Amazon SES account in the current Amazon Web Services Region.  You can filter the results by entity type, reputation impact, sending status,  or entity reference prefix.  Reputation entities represent resources in your account that have reputation  tracking and management capabilities. Use this operation to get an overview of  all entities and their current reputation status.
+    ///
+    /// Parameters:
+    ///   - filter: An object that contains filters to apply when listing reputation entities.  You can filter by entity type, reputation impact, sending status, or entity  reference prefix.
+    ///   - nextToken: A token returned from a previous call to ListReputationEntities to indicate  the position in the list of reputation entities.
+    ///   - pageSize: The number of results to show in a single call to ListReputationEntities.  If the number of results is larger than the number you specified in this parameter,  then the response includes a NextToken element, which you can use to obtain  additional results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listReputationEntities(
+        filter: [ReputationEntityFilterKey: String]? = nil,
+        nextToken: String? = nil,
+        pageSize: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListReputationEntitiesResponse {
+        let input = ListReputationEntitiesRequest(
+            filter: filter, 
+            nextToken: nextToken, 
+            pageSize: pageSize
+        )
+        return try await self.listReputationEntities(input, logger: logger)
+    }
+
+    /// List all tenants associated with a specific resource. This operation returns a list of tenants that are associated with the specified resource. This is useful for understanding which tenants are currently using a particular resource such as an email identity, configuration set, or email template.
+    @Sendable
+    @inlinable
+    public func listResourceTenants(_ input: ListResourceTenantsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourceTenantsResponse {
+        try await self.client.execute(
+            operation: "ListResourceTenants", 
+            path: "/v2/email/resources/tenants/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List all tenants associated with a specific resource. This operation returns a list of tenants that are associated with the specified resource. This is useful for understanding which tenants are currently using a particular resource such as an email identity, configuration set, or email template.
+    ///
+    /// Parameters:
+    ///   - nextToken: A token returned from a previous call to ListResourceTenants to indicate the position in the list of resource tenants.
+    ///   - pageSize: The number of results to show in a single call to ListResourceTenants. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource to list associated tenants for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listResourceTenants(
+        nextToken: String? = nil,
+        pageSize: Int? = nil,
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListResourceTenantsResponse {
+        let input = ListResourceTenantsRequest(
+            nextToken: nextToken, 
+            pageSize: pageSize, 
+            resourceArn: resourceArn
+        )
+        return try await self.listResourceTenants(input, logger: logger)
+    }
+
     /// Retrieves a list of email addresses that are on the suppression list for your account.
     @Sendable
     @inlinable
@@ -2124,6 +2380,76 @@ public struct SESv2: AWSService {
             resourceArn: resourceArn
         )
         return try await self.listTagsForResource(input, logger: logger)
+    }
+
+    /// List all resources associated with a specific tenant. This operation returns a list of resources (email identities, configuration sets, or email templates) that are associated with the specified tenant. You can optionally filter the results by resource type.
+    @Sendable
+    @inlinable
+    public func listTenantResources(_ input: ListTenantResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTenantResourcesResponse {
+        try await self.client.execute(
+            operation: "ListTenantResources", 
+            path: "/v2/email/tenants/resources/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List all resources associated with a specific tenant. This operation returns a list of resources (email identities, configuration sets, or email templates) that are associated with the specified tenant. You can optionally filter the results by resource type.
+    ///
+    /// Parameters:
+    ///   - filter: A map of filter keys and values for filtering the list of tenant resources. Currently, the only supported filter key is RESOURCE_TYPE.
+    ///   - nextToken: A token returned from a previous call to ListTenantResources to indicate the position in the list of tenant resources.
+    ///   - pageSize: The number of results to show in a single call to ListTenantResources. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
+    ///   - tenantName: The name of the tenant to list resources for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTenantResources(
+        filter: [ListTenantResourcesFilterKey: String]? = nil,
+        nextToken: String? = nil,
+        pageSize: Int? = nil,
+        tenantName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTenantResourcesResponse {
+        let input = ListTenantResourcesRequest(
+            filter: filter, 
+            nextToken: nextToken, 
+            pageSize: pageSize, 
+            tenantName: tenantName
+        )
+        return try await self.listTenantResources(input, logger: logger)
+    }
+
+    /// List all tenants associated with your account in the current Amazon Web Services Region. This operation returns basic information about each tenant, such as tenant name, ID, ARN, and creation timestamp.
+    @Sendable
+    @inlinable
+    public func listTenants(_ input: ListTenantsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTenantsResponse {
+        try await self.client.execute(
+            operation: "ListTenants", 
+            path: "/v2/email/tenants/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List all tenants associated with your account in the current Amazon Web Services Region. This operation returns basic information about each tenant, such as tenant name, ID, ARN, and creation timestamp.
+    ///
+    /// Parameters:
+    ///   - nextToken: A token returned from a previous call to ListTenants to indicate the position in the list of tenants.
+    ///   - pageSize: The number of results to show in a single call to ListTenants. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTenants(
+        nextToken: String? = nil,
+        pageSize: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTenantsResponse {
+        let input = ListTenantsRequest(
+            nextToken: nextToken, 
+            pageSize: pageSize
+        )
+        return try await self.listTenants(input, logger: logger)
     }
 
     /// Enable or disable the automatic warm-up feature for dedicated IP addresses.
@@ -2869,6 +3195,7 @@ public struct SESv2: AWSService {
     ///   - fromEmailAddress: The email address to use as the "From" address for the email. The address that you specify has to be verified.
     ///   - fromEmailAddressIdentityArn: This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the FromEmailAddress parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use sender@example.com, then you would specify the FromEmailAddressIdentityArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the FromEmailAddress to be sender@example.com. For more information about sending authorization, see the Amazon SES Developer Guide.
     ///   - replyToAddresses: The "Reply-to" email addresses for the message. When the recipient replies to the message, each Reply-to address receives the reply.
+    ///   - tenantName: The name of the tenant through which this bulk email will be sent.   The email sending operation will only succeed if all referenced resources (identities, configuration sets, and templates) are associated with this tenant.
     ///   - logger: Logger use during operation
     @inlinable
     public func sendBulkEmail(
@@ -2882,6 +3209,7 @@ public struct SESv2: AWSService {
         fromEmailAddress: String? = nil,
         fromEmailAddressIdentityArn: String? = nil,
         replyToAddresses: [String]? = nil,
+        tenantName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> SendBulkEmailResponse {
         let input = SendBulkEmailRequest(
@@ -2894,7 +3222,8 @@ public struct SESv2: AWSService {
             feedbackForwardingEmailAddressIdentityArn: feedbackForwardingEmailAddressIdentityArn, 
             fromEmailAddress: fromEmailAddress, 
             fromEmailAddressIdentityArn: fromEmailAddressIdentityArn, 
-            replyToAddresses: replyToAddresses
+            replyToAddresses: replyToAddresses, 
+            tenantName: tenantName
         )
         return try await self.sendBulkEmail(input, logger: logger)
     }
@@ -2961,6 +3290,7 @@ public struct SESv2: AWSService {
     ///   - fromEmailAddressIdentityArn: This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the FromEmailAddress parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use sender@example.com, then you would specify the FromEmailAddressIdentityArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the FromEmailAddress to be sender@example.com. For more information about sending authorization, see the Amazon SES Developer Guide. For Raw emails, the FromEmailAddressIdentityArn value overrides the X-SES-SOURCE-ARN and X-SES-FROM-ARN headers specified in raw email message content.
     ///   - listManagementOptions: An object used to specify a list or topic to which an email belongs, which will be used when a contact chooses to unsubscribe.
     ///   - replyToAddresses: The "Reply-to" email addresses for the message. When the recipient replies to the message, each Reply-to address receives the reply.
+    ///   - tenantName: The name of the tenant through which this email will be sent.  The email sending operation will only succeed if all referenced resources (identities, configuration sets, and templates) are associated with this tenant.
     ///   - logger: Logger use during operation
     @inlinable
     public func sendEmail(
@@ -2975,6 +3305,7 @@ public struct SESv2: AWSService {
         fromEmailAddressIdentityArn: String? = nil,
         listManagementOptions: ListManagementOptions? = nil,
         replyToAddresses: [String]? = nil,
+        tenantName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> SendEmailResponse {
         let input = SendEmailRequest(
@@ -2988,7 +3319,8 @@ public struct SESv2: AWSService {
             fromEmailAddress: fromEmailAddress, 
             fromEmailAddressIdentityArn: fromEmailAddressIdentityArn, 
             listManagementOptions: listManagementOptions, 
-            replyToAddresses: replyToAddresses
+            replyToAddresses: replyToAddresses, 
+            tenantName: tenantName
         )
         return try await self.sendEmail(input, logger: logger)
     }
@@ -3309,6 +3641,76 @@ public struct SESv2: AWSService {
             templateName: templateName
         )
         return try await self.updateEmailTemplate(input, logger: logger)
+    }
+
+    /// Update the customer-managed sending status for a reputation entity. This allows  you to enable, disable, or reinstate sending for the entity. The customer-managed status works in conjunction with the Amazon Web Services Amazon SES-managed status to determine the overall sending capability. When you update the customer-managed status, the Amazon Web Services Amazon SES-managed status remains unchanged. If Amazon Web Services Amazon SES has disabled the entity, it will not be allowed to send regardless of the customer-managed status setting. When you reinstate an entity through the customer-managed status, it can continue sending only if the Amazon Web Services Amazon SES-managed status also permits sending, even if there are active reputation findings, until the findings are resolved or new violations occur.
+    @Sendable
+    @inlinable
+    public func updateReputationEntityCustomerManagedStatus(_ input: UpdateReputationEntityCustomerManagedStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateReputationEntityCustomerManagedStatusResponse {
+        try await self.client.execute(
+            operation: "UpdateReputationEntityCustomerManagedStatus", 
+            path: "/v2/email/reputation/entities/{ReputationEntityType}/{ReputationEntityReference}/customer-managed-status", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Update the customer-managed sending status for a reputation entity. This allows  you to enable, disable, or reinstate sending for the entity. The customer-managed status works in conjunction with the Amazon Web Services Amazon SES-managed status to determine the overall sending capability. When you update the customer-managed status, the Amazon Web Services Amazon SES-managed status remains unchanged. If Amazon Web Services Amazon SES has disabled the entity, it will not be allowed to send regardless of the customer-managed status setting. When you reinstate an entity through the customer-managed status, it can continue sending only if the Amazon Web Services Amazon SES-managed status also permits sending, even if there are active reputation findings, until the findings are resolved or new violations occur.
+    ///
+    /// Parameters:
+    ///   - reputationEntityReference: The unique identifier for the reputation entity. For resource-type entities,  this is the Amazon Resource Name (ARN) of the resource.
+    ///   - reputationEntityType: The type of reputation entity. Currently, only RESOURCE type entities are supported.
+    ///   - sendingStatus: The new customer-managed sending status for the reputation entity. This can be one of the following:    ENABLED – Allow sending for this entity.    DISABLED – Prevent sending for this entity.    REINSTATED – Allow sending even if there are active reputation findings.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateReputationEntityCustomerManagedStatus(
+        reputationEntityReference: String,
+        reputationEntityType: ReputationEntityType,
+        sendingStatus: SendingStatus,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateReputationEntityCustomerManagedStatusResponse {
+        let input = UpdateReputationEntityCustomerManagedStatusRequest(
+            reputationEntityReference: reputationEntityReference, 
+            reputationEntityType: reputationEntityType, 
+            sendingStatus: sendingStatus
+        )
+        return try await self.updateReputationEntityCustomerManagedStatus(input, logger: logger)
+    }
+
+    /// Update the reputation management policy for a reputation entity. The policy  determines how the entity responds to reputation findings, such as automatically  pausing sending when certain thresholds are exceeded. Reputation management policies are Amazon Web Services Amazon SES-managed (predefined policies). You can select from none, standard, and strict policies.
+    @Sendable
+    @inlinable
+    public func updateReputationEntityPolicy(_ input: UpdateReputationEntityPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateReputationEntityPolicyResponse {
+        try await self.client.execute(
+            operation: "UpdateReputationEntityPolicy", 
+            path: "/v2/email/reputation/entities/{ReputationEntityType}/{ReputationEntityReference}/policy", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Update the reputation management policy for a reputation entity. The policy  determines how the entity responds to reputation findings, such as automatically  pausing sending when certain thresholds are exceeded. Reputation management policies are Amazon Web Services Amazon SES-managed (predefined policies). You can select from none, standard, and strict policies.
+    ///
+    /// Parameters:
+    ///   - reputationEntityPolicy: The Amazon Resource Name (ARN) of the reputation management policy to apply  to this entity. This is an Amazon Web Services Amazon SES-managed policy.
+    ///   - reputationEntityReference: The unique identifier for the reputation entity. For resource-type entities,  this is the Amazon Resource Name (ARN) of the resource.
+    ///   - reputationEntityType: The type of reputation entity. Currently, only RESOURCE type entities are supported.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateReputationEntityPolicy(
+        reputationEntityPolicy: String,
+        reputationEntityReference: String,
+        reputationEntityType: ReputationEntityType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateReputationEntityPolicyResponse {
+        let input = UpdateReputationEntityPolicyRequest(
+            reputationEntityPolicy: reputationEntityPolicy, 
+            reputationEntityReference: reputationEntityReference, 
+            reputationEntityType: reputationEntityType
+        )
+        return try await self.updateReputationEntityPolicy(input, logger: logger)
     }
 }
 
@@ -3831,6 +4233,80 @@ extension SESv2 {
         return self.listRecommendationsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listReputationEntities(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listReputationEntitiesPaginator(
+        _ input: ListReputationEntitiesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListReputationEntitiesRequest, ListReputationEntitiesResponse> {
+        return .init(
+            input: input,
+            command: self.listReputationEntities,
+            inputKey: \ListReputationEntitiesRequest.nextToken,
+            outputKey: \ListReputationEntitiesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listReputationEntities(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filter: An object that contains filters to apply when listing reputation entities.  You can filter by entity type, reputation impact, sending status, or entity  reference prefix.
+    ///   - pageSize: The number of results to show in a single call to ListReputationEntities.  If the number of results is larger than the number you specified in this parameter,  then the response includes a NextToken element, which you can use to obtain  additional results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listReputationEntitiesPaginator(
+        filter: [ReputationEntityFilterKey: String]? = nil,
+        pageSize: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListReputationEntitiesRequest, ListReputationEntitiesResponse> {
+        let input = ListReputationEntitiesRequest(
+            filter: filter, 
+            pageSize: pageSize
+        )
+        return self.listReputationEntitiesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listResourceTenants(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listResourceTenantsPaginator(
+        _ input: ListResourceTenantsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListResourceTenantsRequest, ListResourceTenantsResponse> {
+        return .init(
+            input: input,
+            command: self.listResourceTenants,
+            inputKey: \ListResourceTenantsRequest.nextToken,
+            outputKey: \ListResourceTenantsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listResourceTenants(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - pageSize: The number of results to show in a single call to ListResourceTenants. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource to list associated tenants for.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listResourceTenantsPaginator(
+        pageSize: Int? = nil,
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListResourceTenantsRequest, ListResourceTenantsResponse> {
+        let input = ListResourceTenantsRequest(
+            pageSize: pageSize, 
+            resourceArn: resourceArn
+        )
+        return self.listResourceTenantsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listSuppressedDestinations(_:logger:)``.
     ///
     /// - Parameters:
@@ -3872,6 +4348,80 @@ extension SESv2 {
             startDate: startDate
         )
         return self.listSuppressedDestinationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listTenantResources(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTenantResourcesPaginator(
+        _ input: ListTenantResourcesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTenantResourcesRequest, ListTenantResourcesResponse> {
+        return .init(
+            input: input,
+            command: self.listTenantResources,
+            inputKey: \ListTenantResourcesRequest.nextToken,
+            outputKey: \ListTenantResourcesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listTenantResources(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filter: A map of filter keys and values for filtering the list of tenant resources. Currently, the only supported filter key is RESOURCE_TYPE.
+    ///   - pageSize: The number of results to show in a single call to ListTenantResources. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
+    ///   - tenantName: The name of the tenant to list resources for.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTenantResourcesPaginator(
+        filter: [ListTenantResourcesFilterKey: String]? = nil,
+        pageSize: Int? = nil,
+        tenantName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListTenantResourcesRequest, ListTenantResourcesResponse> {
+        let input = ListTenantResourcesRequest(
+            filter: filter, 
+            pageSize: pageSize, 
+            tenantName: tenantName
+        )
+        return self.listTenantResourcesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listTenants(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTenantsPaginator(
+        _ input: ListTenantsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTenantsRequest, ListTenantsResponse> {
+        return .init(
+            input: input,
+            command: self.listTenants,
+            inputKey: \ListTenantsRequest.nextToken,
+            outputKey: \ListTenantsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listTenants(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - pageSize: The number of results to show in a single call to ListTenants. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTenantsPaginator(
+        pageSize: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListTenantsRequest, ListTenantsResponse> {
+        let input = ListTenantsRequest(
+            pageSize: pageSize
+        )
+        return self.listTenantsPaginator(input, logger: logger)
     }
 }
 
@@ -4025,6 +4575,28 @@ extension SESv2.ListRecommendationsRequest: AWSPaginateToken {
     }
 }
 
+extension SESv2.ListReputationEntitiesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SESv2.ListReputationEntitiesRequest {
+        return .init(
+            filter: self.filter,
+            nextToken: token,
+            pageSize: self.pageSize
+        )
+    }
+}
+
+extension SESv2.ListResourceTenantsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SESv2.ListResourceTenantsRequest {
+        return .init(
+            nextToken: token,
+            pageSize: self.pageSize,
+            resourceArn: self.resourceArn
+        )
+    }
+}
+
 extension SESv2.ListSuppressedDestinationsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> SESv2.ListSuppressedDestinationsRequest {
@@ -4034,6 +4606,28 @@ extension SESv2.ListSuppressedDestinationsRequest: AWSPaginateToken {
             pageSize: self.pageSize,
             reasons: self.reasons,
             startDate: self.startDate
+        )
+    }
+}
+
+extension SESv2.ListTenantResourcesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SESv2.ListTenantResourcesRequest {
+        return .init(
+            filter: self.filter,
+            nextToken: token,
+            pageSize: self.pageSize,
+            tenantName: self.tenantName
+        )
+    }
+}
+
+extension SESv2.ListTenantsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SESv2.ListTenantsRequest {
+        return .init(
+            nextToken: token,
+            pageSize: self.pageSize
         )
     }
 }

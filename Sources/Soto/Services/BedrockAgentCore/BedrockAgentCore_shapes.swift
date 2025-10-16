@@ -51,9 +51,22 @@ extension BedrockAgentCore {
         public var description: String { return self.rawValue }
     }
 
+    public enum MemoryRecordStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Oauth2FlowType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case m2m = "M2M"
         case userFederation = "USER_FEDERATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OperatorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case equalsTo = "EQUALS_TO"
+        case exists = "EXISTS"
+        case notExists = "NOT_EXISTS"
         public var description: String { return self.rawValue }
     }
 
@@ -75,6 +88,12 @@ extension BedrockAgentCore {
         case other = "OTHER"
         case tool = "TOOL"
         case user = "USER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SessionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
@@ -209,6 +228,40 @@ extension BedrockAgentCore {
         }
     }
 
+    public enum UserIdentifier: AWSEncodableShape, Sendable {
+        /// The ID of the user for whom you have retrieved a workload access token for
+        case userId(String)
+        /// The OAuth2.0 token issued by the user’s identity provider
+        case userToken(String)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .userId(let value):
+                try container.encode(value, forKey: .userId)
+            case .userToken(let value):
+                try container.encode(value, forKey: .userToken)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .userId(let value):
+                try self.validate(value, name: "userId", parent: name, max: 128)
+                try self.validate(value, name: "userId", parent: name, min: 1)
+            case .userToken(let value):
+                try self.validate(value, name: "userToken", parent: name, max: 131072)
+                try self.validate(value, name: "userToken", parent: name, min: 1)
+                try self.validate(value, name: "userToken", parent: name, pattern: "^[A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userId = "userId"
+            case userToken = "userToken"
+        }
+    }
+
     // MARK: Shapes
 
     public struct AccessDeniedException: AWSDecodableShape {
@@ -267,6 +320,164 @@ extension BedrockAgentCore {
 
         private enum CodingKeys: String, CodingKey {
             case streamStatus = "streamStatus"
+        }
+    }
+
+    public struct BatchCreateMemoryRecordsInput: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure idempotent processing of the batch request.
+        public let clientToken: String?
+        /// The unique ID of the memory resource where records will be created.
+        public let memoryId: String
+        /// A list of memory record creation inputs to be processed in the batch operation.
+        public let records: [MemoryRecordCreateInput]
+
+        @inlinable
+        public init(clientToken: String? = BatchCreateMemoryRecordsInput.idempotencyToken(), memoryId: String, records: [MemoryRecordCreateInput]) {
+            self.clientToken = clientToken
+            self.memoryId = memoryId
+            self.records = records
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.memoryId, key: "memoryId")
+            try container.encode(self.records, forKey: .records)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.memoryId, name: "memoryId", parent: name, min: 12)
+            try self.validate(self.memoryId, name: "memoryId", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}$")
+            try self.records.forEach {
+                try $0.validate(name: "\(name).records[]")
+            }
+            try self.validate(self.records, name: "records", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case records = "records"
+        }
+    }
+
+    public struct BatchCreateMemoryRecordsOutput: AWSDecodableShape {
+        /// A list of memory records that failed to be created, including error details for each failure.
+        public let failedRecords: [MemoryRecordOutput]
+        /// A list of memory records that were successfully created during the batch operation.
+        public let successfulRecords: [MemoryRecordOutput]
+
+        @inlinable
+        public init(failedRecords: [MemoryRecordOutput], successfulRecords: [MemoryRecordOutput]) {
+            self.failedRecords = failedRecords
+            self.successfulRecords = successfulRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedRecords = "failedRecords"
+            case successfulRecords = "successfulRecords"
+        }
+    }
+
+    public struct BatchDeleteMemoryRecordsInput: AWSEncodableShape {
+        /// The unique ID of the memory resource where records will be deleted.
+        public let memoryId: String
+        /// A list of memory record deletion inputs to be processed in the batch operation.
+        public let records: [MemoryRecordDeleteInput]
+
+        @inlinable
+        public init(memoryId: String, records: [MemoryRecordDeleteInput]) {
+            self.memoryId = memoryId
+            self.records = records
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.memoryId, key: "memoryId")
+            try container.encode(self.records, forKey: .records)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.memoryId, name: "memoryId", parent: name, min: 12)
+            try self.validate(self.memoryId, name: "memoryId", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}$")
+            try self.records.forEach {
+                try $0.validate(name: "\(name).records[]")
+            }
+            try self.validate(self.records, name: "records", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case records = "records"
+        }
+    }
+
+    public struct BatchDeleteMemoryRecordsOutput: AWSDecodableShape {
+        /// A list of memory records that failed to be deleted, including error details for each failure.
+        public let failedRecords: [MemoryRecordOutput]
+        /// A list of memory records that were successfully deleted during the batch operation.
+        public let successfulRecords: [MemoryRecordOutput]
+
+        @inlinable
+        public init(failedRecords: [MemoryRecordOutput], successfulRecords: [MemoryRecordOutput]) {
+            self.failedRecords = failedRecords
+            self.successfulRecords = successfulRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedRecords = "failedRecords"
+            case successfulRecords = "successfulRecords"
+        }
+    }
+
+    public struct BatchUpdateMemoryRecordsInput: AWSEncodableShape {
+        /// The unique ID of the memory resource where records will be updated.
+        public let memoryId: String
+        /// A list of memory record update inputs to be processed in the batch operation.
+        public let records: [MemoryRecordUpdateInput]
+
+        @inlinable
+        public init(memoryId: String, records: [MemoryRecordUpdateInput]) {
+            self.memoryId = memoryId
+            self.records = records
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.memoryId, key: "memoryId")
+            try container.encode(self.records, forKey: .records)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.memoryId, name: "memoryId", parent: name, min: 12)
+            try self.validate(self.memoryId, name: "memoryId", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}$")
+            try self.records.forEach {
+                try $0.validate(name: "\(name).records[]")
+            }
+            try self.validate(self.records, name: "records", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case records = "records"
+        }
+    }
+
+    public struct BatchUpdateMemoryRecordsOutput: AWSDecodableShape {
+        /// A list of memory records that failed to be updated, including error details for each failure.
+        public let failedRecords: [MemoryRecordOutput]
+        /// A list of memory records that were successfully updated during the batch operation.
+        public let successfulRecords: [MemoryRecordOutput]
+
+        @inlinable
+        public init(failedRecords: [MemoryRecordOutput], successfulRecords: [MemoryRecordOutput]) {
+            self.failedRecords = failedRecords
+            self.successfulRecords = successfulRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedRecords = "failedRecords"
+            case successfulRecords = "successfulRecords"
         }
     }
 
@@ -431,6 +642,35 @@ extension BedrockAgentCore {
         }
     }
 
+    public struct CompleteResourceTokenAuthRequest: AWSEncodableShape {
+        /// Unique identifier for the user's authentication session for retrieving OAuth2 tokens. This ID tracks the authorization flow state across multiple requests and responses during the OAuth2 authentication process.
+        public let sessionUri: String
+        /// The OAuth2.0 token or user ID that was used to generate the workload access token used for initiating the user authorization flow to retrieve OAuth2.0 tokens.
+        public let userIdentifier: UserIdentifier
+
+        @inlinable
+        public init(sessionUri: String, userIdentifier: UserIdentifier) {
+            self.sessionUri = sessionUri
+            self.userIdentifier = userIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sessionUri, name: "sessionUri", parent: name, max: 1024)
+            try self.validate(self.sessionUri, name: "sessionUri", parent: name, min: 1)
+            try self.validate(self.sessionUri, name: "sessionUri", parent: name, pattern: "^urn:ietf:params:oauth:request_uri:[a-zA-Z0-9-._~]+$")
+            try self.userIdentifier.validate(name: "\(name).userIdentifier")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionUri = "sessionUri"
+            case userIdentifier = "userIdentifier"
+        }
+    }
+
+    public struct CompleteResourceTokenAuthResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct ConflictException: AWSDecodableShape {
         public let message: String?
 
@@ -517,20 +757,23 @@ extension BedrockAgentCore {
         public let clientToken: String?
         /// The timestamp when the event occurred. If not specified, the current time is used.
         public let eventTimestamp: Date
-        /// The identifier of the memory store in which to create the event.
+        /// The identifier of the AgentCore Memory resource in which to create the event.
         public let memoryId: String
+        /// The key-value metadata to attach to the event.
+        public let metadata: [String: MetadataValue]?
         /// The content payload of the event. This can include conversational data or binary content.
         public let payload: [PayloadType]
         /// The identifier of the session in which this event occurs. A session represents a sequence of related events.
         public let sessionId: String?
 
         @inlinable
-        public init(actorId: String, branch: Branch? = nil, clientToken: String? = CreateEventInput.idempotencyToken(), eventTimestamp: Date, memoryId: String, payload: [PayloadType], sessionId: String? = nil) {
+        public init(actorId: String, branch: Branch? = nil, clientToken: String? = CreateEventInput.idempotencyToken(), eventTimestamp: Date, memoryId: String, metadata: [String: MetadataValue]? = nil, payload: [PayloadType], sessionId: String? = nil) {
             self.actorId = actorId
             self.branch = branch
             self.clientToken = clientToken
             self.eventTimestamp = eventTimestamp
             self.memoryId = memoryId
+            self.metadata = metadata
             self.payload = payload
             self.sessionId = sessionId
         }
@@ -543,6 +786,7 @@ extension BedrockAgentCore {
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encode(self.eventTimestamp, forKey: .eventTimestamp)
             request.encodePath(self.memoryId, key: "memoryId")
+            try container.encodeIfPresent(self.metadata, forKey: .metadata)
             try container.encode(self.payload, forKey: .payload)
             try container.encodeIfPresent(self.sessionId, forKey: .sessionId)
         }
@@ -550,10 +794,16 @@ extension BedrockAgentCore {
         public func validate(name: String) throws {
             try self.validate(self.actorId, name: "actorId", parent: name, max: 255)
             try self.validate(self.actorId, name: "actorId", parent: name, min: 1)
-            try self.validate(self.actorId, name: "actorId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-_/]*$")
+            try self.validate(self.actorId, name: "actorId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*$")
             try self.branch?.validate(name: "\(name).branch")
             try self.validate(self.memoryId, name: "memoryId", parent: name, min: 12)
             try self.validate(self.memoryId, name: "memoryId", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}$")
+            try self.metadata?.forEach {
+                try validate($0.key, name: "metadata.key", parent: name, max: 128)
+                try validate($0.key, name: "metadata.key", parent: name, min: 1)
+                try validate($0.key, name: "metadata.key", parent: name, pattern: "^[a-zA-Z0-9\\s._:/=+@-]*$")
+            }
+            try self.validate(self.metadata, name: "metadata", parent: name, max: 15)
             try self.validate(self.payload, name: "payload", parent: name, max: 100)
             try self.validate(self.sessionId, name: "sessionId", parent: name, max: 100)
             try self.validate(self.sessionId, name: "sessionId", parent: name, min: 1)
@@ -565,6 +815,7 @@ extension BedrockAgentCore {
             case branch = "branch"
             case clientToken = "clientToken"
             case eventTimestamp = "eventTimestamp"
+            case metadata = "metadata"
             case payload = "payload"
             case sessionId = "sessionId"
         }
@@ -589,7 +840,7 @@ extension BedrockAgentCore {
         public let actorId: String
         /// The identifier of the event to delete.
         public let eventId: String
-        /// The identifier of the memory store from which to delete the event.
+        /// The identifier of the AgentCore Memory resource from which to delete the event.
         public let memoryId: String
         /// The identifier of the session containing the event to delete.
         public let sessionId: String
@@ -614,7 +865,7 @@ extension BedrockAgentCore {
         public func validate(name: String) throws {
             try self.validate(self.actorId, name: "actorId", parent: name, max: 255)
             try self.validate(self.actorId, name: "actorId", parent: name, min: 1)
-            try self.validate(self.actorId, name: "actorId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-_/]*$")
+            try self.validate(self.actorId, name: "actorId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*$")
             try self.validate(self.eventId, name: "eventId", parent: name, pattern: "^[0-9]+#[a-fA-F0-9]+$")
             try self.validate(self.memoryId, name: "memoryId", parent: name, min: 12)
             try self.validate(self.memoryId, name: "memoryId", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}$")
@@ -641,7 +892,7 @@ extension BedrockAgentCore {
     }
 
     public struct DeleteMemoryRecordInput: AWSEncodableShape {
-        /// The identifier of the memory store from which to delete the memory record.
+        /// The identifier of the AgentCore Memory resource from which to delete the memory record.
         public let memoryId: String
         /// The identifier of the memory record to delete.
         public let memoryRecordId: String
@@ -662,6 +913,9 @@ extension BedrockAgentCore {
         public func validate(name: String) throws {
             try self.validate(self.memoryId, name: "memoryId", parent: name, min: 12)
             try self.validate(self.memoryId, name: "memoryId", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}$")
+            try self.validate(self.memoryRecordId, name: "memoryRecordId", parent: name, max: 50)
+            try self.validate(self.memoryRecordId, name: "memoryRecordId", parent: name, min: 40)
+            try self.validate(self.memoryRecordId, name: "memoryRecordId", parent: name, pattern: "^mem-[a-zA-Z0-9-_]*$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -690,20 +944,23 @@ extension BedrockAgentCore {
         public let eventId: String
         /// The timestamp when the event occurred.
         public let eventTimestamp: Date
-        /// The identifier of the memory store containing the event.
+        /// The identifier of the AgentCore Memory resource containing the event.
         public let memoryId: String
+        /// Metadata associated with an event.
+        public let metadata: [String: MetadataValue]?
         /// The content payload of the event.
         public let payload: [PayloadType]
         /// The identifier of the session containing the event.
         public let sessionId: String
 
         @inlinable
-        public init(actorId: String, branch: Branch? = nil, eventId: String, eventTimestamp: Date, memoryId: String, payload: [PayloadType], sessionId: String) {
+        public init(actorId: String, branch: Branch? = nil, eventId: String, eventTimestamp: Date, memoryId: String, metadata: [String: MetadataValue]? = nil, payload: [PayloadType], sessionId: String) {
             self.actorId = actorId
             self.branch = branch
             self.eventId = eventId
             self.eventTimestamp = eventTimestamp
             self.memoryId = memoryId
+            self.metadata = metadata
             self.payload = payload
             self.sessionId = sessionId
         }
@@ -714,27 +971,120 @@ extension BedrockAgentCore {
             case eventId = "eventId"
             case eventTimestamp = "eventTimestamp"
             case memoryId = "memoryId"
+            case metadata = "metadata"
             case payload = "payload"
             case sessionId = "sessionId"
+        }
+    }
+
+    public struct EventMetadataFilterExpression: AWSEncodableShape {
+        /// Left operand of the event metadata filter expression.
+        public let left: LeftExpression
+        /// Operator applied to the event metadata filter expression.
+        public let `operator`: OperatorType
+        /// Right operand of the event metadata filter expression.
+        public let right: RightExpression?
+
+        @inlinable
+        public init(left: LeftExpression, operator: OperatorType, right: RightExpression? = nil) {
+            self.left = left
+            self.`operator` = `operator`
+            self.right = right
+        }
+
+        public func validate(name: String) throws {
+            try self.left.validate(name: "\(name).left")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case left = "left"
+            case `operator` = "operator"
+            case right = "right"
         }
     }
 
     public struct FilterInput: AWSEncodableShape {
         /// The branch filter criteria to apply when listing events.
         public let branch: BranchFilter?
+        /// Event metadata filter criteria to apply when retrieving events.
+        public let eventMetadata: [EventMetadataFilterExpression]?
 
         @inlinable
-        public init(branch: BranchFilter? = nil) {
+        public init(branch: BranchFilter? = nil, eventMetadata: [EventMetadataFilterExpression]? = nil) {
             self.branch = branch
+            self.eventMetadata = eventMetadata
         }
 
         public func validate(name: String) throws {
             try self.branch?.validate(name: "\(name).branch")
+            try self.eventMetadata?.forEach {
+                try $0.validate(name: "\(name).eventMetadata[]")
+            }
+            try self.validate(self.eventMetadata, name: "eventMetadata", parent: name, max: 5)
+            try self.validate(self.eventMetadata, name: "eventMetadata", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case branch = "branch"
+            case eventMetadata = "eventMetadata"
         }
+    }
+
+    public struct GetAgentCardRequest: AWSEncodableShape {
+        /// The ARN of the AgentCore Runtime agent for which you want to get the A2A agent card.
+        public let agentRuntimeArn: String
+        /// Optional qualifier to specify an agent alias, such as prodcode&gt; or dev. If you don't provide a value, the DEFAULT alias is used.
+        public let qualifier: String?
+        /// The session ID that the AgentCore Runtime agent is using.
+        public let runtimeSessionId: String?
+
+        @inlinable
+        public init(agentRuntimeArn: String, qualifier: String? = nil, runtimeSessionId: String? = GetAgentCardRequest.idempotencyToken()) {
+            self.agentRuntimeArn = agentRuntimeArn
+            self.qualifier = qualifier
+            self.runtimeSessionId = runtimeSessionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.agentRuntimeArn, key: "agentRuntimeArn")
+            request.encodeQuery(self.qualifier, key: "qualifier")
+            request.encodeHeader(self.runtimeSessionId, key: "X-Amzn-Bedrock-AgentCore-Runtime-Session-Id")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.runtimeSessionId, name: "runtimeSessionId", parent: name, max: 256)
+            try self.validate(self.runtimeSessionId, name: "runtimeSessionId", parent: name, min: 33)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAgentCardResponse: AWSDecodableShape {
+        /// An agent card document that contains metadata and capabilities for an AgentCore Runtime agent.
+        public let agentCard: AWSDocument
+        /// The ID of the session associated with the AgentCore Runtime agent.
+        public let runtimeSessionId: String?
+        /// The status code of the request.
+        public let statusCode: Int?
+
+        @inlinable
+        public init(agentCard: AWSDocument, runtimeSessionId: String? = nil, statusCode: Int? = nil) {
+            self.agentCard = agentCard
+            self.runtimeSessionId = runtimeSessionId
+            self.statusCode = statusCode
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.agentCard = try container.decode(AWSDocument.self)
+            self.runtimeSessionId = try response.decodeHeaderIfPresent(String.self, key: "X-Amzn-Bedrock-AgentCore-Runtime-Session-Id")
+            self.statusCode = response.decodeStatus()
+        }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBrowserSessionRequest: AWSEncodableShape {
@@ -880,7 +1230,7 @@ extension BedrockAgentCore {
         public let actorId: String
         /// The identifier of the event to retrieve.
         public let eventId: String
-        /// The identifier of the memory store containing the event.
+        /// The identifier of the AgentCore Memory resource containing the event.
         public let memoryId: String
         /// The identifier of the session containing the event.
         public let sessionId: String
@@ -905,7 +1255,7 @@ extension BedrockAgentCore {
         public func validate(name: String) throws {
             try self.validate(self.actorId, name: "actorId", parent: name, max: 255)
             try self.validate(self.actorId, name: "actorId", parent: name, min: 1)
-            try self.validate(self.actorId, name: "actorId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-_/]*$")
+            try self.validate(self.actorId, name: "actorId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*$")
             try self.validate(self.eventId, name: "eventId", parent: name, pattern: "^[0-9]+#[a-fA-F0-9]+$")
             try self.validate(self.memoryId, name: "memoryId", parent: name, min: 12)
             try self.validate(self.memoryId, name: "memoryId", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}$")
@@ -932,7 +1282,7 @@ extension BedrockAgentCore {
     }
 
     public struct GetMemoryRecordInput: AWSEncodableShape {
-        /// The identifier of the memory store containing the memory record.
+        /// The identifier of the AgentCore Memory resource containing the memory record.
         public let memoryId: String
         /// The identifier of the memory record to retrieve.
         public let memoryRecordId: String
@@ -953,6 +1303,9 @@ extension BedrockAgentCore {
         public func validate(name: String) throws {
             try self.validate(self.memoryId, name: "memoryId", parent: name, min: 12)
             try self.validate(self.memoryId, name: "memoryId", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}$")
+            try self.validate(self.memoryRecordId, name: "memoryRecordId", parent: name, max: 50)
+            try self.validate(self.memoryRecordId, name: "memoryRecordId", parent: name, min: 40)
+            try self.validate(self.memoryRecordId, name: "memoryRecordId", parent: name, pattern: "^mem-[a-zA-Z0-9-_]*$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -973,9 +1326,9 @@ extension BedrockAgentCore {
     }
 
     public struct GetResourceApiKeyRequest: AWSEncodableShape {
-        /// The credential provider name of the resource you are retrieving the API Key of.
+        /// The credential provider name for the resource from which you are retrieving the API key.
         public let resourceCredentialProviderName: String
-        /// The identity token of the workload you want to get the API Key of.
+        /// The identity token of the workload from which you want to retrieve the API key.
         public let workloadIdentityToken: String
 
         @inlinable
@@ -999,7 +1352,7 @@ extension BedrockAgentCore {
     }
 
     public struct GetResourceApiKeyResponse: AWSDecodableShape {
-        /// The API Key associated with the resource requested.
+        /// The API key associated with the resource requested.
         public let apiKey: String
 
         @inlinable
@@ -1013,32 +1366,35 @@ extension BedrockAgentCore {
     }
 
     public struct GetResourceOauth2TokenRequest: AWSEncodableShape {
-        /// Gives the ability to send extra/custom parameters to the resource credentials provider during the authorization process. Standard OAuth2 flow parameters will not be overriden.
+        /// A map of custom parameters to include in the authorization request to the resource credential provider. These parameters are in addition to the standard OAuth 2.0 flow parameters, and will not override them.
         public let customParameters: [String: String]?
-        /// If true, always initiate a new 3LO flow
+        /// An opaque string that will be sent back to the callback URL provided in resourceOauth2ReturnUrl. This state should be used to protect the callback URL of your application against CSRF attacks by ensuring the response corresponds to the original request.
+        public let customState: String?
+        /// Indicates whether to always initiate a new three-legged OAuth (3LO) flow, regardless of any existing session.
         public let forceAuthentication: Bool?
-        /// The type of flow to be performed
+        /// The type of flow to be performed.
         public let oauth2Flow: Oauth2FlowType
-        /// Reference to the credential provider
+        /// The name of the resource's credential provider.
         public let resourceCredentialProviderName: String
-        /// Callback url to redirect after token retrieval completes. Should be one of the provideded urls during WorkloadIdentity creation
+        /// The callback URL to redirect to after the OAuth 2.0 token retrieval is complete. This URL must be one of the provided URLs configured for the workload identity.
         public let resourceOauth2ReturnUrl: String?
-        /// The OAuth scopes requested
+        /// The OAuth scopes being requested.
         public let scopes: [String]
-        /// The user ID of the user you're retrieving the token on behalf of.
-        public let userId: String?
-        /// The identity token of the workload you want to retrive the Oauth2 Token of.
+        /// Unique identifier for the user's authentication session for retrieving OAuth2 tokens. This ID tracks the authorization flow state across multiple requests and responses during the OAuth2 authentication process.
+        public let sessionUri: String?
+        /// The identity token of the workload from which you want to retrieve the OAuth2 token.
         public let workloadIdentityToken: String
 
         @inlinable
-        public init(customParameters: [String: String]? = nil, forceAuthentication: Bool? = nil, oauth2Flow: Oauth2FlowType, resourceCredentialProviderName: String, resourceOauth2ReturnUrl: String? = nil, scopes: [String], userId: String? = nil, workloadIdentityToken: String) {
+        public init(customParameters: [String: String]? = nil, customState: String? = nil, forceAuthentication: Bool? = nil, oauth2Flow: Oauth2FlowType, resourceCredentialProviderName: String, resourceOauth2ReturnUrl: String? = nil, scopes: [String], sessionUri: String? = nil, workloadIdentityToken: String) {
             self.customParameters = customParameters
+            self.customState = customState
             self.forceAuthentication = forceAuthentication
             self.oauth2Flow = oauth2Flow
             self.resourceCredentialProviderName = resourceCredentialProviderName
             self.resourceOauth2ReturnUrl = resourceOauth2ReturnUrl
             self.scopes = scopes
-            self.userId = userId
+            self.sessionUri = sessionUri
             self.workloadIdentityToken = workloadIdentityToken
         }
 
@@ -1050,6 +1406,8 @@ extension BedrockAgentCore {
                 try validate($0.value, name: "customParameters[\"\($0.key)\"]", parent: name, max: 2048)
                 try validate($0.value, name: "customParameters[\"\($0.key)\"]", parent: name, min: 1)
             }
+            try self.validate(self.customState, name: "customState", parent: name, max: 4096)
+            try self.validate(self.customState, name: "customState", parent: name, min: 1)
             try self.validate(self.resourceCredentialProviderName, name: "resourceCredentialProviderName", parent: name, max: 128)
             try self.validate(self.resourceCredentialProviderName, name: "resourceCredentialProviderName", parent: name, min: 1)
             try self.validate(self.resourceCredentialProviderName, name: "resourceCredentialProviderName", parent: name, pattern: "^[a-zA-Z0-9\\-_]+$")
@@ -1060,46 +1418,56 @@ extension BedrockAgentCore {
                 try validate($0, name: "scopes[]", parent: name, max: 128)
                 try validate($0, name: "scopes[]", parent: name, min: 1)
             }
-            try self.validate(self.userId, name: "userId", parent: name, max: 128)
-            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+            try self.validate(self.sessionUri, name: "sessionUri", parent: name, max: 1024)
+            try self.validate(self.sessionUri, name: "sessionUri", parent: name, min: 1)
+            try self.validate(self.sessionUri, name: "sessionUri", parent: name, pattern: "^urn:ietf:params:oauth:request_uri:[a-zA-Z0-9-._~]+$")
             try self.validate(self.workloadIdentityToken, name: "workloadIdentityToken", parent: name, max: 131072)
             try self.validate(self.workloadIdentityToken, name: "workloadIdentityToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case customParameters = "customParameters"
+            case customState = "customState"
             case forceAuthentication = "forceAuthentication"
             case oauth2Flow = "oauth2Flow"
             case resourceCredentialProviderName = "resourceCredentialProviderName"
             case resourceOauth2ReturnUrl = "resourceOauth2ReturnUrl"
             case scopes = "scopes"
-            case userId = "userId"
+            case sessionUri = "sessionUri"
             case workloadIdentityToken = "workloadIdentityToken"
         }
     }
 
     public struct GetResourceOauth2TokenResponse: AWSDecodableShape {
-        /// OAuth2 token ready for use
+        /// The OAuth 2.0 access token to use.
         public let accessToken: String?
-        /// The URL for the authorization process, provided if the Access token requires user Authorization.
+        /// The URL to initiate the authorization process, provided when the access token requires user authorization.
         public let authorizationUrl: String?
+        /// Status indicating whether the user's authorization session is in progress or has failed. This helps determine the next steps in the OAuth2 authentication flow.
+        public let sessionStatus: SessionStatus?
+        /// Unique identifier for the user's authorization session for retrieving OAuth2 tokens. This matches the sessionId from the request and can be used to track the session state.
+        public let sessionUri: String?
 
         @inlinable
-        public init(accessToken: String? = nil, authorizationUrl: String? = nil) {
+        public init(accessToken: String? = nil, authorizationUrl: String? = nil, sessionStatus: SessionStatus? = nil, sessionUri: String? = nil) {
             self.accessToken = accessToken
             self.authorizationUrl = authorizationUrl
+            self.sessionStatus = sessionStatus
+            self.sessionUri = sessionUri
         }
 
         private enum CodingKeys: String, CodingKey {
             case accessToken = "accessToken"
             case authorizationUrl = "authorizationUrl"
+            case sessionStatus = "sessionStatus"
+            case sessionUri = "sessionUri"
         }
     }
 
     public struct GetWorkloadAccessTokenForJWTRequest: AWSEncodableShape {
-        /// OAuth2 token issued by the user's identity provider
+        /// The OAuth 2.0 token issued by the user's identity provider.
         public let userToken: String
-        /// Unique identifier for the registered agent
+        /// The unique identifier for the registered workload.
         public let workloadName: String
 
         @inlinable
@@ -1124,7 +1492,7 @@ extension BedrockAgentCore {
     }
 
     public struct GetWorkloadAccessTokenForJWTResponse: AWSDecodableShape {
-        /// Opaque token representing both agent and user identity
+        /// An opaque token representing the identity of both the workload and the user.
         public let workloadAccessToken: String
 
         @inlinable
@@ -1138,9 +1506,9 @@ extension BedrockAgentCore {
     }
 
     public struct GetWorkloadAccessTokenForUserIdRequest: AWSEncodableShape {
-        /// The user id of the user you are retrieving the access token for.
+        /// The ID of the user for whom you are retrieving the access token.
         public let userId: String
-        /// The name of the worklaod you want to get the access token of.
+        /// The name of the workload from which you want to retrieve the access token.
         public let workloadName: String
 
         @inlinable
@@ -1164,7 +1532,7 @@ extension BedrockAgentCore {
     }
 
     public struct GetWorkloadAccessTokenForUserIdResponse: AWSDecodableShape {
-        /// The workload access token of the named workload.
+        /// The access token for the specified workload.
         public let workloadAccessToken: String
 
         @inlinable
@@ -1178,7 +1546,7 @@ extension BedrockAgentCore {
     }
 
     public struct GetWorkloadAccessTokenRequest: AWSEncodableShape {
-        /// Unique identifier for the registered agent
+        /// The unique identifier for the registered workload.
         public let workloadName: String
 
         @inlinable
@@ -1198,7 +1566,7 @@ extension BedrockAgentCore {
     }
 
     public struct GetWorkloadAccessTokenResponse: AWSDecodableShape {
-        /// Opaque token representing both agent and user identity
+        /// An opaque token representing the identity of both the workload and the user.
         public let workloadAccessToken: String
 
         @inlinable
@@ -1255,6 +1623,8 @@ extension BedrockAgentCore {
     public struct InvokeAgentRuntimeRequest: AWSEncodableShape {
         /// The desired MIME type for the response from the agent runtime. This tells the agent runtime what format to use for the response data. Common values include application/json for JSON data.
         public let accept: String?
+        /// The identifier of the Amazon Web Services account for the agent runtime resource.
+        public let accountId: String?
         /// The Amazon Web Services Resource Name (ARN) of the agent runtime to invoke. The ARN uniquely identifies the agent runtime resource in Amazon Bedrock.
         public let agentRuntimeArn: String
         /// Additional context information for distributed tracing.
@@ -1267,7 +1637,7 @@ extension BedrockAgentCore {
         public let mcpSessionId: String?
         /// The input data to send to the agent runtime. The format of this data depends on the specific agent configuration and must match the specified content type. For most agents, this is a JSON object containing the user's request.
         public let payload: AWSHTTPBody
-        /// The qualifier to use for the agent runtime. This can be a version number or an alias name that points to a specific version. If not specified, Amazon Bedrock uses the default version of the agent runtime.
+        /// The qualifier to use for the agent runtime. This can be a version number or an endpoint name that points to a specific version. If not specified, Amazon Bedrock uses the default version of the agent runtime.
         public let qualifier: String?
         /// The identifier of the runtime session.
         public let runtimeSessionId: String?
@@ -1281,8 +1651,9 @@ extension BedrockAgentCore {
         public let traceState: String?
 
         @inlinable
-        public init(accept: String? = nil, agentRuntimeArn: String, baggage: String? = nil, contentType: String? = nil, mcpProtocolVersion: String? = nil, mcpSessionId: String? = nil, payload: AWSHTTPBody, qualifier: String? = nil, runtimeSessionId: String? = InvokeAgentRuntimeRequest.idempotencyToken(), runtimeUserId: String? = nil, traceId: String? = nil, traceParent: String? = nil, traceState: String? = nil) {
+        public init(accept: String? = nil, accountId: String? = nil, agentRuntimeArn: String, baggage: String? = nil, contentType: String? = nil, mcpProtocolVersion: String? = nil, mcpSessionId: String? = nil, payload: AWSHTTPBody, qualifier: String? = nil, runtimeSessionId: String? = InvokeAgentRuntimeRequest.idempotencyToken(), runtimeUserId: String? = nil, traceId: String? = nil, traceParent: String? = nil, traceState: String? = nil) {
             self.accept = accept
+            self.accountId = accountId
             self.agentRuntimeArn = agentRuntimeArn
             self.baggage = baggage
             self.contentType = contentType
@@ -1301,6 +1672,7 @@ extension BedrockAgentCore {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.singleValueContainer()
             request.encodeHeader(self.accept, key: "Accept")
+            request.encodeQuery(self.accountId, key: "accountId")
             request.encodePath(self.agentRuntimeArn, key: "agentRuntimeArn")
             request.encodeHeader(self.baggage, key: "baggage")
             request.encodeHeader(self.contentType, key: "Content-Type")
@@ -1398,13 +1770,19 @@ extension BedrockAgentCore {
         public let name: ToolName
         /// The unique identifier of the code interpreter session to use. This must be an active session created with StartCodeInterpreterSession. If the session has expired or been stopped, the request will fail.
         public let sessionId: String?
+        /// The trace identifier for request tracking.
+        public let traceId: String?
+        /// The parent trace information for distributed tracing.
+        public let traceParent: String?
 
         @inlinable
-        public init(arguments: ToolArguments? = nil, codeInterpreterIdentifier: String, name: ToolName, sessionId: String? = nil) {
+        public init(arguments: ToolArguments? = nil, codeInterpreterIdentifier: String, name: ToolName, sessionId: String? = nil, traceId: String? = nil, traceParent: String? = nil) {
             self.arguments = arguments
             self.codeInterpreterIdentifier = codeInterpreterIdentifier
             self.name = name
             self.sessionId = sessionId
+            self.traceId = traceId
+            self.traceParent = traceParent
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -1414,6 +1792,8 @@ extension BedrockAgentCore {
             request.encodePath(self.codeInterpreterIdentifier, key: "codeInterpreterIdentifier")
             try container.encode(self.name, forKey: .name)
             request.encodeHeader(self.sessionId, key: "x-amzn-code-interpreter-session-id")
+            request.encodeHeader(self.traceId, key: "X-Amzn-Trace-Id")
+            request.encodeHeader(self.traceParent, key: "traceparent")
         }
 
         public func validate(name: String) throws {
@@ -1453,7 +1833,7 @@ extension BedrockAgentCore {
     public struct ListActorsInput: AWSEncodableShape {
         /// The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
         public let maxResults: Int?
-        /// The identifier of the memory store for which to list actors.
+        /// The identifier of the AgentCore Memory resource for which to list actors.
         public let memoryId: String
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -1633,7 +2013,7 @@ extension BedrockAgentCore {
         public let includePayloads: Bool?
         /// The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
         public let maxResults: Int?
-        /// The identifier of the memory store for which to list events.
+        /// The identifier of the AgentCore Memory resource for which to list events.
         public let memoryId: String
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -1666,7 +2046,7 @@ extension BedrockAgentCore {
         public func validate(name: String) throws {
             try self.validate(self.actorId, name: "actorId", parent: name, max: 255)
             try self.validate(self.actorId, name: "actorId", parent: name, min: 1)
-            try self.validate(self.actorId, name: "actorId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-_/]*$")
+            try self.validate(self.actorId, name: "actorId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*$")
             try self.filter?.validate(name: "\(name).filter")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -1706,7 +2086,7 @@ extension BedrockAgentCore {
     public struct ListMemoryRecordsInput: AWSEncodableShape {
         /// The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
         public let maxResults: Int?
-        /// The identifier of the memory store for which to list memory records.
+        /// The identifier of the AgentCore Memory resource for which to list memory records.
         public let memoryId: String
         /// The memory strategy identifier to filter memory records by. If specified, only memory records with this strategy ID are returned.
         public let memoryStrategyId: String?
@@ -1744,7 +2124,7 @@ extension BedrockAgentCore {
             try self.validate(self.memoryStrategyId, name: "memoryStrategyId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-_]*$")
             try self.validate(self.namespace, name: "namespace", parent: name, max: 1024)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
-            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9/*][a-zA-Z0-9-_/*]*$")
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9/*][a-zA-Z0-9-_/*]*(?::[a-zA-Z0-9-_/*]+)*[a-zA-Z0-9-_/*]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1778,7 +2158,7 @@ extension BedrockAgentCore {
         public let actorId: String
         /// The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
         public let maxResults: Int?
-        /// The identifier of the memory store for which to list sessions.
+        /// The identifier of the AgentCore Memory resource for which to list sessions.
         public let memoryId: String
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -1803,7 +2183,7 @@ extension BedrockAgentCore {
         public func validate(name: String) throws {
             try self.validate(self.actorId, name: "actorId", parent: name, max: 255)
             try self.validate(self.actorId, name: "actorId", parent: name, min: 1)
-            try self.validate(self.actorId, name: "actorId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-_/]*$")
+            try self.validate(self.actorId, name: "actorId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.memoryId, name: "memoryId", parent: name, min: 12)
@@ -1878,6 +2258,101 @@ extension BedrockAgentCore {
         }
     }
 
+    public struct MemoryRecordCreateInput: AWSEncodableShape {
+        /// The content to be stored within the memory record.
+        public let content: MemoryContent
+        /// The ID of the memory strategy that defines how this memory record is grouped.
+        public let memoryStrategyId: String?
+        /// A list of namespace identifiers that categorize or group the memory record.
+        public let namespaces: [String]
+        /// A client-provided identifier for tracking this specific record creation request.
+        public let requestIdentifier: String
+        /// Time at which the memory record was created.
+        public let timestamp: Date
+
+        @inlinable
+        public init(content: MemoryContent, memoryStrategyId: String? = nil, namespaces: [String], requestIdentifier: String, timestamp: Date) {
+            self.content = content
+            self.memoryStrategyId = memoryStrategyId
+            self.namespaces = namespaces
+            self.requestIdentifier = requestIdentifier
+            self.timestamp = timestamp
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.memoryStrategyId, name: "memoryStrategyId", parent: name, max: 100)
+            try self.validate(self.memoryStrategyId, name: "memoryStrategyId", parent: name, min: 1)
+            try self.validate(self.memoryStrategyId, name: "memoryStrategyId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-_]*$")
+            try self.namespaces.forEach {
+                try validate($0, name: "namespaces[]", parent: name, max: 1024)
+                try validate($0, name: "namespaces[]", parent: name, min: 1)
+                try validate($0, name: "namespaces[]", parent: name, pattern: "^[a-zA-Z0-9/*][a-zA-Z0-9-_/*]*(?::[a-zA-Z0-9-_/*]+)*[a-zA-Z0-9-_/*]*$")
+            }
+            try self.validate(self.namespaces, name: "namespaces", parent: name, max: 1)
+            try self.validate(self.requestIdentifier, name: "requestIdentifier", parent: name, max: 80)
+            try self.validate(self.requestIdentifier, name: "requestIdentifier", parent: name, min: 1)
+            try self.validate(self.requestIdentifier, name: "requestIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case memoryStrategyId = "memoryStrategyId"
+            case namespaces = "namespaces"
+            case requestIdentifier = "requestIdentifier"
+            case timestamp = "timestamp"
+        }
+    }
+
+    public struct MemoryRecordDeleteInput: AWSEncodableShape {
+        /// The unique ID of the memory record to be deleted.
+        public let memoryRecordId: String
+
+        @inlinable
+        public init(memoryRecordId: String) {
+            self.memoryRecordId = memoryRecordId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.memoryRecordId, name: "memoryRecordId", parent: name, max: 50)
+            try self.validate(self.memoryRecordId, name: "memoryRecordId", parent: name, min: 40)
+            try self.validate(self.memoryRecordId, name: "memoryRecordId", parent: name, pattern: "^mem-[a-zA-Z0-9-_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case memoryRecordId = "memoryRecordId"
+        }
+    }
+
+    public struct MemoryRecordOutput: AWSDecodableShape {
+        /// The error code returned when the memory record operation fails.
+        public let errorCode: Int?
+        /// A human-readable error message describing why the memory record operation failed.
+        public let errorMessage: String?
+        /// The unique ID associated to the memory record.
+        public let memoryRecordId: String
+        /// The client-provided identifier that was used to track this record operation.
+        public let requestIdentifier: String?
+        /// The status of the memory record operation (e.g., SUCCEEDED, FAILED).
+        public let status: MemoryRecordStatus
+
+        @inlinable
+        public init(errorCode: Int? = nil, errorMessage: String? = nil, memoryRecordId: String, requestIdentifier: String? = nil, status: MemoryRecordStatus) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.memoryRecordId = memoryRecordId
+            self.requestIdentifier = requestIdentifier
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case memoryRecordId = "memoryRecordId"
+            case requestIdentifier = "requestIdentifier"
+            case status = "status"
+        }
+    }
+
     public struct MemoryRecordSummary: AWSDecodableShape {
         /// The content of the memory record.
         public let content: MemoryContent
@@ -1909,6 +2384,51 @@ extension BedrockAgentCore {
             case memoryStrategyId = "memoryStrategyId"
             case namespaces = "namespaces"
             case score = "score"
+        }
+    }
+
+    public struct MemoryRecordUpdateInput: AWSEncodableShape {
+        /// The content to be stored within the memory record.
+        public let content: MemoryContent?
+        /// The unique ID of the memory record to be updated.
+        public let memoryRecordId: String
+        /// The updated ID of the memory strategy that defines how this memory record is grouped.
+        public let memoryStrategyId: String?
+        /// The updated list of namespace identifiers for categorizing the memory record.
+        public let namespaces: [String]?
+        /// Time at which the memory record was updated
+        public let timestamp: Date
+
+        @inlinable
+        public init(content: MemoryContent? = nil, memoryRecordId: String, memoryStrategyId: String? = nil, namespaces: [String]? = nil, timestamp: Date) {
+            self.content = content
+            self.memoryRecordId = memoryRecordId
+            self.memoryStrategyId = memoryStrategyId
+            self.namespaces = namespaces
+            self.timestamp = timestamp
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.memoryRecordId, name: "memoryRecordId", parent: name, max: 50)
+            try self.validate(self.memoryRecordId, name: "memoryRecordId", parent: name, min: 40)
+            try self.validate(self.memoryRecordId, name: "memoryRecordId", parent: name, pattern: "^mem-[a-zA-Z0-9-_]*$")
+            try self.validate(self.memoryStrategyId, name: "memoryStrategyId", parent: name, max: 100)
+            try self.validate(self.memoryStrategyId, name: "memoryStrategyId", parent: name, min: 1)
+            try self.validate(self.memoryStrategyId, name: "memoryStrategyId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-_]*$")
+            try self.namespaces?.forEach {
+                try validate($0, name: "namespaces[]", parent: name, max: 1024)
+                try validate($0, name: "namespaces[]", parent: name, min: 1)
+                try validate($0, name: "namespaces[]", parent: name, pattern: "^[a-zA-Z0-9/*][a-zA-Z0-9-_/*]*(?::[a-zA-Z0-9-_/*]+)*[a-zA-Z0-9-_/*]*$")
+            }
+            try self.validate(self.namespaces, name: "namespaces", parent: name, max: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case memoryRecordId = "memoryRecordId"
+            case memoryStrategyId = "memoryStrategyId"
+            case namespaces = "namespaces"
+            case timestamp = "timestamp"
         }
     }
 
@@ -1958,7 +2478,7 @@ extension BedrockAgentCore {
     public struct RetrieveMemoryRecordsInput: AWSEncodableShape {
         /// The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
         public let maxResults: Int?
-        /// The identifier of the memory store from which to retrieve memory records.
+        /// The identifier of the AgentCore Memory resource from which to retrieve memory records.
         public let memoryId: String
         /// The namespace to filter memory records by. If specified, only memory records in this namespace are searched.
         public let namespace: String
@@ -1993,7 +2513,7 @@ extension BedrockAgentCore {
             try self.validate(self.memoryId, name: "memoryId", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}$")
             try self.validate(self.namespace, name: "namespace", parent: name, max: 1024)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
-            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9/*][a-zA-Z0-9-_/*]*$")
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9/*][a-zA-Z0-9-_/*]*(?::[a-zA-Z0-9-_/*]+)*[a-zA-Z0-9-_/*]*$")
             try self.searchCriteria.validate(name: "\(name).searchCriteria")
         }
 
@@ -2095,15 +2615,21 @@ extension BedrockAgentCore {
         public let name: String?
         /// The time in seconds after which the session automatically terminates if there is no activity. The default value is 3600 seconds (1 hour). The minimum allowed value is 60 seconds, and the maximum allowed value is 28800 seconds (8 hours).
         public let sessionTimeoutSeconds: Int?
+        /// The trace identifier for request tracking.
+        public let traceId: String?
+        /// The parent trace information for distributed tracing.
+        public let traceParent: String?
         /// The dimensions of the browser viewport for this session. This determines the visible area of the web content and affects how web pages are rendered. If not specified, Amazon Bedrock uses a default viewport size.
         public let viewPort: ViewPort?
 
         @inlinable
-        public init(browserIdentifier: String, clientToken: String? = StartBrowserSessionRequest.idempotencyToken(), name: String? = nil, sessionTimeoutSeconds: Int? = nil, viewPort: ViewPort? = nil) {
+        public init(browserIdentifier: String, clientToken: String? = StartBrowserSessionRequest.idempotencyToken(), name: String? = nil, sessionTimeoutSeconds: Int? = nil, traceId: String? = nil, traceParent: String? = nil, viewPort: ViewPort? = nil) {
             self.browserIdentifier = browserIdentifier
             self.clientToken = clientToken
             self.name = name
             self.sessionTimeoutSeconds = sessionTimeoutSeconds
+            self.traceId = traceId
+            self.traceParent = traceParent
             self.viewPort = viewPort
         }
 
@@ -2114,6 +2640,8 @@ extension BedrockAgentCore {
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encodeIfPresent(self.name, forKey: .name)
             try container.encodeIfPresent(self.sessionTimeoutSeconds, forKey: .sessionTimeoutSeconds)
+            request.encodeHeader(self.traceId, key: "X-Amzn-Trace-Id")
+            request.encodeHeader(self.traceParent, key: "traceparent")
             try container.encodeIfPresent(self.viewPort, forKey: .viewPort)
         }
 
@@ -2170,15 +2698,21 @@ extension BedrockAgentCore {
         public let codeInterpreterIdentifier: String
         /// The name of the code interpreter session. This name helps you identify and manage the session. The name does not need to be unique.
         public let name: String?
-        /// The time in seconds after which the session automatically terminates if there is no activity. The default value is 3600 seconds (1 hour). The minimum allowed value is 60 seconds, and the maximum allowed value is 28800 seconds (8 hours).
+        /// The time in seconds after which the session automatically terminates if there is no activity. The default value is 900 seconds (15 minutes). The minimum allowed value is 60 seconds, and the maximum allowed value is 28800 seconds (8 hours).
         public let sessionTimeoutSeconds: Int?
+        /// The trace identifier for request tracking.
+        public let traceId: String?
+        /// The parent trace information for distributed tracing.
+        public let traceParent: String?
 
         @inlinable
-        public init(clientToken: String? = StartCodeInterpreterSessionRequest.idempotencyToken(), codeInterpreterIdentifier: String, name: String? = nil, sessionTimeoutSeconds: Int? = nil) {
+        public init(clientToken: String? = StartCodeInterpreterSessionRequest.idempotencyToken(), codeInterpreterIdentifier: String, name: String? = nil, sessionTimeoutSeconds: Int? = nil, traceId: String? = nil, traceParent: String? = nil) {
             self.clientToken = clientToken
             self.codeInterpreterIdentifier = codeInterpreterIdentifier
             self.name = name
             self.sessionTimeoutSeconds = sessionTimeoutSeconds
+            self.traceId = traceId
+            self.traceParent = traceParent
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -2188,6 +2722,8 @@ extension BedrockAgentCore {
             request.encodePath(self.codeInterpreterIdentifier, key: "codeInterpreterIdentifier")
             try container.encodeIfPresent(self.name, forKey: .name)
             try container.encodeIfPresent(self.sessionTimeoutSeconds, forKey: .sessionTimeoutSeconds)
+            request.encodeHeader(self.traceId, key: "X-Amzn-Trace-Id")
+            request.encodeHeader(self.traceParent, key: "traceparent")
         }
 
         public func validate(name: String) throws {
@@ -2237,12 +2773,18 @@ extension BedrockAgentCore {
         public let clientToken: String?
         /// The unique identifier of the browser session to stop.
         public let sessionId: String
+        /// The trace identifier for request tracking.
+        public let traceId: String?
+        /// The parent trace information for distributed tracing.
+        public let traceParent: String?
 
         @inlinable
-        public init(browserIdentifier: String, clientToken: String? = StopBrowserSessionRequest.idempotencyToken(), sessionId: String) {
+        public init(browserIdentifier: String, clientToken: String? = StopBrowserSessionRequest.idempotencyToken(), sessionId: String, traceId: String? = nil, traceParent: String? = nil) {
             self.browserIdentifier = browserIdentifier
             self.clientToken = clientToken
             self.sessionId = sessionId
+            self.traceId = traceId
+            self.traceParent = traceParent
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -2251,6 +2793,8 @@ extension BedrockAgentCore {
             request.encodePath(self.browserIdentifier, key: "browserIdentifier")
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             request.encodeQuery(self.sessionId, key: "sessionId")
+            request.encodeHeader(self.traceId, key: "X-Amzn-Trace-Id")
+            request.encodeHeader(self.traceParent, key: "traceparent")
         }
 
         public func validate(name: String) throws {
@@ -2295,12 +2839,18 @@ extension BedrockAgentCore {
         public let codeInterpreterIdentifier: String
         /// The unique identifier of the code interpreter session to stop.
         public let sessionId: String
+        /// The trace identifier for request tracking.
+        public let traceId: String?
+        /// The parent trace information for distributed tracing.
+        public let traceParent: String?
 
         @inlinable
-        public init(clientToken: String? = StopCodeInterpreterSessionRequest.idempotencyToken(), codeInterpreterIdentifier: String, sessionId: String) {
+        public init(clientToken: String? = StopCodeInterpreterSessionRequest.idempotencyToken(), codeInterpreterIdentifier: String, sessionId: String, traceId: String? = nil, traceParent: String? = nil) {
             self.clientToken = clientToken
             self.codeInterpreterIdentifier = codeInterpreterIdentifier
             self.sessionId = sessionId
+            self.traceId = traceId
+            self.traceParent = traceParent
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -2309,6 +2859,8 @@ extension BedrockAgentCore {
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             request.encodePath(self.codeInterpreterIdentifier, key: "codeInterpreterIdentifier")
             request.encodeQuery(self.sessionId, key: "sessionId")
+            request.encodeHeader(self.traceId, key: "X-Amzn-Trace-Id")
+            request.encodeHeader(self.traceParent, key: "traceparent")
         }
 
         public func validate(name: String) throws {
@@ -2344,6 +2896,67 @@ extension BedrockAgentCore {
             case lastUpdatedAt = "lastUpdatedAt"
             case sessionId = "sessionId"
         }
+    }
+
+    public struct StopRuntimeSessionRequest: AWSEncodableShape {
+        /// The ARN of the agent that contains the session that you want to stop.
+        public let agentRuntimeArn: String
+        /// Idempotent token used to identify the request. If you use the same token with multiple requests, the same response is returned. Use ClientToken to prevent the same request from being processed more than once.
+        public let clientToken: String?
+        /// Optional qualifier to specify an agent alias, such as prodcode&gt; or dev. If you don't provide a value, the DEFAULT alias is used.
+        public let qualifier: String?
+        /// The ID of the session that you want to stop.
+        public let runtimeSessionId: String
+
+        @inlinable
+        public init(agentRuntimeArn: String, clientToken: String? = StopRuntimeSessionRequest.idempotencyToken(), qualifier: String? = nil, runtimeSessionId: String) {
+            self.agentRuntimeArn = agentRuntimeArn
+            self.clientToken = clientToken
+            self.qualifier = qualifier
+            self.runtimeSessionId = runtimeSessionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.agentRuntimeArn, key: "agentRuntimeArn")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodeQuery(self.qualifier, key: "qualifier")
+            request.encodeHeader(self.runtimeSessionId, key: "X-Amzn-Bedrock-AgentCore-Runtime-Session-Id")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
+            try self.validate(self.runtimeSessionId, name: "runtimeSessionId", parent: name, max: 256)
+            try self.validate(self.runtimeSessionId, name: "runtimeSessionId", parent: name, min: 33)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+        }
+    }
+
+    public struct StopRuntimeSessionResponse: AWSDecodableShape {
+        /// The ID of the session that you requested to stop.
+        public let runtimeSessionId: String?
+        /// The status code of the request to stop the session.
+        public let statusCode: Int?
+
+        @inlinable
+        public init(runtimeSessionId: String? = nil, statusCode: Int? = nil) {
+            self.runtimeSessionId = runtimeSessionId
+            self.statusCode = statusCode
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.runtimeSessionId = try response.decodeHeaderIfPresent(String.self, key: "X-Amzn-Bedrock-AgentCore-Runtime-Session-Id")
+            self.statusCode = response.decodeStatus()
+        }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ThrottlingException: AWSDecodableShape {
@@ -2595,7 +3208,27 @@ extension BedrockAgentCore {
         }
     }
 
-    public struct MemoryContent: AWSDecodableShape {
+    public struct LeftExpression: AWSEncodableShape {
+        /// Key associated with the metadata in an event.
+        public let metadataKey: String?
+
+        @inlinable
+        public init(metadataKey: String? = nil) {
+            self.metadataKey = metadataKey
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.metadataKey, name: "metadataKey", parent: name, max: 128)
+            try self.validate(self.metadataKey, name: "metadataKey", parent: name, min: 1)
+            try self.validate(self.metadataKey, name: "metadataKey", parent: name, pattern: "^[a-zA-Z0-9\\s._:/=+@-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadataKey = "metadataKey"
+        }
+    }
+
+    public struct MemoryContent: AWSEncodableShape & AWSDecodableShape {
         /// The text content of the memory record.
         public let text: String?
 
@@ -2606,6 +3239,34 @@ extension BedrockAgentCore {
 
         private enum CodingKeys: String, CodingKey {
             case text = "text"
+        }
+    }
+
+    public struct MetadataValue: AWSEncodableShape & AWSDecodableShape {
+        /// Value associated with the eventMetadata key.
+        public let stringValue: String?
+
+        @inlinable
+        public init(stringValue: String? = nil) {
+            self.stringValue = stringValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stringValue = "stringValue"
+        }
+    }
+
+    public struct RightExpression: AWSEncodableShape {
+        /// Value associated with the key in eventMetadata.
+        public let metadataValue: MetadataValue?
+
+        @inlinable
+        public init(metadataValue: MetadataValue? = nil) {
+            self.metadataValue = metadataValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadataValue = "metadataValue"
         }
     }
 
